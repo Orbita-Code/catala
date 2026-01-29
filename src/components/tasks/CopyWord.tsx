@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CopyWordTask } from "@/types/tasks";
 import type { TaskResult } from "@/types/tasks";
@@ -51,7 +51,7 @@ export default function CopyWord({ task, onComplete }: Props) {
     }
   }, [hints.showHint, hints.hintItemId]);
 
-  const handleLetterTap = (bankIdx: number) => {
+  const handleLetterTap = useCallback((bankIdx: number) => {
     if (checked || bank[bankIdx].used) return;
     const slotIdx = slots.findIndex((s) => s === null);
     if (slotIdx === -1) return;
@@ -63,9 +63,9 @@ export default function CopyWord({ task, onComplete }: Props) {
     const newBank = [...bank];
     newBank[bankIdx] = { ...newBank[bankIdx], used: true };
     setBank(newBank);
-  };
+  }, [checked, bank, slots]);
 
-  const handleSlotTap = (slotIdx: number) => {
+  const handleSlotTap = useCallback((slotIdx: number) => {
     if (checked || slots[slotIdx] === null) return;
     const letter = slots[slotIdx]!;
     const newSlots = [...slots];
@@ -80,11 +80,11 @@ export default function CopyWord({ task, onComplete }: Props) {
       newBank[bankIdx] = { ...newBank[bankIdx], used: false };
       setBank(newBank);
     }
-  };
+  }, [checked, slots, bank]);
 
   const allFilled = slots.every((s) => s !== null);
 
-  const moveToNext = () => {
+  const moveToNext = useCallback(() => {
     if (currentWordIdx < task.words.length - 1) {
       const nextIdx = currentWordIdx + 1;
       const nextWord = task.words[nextIdx];
@@ -99,9 +99,9 @@ export default function CopyWord({ task, onComplete }: Props) {
         erroredItems: hints.erroredItems,
       });
     }
-  };
+  }, [currentWordIdx, task.words, onComplete, hints.erroredItems]);
 
-  const handleCheck = () => {
+  const handleCheck = useCallback(() => {
     const answer = slots.join("").toLowerCase();
     const isCorrect = answer === currentWord.catalan.toLowerCase();
     setChecked(true);
@@ -123,7 +123,7 @@ export default function CopyWord({ task, onComplete }: Props) {
     } else {
       hints.recordWrongAttempt(currentWord.catalan);
     }
-  };
+  }, [slots, currentWord, completedCount, hints, moveToNext]);
 
   const handleRetry = () => {
     setSlots(Array(currentWord.catalan.length).fill(null));
@@ -131,6 +131,50 @@ export default function CopyWord({ task, onComplete }: Props) {
     setChecked(false);
     setCorrect(null);
   };
+
+  // Keyboard input support
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (checked) return;
+
+      if (e.key === "Enter") {
+        if (allFilled) handleCheck();
+        return;
+      }
+
+      if (e.key === "Backspace") {
+        // Find the last filled slot
+        let lastFilledIdx = -1;
+        for (let i = slots.length - 1; i >= 0; i--) {
+          if (slots[i] !== null) {
+            lastFilledIdx = i;
+            break;
+          }
+        }
+        if (lastFilledIdx !== -1) {
+          handleSlotTap(lastFilledIdx);
+        }
+        return;
+      }
+
+      // Match letter keys (including accented Catalan characters)
+      if (e.key.length === 1 && /^[a-zA-ZàèéìòóùúïüçÀÈÉÌÒÓÙÚÏÜÇ]$/.test(e.key)) {
+        const pressed = e.key.toLowerCase();
+        const bankIdx = bank.findIndex(
+          (b) => !b.used && b.letter.toLowerCase() === pressed
+        );
+        if (bankIdx !== -1) {
+          handleLetterTap(bankIdx);
+        }
+      }
+    },
+    [checked, allFilled, slots, bank, handleCheck, handleSlotTap, handleLetterTap]
+  );
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [handleKeyDown]);
 
   const handleSkip = () => {
     hints.skipItem(currentWord.catalan);

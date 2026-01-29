@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FillLettersTask, TaskResult } from "@/types/tasks";
 import { getWordEmoji } from "@/lib/illustrations";
@@ -132,6 +132,81 @@ export default function FillLetters({ task, onComplete }: Props) {
   };
 
   const allCorrect = checked && Object.values(results).every(Boolean);
+
+  // Collect all blank keys in order (used by keyboard handler and Tab navigation)
+  const allBlanks = useMemo(() => {
+    const blanks: string[] = [];
+    task.words.forEach((item, wordIdx) => {
+      const hint = item.hint || "";
+      hint.split("").forEach((char, charIdx) => {
+        if (char === "_") blanks.push(`${wordIdx}-${charIdx}`);
+      });
+    });
+    return blanks;
+  }, [task.words]);
+
+  // Keyboard input support
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Don't accept input when already checked
+      if (checked) return;
+
+      // Enter -> check answers
+      if (e.key === "Enter") {
+        e.preventDefault();
+        handleCheck();
+        return;
+      }
+
+      // Tab -> move to next unfilled blank
+      if (e.key === "Tab") {
+        e.preventDefault();
+        if (!activeBlank) return;
+        const currentIdx = allBlanks.indexOf(activeBlank);
+        // Search forward (with wrap) for next unfilled blank
+        for (let offset = 1; offset <= allBlanks.length; offset++) {
+          const nextIdx = (currentIdx + offset) % allBlanks.length;
+          if (!inputs[allBlanks[nextIdx]]) {
+            setActiveBlank(allBlanks[nextIdx]);
+            return;
+          }
+        }
+        return;
+      }
+
+      // Backspace -> clear current blank's value
+      if (e.key === "Backspace") {
+        e.preventDefault();
+        if (!activeBlank) return;
+        if (inputs[activeBlank]) {
+          setInputs((prev) => {
+            const next = { ...prev };
+            delete next[activeBlank];
+            return next;
+          });
+          // Keep activeBlank on the same position so they can re-type
+        }
+        return;
+      }
+
+      // Letter keys (including accented characters like àèéìòóùúïüç)
+      if (e.key.length === 1 && /\p{L}/u.test(e.key)) {
+        e.preventDefault();
+        if (!activeBlank) return;
+        const pressedLower = e.key.toLowerCase();
+        const options = blankOptions[activeBlank] || [];
+        const match = options.find(
+          (opt) => opt.toLowerCase() === pressedLower
+        );
+        if (match) {
+          handleOptionTap(activeBlank, match);
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [checked, activeBlank, inputs, allBlanks, blankOptions]);
 
   return (
     <div className="space-y-4">

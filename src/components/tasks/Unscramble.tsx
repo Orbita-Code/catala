@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { UnscrambleTask, TaskResult } from "@/types/tasks";
 import { getWordEmoji } from "@/lib/illustrations";
@@ -97,6 +97,57 @@ export default function Unscramble({ task, onComplete }: Props) {
     setChecked(false);
     setCorrect(null);
   };
+
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (checked) return;
+
+      if (e.key === "Backspace") {
+        e.preventDefault();
+        // Find the last non-null slot
+        let lastFilledIdx = -1;
+        for (let i = slots.length - 1; i >= 0; i--) {
+          if (slots[i] !== null) {
+            lastFilledIdx = i;
+            break;
+          }
+        }
+        if (lastFilledIdx !== -1) {
+          handleSlotTap(lastFilledIdx);
+        }
+        return;
+      }
+
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (allFilled) {
+          handleCheck();
+        }
+        return;
+      }
+
+      // Match letter keys including accented Catalan characters
+      if (e.key.length === 1 && /^[a-zA-ZàèéìòóùúïüçÀÈÉÌÒÓÙÚÏÜÇ]$/.test(e.key)) {
+        e.preventDefault();
+        const pressedLetter = e.key.toLowerCase();
+        // Find the first unused letter in the bank that matches
+        const bankIdx = bank.findIndex(
+          (b) => !b.used && b.letter.toLowerCase() === pressedLetter
+        );
+        if (bankIdx !== -1) {
+          handleLetterTap(bankIdx);
+        }
+      }
+    },
+    [checked, slots, bank, allFilled]
+  );
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleKeyDown]);
 
   return (
     <div className="space-y-5">
