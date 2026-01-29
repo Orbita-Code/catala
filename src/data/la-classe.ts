@@ -1,0 +1,166 @@
+import { Task } from "@/types/tasks";
+
+export const laClasseTasks: Task[] = [
+  {
+    id: "la-classe-1",
+    type: "copy-word",
+    prompt: "Llegeix i copia les paraules:",
+    words: [
+      { catalan: "llapis" },
+      { catalan: "goma" },
+      { catalan: "bolígraf" },
+      { catalan: "retolador" },
+      { catalan: "llibreta" },
+      { catalan: "estoig" },
+      { catalan: "motxilla" },
+      { catalan: "tisores" },
+    ],
+  },
+  {
+    id: "la-classe-2",
+    type: "fill-letters",
+    prompt: "Completa les lletres que falten:",
+    words: [
+      { word: "llapis", hint: "ll_p_s" },
+      { word: "goma", hint: "g_m_" },
+      { word: "bolígraf", hint: "b_lígr_f" },
+      { word: "retolador", hint: "r_tol_dor" },
+      { word: "llibreta", hint: "ll_br_ta" },
+      { word: "estoig", hint: "_sto_g" },
+    ],
+  },
+  {
+    id: "la-classe-3",
+    type: "classify-columns",
+    prompt: "Classifica: UN o MOLTS?",
+    columns: [
+      { title: "UN", items: ["llapis", "goma", "bolígraf", "estoig"] },
+      {
+        title: "MOLTS",
+        items: ["llapis (molts)", "gomes", "bolígrafs", "estoigs"],
+      },
+    ],
+    allItems: [
+      "llapis",
+      "goma",
+      "bolígraf",
+      "estoig",
+      "llapis (molts)",
+      "gomes",
+      "bolígrafs",
+      "estoigs",
+    ],
+  },
+  {
+    id: "la-classe-4",
+    type: "word-search",
+    prompt: "Troba les paraules a la sopa de lletres:",
+    gridSize: 10,
+    words: ["llapis", "goma", "llibreta", "estoig", "tisores"],
+    grid: [
+      ["L", "L", "A", "P", "I", "S", "T", "G", "R", "E"],
+      ["G", "O", "M", "A", "R", "T", "I", "O", "K", "S"],
+      ["B", "L", "R", "E", "T", "L", "S", "M", "P", "T"],
+      ["Q", "L", "I", "B", "R", "E", "T", "A", "E", "O"],
+      ["M", "I", "P", "A", "G", "F", "O", "T", "S", "I"],
+      ["R", "B", "O", "L", "I", "G", "R", "A", "F", "G"],
+      ["E", "R", "E", "T", "O", "L", "A", "D", "O", "R"],
+      ["T", "E", "S", "T", "O", "I", "G", "H", "J", "K"],
+      ["L", "T", "I", "S", "O", "R", "E", "S", "M", "N"],
+      ["A", "A", "M", "O", "T", "X", "I", "L", "L", "A"],
+    ],
+  },
+  {
+    id: "la-classe-5",
+    type: "fill-sentence",
+    prompt: "Completa la frase:",
+    sentences: [
+      {
+        text: "Escric amb el ___.",
+        blank: "llapis",
+        options: ["llapis", "goma", "tisores"],
+      },
+      {
+        text: "Esborro amb la ___.",
+        blank: "goma",
+        options: ["goma", "llapis", "motxilla"],
+      },
+      {
+        text: "Tallo amb les ___.",
+        blank: "tisores",
+        options: ["tisores", "goma", "llibreta"],
+      },
+      {
+        text: "Porto els llibres a la ___.",
+        blank: "motxilla",
+        options: ["motxilla", "estoig", "goma"],
+      },
+    ],
+  },
+  {
+    id: "la-classe-6",
+    type: "matching",
+    prompt: "Relaciona cada paraula amb la seva parella:",
+    pairs: [
+      { left: "llapis", right: "escriure" },
+      { left: "goma", right: "esborrar" },
+      { left: "tisores", right: "tallar" },
+      { left: "motxilla", right: "portar" },
+      { left: "llibreta", right: "dibuixar" },
+    ],
+  },
+  {
+    id: "la-classe-7",
+    type: "multiple-choice",
+    prompt: "Tria la resposta correcta:",
+    questions: [
+      {
+        question: "Amb què escrivim?",
+        options: ["Llapis", "Goma", "Tisores", "Motxilla"],
+        correct: 0,
+      },
+      {
+        question: "Amb què esborrem?",
+        options: ["Llapis", "Goma", "Tisores", "Estoig"],
+        correct: 1,
+      },
+      {
+        question: "On posem els llapis?",
+        options: ["Llibreta", "Goma", "Estoig", "Tisores"],
+        correct: 2,
+      },
+      {
+        question: "Amb què tallem el paper?",
+        options: ["Llapis", "Goma", "Motxilla", "Tisores"],
+        correct: 3,
+      },
+    ],
+  },
+  {
+    id: "la-classe-8",
+    type: "unscramble",
+    prompt: "Ordena les lletres per formar la paraula:",
+    words: [
+      { scrambled: "SLAIPL", correct: "LLAPIS" },
+      { scrambled: "AMOG", correct: "GOMA" },
+      { scrambled: "GTIEOS", correct: "ESTOIG" },
+      { scrambled: "LXMITAOL", correct: "MOTXILLA" },
+      { scrambled: "RETSOIS", correct: "TISORES" },
+    ],
+  },
+  {
+    id: "la-classe-9",
+    type: "self-assessment",
+    prompt: "Saps dir aquestes paraules en català?",
+    items: [
+      { catalan: "llapis", translation: "olovka" },
+      { catalan: "goma", translation: "gumica" },
+      { catalan: "bolígraf", translation: "hemijska" },
+      { catalan: "retolador", translation: "flomaster" },
+      { catalan: "llibreta", translation: "sveska" },
+      { catalan: "estoig", translation: "pernica" },
+      { catalan: "motxilla", translation: "ranac" },
+      { catalan: "tisores", translation: "makaze" },
+    ],
+  },
+];

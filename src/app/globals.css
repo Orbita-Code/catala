@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap");
+@import "tailwindcss";
+
+:root {
+  --primary: #6c5ce7;
+  --secondary: #00cece;
+  --accent: #fdcb6e;
+  --success: #00b894;
+  --error: #ff6b6b;
+  --background: #f8f9ff;
+  --card-bg: #ffffff;
+  --text: #2d3436;
+  --text-light: #636e72;
+
+  --theme-la-classe: #6c5ce7;
+  --theme-escola: #0984e3;
+  --theme-cos: #e17055;
+  --theme-roba: #e84393;
+  --theme-casa: #fdcb6e;
+  --theme-familia: #00b894;
+  --theme-botigues: #00cece;
+  --theme-menjar: #ff9f43;
+  --theme-animals: #a29bfe;
+  --theme-ciutat: #55a3f5;
+  --theme-vehicles: #ff6b6b;
+  --theme-oficis: #1dd1a1;
+}
+
+@theme inline {
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-success: var(--success);
+  --color-error: var(--error);
+  --color-background: var(--background);
+  --color-card-bg: var(--card-bg);
+  --color-text: var(--text);
+  --color-text-light: var(--text-light);
+  --font-sans: "Nunito", sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--text);
+  font-family: "Nunito", sans-serif;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
