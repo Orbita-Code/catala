@@ -7,40 +7,14 @@ import { ArrowLeft, ArrowRight, Volume2, VolumeX, Home } from "lucide-react";
 import TaskRenderer from "@/components/tasks/TaskRenderer";
 import StarCompanion from "@/components/ui/StarCompanion";
 import { themes } from "@/data/themes";
-import { laClasseTasks } from "@/data/la-classe";
-import { lEscolaTasks } from "@/data/l-escola";
-import { elCosTasks } from "@/data/el-cos";
-import { laRobaTasks } from "@/data/la-roba";
-import { laCasaTasks } from "@/data/la-casa";
-import { laFamiliaTasks } from "@/data/la-familia";
-import { lesBotiguesTasks } from "@/data/les-botigues";
-import { elMenjarTasks } from "@/data/el-menjar";
-import { elsAnimalsTasks } from "@/data/els-animals";
-import { laCiutatTasks } from "@/data/la-ciutat";
-import { elsVehiclesTasks } from "@/data/els-vehicles";
-import { elsOficisTasks } from "@/data/els-oficis";
+import { taskData } from "@/data/task-data";
 import { getThemeProgress, completeTask, isThemeFullyComplete } from "@/lib/progress";
 import { getEncouragement } from "@/lib/encouragement";
 import type { StarMood } from "@/lib/encouragement";
-import { Task, TaskResult } from "@/types/tasks";
+import { TaskResult } from "@/types/tasks";
 import { getThemeScene } from "@/lib/theme-illustrations";
 import confetti from "canvas-confetti";
 import { initAudio, isMuted, toggleMute, playCorrect, playWrong, playCombo, playThemeComplete } from "@/lib/audio";
-
-const taskData: Record<string, Task[]> = {
-  "la-classe": laClasseTasks,
-  "l-escola": lEscolaTasks,
-  "el-cos": elCosTasks,
-  "la-roba": laRobaTasks,
-  "la-casa": laCasaTasks,
-  "la-familia": laFamiliaTasks,
-  "les-botigues": lesBotiguesTasks,
-  "el-menjar": elMenjarTasks,
-  "els-animals": elsAnimalsTasks,
-  "la-ciutat": laCiutatTasks,
-  "els-vehicles": elsVehiclesTasks,
-  "els-oficis": elsOficisTasks,
-};
 
 interface TemaContentProps {
   slug: string;

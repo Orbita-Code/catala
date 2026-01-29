@@ -9,6 +9,7 @@ import BadgeDisplay from "@/components/ui/BadgeDisplay";
 import HamburgerMenu from "@/components/ui/HamburgerMenu";
 import InstallPrompt from "@/components/ui/InstallPrompt";
 import { themes } from "@/data/themes";
+import { getTaskCount } from "@/data/task-data";
 import { getProgress } from "@/lib/progress";
 import { getTotalStars } from "@/lib/badges";
 import type { UserProgress } from "@/types/tasks";
@@ -51,7 +52,7 @@ export default function HomePage() {
 
           {/* Right: Star counter */}
           <div className="flex-shrink-0">
-            <StarCounter count={totalStars} />
+            <StarCounter count={totalStars} total={themes.reduce((sum, t) => sum + getTaskCount(t.slug), 0)} />
           </div>
         </motion.div>
       </header>
@@ -72,6 +73,7 @@ export default function HomePage() {
               key={theme.slug}
               theme={theme}
               progress={progress[theme.slug]?.completedTasks?.length || 0}
+              totalTasks={getTaskCount(theme.slug)}
               index={index}
             />
           ))}

@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 
 interface StarCounterProps {
   count: number;
-  total?: number;
+  total: number;
 }
 
-export default function StarCounter({ count, total = 108 }: StarCounterProps) {
+export default function StarCounter({ count, total }: StarCounterProps) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.8 }}

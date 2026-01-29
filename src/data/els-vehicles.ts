@@ -174,4 +174,126 @@ export const elsVehiclesTasks: Task[] = [
       { catalan: "helicòpter", translation: "helikopter" },
     ],
   },
+  {
+    id: "els-vehicles-10",
+    type: "label-image",
+    prompt: "Escriu el nom de cada vehicle:",
+    image: "vehicles",
+    labels: [
+      { text: "cotxe", x: 15, y: 25 },
+      { text: "autobús", x: 50, y: 25 },
+      { text: "tren", x: 85, y: 25 },
+      { text: "avió", x: 15, y: 70 },
+      { text: "vaixell", x: 50, y: 70 },
+      { text: "bicicleta", x: 85, y: 70 },
+    ],
+    options: ["cotxe", "autobús", "tren", "avió", "vaixell", "bicicleta", "moto", "helicòpter"],
+  },
+  {
+    id: "els-vehicles-11",
+    type: "fill-sentence",
+    prompt: "Completa les frases sobre els vehicles:",
+    sentences: [
+      {
+        text: "El ___ va per les vies.",
+        blank: "tren",
+        options: ["tren", "cotxe", "vaixell"],
+      },
+      {
+        text: "L' ___ vola pel cel.",
+        blank: "avió",
+        options: ["avió", "bicicleta", "autobús"],
+      },
+      {
+        text: "L' ___ té moltes rodes i porta molta gent.",
+        blank: "autobús",
+        options: ["autobús", "moto", "barca"],
+      },
+      {
+        text: "La ___ té dues rodes i pedals.",
+        blank: "bicicleta",
+        options: ["bicicleta", "ambulància", "taxi"],
+      },
+    ],
+  },
+  {
+    id: "els-vehicles-12",
+    type: "classify-columns",
+    prompt: "Classifica: Terra vs Mar vs Aire",
+    columns: [
+      {
+        title: "Terra",
+        items: ["cotxe", "autobús", "tren", "moto", "bicicleta", "camió", "taxi"],
+      },
+      {
+        title: "Mar",
+        items: ["vaixell", "barca", "canoa"],
+      },
+      {
+        title: "Aire",
+        items: ["avió", "helicòpter", "globus"],
+      },
+    ],
+    allItems: [
+      "cotxe",
+      "autobús",
+      "tren",
+      "moto",
+      "bicicleta",
+      "camió",
+      "taxi",
+      "vaixell",
+      "barca",
+      "canoa",
+      "avió",
+      "helicòpter",
+      "globus",
+    ],
+  },
+  {
+    id: "els-vehicles-13",
+    type: "label-image",
+    prompt: "Escriu les parts del cotxe:",
+    image: "cotxe-parts",
+    labels: [
+      { text: "roda", x: 25, y: 80 },
+      { text: "porta", x: 50, y: 50 },
+      { text: "volant", x: 35, y: 35 },
+      { text: "mirall", x: 15, y: 35 },
+      { text: "far", x: 85, y: 50 },
+    ],
+    options: ["roda", "porta", "volant", "mirall", "far", "seient", "motor"],
+  },
+  {
+    id: "els-vehicles-14",
+    type: "fill-sentence",
+    prompt: "Descriu els vehicles:",
+    sentences: [
+      {
+        text: "El cotxe té ___ rodes.",
+        blank: "quatre",
+        options: ["quatre", "dues", "tres"],
+      },
+      {
+        text: "La bicicleta té ___ rodes.",
+        blank: "dues",
+        options: ["dues", "quatre", "una"],
+      },
+      {
+        text: "L'ambulància porta els malalts a l'___.",
+        blank: "hospital",
+        options: ["hospital", "escola", "cinema"],
+      },
+      {
+        text: "El camió porta coses molt ___.",
+        blank: "pesades",
+        options: ["pesades", "petites", "lleugeres"],
+      },
+    ],
+  },
+  {
+    id: "els-vehicles-15",
+    type: "drawing-canvas",
+    prompt: "Dibuixa el teu vehicle preferit! 🚗",
+  },
 ];

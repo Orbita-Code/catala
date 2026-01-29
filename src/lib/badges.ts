@@ -2,6 +2,7 @@
 
 import { getProgress } from "./progress";
 import { themes } from "@/data/themes";
+import { getTaskCount } from "@/data/task-data";
 
 export interface Badge {
   id: string;
@@ -28,7 +29,7 @@ export const allBadges: Badge[] = [
   // Star collection badges
   { id: "stars-10", name: "10 estrelles", description: "Aconsegueix 10 estrelles", emoji: "⭐", category: "star" },
   { id: "stars-50", name: "50 estrelles", description: "Aconsegueix 50 estrelles", emoji: "🌟", category: "star" },
-  { id: "stars-108", name: "Totes!", description: "Aconsegueix les 108 estrelles", emoji: "🏆", category: "star" },
+  { id: "stars-all", name: "Totes!", description: "Aconsegueix totes les estrelles", emoji: "🏆", category: "star" },
   // Special
   { id: "all-themes", name: "Mestre del Català", description: "Completa tots els 12 temes", emoji: "👑", category: "special" },
 ];
@@ -48,7 +49,7 @@ export function getEarnedBadgeIds(): Set<string> {
     totalStars += tp.completedTasks?.length || 0;
     maxStreak = Math.max(maxStreak, tp.bestStreak || 0);
 
-    if ((tp.completedTasks?.length || 0) >= theme.taskCount) {
+    if ((tp.completedTasks?.length || 0) >= getTaskCount(theme.slug)) {
       earned.add(`theme-${theme.slug}`);
       completedThemes++;
     }
@@ -59,7 +60,8 @@ export function getEarnedBadgeIds(): Set<string> {
   if (maxStreak >= 10) earned.add("streak-10");
   if (totalStars >= 10) earned.add("stars-10");
   if (totalStars >= 50) earned.add("stars-50");
-  if (totalStars >= 108) earned.add("stars-108");
+  const totalPossibleStars = themes.reduce((sum, t) => sum + getTaskCount(t.slug), 0);
+  if (totalStars >= totalPossibleStars) earned.add("stars-all");
   if (completedThemes >= 12) earned.add("all-themes");
 
   return earned;

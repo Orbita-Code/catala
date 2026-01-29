@@ -176,4 +176,125 @@ export const elsOficisTasks: Task[] = [
       { catalan: "infermer", translation: "medicinska sestra/tehničar" },
     ],
   },
+  {
+    id: "els-oficis-10",
+    type: "label-image",
+    prompt: "Qui és? Escriu l'ofici:",
+    image: "oficis",
+    labels: [
+      { text: "bomber", x: 15, y: 25 },
+      { text: "policia", x: 50, y: 25 },
+      { text: "metge", x: 85, y: 25 },
+      { text: "mestre", x: 15, y: 70 },
+      { text: "cuiner", x: 50, y: 70 },
+      { text: "jardiner", x: 85, y: 70 },
+    ],
+    options: ["bomber", "policia", "metge", "mestre", "cuiner", "jardiner", "pilot", "dentista"],
+  },
+  {
+    id: "els-oficis-11",
+    type: "fill-sentence",
+    prompt: "Què fa cada professional?",
+    sentences: [
+      {
+        text: "El ___ cuida els animals.",
+        blank: "veterinari",
+        options: ["veterinari", "bomber", "mestre"],
+      },
+      {
+        text: "L' ___ ajuda el metge a l'hospital.",
+        blank: "infermer",
+        options: ["infermer", "cuiner", "policia"],
+      },
+      {
+        text: "El ___ cultiva verdures i fruites.",
+        blank: "pagès",
+        options: ["pagès", "pilot", "cambrer"],
+      },
+      {
+        text: "El ___ arregla les dents.",
+        blank: "dentista",
+        options: ["dentista", "jardiner", "carter"],
+      },
+    ],
+  },
+  {
+    id: "els-oficis-12",
+    type: "classify-columns",
+    prompt: "Classifica: Oficis de salut vs Oficis de seguretat vs Altres",
+    columns: [
+      {
+        title: "Salut",
+        items: ["metge", "infermer", "dentista", "veterinari", "farmacèutic"],
+      },
+      {
+        title: "Seguretat",
+        items: ["bomber", "policia", "socorrista"],
+      },
+      {
+        title: "Altres",
+        items: ["mestre", "cuiner", "pilot", "jardiner", "pagès"],
+      },
+    ],
+    allItems: [
+      "metge",
+      "infermer",
+      "dentista",
+      "veterinari",
+      "farmacèutic",
+      "bomber",
+      "policia",
+      "socorrista",
+      "mestre",
+      "cuiner",
+      "pilot",
+      "jardiner",
+      "pagès",
+    ],
+  },
+  {
+    id: "els-oficis-13",
+    type: "label-image",
+    prompt: "Escriu les eines de cada ofici:",
+    image: "eines-oficis",
+    labels: [
+      { text: "estetoscopi", x: 25, y: 25 },
+      { text: "extintor", x: 75, y: 25 },
+      { text: "xeringa", x: 25, y: 70 },
+      { text: "paella", x: 75, y: 70 },
+    ],
+    options: ["estetoscopi", "extintor", "xeringa", "paella", "pissarra", "tisores"],
+  },
+  {
+    id: "els-oficis-14",
+    type: "fill-sentence",
+    prompt: "De gran vull ser...",
+    sentences: [
+      {
+        text: "De gran vull ser ___ per curar la gent.",
+        blank: "metge",
+        options: ["metge", "cuiner", "jardiner"],
+      },
+      {
+        text: "De gran vull ser ___ per ensenyar.",
+        blank: "mestre",
+        options: ["mestre", "bomber", "policia"],
+      },
+      {
+        text: "De gran vull ser ___ per volar.",
+        blank: "pilot",
+        options: ["pilot", "pagès", "cambrer"],
+      },
+      {
+        text: "De gran vull ser ___ per cuinar.",
+        blank: "cuiner",
+        options: ["cuiner", "dentista", "carter"],
+      },
+    ],
+  },
+  {
+    id: "els-oficis-15",
+    type: "drawing-canvas",
+    prompt: "Dibuixa el que vols ser de gran! 👷",
+  },
 ];

@@ -181,4 +181,119 @@ export const laCiutatTasks: Task[] = [
       { catalan: "estació", translation: "stanica" },
     ],
   },
+  {
+    id: "la-ciutat-10",
+    type: "label-image",
+    prompt: "Col·loca cada lloc al mapa de la ciutat:",
+    image: "ciutat-mapa",
+    labels: [
+      { text: "hospital", x: 20, y: 20 },
+      { text: "escola", x: 70, y: 20 },
+      { text: "parc", x: 20, y: 55 },
+      { text: "mercat", x: 70, y: 55 },
+      { text: "estació", x: 20, y: 85 },
+      { text: "cinema", x: 70, y: 85 },
+    ],
+    options: ["hospital", "escola", "parc", "mercat", "estació", "cinema", "museu", "biblioteca"],
+  },
+  {
+    id: "la-ciutat-11",
+    type: "fill-sentence",
+    prompt: "On vas? Completa:",
+    sentences: [
+      {
+        text: "Per comprar fruita vaig al ___.",
+        blank: "mercat",
+        options: ["mercat", "cinema", "hospital"],
+      },
+      {
+        text: "Per llegir llibres vaig a la ___.",
+        blank: "biblioteca",
+        options: ["biblioteca", "estació", "plaça"],
+      },
+      {
+        text: "Per viatjar en tren vaig a l'___.",
+        blank: "estació",
+        options: ["estació", "escola", "hospital"],
+      },
+      {
+        text: "Per passejar vaig al ___.",
+        blank: "parc",
+        options: ["parc", "mercat", "museu"],
+      },
+    ],
+  },
+  {
+    id: "la-ciutat-12",
+    type: "classify-columns",
+    prompt: "Classifica: Edificis vs Espais oberts",
+    columns: [
+      {
+        title: "Edificis",
+        items: ["hospital", "escola", "cinema", "museu", "biblioteca", "restaurant"],
+      },
+      {
+        title: "Espais oberts",
+        items: ["parc", "plaça", "carrer", "jardí", "platja"],
+      },
+    ],
+    allItems: [
+      "hospital",
+      "escola",
+      "cinema",
+      "museu",
+      "biblioteca",
+      "restaurant",
+      "parc",
+      "plaça",
+      "carrer",
+      "jardí",
+      "platja",
+    ],
+  },
+  {
+    id: "la-ciutat-13",
+    type: "fill-sentence",
+    prompt: "Descriu la teva ciutat:",
+    sentences: [
+      {
+        text: "A la meva ciutat hi ha un ___ molt gran.",
+        blank: "parc",
+        options: ["parc", "llapis", "gat"],
+      },
+      {
+        text: "El ___ és al centre de la ciutat.",
+        blank: "mercat",
+        options: ["mercat", "bosc", "riu"],
+      },
+      {
+        text: "L' ___ és molt moderna.",
+        blank: "escola",
+        options: ["escola", "cova", "illa"],
+      },
+      {
+        text: "La ___ té molts arbres.",
+        blank: "plaça",
+        options: ["plaça", "nevera", "taula"],
+      },
+    ],
+  },
+  {
+    id: "la-ciutat-14",
+    type: "label-image",
+    prompt: "Escriu el nom dels senyals de la ciutat:",
+    image: "senyals-ciutat",
+    labels: [
+      { text: "semàfor", x: 25, y: 25 },
+      { text: "pas de vianants", x: 75, y: 25 },
+      { text: "parada d'autobús", x: 25, y: 70 },
+      { text: "fanal", x: 75, y: 70 },
+    ],
+    options: ["semàfor", "pas de vianants", "parada d'autobús", "fanal", "banc", "paperera"],
+  },
+  {
+    id: "la-ciutat-15",
+    type: "drawing-canvas",
+    prompt: "Dibuixa la teva ciutat ideal! 🏙️",
+  },
 ];

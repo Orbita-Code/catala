@@ -8,12 +8,13 @@ import { ThemeInfo } from "@/data/themes";
 interface ThemeCardProps {
   theme: ThemeInfo;
   progress: number;
+  totalTasks: number;
   index: number;
 }
 
-export default function ThemeCard({ theme, progress, index }: ThemeCardProps) {
+export default function ThemeCard({ theme, progress, totalTasks, index }: ThemeCardProps) {
   const completedCount = progress;
-  const totalCount = theme.taskCount;
+  const totalCount = totalTasks;
   const progressPercent = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
   const isCompleted = completedCount >= totalCount;
 

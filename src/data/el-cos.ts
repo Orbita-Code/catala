@@ -176,4 +176,194 @@ export const elCosTasks: Task[] = [
       { catalan: "peu", translation: "stopalo" },
     ],
   },
+  // === NEW TASKS (10-19) ===
+  {
+    id: "el-cos-10",
+    type: "label-image",
+    prompt: "Escriu les parts del cos:",
+    image: "cos",
+    labels: [
+      { text: "cap", x: 50, y: 10 },
+      { text: "braç", x: 20, y: 40 },
+      { text: "mà", x: 15, y: 55 },
+      { text: "panxa", x: 50, y: 45 },
+      { text: "cama", x: 40, y: 70 },
+      { text: "peu", x: 40, y: 90 },
+    ],
+    options: ["cap", "braç", "mà", "panxa", "cama", "peu", "coll", "dit"],
+  },
+  {
+    id: "el-cos-11",
+    type: "matching",
+    prompt: "Relaciona cada part del cos amb la seva funció:",
+    pairs: [
+      { left: "ulls", right: "veure" },
+      { left: "orelles", right: "escoltar" },
+      { left: "boca", right: "parlar" },
+      { left: "nas", right: "olorar" },
+      { left: "mans", right: "tocar" },
+      { left: "cames", right: "caminar" },
+    ],
+  },
+  {
+    id: "el-cos-12",
+    type: "color-by-instruction",
+    prompt: "Pinta les parts del cos:",
+    instructions: [
+      {
+        text: "Pinta el cap de groc",
+        targetColor: "groc",
+        targetItem: "🟡",
+      },
+      {
+        text: "Pinta els braços de blau",
+        targetColor: "blau",
+        targetItem: "💪",
+      },
+      {
+        text: "Pinta les cames de verd",
+        targetColor: "verd",
+        targetItem: "🦵",
+      },
+      {
+        text: "Pinta la panxa de taronja",
+        targetColor: "taronja",
+        targetItem: "⭕",
+      },
+      {
+        text: "Pinta les mans de rosa",
+        targetColor: "rosa",
+        targetItem: "🤚",
+      },
+    ],
+    image: "cos-silueta",
+  },
+  {
+    id: "el-cos-13",
+    type: "fill-sentence",
+    prompt: "Completa les frases sobre el cos:",
+    sentences: [
+      {
+        text: "Veig amb els ___.",
+        blank: "ulls",
+        options: ["ulls", "peus", "dits"],
+      },
+      {
+        text: "Escolto amb les ___.",
+        blank: "orelles",
+        options: ["orelles", "mans", "cames"],
+      },
+      {
+        text: "Camino amb les ___.",
+        blank: "cames",
+        options: ["cames", "orelles", "mans"],
+      },
+      {
+        text: "Parlo amb la ___.",
+        blank: "boca",
+        options: ["boca", "panxa", "orella"],
+      },
+      {
+        text: "Oloro amb el ___.",
+        blank: "nas",
+        options: ["nas", "dit", "peu"],
+      },
+    ],
+  },
+  {
+    id: "el-cos-14",
+    type: "label-image",
+    prompt: "Escriu les parts de la cara:",
+    image: "cara",
+    labels: [
+      { text: "ull", x: 35, y: 35 },
+      { text: "nas", x: 50, y: 50 },
+      { text: "boca", x: 50, y: 70 },
+      { text: "orella", x: 85, y: 40 },
+      { text: "cella", x: 35, y: 25 },
+    ],
+    options: ["ull", "nas", "boca", "orella", "cella", "galta", "front"],
+  },
+  {
+    id: "el-cos-15",
+    type: "fill-sentence",
+    prompt: "Observa i completa:",
+    sentences: [
+      {
+        text: "Tinc dos ___.",
+        blank: "ulls",
+        options: ["ulls", "nassos", "boques"],
+      },
+      {
+        text: "Tinc dues ___.",
+        blank: "orelles",
+        options: ["orelles", "boques", "panxes"],
+      },
+      {
+        text: "Tinc deu ___.",
+        blank: "dits",
+        options: ["dits", "caps", "nassos"],
+      },
+      {
+        text: "Tinc un ___.",
+        blank: "nas",
+        options: ["nas", "ull", "peu"],
+      },
+    ],
+  },
+  {
+    id: "el-cos-16",
+    type: "fill-sentence",
+    prompt: "Descriu una persona:",
+    sentences: [
+      {
+        text: "La Maria té els cabells ___.",
+        blank: "rossos",
+        options: ["rossos", "verds", "blaus"],
+      },
+      {
+        text: "En Pere té els ulls ___.",
+        blank: "marrons",
+        options: ["marrons", "vermells", "grocs"],
+      },
+      {
+        text: "La Laia és ___.",
+        blank: "alta",
+        options: ["alta", "petita", "vella"],
+      },
+    ],
+  },
+  {
+    id: "el-cos-17",
+    type: "label-image",
+    prompt: "Escriu les parts de l'esquelet:",
+    image: "esquelet",
+    labels: [
+      { text: "crani", x: 50, y: 10 },
+      { text: "costelles", x: 50, y: 40 },
+      { text: "columna", x: 50, y: 55 },
+      { text: "pelvis", x: 50, y: 70 },
+    ],
+    options: ["crani", "costelles", "columna", "pelvis", "fèmur", "húmer"],
+  },
+  {
+    id: "el-cos-18",
+    type: "self-assessment",
+    prompt: "Saps dir les parts de la cara en català?",
+    items: [
+      { catalan: "ull", translation: "oko" },
+      { catalan: "nas", translation: "nos" },
+      { catalan: "boca", translation: "usta" },
+      { catalan: "orella", translation: "uvo" },
+      { catalan: "cella", translation: "obrva" },
+      { catalan: "galta", translation: "obraz" },
+      { catalan: "barbeta", translation: "brada" },
+      { catalan: "front", translation: "čelo" },
+    ],
+  },
+  {
+    id: "el-cos-19",
+    type: "drawing-canvas",
+    prompt: "Dibuixa una persona i escriu les parts del cos! 🧑",
+  },
 ];

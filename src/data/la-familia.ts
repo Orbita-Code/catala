@@ -196,4 +196,97 @@ export const laFamiliaTasks: Task[] = [
       { catalan: "neboda", translation: "nećaka" },
     ],
   },
+  {
+    id: "la-familia-10",
+    type: "label-image",
+    prompt: "Completa l'arbre familiar:",
+    image: "arbre-familiar",
+    labels: [
+      { text: "avi", x: 25, y: 15 },
+      { text: "àvia", x: 75, y: 15 },
+      { text: "pare", x: 25, y: 50 },
+      { text: "mare", x: 75, y: 50 },
+      { text: "germà", x: 25, y: 85 },
+      { text: "germana", x: 75, y: 85 },
+    ],
+    options: ["avi", "àvia", "pare", "mare", "germà", "germana", "oncle", "tia"],
+  },
+  {
+    id: "la-familia-11",
+    type: "fill-sentence",
+    prompt: "Completa les frases sobre la família:",
+    sentences: [
+      {
+        text: "El pare del meu pare és el meu ___.",
+        blank: "avi",
+        options: ["avi", "oncle", "germà"],
+      },
+      {
+        text: "La germana de la meva mare és la meva ___.",
+        blank: "tia",
+        options: ["tia", "àvia", "cosina"],
+      },
+      {
+        text: "El fill del meu oncle és el meu ___.",
+        blank: "cosí",
+        options: ["cosí", "germà", "nebot"],
+      },
+      {
+        text: "La mare de la meva mare és la meva ___.",
+        blank: "àvia",
+        options: ["àvia", "tia", "germana"],
+      },
+    ],
+  },
+  {
+    id: "la-familia-12",
+    type: "fill-sentence",
+    prompt: "Llegeix i completa sobre la família d'en Miquel:",
+    sentences: [
+      {
+        text: "En Miquel té un ___ que es diu Pere.",
+        blank: "germà",
+        options: ["germà", "pare", "cosí"],
+      },
+      {
+        text: "La ___ d'en Miquel es diu Maria.",
+        blank: "mare",
+        options: ["mare", "tia", "àvia"],
+      },
+      {
+        text: "El ___ d'en Miquel es diu Joan.",
+        blank: "pare",
+        options: ["pare", "avi", "oncle"],
+      },
+      {
+        text: "L' ___ d'en Miquel es diu Rosa.",
+        blank: "àvia",
+        options: ["àvia", "tia", "mare"],
+      },
+    ],
+  },
+  {
+    id: "la-familia-13",
+    type: "self-assessment",
+    prompt: "Saps dir els membres de la família en català?",
+    items: [
+      { catalan: "pare", translation: "otac" },
+      { catalan: "mare", translation: "majka" },
+      { catalan: "fill", translation: "sin" },
+      { catalan: "filla", translation: "ćerka" },
+      { catalan: "avi", translation: "deda" },
+      { catalan: "àvia", translation: "baba" },
+      { catalan: "germà", translation: "brat" },
+      { catalan: "germana", translation: "sestra" },
+      { catalan: "oncle", translation: "ujak/stric" },
+      { catalan: "tia", translation: "tetka/ujna" },
+      { catalan: "cosí", translation: "rođak" },
+      { catalan: "cosina", translation: "rođaka" },
+    ],
+  },
+  {
+    id: "la-familia-14",
+    type: "drawing-canvas",
+    prompt: "Dibuixa la teva família! 👨‍👩‍👧‍👦",
+  },
 ];

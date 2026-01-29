@@ -69,12 +69,6 @@ export const elMenjarTasks: Task[] = [
   },
 
   // Task 5: Word search
-  // Words placed in 10x10 grid:
-  //   POMA  - row 0, cols 0-3 (horizontal)
-  //   PERA  - row 2, cols 5-8 (horizontal)
-  //   PA    - row 4, cols 1-2 (horizontal)
-  //   LLET  - col 9, rows 0-3 (vertical)
-  //   OU    - row 7, cols 6-7 (horizontal)
   {
     id: "el-menjar-5",
     type: "word-search",
@@ -195,5 +189,223 @@ export const elMenjarTasks: Task[] = [
       { catalan: "formatge", translation: "sir" },
       { catalan: "pastanaga", translation: "šargarepa" },
     ],
+  },
+
+  // Task 10: Label breakfast items
+  {
+    id: "el-menjar-10",
+    type: "label-image",
+    prompt: "Escriu el nom dels aliments de l'esmorzar:",
+    image: "esmorzar",
+    labels: [
+      { text: "cereals", x: 15, y: 30 },
+      { text: "suc", x: 40, y: 30 },
+      { text: "llet", x: 65, y: 30 },
+      { text: "torrada", x: 85, y: 30 },
+      { text: "fruita", x: 50, y: 70 },
+    ],
+    options: ["cereals", "suc", "llet", "torrada", "fruita", "pa", "formatge"],
+  },
+
+  // Task 11: Fill sentences about meals
+  {
+    id: "el-menjar-11",
+    type: "fill-sentence",
+    prompt: "Què menges a cada àpat?",
+    sentences: [
+      {
+        text: "Per esmorzar menjo ___.",
+        blank: "cereals",
+        options: ["cereals", "sopa", "pizza"],
+      },
+      {
+        text: "Per dinar menjo ___.",
+        blank: "arròs",
+        options: ["arròs", "cereals", "torrada"],
+      },
+      {
+        text: "Per berenar menjo un ___.",
+        blank: "entrepà",
+        options: ["entrepà", "arròs", "sopa"],
+      },
+      {
+        text: "Per sopar menjo ___.",
+        blank: "sopa",
+        options: ["sopa", "cereals", "torrada"],
+      },
+    ],
+  },
+
+  // Task 12: Label food items
+  {
+    id: "el-menjar-12",
+    type: "label-image",
+    prompt: "Escriu el nom dels aliments:",
+    image: "aliments",
+    labels: [
+      { text: "pa", x: 15, y: 25 },
+      { text: "formatge", x: 50, y: 25 },
+      { text: "ou", x: 85, y: 25 },
+      { text: "pizza", x: 15, y: 70 },
+      { text: "pasta", x: 50, y: 70 },
+      { text: "hamburguesa", x: 85, y: 70 },
+    ],
+    options: ["pa", "formatge", "ou", "pizza", "pasta", "hamburguesa", "arròs", "sopa"],
+  },
+
+  // Task 13: Classify meals - Esmorzar vs Dinar vs Sopar
+  {
+    id: "el-menjar-13",
+    type: "classify-columns",
+    prompt: "Classifica: Esmorzar vs Dinar vs Sopar",
+    columns: [
+      { title: "Esmorzar", items: ["cereals", "torrada", "llet", "suc", "fruita"] },
+      { title: "Dinar", items: ["arròs", "carn", "peix", "amanida", "pasta"] },
+      { title: "Sopar", items: ["sopa", "entrepà", "ou", "formatge"] },
+    ],
+    allItems: [
+      "cereals",
+      "torrada",
+      "llet",
+      "suc",
+      "fruita",
+      "arròs",
+      "carn",
+      "peix",
+      "amanida",
+      "pasta",
+      "sopa",
+      "entrepà",
+      "ou",
+      "formatge",
+    ],
+  },
+
+  // Task 14: Fill sentences about food descriptions
+  {
+    id: "el-menjar-14",
+    type: "fill-sentence",
+    prompt: "Completa sobre el menjar:",
+    sentences: [
+      {
+        text: "El ___ és blanc i es beu.",
+        blank: "llet",
+        options: ["llet", "suc", "pa"],
+      },
+      {
+        text: "La ___ és amb enciam i tomàquet.",
+        blank: "amanida",
+        options: ["amanida", "pizza", "sopa"],
+      },
+      {
+        text: "L' ___ el ponen les gallines.",
+        blank: "ou",
+        options: ["ou", "pa", "arròs"],
+      },
+      {
+        text: "El ___ es fa amb farina.",
+        blank: "pa",
+        options: ["pa", "ou", "peix"],
+      },
+    ],
+  },
+
+  // Task 15: Fill missing letters for food words
+  {
+    id: "el-menjar-15",
+    type: "fill-letters",
+    prompt: "Completa el nom de l'aliment:",
+    words: [
+      { word: "hamburguesa", hint: "h_mb_rgu_sa" },
+      { word: "entrepà", hint: "_ntr_pà" },
+      { word: "formatge", hint: "f_rm_tge" },
+      { word: "amanida", hint: "_man_da" },
+      { word: "cereals", hint: "c_re_ls" },
+      { word: "torrada", hint: "t_rr_da" },
+    ],
+  },
+
+  // Task 16: Classify sweet vs salty
+  {
+    id: "el-menjar-16",
+    type: "classify-columns",
+    prompt: "Classifica: Dolç vs Salat",
+    columns: [
+      { title: "Dolç", items: ["xocolata", "pastís", "galeta", "melmelada", "fruita"] },
+      { title: "Salat", items: ["formatge", "pernil", "entrepà", "pizza", "sopa"] },
+    ],
+    allItems: [
+      "xocolata",
+      "pastís",
+      "galeta",
+      "melmelada",
+      "fruita",
+      "formatge",
+      "pernil",
+      "entrepà",
+      "pizza",
+      "sopa",
+    ],
+  },
+
+  // Task 17: Fill sentences about food preferences
+  {
+    id: "el-menjar-17",
+    type: "fill-sentence",
+    prompt: "Escriu el teu menú:",
+    sentences: [
+      {
+        text: "El meu menjar preferit és ___.",
+        blank: "pizza",
+        options: ["pizza", "sopa", "ou"],
+      },
+      {
+        text: "No m'agrada ___.",
+        blank: "peix",
+        options: ["peix", "pa", "llet"],
+      },
+      {
+        text: "M'encanta la ___.",
+        blank: "xocolata",
+        options: ["xocolata", "ceba", "pastanaga"],
+      },
+    ],
+  },
+
+  // Task 18: Label dinner menu
+  {
+    id: "el-menjar-18",
+    type: "label-image",
+    prompt: "Escriu el menú del sopar:",
+    image: "sopar",
+    labels: [
+      { text: "sopa", x: 25, y: 25 },
+      { text: "pa", x: 75, y: 25 },
+      { text: "formatge", x: 25, y: 70 },
+      { text: "fruita", x: 75, y: 70 },
+    ],
+    options: ["sopa", "pa", "formatge", "fruita", "pizza", "arròs"],
+  },
+
+  // Task 19: Label lunch menu
+  {
+    id: "el-menjar-19",
+    type: "label-image",
+    prompt: "Escriu el menú del dinar:",
+    image: "dinar",
+    labels: [
+      { text: "amanida", x: 25, y: 25 },
+      { text: "arròs", x: 75, y: 25 },
+      { text: "peix", x: 25, y: 70 },
+      { text: "suc", x: 75, y: 70 },
+    ],
+    options: ["amanida", "arròs", "peix", "suc", "sopa", "torrada"],
+  },
+
+  // Task 20: Drawing canvas - draw your favorite dish
+  {
+    id: "el-menjar-20",
+    type: "drawing-canvas",
+    prompt: "Dibuixa el teu plat preferit! 🍽️",
   },
 ];

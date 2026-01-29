@@ -187,4 +187,110 @@ export const laRobaTasks: Task[] = [
       { catalan: "mitges", translation: "hulahopke" },
     ],
   },
+  {
+    id: "la-roba-10",
+    type: "fill-sentence",
+    prompt: "Completa: Què portes?",
+    sentences: [
+      {
+        text: "A l'hivern porto un ___.",
+        blank: "abric",
+        options: ["abric", "vestit", "samarreta"],
+      },
+      {
+        text: "Quan plou porto ___.",
+        blank: "botes",
+        options: ["botes", "sabates", "mitjons"],
+      },
+      {
+        text: "A l'estiu porto una ___.",
+        blank: "samarreta",
+        options: ["samarreta", "bufanda", "jaqueta"],
+      },
+      {
+        text: "Al cap porto una ___.",
+        blank: "gorra",
+        options: ["gorra", "sabata", "camisa"],
+      },
+    ],
+  },
+  {
+    id: "la-roba-11",
+    type: "fill-sentence",
+    prompt: "Observa i descriu la roba:",
+    sentences: [
+      {
+        text: "La faldilla és de color ___.",
+        blank: "vermell",
+        options: ["vermell", "gran", "nou"],
+      },
+      {
+        text: "Les sabates són ___.",
+        blank: "noves",
+        options: ["noves", "grans", "velles"],
+      },
+      {
+        text: "La jaqueta és molt ___.",
+        blank: "calenta",
+        options: ["calenta", "freda", "petita"],
+      },
+    ],
+  },
+  {
+    id: "la-roba-12",
+    type: "label-image",
+    prompt: "Col·loca cada peça de roba:",
+    image: "roba",
+    labels: [
+      { text: "samarreta", x: 50, y: 20 },
+      { text: "pantalons", x: 50, y: 50 },
+      { text: "sabates", x: 50, y: 85 },
+      { text: "mitjons", x: 50, y: 75 },
+      { text: "gorra", x: 50, y: 5 },
+      { text: "jaqueta", x: 50, y: 30 },
+    ],
+    options: [
+      "samarreta",
+      "pantalons",
+      "sabates",
+      "mitjons",
+      "gorra",
+      "jaqueta",
+      "bufanda",
+      "guants",
+    ],
+  },
+  {
+    id: "la-roba-13",
+    type: "drawing-canvas",
+    prompt: "Dibuixa el teu vestit preferit! 👗",
+  },
+  {
+    id: "la-roba-14",
+    type: "classify-columns",
+    prompt: "Classifica: Roba d'estiu vs Roba d'hivern",
+    columns: [
+      {
+        title: "Roba d'estiu",
+        items: ["samarreta", "pantalons curts", "vestit", "faldilla", "sandàlies"],
+      },
+      {
+        title: "Roba d'hivern",
+        items: ["abric", "bufanda", "guants", "botes", "jaqueta", "barret"],
+      },
+    ],
+    allItems: [
+      "samarreta",
+      "pantalons curts",
+      "vestit",
+      "faldilla",
+      "sandàlies",
+      "abric",
+      "bufanda",
+      "guants",
+      "botes",
+      "jaqueta",
+      "barret",
+    ],
+  },
 ];
