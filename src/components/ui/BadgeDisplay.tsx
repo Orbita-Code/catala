@@ -1,10 +1,15 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { allBadges, getEarnedBadgeIds, Badge } from "@/lib/badges";
+import { allBadges, getEarnedBadgeIds } from "@/lib/badges";
 
 export default function BadgeDisplay() {
-  const earned = getEarnedBadgeIds();
+  const [earned, setEarned] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    setEarned(getEarnedBadgeIds());
+  }, []);
 
   return (
     <div>

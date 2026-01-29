@@ -3,18 +3,18 @@
 import dynamic from "next/dynamic";
 import { Task, TaskResult } from "@/types/tasks";
 
-const CopyWord = dynamic(() => import("./CopyWord"));
-const FillLetters = dynamic(() => import("./FillLetters"));
-const Matching = dynamic(() => import("./Matching"));
-const ClassifyColumns = dynamic(() => import("./ClassifyColumns"));
-const WordSearch = dynamic(() => import("./WordSearch"));
-const FillSentence = dynamic(() => import("./FillSentence"));
-const MultipleChoice = dynamic(() => import("./MultipleChoice"));
-const Unscramble = dynamic(() => import("./Unscramble"));
-const SelfAssessment = dynamic(() => import("./SelfAssessment"));
-const ColorByInstruction = dynamic(() => import("./ColorByInstruction"));
-const LabelImage = dynamic(() => import("./LabelImage"));
-const DrawingCanvas = dynamic(() => import("./DrawingCanvas"));
+const CopyWord = dynamic(() => import("./CopyWord"), { ssr: false });
+const FillLetters = dynamic(() => import("./FillLetters"), { ssr: false });
+const Matching = dynamic(() => import("./Matching"), { ssr: false });
+const ClassifyColumns = dynamic(() => import("./ClassifyColumns"), { ssr: false });
+const WordSearch = dynamic(() => import("./WordSearch"), { ssr: false });
+const FillSentence = dynamic(() => import("./FillSentence"), { ssr: false });
+const MultipleChoice = dynamic(() => import("./MultipleChoice"), { ssr: false });
+const Unscramble = dynamic(() => import("./Unscramble"), { ssr: false });
+const SelfAssessment = dynamic(() => import("./SelfAssessment"), { ssr: false });
+const ColorByInstruction = dynamic(() => import("./ColorByInstruction"), { ssr: false });
+const LabelImage = dynamic(() => import("./LabelImage"), { ssr: false });
+const DrawingCanvas = dynamic(() => import("./DrawingCanvas"), { ssr: false });
 
 interface TaskRendererProps {
   task: Task;
