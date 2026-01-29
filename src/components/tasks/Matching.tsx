@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { MatchingTask } from "@/types/tasks";
+import { getWordEmoji } from "@/lib/illustrations";
 
 interface Props {
   task: MatchingTask;
@@ -75,6 +76,7 @@ export default function Matching({ task, onComplete }: Props) {
                     : "bg-white border-2 border-gray-200 text-[var(--text)]"
             }`}
           >
+            {getWordEmoji(pair.left) && <span className="mr-1">{getWordEmoji(pair.left)}</span>}
             {pair.left}
           </motion.button>
         ))}
@@ -96,6 +98,7 @@ export default function Matching({ task, onComplete }: Props) {
                     : "bg-white border-2 border-gray-200 text-[var(--text)]"
             }`}
           >
+            {getWordEmoji(task.pairs[actualIdx].right) && <span className="mr-1">{getWordEmoji(task.pairs[actualIdx].right)}</span>}
             {task.pairs[actualIdx].right}
           </motion.button>
         ))}

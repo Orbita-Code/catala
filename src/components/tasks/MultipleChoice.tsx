@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { MultipleChoiceTask } from "@/types/tasks";
+import { getWordEmoji } from "@/lib/illustrations";
 
 interface Props {
   task: MultipleChoiceTask;
@@ -72,6 +73,7 @@ export default function MultipleChoice({ task, onComplete }: Props) {
                     : "bg-gray-50 border-2 border-gray-200 text-[var(--text)] hover:bg-gray-100"
               }`}
             >
+              {getWordEmoji(option) && <span className="mr-2">{getWordEmoji(option)}</span>}
               {option}
               {showResult && i === question.correct && " ✅"}
               {showResult && i === selected && !isCorrect && " ❌"}

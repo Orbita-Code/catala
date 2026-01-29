@@ -99,7 +99,7 @@ export default function FillSentence({ task, onComplete }: Props) {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => handleSelect(i, option)}
                 disabled={checked}
-                className={`px-4 py-2 rounded-xl font-bold text-sm transition-all ${
+                className={`px-5 py-3 min-h-[48px] rounded-xl font-bold text-base transition-all ${
                   answers[i] === option
                     ? "bg-[var(--primary)] text-white"
                     : "bg-gray-100 text-[var(--text)] hover:bg-gray-200"

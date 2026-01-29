@@ -9,7 +9,8 @@ export type TaskType =
   | "fill-sentence"
   | "label-image"
   | "multiple-choice"
-  | "self-assessment";
+  | "self-assessment"
+  | "drawing-canvas";
 
 export interface BaseTask {
   id: string;
@@ -88,6 +89,10 @@ export interface SelfAssessmentTask extends BaseTask {
   items: { catalan: string; translation: string; image?: string }[];
 }
 
+export interface DrawingCanvasTask extends BaseTask {
+  type: "drawing-canvas";
+}
+
 export type Task =
   | CopyWordTask
   | FillLettersTask
@@ -99,7 +104,8 @@ export type Task =
   | FillSentenceTask
   | LabelImageTask
   | MultipleChoiceTask
-  | SelfAssessmentTask;
+  | SelfAssessmentTask
+  | DrawingCanvasTask;
 
 export interface Theme {
   slug: string;

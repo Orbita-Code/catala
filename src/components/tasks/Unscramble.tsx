@@ -3,6 +3,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { UnscrambleTask } from "@/types/tasks";
+import { getWordEmoji } from "@/lib/illustrations";
+import LetterTile from "@/components/ui/LetterTile";
+import SlotRow from "@/components/ui/SlotRow";
 
 interface Props {
   task: UnscrambleTask;
@@ -10,112 +13,146 @@ interface Props {
 }
 
 export default function Unscramble({ task, onComplete }: Props) {
-  const [inputs, setInputs] = useState<Record<number, string>>({});
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const [slots, setSlots] = useState<(string | null)[]>(
+    Array(task.words[0].correct.length).fill(null)
+  );
+  const [bank, setBank] = useState<{ letter: string; used: boolean }[]>(() =>
+    task.words[0].scrambled.split("").map((l) => ({ letter: l, used: false }))
+  );
   const [checked, setChecked] = useState(false);
-  const [results, setResults] = useState<Record<number, boolean>>({});
+  const [correct, setCorrect] = useState<boolean | null>(null);
+
+  const currentWord = task.words[currentIdx];
+
+  const handleLetterTap = (bankIdx: number) => {
+    if (checked || bank[bankIdx].used) return;
+    const slotIdx = slots.findIndex((s) => s === null);
+    if (slotIdx === -1) return;
+
+    const newSlots = [...slots];
+    newSlots[slotIdx] = bank[bankIdx].letter;
+    setSlots(newSlots);
+
+    const newBank = [...bank];
+    newBank[bankIdx] = { ...newBank[bankIdx], used: true };
+    setBank(newBank);
+  };
+
+  const handleSlotTap = (slotIdx: number) => {
+    if (checked || slots[slotIdx] === null) return;
+    const letter = slots[slotIdx]!;
+    const newSlots = [...slots];
+    newSlots[slotIdx] = null;
+    const filled = newSlots.filter((s) => s !== null);
+    const result = [...filled, ...Array(newSlots.length - filled.length).fill(null)];
+    setSlots(result);
+
+    const bankIdx = bank.findIndex((b) => b.used && b.letter === letter);
+    if (bankIdx !== -1) {
+      const newBank = [...bank];
+      newBank[bankIdx] = { ...newBank[bankIdx], used: false };
+      setBank(newBank);
+    }
+  };
+
+  const allFilled = slots.every((s) => s !== null);
 
   const handleCheck = () => {
-    const newResults: Record<number, boolean> = {};
-    let allCorrect = true;
-    task.words.forEach((w, i) => {
-      const correct =
-        inputs[i]?.trim().toUpperCase() === w.correct.toUpperCase();
-      newResults[i] = correct;
-      if (!correct) allCorrect = false;
-    });
-    setResults(newResults);
+    const answer = slots.join("").toUpperCase();
+    const isCorrect = answer === currentWord.correct.toUpperCase();
     setChecked(true);
-    if (allCorrect) {
-      setTimeout(() => onComplete(true), 1200);
+    setCorrect(isCorrect);
+
+    if (isCorrect) {
+      setTimeout(() => {
+        if (currentIdx < task.words.length - 1) {
+          const nextIdx = currentIdx + 1;
+          const nextWord = task.words[nextIdx];
+          setCurrentIdx(nextIdx);
+          setSlots(Array(nextWord.correct.length).fill(null));
+          setBank(nextWord.scrambled.split("").map((l) => ({ letter: l, used: false })));
+          setChecked(false);
+          setCorrect(null);
+        } else {
+          onComplete(true);
+        }
+      }, 1000);
     }
   };
 
   const handleRetry = () => {
+    setSlots(Array(currentWord.correct.length).fill(null));
+    setBank(currentWord.scrambled.split("").map((l) => ({ letter: l, used: false })));
     setChecked(false);
-    setResults({});
-    setInputs({});
+    setCorrect(null);
   };
 
-  const allFilled = task.words.every((_, i) => inputs[i]?.trim());
-  const allCorrect = checked && Object.values(results).every(Boolean);
-
   return (
-    <div className="space-y-4">
-      {task.words.map((word, i) => (
-        <motion.div
-          key={i}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: i * 0.08 }}
-          className={`bg-white rounded-2xl p-4 shadow-sm ${
-            checked
-              ? results[i]
-                ? "ring-2 ring-[var(--success)]"
-                : "ring-2 ring-[var(--error)]"
-              : ""
-          }`}
-        >
-          <div className="flex items-center gap-2 mb-2">
-            {word.scrambled.split("").map((letter, j) => (
-              <span
-                key={j}
-                className="w-9 h-9 flex items-center justify-center bg-[var(--accent)] text-[var(--text)] font-black text-lg rounded-lg"
-              >
-                {letter}
-              </span>
-            ))}
-          </div>
-          <div className="flex items-center gap-2">
-            <input
-              type="text"
-              value={inputs[i] || ""}
-              onChange={(e) =>
-                setInputs({ ...inputs, [i]: e.target.value.toUpperCase() })
-              }
-              disabled={checked}
-              maxLength={word.correct.length}
-              className={`flex-1 px-3 py-2 rounded-xl border-2 text-base font-bold uppercase tracking-wider outline-none ${
-                checked
-                  ? results[i]
-                    ? "border-[var(--success)] bg-green-50"
-                    : "border-[var(--error)] bg-red-50"
-                  : "border-gray-200 focus:border-[var(--primary)]"
-              }`}
-              placeholder="Escriu la paraula..."
-            />
-            <AnimatePresence>
-              {checked && (
-                <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }}>
-                  {results[i] ? "✅" : "❌"}
-                </motion.span>
-              )}
-            </AnimatePresence>
-          </div>
-        </motion.div>
-      ))}
-
-      <div className="flex justify-center pt-2">
-        {!checked ? (
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleCheck}
-            disabled={!allFilled}
-            className="px-8 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg disabled:opacity-40 shadow-[0_4px_12px_rgba(108,92,231,0.3)]"
-          >
-            Comprova!
-          </motion.button>
-        ) : !allCorrect ? (
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleRetry}
-            className="px-8 py-3 bg-[var(--secondary)] text-white font-bold rounded-2xl text-lg shadow-md"
-          >
-            Torna a provar!
-          </motion.button>
-        ) : null}
+    <div className="space-y-5">
+      <div className="text-sm text-[var(--text-light)] text-center">
+        {currentIdx + 1} / {task.words.length}
       </div>
+
+      <motion.div
+        key={currentIdx}
+        initial={{ opacity: 0, x: 30 }}
+        animate={{ opacity: 1, x: 0 }}
+        className="bg-white rounded-2xl p-5 shadow-sm"
+      >
+        {getWordEmoji(currentWord.correct) && (
+          <div className="text-4xl text-center mb-3">{getWordEmoji(currentWord.correct)}</div>
+        )}
+
+        <p className="text-center text-sm text-[var(--text-light)] mb-4">
+          Ordena les lletres tocant-les
+        </p>
+
+        {/* Slots */}
+        <div className="flex justify-center mb-5">
+          <SlotRow
+            slots={slots}
+            activeIndex={slots.findIndex((s) => s === null)}
+            correct={correct}
+            onSlotTap={handleSlotTap}
+          />
+        </div>
+
+        {/* Letter bank (scrambled) */}
+        <div className="flex flex-wrap justify-center gap-2 mb-4">
+          {bank.map((item, i) => (
+            <LetterTile
+              key={i}
+              letter={item.letter}
+              disabled={item.used || checked}
+              onClick={() => handleLetterTap(i)}
+            />
+          ))}
+        </div>
+
+        <div className="flex justify-center">
+          {!checked ? (
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleCheck}
+              disabled={!allFilled}
+              className="px-8 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg disabled:opacity-40 shadow-[0_4px_12px_rgba(108,92,231,0.3)]"
+            >
+              Comprova!
+            </motion.button>
+          ) : !correct ? (
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleRetry}
+              className="px-8 py-3 bg-[var(--secondary)] text-white font-bold rounded-2xl text-lg shadow-md"
+            >
+              Torna a provar!
+            </motion.button>
+          ) : null}
+        </div>
+      </motion.div>
     </div>
   );
 }

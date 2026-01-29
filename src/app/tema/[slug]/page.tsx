@@ -3,9 +3,9 @@
 import { useState, useEffect, use } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, ArrowRight } from "lucide-react";
-import Image from "next/image";
+import { ArrowLeft, ArrowRight, Volume2, VolumeX } from "lucide-react";
 import TaskRenderer from "@/components/tasks/TaskRenderer";
+import StarCompanion from "@/components/ui/StarCompanion";
 import { themes } from "@/data/themes";
 import { laClasseTasks } from "@/data/la-classe";
 import { lEscolaTasks } from "@/data/l-escola";
@@ -21,8 +21,11 @@ import { elsVehiclesTasks } from "@/data/els-vehicles";
 import { elsOficisTasks } from "@/data/els-oficis";
 import { getThemeProgress, completeTask } from "@/lib/progress";
 import { getEncouragement } from "@/lib/encouragement";
+import type { StarMood } from "@/lib/encouragement";
 import { Task } from "@/types/tasks";
+import { getThemeScene } from "@/lib/theme-illustrations";
 import confetti from "canvas-confetti";
+import { initAudio, isMuted, toggleMute, playCorrect, playWrong, playCombo, playThemeComplete } from "@/lib/audio";
 
 const taskData: Record<string, Task[]> = {
   "la-classe": laClasseTasks,
@@ -53,9 +56,14 @@ export default function TemaPage({
   const [showCelebration, setShowCelebration] = useState(false);
   const [streak, setStreak] = useState(0);
   const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
-  const [feedbackMood, setFeedbackMood] = useState<"happy" | "confused">(
-    "happy"
-  );
+  const [feedbackMood, setFeedbackMood] = useState<StarMood>("happy");
+  const [starAnimation, setStarAnimation] = useState<"idle" | "bounce" | "dance" | "wave" | "none">("idle");
+  const [muted, setMuted] = useState(false);
+
+  useEffect(() => {
+    initAudio();
+    setMuted(isMuted());
+  }, []);
 
   useEffect(() => {
     const progress = getThemeProgress(slug);
@@ -96,6 +104,7 @@ export default function TemaPage({
     );
   }
 
+  const scene = getThemeScene(slug);
   const currentTask = tasks[currentTaskIndex];
   const progress = ((currentTaskIndex + 1) / tasks.length) * 100;
 
@@ -103,14 +112,19 @@ export default function TemaPage({
     const result = completeTask(slug, currentTask.id, correct);
     setStreak(result.streak);
 
-    // Show encouragement feedback
     if (correct) {
+      if (result.streak > 1) {
+        playCombo();
+      } else {
+        playCorrect();
+      }
       const enc =
         result.streak > 1
           ? getEncouragement("streak", result.streak)
           : getEncouragement("correct");
       setFeedbackMessage(enc.text);
       setFeedbackMood("happy");
+      setStarAnimation("bounce");
 
       confetti({
         particleCount: 50,
@@ -119,21 +133,25 @@ export default function TemaPage({
         colors: [theme.color, "#FDCB6E", "#00CECE"],
       });
     } else {
+      playWrong();
       const enc = getEncouragement("wrong");
       setFeedbackMessage(enc.text);
       setFeedbackMood("confused");
+      setStarAnimation("wave");
     }
 
-    // Clear feedback and advance
     if (currentTaskIndex < tasks.length - 1) {
       setTimeout(() => {
         setFeedbackMessage(null);
+        setStarAnimation("idle");
         setCurrentTaskIndex(currentTaskIndex + 1);
       }, 2000);
     } else {
       setTimeout(() => {
         setFeedbackMessage(null);
+        setStarAnimation("idle");
         setShowCelebration(true);
+        playThemeComplete();
         confetti({
           particleCount: 200,
           spread: 120,
@@ -145,7 +163,6 @@ export default function TemaPage({
   };
 
   if (showCelebration) {
-    // Find the next theme
     const nextTheme =
       themeIndex < themes.length - 1 ? themes[themeIndex + 1] : null;
 
@@ -161,13 +178,7 @@ export default function TemaPage({
           transition={{ type: "spring", damping: 10 }}
           className="relative"
         >
-          <Image
-            src="/star-mascot.png"
-            alt="Estrella"
-            width={120}
-            height={120}
-            className="rounded-3xl"
-          />
+          <StarCompanion size="xl" mood="loving" animation="dance" />
         </motion.div>
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
@@ -275,11 +286,26 @@ export default function TemaPage({
               </span>
             </motion.div>
           )}
+          <button
+            onClick={() => setMuted(toggleMute())}
+            className="p-2 rounded-xl hover:bg-gray-100 transition-colors"
+            aria-label={muted ? "Activa so" : "Silencia"}
+          >
+            {muted ? (
+              <VolumeX size={20} className="text-[var(--text-light)]" />
+            ) : (
+              <Volume2 size={20} className="text-[var(--text-light)]" />
+            )}
+          </button>
         </div>
       </header>
 
       {/* Task Content */}
-      <main className="flex-1 px-4 pb-4 max-w-2xl mx-auto w-full">
+      <main className="flex-1 px-4 pb-24 max-w-2xl mx-auto w-full">
+        {/* Theme scene illustration */}
+        <div className="text-center text-2xl mb-3 opacity-80 tracking-widest">
+          {scene.emoji}
+        </div>
         <AnimatePresence mode="wait">
           <motion.div
             key={currentTask.id}
@@ -297,43 +323,41 @@ export default function TemaPage({
             />
           </motion.div>
         </AnimatePresence>
+      </main>
 
-        {/* Star Mascot Feedback */}
-        <AnimatePresence>
-          {feedbackMessage && (
+      {/* Fixed Star Companion - bottom left, always visible */}
+      <div className="fixed bottom-20 left-4 z-20">
+        <AnimatePresence mode="wait">
+          {feedbackMessage ? (
             <motion.div
+              key="feedback"
               initial={{ opacity: 0, y: 20, scale: 0.8 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.8 }}
-              className="fixed bottom-20 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3 bg-white rounded-2xl px-5 py-3 shadow-lg border border-gray-100"
             >
-              <motion.div
-                animate={{
-                  rotate: feedbackMood === "happy" ? [0, -10, 10, 0] : [0, -5, 5, 0],
-                }}
-                transition={{ duration: 0.5 }}
-              >
-                <Image
-                  src="/star-mascot.png"
-                  alt="Estrella"
-                  width={48}
-                  height={48}
-                  className="rounded-full"
-                  style={{
-                    filter:
-                      feedbackMood === "confused"
-                        ? "hue-rotate(180deg) brightness(1.1)"
-                        : "none",
-                  }}
-                />
-              </motion.div>
-              <p className="text-base font-bold text-[var(--text)] max-w-[200px]">
-                {feedbackMessage}
-              </p>
+              <StarCompanion
+                size="md"
+                mood={feedbackMood}
+                animation={starAnimation}
+                message={feedbackMessage}
+              />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="idle"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <StarCompanion
+                size="sm"
+                mood="happy"
+                animation="idle"
+              />
             </motion.div>
           )}
         </AnimatePresence>
-      </main>
+      </div>
 
       {/* Navigation Footer */}
       <footer className="sticky bottom-0 bg-[var(--background)] px-4 py-3 border-t border-gray-100">
