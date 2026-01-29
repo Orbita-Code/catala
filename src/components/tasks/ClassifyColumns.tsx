@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ClassifyColumnsTask } from "@/types/tasks";
 import { getWordEmoji } from "@/lib/illustrations";
+import confetti from "canvas-confetti";
 
 interface Props {
   task: ClassifyColumnsTask;
@@ -38,6 +39,16 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
     // Check if correct
     const correct = task.columns[colIdx].items.includes(currentItem);
     setLastPlacedCorrect(correct);
+
+    // Mini celebration for correct classification
+    if (correct) {
+      confetti({
+        particleCount: 15,
+        spread: 35,
+        origin: { y: 0.5 },
+        colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
+      });
+    }
 
     setTimeout(() => {
       setLastPlacedCorrect(null);

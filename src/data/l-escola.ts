@@ -168,9 +168,11 @@ export const lEscolaTasks: Task[] = [
       { catalan: "pati", translation: "dvorište" },
       { catalan: "menjador", translation: "trpezarija" },
       { catalan: "gimnàs", translation: "fiskulturna sala" },
+      { catalan: "despatx", translation: "kancelarija" },
       { catalan: "lavabo", translation: "toalet" },
-      { catalan: "escales", translation: "stepenice" },
+      { catalan: "passadís", translation: "hodnik" },
       { catalan: "entrada", translation: "ulaz" },
+      { catalan: "escales", translation: "stepenice" },
     ],
   },
 ];

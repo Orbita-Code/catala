@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { MultipleChoiceTask } from "@/types/tasks";
 import { getWordEmoji } from "@/lib/illustrations";
+import confetti from "canvas-confetti";
 
 interface Props {
   task: MultipleChoiceTask;
@@ -26,6 +27,16 @@ export default function MultipleChoice({ task, onComplete }: Props) {
 
     const newCorrectCount = optionIdx === question.correct ? correctCount + 1 : correctCount;
     setCorrectCount(newCorrectCount);
+
+    // Mini celebration for correct answer
+    if (optionIdx === question.correct) {
+      confetti({
+        particleCount: 25,
+        spread: 50,
+        origin: { y: 0.6 },
+        colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
+      });
+    }
 
     setTimeout(() => {
       if (currentQ < task.questions.length - 1) {

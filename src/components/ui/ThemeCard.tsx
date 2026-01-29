@@ -39,7 +39,7 @@ export default function ThemeCard({ theme, progress, index }: ThemeCardProps) {
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             />
             <div
-              className="absolute top-2 left-2 w-7 h-7 rounded-full flex items-center justify-center text-xs font-black text-white shadow-md"
+              className="absolute top-2 right-2 w-7 h-7 rounded-full flex items-center justify-center text-xs font-black text-white shadow-md"
               style={{ backgroundColor: theme.color }}
             >
               {index + 1}

@@ -3,7 +3,7 @@ import { Task } from "@/types/tasks";
 export const elMenjarTasks: Task[] = [
   // Task 1: Copy food words
   {
-    id: "menjar-1-copy",
+    id: "el-menjar-1",
     type: "copy-word",
     prompt: "Llegeix i copia els aliments:",
     words: [
@@ -22,42 +22,42 @@ export const elMenjarTasks: Task[] = [
     ],
   },
 
-  // Task 2: Fill in missing letters
+  // Task 2: Fill in missing letters (word=answer, hint=pattern)
   {
-    id: "menjar-2-fill-letters",
+    id: "el-menjar-2",
     type: "fill-letters",
     prompt: "Completa les lletres que falten:",
     words: [
-      { word: "p_ma", hint: "poma" },
-      { word: "p_r_", hint: "pera" },
-      { word: "pl_t_n", hint: "plàtan" },
-      { word: "t_ro_ja", hint: "taronja" },
-      { word: "m_du_xa", hint: "maduixa" },
-      { word: "tom_qu_t", hint: "tomàquet" },
-      { word: "pa_tan_ga", hint: "pastanaga" },
-      { word: "ll_t", hint: "llet" },
-      { word: "fo_mat_e", hint: "formatge" },
-      { word: "p_ix", hint: "peix" },
+      { word: "poma", hint: "p_ma" },
+      { word: "pera", hint: "p_r_" },
+      { word: "plàtan", hint: "pl_t_n" },
+      { word: "taronja", hint: "t_ro_ja" },
+      { word: "maduixa", hint: "m_du_xa" },
+      { word: "tomàquet", hint: "tom_qu_t" },
+      { word: "pastanaga", hint: "pa_tan_ga" },
+      { word: "llet", hint: "ll_t" },
+      { word: "formatge", hint: "fo_mat_e" },
+      { word: "peix", hint: "p_ix" },
     ],
   },
 
   // Task 3: Unscramble food words (exact anagrams)
   {
-    id: "menjar-3-unscramble",
+    id: "el-menjar-3",
     type: "unscramble",
     prompt: "Ordena les lletres per formar la paraula:",
     words: [
-      { scrambled: "AMOP", correct: "POMA" },       // P-O-M-A -> A-M-O-P
-      { scrambled: "REPA", correct: "PERA" },       // P-E-R-A -> R-E-P-A
-      { scrambled: "XPEI", correct: "PEIX" },       // P-E-I-X -> X-P-E-I
-      { scrambled: "ETLL", correct: "LLET" },       // L-L-E-T -> E-T-L-L
-      { scrambled: "BAEC", correct: "CEBA" },       // C-E-B-A -> B-A-E-C
+      { scrambled: "AMOP", correct: "POMA" },
+      { scrambled: "REPA", correct: "PERA" },
+      { scrambled: "XPEI", correct: "PEIX" },
+      { scrambled: "ETLL", correct: "LLET" },
+      { scrambled: "BAEC", correct: "CEBA" },
     ],
   },
 
   // Task 4: Match meals with foods
   {
-    id: "menjar-4-matching",
+    id: "el-menjar-4",
     type: "matching",
     prompt: "Relaciona cada àpat amb el que menges:",
     pairs: [
@@ -76,7 +76,7 @@ export const elMenjarTasks: Task[] = [
   //   LLET  - col 9, rows 0-3 (vertical)
   //   OU    - row 7, cols 6-7 (horizontal)
   {
-    id: "menjar-5-word-search",
+    id: "el-menjar-5",
     type: "word-search",
     prompt: "Troba les paraules a la sopa de lletres:",
     gridSize: 10,
@@ -97,7 +97,7 @@ export const elMenjarTasks: Task[] = [
 
   // Task 6: Classify fruit vs vegetable
   {
-    id: "menjar-6-classify",
+    id: "el-menjar-6",
     type: "classify-columns",
     prompt: "Classifica: fruita o verdura?",
     columns: [
@@ -120,7 +120,7 @@ export const elMenjarTasks: Task[] = [
 
   // Task 7: Fill in sentences about meals
   {
-    id: "menjar-7-fill-sentence",
+    id: "el-menjar-7",
     type: "fill-sentence",
     prompt: "Completa la frase:",
     sentences: [
@@ -149,7 +149,7 @@ export const elMenjarTasks: Task[] = [
 
   // Task 8: Multiple choice about food
   {
-    id: "menjar-8-multiple-choice",
+    id: "el-menjar-8",
     type: "multiple-choice",
     prompt: "Tria la resposta correcta:",
     questions: [
@@ -178,7 +178,7 @@ export const elMenjarTasks: Task[] = [
 
   // Task 9: Self-assessment with Serbian translations
   {
-    id: "menjar-9-self-assessment",
+    id: "el-menjar-9",
     type: "self-assessment",
     prompt: "Saps dir aquestes paraules en català?",
     items: [
@@ -190,6 +190,10 @@ export const elMenjarTasks: Task[] = [
       { catalan: "llet", translation: "mleko" },
       { catalan: "peix", translation: "riba" },
       { catalan: "ou", translation: "jaje" },
+      { catalan: "maduixa", translation: "jagoda" },
+      { catalan: "tomàquet", translation: "paradajz" },
+      { catalan: "formatge", translation: "sir" },
+      { catalan: "pastanaga", translation: "šargarepa" },
     ],
   },
 ];

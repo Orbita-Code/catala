@@ -24,31 +24,35 @@ export default function HomePage() {
 
   return (
     <div className="min-h-dvh pb-8">
-      <header className="relative overflow-hidden px-4 pt-4 pb-6 text-center">
-        <div className="flex justify-start mb-2">
-          <HamburgerMenu />
-        </div>
+      <header className="relative overflow-hidden px-4 pt-4 pb-6">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex flex-col items-center"
+          className="flex items-center gap-3"
         >
-          <StarCompanion
-            size="lg"
-            mood="happy"
-            animation="idle"
-            message="Hola! Vols jugar?"
-          />
-          <div className="mt-2">
+          {/* Left: Mascot with speech bubble */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <HamburgerMenu />
+            <StarCompanion
+              size="md"
+              mood="happy"
+              animation="idle"
+              message="Hola! Vols jugar?"
+            />
+          </div>
+
+          {/* Center: Title */}
+          <div className="flex-1 text-center">
+            <h1 className="text-3xl sm:text-4xl font-black text-[var(--primary)] leading-tight">
+              Aprenc Català
+            </h1>
+          </div>
+
+          {/* Right: Star counter */}
+          <div className="flex-shrink-0">
             <StarCounter count={totalStars} />
           </div>
-          <h1 className="mt-3 text-4xl font-black text-[var(--primary)]">
-            Català
-          </h1>
-          <p className="mt-1 text-base text-[var(--text-light)] font-semibold">
-            Aprèn jugant! 🎮
-          </p>
         </motion.div>
       </header>
 

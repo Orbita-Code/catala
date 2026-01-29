@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { WordSearchTask } from "@/types/tasks";
+import confetti from "canvas-confetti";
 
 interface Props {
   task: WordSearchTask;
@@ -72,6 +73,14 @@ export default function WordSearch({ task, onComplete }: Props) {
       const newCells = new Set(foundCells);
       selectedCells.forEach(([r, c]) => newCells.add(cellKey(r, c)));
       setFoundCells(newCells);
+
+      // Mini celebration for each found word
+      confetti({
+        particleCount: 20,
+        spread: 40,
+        origin: { y: 0.5 },
+        colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
+      });
 
       if (newFound.size === task.words.length) {
         setTimeout(() => onComplete(true), 1000);

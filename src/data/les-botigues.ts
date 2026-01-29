@@ -1,21 +1,21 @@
 import { Task } from "@/types/tasks";
 
-export const lesBotiguesToasks: Task[] = [
+export const lesBotiguesTasks: Task[] = [
   {
     id: "les-botigues-1",
     type: "copy-word",
     prompt: "Llegeix i copia les botigues:",
     words: [
       { catalan: "supermercat" },
-      { catalan: "forn" },
-      { catalan: "peixateria" },
       { catalan: "carnisseria" },
+      { catalan: "peixateria" },
       { catalan: "farmàcia" },
-      { catalan: "llibreria" },
+      { catalan: "forn" },
       { catalan: "pastisseria" },
       { catalan: "fruiteria" },
-      { catalan: "sabateria" },
       { catalan: "botiga de roba" },
+      { catalan: "joguineria" },
+      { catalan: "llibreria" },
     ],
   },
   {
@@ -31,7 +31,7 @@ export const lesBotiguesToasks: Task[] = [
       { word: "llibreria", hint: "ll_br_r_a" },
       { word: "pastisseria", hint: "p_st_ss_r_a" },
       { word: "fruiteria", hint: "fr__t_r_a" },
-      { word: "sabateria", hint: "s_b_t_r_a" },
+      { word: "joguineria", hint: "j_g__n_r_a" },
     ],
   },
   {
@@ -42,8 +42,8 @@ export const lesBotiguesToasks: Task[] = [
       { scrambled: "RNOF", correct: "FORN" },
       { scrambled: "ÀAMFCRIA", correct: "FARMÀCIA" },
       { scrambled: "ERIAUTFRI", correct: "FRUITERIA" },
-      { scrambled: "AIBSAATER", correct: "SABATERIA" },
       { scrambled: "RILLBEAIR", correct: "LLIBRERIA" },
+      { scrambled: "IEANRGJUOI", correct: "JOGUINERIA" },
     ],
   },
   {
@@ -84,11 +84,11 @@ export const lesBotiguesToasks: Task[] = [
     columns: [
       {
         title: "Menjar",
-        items: ["forn", "peixateria", "carnisseria", "pastisseria", "fruiteria"],
+        items: ["forn", "peixateria", "carnisseria", "pastisseria", "fruiteria", "supermercat"],
       },
       {
         title: "No menjar",
-        items: ["farmàcia", "llibreria", "sabateria", "botiga de roba"],
+        items: ["farmàcia", "llibreria", "joguineria", "botiga de roba"],
       },
     ],
     allItems: [
@@ -97,9 +97,10 @@ export const lesBotiguesToasks: Task[] = [
       "carnisseria",
       "pastisseria",
       "fruiteria",
+      "supermercat",
       "farmàcia",
       "llibreria",
-      "sabateria",
+      "joguineria",
       "botiga de roba",
     ],
   },
@@ -116,7 +117,7 @@ export const lesBotiguesToasks: Task[] = [
       {
         text: "Compro peix a la ___.",
         blank: "peixateria",
-        options: ["peixateria", "pastisseria", "sabateria"],
+        options: ["peixateria", "pastisseria", "joguineria"],
       },
       {
         text: "Compro fruita a la ___.",
@@ -124,9 +125,9 @@ export const lesBotiguesToasks: Task[] = [
         options: ["fruiteria", "carnisseria", "llibreria"],
       },
       {
-        text: "Compro sabates a la ___.",
-        blank: "sabateria",
-        options: ["sabateria", "farmàcia", "fruiteria"],
+        text: "Compro joguines a la ___.",
+        blank: "joguineria",
+        options: ["joguineria", "farmàcia", "fruiteria"],
       },
     ],
   },
@@ -137,7 +138,7 @@ export const lesBotiguesToasks: Task[] = [
     questions: [
       {
         question: "On comprem pa i pastissos?",
-        options: ["Al forn", "A la farmàcia", "A la llibreria", "A la sabateria"],
+        options: ["Al forn", "A la farmàcia", "A la llibreria", "A la joguineria"],
         correct: 0,
       },
       {
@@ -170,6 +171,8 @@ export const lesBotiguesToasks: Task[] = [
       { catalan: "llibreria", translation: "knjižara" },
       { catalan: "fruiteria", translation: "voćara" },
       { catalan: "pastisseria", translation: "poslastičarnica" },
+      { catalan: "joguineria", translation: "prodavnica igračaka" },
+      { catalan: "botiga de roba", translation: "prodavnica odeće" },
     ],
   },
 ];

@@ -3,7 +3,7 @@
 import { useState, useEffect, use } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, ArrowRight, Volume2, VolumeX } from "lucide-react";
+import { ArrowLeft, ArrowRight, Volume2, VolumeX, Home } from "lucide-react";
 import TaskRenderer from "@/components/tasks/TaskRenderer";
 import StarCompanion from "@/components/ui/StarCompanion";
 import { themes } from "@/data/themes";
@@ -13,7 +13,7 @@ import { elCosTasks } from "@/data/el-cos";
 import { laRobaTasks } from "@/data/la-roba";
 import { laCasaTasks } from "@/data/la-casa";
 import { laFamiliaTasks } from "@/data/la-familia";
-import { lesBotiguesToasks } from "@/data/les-botigues";
+import { lesBotiguesTasks } from "@/data/les-botigues";
 import { elMenjarTasks } from "@/data/el-menjar";
 import { elsAnimalsTasks } from "@/data/els-animals";
 import { laCiutatTasks } from "@/data/la-ciutat";
@@ -34,7 +34,7 @@ const taskData: Record<string, Task[]> = {
   "la-roba": laRobaTasks,
   "la-casa": laCasaTasks,
   "la-familia": laFamiliaTasks,
-  "les-botigues": lesBotiguesToasks,
+  "les-botigues": lesBotiguesTasks,
   "el-menjar": elMenjarTasks,
   "els-animals": elsAnimalsTasks,
   "la-ciutat": laCiutatTasks,
@@ -250,8 +250,9 @@ export default function TemaPage({
           <button
             onClick={() => router.push("/")}
             className="p-2 rounded-xl hover:bg-gray-100 transition-colors"
+            aria-label="Torna a l'inici"
           >
-            <ArrowLeft size={24} className="text-[var(--text)]" />
+            <Home size={24} className="text-[var(--text)]" />
           </button>
           <div className="flex-1">
             <div className="flex justify-between items-center mb-1">

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { MatchingTask } from "@/types/tasks";
 import { getWordEmoji } from "@/lib/illustrations";
+import confetti from "canvas-confetti";
 
 interface Props {
   task: MatchingTask;
@@ -47,6 +48,14 @@ export default function Matching({ task, onComplete }: Props) {
       setMatched(newMatched);
       setSelected(null);
       setWrongPair(null);
+
+      // Mini celebration for each correct match
+      confetti({
+        particleCount: 20,
+        spread: 40,
+        origin: { y: 0.6 },
+        colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
+      });
 
       if (newMatched.size === task.pairs.length) {
         setTimeout(() => onComplete(true), 800);

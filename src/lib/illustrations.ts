@@ -1,21 +1,30 @@
 // Emoji mapping for every Catalan word used in the app
 // Used to show visual representations alongside words in task components
+// IMPORTANT: Each emoji must visually match the workbook illustration
 
 export const wordEmoji: Record<string, string> = {
   // === LA CLASSE (Classroom) ===
   llapis: "✏️",
-  goma: "🧹",
+  goma: "",          // eraser — no emoji exists, broom was WRONG
   bolígraf: "🖊️",
   retolador: "🖍️",
   llibreta: "📓",
-  estoig: "🎒",
+  llibre: "📖",
+  carpeta: "🗂️",
+  estoig: "",        // pencil case — no emoji exists, backpack was WRONG
+  maquineta: "",     // pencil sharpener — no emoji exists
+  regle: "📏",
   motxilla: "🎒",
   tisores: "✂️",
-  cabell: "💇",
-  gomes: "🧹",
-  bolígrafs: "🖊️",
-  estoigs: "🎒",
-  "llapis (molts)": "✏️✏️",
+  pissarra: "",      // chalkboard — no emoji exists
+  guix: "",          // chalk — no emoji exists
+  borrador: "",      // board eraser — no emoji exists
+  paperera: "🗑️",
+  ordinador: "💻",
+  taula: "",         // desk — no emoji exists
+  cadira: "🪑",
+  porta: "🚪",
+  finestra: "🪟",
 
   // === L'ESCOLA (School) ===
   aula: "🏫",
@@ -24,13 +33,14 @@ export const wordEmoji: Record<string, string> = {
   menjador: "🍽️",
   gimnàs: "🏋️",
   despatx: "🗄️",
-  lavabo: "🚿",
+  lavabo: "🚻",
   passadís: "🚪",
-  entrada: "🚪",
+  entrada: "🏫",
   escales: "🪜",
   escola: "🏫",
 
   // === EL COS (Body) ===
+  cos: "🧍",
   cap: "🧠",
   ull: "👁️",
   ulls: "👀",
@@ -51,6 +61,7 @@ export const wordEmoji: Record<string, string> = {
   peu: "🦶",
   peus: "🦶🦶",
   boques: "👄",
+  cabell: "💇",
   veure: "👁️",
   escoltar: "👂",
   parlar: "🗣️",
@@ -58,21 +69,25 @@ export const wordEmoji: Record<string, string> = {
   tocar: "✋",
 
   // === LA ROBA (Clothing) ===
-  vestit: "👗",
+  texans: "👖",
   camisa: "👔",
   samarreta: "👕",
   jaqueta: "🧥",
-  pantalons: "👖",
-  sabates: "👟",
-  faldilla: "👗",
-  mitjons: "🧦",
-  botes: "👢",
   abric: "🧥",
-  barret: "🎩",
+  sabatilles: "👟",
+  pantalons: "👖",
+  vestit: "👗",
+  faldilla: "👗",
+  gorra: "🧢",
   bufanda: "🧣",
   guants: "🧤",
-  cinturó: "👔",
+  mitges: "🧦",
+  botes: "👢",
   pijama: "🛏️",
+  calcetins: "🧦",
+  sabates: "👞",
+  mitjons: "🧦",
+  barret: "🎩",
 
   // === LA CASA (House) ===
   cuina: "🍳",
@@ -97,8 +112,11 @@ export const wordEmoji: Record<string, string> = {
   tia: "👩",
   cosí: "👦",
   cosina: "👧",
-  fill: "👶",
-  filla: "👶",
+  fill: "👦",
+  filla: "👧",
+  bebè: "👶",
+  nebot: "👦",
+  neboda: "👧",
   home: "👨",
   dona: "👩",
   noi: "👦",
@@ -113,12 +131,14 @@ export const wordEmoji: Record<string, string> = {
   llibreria: "📖",
   pastisseria: "🍰",
   fruiteria: "🍎",
-  sabateria: "👟",
+  joguineria: "🧸",
   "botiga de roba": "👗",
+  sabateria: "👟",
   pa: "🍞",
   peix: "🐟",
   carn: "🥩",
   fruita: "🍎",
+  joguines: "🧸",
   medicaments: "💊",
   medicament: "💊",
 
@@ -155,13 +175,12 @@ export const wordEmoji: Record<string, string> = {
   lleó: "🦁",
   tigre: "🐯",
   elefant: "🐘",
-  ocell: "🐦",
+  ocell: "🦜",
   tortuga: "🐢",
   serp: "🐍",
   girafa: "🦒",
   dofí: "🐬",
   balena: "🐋",
-  flamenc: "🦩",
   hàmster: "🐹",
 
   // === LA CIUTAT (City) ===
@@ -218,7 +237,7 @@ export const wordEmoji: Record<string, string> = {
 
   // === Action verbs ===
   escriure: "✍️",
-  esborrar: "🧹",
+  esborrar: "",     // erasing — broom was WRONG
   tallar: "✂️",
   portar: "🎒",
   dibuixar: "🎨",

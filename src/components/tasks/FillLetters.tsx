@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FillLettersTask } from "@/types/tasks";
 import { getWordEmoji } from "@/lib/illustrations";
+import confetti from "canvas-confetti";
 
 interface Props {
   task: FillLettersTask;
@@ -103,6 +104,13 @@ export default function FillLetters({ task, onComplete }: Props) {
     setResults(newResults);
     setChecked(true);
     if (allCorrect) {
+      // Celebration confetti
+      confetti({
+        particleCount: 30,
+        spread: 50,
+        origin: { y: 0.6 },
+        colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
+      });
       setTimeout(() => onComplete(true), 1200);
     }
   };

@@ -12,8 +12,8 @@ export const laCasaTasks: Task[] = [
       { catalan: "habitació" },
       { catalan: "bany" },
       { catalan: "escala" },
-      { catalan: "terrat" },
       { catalan: "jardí" },
+      { catalan: "terrat" },
       { catalan: "balcó" },
       { catalan: "garatge" },
     ],
@@ -168,6 +168,8 @@ export const laCasaTasks: Task[] = [
       { catalan: "escala", translation: "stepenice" },
       { catalan: "balcó", translation: "balkon" },
       { catalan: "entrada", translation: "ulaz" },
+      { catalan: "terrat", translation: "terasa" },
+      { catalan: "garatge", translation: "garaža" },
     ],
   },
 ];

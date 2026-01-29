@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FillSentenceTask } from "@/types/tasks";
+import confetti from "canvas-confetti";
 
 interface Props {
   task: FillSentenceTask;
@@ -30,6 +31,13 @@ export default function FillSentence({ task, onComplete }: Props) {
     setResults(newResults);
     setChecked(true);
     if (allCorrect) {
+      // Celebration confetti
+      confetti({
+        particleCount: 30,
+        spread: 50,
+        origin: { y: 0.6 },
+        colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
+      });
       setTimeout(() => onComplete(true), 1200);
     }
   };

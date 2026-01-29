@@ -6,6 +6,7 @@ import { UnscrambleTask } from "@/types/tasks";
 import { getWordEmoji } from "@/lib/illustrations";
 import LetterTile from "@/components/ui/LetterTile";
 import SlotRow from "@/components/ui/SlotRow";
+import confetti from "canvas-confetti";
 
 interface Props {
   task: UnscrambleTask;
@@ -65,6 +66,14 @@ export default function Unscramble({ task, onComplete }: Props) {
     setCorrect(isCorrect);
 
     if (isCorrect) {
+      // Mini celebration for each correct word
+      confetti({
+        particleCount: 25,
+        spread: 50,
+        origin: { y: 0.6 },
+        colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
+      });
+
       setTimeout(() => {
         if (currentIdx < task.words.length - 1) {
           const nextIdx = currentIdx + 1;

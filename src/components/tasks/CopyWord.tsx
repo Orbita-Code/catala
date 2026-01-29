@@ -7,6 +7,7 @@ import { getWordEmoji } from "@/lib/illustrations";
 import LetterTile from "@/components/ui/LetterTile";
 import SlotRow from "@/components/ui/SlotRow";
 import SpeakerButton from "@/components/ui/SpeakerButton";
+import confetti from "canvas-confetti";
 
 interface Props {
   task: CopyWordTask;
@@ -80,6 +81,15 @@ export default function CopyWord({ task, onComplete }: Props) {
     if (isCorrect) {
       const newCount = completedCount + 1;
       setCompletedCount(newCount);
+
+      // Mini celebration for each correct word
+      confetti({
+        particleCount: 25,
+        spread: 50,
+        origin: { y: 0.6 },
+        colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
+      });
+
       setTimeout(() => {
         if (currentWordIdx < task.words.length - 1) {
           const nextIdx = currentWordIdx + 1;
