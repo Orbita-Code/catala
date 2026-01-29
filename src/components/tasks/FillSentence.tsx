@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FillSentenceTask } from "@/types/tasks";
+import { FillSentenceTask, TaskResult } from "@/types/tasks";
 import confetti from "canvas-confetti";
 
 interface Props {
   task: FillSentenceTask;
-  onComplete: (correct: boolean) => void;
+  onComplete: (result: TaskResult) => void;
 }
 
 export default function FillSentence({ task, onComplete }: Props) {
@@ -38,7 +38,7 @@ export default function FillSentence({ task, onComplete }: Props) {
         origin: { y: 0.6 },
         colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
       });
-      setTimeout(() => onComplete(true), 1200);
+      setTimeout(() => onComplete({ allCorrect: true, erroredItems: [] }), 1200);
     }
   };
 

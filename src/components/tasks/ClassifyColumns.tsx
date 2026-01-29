@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ClassifyColumnsTask } from "@/types/tasks";
+import { ClassifyColumnsTask, TaskResult } from "@/types/tasks";
 import { getWordEmoji } from "@/lib/illustrations";
 import confetti from "canvas-confetti";
 
 interface Props {
   task: ClassifyColumnsTask;
-  onComplete: (correct: boolean) => void;
+  onComplete: (result: TaskResult) => void;
 }
 
 function shuffleArray<T>(arr: T[]): T[] {
@@ -66,7 +66,7 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
         });
         setShowResults(true);
         if (allCorrect) {
-          setTimeout(() => onComplete(true), 1200);
+          setTimeout(() => onComplete({ allCorrect: true, erroredItems: [] }), 1200);
         }
       }
     }, 800);

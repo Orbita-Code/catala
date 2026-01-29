@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { LabelImageTask } from "@/types/tasks";
+import { LabelImageTask, TaskResult } from "@/types/tasks";
 import { getWordEmoji } from "@/lib/illustrations";
 import SpeakerButton from "@/components/ui/SpeakerButton";
 
 interface Props {
   task: LabelImageTask;
-  onComplete: (correct: boolean) => void;
+  onComplete: (result: TaskResult) => void;
 }
 
 export default function LabelImage({ task, onComplete }: Props) {
@@ -61,7 +61,7 @@ export default function LabelImage({ task, onComplete }: Props) {
     setResults(newResults);
     setChecked(true);
     if (allCorrect) {
-      setTimeout(() => onComplete(true), 1200);
+      setTimeout(() => onComplete({ allCorrect: true, erroredItems: [] }), 1200);
     }
   };
 

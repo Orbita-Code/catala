@@ -1,17 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CopyWordTask } from "@/types/tasks";
+import type { TaskResult } from "@/types/tasks";
 import { getWordEmoji } from "@/lib/illustrations";
 import LetterTile from "@/components/ui/LetterTile";
 import SlotRow from "@/components/ui/SlotRow";
 import SpeakerButton from "@/components/ui/SpeakerButton";
+import HintDialog from "@/components/ui/HintDialog";
+import { useHintSystem } from "@/hooks/useHintSystem";
+import { speak } from "@/lib/tts";
+import { ArrowLeft } from "lucide-react";
 import confetti from "canvas-confetti";
 
 interface Props {
   task: CopyWordTask;
-  onComplete: (correct: boolean) => void;
+  onComplete: (result: TaskResult) => void;
 }
 
 function shuffleArray<T>(arr: T[]): T[] {
@@ -34,9 +39,17 @@ export default function CopyWord({ task, onComplete }: Props) {
   const [checked, setChecked] = useState(false);
   const [correct, setCorrect] = useState<boolean | null>(null);
   const [completedCount, setCompletedCount] = useState(0);
+  const hints = useHintSystem();
 
   const currentWord = task.words[currentWordIdx];
   const activeSlotIdx = slots.findIndex((s) => s === null);
+
+  // When hint is accepted, play TTS
+  useEffect(() => {
+    if (hints.showHint && hints.hintItemId) {
+      speak(hints.hintItemId);
+    }
+  }, [hints.showHint, hints.hintItemId]);
 
   const handleLetterTap = (bankIdx: number) => {
     if (checked || bank[bankIdx].used) return;
@@ -57,7 +70,6 @@ export default function CopyWord({ task, onComplete }: Props) {
     const letter = slots[slotIdx]!;
     const newSlots = [...slots];
     newSlots[slotIdx] = null;
-    // Shift remaining filled slots left
     const filled = newSlots.filter((s) => s !== null);
     const result = [...filled, ...Array(newSlots.length - filled.length).fill(null)];
     setSlots(result);
@@ -72,6 +84,23 @@ export default function CopyWord({ task, onComplete }: Props) {
 
   const allFilled = slots.every((s) => s !== null);
 
+  const moveToNext = () => {
+    if (currentWordIdx < task.words.length - 1) {
+      const nextIdx = currentWordIdx + 1;
+      const nextWord = task.words[nextIdx];
+      setCurrentWordIdx(nextIdx);
+      setSlots(Array(nextWord.catalan.length).fill(null));
+      setBank(shuffleArray(nextWord.catalan.split("")).map((l) => ({ letter: l, used: false })));
+      setChecked(false);
+      setCorrect(null);
+    } else {
+      onComplete({
+        allCorrect: hints.erroredItems.length === 0,
+        erroredItems: hints.erroredItems,
+      });
+    }
+  };
+
   const handleCheck = () => {
     const answer = slots.join("").toLowerCase();
     const isCorrect = answer === currentWord.catalan.toLowerCase();
@@ -81,8 +110,8 @@ export default function CopyWord({ task, onComplete }: Props) {
     if (isCorrect) {
       const newCount = completedCount + 1;
       setCompletedCount(newCount);
+      hints.dismissHint();
 
-      // Mini celebration for each correct word
       confetti({
         particleCount: 25,
         spread: 50,
@@ -90,19 +119,9 @@ export default function CopyWord({ task, onComplete }: Props) {
         colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
       });
 
-      setTimeout(() => {
-        if (currentWordIdx < task.words.length - 1) {
-          const nextIdx = currentWordIdx + 1;
-          const nextWord = task.words[nextIdx];
-          setCurrentWordIdx(nextIdx);
-          setSlots(Array(nextWord.catalan.length).fill(null));
-          setBank(shuffleArray(nextWord.catalan.split("")).map((l) => ({ letter: l, used: false })));
-          setChecked(false);
-          setCorrect(null);
-        } else {
-          onComplete(true);
-        }
-      }, 1000);
+      setTimeout(() => moveToNext(), 1000);
+    } else {
+      hints.recordWrongAttempt(currentWord.catalan);
     }
   };
 
@@ -113,11 +132,39 @@ export default function CopyWord({ task, onComplete }: Props) {
     setCorrect(null);
   };
 
+  const handleSkip = () => {
+    hints.skipItem(currentWord.catalan);
+    setTimeout(() => moveToNext(), 300);
+  };
+
   return (
     <div className="space-y-5">
-      {/* Progress */}
-      <div className="text-sm text-[var(--text-light)] text-center">
-        {currentWordIdx + 1} / {task.words.length}
+      <HintDialog
+        visible={hints.showHintDialog}
+        onAccept={hints.acceptHint}
+        onDecline={hints.declineHint}
+      />
+
+      {/* Progress with back arrow */}
+      <div className="flex items-center justify-center gap-3 text-sm text-[var(--text-light)]">
+        {currentWordIdx > 0 && (
+          <button
+            onClick={() => {
+              const prevIdx = currentWordIdx - 1;
+              const prevWord = task.words[prevIdx];
+              setCurrentWordIdx(prevIdx);
+              setSlots(Array(prevWord.catalan.length).fill(null));
+              setBank(shuffleArray(prevWord.catalan.split("")).map((l) => ({ letter: l, used: false })));
+              setChecked(false);
+              setCorrect(null);
+            }}
+            className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
+            aria-label="Anterior"
+          >
+            <ArrowLeft size={18} />
+          </button>
+        )}
+        <span>{currentWordIdx + 1} / {task.words.length}</span>
       </div>
 
       <motion.div
@@ -142,6 +189,17 @@ export default function CopyWord({ task, onComplete }: Props) {
           </p>
         </div>
 
+        {/* Hint: highlight next slot with golden glow */}
+        {hints.showHint && hints.hintItemId === currentWord.catalan && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center text-sm font-semibold text-amber-600 mb-2"
+          >
+            💡 Fixa&apos;t en l&apos;ordre de les lletres!
+          </motion.p>
+        )}
+
         {/* Slots */}
         <div className="flex justify-center mb-5">
           <SlotRow
@@ -165,8 +223,8 @@ export default function CopyWord({ task, onComplete }: Props) {
           ))}
         </div>
 
-        {/* Check / Retry buttons */}
-        <div className="flex justify-center">
+        {/* Check / Retry / Skip buttons */}
+        <div className="flex justify-center gap-3">
           {!checked ? (
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -178,14 +236,27 @@ export default function CopyWord({ task, onComplete }: Props) {
               Comprova!
             </motion.button>
           ) : !correct ? (
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleRetry}
-              className="px-8 py-3 bg-[var(--secondary)] text-white font-bold rounded-2xl text-lg shadow-md"
-            >
-              Torna a provar!
-            </motion.button>
+            <>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleRetry}
+                className="px-6 py-3 bg-[var(--secondary)] text-white font-bold rounded-2xl text-lg shadow-md"
+              >
+                Torna a provar!
+              </motion.button>
+              {hints.canSkip(currentWord.catalan) && (
+                <motion.button
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleSkip}
+                  className="px-6 py-3 bg-gray-200 text-[var(--text-light)] font-bold rounded-2xl text-lg"
+                >
+                  Salta →
+                </motion.button>
+              )}
+            </>
           ) : null}
         </div>
       </motion.div>

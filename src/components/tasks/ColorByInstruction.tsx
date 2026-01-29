@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ColorByInstructionTask } from "@/types/tasks";
+import { ColorByInstructionTask, TaskResult } from "@/types/tasks";
 
 interface Props {
   task: ColorByInstructionTask;
-  onComplete: (correct: boolean) => void;
+  onComplete: (result: TaskResult) => void;
 }
 
 const PALETTE = [
@@ -47,7 +47,7 @@ export default function ColorByInstruction({ task, onComplete }: Props) {
     setResults(newResults);
     setChecked(true);
     if (allCorrect) {
-      setTimeout(() => onComplete(true), 1200);
+      setTimeout(() => onComplete({ allCorrect: true, erroredItems: [] }), 1200);
     }
   };
 

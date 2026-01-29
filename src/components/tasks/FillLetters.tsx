@@ -2,13 +2,13 @@
 
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FillLettersTask } from "@/types/tasks";
+import { FillLettersTask, TaskResult } from "@/types/tasks";
 import { getWordEmoji } from "@/lib/illustrations";
 import confetti from "canvas-confetti";
 
 interface Props {
   task: FillLettersTask;
-  onComplete: (correct: boolean) => void;
+  onComplete: (result: TaskResult) => void;
 }
 
 // Generate letter options for a blank position: correct letter + distractors
@@ -111,7 +111,7 @@ export default function FillLetters({ task, onComplete }: Props) {
         origin: { y: 0.6 },
         colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
       });
-      setTimeout(() => onComplete(true), 1200);
+      setTimeout(() => onComplete({ allCorrect: true, erroredItems: [] }), 1200);
     }
   };
 

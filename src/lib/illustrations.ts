@@ -7,12 +7,12 @@ export const wordEmoji: Record<string, string> = {
   llapis: "✏️",
   goma: "",          // eraser — no emoji exists, broom was WRONG
   bolígraf: "🖊️",
-  retolador: "🖍️",
+  retolador: "🖊️",
   llibreta: "📓",
   llibre: "📖",
   carpeta: "🗂️",
-  estoig: "",        // pencil case — no emoji exists, backpack was WRONG
-  maquineta: "",     // pencil sharpener — no emoji exists
+  estoig: "✏️",       // pencil case — using pencil as closest visual
+  maquineta: "✏️",    // pencil sharpener — using pencil as closest visual
   regle: "📏",
   motxilla: "🎒",
   tisores: "✂️",

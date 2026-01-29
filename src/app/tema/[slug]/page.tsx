@@ -19,10 +19,10 @@ import { elsAnimalsTasks } from "@/data/els-animals";
 import { laCiutatTasks } from "@/data/la-ciutat";
 import { elsVehiclesTasks } from "@/data/els-vehicles";
 import { elsOficisTasks } from "@/data/els-oficis";
-import { getThemeProgress, completeTask } from "@/lib/progress";
+import { getThemeProgress, completeTask, isThemeFullyComplete } from "@/lib/progress";
 import { getEncouragement } from "@/lib/encouragement";
 import type { StarMood } from "@/lib/encouragement";
-import { Task } from "@/types/tasks";
+import { Task, TaskResult } from "@/types/tasks";
 import { getThemeScene } from "@/lib/theme-illustrations";
 import confetti from "canvas-confetti";
 import { initAudio, isMuted, toggleMute, playCorrect, playWrong, playCombo, playThemeComplete } from "@/lib/audio";
@@ -108,19 +108,19 @@ export default function TemaPage({
   const currentTask = tasks[currentTaskIndex];
   const progress = ((currentTaskIndex + 1) / tasks.length) * 100;
 
-  const handleTaskComplete = (correct: boolean) => {
-    const result = completeTask(slug, currentTask.id, correct);
-    setStreak(result.streak);
+  const handleTaskComplete = (taskResult: TaskResult) => {
+    const progressResult = completeTask(slug, currentTask.id, taskResult);
+    setStreak(progressResult.streak);
 
-    if (correct) {
-      if (result.streak > 1) {
+    if (taskResult.allCorrect) {
+      if (progressResult.streak > 1) {
         playCombo();
       } else {
         playCorrect();
       }
       const enc =
-        result.streak > 1
-          ? getEncouragement("streak", result.streak)
+        progressResult.streak > 1
+          ? getEncouragement("streak", progressResult.streak)
           : getEncouragement("correct");
       setFeedbackMessage(enc.text);
       setFeedbackMood("happy");
@@ -151,13 +151,42 @@ export default function TemaPage({
         setFeedbackMessage(null);
         setStarAnimation("idle");
         setShowCelebration(true);
-        playThemeComplete();
-        confetti({
-          particleCount: 200,
-          spread: 120,
-          origin: { y: 0.5 },
-          colors: [theme.color, "#FDCB6E", "#00CECE", "#00B894"],
-        });
+
+        const fullyComplete = isThemeFullyComplete(slug, tasks.length);
+        if (fullyComplete) {
+          playThemeComplete();
+          // Multiple confetti waves for perfect completion
+          confetti({
+            particleCount: 200,
+            spread: 120,
+            origin: { y: 0.5 },
+            colors: [theme.color, "#FDCB6E", "#00CECE", "#00B894"],
+          });
+          setTimeout(() => {
+            confetti({
+              particleCount: 100,
+              spread: 90,
+              origin: { x: 0.2, y: 0.6 },
+              colors: [theme.color, "#FDCB6E"],
+            });
+          }, 500);
+          setTimeout(() => {
+            confetti({
+              particleCount: 100,
+              spread: 90,
+              origin: { x: 0.8, y: 0.6 },
+              colors: ["#00CECE", "#00B894"],
+            });
+          }, 1000);
+        } else {
+          playCorrect();
+          confetti({
+            particleCount: 50,
+            spread: 60,
+            origin: { y: 0.5 },
+            colors: [theme.color, "#FDCB6E"],
+          });
+        }
       }, 2000);
     }
   };
@@ -165,6 +194,7 @@ export default function TemaPage({
   if (showCelebration) {
     const nextTheme =
       themeIndex < themes.length - 1 ? themes[themeIndex + 1] : null;
+    const fullyComplete = isThemeFullyComplete(slug, tasks.length);
 
     return (
       <motion.div
@@ -178,7 +208,11 @@ export default function TemaPage({
           transition={{ type: "spring", damping: 10 }}
           className="relative"
         >
-          <StarCompanion size="xl" mood="loving" animation="dance" />
+          <StarCompanion
+            size="xl"
+            mood={fullyComplete ? "loving" : "happy"}
+            animation={fullyComplete ? "dance" : "bounce"}
+          />
         </motion.div>
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
@@ -186,7 +220,7 @@ export default function TemaPage({
           transition={{ delay: 0.3 }}
           className="text-3xl font-black text-[var(--text)]"
         >
-          Fantàstic! 🏆
+          {fullyComplete ? "Perfecte! 🏆🎉" : "Molt bé! 👏"}
         </motion.h1>
         <motion.p
           initial={{ opacity: 0 }}
@@ -207,12 +241,36 @@ export default function TemaPage({
           </p>
           <p className="text-lg">🔥 Millor ratxa: {streak}</p>
         </motion.div>
+        {!fullyComplete && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8 }}
+            className="bg-yellow-50 rounded-2xl p-4 max-w-xs border border-yellow-200"
+          >
+            <p className="text-sm font-semibold text-yellow-800">
+              Algunes tasques tenen errors. Repeteix el tema per aconseguir la celebració completa! 🌟
+            </p>
+          </motion.div>
+        )}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9 }}
           className="flex flex-col gap-3 w-full max-w-xs mt-4"
         >
+          {!fullyComplete && (
+            <button
+              onClick={() => {
+                setCurrentTaskIndex(0);
+                setShowCelebration(false);
+              }}
+              className="w-full py-3 text-white font-bold rounded-2xl text-lg"
+              style={{ backgroundColor: theme.color }}
+            >
+              Repeteix per millorar! 💪
+            </button>
+          )}
           {nextTheme && (
             <button
               onClick={() => router.push(`/tema/${nextTheme.slug}`)}
@@ -228,15 +286,17 @@ export default function TemaPage({
           >
             Torna a l&apos;inici
           </button>
-          <button
-            onClick={() => {
-              setCurrentTaskIndex(0);
-              setShowCelebration(false);
-            }}
-            className="w-full py-3 bg-gray-100 text-[var(--text)] font-bold rounded-2xl text-lg"
-          >
-            Repeteix el tema
-          </button>
+          {fullyComplete && (
+            <button
+              onClick={() => {
+                setCurrentTaskIndex(0);
+                setShowCelebration(false);
+              }}
+              className="w-full py-3 bg-gray-100 text-[var(--text)] font-bold rounded-2xl text-lg"
+            >
+              Repeteix el tema
+            </button>
+          )}
         </motion.div>
       </motion.div>
     );

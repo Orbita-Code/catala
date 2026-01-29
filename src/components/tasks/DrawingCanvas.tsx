@@ -11,7 +11,7 @@ interface DrawingCanvasTask {
 
 interface Props {
   task: DrawingCanvasTask;
-  onComplete: (correct: boolean) => void;
+  onComplete: (result: { allCorrect: boolean; erroredItems: string[] }) => void;
 }
 
 const COLORS = [
@@ -172,7 +172,7 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => onComplete(true)}
+          onClick={() => onComplete({ allCorrect: true, erroredItems: [] })}
           disabled={!hasDrawn}
           className="px-8 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg disabled:opacity-40 shadow-[0_4px_12px_rgba(108,92,231,0.3)]"
         >

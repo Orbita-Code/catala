@@ -1,6 +1,6 @@
 "use client";
 
-import { UserProgress } from "@/types/tasks";
+import { UserProgress, TaskResult } from "@/types/tasks";
 
 const STORAGE_KEY = "catala-progress";
 
@@ -23,6 +23,7 @@ export function getThemeProgress(slug: string) {
       streak: 0,
       bestStreak: 0,
       stars: 0,
+      taskErrors: {},
     }
   );
 }
@@ -37,14 +38,26 @@ export function saveThemeProgress(
   localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
 }
 
-export function completeTask(slug: string, taskId: string, correct: boolean) {
+export function completeTask(
+  slug: string,
+  taskId: string,
+  result: TaskResult
+) {
   const current = getThemeProgress(slug);
   const completedTasks = current.completedTasks.includes(taskId)
     ? current.completedTasks
     : [...current.completedTasks, taskId];
-  const streak = correct ? current.streak + 1 : 0;
+  const streak = result.allCorrect ? current.streak + 1 : 0;
   const bestStreak = Math.max(streak, current.bestStreak);
   const stars = completedTasks.length;
+
+  // Track errors per task
+  const taskErrors = { ...(current.taskErrors || {}) };
+  if (result.erroredItems.length > 0) {
+    taskErrors[taskId] = result.erroredItems;
+  } else {
+    delete taskErrors[taskId];
+  }
 
   saveThemeProgress(slug, {
     currentTask: current.currentTask + 1,
@@ -52,7 +65,21 @@ export function completeTask(slug: string, taskId: string, correct: boolean) {
     streak,
     bestStreak,
     stars,
+    taskErrors,
   });
 
-  return { streak, bestStreak, stars, completedTasks };
+  return { streak, bestStreak, stars, completedTasks, hasErrors: Object.keys(taskErrors).length > 0 };
+}
+
+export function isThemeFullyComplete(slug: string, totalTasks: number): boolean {
+  const progress = getThemeProgress(slug);
+  return (
+    progress.completedTasks.length >= totalTasks &&
+    Object.keys(progress.taskErrors || {}).length === 0
+  );
+}
+
+export function getThemeErrors(slug: string): Record<string, string[]> {
+  const progress = getThemeProgress(slug);
+  return progress.taskErrors || {};
 }

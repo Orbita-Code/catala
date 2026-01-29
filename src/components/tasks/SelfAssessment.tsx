@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { SelfAssessmentTask } from "@/types/tasks";
+import { SelfAssessmentTask, TaskResult } from "@/types/tasks";
 import { getWordEmoji } from "@/lib/illustrations";
 import SpeakerButton from "@/components/ui/SpeakerButton";
 
 interface Props {
   task: SelfAssessmentTask;
-  onComplete: (correct: boolean) => void;
+  onComplete: (result: TaskResult) => void;
 }
 
 export default function SelfAssessment({ task, onComplete }: Props) {
@@ -87,7 +87,7 @@ export default function SelfAssessment({ task, onComplete }: Props) {
             animate={{ opacity: 1, y: 0 }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => onComplete(true)}
+            onClick={() => onComplete({ allCorrect: true, erroredItems: [] })}
             className="px-8 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg shadow-[0_4px_12px_rgba(108,92,231,0.3)]"
           >
             Continua!

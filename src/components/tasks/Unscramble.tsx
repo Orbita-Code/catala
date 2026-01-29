@@ -2,15 +2,16 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { UnscrambleTask } from "@/types/tasks";
+import { UnscrambleTask, TaskResult } from "@/types/tasks";
 import { getWordEmoji } from "@/lib/illustrations";
 import LetterTile from "@/components/ui/LetterTile";
 import SlotRow from "@/components/ui/SlotRow";
+import { ArrowLeft } from "lucide-react";
 import confetti from "canvas-confetti";
 
 interface Props {
   task: UnscrambleTask;
-  onComplete: (correct: boolean) => void;
+  onComplete: (result: TaskResult) => void;
 }
 
 export default function Unscramble({ task, onComplete }: Props) {
@@ -84,7 +85,7 @@ export default function Unscramble({ task, onComplete }: Props) {
           setChecked(false);
           setCorrect(null);
         } else {
-          onComplete(true);
+          onComplete({ allCorrect: true, erroredItems: [] });
         }
       }, 1000);
     }
@@ -99,8 +100,25 @@ export default function Unscramble({ task, onComplete }: Props) {
 
   return (
     <div className="space-y-5">
-      <div className="text-sm text-[var(--text-light)] text-center">
-        {currentIdx + 1} / {task.words.length}
+      <div className="flex items-center justify-center gap-3 text-sm text-[var(--text-light)]">
+        {currentIdx > 0 && (
+          <button
+            onClick={() => {
+              const prevIdx = currentIdx - 1;
+              const prevWord = task.words[prevIdx];
+              setCurrentIdx(prevIdx);
+              setSlots(Array(prevWord.correct.length).fill(null));
+              setBank(prevWord.scrambled.split("").map((l) => ({ letter: l, used: false })));
+              setChecked(false);
+              setCorrect(null);
+            }}
+            className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
+            aria-label="Anterior"
+          >
+            <ArrowLeft size={18} />
+          </button>
+        )}
+        <span>{currentIdx + 1} / {task.words.length}</span>
       </div>
 
       <motion.div

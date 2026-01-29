@@ -2,12 +2,12 @@
 
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { WordSearchTask } from "@/types/tasks";
+import { WordSearchTask, TaskResult } from "@/types/tasks";
 import confetti from "canvas-confetti";
 
 interface Props {
   task: WordSearchTask;
-  onComplete: (correct: boolean) => void;
+  onComplete: (result: TaskResult) => void;
 }
 
 export default function WordSearch({ task, onComplete }: Props) {
@@ -83,7 +83,7 @@ export default function WordSearch({ task, onComplete }: Props) {
       });
 
       if (newFound.size === task.words.length) {
-        setTimeout(() => onComplete(true), 1000);
+        setTimeout(() => onComplete({ allCorrect: true, erroredItems: [] }), 1000);
       }
     }
     setSelectedCells([]);

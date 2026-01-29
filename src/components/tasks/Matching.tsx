@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { MatchingTask } from "@/types/tasks";
+import { MatchingTask, TaskResult } from "@/types/tasks";
 import { getWordEmoji } from "@/lib/illustrations";
 import confetti from "canvas-confetti";
 
 interface Props {
   task: MatchingTask;
-  onComplete: (correct: boolean) => void;
+  onComplete: (result: TaskResult) => void;
 }
 
 export default function Matching({ task, onComplete }: Props) {
@@ -58,7 +58,7 @@ export default function Matching({ task, onComplete }: Props) {
       });
 
       if (newMatched.size === task.pairs.length) {
-        setTimeout(() => onComplete(true), 800);
+        setTimeout(() => onComplete({ allCorrect: true, erroredItems: [] }), 800);
       }
     } else {
       setWrongPair({ left: leftIdx, right: rightDisplayIdx });

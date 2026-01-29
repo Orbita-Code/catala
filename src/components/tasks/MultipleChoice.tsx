@@ -2,20 +2,20 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { MultipleChoiceTask } from "@/types/tasks";
+import { MultipleChoiceTask, TaskResult } from "@/types/tasks";
 import { getWordEmoji } from "@/lib/illustrations";
 import confetti from "canvas-confetti";
 
 interface Props {
   task: MultipleChoiceTask;
-  onComplete: (correct: boolean) => void;
+  onComplete: (result: TaskResult) => void;
 }
 
 export default function MultipleChoice({ task, onComplete }: Props) {
   const [currentQ, setCurrentQ] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
-  const [correctCount, setCorrectCount] = useState(0);
+  const [wrongQuestions, setWrongQuestions] = useState<string[]>([]);
 
   const question = task.questions[currentQ];
   const isCorrect = selected === question.correct;
@@ -25,11 +25,12 @@ export default function MultipleChoice({ task, onComplete }: Props) {
     setSelected(optionIdx);
     setShowResult(true);
 
-    const newCorrectCount = optionIdx === question.correct ? correctCount + 1 : correctCount;
-    setCorrectCount(newCorrectCount);
+    const isRight = optionIdx === question.correct;
+    const newWrong = isRight ? wrongQuestions : [...wrongQuestions, question.question];
+    if (!isRight) setWrongQuestions(newWrong);
 
     // Mini celebration for correct answer
-    if (optionIdx === question.correct) {
+    if (isRight) {
       confetti({
         particleCount: 25,
         spread: 50,
@@ -44,7 +45,10 @@ export default function MultipleChoice({ task, onComplete }: Props) {
         setSelected(null);
         setShowResult(false);
       } else {
-        onComplete(newCorrectCount === task.questions.length);
+        onComplete({
+          allCorrect: newWrong.length === 0,
+          erroredItems: newWrong,
+        });
       }
     }, 1200);
   };

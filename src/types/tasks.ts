@@ -115,6 +115,11 @@ export interface Theme {
   tasks: Task[];
 }
 
+export interface TaskResult {
+  allCorrect: boolean;
+  erroredItems: string[];
+}
+
 export interface UserProgress {
   [themeSlug: string]: {
     currentTask: number;
@@ -122,5 +127,6 @@ export interface UserProgress {
     streak: number;
     bestStreak: number;
     stars: number;
+    taskErrors?: Record<string, string[]>;
   };
 }

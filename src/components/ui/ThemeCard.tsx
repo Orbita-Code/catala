@@ -35,7 +35,7 @@ export default function ThemeCard({ theme, progress, index }: ThemeCardProps) {
               src={`/covers/${theme.slug}.png`}
               alt={theme.name}
               fill
-              className="object-cover"
+              className="object-cover scale-110"
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             />
             <div
@@ -50,11 +50,7 @@ export default function ThemeCard({ theme, progress, index }: ThemeCardProps) {
           </div>
 
           {/* Card info */}
-          <div className="p-3 flex flex-col gap-2">
-            <h3 className="text-sm font-bold text-[var(--text)] text-center leading-tight">
-              {theme.name}
-            </h3>
-
+          <div className="p-2.5 flex flex-col gap-1.5">
             <div className="w-full">
               <div className="flex justify-between text-[10px] text-[var(--text-light)] mb-1">
                 <span>

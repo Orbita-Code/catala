@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { Task } from "@/types/tasks";
+import { Task, TaskResult } from "@/types/tasks";
 
 const CopyWord = dynamic(() => import("./CopyWord"));
 const FillLetters = dynamic(() => import("./FillLetters"));
@@ -18,7 +18,7 @@ const DrawingCanvas = dynamic(() => import("./DrawingCanvas"));
 
 interface TaskRendererProps {
   task: Task;
-  onComplete: (correct: boolean) => void;
+  onComplete: (result: TaskResult) => void;
 }
 
 export default function TaskRenderer({ task, onComplete }: TaskRendererProps) {
