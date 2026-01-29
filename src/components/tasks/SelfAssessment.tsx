@@ -40,7 +40,7 @@ export default function SelfAssessment({ task, onComplete }: Props) {
           <div className="flex items-center justify-between mb-2">
             <span className="flex items-center gap-2">
               {getWordEmoji(item.catalan) && <span className="text-2xl">{getWordEmoji(item.catalan)}</span>}
-              <span className="text-lg font-bold text-[var(--primary)]">{item.catalan}</span>
+              <span className="text-xl font-bold text-[var(--primary)] font-handwriting">{item.catalan}</span>
               <SpeakerButton text={item.catalan} size={16} />
             </span>
             {revealed.has(i) ? (

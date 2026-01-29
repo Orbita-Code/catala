@@ -196,7 +196,7 @@ export default function FillLetters({ task, onComplete }: Props) {
                     return (
                       <span
                         key={charIdx}
-                        className="w-10 h-10 flex items-center justify-center text-xl font-bold text-[var(--text)]"
+                        className="w-10 h-10 flex items-center justify-center text-xl font-bold text-[var(--text)] font-handwriting"
                       >
                         {char}
                       </span>

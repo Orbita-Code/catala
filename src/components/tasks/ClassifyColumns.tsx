@@ -101,7 +101,7 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
           {getWordEmoji(currentItem) && (
             <div className="text-4xl mb-2">{getWordEmoji(currentItem)}</div>
           )}
-          <div className={`inline-block px-6 py-3 rounded-2xl text-xl font-black transition-all ${
+          <div className={`inline-block px-6 py-3 rounded-2xl text-2xl font-black font-handwriting transition-all ${
             lastPlacedCorrect === true
               ? "bg-green-100 text-green-700"
               : lastPlacedCorrect === false
@@ -155,7 +155,7 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
                     return (
                       <div
                         key={item}
-                        className={`px-3 py-1.5 rounded-lg text-sm font-semibold text-center ${
+                        className={`px-3 py-1.5 rounded-lg text-base font-semibold text-center font-handwriting ${
                           isCorrect
                             ? "bg-green-100 text-green-700"
                             : "bg-red-100 text-red-700"

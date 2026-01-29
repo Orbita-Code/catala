@@ -65,7 +65,7 @@ export default function MultipleChoice({ task, onComplete }: Props) {
         animate={{ opacity: 1, x: 0 }}
         className="bg-white rounded-2xl p-5 shadow-sm"
       >
-        <h3 className="text-xl font-bold text-[var(--text)] mb-4 text-center">
+        <h3 className="text-xl font-bold text-[var(--text)] mb-4 text-center font-handwriting">
           {question.question}
         </h3>
 
@@ -76,7 +76,7 @@ export default function MultipleChoice({ task, onComplete }: Props) {
               whileTap={{ scale: 0.98 }}
               onClick={() => handleSelect(i)}
               disabled={showResult}
-              className={`w-full p-4 rounded-2xl text-left text-lg font-semibold transition-all ${
+              className={`w-full p-4 rounded-2xl text-left text-lg font-semibold font-handwriting transition-all ${
                 showResult
                   ? i === question.correct
                     ? "bg-green-100 text-green-700 border-2 border-green-400"

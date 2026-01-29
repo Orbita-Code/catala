@@ -24,8 +24,8 @@ export default function WordSearch({ task, onComplete }: Props) {
       const reversed = [...letters].reverse().join("");
 
       for (const word of task.words) {
-        const upper = word.toUpperCase();
-        if (letters === upper || reversed === upper) {
+        const lower = word.toLowerCase();
+        if (letters.toLowerCase() === lower || reversed.toLowerCase() === lower) {
           return word;
         }
       }
@@ -98,7 +98,7 @@ export default function WordSearch({ task, onComplete }: Props) {
         {task.words.map((word) => (
           <span
             key={word}
-            className={`px-3 py-1 rounded-full text-sm font-bold ${
+            className={`px-3 py-1 rounded-full text-base font-bold font-handwriting ${
               foundWords.has(word)
                 ? "bg-green-100 text-green-700 line-through"
                 : "bg-purple-100 text-[var(--primary)]"
@@ -136,7 +136,7 @@ export default function WordSearch({ task, onComplete }: Props) {
                       : "bg-gray-50 text-[var(--text)] hover:bg-gray-100"
                 }`}
               >
-                {letter}
+                {letter.toUpperCase()}
               </motion.div>
             ))
           )}

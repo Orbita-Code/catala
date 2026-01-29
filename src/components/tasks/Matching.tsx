@@ -86,7 +86,7 @@ export default function Matching({ task, onComplete }: Props) {
             }`}
           >
             {getWordEmoji(pair.left) && <span className="mr-1">{getWordEmoji(pair.left)}</span>}
-            {pair.left}
+            <span className="font-handwriting text-lg">{pair.left}</span>
           </motion.button>
         ))}
       </div>
@@ -108,7 +108,7 @@ export default function Matching({ task, onComplete }: Props) {
             }`}
           >
             {getWordEmoji(task.pairs[actualIdx].right) && <span className="mr-1">{getWordEmoji(task.pairs[actualIdx].right)}</span>}
-            {task.pairs[actualIdx].right}
+            <span className="font-handwriting text-lg">{task.pairs[actualIdx].right}</span>
           </motion.button>
         ))}
       </div>

@@ -61,8 +61,8 @@ export default function Unscramble({ task, onComplete }: Props) {
   const allFilled = slots.every((s) => s !== null);
 
   const handleCheck = () => {
-    const answer = slots.join("").toUpperCase();
-    const isCorrect = answer === currentWord.correct.toUpperCase();
+    const answer = slots.join("").toLowerCase();
+    const isCorrect = answer === currentWord.correct.toLowerCase();
     setChecked(true);
     setCorrect(isCorrect);
 

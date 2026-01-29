@@ -179,7 +179,7 @@ export default function CopyWord({ task, onComplete }: Props) {
             <div className="text-4xl mb-2">{getWordEmoji(currentWord.catalan)}</div>
           )}
           <div className="flex items-center justify-center gap-2">
-            <p className="text-2xl font-black text-[var(--primary)]">
+            <p className="text-3xl font-black text-[var(--primary)] font-handwriting">
               {currentWord.catalan}
             </p>
             <SpeakerButton text={currentWord.catalan} />

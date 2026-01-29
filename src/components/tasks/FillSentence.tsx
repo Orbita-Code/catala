@@ -67,7 +67,7 @@ export default function FillSentence({ task, onComplete }: Props) {
               : ""
           }`}
         >
-          <p className="text-lg font-semibold text-[var(--text)] mb-3">
+          <p className="text-lg font-semibold text-[var(--text)] mb-3 font-handwriting">
             {sentence.text.split("___").map((part, j, arr) => (
               <span key={j}>
                 {part}
@@ -107,7 +107,7 @@ export default function FillSentence({ task, onComplete }: Props) {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => handleSelect(i, option)}
                 disabled={checked}
-                className={`px-5 py-3 min-h-[48px] rounded-xl font-bold text-base transition-all ${
+                className={`px-5 py-3 min-h-[48px] rounded-xl font-bold text-lg font-handwriting transition-all ${
                   answers[i] === option
                     ? "bg-[var(--primary)] text-white"
                     : "bg-gray-100 text-[var(--text)] hover:bg-gray-200"

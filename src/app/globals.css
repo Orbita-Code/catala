@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Patrick+Hand&display=swap");
 @import "tailwindcss";
 
 :root {
@@ -37,6 +37,7 @@
   --color-text: var(--text);
   --color-text-light: var(--text-light);
   --font-sans: "Nunito", sans-serif;
+  --font-handwriting: "Patrick Hand", cursive;
 }
 
 body {
@@ -45,6 +46,10 @@ body {
   font-family: "Nunito", sans-serif;
   min-height: 100dvh;
   overflow-x: hidden;
+}
+
+.font-handwriting {
+  font-family: "Patrick Hand", cursive;
 }
 
 * {
