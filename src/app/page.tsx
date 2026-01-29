@@ -17,10 +17,12 @@ import type { UserProgress } from "@/types/tasks";
 export default function HomePage() {
   const [progress, setProgress] = useState<UserProgress>({});
   const [totalStars, setTotalStars] = useState(0);
+  const [totalTasks, setTotalTasks] = useState(0);
 
   useEffect(() => {
     setProgress(getProgress());
     setTotalStars(getTotalStars());
+    setTotalTasks(themes.reduce((sum, t) => sum + getTaskCount(t.slug), 0));
   }, []);
 
   return (
@@ -52,7 +54,7 @@ export default function HomePage() {
 
           {/* Right: Star counter */}
           <div className="flex-shrink-0">
-            <StarCounter count={totalStars} total={themes.reduce((sum, t) => sum + getTaskCount(t.slug), 0)} />
+            <StarCounter count={totalStars} total={totalTasks} />
           </div>
         </motion.div>
       </header>

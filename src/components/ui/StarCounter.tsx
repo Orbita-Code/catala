@@ -17,7 +17,9 @@ export default function StarCounter({ count, total }: StarCounterProps) {
       <span className="text-2xl">⭐</span>
       <span className="text-lg font-black text-amber-700">
         {count}
-        <span className="text-sm font-semibold text-amber-500">/{total}</span>
+        {total > 0 && (
+          <span className="text-sm font-semibold text-amber-500">/{total}</span>
+        )}
       </span>
     </motion.div>
   );
