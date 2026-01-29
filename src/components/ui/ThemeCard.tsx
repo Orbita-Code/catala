@@ -34,11 +34,19 @@ export default function ThemeCard({ theme, progress, index }: ThemeCardProps) {
           />
 
           <div className="flex flex-col items-center gap-3 pt-2">
-            <div
-              className="flex items-center justify-center w-16 h-16 rounded-2xl text-3xl"
-              style={{ backgroundColor: `${theme.color}15` }}
-            >
-              {theme.icon}
+            <div className="relative">
+              <div
+                className="flex items-center justify-center w-16 h-16 rounded-2xl text-3xl"
+                style={{ backgroundColor: `${theme.color}15` }}
+              >
+                {theme.icon}
+              </div>
+              <div
+                className="absolute -top-2 -left-2 w-7 h-7 rounded-full flex items-center justify-center text-xs font-black text-white shadow-sm"
+                style={{ backgroundColor: theme.color }}
+              >
+                {index + 1}
+              </div>
             </div>
 
             <h3 className="text-lg font-bold text-[var(--text)]">
