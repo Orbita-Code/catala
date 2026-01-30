@@ -7,12 +7,14 @@ interface SpeakerButtonProps {
   text: string;
   size?: number;
   className?: string;
+  light?: boolean;
 }
 
 export default function SpeakerButton({
   text,
   size = 18,
   className = "",
+  light = false,
 }: SpeakerButtonProps) {
   return (
     <button
@@ -21,10 +23,10 @@ export default function SpeakerButton({
         e.stopPropagation();
         speak(text);
       }}
-      className={`p-2 rounded-xl hover:bg-purple-50 active:scale-90 transition-all ${className}`}
+      className={`p-2 rounded-xl ${light ? "hover:bg-white/20" : "hover:bg-purple-50"} active:scale-90 transition-all ${className}`}
       aria-label={`Escolta: ${text}`}
     >
-      <Volume2 size={size} className="text-[var(--primary)]" />
+      <Volume2 size={size} className={light ? "text-white" : "text-[var(--primary)]"} />
     </button>
   );
 }
