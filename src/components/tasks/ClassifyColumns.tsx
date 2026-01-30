@@ -89,7 +89,7 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
     [currentItem, placeItem]
   );
 
-  const { dragState, handlePointerDown, handlePointerMove, handlePointerUp } =
+  const { dragState, handlePointerDown } =
     useDragAndDrop({ onDrop: handleDrop, disabled: showResults || lastPlacedCorrect !== null });
 
   const handleRetry = () => {
@@ -106,8 +106,6 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
   return (
     <div
       className="space-y-5"
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
       style={{ touchAction: dragState.isDragging ? "none" : "auto" }}
     >
       {/* Progress */}

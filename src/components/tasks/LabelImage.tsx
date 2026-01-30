@@ -38,7 +38,7 @@ export default function LabelImage({ task, onComplete }: Props) {
     [placed, checked]
   );
 
-  const { dragState, handlePointerDown, handlePointerMove, handlePointerUp } =
+  const { dragState, handlePointerDown } =
     useDragAndDrop({ onDrop: handleDrop, disabled: checked });
 
   const handleHotspotTap = (labelIdx: number) => {
@@ -150,8 +150,6 @@ export default function LabelImage({ task, onComplete }: Props) {
   return (
     <div
       className="space-y-4"
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
       style={{ touchAction: dragState.isDragging ? "none" : "auto" }}
     >
       {/* Hotspots - drop targets */}

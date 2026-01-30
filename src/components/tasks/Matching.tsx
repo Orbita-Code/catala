@@ -68,7 +68,7 @@ export default function Matching({ task, onComplete }: Props) {
     [matched, shuffledRight, tryMatch]
   );
 
-  const { dragState, handlePointerDown, handlePointerMove, handlePointerUp } =
+  const { dragState, handlePointerDown } =
     useDragAndDrop({ onDrop: handleDrop });
 
   const handleSelect = (side: "left" | "right", index: number) => {
@@ -94,8 +94,6 @@ export default function Matching({ task, onComplete }: Props) {
   return (
     <div
       className="space-y-2"
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
       style={{ touchAction: dragState.isDragging ? "none" : "auto" }}
     >
       {dragState.isDragging && (
