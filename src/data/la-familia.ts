@@ -199,7 +199,7 @@ export const laFamiliaTasks: Task[] = [
   {
     id: "la-familia-10",
     type: "label-image",
-    prompt: "Completa l'arbre familiar:",
+    prompt: "Completa l'arbre familiar. Posa cada membre al seu lloc: 👴👵 avis a dalt, 👨👩 pares al mig, 👦👧 germans a baix.",
     image: "arbre-familiar",
     labels: [
       { text: "avi", x: 25, y: 15 },

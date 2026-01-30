@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Download } from "lucide-react";
-import StarCompanion from "./StarCompanion";
+import AnimatedStar from "@/components/star/AnimatedStar";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -49,7 +49,7 @@ export default function InstallPrompt() {
           <X size={16} />
         </button>
         <div className="flex items-center gap-3">
-          <StarCompanion size="sm" mood="happy" animation="bounce" />
+          <AnimatedStar size="sm" expression="happy" animation="bounce" />
           <div className="flex-1">
             <p className="font-bold text-sm text-[var(--text)]">
               Afegeix a la pantalla d&apos;inici!

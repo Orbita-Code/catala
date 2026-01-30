@@ -66,6 +66,13 @@ export function useHintSystem() {
     }));
   }, []);
 
+  const shouldAutoAdvance = useCallback(
+    (itemId: string) => {
+      return (state.attempts[itemId] || 0) >= SKIP_THRESHOLD;
+    },
+    [state.attempts]
+  );
+
   const canSkip = useCallback(
     (itemId: string) => {
       return (state.attempts[itemId] || 0) >= SKIP_THRESHOLD;
@@ -102,6 +109,7 @@ export function useHintSystem() {
     acceptHint,
     declineHint,
     dismissHint,
+    shouldAutoAdvance,
     canSkip,
     skipItem,
     addError,

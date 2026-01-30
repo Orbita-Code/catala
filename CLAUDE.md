@@ -4,7 +4,7 @@
 **Posle svakog zavrsenog zadatka, taska, kartice ili bilo kog koraka razvoja - OBAVEZNO azuriraj ovaj CLAUDE.md fajl (sekciju "Current Status") i ROADMAP.md checkboxove.** Ovo je kriticno da sledeca sesija zna dokle smo stigli. Nikad ne zavrsavaj rad bez azuriranja dokumentacije.
 
 ## Project Overview
-Interactive Catalan language learning web app for children (ages 5-8). Engine-based architecture renders 12 task types across 12 themes from TypeScript data files. Star mascot provides encouragement in Catalan. Total: 202 tasks.
+Interactive Catalan language learning web app for children (ages 5-8). Engine-based architecture renders 12 task types across 12 themes from TypeScript data files. Star mascot provides encouragement in Catalan. Total: 209 tasks.
 
 ## Tech Stack
 - **Framework:** Next.js 16 (App Router) + React 19 + TypeScript
@@ -92,10 +92,11 @@ npm run lint     # Run ESLint
 - Next.js 16 project setup with TypeScript + Tailwind + Framer Motion
 - Home page with 12 theme cards showing dynamic progress
 - Task engine with 12 task type components (all implemented)
-- 202 tasks total across 12 themes (variable per theme: 14-21)
-- Themes 1-9 expanded to match physical workbook exercises
+- 209 tasks total across 12 themes (variable per theme: 14-23)
+- Themes 1-9 rewritten to match physical workbook exercises (exact order, words, structure)
 - Themes 10-12 expanded from 9 to 15 tasks each (no workbook source)
 - Star mascot with speech bubble feedback
+- Animated SVG star mascot (expressions, animations, reactions)
 - Catalan encouragement phrase system (correct/wrong/streak)
 - Confetti celebrations on task completion
 - Celebration screen at end of theme
@@ -107,8 +108,12 @@ npm run lint     # Run ESLint
 - PWA support (offline, install prompt)
 - Settings page + Hamburger menu
 - Hint system for all task types
-- StarCounter shows dynamic total (0/202)
+- StarCounter shows dynamic total (0/209)
 - ILLUSTRATION-PROMPTS.md with ~281 AI image generation prompts
+- LabelImage: row-flexible checking (same-row labels interchangeable, e.g. family tree)
+
+### In Progress
+- Drag-and-drop for LabelImage, ClassifyColumns, Matching (pointer events for mouse+touch)
 
 ### Not Yet Implemented
 - AI-generated illustrations for vocabulary words (prompts ready, images not yet generated)
@@ -116,16 +121,15 @@ npm run lint     # Run ESLint
 - Text-to-Speech (Web Speech API with ca-ES locale)
 - Deploy pipeline (Coolify + Docker)
 - DNS setup (katalonski.orbitacode.com)
-- Adjust themes 1-9 task counts to user's exact workbook numbers (minor differences remain)
 
 ## Task Counts Per Theme
 | Theme | Slug | Tasks |
 |-------|------|-------|
-| 1. La classe | la-classe | 17 |
+| 1. La classe | la-classe | 20 |
 | 2. L'escola | l-escola | 17 |
-| 3. El cos | el-cos | 19 |
+| 3. El cos | el-cos | 20 |
 | 4. La roba | la-roba | 14 |
-| 5. La casa | la-casa | 20 |
+| 5. La casa | la-casa | 23 |
 | 6. La família | la-familia | 14 |
 | 7. Les botigues | les-botigues | 15 |
 | 8. El menjar | el-menjar | 20 |
@@ -133,7 +137,7 @@ npm run lint     # Run ESLint
 | 10. La ciutat | la-ciutat | 15 |
 | 11. Els vehicles | els-vehicles | 15 |
 | 12. Els oficis | els-oficis | 15 |
-| **Total** | | **202** |
+| **Total** | | **209** |
 
 ## Important Notes
 - Theme slugs match filenames: `la-classe`, `l-escola`, `el-cos`, etc.

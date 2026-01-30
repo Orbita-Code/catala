@@ -18,14 +18,19 @@ export default function WordSearch({ task, onComplete }: Props) {
 
   const cellKey = (r: number, c: number) => `${r}-${c}`;
 
+  const stripAccents = (s: string) =>
+    s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
   const checkWord = useCallback(
     (cells: [number, number][]) => {
       const letters = cells.map(([r, c]) => task.grid[r][c]).join("");
       const reversed = [...letters].reverse().join("");
+      const lettersNorm = stripAccents(letters);
+      const reversedNorm = stripAccents(reversed);
 
       for (const word of task.words) {
-        const lower = word.toLowerCase();
-        if (letters.toLowerCase() === lower || reversed.toLowerCase() === lower) {
+        const wordNorm = stripAccents(word);
+        if (lettersNorm === wordNorm || reversedNorm === wordNorm) {
           return word;
         }
       }

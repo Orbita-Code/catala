@@ -5,12 +5,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, ArrowRight, Volume2, VolumeX, Home } from "lucide-react";
 import TaskRenderer from "@/components/tasks/TaskRenderer";
-import StarCompanion from "@/components/ui/StarCompanion";
+import AnimatedStar from "@/components/star/AnimatedStar";
+import type { StarReaction } from "@/components/star/starTypes";
+import { getStarReaction, getReactionEvent } from "@/lib/starReactions";
 import { themes } from "@/data/themes";
 import { taskData } from "@/data/task-data";
 import { getThemeProgress, completeTask, isThemeFullyComplete } from "@/lib/progress";
 import { getEncouragement } from "@/lib/encouragement";
-import type { StarMood } from "@/lib/encouragement";
+
 import { TaskResult } from "@/types/tasks";
 import { getThemeScene } from "@/lib/theme-illustrations";
 import confetti from "canvas-confetti";
@@ -29,8 +31,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
   const [showCelebration, setShowCelebration] = useState(false);
   const [streak, setStreak] = useState(0);
   const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
-  const [feedbackMood, setFeedbackMood] = useState<StarMood>("happy");
-  const [starAnimation, setStarAnimation] = useState<"idle" | "bounce" | "dance" | "wave" | "none">("idle");
+  const [feedbackReaction, setFeedbackReaction] = useState<StarReaction[] | null>(null);
   const [muted, setMuted] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -100,11 +101,11 @@ export default function TemaContent({ slug }: TemaContentProps) {
       }
       const enc =
         progressResult.streak > 1
-          ? getEncouragement("streak", progressResult.streak)
-          : getEncouragement("correct");
+          ? getEncouragement("streak", { streakCount: progressResult.streak, themeSlug: slug })
+          : getEncouragement("correct", { themeSlug: slug, correctInRow: progressResult.streak });
       setFeedbackMessage(enc.text);
-      setFeedbackMood("happy");
-      setStarAnimation("bounce");
+      const reactionEvent = getReactionEvent("correct", progressResult.streak);
+      setFeedbackReaction(getStarReaction(reactionEvent));
 
       confetti({
         particleCount: 50,
@@ -116,20 +117,19 @@ export default function TemaContent({ slug }: TemaContentProps) {
       playWrong();
       const enc = getEncouragement("wrong");
       setFeedbackMessage(enc.text);
-      setFeedbackMood("confused");
-      setStarAnimation("wave");
+      setFeedbackReaction(getStarReaction("wrong"));
     }
 
     if (currentTaskIndex < tasks.length - 1) {
       setTimeout(() => {
         setFeedbackMessage(null);
-        setStarAnimation("idle");
+        setFeedbackReaction(null);
         setCurrentTaskIndex(currentTaskIndex + 1);
       }, 2000);
     } else {
       setTimeout(() => {
         setFeedbackMessage(null);
-        setStarAnimation("idle");
+        setFeedbackReaction(null);
         setShowCelebration(true);
 
         const fullyComplete = isThemeFullyComplete(slug, tasks.length);
@@ -188,10 +188,9 @@ export default function TemaContent({ slug }: TemaContentProps) {
           transition={{ type: "spring", damping: 10 }}
           className="relative"
         >
-          <StarCompanion
+          <AnimatedStar
             size="xl"
-            mood={fullyComplete ? "loving" : "happy"}
-            animation={fullyComplete ? "dance" : "bounce"}
+            reaction={getStarReaction(fullyComplete ? "themePerfect" : "themeComplete")}
           />
         </motion.div>
         <motion.h1
@@ -356,6 +355,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
             transition={{ duration: 0.3 }}
           >
             <h2 className="text-xl font-bold text-[var(--text)] mb-4">
+              <span className="text-[var(--text-light)]">{currentTaskIndex + 1}.</span>{" "}
               {currentTask.prompt}
             </h2>
             <TaskRenderer
@@ -369,17 +369,16 @@ export default function TemaContent({ slug }: TemaContentProps) {
       {/* Fixed Star Companion - bottom left, always visible */}
       <div className="fixed bottom-20 left-4 z-20">
         <AnimatePresence mode="wait">
-          {feedbackMessage ? (
+          {feedbackReaction ? (
             <motion.div
               key="feedback"
               initial={{ opacity: 0, y: 20, scale: 0.8 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.8 }}
             >
-              <StarCompanion
+              <AnimatedStar
                 size="md"
-                mood={feedbackMood}
-                animation={starAnimation}
+                reaction={feedbackReaction}
                 message={feedbackMessage}
               />
             </motion.div>
@@ -390,9 +389,9 @@ export default function TemaContent({ slug }: TemaContentProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              <StarCompanion
+              <AnimatedStar
                 size="sm"
-                mood="happy"
+                expression="happy"
                 animation="idle"
               />
             </motion.div>
@@ -408,7 +407,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
               setCurrentTaskIndex(Math.max(0, currentTaskIndex - 1))
             }
             disabled={currentTaskIndex === 0}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-[var(--text-light)] disabled:opacity-30 hover:bg-gray-100 transition-colors"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-white bg-[var(--primary)] disabled:opacity-30 hover:brightness-110 active:scale-95 transition-all shadow-md"
           >
             <ArrowLeft size={18} /> Anterior
           </button>
@@ -419,7 +418,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
               )
             }
             disabled={currentTaskIndex === tasks.length - 1}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-[var(--text-light)] disabled:opacity-30 hover:bg-gray-100 transition-colors"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-white bg-[var(--secondary)] disabled:opacity-30 hover:brightness-110 active:scale-95 transition-all shadow-md"
           >
             Següent <ArrowRight size={18} />
           </button>

@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Patrick+Hand&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Comic+Neue:wght@400;700&display=swap");
 @import "tailwindcss";
 
 :root {
@@ -37,7 +37,7 @@
   --color-text: var(--text);
   --color-text-light: var(--text-light);
   --font-sans: "Nunito", sans-serif;
-  --font-handwriting: "Patrick Hand", cursive;
+  --font-handwriting: "Comic Neue", cursive;
 }
 
 body {
@@ -49,9 +49,18 @@ body {
 }
 
 .font-handwriting {
-  font-family: "Patrick Hand", cursive;
+  font-family: "Comic Neue", cursive;
 }
 
 * {
   -webkit-tap-highlight-color: transparent;
+}
+
+@keyframes hint-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 184, 148, 0.7); }
+  50% { box-shadow: 0 0 12px 4px rgba(0, 184, 148, 0.4); }
+}
+.hint-pulse {
+  animation: hint-pulse 1s ease-in-out infinite;
+  border-color: var(--success) !important;
 }

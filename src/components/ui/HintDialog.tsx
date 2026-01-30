@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import StarCompanion from "./StarCompanion";
+import AnimatedStar from "@/components/star/AnimatedStar";
 
 interface HintDialogProps {
   visible: boolean;
@@ -27,9 +27,9 @@ export default function HintDialog({ visible, onAccept, onDecline }: HintDialogP
             className="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl"
           >
             <div className="flex justify-center mb-4">
-              <StarCompanion
+              <AnimatedStar
                 size="lg"
-                mood="smart"
+                expression="smart"
                 animation="bounce"
               />
             </div>
@@ -61,4 +61,3 @@ export default function HintDialog({ visible, onAccept, onDecline }: HintDialogP
     </AnimatePresence>
   );
 }
-

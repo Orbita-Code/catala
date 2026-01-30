@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import ThemeCard from "@/components/ui/ThemeCard";
-import StarCompanion from "@/components/ui/StarCompanion";
+import AnimatedStar from "@/components/star/AnimatedStar";
+import { getStarReaction } from "@/lib/starReactions";
 import StarCounter from "@/components/ui/StarCounter";
 import BadgeDisplay from "@/components/ui/BadgeDisplay";
 import HamburgerMenu from "@/components/ui/HamburgerMenu";
@@ -37,10 +38,9 @@ export default function HomePage() {
           {/* Left: Mascot with speech bubble */}
           <div className="flex items-center gap-2 flex-shrink-0">
             <HamburgerMenu />
-            <StarCompanion
+            <AnimatedStar
               size="md"
-              mood="happy"
-              animation="idle"
+              reaction={getStarReaction("greeting")}
               message="Hola! Vols jugar?"
             />
           </div>

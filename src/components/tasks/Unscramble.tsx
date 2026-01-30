@@ -1,11 +1,13 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { UnscrambleTask, TaskResult } from "@/types/tasks";
 import { getWordEmoji } from "@/lib/illustrations";
 import LetterTile from "@/components/ui/LetterTile";
 import SlotRow from "@/components/ui/SlotRow";
+import InlineHintMascot from "@/components/ui/InlineHintMascot";
+import { useHintSystem } from "@/hooks/useHintSystem";
 import { ArrowLeft } from "lucide-react";
 import confetti from "canvas-confetti";
 
@@ -24,8 +26,25 @@ export default function Unscramble({ task, onComplete }: Props) {
   );
   const [checked, setChecked] = useState(false);
   const [correct, setCorrect] = useState<boolean | null>(null);
+  const [hintLetterIdx, setHintLetterIdx] = useState<number | null>(null);
+  const hints = useHintSystem();
 
   const currentWord = task.words[currentIdx];
+
+  // When hint is accepted, find the correct letter in the bank and highlight it
+  useEffect(() => {
+    if (hints.showHint && hints.hintItemId === currentWord.correct) {
+      const nextSlotIdx = slots.findIndex((s) => s === null);
+      if (nextSlotIdx === -1) return;
+      const correctLetter = currentWord.correct[nextSlotIdx];
+      const bankIdx = bank.findIndex(
+        (b) => !b.used && b.letter.toLowerCase() === correctLetter.toLowerCase()
+      );
+      setHintLetterIdx(bankIdx >= 0 ? bankIdx : null);
+    } else {
+      setHintLetterIdx(null);
+    }
+  }, [hints.showHint, hints.hintItemId, currentWord.correct, slots, bank]);
 
   const handleLetterTap = (bankIdx: number) => {
     if (checked || bank[bankIdx].used) return;
@@ -39,6 +58,8 @@ export default function Unscramble({ task, onComplete }: Props) {
     const newBank = [...bank];
     newBank[bankIdx] = { ...newBank[bankIdx], used: true };
     setBank(newBank);
+
+    setHintLetterIdx(null);
   };
 
   const handleSlotTap = (slotIdx: number) => {
@@ -60,14 +81,34 @@ export default function Unscramble({ task, onComplete }: Props) {
 
   const allFilled = slots.every((s) => s !== null);
 
-  const handleCheck = () => {
+  const moveToNext = useCallback(() => {
+    if (currentIdx < task.words.length - 1) {
+      const nextIdx = currentIdx + 1;
+      const nextWord = task.words[nextIdx];
+      setCurrentIdx(nextIdx);
+      setSlots(Array(nextWord.correct.length).fill(null));
+      setBank(nextWord.scrambled.split("").map((l) => ({ letter: l, used: false })));
+      setChecked(false);
+      setCorrect(null);
+      setHintLetterIdx(null);
+    } else {
+      onComplete({
+        allCorrect: hints.erroredItems.length === 0,
+        erroredItems: hints.erroredItems,
+      });
+    }
+  }, [currentIdx, task.words, onComplete, hints.erroredItems]);
+
+  const handleCheck = useCallback(() => {
     const answer = slots.join("").toLowerCase();
     const isCorrect = answer === currentWord.correct.toLowerCase();
     setChecked(true);
     setCorrect(isCorrect);
 
     if (isCorrect) {
-      // Mini celebration for each correct word
+      hints.dismissHint();
+      setHintLetterIdx(null);
+
       confetti({
         particleCount: 25,
         spread: 50,
@@ -75,36 +116,45 @@ export default function Unscramble({ task, onComplete }: Props) {
         colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
       });
 
-      setTimeout(() => {
-        if (currentIdx < task.words.length - 1) {
-          const nextIdx = currentIdx + 1;
-          const nextWord = task.words[nextIdx];
-          setCurrentIdx(nextIdx);
-          setSlots(Array(nextWord.correct.length).fill(null));
-          setBank(nextWord.scrambled.split("").map((l) => ({ letter: l, used: false })));
-          setChecked(false);
-          setCorrect(null);
-        } else {
-          onComplete({ allCorrect: true, erroredItems: [] });
-        }
-      }, 1000);
+      setTimeout(() => moveToNext(), 1000);
+    } else {
+      hints.recordWrongAttempt(currentWord.correct);
     }
-  };
+  }, [slots, currentWord, hints, moveToNext]);
 
-  const handleRetry = () => {
+  // Auto-advance after 5 wrong attempts
+  useEffect(() => {
+    if (hints.shouldAutoAdvance(currentWord.correct) && checked && !correct) {
+      hints.addError(currentWord.correct);
+      hints.dismissHint();
+      setTimeout(() => moveToNext(), 300);
+    }
+  }, [hints, currentWord.correct, checked, correct, moveToNext]);
+
+  const handleRetry = useCallback(() => {
     setSlots(Array(currentWord.correct.length).fill(null));
     setBank(currentWord.scrambled.split("").map((l) => ({ letter: l, used: false })));
     setChecked(false);
     setCorrect(null);
-  };
+    setHintLetterIdx(null);
+  }, [currentWord]);
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (checked && !correct) {
+          handleRetry();
+        } else if (!checked && allFilled) {
+          handleCheck();
+        }
+        return;
+      }
+
       if (checked) return;
 
       if (e.key === "Backspace") {
         e.preventDefault();
-        // Find the last non-null slot
         let lastFilledIdx = -1;
         for (let i = slots.length - 1; i >= 0; i--) {
           if (slots[i] !== null) {
@@ -118,28 +168,25 @@ export default function Unscramble({ task, onComplete }: Props) {
         return;
       }
 
-      if (e.key === "Enter") {
-        e.preventDefault();
-        if (allFilled) {
-          handleCheck();
-        }
-        return;
-      }
-
       // Match letter keys including accented Catalan characters
       if (e.key.length === 1 && /^[a-zA-ZàèéìòóùúïüçÀÈÉÌÒÓÙÚÏÜÇ]$/.test(e.key)) {
         e.preventDefault();
         const pressedLetter = e.key.toLowerCase();
-        // Find the first unused letter in the bank that matches
-        const bankIdx = bank.findIndex(
+        const stripAccents = (s: string) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        let bankIdx = bank.findIndex(
           (b) => !b.used && b.letter.toLowerCase() === pressedLetter
         );
+        if (bankIdx === -1) {
+          bankIdx = bank.findIndex(
+            (b) => !b.used && stripAccents(b.letter.toLowerCase()) === stripAccents(pressedLetter)
+          );
+        }
         if (bankIdx !== -1) {
           handleLetterTap(bankIdx);
         }
       }
     },
-    [checked, slots, bank, allFilled]
+    [checked, correct, slots, bank, allFilled, handleCheck, handleRetry]
   );
 
   useEffect(() => {
@@ -162,6 +209,7 @@ export default function Unscramble({ task, onComplete }: Props) {
               setBank(prevWord.scrambled.split("").map((l) => ({ letter: l, used: false })));
               setChecked(false);
               setCorrect(null);
+              setHintLetterIdx(null);
             }}
             className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
             aria-label="Anterior"
@@ -186,6 +234,20 @@ export default function Unscramble({ task, onComplete }: Props) {
           Ordena les lletres tocant-les
         </p>
 
+        {/* Inline hint mascot */}
+        <InlineHintMascot
+          visible={hints.showHintDialog}
+          onAccept={() => {
+            hints.acceptHint();
+            // Auto-reset slots so child can retry with hint visible
+            setSlots(Array(currentWord.correct.length).fill(null));
+            setBank(currentWord.scrambled.split("").map((l) => ({ letter: l, used: false })));
+            setChecked(false);
+            setCorrect(null);
+          }}
+          onDecline={hints.declineHint}
+        />
+
         {/* Slots */}
         <div className="flex justify-center mb-5">
           <SlotRow
@@ -199,16 +261,17 @@ export default function Unscramble({ task, onComplete }: Props) {
         {/* Letter bank (scrambled) */}
         <div className="flex flex-wrap justify-center gap-2 mb-4">
           {bank.map((item, i) => (
-            <LetterTile
-              key={i}
-              letter={item.letter}
-              disabled={item.used || checked}
-              onClick={() => handleLetterTap(i)}
-            />
+            <div key={i} className={hintLetterIdx === i ? "hint-pulse rounded-xl" : ""}>
+              <LetterTile
+                letter={item.letter}
+                disabled={item.used || checked}
+                onClick={() => handleLetterTap(i)}
+              />
+            </div>
           ))}
         </div>
 
-        <div className="flex justify-center">
+        <div className="flex justify-center gap-3">
           {!checked ? (
             <motion.button
               whileHover={{ scale: 1.05 }}
