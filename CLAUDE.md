@@ -140,15 +140,24 @@ npm run test:ui  # Playwright UI mode
 ### In Progress
 - **3D Illustrations:** 75/~280 done. Themes partially done: La classe (22), L'escola (11), El cos (19), La roba (23 of ~35).
   - La roba done: anorac, jersei, texans, pantalons, samarreta, camisa, jaqueta, faldilla, vestit, xandall, gorra, bufanda, guants, mitges, botes, pijama, sabates, sabatilles, abric, mitjons, barret, vambes, gorra
-  - La roba still missing (workbook words): americana, corbata, banyador, biquini, caputxa, calcotets, calces, pantalons curts, sandàlies, arracades, anell, colònia, ulleres, tirants
+  - La roba still missing (workbook words): pantalons curts, arracades, anell, ulleres, collaret, cinturó, samarreta de tirants, caputxa
+  - La roba done this session: xandall, americana, corbata, banyador, banyador-de-dona, biquini, sandàlies (all via Bing)
   - Next theme after La roba: La casa (~38 illustrations needed)
   - Full workbook mapping: see `Ilustracije/WORKBOOK-VS-ILLUSTRATIONS.md`
 
 ### Illustrations made with Bing Image Creator (may need redo with ChatGPT later for consistency)
-- xandall, americana, corbata, banyador, banyador-de-dona, biquini
+- xandall, americana, corbata, banyador, banyador-de-dona, biquini, sandalies
 
 ### NEXT SESSION TODO (Priority Order)
-1. **Continue 3D Illustrations** - Reconnect Playwright MCP, finish La roba (mitjons, barret redo, gorra redo, abric redo), then La casa, La família, Les botigues, El menjar, Els animals, La ciutat, Els vehicles, Els oficis
+1. **Playwright MCP je dodat** - treba restart Claude Code da se ucita. Posle restarta koristiti `mcp__playwright__browser_navigate` za otvaranje Bing Image Creator.
+2. **Continue 3D Illustrations via Bing Image Creator** (https://www.bing.com/images/create?FORM=IRPGEN, model: gpt-4o)
+   - **La roba preostalo (8 reci):** pantalons curts, arracades, anell, ulleres, collaret, cinturó, samarreta de tirants, caputxa
+   - **Zatim La casa (~38 reci)**, La família (15), Les botigues (~33), El menjar (~35), Els animals (~50+)
+   - **Bing prompt format:** `[OPIS] - 3D cartoon style, white background with small decorative hearts, circles, and five-pointed stars, 512x512px, colorful and cheerful, for children ages 5-8. No face or eyes on the object. Output format: PNG.`
+   - **VAZNO:** Bing cuva kao JPEG - preimenovati u .png i kopirati u oba foldera (Ilustracije/ i public/illustrations/)
+3. **When ChatGPT resets** - switch back to ChatGPT custom GPT (URL u sekciji Illustration Workflow) for better quality/consistency
+4. **Deploy pipeline** (Coolify + Docker)
+5. **DNS setup** (katalonski.orbitacode.com)
 2. **Deploy pipeline** (Coolify + Docker)
 3. **DNS setup** (katalonski.orbitacode.com)
 
