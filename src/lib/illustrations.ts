@@ -410,6 +410,12 @@ const wordsWithIllustrations = new Set([
   "mitjons",
   "barret",
   "vambes",
+  "xandall",
+  "americana",
+  "corbata",
+  "banyador",
+  "banyador-de-dona",
+  "biquini",
 ]);
 
 // Strip accents for filename matching (e.g. "bolígraf" → "boligraf")

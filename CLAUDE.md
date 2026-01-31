@@ -145,7 +145,7 @@ npm run test:ui  # Playwright UI mode
   - Full workbook mapping: see `Ilustracije/WORKBOOK-VS-ILLUSTRATIONS.md`
 
 ### Illustrations made with Bing Image Creator (may need redo with ChatGPT later for consistency)
-- xandall
+- xandall, americana, corbata, banyador, banyador-de-dona, biquini
 
 ### NEXT SESSION TODO (Priority Order)
 1. **Continue 3D Illustrations** - Reconnect Playwright MCP, finish La roba (mitjons, barret redo, gorra redo, abric redo), then La casa, La família, Les botigues, El menjar, Els animals, La ciutat, Els vehicles, Els oficis
