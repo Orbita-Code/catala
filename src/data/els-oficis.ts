@@ -115,12 +115,12 @@ export const elsOficisTasks: Task[] = [
       {
         text: "El ___ apaga el foc.",
         blank: "bomber",
-        options: ["bomber", "mestre", "pilot"],
+        options: ["mestre", "bomber", "pilot"],
       },
       {
         text: "El ___ ensenya a l'escola.",
         blank: "mestre",
-        options: ["mestre", "metge", "cuiner"],
+        options: ["metge", "cuiner", "mestre"],
       },
       {
         text: "El ___ cura els malalts.",
@@ -130,7 +130,7 @@ export const elsOficisTasks: Task[] = [
       {
         text: "El ___ porta les cartes.",
         blank: "carter",
-        options: ["carter", "policia", "bomber"],
+        options: ["policia", "carter", "bomber"],
       },
     ],
   },

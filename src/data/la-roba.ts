@@ -21,7 +21,6 @@ export const laRobaTasks: Task[] = [
       { catalan: "mitges" },
       { catalan: "botes" },
       { catalan: "pijama" },
-      { catalan: "calcetins" },
       { catalan: "sabates" },
     ],
   },
@@ -71,16 +70,16 @@ export const laRobaTasks: Task[] = [
     gridSize: 10,
     words: ["botes", "abric", "vestit", "camisa", "gorra"],
     grid: [
-      ["b", "o", "t", "e", "s", "l", "q", "p", "r", "d"],
-      ["f", "g", "h", "j", "k", "a", "b", "r", "i", "c"],
-      ["n", "t", "r", "e", "l", "p", "s", "d", "g", "k"],
-      ["v", "e", "s", "t", "i", "t", "q", "h", "m", "l"],
-      ["r", "j", "f", "n", "p", "d", "g", "k", "t", "e"],
-      ["q", "l", "c", "a", "m", "i", "s", "a", "r", "f"],
-      ["g", "o", "r", "r", "a", "t", "l", "p", "e", "s"],
-      ["a", "b", "r", "i", "c", "o", "n", "s", "d", "q"],
-      ["p", "r", "l", "f", "g", "h", "k", "t", "n", "e"],
-      ["s", "d", "q", "r", "e", "l", "f", "g", "h", "j"],
+      ["r", "l", "m", "b", "o", "t", "e", "s", "p", "c"],
+      ["d", "f", "n", "h", "k", "s", "r", "t", "e", "a"],
+      ["g", "p", "l", "j", "m", "f", "d", "n", "h", "m"],
+      ["t", "s", "k", "r", "p", "n", "k", "m", "f", "i"],
+      ["m", "h", "l", "d", "t", "s", "p", "r", "a", "s"],
+      ["p", "n", "f", "k", "r", "g", "h", "l", "b", "a"],
+      ["t", "i", "t", "s", "e", "v", "d", "n", "r", "g"],
+      ["n", "f", "m", "p", "l", "r", "s", "t", "i", "h"],
+      ["g", "o", "r", "r", "a", "k", "s", "d", "c", "l"],
+      ["p", "l", "m", "t", "n", "h", "r", "s", "f", "k"],
     ],
   },
   {
@@ -116,12 +115,12 @@ export const laRobaTasks: Task[] = [
       {
         text: "A l'estiu porto ___.",
         blank: "samarreta",
-        options: ["samarreta", "abric", "bufanda"],
+        options: ["abric", "samarreta", "bufanda"],
       },
       {
         text: "A l'hivern porto ___.",
         blank: "abric",
-        options: ["abric", "faldilla", "samarreta"],
+        options: ["faldilla", "samarreta", "abric"],
       },
       {
         text: "Als peus porto ___.",
@@ -131,7 +130,7 @@ export const laRobaTasks: Task[] = [
       {
         text: "Al cap porto la ___.",
         blank: "gorra",
-        options: ["gorra", "bufanda", "calcetins"],
+        options: ["bufanda", "gorra", "mitjons"],
       },
     ],
   },
@@ -147,7 +146,7 @@ export const laRobaTasks: Task[] = [
       },
       {
         question: "Quina peça de roba ens protegeix del fred al coll?",
-        options: ["Calcetins", "Bufanda", "Faldilla", "Camisa"],
+        options: ["Mitjons", "Bufanda", "Faldilla", "Camisa"],
         correct: 1,
       },
       {
@@ -183,7 +182,6 @@ export const laRobaTasks: Task[] = [
       { catalan: "gorra", translation: "kapa" },
       { catalan: "sabatilles", translation: "patike" },
       { catalan: "pijama", translation: "pidžama" },
-      { catalan: "calcetins", translation: "kratke čarape" },
       { catalan: "mitges", translation: "hulahopke" },
     ],
   },
@@ -195,12 +193,12 @@ export const laRobaTasks: Task[] = [
       {
         text: "A l'hivern porto un ___.",
         blank: "abric",
-        options: ["abric", "vestit", "samarreta"],
+        options: ["vestit", "abric", "samarreta"],
       },
       {
         text: "Quan plou porto ___.",
         blank: "botes",
-        options: ["botes", "sabates", "mitjons"],
+        options: ["sabates", "mitjons", "botes"],
       },
       {
         text: "A l'estiu porto una ___.",
@@ -210,7 +208,7 @@ export const laRobaTasks: Task[] = [
       {
         text: "Al cap porto una ___.",
         blank: "gorra",
-        options: ["gorra", "sabata", "camisa"],
+        options: ["sabata", "gorra", "camisa"],
       },
     ],
   },

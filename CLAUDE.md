@@ -1,6 +1,14 @@
 # CLAUDE.md - Katalonski Project Context
 
-## OBAVEZNO PRAVILO
+## OBAVEZNO PRAVILO #1 - SVESKA JE IZVOR ISTINE (HIGHEST PRIORITY)
+**Fizicka radna sveska (folder `Svi zadaci/`) je JEDINI izvor istine za sadrzaj aplikacije.** Sve reci, recenice, zadaci i ilustracije MORAJU da se poklapaju sa sveskom. NE SME da fali nijedna rec, recenica ni ilustracija iz sveske.
+- **Pre bilo kakvog rada na sadrzaju:** Uporedi podatke u `src/data/` sa odgovarajucim slikama iz `Svi zadaci/`
+- **Prioritet ilustracija:** PRVO se rade SVE ilustracije za reci koje se pojavljuju u svesci. TEK NAKON toga se rade ilustracije za dodatne reci iz zadataka koji nisu u svesci.
+- **Ako se rec pojavljuje u svesci ali NE u kodu:** Dodaj je u odgovarajuci data fajl
+- **Ako se rec pojavljuje u kodu ali NE u svesci:** Proveri sa korisnikom pre brisanja (mozda je namerno dodata)
+- **Svaka nova sesija:** Uvek proveri poklapanje sveska <-> kod pre nastavka rada
+
+## OBAVEZNO PRAVILO #2 - AZURIRANJE DOKUMENTACIJE
 **Posle svakog zavrsenog zadatka, taska, kartice ili bilo kog koraka razvoja - OBAVEZNO azuriraj ovaj CLAUDE.md fajl (sekciju "Current Status") i ROADMAP.md checkboxove.** Ovo je kriticno da sledeca sesija zna dokle smo stigli. Nikad ne zavrsavaj rad bez azuriranja dokumentacije.
 
 ## Project Overview
@@ -84,6 +92,10 @@ npm run dev      # Start dev server
 npm run build    # Production build
 npm run start    # Start production server
 npm run lint     # Run ESLint
+npm test         # Run all Playwright E2E tests
+npm run test:smoke  # Quick smoke test (home page + theme nav)
+npm run test:theme -- la-classe  # Run tests for one theme
+npm run test:ui  # Playwright UI mode
 ```
 
 ## Current Status
@@ -111,14 +123,80 @@ npm run lint     # Run ESLint
 - StarCounter shows dynamic total (0/209)
 - ILLUSTRATION-PROMPTS.md with ~281 AI image generation prompts
 - LabelImage: row-flexible checking (same-row labels interchangeable, e.g. family tree)
+- Drag-and-drop for LabelImage, ClassifyColumns, Matching (pointer events for mouse+touch)
+- All 209 tasks data-validated (no structural errors, all required fields present)
+- Test/ folder with TESTING-GUIDE.md and BUG-REPORT.md for automated and manual testing
+- Data quality fixes: answer bias removed from multiple-choice (la-classe-19) and 6 fill-sentence tasks
+- Word-search grids regenerated with varied directions (5 grids: la-roba-5, la-familia-5, les-botigues-5, la-casa-2, els-vehicles-5)
+- Multi-color WordSearch highlighting (8 colors, each word gets unique color in grid and word list)
+- Playwright E2E test infrastructure: config, page objects, 12 task solvers, 209 answer keys, 12 theme specs + smoke test
 
 ### In Progress
-- Drag-and-drop for LabelImage, ClassifyColumns, Matching (pointer events for mouse+touch)
+- **3D Illustrations:** 68/277 done. Themes completed: La classe (22), L'escola (11), El cos (19), La roba (16 of 19).
+  - La roba remaining: mitjons (needs regeneration), barret (redo as pink beret), gorra (redo as unisex baseball cap)
+  - Redo needed: abric (should be proper children's coat, not puffy jacket)
+  - Next theme: La casa
+
+### NEXT SESSION TODO (Priority Order)
+1. **Continue 3D Illustrations** - Reconnect Playwright MCP, finish La roba (mitjons, barret redo, gorra redo, abric redo), then La casa, La família, Les botigues, El menjar, Els animals, La ciutat, Els vehicles, Els oficis
+2. **Deploy pipeline** (Coolify + Docker)
+3. **DNS setup** (katalonski.orbitacode.com)
+
+### Illustration Workflow
+- **ChatGPT chat:** Custom GPT "Igrice katalonski jezik" → chat "AI ilustracije za decu"
+  - URL: `https://chatgpt.com/g/g-p-697a9ef9e7fc8191a6f01584dad8ea4d-igrice-katalonski-jezik/c/697a9f6b-f218-8332-a5d0-89b7ed59ec5b`
+  - Account: Jovana Jovic (Plus plan) - login via Apple Sign In
+- **Save to:** `Ilustracije/` folder, filename = catalan word (e.g. `llapis.png`)
+- **Convert:** to WebP for small file size later
+- **Covers:** Already done by Jovana, saved in `public/covers/`
+- **Deduplication:** 277 unique words total. Many repeat across themes - only ONE illustration per unique word.
+- **Integration:** Replace emoji usage in `src/lib/illustrations.ts` `getWordEmoji()` function with actual image paths
+- **Total words:** 277 unique (see `Ilustracije/WORD-LIST.md` for full list)
+
+### Illustration Design Rules (CRITICAL - follow for EVERY illustration)
+1. **NO anthropomorphization:** Objects must NEVER have eyes, mouths, faces, or any human characteristics. A pencil is just a pencil, a book is just a book. NO kawaii faces, NO cartoon eyes on objects.
+2. **Single subject + cheerful background:** Each illustration shows ONLY the requested object/word as the main subject. NO other real objects/items around it (e.g. no sharpener next to a pencil). However, abstract decorative elements ARE encouraged: hearts, dots, confetti, sparkles, stars in the background to make it cheerful and kid-friendly. The key distinction: no other OBJECTS that could confuse kids, but decorative/abstract elements are welcome.
+3. **Why:** This is for children ages 5-8 learning vocabulary. The illustration must be CLEAR and UNAMBIGUOUS - kids should instantly recognize what the object is. Decorative backgrounds keep it fun without causing confusion.
+4. **Style:** 3D cartoon style, colorful, cheerful, realistic proportions (not anthropomorphized)
+5. **Format:** 512x512px, white/transparent background, PNG
+6. **Consistency:** Use the SAME prompt structure for every word to maintain visual consistency across all 277 illustrations
+7. **People/animals exception:** People (pare, mare, nen, nena, avi, àvia) and animals (gos, gat, peix) naturally have faces - that's fine. The "no face" rule is ONLY for inanimate objects.
+8. **Color rules:** Use UNISEX colors (green, blue, yellow, orange, red) for ALL items EXCEPT specifically female clothing (skirt/faldilla, dress/vestit, beret/barret) which can be pink/purple. Mix boys and girls in people illustrations.
+9. **ChatGPT prompt (MUST include full style every time):** The ChatGPT chat FORGETS style rules over time. NEVER send just the word alone. ALWAYS include the full prompt with every single word:
+   ```
+   [WORD] - 3D cartoon style illustration, white background with small decorative hearts and stars, 512x512px, PNG, colorful and cheerful, for children ages 5-8. No face or eyes on the object.
+   ```
+   For people/animals (who naturally have faces), omit the "No face" part. Only add extra description if the word is ambiguous.
+
+### Illustration Automation Rules (CRITICAL - follow ALWAYS)
+1. **Auto-reconnect:** When Playwright MCP disconnects or browser crashes, automatically reconnect and resume work WITHOUT asking user for permission. Navigate back to the ChatGPT conversation URL and continue from where you left off.
+2. **Rate limit handling:** When ChatGPT says to wait N minutes, wait EXACTLY N+1 minutes (with buffer). Do NOT send any new words during the wait. Do NOT send multiple words that queue up.
+3. **One word at a time:** NEVER send a new word until ChatGPT has fully responded to the previous one (either with an image or a rate limit message).
+4. **Verify every illustration:** After each image is generated, take a screenshot and verify the image matches what was requested. Common ChatGPT mistakes to check for:
+   - barret (beret) → might generate a regular cap instead of a French-style beret
+   - abric (coat) → might generate a puffy jacket instead of a proper children's coat (longer, button-up)
+   - gorra (baseball cap) → might generate a beanie/winter hat
+   - Any clothing item → might generate the wrong type of clothing
+   If the image is wrong, do NOT save it. Send a clarifying prompt and regenerate.
+5. **Pipeline workflow:** Send next word IMMEDIATELY after confirming current image is correct, then save/copy/register the previous one while the next generates. This saves time.
+6. **Save workflow per word:**
+   - Copy from temp path to both `Ilustracije/[word].png` and `public/illustrations/[word].png`
+   - Add word to `wordsWithIllustrations` set in `src/lib/illustrations.ts`
+   - Strip accents for filename (e.g. "gimnàs" → "gimnas")
+7. **Download method:** Click image → modal opens → find Save button by iterating all buttons → click Save → capture download event → get temp path from download.path()
+
+### Recently Completed
+- **Full testing of ALL 209 tasks** via Playwright browser automation across all 12 themes
+- **Progress persistence bug fixed** (`src/lib/progress.ts` + `TemaContent.tsx`): `completeTask()` now receives the actual next task index instead of blindly incrementing `currentTask` from localStorage. This fixes the issue where navigating with "Següent" caused `currentTask` in localStorage to diverge from the actual UI position, resulting in tasks not being saved as complete.
+- All 12 themes verified complete: 209/209 stars, 19/19 badges
+- Auto-speak (TTS) on correct answers for ALL 12 task types
+- Speaker buttons on CopyWord, LabelImage, SelfAssessment, Unscramble
+- 4 data/code bugs fixed (word search grid, hint length, classify-columns, SVG path)
+- Test/ folder with comprehensive TESTING-GUIDE.md and BUG-REPORT.md
+- All 209 tasks data-validated
 
 ### Not Yet Implemented
-- AI-generated illustrations for vocabulary words (prompts ready, images not yet generated)
-- Audio system (Web Audio API for sound effects)
-- Text-to-Speech (Web Speech API with ca-ES locale)
+- 3D illustrations for vocabulary words (word list prepared, emojis to be replaced)
 - Deploy pipeline (Coolify + Docker)
 - DNS setup (katalonski.orbitacode.com)
 

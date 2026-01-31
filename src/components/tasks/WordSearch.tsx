@@ -4,6 +4,18 @@ import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { WordSearchTask, TaskResult } from "@/types/tasks";
 import confetti from "canvas-confetti";
+import { speak } from "@/lib/tts";
+
+const WORD_COLORS = [
+  { bg: "bg-green-200", text: "text-green-800" },
+  { bg: "bg-blue-200", text: "text-blue-800" },
+  { bg: "bg-pink-200", text: "text-pink-800" },
+  { bg: "bg-yellow-200", text: "text-yellow-800" },
+  { bg: "bg-purple-200", text: "text-purple-800" },
+  { bg: "bg-orange-200", text: "text-orange-800" },
+  { bg: "bg-teal-200", text: "text-teal-800" },
+  { bg: "bg-red-200", text: "text-red-800" },
+];
 
 interface Props {
   task: WordSearchTask;
@@ -14,7 +26,7 @@ export default function WordSearch({ task, onComplete }: Props) {
   const [foundWords, setFoundWords] = useState<Set<string>>(new Set());
   const [selecting, setSelecting] = useState(false);
   const [selectedCells, setSelectedCells] = useState<[number, number][]>([]);
-  const [foundCells, setFoundCells] = useState<Set<string>>(new Set());
+  const [foundCells, setFoundCells] = useState<Map<string, number>>(new Map());
 
   const cellKey = (r: number, c: number) => `${r}-${c}`;
 
@@ -75,10 +87,13 @@ export default function WordSearch({ task, onComplete }: Props) {
       newFound.add(word);
       setFoundWords(newFound);
 
-      const newCells = new Set(foundCells);
-      selectedCells.forEach(([r, c]) => newCells.add(cellKey(r, c)));
+      const colorIndex = task.words.indexOf(word) % WORD_COLORS.length;
+      const newCells = new Map(foundCells);
+      selectedCells.forEach(([r, c]) => newCells.set(cellKey(r, c), colorIndex));
       setFoundCells(newCells);
 
+      // Speak the found word
+      speak(word);
       // Mini celebration for each found word
       confetti({
         particleCount: 20,
@@ -97,21 +112,38 @@ export default function WordSearch({ task, onComplete }: Props) {
   const isSelected = (r: number, c: number) =>
     selectedCells.some(([sr, sc]) => sr === r && sc === c);
 
+  const getCellClass = (r: number, c: number) => {
+    const key = cellKey(r, c);
+    if (foundCells.has(key)) {
+      const colorIndex = foundCells.get(key)!;
+      const color = WORD_COLORS[colorIndex];
+      return `${color.bg} ${color.text}`;
+    }
+    if (isSelected(r, c)) {
+      return "bg-purple-200 text-[var(--primary)]";
+    }
+    return "bg-gray-50 text-[var(--text)] hover:bg-gray-100";
+  };
+
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap gap-2 justify-center mb-3">
-        {task.words.map((word) => (
-          <span
-            key={word}
-            className={`px-3 py-1 rounded-full text-base font-bold font-handwriting ${
-              foundWords.has(word)
-                ? "bg-green-100 text-green-700 line-through"
-                : "bg-purple-100 text-[var(--primary)]"
-            }`}
-          >
-            {word}
-          </span>
-        ))}
+        {task.words.map((word, i) => {
+          const isFound = foundWords.has(word);
+          const color = WORD_COLORS[i % WORD_COLORS.length];
+          return (
+            <span
+              key={word}
+              className={`px-3 py-1 rounded-full text-base font-bold font-handwriting ${
+                isFound
+                  ? `${color.bg} ${color.text} line-through`
+                  : "bg-purple-100 text-[var(--primary)]"
+              }`}
+            >
+              {word}
+            </span>
+          );
+        })}
       </div>
 
       <div
@@ -133,13 +165,7 @@ export default function WordSearch({ task, onComplete }: Props) {
                 onMouseDown={() => handleCellDown(r, c)}
                 onMouseEnter={() => handleCellEnter(r, c)}
                 onTouchStart={() => handleCellDown(r, c)}
-                className={`w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center text-sm sm:text-base font-bold rounded-md cursor-pointer select-none transition-colors ${
-                  foundCells.has(cellKey(r, c))
-                    ? "bg-green-200 text-green-800"
-                    : isSelected(r, c)
-                      ? "bg-purple-200 text-[var(--primary)]"
-                      : "bg-gray-50 text-[var(--text)] hover:bg-gray-100"
-                }`}
+                className={`w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center text-sm sm:text-base font-bold rounded-md cursor-pointer select-none transition-colors ${getCellClass(r, c)}`}
               >
                 {letter.toUpperCase()}
               </motion.div>
