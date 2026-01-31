@@ -402,9 +402,145 @@ export const elMenjarTasks: Task[] = [
     options: ["amanida", "arròs", "peix", "suc", "sopa", "torrada"],
   },
 
-  // Task 20: Drawing canvas - draw your favorite dish
+  // Task 20: Copy drinks and containers
   {
     id: "el-menjar-20",
+    type: "copy-word",
+    prompt: "Llegeix i copia les begudes i recipients:",
+    words: [
+      { catalan: "cafè" },
+      { catalan: "te" },
+      { catalan: "refresc" },
+      { catalan: "aigua" },
+      { catalan: "tassa" },
+      { catalan: "ampolla" },
+      { catalan: "copa" },
+    ],
+  },
+
+  // Task 21: Copy proteins
+  {
+    id: "el-menjar-21",
+    type: "copy-word",
+    prompt: "Llegeix i copia les proteïnes:",
+    words: [
+      { catalan: "tonyina" },
+      { catalan: "salmó" },
+      { catalan: "calamar" },
+      { catalan: "musclo" },
+      { catalan: "bistec" },
+      { catalan: "mandonguilles" },
+    ],
+  },
+
+  // Task 22: Copy carbs
+  {
+    id: "el-menjar-22",
+    type: "copy-word",
+    prompt: "Llegeix i copia:",
+    words: [
+      { catalan: "macarrons" },
+      { catalan: "sandvitx" },
+      { catalan: "barra de pa" },
+      { catalan: "croissant" },
+      { catalan: "pa de motlle" },
+    ],
+  },
+
+  // Task 23: Fill letters for new food words
+  {
+    id: "el-menjar-23",
+    type: "fill-letters",
+    prompt: "Completa les lletres que falten:",
+    words: [
+      { word: "cafè", hint: "c_f_" },
+      { word: "tonyina", hint: "t_ny_na" },
+      { word: "salmó", hint: "s_lm_" },
+      { word: "calamar", hint: "c_l_m_r" },
+      { word: "macarrons", hint: "m_c_rr_ns" },
+      { word: "sandvitx", hint: "s_ndv_tx" },
+      { word: "croissant", hint: "cr_iss_nt" },
+      { word: "iogurt", hint: "i_g_rt" },
+    ],
+  },
+
+  // Task 24: Matching food to meal
+  {
+    id: "el-menjar-24",
+    type: "matching",
+    prompt: "Relaciona cada aliment amb l'àpat:",
+    pairs: [
+      { left: "croissant", right: "esmorzar" },
+      { left: "bistec", right: "dinar" },
+      { left: "sopa", right: "sopar" },
+      { left: "sandvitx", right: "berenar" },
+      { left: "cafè", right: "esmorzar" },
+    ],
+  },
+
+  // Task 25: Classify Begudes vs Proteïnes
+  {
+    id: "el-menjar-25",
+    type: "classify-columns",
+    prompt: "Classifica: Begudes vs Proteïnes",
+    columns: [
+      {
+        title: "Begudes",
+        items: ["cafè", "te", "refresc", "aigua", "llet", "suc"],
+      },
+      {
+        title: "Proteïnes",
+        items: ["tonyina", "salmó", "calamar", "musclo", "bistec", "mandonguilles"],
+      },
+    ],
+    allItems: [
+      "cafè",
+      "te",
+      "refresc",
+      "aigua",
+      "llet",
+      "suc",
+      "tonyina",
+      "salmó",
+      "calamar",
+      "musclo",
+      "bistec",
+      "mandonguilles",
+    ],
+  },
+
+  // Task 26: Fill sentences about new food
+  {
+    id: "el-menjar-26",
+    type: "fill-sentence",
+    prompt: "Completa les frases:",
+    sentences: [
+      {
+        text: "Bec ___ al matí.",
+        blank: "cafè",
+        options: ["cafè", "sopa", "amanida"],
+      },
+      {
+        text: "El ___ viu al mar.",
+        blank: "calamar",
+        options: ["calamar", "bistec", "croissant"],
+      },
+      {
+        text: "Menjo un ___ per berenar.",
+        blank: "sandvitx",
+        options: ["sandvitx", "salmó", "musclo"],
+      },
+      {
+        text: "La ___ és de vidre.",
+        blank: "ampolla",
+        options: ["ampolla", "tonyina", "macarrons"],
+      },
+    ],
+  },
+
+  // Task 27: Drawing canvas - draw your favorite dish
+  {
+    id: "el-menjar-27",
     type: "drawing-canvas",
     prompt: "Dibuixa el teu plat preferit! 🍽️",
   },

@@ -18,7 +18,8 @@ export const laFamiliaTasks: Task[] = [
       { catalan: "cosí" },
       { catalan: "cosina" },
       { catalan: "oncle" },
-      { catalan: "tia" },
+      { catalan: "marit" },
+      { catalan: "tieta" },
       { catalan: "nebot" },
       { catalan: "neboda" },
     ],
@@ -35,7 +36,8 @@ export const laFamiliaTasks: Task[] = [
       { word: "avi", hint: "a_i" },
       { word: "àvia", hint: "àv_a" },
       { word: "oncle", hint: "o_cl_" },
-      { word: "tia", hint: "t_a" },
+      { word: "marit", hint: "m_r_t" },
+      { word: "tieta", hint: "t__ta" },
       { word: "cosí", hint: "c_s_" },
       { word: "cosina", hint: "c_s_n_" },
       { word: "fill", hint: "f_ll" },
@@ -65,7 +67,7 @@ export const laFamiliaTasks: Task[] = [
       { left: "pare", right: "mare" },
       { left: "avi", right: "àvia" },
       { left: "germà", right: "germana" },
-      { left: "oncle", right: "tia" },
+      { left: "oncle", right: "tieta" },
       { left: "nebot", right: "neboda" },
     ],
   },
@@ -74,7 +76,7 @@ export const laFamiliaTasks: Task[] = [
     type: "word-search",
     prompt: "Troba les paraules a la sopa de lletres:",
     gridSize: 10,
-    words: ["pare", "mare", "avi", "tia", "nebot"],
+    words: ["pare", "mare", "avi", "tieta", "nebot"],
     grid: [
       ["m", "t", "l", "p", "r", "h", "f", "s", "d", "k"],
       ["a", "n", "s", "a", "m", "p", "l", "t", "r", "h"],
@@ -95,11 +97,11 @@ export const laFamiliaTasks: Task[] = [
     columns: [
       {
         title: "Home",
-        items: ["pare", "germà", "avi", "oncle", "cosí", "fill", "nebot"],
+        items: ["pare", "germà", "avi", "oncle", "marit", "cosí", "fill", "nebot"],
       },
       {
         title: "Dona",
-        items: ["mare", "germana", "àvia", "tia", "cosina", "filla", "neboda"],
+        items: ["mare", "germana", "àvia", "tieta", "cosina", "filla", "neboda"],
       },
     ],
     allItems: [
@@ -107,13 +109,14 @@ export const laFamiliaTasks: Task[] = [
       "germà",
       "avi",
       "oncle",
+      "marit",
       "cosí",
       "fill",
       "nebot",
       "mare",
       "germana",
       "àvia",
-      "tia",
+      "tieta",
       "cosina",
       "filla",
       "neboda",
@@ -131,8 +134,8 @@ export const laFamiliaTasks: Task[] = [
       },
       {
         text: "La germana del meu pare és la meva ___.",
-        blank: "tia",
-        options: ["tia", "mare", "cosina"],
+        blank: "tieta",
+        options: ["tieta", "mare", "cosina"],
       },
       {
         text: "El fill del meu oncle és el meu ___.",
@@ -142,7 +145,7 @@ export const laFamiliaTasks: Task[] = [
       {
         text: "La mare del meu pare és la meva ___.",
         blank: "àvia",
-        options: ["àvia", "tia", "germana"],
+        options: ["àvia", "tieta", "germana"],
       },
     ],
   },
@@ -157,7 +160,7 @@ export const laFamiliaTasks: Task[] = [
         correct: 1,
       },
       {
-        question: "Com es diu la filla de la teva tia?",
+        question: "Com es diu la filla de la teva tieta?",
         options: ["Germana", "Filla", "Cosina", "Àvia"],
         correct: 2,
       },
@@ -185,7 +188,8 @@ export const laFamiliaTasks: Task[] = [
       { catalan: "avi", translation: "deda" },
       { catalan: "àvia", translation: "baba" },
       { catalan: "oncle", translation: "ujak/stric" },
-      { catalan: "tia", translation: "tetka/ujna" },
+      { catalan: "marit", translation: "muž" },
+      { catalan: "tieta", translation: "tetka/ujna" },
       { catalan: "cosí", translation: "rođak" },
       { catalan: "cosina", translation: "rođaka" },
       { catalan: "fill", translation: "sin" },
@@ -208,7 +212,7 @@ export const laFamiliaTasks: Task[] = [
       { text: "germà", x: 25, y: 85 },
       { text: "germana", x: 75, y: 85 },
     ],
-    options: ["avi", "àvia", "pare", "mare", "germà", "germana", "oncle", "tia"],
+    options: ["avi", "àvia", "pare", "mare", "germà", "germana", "oncle", "tieta"],
   },
   {
     id: "la-familia-11",
@@ -222,8 +226,8 @@ export const laFamiliaTasks: Task[] = [
       },
       {
         text: "La germana de la meva mare és la meva ___.",
-        blank: "tia",
-        options: ["tia", "àvia", "cosina"],
+        blank: "tieta",
+        options: ["tieta", "àvia", "cosina"],
       },
       {
         text: "El fill del meu oncle és el meu ___.",
@@ -233,7 +237,7 @@ export const laFamiliaTasks: Task[] = [
       {
         text: "La mare de la meva mare és la meva ___.",
         blank: "àvia",
-        options: ["àvia", "tia", "germana"],
+        options: ["àvia", "tieta", "germana"],
       },
     ],
   },
@@ -250,7 +254,7 @@ export const laFamiliaTasks: Task[] = [
       {
         text: "La ___ d'en Miquel es diu Maria.",
         blank: "mare",
-        options: ["mare", "tia", "àvia"],
+        options: ["mare", "tieta", "àvia"],
       },
       {
         text: "El ___ d'en Miquel es diu Joan.",
@@ -260,7 +264,7 @@ export const laFamiliaTasks: Task[] = [
       {
         text: "L' ___ d'en Miquel es diu Rosa.",
         blank: "àvia",
-        options: ["àvia", "tia", "mare"],
+        options: ["àvia", "tieta", "mare"],
       },
     ],
   },
@@ -278,7 +282,8 @@ export const laFamiliaTasks: Task[] = [
       { catalan: "germà", translation: "brat" },
       { catalan: "germana", translation: "sestra" },
       { catalan: "oncle", translation: "ujak/stric" },
-      { catalan: "tia", translation: "tetka/ujna" },
+      { catalan: "marit", translation: "muž" },
+      { catalan: "tieta", translation: "tetka/ujna" },
       { catalan: "cosí", translation: "rođak" },
       { catalan: "cosina", translation: "rođaka" },
     ],

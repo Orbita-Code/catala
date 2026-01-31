@@ -10,7 +10,13 @@ export type TaskType =
   | "label-image"
   | "multiple-choice"
   | "self-assessment"
-  | "drawing-canvas";
+  | "drawing-canvas"
+  | "add-article"
+  | "separate-words"
+  | "count-and-write"
+  | "write-antonym"
+  | "order-words"
+  | "decode-grid";
 
 export interface BaseTask {
   id: string;
@@ -93,6 +99,37 @@ export interface DrawingCanvasTask extends BaseTask {
   type: "drawing-canvas";
 }
 
+export interface AddArticleTask extends BaseTask {
+  type: "add-article";
+  words: { word: string; article: string }[];
+}
+
+export interface SeparateWordsTask extends BaseTask {
+  type: "separate-words";
+  items: { joined: string; words: string[] }[];
+}
+
+export interface CountAndWriteTask extends BaseTask {
+  type: "count-and-write";
+  items: { description: string; count: number; word: string; image?: string }[];
+}
+
+export interface WriteAntonymTask extends BaseTask {
+  type: "write-antonym";
+  pairs: { word: string; antonym: string; options?: string[] }[];
+}
+
+export interface OrderWordsTask extends BaseTask {
+  type: "order-words";
+  sentences: { scrambled: string[]; correct: string[] }[];
+}
+
+export interface DecodeGridTask extends BaseTask {
+  type: "decode-grid";
+  codeGrid: Record<string, string>;
+  words: { codes: string[]; answer: string }[];
+}
+
 export type Task =
   | CopyWordTask
   | FillLettersTask
@@ -105,7 +142,13 @@ export type Task =
   | LabelImageTask
   | MultipleChoiceTask
   | SelfAssessmentTask
-  | DrawingCanvasTask;
+  | DrawingCanvasTask
+  | AddArticleTask
+  | SeparateWordsTask
+  | CountAndWriteTask
+  | WriteAntonymTask
+  | OrderWordsTask
+  | DecodeGridTask;
 
 export interface Theme {
   slug: string;

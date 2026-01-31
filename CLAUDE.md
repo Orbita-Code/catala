@@ -12,7 +12,7 @@
 **Posle svakog zavrsenog zadatka, taska, kartice ili bilo kog koraka razvoja - OBAVEZNO azuriraj ovaj CLAUDE.md fajl (sekciju "Current Status") i ROADMAP.md checkboxove.** Ovo je kriticno da sledeca sesija zna dokle smo stigli. Nikad ne zavrsavaj rad bez azuriranja dokumentacije.
 
 ## Project Overview
-Interactive Catalan language learning web app for children (ages 5-8). Engine-based architecture renders 12 task types across 12 themes from TypeScript data files. Star mascot provides encouragement in Catalan. Total: 209 tasks.
+Interactive Catalan language learning web app for children (ages 5-8). Engine-based architecture renders 18 task types across 12 themes from TypeScript data files. Star mascot provides encouragement in Catalan. Total: ~270 tasks.
 
 ## Tech Stack
 - **Framework:** Next.js 16 (App Router) + React 19 + TypeScript
@@ -49,19 +49,25 @@ src/
 │       ├── SelfAssessment.tsx
 │       ├── ColorByInstruction.tsx
 │       ├── LabelImage.tsx
-│       └── DrawingCanvas.tsx
+│       ├── DrawingCanvas.tsx
+│       ├── AddArticle.tsx
+│       ├── SeparateWords.tsx
+│       ├── CountAndWrite.tsx
+│       ├── WriteAntonym.tsx
+│       ├── OrderWords.tsx
+│       └── DecodeGrid.tsx
 ├── data/                       # Theme data (12 .ts files + themes.ts + task-data.ts)
 │   ├── themes.ts               # All themes metadata
 │   ├── task-data.ts            # Aggregator: imports all themes, exports getTaskCount()
-│   ├── la-classe.ts            # Theme 1: Classroom (17 tasks)
-│   ├── l-escola.ts             # Theme 2: School (17 tasks)
-│   ├── el-cos.ts               # Theme 3: Body (19 tasks)
-│   ├── la-roba.ts              # Theme 4: Clothing (14 tasks)
-│   ├── la-casa.ts              # Theme 5: House (20 tasks)
+│   ├── la-classe.ts            # Theme 1: Classroom (20 tasks)
+│   ├── l-escola.ts             # Theme 2: School (20 tasks)
+│   ├── el-cos.ts               # Theme 3: Body (20 tasks)
+│   ├── la-roba.ts              # Theme 4: Clothing (19 tasks)
+│   ├── la-casa.ts              # Theme 5: House (28 tasks)
 │   ├── la-familia.ts           # Theme 6: Family (14 tasks)
-│   ├── les-botigues.ts         # Theme 7: Shops (15 tasks)
-│   ├── el-menjar.ts            # Theme 8: Food (20 tasks)
-│   ├── els-animals.ts          # Theme 9: Animals (21 tasks)
+│   ├── les-botigues.ts         # Theme 7: Shops (21 tasks)
+│   ├── el-menjar.ts            # Theme 8: Food (27 tasks)
+│   ├── els-animals.ts          # Theme 9: Animals (27 tasks)
 │   ├── la-ciutat.ts            # Theme 10: City (15 tasks)
 │   ├── els-vehicles.ts         # Theme 11: Vehicles (15 tasks)
 │   └── els-oficis.ts           # Theme 12: Professions (15 tasks)
@@ -80,7 +86,7 @@ public/
 ## Key Architecture Decisions
 - **Engine pattern:** TaskRenderer switches on `task.type` to render the correct component
 - **Data as TypeScript:** Theme data lives in `.ts` files (not JSON), each exporting a tasks array with variable length
-- **12 task types implemented:** copy-word, fill-letters, unscramble, matching, word-search, classify-columns, fill-sentence, multiple-choice, self-assessment, color-by-instruction, label-image, drawing-canvas
+- **18 task types implemented:** copy-word, fill-letters, unscramble, matching, word-search, classify-columns, fill-sentence, multiple-choice, self-assessment, color-by-instruction, label-image, drawing-canvas, add-article, separate-words, count-and-write, write-antonym, order-words, decode-grid
 - **Dynamic task counts:** Each theme has a different number of tasks (14-21). `getTaskCount()` from `task-data.ts` returns the actual array length.
 - **No shadcn/ui:** Project uses custom components with Tailwind only
 - **Hint system:** `useHintSystem` hook + `HintDialog` component provide progressive hints for all task types
@@ -132,10 +138,14 @@ npm run test:ui  # Playwright UI mode
 - Playwright E2E test infrastructure: config, page objects, 12 task solvers, 209 answer keys, 12 theme specs + smoke test
 
 ### In Progress
-- **3D Illustrations:** 68/277 done. Themes completed: La classe (22), L'escola (11), El cos (19), La roba (16 of 19).
-  - La roba remaining: mitjons (needs regeneration), barret (redo as pink beret), gorra (redo as unisex baseball cap)
-  - Redo needed: abric (should be proper children's coat, not puffy jacket)
-  - Next theme: La casa
+- **3D Illustrations:** 75/~280 done. Themes partially done: La classe (22), L'escola (11), El cos (19), La roba (23 of ~35).
+  - La roba done: anorac, jersei, texans, pantalons, samarreta, camisa, jaqueta, faldilla, vestit, xandall, gorra, bufanda, guants, mitges, botes, pijama, sabates, sabatilles, abric, mitjons, barret, vambes, gorra
+  - La roba still missing (workbook words): americana, corbata, banyador, biquini, caputxa, calcotets, calces, pantalons curts, sandàlies, arracades, anell, colònia, ulleres, tirants
+  - Next theme after La roba: La casa (~38 illustrations needed)
+  - Full workbook mapping: see `Ilustracije/WORKBOOK-VS-ILLUSTRATIONS.md`
+
+### Illustrations made with Bing Image Creator (may need redo with ChatGPT later for consistency)
+- xandall
 
 ### NEXT SESSION TODO (Priority Order)
 1. **Continue 3D Illustrations** - Reconnect Playwright MCP, finish La roba (mitjons, barret redo, gorra redo, abric redo), then La casa, La família, Les botigues, El menjar, Els animals, La ciutat, Els vehicles, Els oficis
@@ -204,18 +214,18 @@ npm run test:ui  # Playwright UI mode
 | Theme | Slug | Tasks |
 |-------|------|-------|
 | 1. La classe | la-classe | 20 |
-| 2. L'escola | l-escola | 17 |
+| 2. L'escola | l-escola | 20 |
 | 3. El cos | el-cos | 20 |
-| 4. La roba | la-roba | 14 |
-| 5. La casa | la-casa | 23 |
+| 4. La roba | la-roba | 19 |
+| 5. La casa | la-casa | 28 |
 | 6. La família | la-familia | 14 |
-| 7. Les botigues | les-botigues | 15 |
-| 8. El menjar | el-menjar | 20 |
-| 9. Els animals | els-animals | 21 |
+| 7. Les botigues | les-botigues | 21 |
+| 8. El menjar | el-menjar | 27 |
+| 9. Els animals | els-animals | 27 |
 | 10. La ciutat | la-ciutat | 15 |
 | 11. Els vehicles | els-vehicles | 15 |
 | 12. Els oficis | els-oficis | 15 |
-| **Total** | | **209** |
+| **Total** | | **~241** |
 
 ## Important Notes
 - Theme slugs match filenames: `la-classe`, `l-escola`, `el-cos`, etc.

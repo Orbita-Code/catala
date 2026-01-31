@@ -15,6 +15,12 @@ const SelfAssessment = dynamic(() => import("./SelfAssessment"), { ssr: false })
 const ColorByInstruction = dynamic(() => import("./ColorByInstruction"), { ssr: false });
 const LabelImage = dynamic(() => import("./LabelImage"), { ssr: false });
 const DrawingCanvas = dynamic(() => import("./DrawingCanvas"), { ssr: false });
+const AddArticle = dynamic(() => import("./AddArticle"), { ssr: false });
+const SeparateWords = dynamic(() => import("./SeparateWords"), { ssr: false });
+const CountAndWrite = dynamic(() => import("./CountAndWrite"), { ssr: false });
+const WriteAntonym = dynamic(() => import("./WriteAntonym"), { ssr: false });
+const OrderWords = dynamic(() => import("./OrderWords"), { ssr: false });
+const DecodeGrid = dynamic(() => import("./DecodeGrid"), { ssr: false });
 
 interface TaskRendererProps {
   task: Task;
@@ -47,6 +53,18 @@ export default function TaskRenderer({ task, onComplete }: TaskRendererProps) {
       return <LabelImage task={task} onComplete={onComplete} />;
     case "drawing-canvas":
       return <DrawingCanvas task={task} onComplete={onComplete} />;
+    case "add-article":
+      return <AddArticle task={task} onComplete={onComplete} />;
+    case "separate-words":
+      return <SeparateWords task={task} onComplete={onComplete} />;
+    case "count-and-write":
+      return <CountAndWrite task={task} onComplete={onComplete} />;
+    case "write-antonym":
+      return <WriteAntonym task={task} onComplete={onComplete} />;
+    case "order-words":
+      return <OrderWords task={task} onComplete={onComplete} />;
+    case "decode-grid":
+      return <DecodeGrid task={task} onComplete={onComplete} />;
     default:
       return (
         <div className="text-center p-8 text-[var(--text-light)]">

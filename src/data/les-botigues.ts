@@ -10,7 +10,7 @@ export const lesBotiguesTasks: Task[] = [
       { catalan: "carnisseria" },
       { catalan: "peixateria" },
       { catalan: "farmàcia" },
-      { catalan: "forn" },
+      { catalan: "fleca" },
       { catalan: "pastisseria" },
       { catalan: "fruiteria" },
       { catalan: "botiga de roba" },
@@ -24,7 +24,7 @@ export const lesBotiguesTasks: Task[] = [
     prompt: "Completa les lletres que falten:",
     words: [
       { word: "supermercat", hint: "s_p_rm_rc_t" },
-      { word: "forn", hint: "f_rn" },
+      { word: "fleca", hint: "fl_c_" },
       { word: "peixateria", hint: "p_ix_t_r_a" },
       { word: "carnisseria", hint: "c_rn_ss_r_a" },
       { word: "farmàcia", hint: "f_rm_c_a" },
@@ -39,7 +39,7 @@ export const lesBotiguesTasks: Task[] = [
     type: "unscramble",
     prompt: "Ordena les lletres per formar la paraula:",
     words: [
-      { scrambled: "rnof", correct: "forn" },
+      { scrambled: "acelf", correct: "fleca" },
       { scrambled: "àamfcria", correct: "farmàcia" },
       { scrambled: "eriautfri", correct: "fruiteria" },
       { scrambled: "rillbeair", correct: "llibreria" },
@@ -51,7 +51,7 @@ export const lesBotiguesTasks: Task[] = [
     type: "matching",
     prompt: "Relaciona cada botiga amb el que hi compres:",
     pairs: [
-      { left: "forn", right: "pa" },
+      { left: "fleca", right: "pa" },
       { left: "peixateria", right: "peix" },
       { left: "carnisseria", right: "carn" },
       { left: "farmàcia", right: "medicaments" },
@@ -63,16 +63,16 @@ export const lesBotiguesTasks: Task[] = [
     type: "word-search",
     prompt: "Troba les paraules a la sopa de lletres:",
     gridSize: 10,
-    words: ["forn", "carn", "peix", "fruita", "pa"],
+    words: ["fleca", "carn", "peix", "fruita", "pa"],
     grid: [
-      ["f", "l", "q", "d", "r", "g", "h", "c", "k", "n"],
-      ["t", "o", "s", "j", "n", "p", "a", "a", "l", "f"],
-      ["g", "h", "r", "l", "d", "k", "r", "r", "q", "s"],
-      ["j", "n", "f", "n", "g", "p", "h", "n", "t", "l"],
-      ["p", "e", "i", "x", "r", "a", "d", "k", "f", "g"],
-      ["d", "l", "q", "h", "j", "n", "r", "s", "g", "k"],
-      ["r", "f", "g", "k", "l", "d", "q", "h", "j", "n"],
-      ["s", "d", "a", "t", "i", "u", "r", "f", "l", "g"],
+      ["f", "l", "e", "c", "a", "g", "h", "d", "k", "n"],
+      ["t", "o", "s", "j", "n", "p", "a", "r", "l", "f"],
+      ["g", "h", "r", "l", "d", "k", "r", "q", "s", "r"],
+      ["c", "a", "r", "n", "g", "p", "h", "n", "t", "u"],
+      ["p", "e", "i", "x", "r", "a", "d", "k", "f", "i"],
+      ["d", "l", "q", "h", "j", "n", "r", "s", "g", "t"],
+      ["r", "f", "g", "k", "l", "d", "q", "h", "j", "a"],
+      ["s", "d", "a", "t", "p", "a", "r", "f", "l", "g"],
       ["k", "n", "h", "j", "r", "l", "f", "g", "d", "q"],
       ["t", "r", "l", "f", "g", "s", "n", "h", "j", "k"],
     ],
@@ -84,7 +84,7 @@ export const lesBotiguesTasks: Task[] = [
     columns: [
       {
         title: "Menjar",
-        items: ["forn", "peixateria", "carnisseria", "pastisseria", "fruiteria", "supermercat"],
+        items: ["fleca", "peixateria", "carnisseria", "pastisseria", "fruiteria", "supermercat"],
       },
       {
         title: "No menjar",
@@ -92,7 +92,7 @@ export const lesBotiguesTasks: Task[] = [
       },
     ],
     allItems: [
-      "forn",
+      "fleca",
       "peixateria",
       "carnisseria",
       "pastisseria",
@@ -110,9 +110,9 @@ export const lesBotiguesTasks: Task[] = [
     prompt: "Completa la frase:",
     sentences: [
       {
-        text: "Compro pa al ___.",
-        blank: "forn",
-        options: ["farmàcia", "llibreria", "forn"],
+        text: "Compro pa a la ___.",
+        blank: "fleca",
+        options: ["farmàcia", "llibreria", "fleca"],
       },
       {
         text: "Compro peix a la ___.",
@@ -138,7 +138,7 @@ export const lesBotiguesTasks: Task[] = [
     questions: [
       {
         question: "On comprem pa i pastissos?",
-        options: ["Al forn", "A la farmàcia", "A la llibreria", "A la joguineria"],
+        options: ["A la fleca", "A la farmàcia", "A la llibreria", "A la joguineria"],
         correct: 0,
       },
       {
@@ -148,12 +148,12 @@ export const lesBotiguesTasks: Task[] = [
       },
       {
         question: "On comprem pomes i taronges?",
-        options: ["A la peixateria", "Al forn", "A la fruiteria", "A la llibreria"],
+        options: ["A la peixateria", "A la fleca", "A la fruiteria", "A la llibreria"],
         correct: 2,
       },
       {
         question: "On comprem llibres?",
-        options: ["A la farmàcia", "A la carnisseria", "Al forn", "A la llibreria"],
+        options: ["A la farmàcia", "A la carnisseria", "A la fleca", "A la llibreria"],
         correct: 3,
       },
     ],
@@ -164,7 +164,7 @@ export const lesBotiguesTasks: Task[] = [
     prompt: "Saps dir aquestes paraules en català?",
     items: [
       { catalan: "supermercat", translation: "supermarket" },
-      { catalan: "forn", translation: "pekara" },
+      { catalan: "fleca", translation: "pekara" },
       { catalan: "peixateria", translation: "ribarnica" },
       { catalan: "carnisseria", translation: "mesara" },
       { catalan: "farmàcia", translation: "apoteka" },
@@ -267,6 +267,117 @@ export const lesBotiguesTasks: Task[] = [
   },
   {
     id: "les-botigues-15",
+    type: "copy-word",
+    prompt: "Llegeix i copia els productes de la farmàcia:",
+    words: [
+      { catalan: "tirita" },
+      { catalan: "pastilla" },
+      { catalan: "xarop" },
+      { catalan: "termòmetre" },
+      { catalan: "crema" },
+    ],
+  },
+  {
+    id: "les-botigues-16",
+    type: "copy-word",
+    prompt: "Llegeix i copia les fruites i verdures:",
+    words: [
+      { catalan: "mongetes" },
+      { catalan: "préssec" },
+      { catalan: "cireres" },
+    ],
+  },
+  {
+    id: "les-botigues-17",
+    type: "fill-letters",
+    prompt: "Completa les lletres que falten:",
+    words: [
+      { word: "tirita", hint: "t_r_ta" },
+      { word: "pastilla", hint: "p_st_lla" },
+      { word: "xarop", hint: "x_r_p" },
+      { word: "termòmetre", hint: "t_rm_m_tre" },
+      { word: "crema", hint: "cr_m_" },
+      { word: "mongetes", hint: "m_ng_tes" },
+      { word: "préssec", hint: "pr_ss_c" },
+      { word: "cireres", hint: "c_r_res" },
+      { word: "fleca", hint: "fl_c_" },
+    ],
+  },
+  {
+    id: "les-botigues-18",
+    type: "matching",
+    prompt: "Relaciona cada producte amb la seva botiga:",
+    pairs: [
+      { left: "tirita", right: "farmàcia" },
+      { left: "préssec", right: "fruiteria" },
+      { left: "sardina", right: "peixateria" },
+      { left: "pa", right: "fleca" },
+      { left: "pastís", right: "pastisseria" },
+    ],
+  },
+  {
+    id: "les-botigues-19",
+    type: "classify-columns",
+    prompt: "Classifica: Què compres a cada botiga?",
+    columns: [
+      {
+        title: "Farmàcia",
+        items: ["tirita", "pastilla", "xarop", "termòmetre", "crema"],
+      },
+      {
+        title: "Fruiteria",
+        items: ["préssec", "cireres", "mongetes", "poma", "taronja"],
+      },
+      {
+        title: "Fleca",
+        items: ["pa", "croissant", "barra de pa"],
+      },
+    ],
+    allItems: [
+      "tirita",
+      "pastilla",
+      "xarop",
+      "termòmetre",
+      "crema",
+      "préssec",
+      "cireres",
+      "mongetes",
+      "poma",
+      "taronja",
+      "pa",
+      "croissant",
+      "barra de pa",
+    ],
+  },
+  {
+    id: "les-botigues-20",
+    type: "fill-sentence",
+    prompt: "Completa les frases:",
+    sentences: [
+      {
+        text: "Compro pa a la ___.",
+        blank: "fleca",
+        options: ["fleca", "farmàcia", "peixateria"],
+      },
+      {
+        text: "Compro tirites a la ___.",
+        blank: "farmàcia",
+        options: ["farmàcia", "fruiteria", "carnisseria"],
+      },
+      {
+        text: "Compro cireres a la ___.",
+        blank: "fruiteria",
+        options: ["fruiteria", "fleca", "llibreria"],
+      },
+      {
+        text: "Prenc ___ quan em fa mal el cap.",
+        blank: "pastilla",
+        options: ["pastilla", "tirita", "crema"],
+      },
+    ],
+  },
+  {
+    id: "les-botigues-21",
     type: "drawing-canvas",
     prompt: "Dibuixa la teva botiga preferida! 🛒",
   },

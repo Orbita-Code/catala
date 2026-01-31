@@ -430,4 +430,78 @@ export const laCasaTasks: Task[] = [
       "vàter",
     ],
   },
+  {
+    id: "la-casa-24",
+    type: "copy-word",
+    prompt: "Llegeix i copia els objectes de la cuina:",
+    words: [
+      { catalan: "aigualera" },
+      { catalan: "escorreplats" },
+      { catalan: "fogons" },
+    ],
+  },
+  {
+    id: "la-casa-25",
+    type: "copy-word",
+    prompt: "Llegeix i copia els objectes del bany:",
+    words: [
+      { catalan: "dutxa" },
+      { catalan: "esponja" },
+    ],
+  },
+  {
+    id: "la-casa-26",
+    type: "fill-letters",
+    prompt: "Completa les lletres que falten:",
+    words: [
+      { word: "taulada", hint: "t_ul_da" },
+      { word: "llar de foc", hint: "ll_r d_ f_c" },
+      { word: "butaca", hint: "b_t_ca" },
+      { word: "planta", hint: "pl_nt_" },
+      { word: "aigualera", hint: "a_gu_l_ra" },
+      { word: "escorreplats", hint: "e_corr_pl_ts" },
+      { word: "fogons", hint: "f_g_ns" },
+      { word: "dutxa", hint: "d_tx_" },
+      { word: "esponja", hint: "e_p_nja" },
+    ],
+  },
+  {
+    id: "la-casa-27",
+    type: "matching",
+    prompt: "Relaciona cada objecte amb la seva habitació:",
+    pairs: [
+      { left: "butaca", right: "sala d'estar" },
+      { left: "dutxa", right: "bany" },
+      { left: "fogons", right: "cuina" },
+      { left: "llit", right: "dormitori" },
+      { left: "escorreplats", right: "cuina" },
+    ],
+  },
+  {
+    id: "la-casa-28",
+    type: "fill-sentence",
+    prompt: "Completa les frases:",
+    sentences: [
+      {
+        text: "L'___ serveix per rentar els plats.",
+        blank: "aigualera",
+        options: ["aigualera", "nevera", "forn"],
+      },
+      {
+        text: "La ___ serveix per rentar-se.",
+        blank: "dutxa",
+        options: ["dutxa", "cuina", "taula"],
+      },
+      {
+        text: "Els ___ serveixen per cuinar.",
+        blank: "fogons",
+        options: ["fogons", "armaris", "quadres"],
+      },
+      {
+        text: "La ___ és a dalt de la casa.",
+        blank: "taulada",
+        options: ["taulada", "escala", "porta"],
+      },
+    ],
+  },
 ];
