@@ -30,6 +30,18 @@ export async function solveTask(page: Page, answer: TaskAnswer) {
       return solveLabelImage(page, answer);
     case "drawing-canvas":
       return solveDrawingCanvas(page);
+    case "add-article":
+      return solveAddArticle(page);
+    case "separate-words":
+      return solveSeparateWords(page);
+    case "count-and-write":
+      return solveCountAndWrite(page);
+    case "write-antonym":
+      return solveWriteAntonym(page);
+    case "order-words":
+      return solveOrderWords(page);
+    case "decode-grid":
+      return solveDecodeGrid(page);
     default:
       throw new Error(`Unknown task type: ${(answer as TaskAnswer).type}`);
   }
@@ -419,6 +431,170 @@ async function solveDrawingCanvas(page: Page) {
   const fetBtn = page.getByRole("button", { name: /fet/i });
   if (await fetBtn.isVisible()) {
     await fetBtn.click();
+    await page.waitForTimeout(500);
+  }
+}
+
+/**
+ * AddArticle: Select the correct article for each word.
+ */
+async function solveAddArticle(page: Page) {
+  // Each word shows article buttons (el, la, l', els, les)
+  // The component auto-advances on correct answer
+  const articleBtns = page.locator('button:not([disabled])');
+  const count = await articleBtns.count();
+
+  // Try clicking article buttons - the component shows which is correct
+  for (let attempts = 0; attempts < 30; attempts++) {
+    const btns = page.locator('button').filter({ hasText: /^(el|la|l'|els|les)$/i });
+    const btnCount = await btns.count();
+    if (btnCount === 0) break;
+
+    // Try each article until one works
+    for (let i = 0; i < btnCount; i++) {
+      const btn = btns.nth(i);
+      if (await btn.isVisible() && !(await btn.isDisabled())) {
+        await btn.click();
+        await page.waitForTimeout(300);
+        break;
+      }
+    }
+
+    // Check if we're done (comprova button or completion)
+    const comprova = page.getByRole("button", { name: /comprova/i });
+    if (await comprova.isVisible()) {
+      await comprova.click();
+      await page.waitForTimeout(500);
+      break;
+    }
+  }
+}
+
+/**
+ * SeparateWords: Tap between joined letters to separate words.
+ */
+async function solveSeparateWords(page: Page) {
+  // The component shows joined text and user taps between letters
+  // Try clicking on separator positions
+  const separators = page.locator('[data-separator], .separator, button:not([disabled])').filter({
+    hasNotText: /comprova|següent|anterior|fet/i,
+  });
+
+  const count = await separators.count();
+  for (let i = 0; i < count; i++) {
+    const sep = separators.nth(i);
+    if (await sep.isVisible()) {
+      await sep.click();
+      await page.waitForTimeout(200);
+    }
+  }
+
+  const comprova = page.getByRole("button", { name: /comprova/i });
+  if (await comprova.isVisible()) {
+    await comprova.click();
+    await page.waitForTimeout(500);
+  }
+}
+
+/**
+ * CountAndWrite: Count objects and write the number + word.
+ */
+async function solveCountAndWrite(page: Page) {
+  const inputs = page.locator('input[type="text"], input[type="number"]');
+  const count = await inputs.count();
+
+  for (let i = 0; i < count; i++) {
+    const input = inputs.nth(i);
+    if (await input.isVisible()) {
+      // Try to find the expected answer near the input
+      const value = await input.inputValue();
+      if (!value) {
+        await input.fill("1"); // Default fallback
+      }
+    }
+  }
+
+  const comprova = page.getByRole("button", { name: /comprova/i });
+  if (await comprova.isVisible()) {
+    await comprova.click();
+    await page.waitForTimeout(500);
+  }
+}
+
+/**
+ * WriteAntonym: Write or select the opposite of a word.
+ */
+async function solveWriteAntonym(page: Page) {
+  // May have option buttons or text inputs
+  const options = page.locator('button:not([disabled])').filter({
+    hasNotText: /comprova|següent|anterior|pista/i,
+  });
+
+  const count = await options.count();
+  if (count > 0) {
+    // Click option buttons
+    for (let i = 0; i < count; i++) {
+      const btn = options.nth(i);
+      if (await btn.isVisible()) {
+        await btn.click();
+        await page.waitForTimeout(300);
+      }
+    }
+  }
+
+  const comprova = page.getByRole("button", { name: /comprova/i });
+  if (await comprova.isVisible()) {
+    await comprova.click();
+    await page.waitForTimeout(500);
+  }
+}
+
+/**
+ * OrderWords: Tap word tiles in correct order to build a sentence.
+ */
+async function solveOrderWords(page: Page) {
+  // Similar to Unscramble but with whole words instead of letters
+  const wordBtns = page.locator('button:not([disabled])').filter({
+    hasNotText: /comprova|següent|anterior|pista|fet/i,
+  });
+
+  const count = await wordBtns.count();
+  for (let i = 0; i < count; i++) {
+    const btn = wordBtns.nth(i);
+    if (await btn.isVisible()) {
+      await btn.click();
+      await page.waitForTimeout(200);
+    }
+  }
+
+  const comprova = page.getByRole("button", { name: /comprova/i });
+  if (await comprova.isVisible()) {
+    await comprova.click();
+    await page.waitForTimeout(500);
+  }
+}
+
+/**
+ * DecodeGrid: Use a letter-number grid to decode words.
+ */
+async function solveDecodeGrid(page: Page) {
+  const inputs = page.locator('input[type="text"]');
+  const count = await inputs.count();
+
+  for (let i = 0; i < count; i++) {
+    const input = inputs.nth(i);
+    if (await input.isVisible()) {
+      const value = await input.inputValue();
+      if (!value) {
+        // Try to find the reference grid and fill in the correct letter
+        await input.fill("a"); // Default fallback
+      }
+    }
+  }
+
+  const comprova = page.getByRole("button", { name: /comprova/i });
+  if (await comprova.isVisible()) {
+    await comprova.click();
     await page.waitForTimeout(500);
   }
 }

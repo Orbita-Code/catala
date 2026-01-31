@@ -1,5 +1,5 @@
 /**
- * Answer keys for all 209 tasks across 12 themes.
+ * Answer keys for all ~241 tasks across 12 themes.
  * Used by E2E test solvers to programmatically complete each task.
  */
 
@@ -31,7 +31,13 @@ export type TaskAnswer =
       areas: { area: string; color: string }[];
     }
   | { type: "label-image"; labels: string[] }
-  | { type: "drawing-canvas" };
+  | { type: "drawing-canvas" }
+  | { type: "add-article" }
+  | { type: "separate-words" }
+  | { type: "count-and-write" }
+  | { type: "write-antonym" }
+  | { type: "order-words" }
+  | { type: "decode-grid" };
 
 export const themeAnswers: Record<string, TaskAnswer[]> = {
   // ═══════════════════════════════════════════
@@ -146,12 +152,16 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
   ],
 
   // ═══════════════════════════════════════════
-  // Theme 2: L'Escola (17 tasks)
+  // Theme 2: L'Escola (19 tasks)
   // ═══════════════════════════════════════════
   "l-escola": [
+    // 1. copy-word (school places)
     { type: "copy-word" },
+    // 2. fill-letters (school places)
     { type: "fill-letters", words: ["aula", "biblioteca", "pati", "menjador", "gimnàs", "despatx", "lavabo", "passadís", "entrada", "escales"] },
+    // 3. unscramble
     { type: "unscramble", words: ["aula", "pati", "lavabo", "menjador", "escales"] },
+    // 4. matching (place-activity)
     {
       type: "matching",
       pairs: [
@@ -162,17 +172,19 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         ["biblioteca", "llegir"],
       ],
     },
+    // 5. word-search
     {
       type: "word-search",
       gridSize: 10,
       wordPositions: [
         { word: "aula", startRow: 0, startCol: 0, endRow: 0, endCol: 3 },
-        { word: "pati", startRow: 1, startCol: 0, endRow: 1, endCol: 3 },
-        { word: "gimnàs", startRow: 2, startCol: 0, endRow: 2, endCol: 5 },
-        { word: "lavabo", startRow: 3, startCol: 0, endRow: 3, endCol: 5 },
-        { word: "escales", startRow: 4, startCol: 0, endRow: 4, endCol: 6 },
+        { word: "pati", startRow: 2, startCol: 0, endRow: 2, endCol: 3 },
+        { word: "gimnàs", startRow: 2, startCol: 8, endRow: 2, endCol: 3 },
+        { word: "lavabo", startRow: 4, startCol: 0, endRow: 4, endCol: 5 },
+        { word: "escales", startRow: 6, startCol: 0, endRow: 6, endCol: 6 },
       ],
     },
+    // 6. classify-columns (dins vs fora)
     {
       type: "classify-columns",
       columns: [
@@ -180,22 +192,46 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         { columnName: "Fora", items: ["pati", "entrada", "escales"] },
       ],
     },
+    // 7. fill-sentence
     { type: "fill-sentence", blanks: ["pati", "menjador", "biblioteca", "gimnàs"] },
+    // 8. multiple-choice
     { type: "multiple-choice", correctIndices: [0, 2, 1, 3] },
+    // 9. self-assessment
     { type: "self-assessment" },
+    // 10. fill-sentence
     { type: "fill-sentence", blanks: ["menjador", "biblioteca", "gimnàs", "lavabo"] },
+    // 11. label-image
     { type: "label-image", labels: ["aula", "biblioteca", "menjador", "lavabo", "pati", "gimnàs"] },
-    { type: "copy-word" },
+    // 12. fill-sentence (què fem a cada lloc)
     { type: "fill-sentence", blanks: ["estudiem", "juguem", "mengem", "llegim"] },
+    // 13. copy-word (subjects) — was old task 14
+    { type: "copy-word" },
+    // 14. copy-word (days of week) — was old task 15
+    { type: "copy-word" },
+    // 15. fill-letters (subjects) — was old task 16
+    { type: "fill-letters", words: ["matemàtiques", "llengües", "música", "dibuix", "anglès", "informàtica", "ciències"] },
+    // 16. matching (subjects) — was old task 17
+    {
+      type: "matching",
+      pairs: [
+        ["matemàtiques", "números"],
+        ["llengües", "paraules"],
+        ["música", "cançons"],
+        ["dibuix", "colors"],
+        ["educació física", "esport"],
+      ],
+    },
+    // 17. classify-columns (subjects vs days) — was old task 18
     {
       type: "classify-columns",
       columns: [
-        { columnName: "Espais de l'escola", items: ["aula", "biblioteca", "menjador", "lavabo", "pati", "gimnàs", "despatx"] },
-        { columnName: "Persones de l'escola", items: ["mestre", "directora", "conserge", "secretari", "cuinera", "monitor"] },
+        { columnName: "Assignatures", items: ["matemàtiques", "llengües", "música", "dibuix", "anglès", "ciències"] },
+        { columnName: "Dies de la setmana", items: ["dilluns", "dimarts", "dimecres", "dijous", "divendres"] },
       ],
     },
-    { type: "label-image", labels: ["mestre", "directora", "conserge", "cuinera"] },
-    { type: "fill-sentence", blanks: ["mestre", "directora", "conserge", "cuinera"] },
+    // 18. fill-sentence (horari) — was old task 19
+    { type: "fill-sentence", blanks: ["matemàtiques", "llengües", "música", "educació física"] },
+    // 19. drawing-canvas — was old task 20
     { type: "drawing-canvas" },
   ],
 
@@ -273,12 +309,16 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
   ],
 
   // ═══════════════════════════════════════════
-  // Theme 4: La Roba (14 tasks)
+  // Theme 4: La Roba (19 tasks)
   // ═══════════════════════════════════════════
   "la-roba": [
+    // 1. copy-word
     { type: "copy-word" },
+    // 2. fill-letters
     { type: "fill-letters", words: ["texans", "camisa", "samarreta", "jaqueta", "pantalons", "sabatilles", "faldilla", "bufanda"] },
+    // 3. unscramble
     { type: "unscramble", words: ["vestit", "camisa", "sabates", "faldilla", "texans"] },
+    // 4. matching
     {
       type: "matching",
       pairs: [
@@ -289,17 +329,19 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         ["pantalons", "cames"],
       ],
     },
+    // 5. word-search
     {
       type: "word-search",
       gridSize: 10,
       wordPositions: [
         { word: "botes", startRow: 0, startCol: 3, endRow: 0, endCol: 7 },
-        { word: "abric", startRow: 4, startCol: 8, endRow: 8, endCol: 8 },
-        { word: "vestit", startRow: 6, startCol: 5, endRow: 6, endCol: 0 },
         { word: "camisa", startRow: 0, startCol: 9, endRow: 5, endCol: 9 },
+        { word: "vestit", startRow: 6, startCol: 5, endRow: 6, endCol: 0 },
         { word: "gorra", startRow: 8, startCol: 0, endRow: 8, endCol: 4 },
+        { word: "abric", startRow: 4, startCol: 8, endRow: 8, endCol: 8 },
       ],
     },
+    // 6. classify-columns (estiu vs hivern)
     {
       type: "classify-columns",
       columns: [
@@ -307,13 +349,19 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         { columnName: "Hivern", items: ["abric", "bufanda", "guants", "botes"] },
       ],
     },
+    // 7. fill-sentence
     { type: "fill-sentence", blanks: ["samarreta", "abric", "sabates", "gorra"] },
+    // 8. multiple-choice
     { type: "multiple-choice", correctIndices: [0, 1, 2, 3] },
+    // 9. self-assessment
     { type: "self-assessment" },
+    // 10. fill-sentence
     { type: "fill-sentence", blanks: ["abric", "botes", "samarreta", "gorra"] },
+    // 11. fill-sentence
     { type: "fill-sentence", blanks: ["vermell", "noves", "calenta"] },
+    // 12. label-image
     { type: "label-image", labels: ["samarreta", "pantalons", "sabates", "mitjons", "gorra", "jaqueta"] },
-    { type: "drawing-canvas" },
+    // 13. classify-columns (estiu vs hivern expanded)
     {
       type: "classify-columns",
       columns: [
@@ -321,13 +369,43 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         { columnName: "Roba d'hivern", items: ["abric", "bufanda", "guants", "botes", "jaqueta", "barret"] },
       ],
     },
+    // 14. copy-word (accessories)
+    { type: "copy-word" },
+    // 15. copy-word (summer clothes)
+    { type: "copy-word" },
+    // 16. fill-letters (new clothing)
+    { type: "fill-letters", words: ["banyador", "cinturó", "arracades", "collaret", "ulleres", "sandàlies", "xandall", "caputxa"] },
+    // 17. matching (occasion)
+    {
+      type: "matching",
+      pairs: [
+        ["banyador", "platja"],
+        ["xandall", "esport"],
+        ["corbata", "festa"],
+        ["pijama", "dormir"],
+        ["abric", "fred"],
+      ],
+    },
+    // 18. classify-columns (summer vs winter vs accessories)
+    {
+      type: "classify-columns",
+      columns: [
+        { columnName: "Roba d'estiu", items: ["banyador", "biquini", "sandàlies", "pantalons curts", "samarreta de tirants"] },
+        { columnName: "Roba d'hivern", items: ["abric", "bufanda", "guants", "botes", "xandall", "caputxa"] },
+        { columnName: "Complements", items: ["arracades", "anell", "collaret", "ulleres", "corbata", "cinturó"] },
+      ],
+    },
+    // 19. drawing-canvas
+    { type: "drawing-canvas" },
   ],
 
   // ═══════════════════════════════════════════
-  // Theme 5: La Casa (23 tasks)
+  // Theme 5: La Casa (28 tasks)
   // ═══════════════════════════════════════════
   "la-casa": [
+    // 1. copy-word
     { type: "copy-word" },
+    // 2. word-search
     {
       type: "word-search",
       gridSize: 7,
@@ -340,8 +418,11 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         { word: "balcó", startRow: 6, startCol: 2, endRow: 6, endCol: 6 },
       ],
     },
+    // 3. label-image
     { type: "label-image", labels: ["façana", "xemeneia", "balcó", "jardí", "garatge", "antena"] },
+    // 4. fill-letters
     { type: "fill-letters", words: ["façana", "xemeneia", "balcó", "persiana", "cortina", "escala", "jardí", "garatge"] },
+    // 5. classify-columns
     {
       type: "classify-columns",
       columns: [
@@ -349,6 +430,7 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         { columnName: "Parts interiors", items: ["cortina", "persiana", "escala"] },
       ],
     },
+    // 6. matching
     {
       type: "matching",
       pairs: [
@@ -361,22 +443,39 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         ["lavabo", "per banyar-se"],
       ],
     },
+    // 7. copy-word
     { type: "copy-word" },
+    // 8. fill-letters
     { type: "fill-letters", words: ["dormitori", "menjador", "terrassa", "lavabo", "saló", "cuina"] },
+    // 9. copy-word
     { type: "copy-word" },
+    // 10. fill-sentence
     { type: "fill-sentence", blanks: ["televisió", "sofà", "nevera", "llit"] },
+    // 11. copy-word
     { type: "copy-word" },
+    // 12. copy-word
     { type: "copy-word" },
+    // 13. fill-sentence
     { type: "fill-sentence", blanks: ["coixí", "armari", "despertador", "llit"] },
+    // 14. copy-word
     { type: "copy-word" },
+    // 15. fill-sentence (prepositions)
     { type: "fill-sentence", blanks: ["a sobre", "a sota", "a dins", "al davant"] },
+    // 16. fill-sentence
     { type: "fill-sentence", blanks: ["menjador", "cuina", "saló", "biblioteca"] },
+    // 17. fill-sentence
     { type: "fill-sentence", blanks: ["Obra", "pati", "cuina"] },
+    // 18. fill-sentence
     { type: "fill-sentence", blanks: ["tres", "una", "dues"] },
+    // 19. drawing-canvas
     { type: "drawing-canvas" },
+    // 20. self-assessment
     { type: "self-assessment" },
+    // 21. drawing-canvas
     { type: "drawing-canvas" },
+    // 22. multiple-choice
     { type: "multiple-choice", correctIndices: [0, 1, 2, 3] },
+    // 23. classify-columns
     {
       type: "classify-columns",
       columns: [
@@ -385,25 +484,49 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         { columnName: "Bany", items: ["banyera", "mirall", "vàter"] },
       ],
     },
+    // 24. copy-word (kitchen)
+    { type: "copy-word" },
+    // 25. copy-word (bathroom)
+    { type: "copy-word" },
+    // 26. fill-letters (new house words)
+    { type: "fill-letters", words: ["taulada", "llar de foc", "butaca", "planta", "aigualera", "escorreplats", "fogons", "dutxa", "esponja"] },
+    // 27. matching (object-room)
+    {
+      type: "matching",
+      pairs: [
+        ["butaca", "sala d'estar"],
+        ["dutxa", "bany"],
+        ["fogons", "cuina"],
+        ["llit", "dormitori"],
+        ["escorreplats", "cuina"],
+      ],
+    },
+    // 28. fill-sentence
+    { type: "fill-sentence", blanks: ["aigualera", "dutxa", "fogons", "taulada"] },
   ],
 
   // ═══════════════════════════════════════════
   // Theme 6: La Família (14 tasks)
   // ═══════════════════════════════════════════
   "la-familia": [
+    // 1. copy-word
     { type: "copy-word" },
-    { type: "fill-letters", words: ["pare", "mare", "germà", "germana", "avi", "àvia", "oncle", "tia", "cosí", "cosina", "fill", "filla", "bebè", "nebot", "neboda"] },
+    // 2. fill-letters
+    { type: "fill-letters", words: ["pare", "mare", "germà", "germana", "avi", "àvia", "oncle", "marit", "tieta", "cosí", "cosina", "fill", "filla", "bebè", "nebot", "neboda"] },
+    // 3. unscramble
     { type: "unscramble", words: ["mare", "germà", "oncle", "nebot", "filla"] },
+    // 4. matching
     {
       type: "matching",
       pairs: [
         ["pare", "mare"],
         ["avi", "àvia"],
         ["germà", "germana"],
-        ["oncle", "tia"],
+        ["oncle", "tieta"],
         ["nebot", "neboda"],
       ],
     },
+    // 5. word-search
     {
       type: "word-search",
       gridSize: 10,
@@ -411,69 +534,92 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         { word: "pare", startRow: 0, startCol: 3, endRow: 3, endCol: 3 },
         { word: "mare", startRow: 5, startCol: 4, endRow: 5, endCol: 7 },
         { word: "avi", startRow: 1, startCol: 0, endRow: 3, endCol: 2 },
-        { word: "tia", startRow: 7, startCol: 7, endRow: 7, endCol: 5 },
+        { word: "tieta", startRow: 7, startCol: 7, endRow: 7, endCol: 3 },
         { word: "nebot", startRow: 3, startCol: 8, endRow: 7, endCol: 8 },
       ],
     },
+    // 6. classify-columns
     {
       type: "classify-columns",
       columns: [
-        { columnName: "Home", items: ["pare", "germà", "avi", "oncle", "cosí", "fill", "nebot"] },
-        { columnName: "Dona", items: ["mare", "germana", "àvia", "tia", "cosina", "filla", "neboda"] },
+        { columnName: "Home", items: ["pare", "germà", "avi", "oncle", "marit", "cosí", "fill", "nebot"] },
+        { columnName: "Dona", items: ["mare", "germana", "àvia", "tieta", "cosina", "filla", "neboda"] },
       ],
     },
-    { type: "fill-sentence", blanks: ["avi", "tia", "cosí", "àvia"] },
+    // 7. fill-sentence
+    { type: "fill-sentence", blanks: ["avi", "tieta", "cosí", "àvia"] },
+    // 8. multiple-choice
     { type: "multiple-choice", correctIndices: [1, 2, 3, 1] },
+    // 9. self-assessment
     { type: "self-assessment" },
+    // 10. label-image
     { type: "label-image", labels: ["avi", "àvia", "pare", "mare", "germà", "germana"] },
-    { type: "fill-sentence", blanks: ["avi", "tia", "cosí", "àvia"] },
+    // 11. fill-sentence
+    { type: "fill-sentence", blanks: ["avi", "tieta", "cosí", "àvia"] },
+    // 12. fill-sentence
     { type: "fill-sentence", blanks: ["germà", "mare", "pare", "àvia"] },
+    // 13. self-assessment
     { type: "self-assessment" },
+    // 14. drawing-canvas
     { type: "drawing-canvas" },
   ],
 
   // ═══════════════════════════════════════════
-  // Theme 7: Les Botigues (15 tasks)
+  // Theme 7: Les Botigues (21 tasks)
   // ═══════════════════════════════════════════
   "les-botigues": [
+    // 1. copy-word
     { type: "copy-word" },
-    { type: "fill-letters", words: ["supermercat", "forn", "peixateria", "carnisseria", "farmàcia", "llibreria", "pastisseria", "fruiteria", "joguineria"] },
-    { type: "unscramble", words: ["forn", "farmàcia", "fruiteria", "llibreria", "joguineria"] },
+    // 2. fill-letters
+    { type: "fill-letters", words: ["supermercat", "fleca", "peixateria", "carnisseria", "farmàcia", "llibreria", "pastisseria", "fruiteria", "joguineria"] },
+    // 3. unscramble
+    { type: "unscramble", words: ["fleca", "farmàcia", "fruiteria", "llibreria", "joguineria"] },
+    // 4. matching
     {
       type: "matching",
       pairs: [
-        ["forn", "pa"],
+        ["fleca", "pa"],
         ["peixateria", "peix"],
         ["carnisseria", "carn"],
         ["farmàcia", "medicaments"],
         ["fruiteria", "fruita"],
       ],
     },
+    // 5. word-search
     {
       type: "word-search",
       gridSize: 10,
       wordPositions: [
-        { word: "forn", startRow: 0, startCol: 0, endRow: 3, endCol: 3 },
-        { word: "carn", startRow: 0, startCol: 7, endRow: 3, endCol: 7 },
+        { word: "fleca", startRow: 0, startCol: 0, endRow: 0, endCol: 4 },
+        { word: "carn", startRow: 3, startCol: 0, endRow: 3, endCol: 3 },
         { word: "peix", startRow: 4, startCol: 0, endRow: 4, endCol: 3 },
         { word: "fruita", startRow: 7, startCol: 5, endRow: 7, endCol: 0 },
         { word: "pa", startRow: 1, startCol: 5, endRow: 1, endCol: 6 },
       ],
     },
+    // 6. classify-columns
     {
       type: "classify-columns",
       columns: [
-        { columnName: "Menjar", items: ["forn", "peixateria", "carnisseria", "pastisseria", "fruiteria", "supermercat"] },
+        { columnName: "Menjar", items: ["fleca", "peixateria", "carnisseria", "pastisseria", "fruiteria", "supermercat"] },
         { columnName: "No menjar", items: ["farmàcia", "llibreria", "joguineria", "botiga de roba"] },
       ],
     },
-    { type: "fill-sentence", blanks: ["forn", "peixateria", "fruiteria", "joguineria"] },
+    // 7. fill-sentence
+    { type: "fill-sentence", blanks: ["fleca", "peixateria", "fruiteria", "joguineria"] },
+    // 8. multiple-choice
     { type: "multiple-choice", correctIndices: [0, 1, 2, 3] },
+    // 9. self-assessment
     { type: "self-assessment" },
+    // 10. label-image (fruits)
     { type: "label-image", labels: ["poma", "pera", "plàtan", "taronja", "maduixa", "cirera"] },
+    // 11. label-image (vegetables)
     { type: "label-image", labels: ["pastanaga", "ceba", "tomàquet", "pebrot", "enciam"] },
+    // 12. fill-letters
     { type: "fill-letters", words: ["pastanaga", "tomàquet", "pollastre", "sardina", "maduixa", "plàtan"] },
+    // 13. label-image (meat/fish)
     { type: "label-image", labels: ["pollastre", "porc", "peix", "gamba"] },
+    // 14. classify-columns
     {
       type: "classify-columns",
       columns: [
@@ -482,16 +628,49 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         { columnName: "Carn i peix", items: ["pollastre", "porc", "peix", "gamba"] },
       ],
     },
+    // 15. copy-word (pharmacy)
+    { type: "copy-word" },
+    // 16. copy-word (fruits/veg)
+    { type: "copy-word" },
+    // 17. fill-letters (new products)
+    { type: "fill-letters", words: ["tirita", "pastilla", "xarop", "termòmetre", "crema", "mongetes", "préssec", "cireres", "fleca"] },
+    // 18. matching (product-shop)
+    {
+      type: "matching",
+      pairs: [
+        ["tirita", "farmàcia"],
+        ["préssec", "fruiteria"],
+        ["sardina", "peixateria"],
+        ["pa", "fleca"],
+        ["pastís", "pastisseria"],
+      ],
+    },
+    // 19. classify-columns (by shop)
+    {
+      type: "classify-columns",
+      columns: [
+        { columnName: "Farmàcia", items: ["tirita", "pastilla", "xarop", "termòmetre", "crema"] },
+        { columnName: "Fruiteria", items: ["préssec", "cireres", "mongetes", "poma", "taronja"] },
+        { columnName: "Fleca", items: ["pa", "croissant", "barra de pa"] },
+      ],
+    },
+    // 20. fill-sentence
+    { type: "fill-sentence", blanks: ["fleca", "farmàcia", "fruiteria", "pastilla"] },
+    // 21. drawing-canvas
     { type: "drawing-canvas" },
   ],
 
   // ═══════════════════════════════════════════
-  // Theme 8: El Menjar (20 tasks)
+  // Theme 8: El Menjar (27 tasks)
   // ═══════════════════════════════════════════
   "el-menjar": [
+    // 1. copy-word
     { type: "copy-word" },
+    // 2. fill-letters
     { type: "fill-letters", words: ["poma", "pera", "plàtan", "taronja", "maduixa", "tomàquet", "pastanaga", "llet", "formatge", "peix"] },
+    // 3. unscramble
     { type: "unscramble", words: ["poma", "pera", "peix", "llet", "ceba"] },
+    // 4. matching (meal-food)
     {
       type: "matching",
       pairs: [
@@ -501,17 +680,19 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         ["sopar", "amanida"],
       ],
     },
+    // 5. word-search
     {
       type: "word-search",
       gridSize: 10,
       wordPositions: [
         { word: "poma", startRow: 0, startCol: 0, endRow: 0, endCol: 3 },
-        { word: "pera", startRow: 1, startCol: 0, endRow: 1, endCol: 3 },
+        { word: "pera", startRow: 2, startCol: 5, endRow: 2, endCol: 8 },
         { word: "pa", startRow: 2, startCol: 0, endRow: 2, endCol: 1 },
         { word: "llet", startRow: 3, startCol: 0, endRow: 3, endCol: 3 },
-        { word: "ou", startRow: 4, startCol: 0, endRow: 4, endCol: 1 },
+        { word: "ou", startRow: 7, startCol: 6, endRow: 7, endCol: 7 },
       ],
     },
+    // 6. classify-columns (fruit vs vegetable)
     {
       type: "classify-columns",
       columns: [
@@ -519,12 +700,19 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         { columnName: "Verdura", items: ["tomàquet", "pastanaga", "ceba", "enciam", "patata"] },
       ],
     },
+    // 7. fill-sentence
     { type: "fill-sentence", blanks: ["llet", "sopa", "fruita", "amanida"] },
+    // 8. multiple-choice
     { type: "multiple-choice", correctIndices: [1, 2, 3, 1] },
+    // 9. self-assessment
     { type: "self-assessment" },
+    // 10. label-image (breakfast)
     { type: "label-image", labels: ["cereals", "suc", "llet", "torrada", "fruita"] },
+    // 11. fill-sentence
     { type: "fill-sentence", blanks: ["cereals", "arròs", "entrepà", "sopa"] },
+    // 12. label-image (food items)
     { type: "label-image", labels: ["pa", "formatge", "ou", "pizza", "pasta", "hamburguesa"] },
+    // 13. classify-columns (meals)
     {
       type: "classify-columns",
       columns: [
@@ -533,8 +721,11 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         { columnName: "Sopar", items: ["sopa", "entrepà", "ou", "formatge"] },
       ],
     },
+    // 14. fill-sentence
     { type: "fill-sentence", blanks: ["llet", "amanida", "ou", "pa"] },
+    // 15. fill-letters
     { type: "fill-letters", words: ["hamburguesa", "entrepà", "formatge", "amanida", "cereals", "torrada"] },
+    // 16. classify-columns (sweet vs salty)
     {
       type: "classify-columns",
       columns: [
@@ -542,19 +733,56 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         { columnName: "Salat", items: ["formatge", "pernil", "entrepà", "pizza", "sopa"] },
       ],
     },
+    // 17. fill-sentence
     { type: "fill-sentence", blanks: ["pizza", "peix", "xocolata"] },
+    // 18. label-image (dinner)
     { type: "label-image", labels: ["sopa", "pa", "formatge", "fruita"] },
+    // 19. label-image (lunch)
     { type: "label-image", labels: ["amanida", "arròs", "peix", "suc"] },
+    // 20. copy-word (drinks)
+    { type: "copy-word" },
+    // 21. copy-word (proteins)
+    { type: "copy-word" },
+    // 22. copy-word (carbs)
+    { type: "copy-word" },
+    // 23. fill-letters (new food)
+    { type: "fill-letters", words: ["cafè", "tonyina", "salmó", "calamar", "macarrons", "sandvitx", "croissant", "iogurt"] },
+    // 24. matching (food-meal)
+    {
+      type: "matching",
+      pairs: [
+        ["croissant", "esmorzar"],
+        ["bistec", "dinar"],
+        ["sopa", "sopar"],
+        ["sandvitx", "berenar"],
+        ["cafè", "esmorzar"],
+      ],
+    },
+    // 25. classify-columns (drinks vs proteins)
+    {
+      type: "classify-columns",
+      columns: [
+        { columnName: "Begudes", items: ["cafè", "te", "refresc", "aigua", "llet", "suc"] },
+        { columnName: "Proteïnes", items: ["tonyina", "salmó", "calamar", "musclo", "bistec", "mandonguilles"] },
+      ],
+    },
+    // 26. fill-sentence
+    { type: "fill-sentence", blanks: ["cafè", "calamar", "sandvitx", "ampolla"] },
+    // 27. drawing-canvas
     { type: "drawing-canvas" },
   ],
 
   // ═══════════════════════════════════════════
-  // Theme 9: Els Animals (21 tasks)
+  // Theme 9: Els Animals (27 tasks)
   // ═══════════════════════════════════════════
   "els-animals": [
+    // 1. copy-word
     { type: "copy-word" },
+    // 2. fill-letters
     { type: "fill-letters", words: ["conill", "tigre", "elefant", "tortuga", "girafa", "dofí", "ocell", "serp", "lleó", "gos"] },
+    // 3. unscramble
     { type: "unscramble", words: ["conill", "tigre", "peix", "girafa", "lleó"] },
+    // 4. matching (animal-sound)
     {
       type: "matching",
       pairs: [
@@ -565,17 +793,19 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         ["serp", "sss"],
       ],
     },
+    // 5. word-search
     {
       type: "word-search",
       gridSize: 10,
       wordPositions: [
         { word: "gos", startRow: 0, startCol: 0, endRow: 0, endCol: 2 },
-        { word: "gat", startRow: 1, startCol: 0, endRow: 1, endCol: 2 },
-        { word: "lleo", startRow: 2, startCol: 0, endRow: 2, endCol: 3 },
-        { word: "peix", startRow: 3, startCol: 0, endRow: 3, endCol: 3 },
-        { word: "serp", startRow: 4, startCol: 0, endRow: 4, endCol: 3 },
+        { word: "gat", startRow: 2, startCol: 0, endRow: 2, endCol: 2 },
+        { word: "lleo", startRow: 6, startCol: 0, endRow: 6, endCol: 3 },
+        { word: "peix", startRow: 4, startCol: 0, endRow: 4, endCol: 3 },
+        { word: "serp", startRow: 0, startCol: 9, endRow: 3, endCol: 9 },
       ],
     },
+    // 6. classify-columns (domestic vs wild)
     {
       type: "classify-columns",
       columns: [
@@ -583,13 +813,21 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         { columnName: "Salvatges", items: ["lleó", "tigre", "elefant", "girafa", "serp"] },
       ],
     },
+    // 7. fill-sentence
     { type: "fill-sentence", blanks: ["gos", "tigre", "elefant", "peix"] },
+    // 8. multiple-choice
     { type: "multiple-choice", correctIndices: [1, 2, 3, 0] },
+    // 9. self-assessment
     { type: "self-assessment" },
+    // 10. label-image (bird parts)
     { type: "label-image", labels: ["bec", "ales", "plomes", "cua", "potes"] },
+    // 11. copy-word (marine)
     { type: "copy-word" },
+    // 12. fill-letters (marine)
     { type: "fill-letters", words: ["dofí", "balena", "tauró", "medusa", "pop", "tortuga"] },
+    // 13. copy-word (wild)
     { type: "copy-word" },
+    // 14. classify-columns (farm vs wild)
     {
       type: "classify-columns",
       columns: [
@@ -597,19 +835,54 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         { columnName: "Animals salvatges", items: ["lleó", "tigre", "elefant", "girafa", "zebra", "ós", "mico"] },
       ],
     },
+    // 15. fill-sentence
     { type: "fill-sentence", blanks: ["lleó", "vaca", "gallina", "dofí", "elefant"] },
+    // 16. label-image (farm)
     { type: "label-image", labels: ["gos", "gat", "vaca", "cavall", "gallina", "ovella"] },
+    // 17. classify-columns (sea vs land vs air)
     {
       type: "classify-columns",
       columns: [
         { columnName: "Mar", items: ["dofí", "balena", "tauró", "pop", "medusa"] },
         { columnName: "Terra", items: ["lleó", "elefant", "gos", "gat", "conill"] },
-        { columnName: "Aire", items: ["àguila", "oreneta", "mussol", "gavina", "papallona"] },
+        { columnName: "Aire", items: ["àguila", "oreneta", "mussol", "gaviota", "papallona"] },
       ],
     },
+    // 18. fill-sentence (animal sounds)
     { type: "fill-sentence", blanks: ["borda", "miola", "mugeix", "canta"] },
+    // 19. label-image (insects)
     { type: "label-image", labels: ["formiga", "papallona", "abella", "aranya"] },
+    // 20. fill-sentence (describe pet)
     { type: "fill-sentence", blanks: ["gos", "quatre", "marró", "casa"] },
+    // 21. copy-word (farm + insects)
+    { type: "copy-word" },
+    // 22. copy-word (exotic)
+    { type: "copy-word" },
+    // 23. copy-word (sea animals)
+    { type: "copy-word" },
+    // 24. fill-letters (new animals)
+    { type: "fill-letters", words: ["gorila", "camell", "lince", "guineu", "mosquit", "pingüí", "bacallà", "estruç"] },
+    // 25. matching (animal-habitat)
+    {
+      type: "matching",
+      pairs: [
+        ["camell", "desert"],
+        ["pingüí", "gel"],
+        ["gorila", "selva"],
+        ["bacallà", "mar"],
+        ["guineu", "bosc"],
+      ],
+    },
+    // 26. classify-columns (farm vs wild vs marine)
+    {
+      type: "classify-columns",
+      columns: [
+        { columnName: "Animals de granja", items: ["gall", "pollet", "gallina", "vaca", "ovella", "porc"] },
+        { columnName: "Animals salvatges", items: ["gorila", "camell", "lince", "guineu", "estruç"] },
+        { columnName: "Animals marins", items: ["peix espasa", "bacallà", "pingüí", "dofí", "balena"] },
+      ],
+    },
+    // 27. drawing-canvas
     { type: "drawing-canvas" },
   ],
 
