@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { LabelImageTask, TaskResult } from "@/types/tasks";
 import { getWordEmoji } from "@/lib/illustrations";
 import SpeakerButton from "@/components/ui/SpeakerButton";
+import { speak } from "@/lib/tts";
 import { useDragAndDrop } from "@/hooks/useDragAndDrop";
 import DragOverlay from "@/components/ui/DragOverlay";
 
@@ -118,6 +119,8 @@ export default function LabelImage({ task, onComplete }: Props) {
     setResults(newResults);
     setChecked(true);
     if (allCorrect) {
+      const words = task.labels.map((l) => l.text).join(", ");
+      speak(words);
       setTimeout(() => onComplete({ allCorrect: true, erroredItems: [] }), 1200);
     }
   };

@@ -69,6 +69,8 @@ export const wordEmoji: Record<string, string> = {
   tocar: "✋",
 
   // === LA ROBA (Clothing) ===
+  anorac: "🧥",
+  jersei: "🧶",
   texans: "👖",
   camisa: "👔",
   samarreta: "👕",
@@ -84,7 +86,6 @@ export const wordEmoji: Record<string, string> = {
   mitges: "🧦",
   botes: "👢",
   pijama: "🛏️",
-  calcetins: "🧦",
   sabates: "👞",
   mitjons: "🧦",
   barret: "🎩",
@@ -242,6 +243,101 @@ export const wordEmoji: Record<string, string> = {
   portar: "🎒",
   dibuixar: "🎨",
 };
+
+// Words that have 3D illustration PNGs in /public/illustrations/
+// As illustrations are generated, add the word here
+const wordsWithIllustrations = new Set([
+  "llapis",
+  "goma",
+  "retolador",
+  "regle",
+  "tisores",
+  "llibre",
+  "quadern",
+  "motxilla",
+  "boligraf",
+  "llibreta",
+  "carpeta",
+  "estoig",
+  "maquineta",
+  "pissarra",
+  "guix",
+  "borrador",
+  "paperera",
+  "ordinador",
+  "taula",
+  "cadira",
+  "porta",
+  "finestra",
+  // L'escola
+  "aula",
+  "biblioteca",
+  "pati",
+  "menjador",
+  "gimnas",
+  "despatx",
+  "lavabo",
+  "passadis",
+  "entrada",
+  "escales",
+  "escola",
+  // El cos
+  "cos",
+  "cap",
+  "ull",
+  "nas",
+  "boca",
+  "orella",
+  "coll",
+  "brac",
+  "ma",
+  "dit",
+  "cama",
+  "genoll",
+  "peu",
+  "cabell",
+  "veure",
+  "escoltar",
+  "parlar",
+  "olorar",
+  "tocar",
+  // La roba
+  "anorac",
+  "jersei",
+  "texans",
+  "camisa",
+  "samarreta",
+  "jaqueta",
+  "sabatilles",
+  "abric",
+  "pantalons",
+  "vestit",
+  "faldilla",
+  "gorra",
+  "bufanda",
+  "guants",
+  "mitges",
+  "botes",
+  "pijama",
+  "sabates",
+  "mitjons",
+  "barret",
+  "vambes",
+]);
+
+// Strip accents for filename matching (e.g. "bolígraf" → "boligraf")
+function stripAccents(s: string): string {
+  return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+// Get the illustration image path for a word (returns null if no illustration exists)
+export function getWordIllustration(word: string): string | null {
+  const key = stripAccents(word.toLowerCase().trim());
+  if (wordsWithIllustrations.has(key)) {
+    return `/illustrations/${key}.png`;
+  }
+  return null;
+}
 
 // Get emoji for a word (case-insensitive, returns empty string if not found)
 export function getWordEmoji(word: string): string {

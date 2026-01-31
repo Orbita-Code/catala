@@ -4,12 +4,13 @@ import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { CopyWordTask } from "@/types/tasks";
 import type { TaskResult } from "@/types/tasks";
-import { getWordEmoji } from "@/lib/illustrations";
+import { getWordEmoji, getWordIllustration } from "@/lib/illustrations";
 import LetterTile from "@/components/ui/LetterTile";
 import SlotRow from "@/components/ui/SlotRow";
 import SpeakerButton from "@/components/ui/SpeakerButton";
 import InlineHintMascot from "@/components/ui/InlineHintMascot";
 import { useHintSystem } from "@/hooks/useHintSystem";
+import { speak } from "@/lib/tts";
 
 import { ArrowLeft } from "lucide-react";
 import confetti from "canvas-confetti";
@@ -135,6 +136,7 @@ export default function CopyWord({ task, onComplete }: Props) {
         origin: { y: 0.6 },
         colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
       });
+      speak(currentWord.catalan);
 
       setTimeout(() => moveToNext(), 1000);
     } else {
@@ -245,11 +247,19 @@ export default function CopyWord({ task, onComplete }: Props) {
         animate={{ opacity: 1, x: 0 }}
         className="bg-white rounded-2xl p-5 shadow-sm"
       >
-        {/* Word display with emoji */}
+        {/* Word display with illustration or emoji */}
         <div className="text-center mb-4">
-          {getWordEmoji(currentWord.catalan) && (
+          {getWordIllustration(currentWord.catalan) ? (
+            <div className="mb-2 flex justify-center">
+              <img
+                src={getWordIllustration(currentWord.catalan)!}
+                alt={currentWord.catalan}
+                className="w-24 h-24 object-contain"
+              />
+            </div>
+          ) : getWordEmoji(currentWord.catalan) ? (
             <div className="text-4xl mb-2">{getWordEmoji(currentWord.catalan)}</div>
-          )}
+          ) : null}
           <div className="flex items-center justify-center gap-2">
             <p className="text-3xl font-black text-[var(--primary)] font-handwriting">
               {currentWord.catalan}

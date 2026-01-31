@@ -41,7 +41,8 @@ export function saveThemeProgress(
 export function completeTask(
   slug: string,
   taskId: string,
-  result: TaskResult
+  result: TaskResult,
+  nextTaskIndex?: number
 ) {
   const current = getThemeProgress(slug);
   const completedTasks = current.completedTasks.includes(taskId)
@@ -59,8 +60,13 @@ export function completeTask(
     delete taskErrors[taskId];
   }
 
+  // Use the actual next task index if provided, otherwise increment from stored value
+  const newCurrentTask = nextTaskIndex !== undefined
+    ? nextTaskIndex
+    : current.currentTask + 1;
+
   saveThemeProgress(slug, {
-    currentTask: current.currentTask + 1,
+    currentTask: newCurrentTask,
     completedTasks,
     streak,
     bestStreak,

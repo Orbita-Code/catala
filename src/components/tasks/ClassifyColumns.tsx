@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { ClassifyColumnsTask, TaskResult } from "@/types/tasks";
 import { getWordEmoji } from "@/lib/illustrations";
 import confetti from "canvas-confetti";
+import { speak } from "@/lib/tts";
 import { useDragAndDrop } from "@/hooks/useDragAndDrop";
 import DragOverlay from "@/components/ui/DragOverlay";
 
@@ -49,6 +50,7 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
           origin: { y: 0.5 },
           colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
         });
+        speak(item);
       }
 
       setTimeout(() => {

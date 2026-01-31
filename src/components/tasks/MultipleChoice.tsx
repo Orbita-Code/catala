@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { MultipleChoiceTask, TaskResult } from "@/types/tasks";
 import { getWordEmoji } from "@/lib/illustrations";
 import confetti from "canvas-confetti";
+import { speak } from "@/lib/tts";
 
 interface Props {
   task: MultipleChoiceTask;
@@ -31,6 +32,7 @@ export default function MultipleChoice({ task, onComplete }: Props) {
 
     // Mini celebration for correct answer
     if (isRight) {
+      speak(question.options[question.correct]);
       confetti({
         particleCount: 25,
         spread: 50,

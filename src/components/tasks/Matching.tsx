@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { MatchingTask, TaskResult } from "@/types/tasks";
 import { getWordEmoji } from "@/lib/illustrations";
 import confetti from "canvas-confetti";
+import { speak } from "@/lib/tts";
 import { useDragAndDrop } from "@/hooks/useDragAndDrop";
 import DragOverlay from "@/components/ui/DragOverlay";
 
@@ -43,6 +44,7 @@ export default function Matching({ task, onComplete }: Props) {
           origin: { y: 0.6 },
           colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
         });
+        speak(task.pairs[leftIdx].left);
 
         if (newMatched.size === task.pairs.length) {
           setTimeout(() => onComplete({ allCorrect: true, erroredItems: [] }), 800);

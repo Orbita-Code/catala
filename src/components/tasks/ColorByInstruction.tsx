@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ColorByInstructionTask, TaskResult } from "@/types/tasks";
+import { speak } from "@/lib/tts";
 
 interface Props {
   task: ColorByInstructionTask;
@@ -18,6 +19,8 @@ const PALETTE = [
   { name: "rosa", color: "#E84393" },
   { name: "lila", color: "#A29BFE" },
   { name: "marró", color: "#8B6F47" },
+  { name: "negre", color: "#2D3436" },
+  { name: "blanc", color: "#FAFAFA" },
 ];
 
 export default function ColorByInstruction({ task, onComplete }: Props) {
@@ -25,6 +28,9 @@ export default function ColorByInstruction({ task, onComplete }: Props) {
   const [coloredItems, setColoredItems] = useState<Record<string, string>>({});
   const [checked, setChecked] = useState(false);
   const [results, setResults] = useState<Record<string, boolean>>({});
+
+  const getHex = (name: string) =>
+    PALETTE.find((p) => p.name === name)?.color ?? "#ccc";
 
   const handleItemTap = (targetItem: string) => {
     if (checked || !selectedColor) return;
@@ -47,6 +53,8 @@ export default function ColorByInstruction({ task, onComplete }: Props) {
     setResults(newResults);
     setChecked(true);
     if (allCorrect) {
+      const colors = task.instructions.map((inst) => inst.targetColor).join(", ");
+      speak(colors);
       setTimeout(() => onComplete({ allCorrect: true, erroredItems: [] }), 1200);
     }
   };
@@ -89,10 +97,10 @@ export default function ColorByInstruction({ task, onComplete }: Props) {
             <motion.button
               key={p.name}
               whileTap={{ scale: 0.9 }}
-              onClick={() => setSelectedColor(p.color)}
+              onClick={() => setSelectedColor(p.name)}
               disabled={checked}
               className={`w-12 h-12 rounded-xl border-3 transition-all ${
-                selectedColor === p.color
+                selectedColor === p.name
                   ? "ring-3 ring-[var(--primary)] scale-110"
                   : "border-gray-200"
               }`}
@@ -114,9 +122,11 @@ export default function ColorByInstruction({ task, onComplete }: Props) {
             className="w-24 h-24 rounded-2xl border-2 border-gray-200 flex flex-col items-center justify-center gap-1 text-4xl transition-all"
             style={{
               backgroundColor: coloredItems[inst.targetItem]
-                ? `${coloredItems[inst.targetItem]}30`
+                ? `${getHex(coloredItems[inst.targetItem])}30`
                 : "white",
-              borderColor: coloredItems[inst.targetItem] || "#e5e7eb",
+              borderColor: coloredItems[inst.targetItem]
+                ? getHex(coloredItems[inst.targetItem])
+                : "#e5e7eb",
             }}
           >
             <span>{inst.targetItem}</span>

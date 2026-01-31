@@ -24,6 +24,17 @@
 .DS_Store
 *.pem
 
+# workbook photos (source material, too large for git)
+/Svi zadaci/
+
+# rejected mascot alternatives
+/Bubble.png
+/elephant.png
+/Star\ is\ learning.png
+
+# duplicate lock file
+package-lock\ 2.json
+
 # debug
 npm-debug.log*
 yarn-debug.log*

@@ -224,7 +224,7 @@ export default function StarFace({ expression }: StarFaceProps) {
         transition={springTransition}
         style={{ transformOrigin: "60px 65px" }}
       >
-        <motion.path
+        <path
           d={data.mouthPath}
           fill="none"
           stroke="#333"
@@ -232,8 +232,7 @@ export default function StarFace({ expression }: StarFaceProps) {
           strokeLinecap="round"
           strokeLinejoin="round"
           transform="translate(60, 65)"
-          animate={{ d: data.mouthPath }}
-          transition={{ duration: 0.3 }}
+          key={data.mouthPath}
         />
       </motion.g>
 

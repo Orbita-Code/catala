@@ -3,9 +3,10 @@
 import { useState, useMemo, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FillLettersTask, TaskResult } from "@/types/tasks";
-import { getWordEmoji } from "@/lib/illustrations";
+import { getWordEmoji, getWordIllustration } from "@/lib/illustrations";
 import AnimatedStar from "@/components/star/AnimatedStar";
 import confetti from "canvas-confetti";
+import { speak } from "@/lib/tts";
 
 const retryPhrases = [
   "Prova una altra vegada!",
@@ -121,6 +122,11 @@ export default function FillLetters({ task, onComplete }: Props) {
 
       setWordResults((prev) => ({ ...prev, [wordIdx]: wordCorrect }));
       setCheckedWords((prev) => new Set(prev).add(wordIdx));
+
+      // Speak the word aloud when correct
+      if (wordCorrect) {
+        speak(item.word);
+      }
 
       // Wrong word → show star encouragement, then auto-reset
       if (!wordCorrect) {
@@ -283,6 +289,7 @@ export default function FillLetters({ task, onComplete }: Props) {
           const isChecked = checkedWords.has(wordIdx);
           const isCorrect = wordResults[wordIdx];
           const emoji = getWordEmoji(item.word);
+          const illustration = getWordIllustration(item.word);
           return (
             <motion.div
               key={wordIdx}
@@ -297,19 +304,23 @@ export default function FillLetters({ task, onComplete }: Props) {
                   : ""
               }`}
             >
-              {/* Word number + emoji + letters */}
+              {/* Word number + illustration/emoji + letters */}
               <div className="flex items-center gap-3 mb-3 flex-wrap">
                 {/* Word number */}
                 <span className="text-lg font-black text-[var(--text-light)] min-w-[28px]">
                   {wordIdx + 1}.
                 </span>
 
-                {/* Emoji illustration */}
-                {emoji && (
+                {/* Illustration or emoji */}
+                {illustration ? (
+                  <div className="w-12 h-12 flex items-center justify-center flex-shrink-0">
+                    <img src={illustration} alt={item.word} className="w-12 h-12 object-contain" />
+                  </div>
+                ) : emoji ? (
                   <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-amber-50 border border-amber-200 flex-shrink-0">
                     <span className="text-3xl leading-none">{emoji}</span>
                   </div>
-                )}
+                ) : null}
 
                 {/* Letter fields */}
                 <div className="flex items-center gap-1 flex-wrap">

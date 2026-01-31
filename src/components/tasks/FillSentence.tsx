@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FillSentenceTask, TaskResult } from "@/types/tasks";
 import confetti from "canvas-confetti";
+import { speak } from "@/lib/tts";
 
 interface Props {
   task: FillSentenceTask;
@@ -31,6 +32,9 @@ export default function FillSentence({ task, onComplete }: Props) {
     setResults(newResults);
     setChecked(true);
     if (allCorrect) {
+      // Speak the correct blanks
+      const blanks = task.sentences.map((s) => s.blank).join(", ");
+      speak(blanks);
       // Celebration confetti
       confetti({
         particleCount: 30,

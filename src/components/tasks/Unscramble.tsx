@@ -10,6 +10,8 @@ import InlineHintMascot from "@/components/ui/InlineHintMascot";
 import { useHintSystem } from "@/hooks/useHintSystem";
 import { ArrowLeft } from "lucide-react";
 import confetti from "canvas-confetti";
+import { speak } from "@/lib/tts";
+import SpeakerButton from "@/components/ui/SpeakerButton";
 
 interface Props {
   task: UnscrambleTask;
@@ -115,6 +117,8 @@ export default function Unscramble({ task, onComplete }: Props) {
         origin: { y: 0.6 },
         colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
       });
+
+      speak(currentWord.correct);
 
       setTimeout(() => moveToNext(), 1000);
     } else {
@@ -226,9 +230,12 @@ export default function Unscramble({ task, onComplete }: Props) {
         animate={{ opacity: 1, x: 0 }}
         className="bg-white rounded-2xl p-5 shadow-sm"
       >
-        {getWordEmoji(currentWord.correct) && (
-          <div className="text-4xl text-center mb-3">{getWordEmoji(currentWord.correct)}</div>
-        )}
+        <div className="flex items-center justify-center gap-2 mb-3">
+          {getWordEmoji(currentWord.correct) && (
+            <div className="text-4xl">{getWordEmoji(currentWord.correct)}</div>
+          )}
+          <SpeakerButton text={currentWord.correct} />
+        </div>
 
         <p className="text-center text-sm text-[var(--text-light)] mb-4">
           Ordena les lletres tocant-les

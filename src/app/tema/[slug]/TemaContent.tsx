@@ -90,7 +90,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
   const progress = ((currentTaskIndex + 1) / tasks.length) * 100;
 
   const handleTaskComplete = (taskResult: TaskResult) => {
-    const progressResult = completeTask(slug, currentTask.id, taskResult);
+    const progressResult = completeTask(slug, currentTask.id, taskResult, currentTaskIndex + 1);
     setStreak(progressResult.streak);
 
     if (taskResult.allCorrect) {
