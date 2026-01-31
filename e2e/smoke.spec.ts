@@ -26,8 +26,8 @@ test.describe("Smoke Tests", () => {
     await page.goto("/tema/la-classe");
     await page.waitForLoadState("networkidle");
 
-    // Should show some task content
-    const taskContent = page.locator(".space-y-4, .space-y-3, [class*='task']").first();
-    await expect(taskContent).toBeVisible({ timeout: 10000 });
+    // Should show task heading (every task has an h2 prompt)
+    const taskHeading = page.locator("main h2").first();
+    await expect(taskHeading).toBeVisible({ timeout: 10000 });
   });
 });
