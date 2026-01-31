@@ -138,15 +138,13 @@ npm run test:ui  # Playwright UI mode
 - Playwright E2E test infrastructure: config, page objects, 12 task solvers, 209 answer keys, 12 theme specs + smoke test
 
 ### In Progress
-- **3D Illustrations:** 75/~280 done. Themes partially done: La classe (22), L'escola (11), El cos (19), La roba (23 of ~35).
-  - La roba done: anorac, jersei, texans, pantalons, samarreta, camisa, jaqueta, faldilla, vestit, xandall, gorra, bufanda, guants, mitges, botes, pijama, sabates, sabatilles, abric, mitjons, barret, vambes, gorra
-  - La roba still missing (workbook words): pantalons curts, arracades, anell, ulleres, collaret, cinturó, samarreta de tirants, caputxa
-  - La roba done this session: xandall, americana, corbata, banyador, banyador-de-dona, biquini, sandàlies (all via Bing)
-  - Next theme after La roba: La casa (~38 illustrations needed)
+- **3D Illustrations:** 84/~280 done. Themes done: La classe (22), L'escola (11), El cos (19), La roba (37 - COMPLETE).
+  - La roba COMPLETE: anorac, jersei, texans, pantalons, samarreta, camisa, jaqueta, faldilla, vestit, xandall, gorra, bufanda, guants, mitges, botes, pijama, sabates, sabatilles, abric, mitjons, barret, vambes, americana, corbata, banyador, banyador-de-dona, biquini, sandàlies, arracades, anell, ulleres, collaret, cinturó, caputxa, pantalons curts, samarreta de tirants
+  - Next theme: La casa (~38 illustrations needed)
   - Full workbook mapping: see `Ilustracije/WORKBOOK-VS-ILLUSTRATIONS.md`
 
 ### Illustrations made with Bing Image Creator (may need redo with ChatGPT later for consistency)
-- xandall, americana, corbata, banyador, banyador-de-dona, biquini, sandalies
+- xandall, americana, corbata, banyador, banyador-de-dona, biquini, sandalies, arracades, anell, ulleres, collaret, cinturo, caputxa, pantalons-curts, samarreta-de-tirants
 
 ### NEXT SESSION TODO (Priority Order)
 1. **Playwright MCP je dodat** - treba restart Claude Code da se ucita. Posle restarta koristiti `mcp__playwright__browser_navigate` za otvaranje Bing Image Creator.

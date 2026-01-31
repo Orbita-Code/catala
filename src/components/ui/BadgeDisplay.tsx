@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { allBadges, getEarnedBadgeIds } from "@/lib/badges";
 
 export default function BadgeDisplay() {
@@ -30,7 +31,19 @@ export default function BadgeDisplay() {
               }`}
               title={badge.description}
             >
-              <span className="text-3xl">{badge.emoji}</span>
+              {badge.slug ? (
+                <div className="w-12 h-12 rounded-full overflow-hidden relative">
+                  <Image
+                    src={`/covers/${badge.slug}.png`}
+                    alt={badge.name}
+                    fill
+                    className="object-cover"
+                    sizes="48px"
+                  />
+                </div>
+              ) : (
+                <span className="text-4xl">{badge.emoji}</span>
+              )}
               <span className="text-[10px] font-bold text-[var(--text)] text-center leading-tight">
                 {badge.name}
               </span>

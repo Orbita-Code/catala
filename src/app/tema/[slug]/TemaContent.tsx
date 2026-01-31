@@ -14,7 +14,6 @@ import { getThemeProgress, completeTask, isThemeFullyComplete } from "@/lib/prog
 import { getEncouragement } from "@/lib/encouragement";
 
 import { TaskResult } from "@/types/tasks";
-import { getThemeScene } from "@/lib/theme-illustrations";
 import confetti from "canvas-confetti";
 import { initAudio, isMuted, toggleMute, playCorrect, playWrong, playCombo, playThemeComplete } from "@/lib/audio";
 
@@ -85,7 +84,6 @@ export default function TemaContent({ slug }: TemaContentProps) {
     );
   }
 
-  const scene = getThemeScene(slug);
   const currentTask = tasks[currentTaskIndex];
   const progress = ((currentTaskIndex + 1) / tasks.length) * 100;
 
@@ -342,10 +340,6 @@ export default function TemaContent({ slug }: TemaContentProps) {
 
       {/* Task Content */}
       <main className="flex-1 px-4 pb-24 max-w-2xl mx-auto w-full">
-        {/* Theme scene illustration */}
-        <div className="text-center text-2xl mb-3 opacity-80 tracking-widest">
-          {scene.emoji}
-        </div>
         <AnimatePresence mode="wait">
           <motion.div
             key={currentTask.id}

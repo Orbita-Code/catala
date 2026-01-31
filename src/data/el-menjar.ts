@@ -441,9 +441,7 @@ export const elMenjarTasks: Task[] = [
     words: [
       { catalan: "macarrons" },
       { catalan: "sandvitx" },
-      { catalan: "barra de pa" },
       { catalan: "croissant" },
-      { catalan: "pa de motlle" },
     ],
   },
 

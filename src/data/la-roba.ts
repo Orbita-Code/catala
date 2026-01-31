@@ -265,7 +265,7 @@ export const laRobaTasks: Task[] = [
     columns: [
       {
         title: "Roba d'estiu",
-        items: ["samarreta", "pantalons curts", "vestit", "faldilla", "sandàlies"],
+        items: ["samarreta", "vestit", "faldilla", "sandàlies"],
       },
       {
         title: "Roba d'hivern",
@@ -274,7 +274,6 @@ export const laRobaTasks: Task[] = [
     ],
     allItems: [
       "samarreta",
-      "pantalons curts",
       "vestit",
       "faldilla",
       "sandàlies",
@@ -307,8 +306,6 @@ export const laRobaTasks: Task[] = [
       { catalan: "banyador" },
       { catalan: "biquini" },
       { catalan: "sandàlies" },
-      { catalan: "pantalons curts" },
-      { catalan: "samarreta de tirants" },
       { catalan: "xandall" },
     ],
   },
@@ -346,7 +343,7 @@ export const laRobaTasks: Task[] = [
     columns: [
       {
         title: "Roba d'estiu",
-        items: ["banyador", "biquini", "sandàlies", "pantalons curts", "samarreta de tirants"],
+        items: ["banyador", "biquini", "sandàlies"],
       },
       {
         title: "Roba d'hivern",
@@ -361,8 +358,6 @@ export const laRobaTasks: Task[] = [
       "banyador",
       "biquini",
       "sandàlies",
-      "pantalons curts",
-      "samarreta de tirants",
       "abric",
       "bufanda",
       "guants",

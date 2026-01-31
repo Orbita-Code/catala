@@ -455,7 +455,6 @@ export const laCasaTasks: Task[] = [
     prompt: "Completa les lletres que falten:",
     words: [
       { word: "taulada", hint: "t_ul_da" },
-      { word: "llar de foc", hint: "ll_r d_ f_c" },
       { word: "butaca", hint: "b_t_ca" },
       { word: "planta", hint: "pl_nt_" },
       { word: "aigualera", hint: "a_gu_l_ra" },

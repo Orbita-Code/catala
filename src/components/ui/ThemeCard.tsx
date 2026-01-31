@@ -46,7 +46,7 @@ export default function ThemeCard({ theme, progress, totalTasks, index }: ThemeC
               {index + 1}
             </div>
             {isCompleted && (
-              <div className="absolute top-2 right-2 text-lg">✅</div>
+              <div className="absolute bottom-2 right-2 text-2xl">✅</div>
             )}
           </div>
 

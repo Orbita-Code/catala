@@ -13,7 +13,6 @@ export const lesBotiguesTasks: Task[] = [
       { catalan: "fleca" },
       { catalan: "pastisseria" },
       { catalan: "fruiteria" },
-      { catalan: "botiga de roba" },
       { catalan: "joguineria" },
       { catalan: "llibreria" },
     ],

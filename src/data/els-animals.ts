@@ -204,8 +204,6 @@ export const elsAnimalsTasks: Task[] = [
       { catalan: "tauró" },
       { catalan: "pop" },
       { catalan: "medusa" },
-      { catalan: "tortuga marina" },
-      { catalan: "cavallet de mar" },
     ],
   },
   {

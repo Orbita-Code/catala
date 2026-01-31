@@ -10,6 +10,7 @@ export interface Badge {
   description: string;
   emoji: string;
   category: "theme" | "streak" | "star" | "special";
+  slug?: string;
 }
 
 // 12 theme badges + streak + star collection badges
@@ -21,6 +22,7 @@ export const allBadges: Badge[] = [
     description: `Completa el tema "${t.name}"`,
     emoji: t.icon,
     category: "theme" as const,
+    slug: t.slug,
   })),
   // Streak badges
   { id: "streak-3", name: "Ratxa de 3", description: "Aconsegueix una ratxa de 3", emoji: "🔥", category: "streak" },
