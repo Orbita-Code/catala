@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { SelfAssessmentTask, TaskResult } from "@/types/tasks";
-import { getWordEmoji } from "@/lib/illustrations";
+import { getWordEmoji, getWordIllustration } from "@/lib/illustrations";
 import SpeakerButton from "@/components/ui/SpeakerButton";
 
 interface Props {
@@ -39,7 +39,7 @@ export default function SelfAssessment({ task, onComplete }: Props) {
         >
           <div className="flex items-center justify-between mb-2">
             <span className="flex items-center gap-2">
-              {getWordEmoji(item.catalan) && <span className="text-2xl">{getWordEmoji(item.catalan)}</span>}
+              {getWordIllustration(item.catalan) ? <img src={getWordIllustration(item.catalan)!} alt="" className="w-8 h-8 object-contain inline" /> : getWordEmoji(item.catalan) ? <span className="text-2xl">{getWordEmoji(item.catalan)}</span> : null}
               <span className="text-xl font-bold text-[var(--primary)] font-handwriting">{item.catalan}</span>
               <SpeakerButton text={item.catalan} size={16} />
             </span>

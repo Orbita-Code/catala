@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { UnscrambleTask, TaskResult } from "@/types/tasks";
-import { getWordEmoji } from "@/lib/illustrations";
+import { getWordEmoji, getWordIllustration } from "@/lib/illustrations";
 import LetterTile from "@/components/ui/LetterTile";
 import SlotRow from "@/components/ui/SlotRow";
 import InlineHintMascot from "@/components/ui/InlineHintMascot";
@@ -231,9 +231,15 @@ export default function Unscramble({ task, onComplete }: Props) {
         className="bg-white rounded-2xl p-5 shadow-sm"
       >
         <div className="flex items-center justify-center gap-2 mb-3">
-          {getWordEmoji(currentWord.correct) && (
+          {getWordIllustration(currentWord.correct) ? (
+            <img
+              src={getWordIllustration(currentWord.correct)!}
+              alt={currentWord.correct}
+              className="w-16 h-16 object-contain"
+            />
+          ) : getWordEmoji(currentWord.correct) ? (
             <div className="text-4xl">{getWordEmoji(currentWord.correct)}</div>
-          )}
+          ) : null}
           <SpeakerButton text={currentWord.correct} />
         </div>
 

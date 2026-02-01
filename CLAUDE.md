@@ -136,6 +136,8 @@ npm run test:ui  # Playwright UI mode
 - Word-search grids regenerated with varied directions (5 grids: la-roba-5, la-familia-5, les-botigues-5, la-casa-2, els-vehicles-5)
 - Multi-color WordSearch highlighting (8 colors, each word gets unique color in grid and word list)
 - Playwright E2E test infrastructure: config, page objects, 12 task solvers, 209 answer keys, 12 theme specs + smoke test
+- **Deploy pipeline:** Multi-stage Dockerfile + standalone Next.js output, deployed via Coolify on Hetzner server (88.198.218.69)
+- **Live at:** `catala.orbitacode.com` (Coolify Dockerfile build pack, auto-deploy from GitHub main branch)
 
 ### In Progress
 - **3D Illustrations:** ~160/~280 done via ChatGPT custom GPT + Bing Image Creator.
@@ -157,8 +159,6 @@ npm run test:ui  # Playwright UI mode
    - **VAZNO:** Bing cuva kao JPEG - preimenovati u .png i kopirati u oba foldera (Ilustracije/ i public/illustrations/)
    - **Fale od zivotinja:** gallina, gall, pollet, oreneta, gavina, pingui, estruc, mussol, gorila/mico, zebra, cavall, vaca, camell, rinoceront, ovella, hipopotam, mosca, formiga, abella, escarabat, papallona, mosquit, tauro, peix-espasa, bacalla, cocodril, camaleo, dofi, balena, pop, medusa, os
 2. **When ChatGPT resets** - switch back to ChatGPT custom GPT (URL u sekciji Illustration Workflow) for better quality/consistency
-3. **Deploy pipeline** (Coolify + Docker)
-4. **DNS setup** (katalonski.orbitacode.com)
 
 ### Illustration Workflow
 - **ChatGPT chat:** Custom GPT "Igrice katalonski jezik" → chat "AI ilustracije za decu"
@@ -228,8 +228,6 @@ npm run test:ui  # Playwright UI mode
 
 ### Not Yet Implemented
 - 3D illustrations for vocabulary words (word list prepared, emojis to be replaced)
-- Deploy pipeline (Coolify + Docker)
-- DNS setup (katalonski.orbitacode.com)
 
 ## Task Counts Per Theme
 | Theme | Slug | Tasks |
@@ -260,3 +258,5 @@ npm run test:ui  # Playwright UI mode
 - Mobile-first responsive design
 - Basic auth middleware: default credentials catala/catala2025 (override via BASIC_AUTH_USER/BASIC_AUTH_PASS env vars)
 - Cover images are in `public/covers/` (one per theme)
+- **Deployment:** Coolify at `panel.orbitacode.com`, Build Pack: Dockerfile, GitHub repo: `Orbita-Code/catala`
+- **Server:** Hetzner 88.198.218.69, ~3.7GB RAM + 2GB swap (added manually), 38GB disk. `NODE_OPTIONS=--max-old-space-size=1536` in Dockerfile to prevent OOM during build

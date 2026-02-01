@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { ClassifyColumnsTask, TaskResult } from "@/types/tasks";
-import { getWordEmoji } from "@/lib/illustrations";
+import { getWordEmoji, getWordIllustration } from "@/lib/illustrations";
 import confetti from "canvas-confetti";
 import { speak } from "@/lib/tts";
 import { useDragAndDrop } from "@/hooks/useDragAndDrop";
@@ -123,9 +123,11 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
           animate={{ opacity: 1, y: 0 }}
           className="text-center"
         >
-          {getWordEmoji(currentItem) && (
+          {getWordIllustration(currentItem) ? (
+            <div className="mb-2 flex justify-center"><img src={getWordIllustration(currentItem)!} alt="" className="w-16 h-16 object-contain" /></div>
+          ) : getWordEmoji(currentItem) ? (
             <div className="text-4xl mb-2">{getWordEmoji(currentItem)}</div>
-          )}
+          ) : null}
           <div
             onPointerDown={(e) => {
               if (lastPlacedCorrect === null && !showResults) {
@@ -209,7 +211,7 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
                             : "bg-red-100 text-red-700"
                         }`}
                       >
-                        {getWordEmoji(item)} {item} {isCorrect ? "✅" : "❌"}
+                        {getWordIllustration(item) ? <img src={getWordIllustration(item)!} alt="" className="w-5 h-5 object-contain inline mr-1" /> : getWordEmoji(item) ? <span className="mr-1">{getWordEmoji(item)}</span> : null} {item} {isCorrect ? "✅" : "❌"}
                       </div>
                     );
                   })}

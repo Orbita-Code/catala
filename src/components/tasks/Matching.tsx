@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { MatchingTask, TaskResult } from "@/types/tasks";
-import { getWordEmoji } from "@/lib/illustrations";
+import { getWordEmoji, getWordIllustration } from "@/lib/illustrations";
 import confetti from "canvas-confetti";
 import { speak } from "@/lib/tts";
 import { useDragAndDrop } from "@/hooks/useDragAndDrop";
@@ -130,7 +130,7 @@ export default function Matching({ task, onComplete }: Props) {
                 }`}
                 style={{ cursor: matched.has(i) ? "default" : "grab" }}
               >
-                {getWordEmoji(pair.left) && <span className="mr-1">{getWordEmoji(pair.left)}</span>}
+                {getWordIllustration(pair.left) ? <img src={getWordIllustration(pair.left)!} alt="" className="w-6 h-6 object-contain inline mr-1" /> : getWordEmoji(pair.left) ? <span className="mr-1">{getWordEmoji(pair.left)}</span> : null}
                 <span className="font-handwriting text-lg">{pair.left}</span>
               </motion.button>
             );
@@ -156,7 +156,7 @@ export default function Matching({ task, onComplete }: Props) {
                         : "bg-white border-2 border-gray-200 text-[var(--text)]"
               }`}
             >
-              {getWordEmoji(task.pairs[actualIdx].right) && <span className="mr-1">{getWordEmoji(task.pairs[actualIdx].right)}</span>}
+              {getWordIllustration(task.pairs[actualIdx].right) ? <img src={getWordIllustration(task.pairs[actualIdx].right)!} alt="" className="w-6 h-6 object-contain inline mr-1" /> : getWordEmoji(task.pairs[actualIdx].right) ? <span className="mr-1">{getWordEmoji(task.pairs[actualIdx].right)}</span> : null}
               <span className="font-handwriting text-lg">{task.pairs[actualIdx].right}</span>
             </motion.button>
           ))}
