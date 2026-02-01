@@ -138,9 +138,10 @@ npm run test:ui  # Playwright UI mode
 - Playwright E2E test infrastructure: config, page objects, 12 task solvers, 209 answer keys, 12 theme specs + smoke test
 
 ### In Progress
-- **3D Illustrations:** 84/~280 done. Themes done: La classe (22), L'escola (11), El cos (19), La roba (37 - COMPLETE).
-  - La roba COMPLETE: anorac, jersei, texans, pantalons, samarreta, camisa, jaqueta, faldilla, vestit, xandall, gorra, bufanda, guants, mitges, botes, pijama, sabates, sabatilles, abric, mitjons, barret, vambes, americana, corbata, banyador, banyador-de-dona, biquini, sandàlies, arracades, anell, ulleres, collaret, cinturó, caputxa, pantalons curts, samarreta de tirants
-  - Next theme: La casa (~38 illustrations needed)
+- **3D Illustrations:** ~160/~280 done via ChatGPT custom GPT.
+  - **COMPLETE themes:** La classe, L'escola, El cos, La roba, La casa, La família, Les botigues, El menjar
+  - **Next theme:** Els animals (~50 illustrations needed)
+  - **Remaining after:** La ciutat, Els vehicles, Els oficis
   - Full workbook mapping: see `Ilustracije/WORKBOOK-VS-ILLUSTRATIONS.md`
 
 ### Illustrations made with Bing Image Creator (may need redo with ChatGPT later for consistency)
@@ -187,8 +188,12 @@ npm run test:ui  # Playwright UI mode
 
 ### Illustration Automation Rules (CRITICAL - follow ALWAYS)
 1. **Auto-reconnect:** When Playwright MCP disconnects or browser crashes, automatically reconnect and resume work WITHOUT asking user for permission. Navigate back to the ChatGPT conversation URL and continue from where you left off.
-2. **Rate limit handling:** When ChatGPT says to wait N minutes, wait EXACTLY N+1 minutes (with buffer). Do NOT send any new words during the wait. Do NOT send multiple words that queue up.
+2. **Rate limit handling:** When ChatGPT says to wait N minutes, STOP COMPLETELY. Do NOT send ANY prompts until the FULL stated time has passed + 1 minute buffer. Each message sent during rate limit RESETS the timer and makes it longer. Rate limit is ACCOUNT-WIDE (new chats don't help).
+   - **CRITICAL TIMING RULE:** Note the EXACT current time when the rate limit message appears. Calculate the exact time to resend = current time + N minutes + 1 minute. When that time arrives, IMMEDIATELY resend the SAME prompt that was rate-limited. Do NOT wait longer than necessary - send it as soon as the calculated time passes. Example: if at 4:15 ChatGPT says "wait 22 minutes", calculate 4:15 + 23 = 4:38, and send the prompt at exactly 4:38.
 3. **One word at a time:** NEVER send a new word until ChatGPT has fully responded to the previous one (either with an image or a rate limit message).
+4. **NO duplicate prompts:** NEVER send the same word/prompt to ChatGPT more than once. If ChatGPT already generated an image for a word, do NOT re-request it unless the user explicitly says to redo it.
+5. **Check existing illustrations FIRST:** Before generating ANY illustration, ALWAYS check if the file already exists in `public/illustrations/`. Never generate duplicates of existing files.
+6. **Wait for user command:** Do NOT send prompts to ChatGPT autonomously during rate limits or without user's explicit go-ahead. When rate limited, inform the user and WAIT for their command to continue.
 4. **Verify every illustration:** After each image is generated, take a screenshot and verify the image matches what was requested. Common ChatGPT mistakes to check for:
    - barret (beret) → might generate a regular cap instead of a French-style beret
    - abric (coat) → might generate a puffy jacket instead of a proper children's coat (longer, button-up)
@@ -201,6 +206,14 @@ npm run test:ui  # Playwright UI mode
    - Add word to `wordsWithIllustrations` set in `src/lib/illustrations.ts`
    - Strip accents for filename (e.g. "gimnàs" → "gimnas")
 7. **Download method:** Click image → modal opens → find Save button by iterating all buttons → click Save → capture download event → get temp path from download.path()
+
+### Illustration Variants (same word, different meanings)
+| Word | File | Description | Theme Usage |
+|------|------|-------------|-------------|
+| xemeneia | xemeneia.png | Dimnjak (chimney) - chimney on a colorful tiled rooftop with smoke, 3D cartoon style | La casa (chimney meaning) |
+| xemeneia | xemeneia2.png | Kamin (fireplace) - cozy stone fireplace with fire burning, flower vase and books on mantel, wood basket, pastel rug | La casa (fireplace meaning) |
+| menjador | menjador.png | Školska trpezarija (school dining room) - school cafeteria with tables and chairs | L'escola (school context) |
+| menjador | menjador-casa.png | Kućna trpezarija (home dining room) - home dining room with family table | La casa (home context) |
 
 ### Recently Completed
 - **Full testing of ALL 209 tasks** via Playwright browser automation across all 12 themes
