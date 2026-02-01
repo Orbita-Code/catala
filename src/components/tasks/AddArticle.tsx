@@ -91,7 +91,7 @@ export default function AddArticle({ task, onComplete }: Props) {
         className="bg-white rounded-2xl p-6 shadow-sm text-center"
       >
         {getWordIllustration(currentWord.word) ? (
-          <div className="mb-3 flex justify-center"><img src={getWordIllustration(currentWord.word)!} alt="" className="w-16 h-16 object-contain" /></div>
+          <div className="mb-3 flex justify-center"><img src={getWordIllustration(currentWord.word)!} alt="" className="w-28 h-28 object-contain" /></div>
         ) : getWordEmoji(currentWord.word) ? (
           <div className="text-4xl mb-3">{getWordEmoji(currentWord.word)}</div>
         ) : null}

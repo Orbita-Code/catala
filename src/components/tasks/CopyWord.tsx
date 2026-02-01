@@ -254,7 +254,7 @@ export default function CopyWord({ task, onComplete }: Props) {
               <img
                 src={getWordIllustration(currentWord.catalan)!}
                 alt={currentWord.catalan}
-                className="w-24 h-24 object-contain"
+                className="w-32 h-32 object-contain"
               />
             </div>
           ) : getWordEmoji(currentWord.catalan) ? (

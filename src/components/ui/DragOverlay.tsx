@@ -25,7 +25,7 @@ export default function DragOverlay({ word, position }: DragOverlayProps) {
       }}
     >
       <div className="px-5 py-3 rounded-2xl bg-[var(--primary)] text-white font-bold text-lg shadow-xl scale-110 opacity-90">
-        {getWordIllustration(word) ? <img src={getWordIllustration(word)!} alt="" className="w-8 h-8 object-contain inline mr-1" /> : getWordEmoji(word) ? <span className="mr-1">{getWordEmoji(word)}</span> : null}
+        {getWordIllustration(word) ? <img src={getWordIllustration(word)!} alt="" className="w-10 h-10 object-contain inline mr-1" /> : getWordEmoji(word) ? <span className="mr-1">{getWordEmoji(word)}</span> : null}
         {word}
       </div>
     </div>,

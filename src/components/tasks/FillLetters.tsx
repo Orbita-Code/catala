@@ -313,8 +313,8 @@ export default function FillLetters({ task, onComplete }: Props) {
 
                 {/* Illustration or emoji */}
                 {illustration ? (
-                  <div className="w-12 h-12 flex items-center justify-center flex-shrink-0">
-                    <img src={illustration} alt={item.word} className="w-12 h-12 object-contain" />
+                  <div className="w-16 h-16 flex items-center justify-center flex-shrink-0">
+                    <img src={illustration} alt={item.word} className="w-16 h-16 object-contain" />
                   </div>
                 ) : emoji ? (
                   <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-amber-50 border border-amber-200 flex-shrink-0">

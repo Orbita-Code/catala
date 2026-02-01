@@ -39,7 +39,7 @@ export default function SelfAssessment({ task, onComplete }: Props) {
         >
           <div className="flex items-center justify-between mb-2">
             <span className="flex items-center gap-2">
-              {getWordIllustration(item.catalan) ? <img src={getWordIllustration(item.catalan)!} alt="" className="w-10 h-10 object-contain inline" /> : getWordEmoji(item.catalan) ? <span className="text-2xl">{getWordEmoji(item.catalan)}</span> : null}
+              {getWordIllustration(item.catalan) ? <img src={getWordIllustration(item.catalan)!} alt="" className="w-12 h-12 object-contain inline" /> : getWordEmoji(item.catalan) ? <span className="text-2xl">{getWordEmoji(item.catalan)}</span> : null}
               <span className="text-xl font-bold text-[var(--primary)] font-handwriting">{item.catalan}</span>
               <SpeakerButton text={item.catalan} size={16} />
             </span>
