@@ -44,6 +44,7 @@ export interface UnscrambleTask extends BaseTask {
 export interface MatchingTask extends BaseTask {
   type: "matching";
   pairs: { left: string; right: string }[];
+  illustrationMatch?: boolean;
 }
 
 export interface ClassifyColumnsTask extends BaseTask {
