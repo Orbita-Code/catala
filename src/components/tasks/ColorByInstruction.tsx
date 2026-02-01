@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ColorByInstructionTask, TaskResult } from "@/types/tasks";
+import { getWordIllustration } from "@/lib/illustrations";
+import confetti from "canvas-confetti";
 import { speak } from "@/lib/tts";
 
 interface Props {
@@ -11,16 +13,15 @@ interface Props {
 }
 
 const PALETTE = [
-  { name: "vermell", color: "#FF6B6B" },
-  { name: "blau", color: "#0984E3" },
-  { name: "verd", color: "#00B894" },
-  { name: "groc", color: "#FDCB6E" },
-  { name: "taronja", color: "#FF9F43" },
-  { name: "rosa", color: "#E84393" },
-  { name: "lila", color: "#A29BFE" },
-  { name: "marró", color: "#8B6F47" },
-  { name: "negre", color: "#2D3436" },
-  { name: "blanc", color: "#FAFAFA" },
+  { name: "vermell", color: "#FF6B6B", label: "vermell" },
+  { name: "blau", color: "#0984E3", label: "blau" },
+  { name: "verd", color: "#00B894", label: "verd" },
+  { name: "groc", color: "#FDCB6E", label: "groc" },
+  { name: "taronja", color: "#FF9F43", label: "taronja" },
+  { name: "lila", color: "#A29BFE", label: "lila" },
+  { name: "marró", color: "#8B6F47", label: "marró" },
+  { name: "negre", color: "#2D3436", label: "negre" },
+  { name: "blanc", color: "#F5F5F5", label: "blanc" },
 ];
 
 export default function ColorByInstruction({ task, onComplete }: Props) {
@@ -35,6 +36,7 @@ export default function ColorByInstruction({ task, onComplete }: Props) {
   const handleItemTap = (targetItem: string) => {
     if (checked || !selectedColor) return;
     setColoredItems({ ...coloredItems, [targetItem]: selectedColor });
+    speak(targetItem);
   };
 
   const allColored = task.instructions.every(
@@ -53,8 +55,12 @@ export default function ColorByInstruction({ task, onComplete }: Props) {
     setResults(newResults);
     setChecked(true);
     if (allCorrect) {
-      const colors = task.instructions.map((inst) => inst.targetColor).join(", ");
-      speak(colors);
+      confetti({
+        particleCount: 30,
+        spread: 50,
+        origin: { y: 0.6 },
+        colors: ["#6C5CE7", "#FDCB6E", "#00CECE", "#FF6B6B"],
+      });
       setTimeout(() => onComplete({ allCorrect: true, erroredItems: [] }), 1200);
     }
   };
@@ -70,28 +76,40 @@ export default function ColorByInstruction({ task, onComplete }: Props) {
 
   return (
     <div className="space-y-4">
-      {/* Instructions */}
-      <div className="space-y-2">
-        {task.instructions.map((inst, i) => (
-          <div
-            key={i}
-            className={`bg-white rounded-xl p-3 shadow-sm text-base font-semibold ${
-              checked
-                ? results[inst.targetItem]
-                  ? "ring-2 ring-green-400"
-                  : "ring-2 ring-red-400"
-                : ""
-            }`}
-          >
-            {inst.text}
-            {checked && (results[inst.targetItem] ? " ✅" : " ❌")}
-          </div>
-        ))}
+      {/* Instructions list */}
+      <div className="space-y-1.5">
+        {task.instructions.map((inst, i) => {
+          const isColored = !!coloredItems[inst.targetItem];
+          const isChecked = checked && results[inst.targetItem] !== undefined;
+          return (
+            <div
+              key={i}
+              className={`bg-white rounded-xl px-3 py-2 shadow-sm text-sm font-semibold flex items-center gap-2 ${
+                isChecked
+                  ? results[inst.targetItem]
+                    ? "ring-2 ring-green-400"
+                    : "ring-2 ring-red-400"
+                  : isColored
+                    ? "ring-1 ring-purple-200"
+                    : ""
+              }`}
+            >
+              <span
+                className="w-4 h-4 rounded-full flex-shrink-0 border"
+                style={{ backgroundColor: getHex(inst.targetColor) }}
+              />
+              <span className="flex-1">{inst.text}</span>
+              {isChecked && (results[inst.targetItem] ? " ✅" : " ❌")}
+            </div>
+          );
+        })}
       </div>
 
       {/* Color palette */}
       <div>
-        <p className="text-sm text-[var(--text-light)] mb-2">Tria un color:</p>
+        <p className="text-sm text-[var(--text-light)] mb-2 text-center">
+          {selectedColor ? `Color triat: ${selectedColor}` : "Tria un color:"}
+        </p>
         <div className="flex flex-wrap gap-2 justify-center">
           {PALETTE.map((p) => (
             <motion.button
@@ -99,10 +117,10 @@ export default function ColorByInstruction({ task, onComplete }: Props) {
               whileTap={{ scale: 0.9 }}
               onClick={() => setSelectedColor(p.name)}
               disabled={checked}
-              className={`w-12 h-12 rounded-xl border-3 transition-all ${
+              className={`w-10 h-10 rounded-full border-2 transition-all ${
                 selectedColor === p.name
-                  ? "ring-3 ring-[var(--primary)] scale-110"
-                  : "border-gray-200"
+                  ? "ring-3 ring-[var(--primary)] scale-110 border-[var(--primary)]"
+                  : "border-gray-300"
               }`}
               style={{ backgroundColor: p.color }}
               aria-label={p.name}
@@ -111,27 +129,75 @@ export default function ColorByInstruction({ task, onComplete }: Props) {
         </div>
       </div>
 
-      {/* Objects to color */}
-      <div className="flex flex-wrap gap-3 justify-center">
-        {task.instructions.map((inst, i) => (
-          <motion.button
-            key={i}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => handleItemTap(inst.targetItem)}
-            disabled={checked || !selectedColor}
-            className="w-24 h-24 rounded-2xl border-2 border-gray-200 flex flex-col items-center justify-center gap-1 text-4xl transition-all"
-            style={{
-              backgroundColor: coloredItems[inst.targetItem]
-                ? `${getHex(coloredItems[inst.targetItem])}30`
-                : "white",
-              borderColor: coloredItems[inst.targetItem]
-                ? getHex(coloredItems[inst.targetItem])
-                : "#e5e7eb",
-            }}
-          >
-            <span>{inst.targetItem}</span>
-          </motion.button>
-        ))}
+      {/* Objects to color - real illustrations */}
+      <div className="grid grid-cols-2 gap-3">
+        {task.instructions.map((inst, i) => {
+          const illustration = getWordIllustration(inst.targetItem);
+          const appliedColor = coloredItems[inst.targetItem];
+          const isCorrect = checked ? results[inst.targetItem] : null;
+
+          return (
+            <motion.button
+              key={i}
+              whileTap={checked ? undefined : { scale: 0.95 }}
+              onClick={() => handleItemTap(inst.targetItem)}
+              disabled={checked || !selectedColor}
+              className={`relative bg-white rounded-2xl p-3 shadow-sm border-3 transition-all flex flex-col items-center gap-1 ${
+                isCorrect === true
+                  ? "border-green-400"
+                  : isCorrect === false
+                    ? "border-red-400"
+                    : appliedColor
+                      ? "border-opacity-100"
+                      : selectedColor
+                        ? "border-gray-200 hover:border-purple-300 cursor-pointer"
+                        : "border-gray-200 opacity-70"
+              }`}
+              style={{
+                borderColor:
+                  isCorrect === true
+                    ? undefined
+                    : isCorrect === false
+                      ? undefined
+                      : appliedColor
+                        ? getHex(appliedColor)
+                        : undefined,
+              }}
+            >
+              {illustration ? (
+                <img
+                  src={illustration}
+                  alt={inst.targetItem}
+                  className="w-20 h-20 object-contain transition-all duration-500"
+                  style={{
+                    filter: appliedColor ? "none" : "grayscale(1) opacity(0.6)",
+                  }}
+                />
+              ) : (
+                <span className="text-3xl">{inst.targetItem}</span>
+              )}
+              <span className="text-xs font-bold text-[var(--text)] font-handwriting">
+                {inst.targetItem}
+              </span>
+              {/* Color dot overlay when colored */}
+              <AnimatePresence>
+                {appliedColor && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="absolute top-1 right-1 w-5 h-5 rounded-full border-2 border-white shadow"
+                    style={{ backgroundColor: getHex(appliedColor) }}
+                  />
+                )}
+              </AnimatePresence>
+              {isCorrect !== null && (
+                <span className="absolute top-1 left-1 text-lg">
+                  {isCorrect ? "✅" : "❌"}
+                </span>
+              )}
+            </motion.button>
+          );
+        })}
       </div>
 
       {/* Check / Retry */}

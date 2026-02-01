@@ -166,11 +166,12 @@ export const laClasseTasks: Task[] = [
     ],
   },
 
-  // Exercise 6: Classifica UN vs MOLTS
+  // Exercise 6: Classifica UN vs MOLTS (workbook: two circles)
   {
     id: "la-classe-6",
     type: "classify-columns",
     prompt: "Classifica les paraules: UN (singular) o MOLTS (plural).",
+    circleMode: true,
     columns: [
       {
         title: "UN (singular)",
@@ -205,31 +206,32 @@ export const laClasseTasks: Task[] = [
     ],
   },
 
-  // Exercise 7: Pinta (color-by-instruction)
+  // Exercise 7: Pinta (workbook: color BW illustrations with correct color)
   {
     id: "la-classe-7",
     type: "color-by-instruction",
     prompt: "Pinta cada objecte del color indicat.",
     image: "classroom-items",
     instructions: [
-      { text: "Pinta el llapis de color blau", targetColor: "blau", targetItem: "✏️" },
-      { text: "Pinta la goma de color verd", targetColor: "verd", targetItem: "🟩" },
-      { text: "Pinta l'ordinador de color negre", targetColor: "negre", targetItem: "💻" },
-      { text: "Pinta les tisores de color vermell", targetColor: "vermell", targetItem: "✂️" },
-      { text: "Pinta la maquineta de color groc", targetColor: "groc", targetItem: "🔧" },
-      { text: "Pinta el llibre de color blanc", targetColor: "blanc", targetItem: "📖" },
-      { text: "Pinta la motxilla de color lila", targetColor: "lila", targetItem: "🎒" },
-      { text: "Pinta l'estoig de color verd", targetColor: "verd", targetItem: "📦" },
-      { text: "Pinta el regle de color taronja", targetColor: "taronja", targetItem: "📏" },
-      { text: "Pinta el retolador de color marró", targetColor: "marró", targetItem: "🖊️" },
+      { text: "Pinta el llapis de color blau", targetColor: "blau", targetItem: "llapis" },
+      { text: "Pinta la goma de color verd", targetColor: "verd", targetItem: "goma" },
+      { text: "Pinta l'ordinador de color negre", targetColor: "negre", targetItem: "ordinador" },
+      { text: "Pinta les tisores de color vermell", targetColor: "vermell", targetItem: "tisores" },
+      { text: "Pinta la maquineta de color groc", targetColor: "groc", targetItem: "maquineta" },
+      { text: "Pinta el llibre de color blanc", targetColor: "blanc", targetItem: "llibre" },
+      { text: "Pinta la motxilla de color lila", targetColor: "lila", targetItem: "motxilla" },
+      { text: "Pinta l'estoig de color verd", targetColor: "verd", targetItem: "estoig" },
+      { text: "Pinta el regle de color taronja", targetColor: "taronja", targetItem: "regle" },
+      { text: "Pinta el retolador de color marró", targetColor: "marró", targetItem: "retolador" },
     ],
   },
 
-  // Exercise 8: Què tenim a l'estoig? Completa
+  // Exercise 8: Què tenim a l'estoig? Completa (workbook: pencil case illustration)
   {
     id: "la-classe-8",
     type: "fill-sentence",
     prompt: "Què tenim a l'estoig? Completa les frases.",
+    image: "estoig",
     sentences: [
       {
         text: "A l'estoig tenim una maquineta ___.",

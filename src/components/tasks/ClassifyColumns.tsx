@@ -155,7 +155,7 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
         </motion.div>
       )}
 
-      {/* Two big column buttons - drop targets */}
+      {/* Two big column/circle buttons - drop targets */}
       {!allPlaced && !showResults && (
         <div className="grid grid-cols-2 gap-4">
           {task.columns.map((col, colIdx) => (
@@ -165,7 +165,11 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
               whileTap={dragState.isDragging ? undefined : { scale: 0.95 }}
               onClick={() => handleColumnTap(colIdx)}
               disabled={lastPlacedCorrect !== null}
-              className={`min-h-[120px] bg-white rounded-2xl p-4 shadow-sm border-2 transition-all flex flex-col items-center justify-center gap-2 ${
+              className={`${
+                task.circleMode
+                  ? "aspect-square rounded-full min-h-[140px]"
+                  : "min-h-[120px] rounded-2xl"
+              } bg-white p-4 shadow-sm border-2 transition-all flex flex-col items-center justify-center gap-2 ${
                 dragState.isDragging
                   ? "border-[var(--primary)] bg-purple-50 animate-pulse"
                   : "border-gray-200 hover:border-[var(--primary)]"
@@ -193,7 +197,7 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
               .filter(([, idx]) => idx === colIdx)
               .map(([item]) => item);
             return (
-              <div key={colIdx} className="bg-white rounded-2xl p-4 shadow-sm">
+              <div key={colIdx} className={`bg-white ${task.circleMode ? "rounded-full aspect-square flex flex-col justify-center" : "rounded-2xl"} p-4 shadow-sm`}>
                 <h4 className="text-center font-black text-lg text-[var(--primary)] mb-3">
                   {col.title}
                 </h4>

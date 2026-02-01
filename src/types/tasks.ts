@@ -51,6 +51,7 @@ export interface ClassifyColumnsTask extends BaseTask {
   type: "classify-columns";
   columns: { title: string; items: string[] }[];
   allItems: string[];
+  circleMode?: boolean;
 }
 
 export interface WordSearchTask extends BaseTask {
@@ -68,6 +69,7 @@ export interface ColorByInstructionTask extends BaseTask {
 
 export interface FillSentenceTask extends BaseTask {
   type: "fill-sentence";
+  image?: string;
   sentences: {
     text: string;
     blank: string;

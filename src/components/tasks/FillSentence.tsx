@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FillSentenceTask, TaskResult } from "@/types/tasks";
+import { getWordIllustration } from "@/lib/illustrations";
 import confetti from "canvas-confetti";
 import { speak } from "@/lib/tts";
 
@@ -57,6 +58,17 @@ export default function FillSentence({ task, onComplete }: Props) {
 
   return (
     <div className="space-y-4">
+      {/* Optional illustration at the top */}
+      {task.image && getWordIllustration(task.image) && (
+        <div className="flex justify-center">
+          <img
+            src={getWordIllustration(task.image)!}
+            alt=""
+            className="w-44 h-44 object-contain"
+          />
+        </div>
+      )}
+
       {task.sentences.map((sentence, i) => (
         <motion.div
           key={i}
