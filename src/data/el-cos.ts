@@ -32,7 +32,7 @@ export const elCosTasks: Task[] = [
     prompt: "Ordena les síl·labes per formar paraules.",
     words: [
       { scrambled: "CA-BO", correct: "boca" },
-      { scrambled: "RA-PAN-XA", correct: "panxa" },
+      { scrambled: "PAN-XA", correct: "panxa" },
       { scrambled: "RE-O-LLA", correct: "orella" },
       { scrambled: "CA-BE-LL", correct: "cabell" },
       { scrambled: "LA-UN-G", correct: "ungla" },
