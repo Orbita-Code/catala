@@ -22,6 +22,7 @@ const PALETTE = [
   { name: "marró", color: "#8B6F47", label: "marró" },
   { name: "negre", color: "#2D3436", label: "negre" },
   { name: "blanc", color: "#F5F5F5", label: "blanc" },
+  { name: "rosa", color: "#FDA7DF", label: "rosa" },
 ];
 
 export default function ColorByInstruction({ task, onComplete }: Props) {
