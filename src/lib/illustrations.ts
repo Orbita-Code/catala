@@ -386,6 +386,11 @@ const wordsWithIllustrations = new Set([
   "entrada",
   "escales",
   "escola",
+  // Dies de la setmana (days of the week)
+  "dilluns",
+  "dimarts",
+  "dijous",
+  "dissabte",
   // El cos
   "cos",
   "cap",
