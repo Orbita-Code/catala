@@ -1,371 +1,435 @@
 import { Task } from "@/types/tasks";
 
 export const lEscolaTasks: Task[] = [
+  // ── Task 1: Llegeix i copia (rooms) ──
   {
     id: "l-escola-1",
     type: "copy-word",
     prompt: "Llegeix i copia les paraules:",
     words: [
-      { catalan: "aula" },
-      { catalan: "biblioteca" },
-      { catalan: "pati" },
-      { catalan: "menjador" },
-      { catalan: "gimnàs" },
-      { catalan: "despatx" },
-      { catalan: "lavabo" },
-      { catalan: "passadís" },
-      { catalan: "entrada" },
-      { catalan: "escales" },
+      { catalan: "aula", image: "aula" },
+      { catalan: "biblioteca", image: "biblioteca" },
+      { catalan: "laboratori" },
+      { catalan: "passadís", image: "passadis" },
+      { catalan: "lavabo", image: "lavabo" },
+      { catalan: "menjador", image: "menjador" },
+      { catalan: "gimnàs", image: "gimnas" },
+      { catalan: "pati", image: "pati" },
     ],
   },
+
+  // ── Task 2: Completa les lletres que falten (rooms) ──
   {
     id: "l-escola-2",
     type: "fill-letters",
-    prompt: "Completa les lletres que falten:",
+    prompt: "Completa amb les lletres que falten:",
     words: [
-      { word: "aula", hint: "a_l_" },
-      { word: "biblioteca", hint: "b_bl_ot_ca" },
-      { word: "pati", hint: "p_t_" },
-      { word: "menjador", hint: "m_nj_dor" },
-      { word: "gimnàs", hint: "g_mn_s" },
-      { word: "despatx", hint: "d_sp_tx" },
-      { word: "lavabo", hint: "l_v_bo" },
-      { word: "passadís", hint: "p_ss_dís" },
-      { word: "entrada", hint: "e_tr_da" },
-      { word: "escales", hint: "e_c_les" },
+      { word: "aula", hint: "a_l_", image: "aula" },
+      { word: "biblioteca", hint: "b_bl_ot_ca", image: "biblioteca" },
+      { word: "laboratori", hint: "l_b_r_t_ri" },
+      { word: "passadís", hint: "p_ss_d_s", image: "passadis" },
+      { word: "lavabo", hint: "l_v_b_", image: "lavabo" },
+      { word: "menjador", hint: "m_nj_d_r", image: "menjador" },
+      { word: "gimnàs", hint: "g_mn_s", image: "gimnas" },
+      { word: "pati", hint: "p_t_", image: "pati" },
     ],
   },
+
+  // ── Task 3: Relaciona i escriu - És la / És el (articles) ──
   {
     id: "l-escola-3",
-    type: "unscramble",
-    prompt: "Ordena les lletres per formar la paraula:",
+    type: "add-article",
+    prompt: "Escriu l'article correcte: el o la?",
     words: [
-      { scrambled: "laau", correct: "aula" },
-      { scrambled: "taip", correct: "pati" },
-      { scrambled: "bvaalo", correct: "lavabo" },
-      { scrambled: "namedorj", correct: "menjador" },
-      { scrambled: "csleaes", correct: "escales" },
+      { word: "classe", article: "la" },
+      { word: "pati", article: "el" },
+      { word: "biblioteca", article: "la" },
+      { word: "laboratori", article: "el" },
+      { word: "passadís", article: "el" },
+      { word: "lavabo", article: "el" },
+      { word: "menjador", article: "el" },
+      { word: "gimnàs", article: "el" },
     ],
   },
+
+  // ── Task 4: Ordena les síl·labes i escriu ──
   {
     id: "l-escola-4",
-    type: "matching",
-    prompt: "Relaciona cada lloc amb la seva descripció:",
-    pairs: [
-      { left: "aula", right: "estudiar" },
-      { left: "pati", right: "jugar" },
-      { left: "menjador", right: "dinar" },
-      { left: "gimnàs", right: "fer esport" },
-      { left: "biblioteca", right: "llegir" },
+    type: "unscramble",
+    prompt: "Ordena les síl·labes i escriu la paraula:",
+    words: [
+      { scrambled: "TI-PA", correct: "pati", image: "pati" },
+      { scrambled: "VA-LA-BO", correct: "lavabo", image: "lavabo" },
+      { scrambled: "LA-AU", correct: "aula", image: "aula" },
+      { scrambled: "PAS-DÍS-SA", correct: "passadís", image: "passadis" },
+      { scrambled: "DOR-JA-MEN", correct: "menjador", image: "menjador" },
     ],
   },
+
+  // ── Task 5: Observa - ASSIGNATURES ──
   {
     id: "l-escola-5",
-    type: "word-search",
-    prompt: "Troba les paraules a la sopa de lletres:",
-    gridSize: 10,
-    words: ["aula", "pati", "gimnàs", "lavabo", "escales"],
-    grid: [
-      ["a", "u", "l", "a", "r", "t", "b", "e", "g", "d"],
-      ["f", "o", "j", "n", "e", "m", "c", "r", "i", "q"],
-      ["p", "a", "t", "i", "s", "d", "h", "u", "m", "k"],
-      ["r", "v", "b", "o", "l", "f", "t", "a", "n", "w"],
-      ["l", "a", "v", "a", "b", "o", "p", "d", "a", "x"],
-      ["m", "e", "n", "j", "c", "r", "q", "i", "s", "h"],
-      ["e", "s", "c", "a", "l", "e", "s", "o", "t", "f"],
-      ["d", "r", "u", "g", "h", "t", "a", "l", "b", "v"],
-      ["j", "k", "o", "p", "q", "m", "n", "s", "e", "c"],
-      ["w", "x", "f", "i", "r", "a", "d", "g", "l", "z"],
-    ],
-  },
-  {
-    id: "l-escola-6",
-    type: "classify-columns",
-    prompt: "Classifica: dins o fora de l'edifici?",
-    columns: [
-      {
-        title: "Dins",
-        items: ["aula", "biblioteca", "menjador", "gimnàs", "lavabo", "despatx"],
-      },
-      {
-        title: "Fora",
-        items: ["pati", "entrada", "escales"],
-      },
-    ],
-    allItems: [
-      "aula",
-      "biblioteca",
-      "menjador",
-      "gimnàs",
-      "lavabo",
-      "despatx",
-      "pati",
-      "entrada",
-      "escales",
-    ],
-  },
-  {
-    id: "l-escola-7",
-    type: "fill-sentence",
-    prompt: "Completa la frase:",
-    sentences: [
-      {
-        text: "Els nens juguen al ___.",
-        blank: "pati",
-        options: ["pati", "lavabo", "despatx"],
-      },
-      {
-        text: "Dinem al ___.",
-        blank: "menjador",
-        options: ["menjador", "gimnàs", "passadís"],
-      },
-      {
-        text: "Llegim llibres a la ___.",
-        blank: "biblioteca",
-        options: ["biblioteca", "aula", "entrada"],
-      },
-      {
-        text: "Fem esport al ___.",
-        blank: "gimnàs",
-        options: ["gimnàs", "lavabo", "despatx"],
-      },
-    ],
-  },
-  {
-    id: "l-escola-8",
-    type: "multiple-choice",
-    prompt: "Tria la resposta correcta:",
-    questions: [
-      {
-        question: "On estudiem?",
-        options: ["A l'aula", "Al pati", "Al lavabo", "Al menjador"],
-        correct: 0,
-      },
-      {
-        question: "On dinem a l'escola?",
-        options: ["A la biblioteca", "Al gimnàs", "Al menjador", "Al despatx"],
-        correct: 2,
-      },
-      {
-        question: "On llegim llibres?",
-        options: ["Al pati", "A la biblioteca", "Al lavabo", "Al passadís"],
-        correct: 1,
-      },
-      {
-        question: "On juguem a l'hora del pati?",
-        options: ["A l'aula", "Al menjador", "Al despatx", "Al pati"],
-        correct: 3,
-      },
-    ],
-  },
-  {
-    id: "l-escola-9",
-    type: "self-assessment",
-    prompt: "Saps dir aquestes paraules en català?",
-    items: [
-      { catalan: "aula", translation: "učionica" },
-      { catalan: "biblioteca", translation: "biblioteka" },
-      { catalan: "pati", translation: "dvorište" },
-      { catalan: "menjador", translation: "trpezarija" },
-      { catalan: "gimnàs", translation: "fiskulturna sala" },
-      { catalan: "despatx", translation: "kancelarija" },
-      { catalan: "lavabo", translation: "toalet" },
-      { catalan: "passadís", translation: "hodnik" },
-      { catalan: "entrada", translation: "ulaz" },
-      { catalan: "escales", translation: "stepenice" },
-    ],
-  },
-  {
-    id: "l-escola-10",
-    type: "fill-sentence",
-    prompt: "Completa les frases sobre l'escola:",
-    sentences: [
-      {
-        text: "Mengem a l'escola al ___.",
-        blank: "menjador",
-        options: ["menjador", "lavabo", "pati"],
-      },
-      {
-        text: "Llegim llibres a la ___.",
-        blank: "biblioteca",
-        options: ["biblioteca", "aula", "gimnàs"],
-      },
-      {
-        text: "Fem esport al ___.",
-        blank: "gimnàs",
-        options: ["gimnàs", "menjador", "despatx"],
-      },
-      {
-        text: "Ens rentem les mans al ___.",
-        blank: "lavabo",
-        options: ["lavabo", "pati", "passadís"],
-      },
-    ],
-  },
-  {
-    id: "l-escola-11",
-    type: "label-image",
-    prompt: "Col·loca cada espai al seu lloc:",
-    image: "escola",
-    labels: [
-      { text: "aula", x: 20, y: 20 },
-      { text: "biblioteca", x: 70, y: 20 },
-      { text: "menjador", x: 20, y: 50 },
-      { text: "lavabo", x: 70, y: 50 },
-      { text: "pati", x: 20, y: 80 },
-      { text: "gimnàs", x: 70, y: 80 },
-    ],
-    options: [
-      "aula",
-      "biblioteca",
-      "menjador",
-      "lavabo",
-      "pati",
-      "gimnàs",
-      "despatx",
-      "passadís",
-    ],
-  },
-  {
-    id: "l-escola-12",
-    type: "fill-sentence",
-    prompt: "Què fem a cada lloc?",
-    sentences: [
-      {
-        text: "A l'aula ___ les lliçons.",
-        blank: "estudiem",
-        options: ["estudiem", "cuinem", "dormim"],
-      },
-      {
-        text: "Al pati ___ amb els amics.",
-        blank: "juguem",
-        options: ["juguem", "llegim", "cuinem"],
-      },
-      {
-        text: "Al menjador ___ el dinar.",
-        blank: "mengem",
-        options: ["mengem", "estudiem", "dormim"],
-      },
-      {
-        text: "A la biblioteca ___ en silenci.",
-        blank: "llegim",
-        options: ["llegim", "juguem", "cantem"],
-      },
-    ],
-  },
-  {
-    id: "l-escola-14",
     type: "copy-word",
-    prompt: "Llegeix i copia les assignatures:",
+    prompt: "Observa i copia les assignatures:",
     words: [
       { catalan: "matemàtiques" },
       { catalan: "llengües" },
       { catalan: "música" },
-      { catalan: "dibuix" },
+      { catalan: "ciències" },
       { catalan: "anglès" },
       { catalan: "informàtica" },
       { catalan: "educació física" },
-      { catalan: "ciències" },
+      { catalan: "plàstica" },
     ],
   },
+
+  // ── Task 6: Escriu el nom de les assignatures sense mirar ──
   {
-    id: "l-escola-15",
-    type: "copy-word",
-    prompt: "Llegeix i copia els dies de la setmana:",
-    words: [
-      { catalan: "dilluns" },
-      { catalan: "dimarts" },
-      { catalan: "dimecres" },
-      { catalan: "dijous" },
-      { catalan: "divendres" },
-      { catalan: "dissabte" },
-      { catalan: "diumenge" },
-    ],
-  },
-  {
-    id: "l-escola-16",
+    id: "l-escola-6",
     type: "fill-letters",
-    prompt: "Completa les lletres que falten:",
+    prompt: "Escriu el nom de les assignatures sense mirar!",
     words: [
-      { word: "matemàtiques", hint: "m_t_m_tiq_es" },
-      { word: "llengües", hint: "ll_ng_es" },
-      { word: "música", hint: "m_s_ca" },
-      { word: "dibuix", hint: "d_bu_x" },
-      { word: "anglès", hint: "a_gl_s" },
-      { word: "informàtica", hint: "i_fo_m_tica" },
-      { word: "ciències", hint: "c_ènc_es" },
+      { word: "matemàtiques", hint: "m_t_m_t_qu_s" },
+      { word: "llengües", hint: "ll_ng__s" },
+      { word: "música", hint: "m_s_c_" },
+      { word: "ciències", hint: "c__nc__s" },
+      { word: "anglès", hint: "_ngl_s" },
+      { word: "informàtica", hint: "_nf_rm_t_c_" },
+      { word: "educació física", hint: "ed_c_c__ f_s_c_" },
+      { word: "plàstica", hint: "pl_st_c_" },
     ],
   },
+
+  // ── Task 7: Observa i escriu - Números 11-20 ──
   {
-    id: "l-escola-17",
-    type: "matching",
-    prompt: "Relaciona cada assignatura amb la seva descripció:",
-    pairs: [
-      { left: "matemàtiques", right: "números" },
-      { left: "llengües", right: "paraules" },
-      { left: "música", right: "cançons" },
-      { left: "dibuix", right: "colors" },
-      { left: "educació física", right: "esport" },
+    id: "l-escola-7",
+    type: "copy-word",
+    prompt: "Observa i escriu els números de l'11 al 20:",
+    words: [
+      { catalan: "onze" },
+      { catalan: "dotze" },
+      { catalan: "tretze" },
+      { catalan: "catorze" },
+      { catalan: "quinze" },
+      { catalan: "setze" },
+      { catalan: "disset" },
+      { catalan: "divuit" },
+      { catalan: "dinou" },
+      { catalan: "vint" },
     ],
   },
+
+  // ── Task 8: Encercla les paraules relacionades amb l'escola ──
   {
-    id: "l-escola-18",
+    id: "l-escola-8",
     type: "classify-columns",
-    prompt: "Classifica: Assignatures vs Dies de la setmana",
+    prompt: "Encercla les paraules relacionades amb l'escola:",
+    circleMode: true,
     columns: [
       {
-        title: "Assignatures",
-        items: ["matemàtiques", "llengües", "música", "dibuix", "anglès", "ciències"],
+        title: "L'escola",
+        items: [
+          "aula",
+          "pati",
+          "menjador",
+          "biblioteca",
+          "gimnàs",
+          "laboratori",
+          "passadís",
+          "lavabo",
+        ],
       },
       {
-        title: "Dies de la setmana",
-        items: ["dilluns", "dimarts", "dimecres", "dijous", "divendres"],
+        title: "No és l'escola",
+        items: ["platja", "muntanya", "bosc", "mercat", "cinema", "parc"],
       },
     ],
     allItems: [
-      "matemàtiques",
-      "llengües",
-      "música",
-      "dibuix",
-      "anglès",
-      "ciències",
-      "dilluns",
-      "dimarts",
-      "dimecres",
-      "dijous",
-      "divendres",
+      "aula",
+      "platja",
+      "pati",
+      "muntanya",
+      "menjador",
+      "bosc",
+      "biblioteca",
+      "mercat",
+      "gimnàs",
+      "cinema",
+      "laboratori",
+      "parc",
+      "passadís",
+      "lavabo",
     ],
   },
+
+  // ── Task 9: Observa i completa - Singular / Plural ──
   {
-    id: "l-escola-19",
+    id: "l-escola-9",
+    type: "matching",
+    prompt: "Relaciona el singular amb el plural:",
+    pairs: [
+      { left: "la classe", right: "les classes" },
+      { left: "el pati", right: "els patis" },
+      { left: "la noia", right: "les noies" },
+      { left: "el noi", right: "els nois" },
+      { left: "l'escola", right: "les escoles" },
+      { left: "la biblioteca", right: "les biblioteques" },
+      { left: "el lavabo", right: "els lavabos" },
+      { left: "el passadís", right: "els passadissos" },
+    ],
+  },
+
+  // ── Task 10: Observa - Dies de la setmana ──
+  {
+    id: "l-escola-10",
+    type: "copy-word",
+    prompt: "Llegeix i copia els dies de la setmana:",
+    words: [
+      { catalan: "dilluns", image: "dilluns" },
+      { catalan: "dimarts", image: "dimarts" },
+      { catalan: "dimecres", image: "dimecres" },
+      { catalan: "dijous", image: "dijous" },
+      { catalan: "divendres", image: "divendres" },
+      { catalan: "dissabte", image: "dissabte" },
+      { catalan: "diumenge", image: "diumenge" },
+    ],
+  },
+
+  // ── Task 11: Completa - Ordinal days ──
+  {
+    id: "l-escola-11",
     type: "fill-sentence",
-    prompt: "Completa l'horari escolar:",
+    prompt: "Completa els dies de la setmana:",
     sentences: [
       {
-        text: "El dilluns tenim ___.",
-        blank: "matemàtiques",
-        options: ["matemàtiques", "música", "dibuix"],
+        text: "El ___ és el segon dia de la setmana.",
+        blank: "dimarts",
+        options: ["dimarts", "dimecres", "dijous"],
       },
       {
-        text: "El dimarts tenim ___.",
-        blank: "llengües",
-        options: ["llengües", "ciències", "anglès"],
+        text: "El ___ és el tercer dia de la setmana.",
+        blank: "dimecres",
+        options: ["dimecres", "divendres", "dilluns"],
       },
       {
-        text: "El dimecres tenim ___.",
-        blank: "música",
-        options: ["música", "matemàtiques", "informàtica"],
+        text: "El ___ és el quart dia de la setmana.",
+        blank: "dijous",
+        options: ["dijous", "dimarts", "dissabte"],
       },
       {
-        text: "El dijous tenim ___.",
-        blank: "educació física",
-        options: ["educació física", "dibuix", "llengües"],
+        text: "El ___ és el cinquè dia de la setmana.",
+        blank: "divendres",
+        options: ["divendres", "diumenge", "dimecres"],
+      },
+      {
+        text: "El ___ és el sisè dia de la setmana.",
+        blank: "dissabte",
+        options: ["dissabte", "dilluns", "dijous"],
+      },
+      {
+        text: "El ___ és el setè dia de la setmana.",
+        blank: "diumenge",
+        options: ["diumenge", "dissabte", "dimarts"],
       },
     ],
   },
+
+  // ── Task 12: Completa les lletres dels dies ──
   {
-    id: "l-escola-20",
+    id: "l-escola-12",
+    type: "fill-letters",
+    prompt: "Completa les lletres que falten dels dies:",
+    words: [
+      { word: "dissabte", hint: "d_ss_bt_", image: "dissabte" },
+      { word: "dilluns", hint: "d_ll_ns", image: "dilluns" },
+      { word: "dimecres", hint: "d_m_cr_s", image: "dimecres" },
+      { word: "dimarts", hint: "d_m_rts", image: "dimarts" },
+      { word: "diumenge", hint: "d__m_ng_", image: "diumenge" },
+      { word: "divendres", hint: "d_v_ndr_s", image: "divendres" },
+      { word: "dijous", hint: "d_j__s", image: "dijous" },
+    ],
+  },
+
+  // ── Task 13: Escriu el dia d'abans i el de després ──
+  {
+    id: "l-escola-13",
+    type: "fill-sentence",
+    prompt: "Escriu el dia d'abans i el de després:",
+    sentences: [
+      {
+        text: "El dia abans de divendres és ___.",
+        blank: "dijous",
+        options: ["dijous", "dimecres", "dissabte"],
+      },
+      {
+        text: "El dia després de divendres és ___.",
+        blank: "dissabte",
+        options: ["dissabte", "diumenge", "dijous"],
+      },
+      {
+        text: "El dia abans de dimarts és ___.",
+        blank: "dilluns",
+        options: ["dilluns", "dimecres", "diumenge"],
+      },
+      {
+        text: "El dia després de dimarts és ___.",
+        blank: "dimecres",
+        options: ["dimecres", "dijous", "dilluns"],
+      },
+      {
+        text: "El dia abans de diumenge és ___.",
+        blank: "dissabte",
+        options: ["dissabte", "divendres", "dilluns"],
+      },
+      {
+        text: "El dia després de diumenge és ___.",
+        blank: "dilluns",
+        options: ["dilluns", "dimarts", "dissabte"],
+      },
+      {
+        text: "El dia abans de dijous és ___.",
+        blank: "dimecres",
+        options: ["dimecres", "dimarts", "divendres"],
+      },
+      {
+        text: "El dia després de dijous és ___.",
+        blank: "divendres",
+        options: ["divendres", "dissabte", "dimecres"],
+      },
+    ],
+  },
+
+  // ── Task 14: Escriu (free writing about school days) ──
+  {
+    id: "l-escola-14",
     type: "drawing-canvas",
-    prompt: "Dibuixa la teva escola ideal! 🏫",
+    prompt: "Escriu: Dies que vas a l'escola, dies que no hi vas, i el dia d'avui.",
+  },
+
+  // ── Task 15: Observa i completa - Preposicions de lloc ──
+  {
+    id: "l-escola-15",
+    type: "copy-word",
+    prompt: "Observa i copia les preposicions de lloc:",
+    words: [
+      { catalan: "a sobre" },
+      { catalan: "a sota" },
+      { catalan: "a dins" },
+      { catalan: "a fora" },
+      { catalan: "al costat" },
+      { catalan: "al davant" },
+      { catalan: "al darrere" },
+    ],
+  },
+
+  // ── Task 16: Completa amb preposicions ──
+  {
+    id: "l-escola-16",
+    type: "fill-sentence",
+    prompt: "Completa amb la preposició correcta:",
+    sentences: [
+      {
+        text: "El llapis està ___ la taula.",
+        blank: "a sobre",
+        options: ["a sobre", "a sota", "a dins"],
+      },
+      {
+        text: "L'estoig està ___ de la cadira.",
+        blank: "al davant",
+        options: ["al davant", "al darrere", "al costat"],
+      },
+      {
+        text: "El bolígraf està ___ de l'estoig.",
+        blank: "a dins",
+        options: ["a dins", "a fora", "a sobre"],
+      },
+      {
+        text: "El professor està ___ de la taula.",
+        blank: "al costat",
+        options: ["al costat", "al davant", "al darrere"],
+      },
+      {
+        text: "La cadira està ___ de la taula.",
+        blank: "al darrere",
+        options: ["al darrere", "al davant", "a sota"],
+      },
+    ],
+  },
+
+  // ── Task 17: Completa - Conjugation (entrar, sortir) ──
+  {
+    id: "l-escola-17",
+    type: "fill-sentence",
+    prompt: "Completa les frases amb el verb correcte:",
+    sentences: [
+      {
+        text: "Jo entro al menjador. Tu ___ al menjador.",
+        blank: "entres",
+        options: ["entres", "entra", "entrem"],
+      },
+      {
+        text: "Jo entro al menjador. Ell ___ al menjador.",
+        blank: "entra",
+        options: ["entra", "entres", "entren"],
+      },
+      {
+        text: "Jo entro al menjador. Nosaltres ___ al menjador.",
+        blank: "entrem",
+        options: ["entrem", "entreu", "entren"],
+      },
+      {
+        text: "Jo entro al menjador. Ells ___ al menjador.",
+        blank: "entren",
+        options: ["entren", "entrem", "entra"],
+      },
+      {
+        text: "Jo surto al passadís. Tu ___ al passadís.",
+        blank: "surts",
+        options: ["surts", "surt", "sortim"],
+      },
+      {
+        text: "Jo surto al passadís. Ell ___ al passadís.",
+        blank: "surt",
+        options: ["surt", "surts", "surten"],
+      },
+      {
+        text: "Jo surto al passadís. Nosaltres ___ al passadís.",
+        blank: "sortim",
+        options: ["sortim", "sortiu", "surten"],
+      },
+      {
+        text: "Jo surto al passadís. Ells ___ al passadís.",
+        blank: "surten",
+        options: ["surten", "sortim", "surt"],
+      },
+    ],
+  },
+
+  // ── Task 18: Ara dibuixa ──
+  {
+    id: "l-escola-18",
+    type: "drawing-canvas",
+    prompt: "Ara dibuixa! Fes un dibuix de la teva escola.",
+  },
+
+  // ── Task 19: Autoavaluació ──
+  {
+    id: "l-escola-19",
+    type: "self-assessment",
+    prompt: "Saps dir aquestes paraules en català?",
+    items: [
+      { catalan: "aula", translation: "učionica", image: "aula" },
+      { catalan: "biblioteca", translation: "biblioteka", image: "biblioteca" },
+      { catalan: "pati", translation: "dvorište", image: "pati" },
+      { catalan: "menjador", translation: "trpezarija", image: "menjador" },
+      { catalan: "gimnàs", translation: "fiskulturna sala", image: "gimnas" },
+      { catalan: "laboratori", translation: "laboratorija" },
+      { catalan: "lavabo", translation: "toalet", image: "lavabo" },
+      { catalan: "passadís", translation: "hodnik", image: "passadis" },
+      { catalan: "dimarts", translation: "utorak", image: "dimarts" },
+      { catalan: "divendres", translation: "petak", image: "divendres" },
+      { catalan: "a sobre", translation: "na/iznad" },
+      { catalan: "a sota", translation: "ispod" },
+    ],
   },
 ];
