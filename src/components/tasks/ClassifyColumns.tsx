@@ -124,7 +124,7 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
           className="text-center"
         >
           {getWordIllustration(currentItem) ? (
-            <div className="mb-2 flex justify-center"><img src={getWordIllustration(currentItem)!} alt="" className="w-24 h-24 object-contain" /></div>
+            <div className="mb-2 flex justify-center"><img src={getWordIllustration(currentItem)!} alt="" className="w-44 h-44 object-contain" /></div>
           ) : null}
           <div
             onPointerDown={(e) => {

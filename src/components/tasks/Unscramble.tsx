@@ -261,7 +261,7 @@ export default function Unscramble({ task, onComplete }: Props) {
             <img
               src={getWordIllustration(currentWord.correct)!}
               alt={currentWord.correct}
-              className="w-28 h-28 object-contain"
+              className="w-44 h-44 object-contain"
             />
           ) : null}
           <SpeakerButton text={currentWord.correct} />

@@ -91,7 +91,7 @@ export default function AddArticle({ task, onComplete }: Props) {
         className="bg-white rounded-2xl p-6 shadow-sm text-center"
       >
         {getWordIllustration(currentWord.word) ? (
-          <div className="mb-3 flex justify-center"><img src={getWordIllustration(currentWord.word)!} alt="" className="w-28 h-28 object-contain" /></div>
+          <div className="mb-3 flex justify-center"><img src={getWordIllustration(currentWord.word)!} alt="" className="w-44 h-44 object-contain" /></div>
         ) : null}
 
         <div className="flex items-center justify-center gap-3 mb-2">

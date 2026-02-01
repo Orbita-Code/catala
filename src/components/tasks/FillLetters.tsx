@@ -312,8 +312,8 @@ export default function FillLetters({ task, onComplete }: Props) {
 
                 {/* Illustration */}
                 {illustration ? (
-                  <div className="w-16 h-16 flex items-center justify-center flex-shrink-0">
-                    <img src={illustration} alt={item.word} className="w-16 h-16 object-contain" />
+                  <div className="w-24 h-24 flex items-center justify-center flex-shrink-0">
+                    <img src={illustration} alt={item.word} className="w-24 h-24 object-contain" />
                   </div>
                 ) : null}
 
