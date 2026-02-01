@@ -138,9 +138,9 @@ npm run test:ui  # Playwright UI mode
 - Playwright E2E test infrastructure: config, page objects, 12 task solvers, 209 answer keys, 12 theme specs + smoke test
 
 ### In Progress
-- **3D Illustrations:** ~160/~280 done via ChatGPT custom GPT.
+- **3D Illustrations:** ~160/~280 done via ChatGPT custom GPT + Bing Image Creator.
   - **COMPLETE themes:** La classe, L'escola, El cos, La roba, La casa, La família, Les botigues, El menjar
-  - **Next theme:** Els animals (~50 illustrations needed)
+  - **Current theme:** Els animals - vec imamo 13 ilustracija (conill, elefant, gat, girafa, gos, lleo, ocell, porc, salmo, serp, tigre, tonyina, tortuga), fali jos ~37
   - **Remaining after:** La ciutat, Els vehicles, Els oficis
   - Full workbook mapping: see `Ilustracije/WORKBOOK-VS-ILLUSTRATIONS.md`
 
@@ -148,17 +148,16 @@ npm run test:ui  # Playwright UI mode
 - xandall, americana, corbata, banyador, banyador-de-dona, biquini, sandalies, arracades, anell, ulleres, collaret, cinturo, caputxa, pantalons-curts, samarreta-de-tirants
 
 ### NEXT SESSION TODO (Priority Order)
-1. **Playwright MCP je dodat** - treba restart Claude Code da se ucita. Posle restarta koristiti `mcp__playwright__browser_navigate` za otvaranje Bing Image Creator.
-2. **Continue 3D Illustrations via Bing Image Creator** (https://www.bing.com/images/create?FORM=IRPGEN, model: gpt-4o)
-   - **La roba preostalo (8 reci):** pantalons curts, arracades, anell, ulleres, collaret, cinturó, samarreta de tirants, caputxa
-   - **Zatim La casa (~38 reci)**, La família (15), Les botigues (~33), El menjar (~35), Els animals (~50+)
-   - **Bing prompt format:** `[OPIS] - 3D cartoon style, white background with small decorative hearts, circles, and five-pointed stars, 512x512px, colorful and cheerful, for children ages 5-8. No face or eyes on the object. Output format: PNG.`
+1. **Continue Els animals ilustracije via Bing Image Creator** (https://www.bing.com/images/create?FORM=IRPGEN, model: DALL-E 3)
+   - **Sledeca rec: gallina (kokosica)** - generisane su 4 slike sa novim promptom (realisticnija kokosica + nasa dekoracija), korisnik treba da izabere jednu od 4
+   - **Bing prompt format za zivotinje:** `A realistic [ANIMAL] with [OPIS]. 3D cartoon style render with accurate proportions. White background with small decorative hearts, circles, and five-pointed stars. 512x512px, colorful and cheerful, for children ages 5-8. Output format: PNG.`
+   - **VAZNO:** Za zivotinje koristiti realisticniji opis (ne kawaii/chibi stil), ali ZADRZATI nasu dekoraciju (srca, zvezdice, krugovi). Dekoracija treba biti suptilna, da ne preuzima od ilustracije.
+   - **VAZNO:** Kad Bing generise 4 slike, UVEK prvo pitaj korisnika koju da sacuva pre cuvanja!
    - **VAZNO:** Bing cuva kao JPEG - preimenovati u .png i kopirati u oba foldera (Ilustracije/ i public/illustrations/)
-3. **When ChatGPT resets** - switch back to ChatGPT custom GPT (URL u sekciji Illustration Workflow) for better quality/consistency
-4. **Deploy pipeline** (Coolify + Docker)
-5. **DNS setup** (katalonski.orbitacode.com)
-2. **Deploy pipeline** (Coolify + Docker)
-3. **DNS setup** (katalonski.orbitacode.com)
+   - **Fale od zivotinja:** gallina, gall, pollet, oreneta, gavina, pingui, estruc, mussol, gorila/mico, zebra, cavall, vaca, camell, rinoceront, ovella, hipopotam, mosca, formiga, abella, escarabat, papallona, mosquit, tauro, peix-espasa, bacalla, cocodril, camaleo, dofi, balena, pop, medusa, os
+2. **When ChatGPT resets** - switch back to ChatGPT custom GPT (URL u sekciji Illustration Workflow) for better quality/consistency
+3. **Deploy pipeline** (Coolify + Docker)
+4. **DNS setup** (katalonski.orbitacode.com)
 
 ### Illustration Workflow
 - **ChatGPT chat:** Custom GPT "Igrice katalonski jezik" → chat "AI ilustracije za decu"
@@ -200,6 +199,7 @@ npm run test:ui  # Playwright UI mode
    - gorra (baseball cap) → might generate a beanie/winter hat
    - Any clothing item → might generate the wrong type of clothing
    If the image is wrong, do NOT save it. Send a clarifying prompt and regenerate.
+   - **BLURRINESS CHECK (CRITICAL):** After EVERY generated image, take a screenshot and carefully inspect whether the bottom half of the image is blurry, smudged, or low-resolution compared to the top half. Bing Image Creator is known to produce images where the lower portion is degraded. If the bottom half is blurry/smudged, do NOT save it - regenerate immediately. This check can be done per-image or batched per-theme, but MUST be done before committing.
 5. **Pipeline workflow:** Send next word IMMEDIATELY after confirming current image is correct, then save/copy/register the previous one while the next generates. This saves time.
 6. **Save workflow per word:**
    - Copy from temp path to both `Ilustracije/[word].png` and `public/illustrations/[word].png`
