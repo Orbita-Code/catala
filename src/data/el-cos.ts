@@ -89,7 +89,7 @@ export const elCosTasks: Task[] = [
       { text: "orella", x: 85, y: 40 },
       { text: "cabell", x: 50, y: 10 },
     ],
-    options: ["ull", "nas", "boca", "orella", "cabell", "cella", "galta"],
+    options: ["ull", "nas", "boca", "orella", "cabell", "genoll", "colze", "dit"],
   },
 
   // 6. Llegeix i assenyala (hair color descriptions)
