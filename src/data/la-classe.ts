@@ -269,169 +269,217 @@ export const laClasseTasks: Task[] = [
     ],
   },
 
-  // Exercise 9: Escriu la paraula (classroom furniture/room words)
+  // Exercise 9: Què fan? Completa (workbook: kids doing activities)
   {
     id: "la-classe-9",
-    type: "copy-word",
-    prompt: "Escriu la paraula de cada objecte de la classe.",
-    words: [
-      { catalan: "cadira" },
-      { catalan: "porta" },
-      { catalan: "finestra" },
-      { catalan: "taula" },
-      { catalan: "pissarra" },
-      { catalan: "paperera" },
-      { catalan: "ordinador" },
+    type: "fill-sentence",
+    prompt: "Què fan? Completa les frases.",
+    sentences: [
+      {
+        text: "La Sara ___.",
+        blank: "canta",
+        options: ["canta", "dibuixa", "pinta"],
+      },
+      {
+        text: "En Marc ___.",
+        blank: "escriu",
+        options: ["pinta", "escriu", "retalla"],
+      },
+      {
+        text: "En Toni ___.",
+        blank: "dibuixa",
+        options: ["dibuixa", "canta", "escriu"],
+      },
+      {
+        text: "En Carles ___.",
+        blank: "pinta",
+        options: ["retalla", "canta", "pinta"],
+      },
     ],
   },
 
-  // Exercise 10: Ordena les síl·labes
+  // Exercise 10: Relaciona (workbook: match item to function)
   {
     id: "la-classe-10",
-    type: "unscramble",
-    prompt: "Ordena les síl·labes per formar la paraula correcta.",
-    words: [
-      { scrambled: "pis-lla", correct: "llapis" },
-      { scrambled: "go-ma", correct: "goma" },
-      { scrambled: "toig-es", correct: "estoig" },
-      { scrambled: "xi-mot-lla", correct: "motxilla" },
-      { scrambled: "so-ti-res", correct: "tisores" },
-      { scrambled: "or-na-di-dor", correct: "ordinador" },
-      { scrambled: "gui-x", correct: "guix" },
+    type: "matching",
+    prompt: "Relaciona cada objecte amb la seva funció.",
+    pairs: [
+      { left: "tisores", right: "retallar" },
+      { left: "llapis", right: "escriure" },
+      { left: "cola de barra", right: "enganxar" },
+      { left: "llapis de colors", right: "pintar" },
+      { left: "goma", right: "esborrar" },
     ],
   },
 
-  // Exercise 11: Escriu la paraula per cada objecte
+  // Exercise 11: Encercla les paraules que siguin objectes de classe
   {
     id: "la-classe-11",
-    type: "copy-word",
-    prompt: "Escriu la paraula per cada objecte.",
-    words: [
-      { catalan: "regle" },
-      { catalan: "motxilla" },
-      { catalan: "borrador" },
-      { catalan: "maquineta" },
-      { catalan: "estoig" },
-      { catalan: "bolígraf" },
+    type: "classify-columns",
+    prompt: "Classifica: quines paraules són objectes de classe?",
+    columns: [
+      {
+        title: "Objectes de classe",
+        items: [
+          "retolador",
+          "tisores",
+          "ordinador",
+          "motxilla",
+          "taula",
+          "borrador",
+          "guix",
+          "goma",
+          "estoig",
+        ],
+      },
+      {
+        title: "No són de classe",
+        items: [
+          "cuina",
+          "pare",
+          "gat",
+          "guitarra",
+          "anell",
+          "bicicleta",
+        ],
+      },
+    ],
+    allItems: [
+      "retolador",
+      "cuina",
+      "tisores",
+      "pare",
+      "ordinador",
+      "gat",
+      "guitarra",
+      "motxilla",
+      "anell",
+      "taula",
+      "borrador",
+      "bicicleta",
+      "guix",
+      "goma",
+      "estoig",
     ],
   },
 
-  // Exercise 12: Observa i completa
+  // Exercise 12: Afegeix l'article (workbook: add un/una)
   {
     id: "la-classe-12",
-    type: "fill-sentence",
-    prompt: "Observa i completa les frases.",
-    sentences: [
-      {
-        text: "A la classe hi ha una ___.",
-        blank: "pissarra",
-        options: ["pissarra", "cuina", "bany"],
-      },
-      {
-        text: "El mestre escriu amb el ___.",
-        blank: "guix",
-        options: ["guix", "goma", "tisores"],
-      },
-      {
-        text: "Cada alumne s'asseu a una ___.",
-        blank: "cadira",
-        options: ["cadira", "taula", "porta"],
-      },
-      {
-        text: "Obrim la ___ per sortir.",
-        blank: "porta",
-        options: ["porta", "finestra", "pissarra"],
-      },
+    type: "add-article",
+    prompt: "Afegeix l'article: un o una.",
+    words: [
+      { word: "maquineta", article: "una" },
+      { word: "pissarra", article: "una" },
+      { word: "borrador", article: "un" },
+      { word: "llibreta", article: "una" },
+      { word: "regle", article: "un" },
+      { word: "dibuix", article: "un" },
     ],
   },
 
-  // Exercise 13: Completa les frases sobre la classe
+  // Exercise 13: Escriu i pinta (workbook: write name of BW objects)
   {
     id: "la-classe-13",
-    type: "fill-sentence",
-    prompt: "Completa les frases sobre la classe.",
-    sentences: [
-      {
-        text: "La mestra escriu a la ___.",
-        blank: "pissarra",
-        options: ["pissarra", "motxilla", "estoig"],
-      },
-      {
-        text: "Els alumnes s'asseuen a la ___.",
-        blank: "cadira",
-        options: ["cadira", "porta", "goma"],
-      },
-      {
-        text: "Llencem el paper a la ___.",
-        blank: "paperera",
-        options: ["paperera", "taula", "finestra"],
-      },
-      {
-        text: "Miro per la ___.",
-        blank: "finestra",
-        options: ["finestra", "pissarra", "cadira"],
-      },
+    type: "copy-word",
+    prompt: "Escriu el nom de cada objecte.",
+    words: [
+      { catalan: "llapis" },
+      { catalan: "llibre" },
+      { catalan: "porta" },
+      { catalan: "finestra" },
+      { catalan: "motxilla" },
+      { catalan: "estoig" },
     ],
   },
 
-  // Exercise 14: Escriu el nom dels objectes
+  // Exercise 14: Completa (workbook: fill sentences about classroom activities)
   {
     id: "la-classe-14",
     type: "fill-sentence",
-    prompt: "Escriu el nom dels objectes.",
+    prompt: "Completa les frases.",
     sentences: [
       {
-        text: "El ___ serveix per mesurar.",
-        blank: "regle",
-        options: ["regle", "guix", "goma"],
+        text: "Jo retallo amb les ___.",
+        blank: "tisores",
+        options: ["tisores", "gomes", "regles"],
       },
       {
-        text: "La ___ serveix per portar els llibres.",
-        blank: "motxilla",
-        options: ["motxilla", "tisores", "maquineta"],
+        text: "Jo escric amb el ___.",
+        blank: "llapis",
+        options: ["llapis", "borrador", "estoig"],
       },
       {
-        text: "El ___ serveix per pintar a la pissarra.",
-        blank: "guix",
-        options: ["guix", "llapis", "estoig"],
+        text: "Jo esborro amb la ___.",
+        blank: "goma",
+        options: ["goma", "maquineta", "carpeta"],
       },
       {
-        text: "L'___ serveix per guardar els llapis.",
-        blank: "estoig",
-        options: ["estoig", "carpeta", "goma"],
+        text: "Jo dibuixo amb els ___.",
+        blank: "retoladors",
+        options: ["retoladors", "llibres", "guixos"],
+      },
+      {
+        text: "Nosaltres dibuixem a la ___.",
+        blank: "llibreta",
+        options: ["llibreta", "pissarra", "motxilla"],
+      },
+      {
+        text: "Vosaltres pinteu amb les ___.",
+        blank: "pintures",
+        options: ["pintures", "tisores", "gomes"],
       },
     ],
   },
 
-  // Exercise 15: Col·loca cada paraula al seu lloc
+  // Exercise 15: Separa i copia (workbook: separate joined words)
   {
     id: "la-classe-15",
-    type: "label-image",
-    prompt: "Col·loca cada paraula al seu lloc.",
-    image: "classroom",
-    labels: [
-      { text: "llapis", x: 15, y: 20 },
-      { text: "goma", x: 65, y: 20 },
-      { text: "tisores", x: 15, y: 55 },
-      { text: "estoig", x: 65, y: 55 },
-      { text: "motxilla", x: 15, y: 85 },
-      { text: "llibre", x: 65, y: 85 },
-    ],
-    options: [
-      "llapis",
-      "goma",
-      "tisores",
-      "estoig",
-      "motxilla",
-      "llibre",
-      "regle",
-      "carpeta",
+    type: "separate-words",
+    prompt: "Separa les paraules i copia la frase.",
+    items: [
+      {
+        joined: "Joescricambelmeuflapis",
+        words: ["Jo", "escric", "amb", "el", "meu", "llapis"],
+      },
+      {
+        joined: "Elstresonescriuenalallibreta",
+        words: ["Els", "tres", "on", "escriuen", "a", "la", "llibreta"],
+      },
+      {
+        joined: "Elllapisésdecolorgroc",
+        words: ["El", "llapis", "és", "de", "color", "groc"],
+      },
     ],
   },
 
-  // Exercise 16: Autoavaluació
+  // Exercise 16: Observa i escriu (workbook: count objects and write number)
   {
     id: "la-classe-16",
+    type: "count-and-write",
+    prompt: "Compta els objectes i escriu el número.",
+    items: [
+      { description: "llapis", count: 3, word: "tres" },
+      { description: "goma", count: 2, word: "dues" },
+      { description: "llibre", count: 4, word: "quatre" },
+      { description: "ordinador", count: 1, word: "un" },
+      { description: "regle", count: 5, word: "cinc" },
+      { description: "retolador", count: 6, word: "sis" },
+      { description: "tisores", count: 7, word: "set" },
+      { description: "estoig", count: 8, word: "vuit" },
+    ],
+  },
+
+  // Exercise 17: Dibuixa la teva classe (workbook task 17)
+  {
+    id: "la-classe-17",
+    type: "drawing-canvas",
+    prompt: "Dibuixa la teva classe.",
+  },
+
+  // Exercise 18: Autoavaluació (workbook: self-assessment with traffic lights)
+  {
+    id: "la-classe-18",
     type: "self-assessment",
     prompt: "Autoavaluació: revisa el vocabulari de la classe.",
     items: [
@@ -456,127 +504,6 @@ export const laClasseTasks: Task[] = [
       { catalan: "cadira", translation: "stolica" },
       { catalan: "porta", translation: "vrata" },
       { catalan: "finestra", translation: "prozor" },
-    ],
-  },
-
-  // Exercise 17: Dibuixa la teva classe
-  {
-    id: "la-classe-17",
-    type: "drawing-canvas",
-    prompt: "Dibuixa la teva classe.",
-  },
-
-  // === EXTRA TASKS (not in workbook) ===
-
-  // Exercise 18: fill-sentence (general)
-  {
-    id: "la-classe-18",
-    type: "fill-sentence",
-    prompt: "Completa les frases amb la paraula correcta.",
-    sentences: [
-      {
-        text: "Per escriure faig servir el ___.",
-        blank: "llapis",
-        options: ["llapis", "tisores", "motxilla"],
-      },
-      {
-        text: "Per esborrar faig servir la ___.",
-        blank: "goma",
-        options: ["goma", "carpeta", "pissarra"],
-      },
-      {
-        text: "Per tallar paper faig servir les ___.",
-        blank: "tisores",
-        options: ["tisores", "llibretes", "cadires"],
-      },
-      {
-        text: "Per portar els llibres faig servir la ___.",
-        blank: "motxilla",
-        options: ["motxilla", "paperera", "finestra"],
-      },
-    ],
-  },
-
-  // Exercise 19: multiple-choice
-  {
-    id: "la-classe-19",
-    type: "multiple-choice",
-    prompt: "Tria la resposta correcta.",
-    questions: [
-      {
-        question: "Què fem servir per escriure a la pissarra?",
-        options: ["llapis", "bolígraf", "guix", "retolador"],
-        correct: 2,
-      },
-      {
-        question: "On llencem el paper?",
-        options: ["motxilla", "paperera", "estoig", "carpeta"],
-        correct: 1,
-      },
-      {
-        question: "Què fem servir per mesurar?",
-        options: ["goma", "tisores", "maquineta", "regle"],
-        correct: 3,
-      },
-      {
-        question: "On guardem els llapis i bolígrafs?",
-        options: ["estoig", "pissarra", "cadira", "porta"],
-        correct: 0,
-      },
-      {
-        question: "Què fem servir per fer punta al llapis?",
-        options: ["borrador", "guix", "maquineta", "regle"],
-        correct: 2,
-      },
-    ],
-  },
-
-  // Exercise 20: classify-columns Coses grans vs Coses petites
-  {
-    id: "la-classe-20",
-    type: "classify-columns",
-    prompt: "Classifica: coses grans o coses petites de la classe.",
-    columns: [
-      {
-        title: "Coses grans",
-        items: [
-          "pissarra",
-          "ordinador",
-          "taula",
-          "cadira",
-          "porta",
-          "finestra",
-          "paperera",
-        ],
-      },
-      {
-        title: "Coses petites",
-        items: [
-          "llapis",
-          "goma",
-          "bolígraf",
-          "estoig",
-          "maquineta",
-          "regle",
-          "guix",
-        ],
-      },
-    ],
-    allItems: [
-      "pissarra",
-      "ordinador",
-      "taula",
-      "cadira",
-      "porta",
-      "finestra",
-      "paperera",
-      "llapis",
-      "goma",
-      "bolígraf",
-      "estoig",
-      "maquineta",
-      "regle",
-      "guix",
     ],
   },
 ];
