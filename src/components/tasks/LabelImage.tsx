@@ -184,7 +184,7 @@ export default function LabelImage({ task, onComplete }: Props) {
                   >
                     {placed[i] ? (
                       <>
-                        {getWordIllustration(placed[i]) ? <img src={getWordIllustration(placed[i])!} alt="" className="w-5 h-5 object-contain inline" /> : getWordEmoji(placed[i]) ? <span>{getWordEmoji(placed[i])}</span> : null}
+                        {getWordIllustration(placed[i]) ? <img src={getWordIllustration(placed[i])!} alt="" className="w-8 h-8 object-contain inline" /> : getWordEmoji(placed[i]) ? <span>{getWordEmoji(placed[i])}</span> : null}
                         {placed[i]}
                         {checked && (results[i] ? " ✅" : " ❌")}
                       </>
@@ -233,7 +233,7 @@ export default function LabelImage({ task, onComplete }: Props) {
                 }`}
                 style={{ cursor: checked || usedWords.has(word) ? "default" : "grab" }}
               >
-                {getWordIllustration(word) ? <img src={getWordIllustration(word)!} alt="" className="w-6 h-6 object-contain inline mr-1" /> : getWordEmoji(word) ? <span className="mr-1">{getWordEmoji(word)}</span> : null}
+                {getWordIllustration(word) ? <img src={getWordIllustration(word)!} alt="" className="w-10 h-10 object-contain inline mr-1" /> : getWordEmoji(word) ? <span className="mr-1">{getWordEmoji(word)}</span> : null}
                 {word}
                 {!checked && !usedWords.has(word) && (
                   <SpeakerButton text={word} size={14} className="ml-1 inline-block" light={selectedWord === word} />

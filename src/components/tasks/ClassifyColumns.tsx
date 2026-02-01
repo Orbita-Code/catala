@@ -211,7 +211,7 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
                             : "bg-red-100 text-red-700"
                         }`}
                       >
-                        {getWordIllustration(item) ? <img src={getWordIllustration(item)!} alt="" className="w-5 h-5 object-contain inline mr-1" /> : getWordEmoji(item) ? <span className="mr-1">{getWordEmoji(item)}</span> : null} {item} {isCorrect ? "✅" : "❌"}
+                        {getWordIllustration(item) ? <img src={getWordIllustration(item)!} alt="" className="w-8 h-8 object-contain inline mr-1" /> : getWordEmoji(item) ? <span className="mr-1">{getWordEmoji(item)}</span> : null} {item} {isCorrect ? "✅" : "❌"}
                       </div>
                     );
                   })}

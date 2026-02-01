@@ -235,7 +235,7 @@ export default function Unscramble({ task, onComplete }: Props) {
             <img
               src={getWordIllustration(currentWord.correct)!}
               alt={currentWord.correct}
-              className="w-16 h-16 object-contain"
+              className="w-20 h-20 object-contain"
             />
           ) : getWordEmoji(currentWord.correct) ? (
             <div className="text-4xl">{getWordEmoji(currentWord.correct)}</div>
