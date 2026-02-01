@@ -150,9 +150,10 @@ npm run test:ui  # Playwright UI mode
 ### NEXT SESSION TODO (Priority Order)
 1. **Continue Els animals ilustracije via Bing Image Creator** (https://www.bing.com/images/create?FORM=IRPGEN, model: DALL-E 3)
    - **Sledeca rec: gallina (kokosica)** - generisane su 4 slike sa novim promptom (realisticnija kokosica + nasa dekoracija), korisnik treba da izabere jednu od 4
-   - **Bing prompt format za zivotinje:** `A realistic [ANIMAL] with [OPIS]. 3D cartoon style render with accurate proportions. White background with small decorative hearts, circles, and five-pointed stars. 512x512px, colorful and cheerful, for children ages 5-8. Output format: PNG.`
+   - **Bing prompt format za zivotinje:** `A realistic [ANIMAL] with [OPIS]. 3D cartoon style render with accurate proportions. Pure white (#FFFFFF) background with small decorative hearts, circles, and five-pointed stars. 512x512px, colorful and cheerful, for children ages 5-8. Output format: PNG.`
    - **VAZNO:** Za zivotinje koristiti realisticniji opis (ne kawaii/chibi stil), ali ZADRZATI nasu dekoraciju (srca, zvezdice, krugovi). Dekoracija treba biti suptilna, da ne preuzima od ilustracije.
    - **VAZNO:** Kad Bing generise 4 slike, UVEK prvo pitaj korisnika koju da sacuva pre cuvanja!
+   - **VAZNO:** U promptu OBAVEZNO naglasiti "pure white background" ili "clean white #FFFFFF background" - Bing ima tendenciju da pravi krem/bezh pozadinu umesto bele! Proveriti na screenshotu da li je pozadina zaista bela.
    - **VAZNO:** Bing cuva kao JPEG - preimenovati u .png i kopirati u oba foldera (Ilustracije/ i public/illustrations/)
    - **Fale od zivotinja:** gallina, gall, pollet, oreneta, gavina, pingui, estruc, mussol, gorila/mico, zebra, cavall, vaca, camell, rinoceront, ovella, hipopotam, mosca, formiga, abella, escarabat, papallona, mosquit, tauro, peix-espasa, bacalla, cocodril, camaleo, dofi, balena, pop, medusa, os
 2. **When ChatGPT resets** - switch back to ChatGPT custom GPT (URL u sekciji Illustration Workflow) for better quality/consistency
