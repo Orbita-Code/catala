@@ -194,7 +194,7 @@ export const laCiutatTasks: Task[] = [
       { text: "estació", x: 20, y: 85 },
       { text: "cinema", x: 70, y: 85 },
     ],
-    options: ["hospital", "escola", "parc", "mercat", "estació", "cinema", "museu", "biblioteca"],
+    options: ["hospital", "escola", "parc", "mercat", "estació", "cinema", "farmàcia", "biblioteca"],
   },
   {
     id: "la-ciutat-11",
@@ -289,7 +289,7 @@ export const laCiutatTasks: Task[] = [
       { text: "parada d'autobús", x: 25, y: 70 },
       { text: "fanal", x: 75, y: 70 },
     ],
-    options: ["semàfor", "pas de vianants", "parada d'autobús", "fanal", "banc", "paperera"],
+    options: ["semàfor", "pas de vianants", "parada d'autobús", "fanal", "paperera", "escola"],
   },
   {
     id: "la-ciutat-15",

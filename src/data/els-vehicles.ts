@@ -187,7 +187,7 @@ export const elsVehiclesTasks: Task[] = [
       { text: "vaixell", x: 50, y: 70 },
       { text: "bicicleta", x: 85, y: 70 },
     ],
-    options: ["cotxe", "autobús", "tren", "avió", "vaixell", "bicicleta", "moto", "helicòpter"],
+    options: ["cotxe", "autobús", "tren", "avió", "vaixell", "bicicleta", "casa", "escola"],
   },
   {
     id: "els-vehicles-11",
@@ -262,7 +262,7 @@ export const elsVehiclesTasks: Task[] = [
       { text: "mirall", x: 15, y: 35 },
       { text: "far", x: 85, y: 50 },
     ],
-    options: ["roda", "porta", "volant", "mirall", "far", "seient", "motor"],
+    options: ["roda", "porta", "volant", "mirall", "far", "finestra", "llapis"],
   },
   {
     id: "els-vehicles-14",

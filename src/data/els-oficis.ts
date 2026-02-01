@@ -189,7 +189,7 @@ export const elsOficisTasks: Task[] = [
       { text: "cuiner", x: 50, y: 70 },
       { text: "jardiner", x: 85, y: 70 },
     ],
-    options: ["bomber", "policia", "metge", "mestre", "cuiner", "jardiner", "pilot", "dentista"],
+    options: ["bomber", "policia", "metge", "mestre", "cuiner", "jardiner", "pare", "mare"],
   },
   {
     id: "els-oficis-11",

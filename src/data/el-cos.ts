@@ -297,7 +297,7 @@ export const elCosTasks: Task[] = [
       { text: "arrugues", x: 70, y: 40 },
       { text: "dentadura", x: 50, y: 70 },
     ],
-    options: ["barba", "bigoti", "arrugues", "dentadura", "celles", "galtes"],
+    options: ["barba", "bigoti", "arrugues", "dentadura", "nas", "orella"],
   },
 
   // 16. Qui és qui?

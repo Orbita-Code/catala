@@ -192,7 +192,7 @@ export const elsAnimalsTasks: Task[] = [
       { text: "cua", x: 15, y: 50 },
       { text: "potes", x: 55, y: 80 },
     ],
-    options: ["bec", "ales", "plomes", "cua", "potes", "ulls", "cap"],
+    options: ["bec", "ales", "plomes", "cua", "potes", "ull", "cap"],
   },
   {
     id: "els-animals-11",
@@ -314,7 +314,7 @@ export const elsAnimalsTasks: Task[] = [
       { text: "gallina", x: 50, y: 70 },
       { text: "ovella", x: 85, y: 70 },
     ],
-    options: ["gos", "gat", "vaca", "cavall", "gallina", "ovella", "porc", "ànec"],
+    options: ["gos", "gat", "vaca", "cavall", "gallina", "ovella", "porc", "conill"],
   },
   {
     id: "els-animals-17",
@@ -390,7 +390,7 @@ export const elsAnimalsTasks: Task[] = [
       { text: "abella", x: 20, y: 70 },
       { text: "aranya", x: 70, y: 70 },
     ],
-    options: ["formiga", "papallona", "abella", "aranya", "escarabat", "caragol"],
+    options: ["formiga", "papallona", "abella", "aranya", "escarabat", "mosca"],
   },
   {
     id: "els-animals-20",
