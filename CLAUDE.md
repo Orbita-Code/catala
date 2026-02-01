@@ -150,10 +150,10 @@ npm run test:ui  # Playwright UI mode
 - xandall, americana, corbata, banyador, banyador-de-dona, biquini, sandalies, arracades, anell, ulleres, collaret, cinturo, caputxa, pantalons-curts, samarreta-de-tirants
 
 ### NEXT SESSION TODO (Priority Order)
-1. **Continue Els animals ilustracije via Bing Image Creator** (https://www.bing.com/images/create?FORM=IRPGEN, model: DALL-E 3)
-   - **Sledeca rec: gallina (kokosica)** - generisane su 4 slike sa novim promptom (realisticnija kokosica + nasa dekoracija), korisnik treba da izabere jednu od 4
-   - **Bing prompt format za zivotinje:** `A realistic [ANIMAL] with [OPIS]. 3D cartoon style render with accurate proportions. Pure white (#FFFFFF) background with small decorative hearts, circles, and five-pointed stars. 512x512px, colorful and cheerful, for children ages 5-8. Output format: PNG.`
-   - **VAZNO:** Za zivotinje koristiti realisticniji opis (ne kawaii/chibi stil), ali ZADRZATI nasu dekoraciju (srca, zvezdice, krugovi). Dekoracija treba biti suptilna, da ne preuzima od ilustracije.
+1. **Continue Els animals ilustracije via Bing Image Creator** (https://www.bing.com/images/create?FORM=IRPGEN, model: GPT-4o)
+   - **Sledeca rec: pollet (pile)** - gallina i gall vec zavrseni
+   - **Bing prompt format za zivotinje:** `A realistic [ANIMAL] with [OPIS]. Soft, gentle colors. 3D cartoon style render with accurate proportions. Pure white (#FFFFFF) background with small subtle pastel-colored decorative hearts, circles, dots, and five-pointed stars. 512x512px, cheerful, for children ages 5-8. Output format: PNG.`
+   - **VAZNO:** Za zivotinje koristiti realisticniji opis (ne kawaii/chibi stil), ali ZADRZATI nasu dekoraciju (srca, zvezdice, krugovi). Dekoracija MORA biti SUPTILNA i u PASTELNIM bojama, ne jarkim. Zivotinje trebaju imati meke/blage boje.
    - **VAZNO:** Kad Bing generise 4 slike, UVEK prvo pitaj korisnika koju da sacuva pre cuvanja!
    - **VAZNO:** U promptu OBAVEZNO naglasiti "pure white background" ili "clean white #FFFFFF background" - Bing ima tendenciju da pravi krem/bezh pozadinu umesto bele! Proveriti na screenshotu da li je pozadina zaista bela.
    - **VAZNO:** Bing cuva kao JPEG - preimenovati u .png i kopirati u oba foldera (Ilustracije/ i public/illustrations/)
@@ -170,6 +170,9 @@ npm run test:ui  # Playwright UI mode
 - **Deduplication:** 277 unique words total. Many repeat across themes - only ONE illustration per unique word.
 - **Integration:** Replace emoji usage in `src/lib/illustrations.ts` `getWordEmoji()` function with actual image paths
 - **Total words:** 277 unique (see `Ilustracije/WORD-LIST.md` for full list)
+
+### OBAVEZNO PRAVILO - Bing Image Creator Model
+**Na Bing Image Creator OBAVEZNO koristiti GPT-4o model (NE DALL-E 3, NE MAI-Image-1).** GPT-4o ima "Consistent characters & styling" sto je bolje za konzistentnost ilustracija. Pre svake sesije generisanja, PROVERITI da je GPT-4o selektovan u Model dropdown-u. GPT-4o generise 1 sliku po promptu (ne 4 kao DALL-E 3).
 
 ### Illustration Design Rules (CRITICAL - follow for EVERY illustration)
 1. **NO anthropomorphization:** Objects must NEVER have eyes, mouths, faces, or any human characteristics. A pencil is just a pencil, a book is just a book. NO kawaii faces, NO cartoon eyes on objects.
@@ -206,6 +209,7 @@ npm run test:ui  # Playwright UI mode
    - Copy from temp path to both `Ilustracije/[word].png` and `public/illustrations/[word].png`
    - Add word to `wordsWithIllustrations` set in `src/lib/illustrations.ts`
    - Strip accents for filename (e.g. "gimnàs" → "gimnas")
+   - **COMPRESS all images** after saving: use `sips` to resize to 512x512 and ensure consistent file size. Target: ~50-150KB per image. Some ChatGPT images are 1.5MB while Bing ones are 100KB - compress all to consistent size. Command: `sips -z 512 512 [file] -s format png --out [file]`
 7. **Download method:** Click image → modal opens → find Save button by iterating all buttons → click Save → capture download event → get temp path from download.path()
 
 ### Illustration Variants (same word, different meanings)

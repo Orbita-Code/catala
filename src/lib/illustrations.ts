@@ -608,6 +608,8 @@ const wordsWithIllustrations = new Set([
   "papallona",
   "mosquit",
   "tauro",
+  "peix-espasa",
+  "bacalla",
 ]);
 
 // Strip accents for filename matching (e.g. "bolígraf" → "boligraf")
