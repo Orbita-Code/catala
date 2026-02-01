@@ -3,7 +3,7 @@
 import { useState, useMemo, useCallback } from "react";
 import { motion } from "framer-motion";
 import { LabelImageTask, TaskResult } from "@/types/tasks";
-import { getWordEmoji, getWordIllustration } from "@/lib/illustrations";
+import { getWordIllustration } from "@/lib/illustrations";
 import SpeakerButton from "@/components/ui/SpeakerButton";
 import { speak } from "@/lib/tts";
 import { useDragAndDrop } from "@/hooks/useDragAndDrop";
@@ -184,7 +184,7 @@ export default function LabelImage({ task, onComplete }: Props) {
                   >
                     {placed[i] ? (
                       <>
-                        {getWordIllustration(placed[i]) ? <img src={getWordIllustration(placed[i])!} alt="" className="w-10 h-10 object-contain inline" /> : getWordEmoji(placed[i]) ? <span>{getWordEmoji(placed[i])}</span> : null}
+                        {getWordIllustration(placed[i]) ? <img src={getWordIllustration(placed[i])!} alt="" className="w-10 h-10 object-contain inline" /> : null}
                         {placed[i]}
                         {checked && (results[i] ? " ✅" : " ❌")}
                       </>
@@ -233,7 +233,7 @@ export default function LabelImage({ task, onComplete }: Props) {
                 }`}
                 style={{ cursor: checked || usedWords.has(word) ? "default" : "grab" }}
               >
-                {getWordIllustration(word) ? <img src={getWordIllustration(word)!} alt="" className="w-12 h-12 object-contain inline mr-1" /> : getWordEmoji(word) ? <span className="mr-1">{getWordEmoji(word)}</span> : null}
+                {getWordIllustration(word) ? <img src={getWordIllustration(word)!} alt="" className="w-12 h-12 object-contain inline mr-1" /> : null}
                 {word}
                 {!checked && !usedWords.has(word) && (
                   <SpeakerButton text={word} size={14} className="ml-1 inline-block" light={selectedWord === word} />

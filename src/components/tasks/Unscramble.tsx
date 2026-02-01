@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { UnscrambleTask, TaskResult } from "@/types/tasks";
-import { getWordEmoji, getWordIllustration } from "@/lib/illustrations";
+import { getWordIllustration } from "@/lib/illustrations";
 import LetterTile from "@/components/ui/LetterTile";
 import SlotRow from "@/components/ui/SlotRow";
 import InlineHintMascot from "@/components/ui/InlineHintMascot";
@@ -18,35 +18,61 @@ interface Props {
   onComplete: (result: TaskResult) => void;
 }
 
+function isSyllableMode(scrambled: string): boolean {
+  return scrambled.includes("-");
+}
+
+function splitPieces(scrambled: string): string[] {
+  return isSyllableMode(scrambled) ? scrambled.split("-") : scrambled.split("");
+}
+
 export default function Unscramble({ task, onComplete }: Props) {
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [slots, setSlots] = useState<(string | null)[]>(
-    Array(task.words[0].correct.length).fill(null)
-  );
-  const [bank, setBank] = useState<{ letter: string; used: boolean }[]>(() =>
-    task.words[0].scrambled.split("").map((l) => ({ letter: l, used: false }))
-  );
+
+  const currentWord = task.words[currentIdx];
+  const syllable = isSyllableMode(currentWord.scrambled);
+
+  const initSlots = (word: typeof currentWord) => {
+    const pieces = splitPieces(word.scrambled);
+    return Array(pieces.length).fill(null) as (string | null)[];
+  };
+
+  const initBank = (word: typeof currentWord) =>
+    splitPieces(word.scrambled).map((piece) => ({ letter: piece, used: false }));
+
+  const [slots, setSlots] = useState<(string | null)[]>(() => initSlots(task.words[0]));
+  const [bank, setBank] = useState<{ letter: string; used: boolean }[]>(() => initBank(task.words[0]));
   const [checked, setChecked] = useState(false);
   const [correct, setCorrect] = useState<boolean | null>(null);
   const [hintLetterIdx, setHintLetterIdx] = useState<number | null>(null);
   const hints = useHintSystem();
 
-  const currentWord = task.words[currentIdx];
-
-  // When hint is accepted, find the correct letter in the bank and highlight it
+  // When hint is accepted, find the correct piece in the bank and highlight it
   useEffect(() => {
     if (hints.showHint && hints.hintItemId === currentWord.correct) {
       const nextSlotIdx = slots.findIndex((s) => s === null);
       if (nextSlotIdx === -1) return;
-      const correctLetter = currentWord.correct[nextSlotIdx];
-      const bankIdx = bank.findIndex(
-        (b) => !b.used && b.letter.toLowerCase() === correctLetter.toLowerCase()
-      );
-      setHintLetterIdx(bankIdx >= 0 ? bankIdx : null);
+
+      if (syllable) {
+        // In syllable mode, find the correct syllable for this slot position
+        // The correct word needs to be reconstructed from syllables in correct order
+        const correctPieces = getCorrectSyllableOrder(currentWord.correct, splitPieces(currentWord.scrambled));
+        const correctPiece = correctPieces[nextSlotIdx];
+        const bankIdx = bank.findIndex(
+          (b) => !b.used && b.letter.toLowerCase() === correctPiece.toLowerCase()
+        );
+        setHintLetterIdx(bankIdx >= 0 ? bankIdx : null);
+      } else {
+        const correctLetter = currentWord.correct[nextSlotIdx];
+        const bankIdx = bank.findIndex(
+          (b) => !b.used && b.letter.toLowerCase() === correctLetter.toLowerCase()
+        );
+        setHintLetterIdx(bankIdx >= 0 ? bankIdx : null);
+      }
     } else {
       setHintLetterIdx(null);
     }
-  }, [hints.showHint, hints.hintItemId, currentWord.correct, slots, bank]);
+  }, [hints.showHint, hints.hintItemId, currentWord.correct, currentWord.scrambled, syllable, slots, bank]);
 
   const handleLetterTap = (bankIdx: number) => {
     if (checked || bank[bankIdx].used) return;
@@ -66,14 +92,14 @@ export default function Unscramble({ task, onComplete }: Props) {
 
   const handleSlotTap = (slotIdx: number) => {
     if (checked || slots[slotIdx] === null) return;
-    const letter = slots[slotIdx]!;
+    const piece = slots[slotIdx]!;
     const newSlots = [...slots];
     newSlots[slotIdx] = null;
     const filled = newSlots.filter((s) => s !== null);
     const result = [...filled, ...Array(newSlots.length - filled.length).fill(null)];
     setSlots(result);
 
-    const bankIdx = bank.findIndex((b) => b.used && b.letter === letter);
+    const bankIdx = bank.findIndex((b) => b.used && b.letter === piece);
     if (bankIdx !== -1) {
       const newBank = [...bank];
       newBank[bankIdx] = { ...newBank[bankIdx], used: false };
@@ -88,8 +114,8 @@ export default function Unscramble({ task, onComplete }: Props) {
       const nextIdx = currentIdx + 1;
       const nextWord = task.words[nextIdx];
       setCurrentIdx(nextIdx);
-      setSlots(Array(nextWord.correct.length).fill(null));
-      setBank(nextWord.scrambled.split("").map((l) => ({ letter: l, used: false })));
+      setSlots(initSlots(nextWord));
+      setBank(initBank(nextWord));
       setChecked(false);
       setCorrect(null);
       setHintLetterIdx(null);
@@ -136,8 +162,8 @@ export default function Unscramble({ task, onComplete }: Props) {
   }, [hints, currentWord.correct, checked, correct, moveToNext]);
 
   const handleRetry = useCallback(() => {
-    setSlots(Array(currentWord.correct.length).fill(null));
-    setBank(currentWord.scrambled.split("").map((l) => ({ letter: l, used: false })));
+    setSlots(initSlots(currentWord));
+    setBank(initBank(currentWord));
     setChecked(false);
     setCorrect(null);
     setHintLetterIdx(null);
@@ -172,8 +198,8 @@ export default function Unscramble({ task, onComplete }: Props) {
         return;
       }
 
-      // Match letter keys including accented Catalan characters
-      if (e.key.length === 1 && /^[a-zA-ZàèéìòóùúïüçÀÈÉÌÒÓÙÚÏÜÇ]$/.test(e.key)) {
+      // Keyboard input only in letter mode
+      if (!syllable && e.key.length === 1 && /^[a-zA-ZàèéìòóùúïüçÀÈÉÌÒÓÙÚÏÜÇ]$/.test(e.key)) {
         e.preventDefault();
         const pressedLetter = e.key.toLowerCase();
         const stripAccents = (s: string) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -190,7 +216,7 @@ export default function Unscramble({ task, onComplete }: Props) {
         }
       }
     },
-    [checked, correct, slots, bank, allFilled, handleCheck, handleRetry]
+    [checked, correct, slots, bank, allFilled, syllable, handleCheck, handleRetry]
   );
 
   useEffect(() => {
@@ -209,8 +235,8 @@ export default function Unscramble({ task, onComplete }: Props) {
               const prevIdx = currentIdx - 1;
               const prevWord = task.words[prevIdx];
               setCurrentIdx(prevIdx);
-              setSlots(Array(prevWord.correct.length).fill(null));
-              setBank(prevWord.scrambled.split("").map((l) => ({ letter: l, used: false })));
+              setSlots(initSlots(prevWord));
+              setBank(initBank(prevWord));
               setChecked(false);
               setCorrect(null);
               setHintLetterIdx(null);
@@ -237,14 +263,12 @@ export default function Unscramble({ task, onComplete }: Props) {
               alt={currentWord.correct}
               className="w-28 h-28 object-contain"
             />
-          ) : getWordEmoji(currentWord.correct) ? (
-            <div className="text-4xl">{getWordEmoji(currentWord.correct)}</div>
           ) : null}
           <SpeakerButton text={currentWord.correct} />
         </div>
 
         <p className="text-center text-sm text-[var(--text-light)] mb-4">
-          Ordena les lletres tocant-les
+          {syllable ? "Ordena les síl·labes tocant-les" : "Ordena les lletres tocant-les"}
         </p>
 
         {/* Inline hint mascot */}
@@ -252,9 +276,8 @@ export default function Unscramble({ task, onComplete }: Props) {
           visible={hints.showHintDialog}
           onAccept={() => {
             hints.acceptHint();
-            // Auto-reset slots so child can retry with hint visible
-            setSlots(Array(currentWord.correct.length).fill(null));
-            setBank(currentWord.scrambled.split("").map((l) => ({ letter: l, used: false })));
+            setSlots(initSlots(currentWord));
+            setBank(initBank(currentWord));
             setChecked(false);
             setCorrect(null);
           }}
@@ -268,10 +291,11 @@ export default function Unscramble({ task, onComplete }: Props) {
             activeIndex={slots.findIndex((s) => s === null)}
             correct={correct}
             onSlotTap={handleSlotTap}
+            wide={syllable}
           />
         </div>
 
-        {/* Letter bank (scrambled) */}
+        {/* Piece bank (letters or syllables) */}
         <div className="flex flex-wrap justify-center gap-2 mb-4">
           {bank.map((item, i) => (
             <div key={i} className={hintLetterIdx === i ? "hint-pulse rounded-xl" : ""}>
@@ -279,6 +303,7 @@ export default function Unscramble({ task, onComplete }: Props) {
                 letter={item.letter}
                 disabled={item.used || checked}
                 onClick={() => handleLetterTap(i)}
+                wide={syllable}
               />
             </div>
           ))}
@@ -309,4 +334,29 @@ export default function Unscramble({ task, onComplete }: Props) {
       </motion.div>
     </div>
   );
+}
+
+// Given the correct word and the available syllable pieces, find the correct order
+function getCorrectSyllableOrder(correctWord: string, pieces: string[]): string[] {
+  // Try all permutations to find which order of pieces forms the correct word
+  const result: string[] = [];
+  const used = new Set<number>();
+
+  function backtrack(): boolean {
+    if (result.length === pieces.length) {
+      return result.join("").toLowerCase() === correctWord.toLowerCase();
+    }
+    for (let i = 0; i < pieces.length; i++) {
+      if (used.has(i)) continue;
+      result.push(pieces[i]);
+      used.add(i);
+      if (backtrack()) return true;
+      result.pop();
+      used.delete(i);
+    }
+    return false;
+  }
+
+  backtrack();
+  return result;
 }

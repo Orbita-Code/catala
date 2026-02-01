@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { CopyWordTask } from "@/types/tasks";
 import type { TaskResult } from "@/types/tasks";
-import { getWordEmoji, getWordIllustration } from "@/lib/illustrations";
+import { getWordIllustration } from "@/lib/illustrations";
 import LetterTile from "@/components/ui/LetterTile";
 import SlotRow from "@/components/ui/SlotRow";
 import SpeakerButton from "@/components/ui/SpeakerButton";
@@ -257,8 +257,6 @@ export default function CopyWord({ task, onComplete }: Props) {
                 className="w-32 h-32 object-contain"
               />
             </div>
-          ) : getWordEmoji(currentWord.catalan) ? (
-            <div className="text-4xl mb-2">{getWordEmoji(currentWord.catalan)}</div>
           ) : null}
           <div className="flex items-center justify-center gap-2">
             <p className="text-3xl font-black text-[var(--primary)] font-handwriting">

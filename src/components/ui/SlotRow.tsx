@@ -7,6 +7,7 @@ interface SlotRowProps {
   activeIndex?: number;
   correct?: boolean | null;
   onSlotTap?: (index: number) => void;
+  wide?: boolean;
 }
 
 export default function SlotRow({
@@ -14,6 +15,7 @@ export default function SlotRow({
   activeIndex,
   correct = null,
   onSlotTap,
+  wide = false,
 }: SlotRowProps) {
   return (
     <div className="flex items-center gap-1.5 flex-wrap">
@@ -38,7 +40,7 @@ export default function SlotRow({
             type="button"
             whileTap={{ scale: 0.9 }}
             onClick={() => onSlotTap?.(i)}
-            className={`w-11 h-11 flex items-center justify-center rounded-xl border-2 font-black text-xl transition-all ${bgClass}`}
+            className={`${wide ? "min-w-11 px-2" : "w-11"} h-11 flex items-center justify-center rounded-xl border-2 font-black text-xl transition-all ${bgClass}`}
           >
             {filled ? (
               <span className={correct === true ? "text-green-700" : correct === false ? "text-red-700" : "text-[var(--primary)]"}>

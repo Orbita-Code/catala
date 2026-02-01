@@ -9,12 +9,19 @@ interface LetterTileProps {
   selected?: boolean;
   correct?: boolean | null; // null = unchecked, true = correct, false = wrong
   size?: "sm" | "md" | "lg";
+  wide?: boolean;
 }
 
 const sizeClasses = {
   sm: "w-10 h-10 text-lg",
   md: "w-12 h-12 text-xl",
   lg: "w-14 h-14 text-2xl",
+};
+
+const wideSizeClasses = {
+  sm: "min-w-10 h-10 px-2 text-lg",
+  md: "min-w-12 h-12 px-3 text-xl",
+  lg: "min-w-14 h-14 px-4 text-2xl",
 };
 
 export default function LetterTile({
@@ -24,8 +31,10 @@ export default function LetterTile({
   selected = false,
   correct = null,
   size = "md",
+  wide = false,
 }: LetterTileProps) {
-  const baseClasses = `${sizeClasses[size]} flex items-center justify-center rounded-xl font-black select-none transition-all`;
+  const classes = wide ? wideSizeClasses[size] : sizeClasses[size];
+  const baseClasses = `${classes} flex items-center justify-center rounded-xl font-black select-none transition-all`;
 
   const stateClasses =
     correct === true

@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FillLettersTask, TaskResult } from "@/types/tasks";
-import { getWordEmoji, getWordIllustration } from "@/lib/illustrations";
+import { getWordIllustration } from "@/lib/illustrations";
 import AnimatedStar from "@/components/star/AnimatedStar";
 import confetti from "canvas-confetti";
 import { speak } from "@/lib/tts";
@@ -288,7 +288,6 @@ export default function FillLetters({ task, onComplete }: Props) {
           const blanks = getBlankPositions(item.hint || "");
           const isChecked = checkedWords.has(wordIdx);
           const isCorrect = wordResults[wordIdx];
-          const emoji = getWordEmoji(item.word);
           const illustration = getWordIllustration(item.word);
           return (
             <motion.div
@@ -304,21 +303,17 @@ export default function FillLetters({ task, onComplete }: Props) {
                   : ""
               }`}
             >
-              {/* Word number + illustration/emoji + letters */}
+              {/* Word number + illustration + letters */}
               <div className="flex items-center gap-3 mb-3 flex-wrap">
                 {/* Word number */}
                 <span className="text-lg font-black text-[var(--text-light)] min-w-[28px]">
                   {wordIdx + 1}.
                 </span>
 
-                {/* Illustration or emoji */}
+                {/* Illustration */}
                 {illustration ? (
                   <div className="w-16 h-16 flex items-center justify-center flex-shrink-0">
                     <img src={illustration} alt={item.word} className="w-16 h-16 object-contain" />
-                  </div>
-                ) : emoji ? (
-                  <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-amber-50 border border-amber-200 flex-shrink-0">
-                    <span className="text-3xl leading-none">{emoji}</span>
                   </div>
                 ) : null}
 

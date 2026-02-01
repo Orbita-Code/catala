@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { MultipleChoiceTask, TaskResult } from "@/types/tasks";
-import { getWordEmoji, getWordIllustration } from "@/lib/illustrations";
+import { getWordIllustration } from "@/lib/illustrations";
 import confetti from "canvas-confetti";
 import { speak } from "@/lib/tts";
 
@@ -90,7 +90,7 @@ export default function MultipleChoice({ task, onComplete }: Props) {
                     : "bg-gray-50 border-2 border-gray-200 text-[var(--text)] hover:bg-gray-100"
               }`}
             >
-              {getWordIllustration(option) ? <img src={getWordIllustration(option)!} alt="" className="w-12 h-12 object-contain inline mr-2" /> : getWordEmoji(option) ? <span className="mr-2">{getWordEmoji(option)}</span> : null}
+              {getWordIllustration(option) ? <img src={getWordIllustration(option)!} alt="" className="w-12 h-12 object-contain inline mr-2" /> : null}
               {option}
               {showResult && i === question.correct && " ✅"}
               {showResult && i === selected && !isCorrect && " ❌"}

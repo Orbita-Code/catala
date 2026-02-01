@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AddArticleTask, TaskResult } from "@/types/tasks";
-import { getWordEmoji, getWordIllustration } from "@/lib/illustrations";
+import { getWordIllustration } from "@/lib/illustrations";
 import { ArrowLeft } from "lucide-react";
 import confetti from "canvas-confetti";
 import { speak } from "@/lib/tts";
@@ -92,8 +92,6 @@ export default function AddArticle({ task, onComplete }: Props) {
       >
         {getWordIllustration(currentWord.word) ? (
           <div className="mb-3 flex justify-center"><img src={getWordIllustration(currentWord.word)!} alt="" className="w-28 h-28 object-contain" /></div>
-        ) : getWordEmoji(currentWord.word) ? (
-          <div className="text-4xl mb-3">{getWordEmoji(currentWord.word)}</div>
         ) : null}
 
         <div className="flex items-center justify-center gap-3 mb-2">
