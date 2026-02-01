@@ -40,21 +40,19 @@ export const elCosTasks: Task[] = [
     ],
   },
 
-  // 3. Escriu-me les parts del cos
+  // 3. Escriu les parts del cap
   {
     id: "el-cos-3",
-    type: "label-image",
-    prompt: "Escriu les parts del cos.",
-    image: "cos",
+    type: "label-write",
+    prompt: "Escriu les parts del cap.",
+    image: "cap",
     labels: [
-      { text: "cap", x: 50, y: 10 },
-      { text: "braç", x: 20, y: 40 },
-      { text: "mà", x: 15, y: 55 },
-      { text: "panxa", x: 50, y: 45 },
-      { text: "cama", x: 40, y: 70 },
-      { text: "peu", x: 40, y: 90 },
+      { text: "cabell", x: 50, y: 8 },
+      { text: "ull", x: 35, y: 38 },
+      { text: "nas", x: 50, y: 52 },
+      { text: "boca", x: 50, y: 68 },
+      { text: "orella", x: 85, y: 40 },
     ],
-    options: ["cap", "braç", "mà", "panxa", "cama", "peu", "coll", "dit"],
   },
 
   // 4. Busca 7 paraules a la sopa de lletres

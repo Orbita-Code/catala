@@ -21,6 +21,7 @@ const CountAndWrite = dynamic(() => import("./CountAndWrite"), { ssr: false });
 const WriteAntonym = dynamic(() => import("./WriteAntonym"), { ssr: false });
 const OrderWords = dynamic(() => import("./OrderWords"), { ssr: false });
 const DecodeGrid = dynamic(() => import("./DecodeGrid"), { ssr: false });
+const LabelWrite = dynamic(() => import("./LabelWrite"), { ssr: false });
 
 interface TaskRendererProps {
   task: Task;
@@ -65,6 +66,8 @@ export default function TaskRenderer({ task, onComplete }: TaskRendererProps) {
       return <OrderWords task={task} onComplete={onComplete} />;
     case "decode-grid":
       return <DecodeGrid task={task} onComplete={onComplete} />;
+    case "label-write":
+      return <LabelWrite task={task} onComplete={onComplete} />;
     default:
       return (
         <div className="text-center p-8 text-[var(--text-light)]">

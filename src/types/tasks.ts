@@ -16,7 +16,8 @@ export type TaskType =
   | "count-and-write"
   | "write-antonym"
   | "order-words"
-  | "decode-grid";
+  | "decode-grid"
+  | "label-write";
 
 export interface BaseTask {
   id: string;
@@ -130,6 +131,12 @@ export interface DecodeGridTask extends BaseTask {
   words: { codes: string[]; answer: string }[];
 }
 
+export interface LabelWriteTask extends BaseTask {
+  type: "label-write";
+  image: string;
+  labels: { text: string; x: number; y: number }[];
+}
+
 export type Task =
   | CopyWordTask
   | FillLettersTask
@@ -148,7 +155,8 @@ export type Task =
   | CountAndWriteTask
   | WriteAntonymTask
   | OrderWordsTask
-  | DecodeGridTask;
+  | DecodeGridTask
+  | LabelWriteTask;
 
 export interface Theme {
   slug: string;
