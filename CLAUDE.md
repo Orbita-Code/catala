@@ -11,6 +11,41 @@
 ## OBAVEZNO PRAVILO #2 - AZURIRANJE DOKUMENTACIJE
 **Posle svakog zavrsenog zadatka, taska, kartice ili bilo kog koraka razvoja - OBAVEZNO azuriraj ovaj CLAUDE.md fajl (sekciju "Current Status") i ROADMAP.md checkboxove.** Ovo je kriticno da sledeca sesija zna dokle smo stigli. Nikad ne zavrsavaj rad bez azuriranja dokumentacije.
 
+## OBAVEZNO PRAVILO #3 - TESTIRANJE ZADATAKA (TASK TESTING)
+**Kada testiras aplikaciju kroz Playwright MCP browser, koristi sledece principe za svaki tip zadatka:**
+
+### Principi rada zadataka:
+1. **copy-word:** Slova su POMIJESANA u button-ima ispod. Klikni slova u TACNOM redosledu da napises rec. Npr. za "llapis" klikni L→L→A→P→I→S.
+2. **fill-letters:** Blanks u reci treba popuniti. Klikom na blank aktiviras ga, zatim klikom na ponudjena slova popunjavas.
+3. **classify-columns:** Prevuci (drag) ili klikni na krug kolone da klasifikujes rec. Oba nacina rade.
+4. **matching:** Klikni na sliku, zatim na odgovarajucu rec. Ili obrnuto.
+5. **word-search:** Klikni na prvo slovo, zatim na poslednje slovo reci u gridu.
+6. **fill-sentence:** Klikni na ponudjenu rec da popunis blank u recenici.
+7. **multiple-choice:** Klikni na tacan odgovor.
+8. **add-article:** Klikni na tacan clan (el/la/un/una/l'/els/les).
+9. **unscramble:** Klikni na slogove u tacnom redosledu.
+10. **self-assessment:** Klikni na emoji za samoprocenu (ne testira se tacnost).
+11. **color-by-instruction:** Klikni na boju, zatim na objekat koji treba obojiti.
+12. **label-image:** Prevuci etikete na odgovarajuce pozicije na slici.
+13. **separate-words:** Klikni na mesta gde treba razdvojiti spojene reci.
+14. **count-and-write:** Unesi broj u input polje.
+15. **write-antonym:** Unesi antonim u input polje.
+16. **order-words:** Prevuci ili klikni na reci u tacnom redosledu.
+17. **decode-grid:** Koristi tabelu kodova da dekodujes poruku.
+18. **drawing-canvas:** Crtaj na canvas-u (slobodna aktivnost, nema tacnog odgovora).
+
+### Navigacija izmedju zadataka:
+- **"Següent" button:** Prelazi na SLEDECI zadatak u temi (ne na sledecu rec unutar istog zadatka!)
+- **"Anterior" button:** Vraca na prethodni zadatak.
+- **Unutar copy-word/fill-letters:** Kada popunis sve reci, zadatak se automatski zavrsava i "Següent" vodi na sledeci task.
+- **"Comprova!" button:** Proverava odgovor unutar zadatka.
+
+### Vazne napomene za testiranje:
+- NE koristi "Següent" da predjes na sledecu rec - to te vodi na DRUGI zadatak!
+- Za copy-word, moras ispravno uneti sve reci da bi prosao zadatak.
+- Ilustracije se prikazuju iznad reci ako postoje u `wordsWithIllustrations` Set-u.
+- Ako ilustracija fali, prazno mesto se prikazuje (NE emoji - `getWordEmoji()` je dead code).
+
 ## Project Overview
 Interactive Catalan language learning web app for children (ages 5-8). Engine-based architecture renders 18 task types across 12 themes from TypeScript data files. Star mascot provides encouragement in Catalan. Total: ~226 tasks.
 
@@ -161,6 +196,8 @@ npm run test:ui  # Playwright UI mode
 
 ### Missing Illustrations (18 files needed)
 
+**Note:** `getWordEmoji()` is dead code - NO component uses it. Missing illustrations show nothing (empty space), NOT emoji.
+
 #### Les Botigues (Theme 7) — 7 missing
 | Word | Filename | Description |
 |------|----------|-------------|
@@ -172,11 +209,10 @@ npm run test:ui  # Playwright UI mode
 | venda | venda.png | Medical bandage/wrap |
 | verduleria | verduleria.png | Vegetable shop/greengrocer |
 
-#### El Menjar (Theme 8) — 8 missing
+#### El Menjar (Theme 8) — 7 missing
 | Word | Filename | Description |
 |------|----------|-------------|
 | caramels | caramels.png | Candies/sweets |
-| estovalles | estovalles.png | Tablecloth |
 | gelat | gelat.png | Ice cream cone/scoop |
 | pa de pessic | pa-de-pessic.png | Sponge cake |
 | pastís de xocolata | pastis-de-xocolata.png | Chocolate cake |
@@ -190,6 +226,11 @@ npm run test:ui  # Playwright UI mode
 | cigonya | cigonya.png | Stork bird |
 | llop | llop.png | Wolf |
 | ratolí | ratoli.png | Mouse |
+
+#### Els Vehicles (Theme 11) — 1 missing
+| Word | Filename | Description |
+|------|----------|-------------|
+| ambulància | ambulancia.png | Ambulance vehicle |
 
 ### Illustration Workflow
 - **ChatGPT chat:** Custom GPT "Igrice katalonski jezik" → chat "AI ilustracije za decu"

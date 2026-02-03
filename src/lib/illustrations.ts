@@ -660,6 +660,7 @@ const wordsWithIllustrations = new Set([
   "xocolata",
   "carn",
   "galeta",
+  "galetes",
   "melmelada",
   "pernil",
   "poma",
