@@ -175,10 +175,11 @@ npm run test:ui  # Playwright UI mode
 - **Live at:** `catala.orbitacode.com` (Coolify Dockerfile build pack, auto-deploy from GitHub main branch)
 
 ### In Progress
-- **WebP conversion** - convert all PNG illustrations to WebP for smaller file sizes
-- **Deploy** - push all new illustrations to GitHub and deploy
+- Nothing in progress
 
 ### Recently Completed (Feb 3, 2026)
+- **WebP conversion COMPLETE** - Converted 434 illustrations from PNG (119MB) to WebP (7.5MB) - 94% size reduction
+- **Playwright E2E answer keys updated** - Themes 7-9 (les-botigues, el-menjar, els-animals) updated to match rewritten data files
 - **ALL 18 MISSING ILLUSTRATIONS GENERATED** - Les Botigues (7), El Menjar (7), Els Animals (3), Els Vehicles (1)
 - **3D Illustrations:** ALL 12 themes COMPLETE via ChatGPT custom GPT + Bing Image Creator.
   - **ALL 12 themes COMPLETE** - La classe, L'escola, El cos, La roba, La casa, La família, Les botigues, El menjar, Els animals, La ciutat, Els vehicles, Els oficis
@@ -194,9 +195,11 @@ npm run test:ui  # Playwright UI mode
 - **arracades** (earrings) - current image is blurry (made on Bing), regenerate on ChatGPT and replace
 
 ### NEXT SESSION TODO (Priority Order)
-1. **Update Playwright answer keys for themes 7-9** - rewritten data files changed task IDs and content, E2E test answer keys are now stale
-2. **WebP conversion** - convert all PNG illustrations to WebP for smaller file sizes
-3. **Deploy** - push all new illustrations to GitHub and deploy
+1. ✅ ~~Update Playwright answer keys for themes 7-9~~ - DONE (Feb 3, 2026)
+2. ✅ ~~WebP conversion~~ - DONE (Feb 3, 2026) - 119MB → 7.5MB (94% reduction)
+3. ✅ ~~Deploy~~ - DONE (Feb 3, 2026)
+4. **Redo blurry arracades illustration** - regenerate on ChatGPT and replace
+5. **Optional: Redo 15 Bing illustrations** for consistency with ChatGPT style
 
 ### Recently Generated Illustrations (Feb 3, 2026)
 All 18 missing illustrations have been generated via ChatGPT custom GPT:
@@ -210,7 +213,7 @@ All 18 missing illustrations have been generated via ChatGPT custom GPT:
   - URL: `https://chatgpt.com/g/g-p-697a9ef9e7fc8191a6f01584dad8ea4d-igrice-katalonski-jezik/c/697a9f6b-f218-8332-a5d0-89b7ed59ec5b`
   - Account: Jovana Jovic (Plus plan) - login via Apple Sign In
 - **Save to:** `Ilustracije/` folder, filename = catalan word (e.g. `llapis.png`)
-- **Convert:** to WebP for small file size later
+- **Convert:** Use `cwebp -q 80 file.png -o file.webp` to convert to WebP (94% smaller files)
 - **Covers:** Already done by Jovana, saved in `public/covers/`
 - **Deduplication:** 277 unique words total. Many repeat across themes - only ONE illustration per unique word.
 - **Integration:** Replace emoji usage in `src/lib/illustrations.ts` `getWordEmoji()` function with actual image paths
@@ -224,7 +227,7 @@ All 18 missing illustrations have been generated via ChatGPT custom GPT:
 2. **Single subject + cheerful background:** Each illustration shows ONLY the requested object/word as the main subject. NO other real objects/items around it (e.g. no sharpener next to a pencil). However, abstract decorative elements ARE encouraged: hearts, dots, confetti, sparkles, stars in the background to make it cheerful and kid-friendly. The key distinction: no other OBJECTS that could confuse kids, but decorative/abstract elements are welcome.
 3. **Why:** This is for children ages 5-8 learning vocabulary. The illustration must be CLEAR and UNAMBIGUOUS - kids should instantly recognize what the object is. Decorative backgrounds keep it fun without causing confusion.
 4. **Style:** 3D cartoon style, colorful, cheerful, realistic proportions (not anthropomorphized)
-5. **Format:** 512x512px, white/transparent background, PNG
+5. **Format:** 512x512px, white/transparent background, WebP (converted from PNG for smaller file size)
 6. **Consistency:** Use the SAME prompt structure for every word to maintain visual consistency across all 277 illustrations
 7. **People/animals exception:** People (pare, mare, nen, nena, avi, àvia) and animals (gos, gat, peix) naturally have faces - that's fine. The "no face" rule is ONLY for inanimate objects.
 8. **Color rules:** Use UNISEX colors (green, blue, yellow, orange, red) for ALL items EXCEPT specifically female clothing (skirt/faldilla, dress/vestit, beret/barret) which can be pink/purple. Mix boys and girls in people illustrations.
