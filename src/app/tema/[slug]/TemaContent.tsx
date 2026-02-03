@@ -16,6 +16,9 @@ import { getEncouragement } from "@/lib/encouragement";
 import { TaskResult } from "@/types/tasks";
 import { celebrate, celebrateBig } from "@/lib/confetti";
 import { initAudio, isMuted, toggleMute, playCorrect, playWrong, playCombo, playThemeComplete } from "@/lib/audio";
+import SparkleOverlay from "@/components/ui/SparkleOverlay";
+import BalloonCelebration from "@/components/ui/BalloonCelebration";
+import FireworksBurst from "@/components/ui/FireworksBurst";
 
 interface TemaContentProps {
   slug: string;
@@ -33,6 +36,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
   const [feedbackReaction, setFeedbackReaction] = useState<StarReaction[] | null>(null);
   const [muted, setMuted] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [sparkleTrigger, setSparkleTrigger] = useState(0);
 
   useEffect(() => {
     setMounted(true);
@@ -106,6 +110,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
       setFeedbackReaction(getStarReaction(reactionEvent));
 
       celebrate([theme.color, "#FDCB6E", "#00CECE"]);
+      setSparkleTrigger((t) => t + 1);
     } else {
       playWrong();
       const enc = getEncouragement("wrong");
@@ -150,107 +155,146 @@ export default function TemaContent({ slug }: TemaContentProps) {
     const fullyComplete = isThemeFullyComplete(slug, tasks.length);
 
     return (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="min-h-dvh flex flex-col items-center justify-center gap-6 px-4 text-center"
-      >
-        <motion.div
-          initial={{ scale: 0, rotate: -180 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ type: "spring", damping: 10 }}
-          className="relative"
-        >
-          <AnimatedStar
-            size="xl"
-            reaction={getStarReaction(fullyComplete ? "themePerfect" : "themeComplete")}
-          />
-        </motion.div>
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="text-3xl font-black text-[var(--text)]"
-        >
-          {fullyComplete ? "Perfecte! 🏆🎉" : "Molt bé! 👏"}
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="text-xl text-[var(--text-light)]"
-        >
-          Has completat &ldquo;Tema {themeIndex + 1}: {theme.name}&rdquo;!
-        </motion.p>
+      <>
+        {/* Background celebration effects */}
+        <BalloonCelebration count={fullyComplete ? 20 : 10} />
+        {fullyComplete && <FireworksBurst waves={5} />}
+
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.7 }}
-          className="space-y-2"
+          className="min-h-dvh flex flex-col items-center justify-center gap-6 px-4 text-center relative z-10"
         >
-          <p className="text-lg">
-            ⭐ {tasks.length}/{tasks.length} tasques
-          </p>
-          <p className="text-lg">🔥 Millor ratxa: {streak}</p>
-        </motion.div>
-        {!fullyComplete && (
+          {/* Dancing mascot */}
+          <motion.div
+            initial={{ scale: 0, rotate: -180 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ type: "spring", damping: 10 }}
+            className="relative"
+          >
+            {/* TODO: Replace with Runway video when ready:
+                <video src="/star-celebration.webm" autoPlay loop muted playsInline className="w-40 h-40" /> */}
+            <AnimatedStar
+              size="xl"
+              reaction={getStarReaction(fullyComplete ? "themePerfect" : "themeComplete")}
+            />
+          </motion.div>
+
+          {/* Bouncing emoji rain for fully complete */}
+          {fullyComplete && (
+            <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+              {["🌟", "⭐", "🎉", "🏆", "💫", "✨", "🎊", "💖"].map((emoji, i) => (
+                <motion.span
+                  key={i}
+                  initial={{
+                    x: `${10 + Math.random() * 80}vw`,
+                    y: "-10vh",
+                    rotate: 0,
+                  }}
+                  animate={{
+                    y: "110vh",
+                    rotate: 360,
+                  }}
+                  transition={{
+                    duration: 4 + Math.random() * 3,
+                    delay: i * 0.4,
+                    ease: "linear",
+                    repeat: Infinity,
+                  }}
+                  className="absolute text-2xl"
+                >
+                  {emoji}
+                </motion.span>
+              ))}
+            </div>
+          )}
+
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="text-3xl font-black text-[var(--text)]"
+          >
+            {fullyComplete ? "Perfecte! 🏆🎉" : "Molt bé! 👏"}
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="text-xl text-[var(--text-light)]"
+          >
+            Has completat &ldquo;Tema {themeIndex + 1}: {theme.name}&rdquo;!
+          </motion.p>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-            className="bg-yellow-50 rounded-2xl p-4 max-w-xs border border-yellow-200"
+            transition={{ delay: 0.7 }}
+            className="space-y-2"
           >
-            <p className="text-sm font-semibold text-yellow-800">
-              Algunes tasques tenen errors. Repeteix el tema per aconseguir la celebració completa! 🌟
+            <p className="text-lg">
+              ⭐ {tasks.length}/{tasks.length} tasques
             </p>
+            <p className="text-lg">🔥 Millor ratxa: {streak}</p>
           </motion.div>
-        )}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9 }}
-          className="flex flex-col gap-3 w-full max-w-xs mt-4"
-        >
           {!fullyComplete && (
-            <button
-              onClick={() => {
-                setCurrentTaskIndex(0);
-                setShowCelebration(false);
-              }}
-              className="w-full py-3 text-white font-bold rounded-2xl text-lg"
-              style={{ backgroundColor: theme.color }}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8 }}
+              className="bg-yellow-50 rounded-2xl p-4 max-w-xs border border-yellow-200"
             >
-              Repeteix per millorar! 💪
-            </button>
+              <p className="text-sm font-semibold text-yellow-800">
+                Algunes tasques tenen errors. Repeteix el tema per aconseguir la celebració completa! 🌟
+              </p>
+            </motion.div>
           )}
-          {nextTheme && (
-            <button
-              onClick={() => router.push(`/tema/${nextTheme.slug}`)}
-              className="w-full py-3 text-white font-bold rounded-2xl text-lg"
-              style={{ backgroundColor: nextTheme.color }}
-            >
-              Següent: Tema {themeIndex + 2} →
-            </button>
-          )}
-          <button
-            onClick={() => router.push("/")}
-            className="w-full py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg"
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9 }}
+            className="flex flex-col gap-3 w-full max-w-xs mt-4"
           >
-            Torna a l&apos;inici
-          </button>
-          {fullyComplete && (
+            {!fullyComplete && (
+              <button
+                onClick={() => {
+                  setCurrentTaskIndex(0);
+                  setShowCelebration(false);
+                }}
+                className="w-full py-3 text-white font-bold rounded-2xl text-lg"
+                style={{ backgroundColor: theme.color }}
+              >
+                Repeteix per millorar! 💪
+              </button>
+            )}
+            {nextTheme && (
+              <button
+                onClick={() => router.push(`/tema/${nextTheme.slug}`)}
+                className="w-full py-3 text-white font-bold rounded-2xl text-lg"
+                style={{ backgroundColor: nextTheme.color }}
+              >
+                Següent: Tema {themeIndex + 2} →
+              </button>
+            )}
             <button
-              onClick={() => {
-                setCurrentTaskIndex(0);
-                setShowCelebration(false);
-              }}
-              className="w-full py-3 bg-gray-100 text-[var(--text)] font-bold rounded-2xl text-lg"
+              onClick={() => router.push("/")}
+              className="w-full py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg"
             >
-              Repeteix el tema
+              Torna a l&apos;inici
             </button>
-          )}
+            {fullyComplete && (
+              <button
+                onClick={() => {
+                  setCurrentTaskIndex(0);
+                  setShowCelebration(false);
+                }}
+                className="w-full py-3 bg-gray-100 text-[var(--text)] font-bold rounded-2xl text-lg"
+              >
+                Repeteix el tema
+              </button>
+            )}
+          </motion.div>
         </motion.div>
-      </motion.div>
+      </>
     );
   }
 
@@ -334,6 +378,9 @@ export default function TemaContent({ slug }: TemaContentProps) {
           </motion.div>
         </AnimatePresence>
       </main>
+
+      {/* Sparkle burst on correct answer */}
+      <SparkleOverlay trigger={sparkleTrigger} />
 
       {/* Fixed Star Companion - bottom left, always visible */}
       <div className="fixed bottom-20 left-4 z-20">
