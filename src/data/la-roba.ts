@@ -94,7 +94,7 @@ export const laRobaTasks: Task[] = [
     words: [
       { catalan: "banyador", image: "banyador" },
       { catalan: "biquini", image: "biquini" },
-      { catalan: "banyador de dona" },
+      { catalan: "banyador de dona", image: "banyador-de-dona" },
       { catalan: "pijama", image: "pijama" },
       { catalan: "calçotets" },
       { catalan: "calces" },

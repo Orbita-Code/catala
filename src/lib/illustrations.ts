@@ -428,6 +428,7 @@ const wordsWithIllustrations = new Set([
   "vestit",
   "faldilla",
   "gorra",
+  "gorro",
   "bufanda",
   "guants",
   "mitges",
