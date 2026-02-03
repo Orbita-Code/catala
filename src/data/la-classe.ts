@@ -457,12 +457,12 @@ export const laClasseTasks: Task[] = [
     prompt: "Separa les paraules i copia la frase.",
     items: [
       {
-        joined: "Joescricambelmeuflapis",
+        joined: "Joescricambelmeullapis",
         words: ["Jo", "escric", "amb", "el", "meu", "llapis"],
       },
       {
-        joined: "Elstresonescriuenalallibreta",
-        words: ["Els", "tres", "on", "escriuen", "a", "la", "llibreta"],
+        joined: "Elsnensescriuenalalilibreta",
+        words: ["Els", "nens", "escriuen", "a", "la", "llibreta"],
       },
       {
         joined: "Elllapisésdecolorgroc",

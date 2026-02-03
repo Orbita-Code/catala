@@ -5,29 +5,37 @@ import { motion } from "framer-motion";
 import ThemeCard from "@/components/ui/ThemeCard";
 import AnimatedStar from "@/components/star/AnimatedStar";
 import { getStarReaction } from "@/lib/starReactions";
-import StarCounter from "@/components/ui/StarCounter";
 import BadgeDisplay from "@/components/ui/BadgeDisplay";
 import HamburgerMenu from "@/components/ui/HamburgerMenu";
 import InstallPrompt from "@/components/ui/InstallPrompt";
+import { XPProgressHeader, DailyRewardModal } from "@/components/gamification";
 import { themes } from "@/data/themes";
 import { getScoringTaskCount } from "@/data/task-data";
-import { getProgress } from "@/lib/progress";
-import { getTotalStars } from "@/lib/badges";
+import { getProgress, shouldShowDailyReward } from "@/lib/progress";
 import type { UserProgress } from "@/types/tasks";
 
 export default function HomePage() {
   const [progress, setProgress] = useState<UserProgress>({});
-  const [totalStars, setTotalStars] = useState(0);
-  const [totalTasks, setTotalTasks] = useState(0);
+  const [showDailyReward, setShowDailyReward] = useState(false);
 
   useEffect(() => {
     setProgress(getProgress());
-    setTotalStars(getTotalStars());
-    setTotalTasks(themes.reduce((sum, t) => sum + getScoringTaskCount(t.slug), 0));
+
+    // Check if we should show daily reward modal
+    if (shouldShowDailyReward()) {
+      // Small delay to let the page render first
+      const timer = setTimeout(() => setShowDailyReward(true), 500);
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   return (
     <div className="min-h-dvh pb-8">
+      {/* Daily Reward Modal */}
+      {showDailyReward && (
+        <DailyRewardModal onClose={() => setShowDailyReward(false)} />
+      )}
+
       <header className="relative overflow-hidden px-4 pt-4 pb-6">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -52,9 +60,9 @@ export default function HomePage() {
             </h1>
           </div>
 
-          {/* Right: Star counter */}
+          {/* Right: XP Progress (compact) */}
           <div className="flex-shrink-0">
-            <StarCounter count={totalStars} total={totalTasks} />
+            <XPProgressHeader compact />
           </div>
         </motion.div>
       </header>

@@ -126,6 +126,12 @@ public/
 - **No shadcn/ui:** Project uses custom components with Tailwind only
 - **Hint system:** `useHintSystem` hook + `HintDialog` component provide progressive hints for all task types
 - **Badges system:** 19 badges (12 theme completion + 3 streak + 3 star count + 1 master)
+- **Gamification system:** XP rewards, 12 levels (Pollet → Superestrella), daily streaks with freezes, level-up celebrations
+  - `src/lib/xp.ts` - XP calculation and storage
+  - `src/lib/levels.ts` - Level definitions and progress
+  - `src/lib/progress.ts` - Daily streak tracking (extended from theme progress)
+  - `src/components/gamification/` - XPProgressHeader, LevelUpCelebration, DailyRewardModal, XPGainAnimation
+  - `src/app/stats/page.tsx` - Full stats page with calendar, levels, badges
 
 ## Commands
 ```bash
@@ -177,7 +183,29 @@ npm run test:ui  # Playwright UI mode
 ### In Progress
 - Nothing in progress
 
-### Recently Completed (Feb 3, 2026)
+### Recently Completed (Feb 3, 2026 - Session 3)
+- **Comprehensive App Testing** - Tested all 12 themes (~226 tasks) as a 7-year-old child
+- **Identified 18 CRITICAL issues** - Missing illustrations that prevent task completion
+- **Created MISSING-ILLUSTRATIONS-HANDOVER.md** - Detailed guide with 33 illustration prompts + 3 text content updates
+- **Added Speaker Button to ALL task prompts** - Children can hear instructions in Catalan
+- **Fixed typos in data files**:
+  - `el-menjar.ts` line 221: "Perberenarmenjo galetesam bllet" → "Perberenarmenjogaretesambllet"
+  - `la-classe.ts`: "Joescricambelmeuflapis" → "Joescricambelmeullapis"
+
+### Recently Completed (Feb 3, 2026 - Session 2)
+- **GAMIFICATION SYSTEM COMPLETE** - Duolingo/Khan Academy style rewards and progress tracking:
+  - **XP System** (`src/lib/xp.ts`) - Base 10 XP per task, +5 perfect bonus, streak multiplier up to 50%, daily first task bonus +20 XP
+  - **12 Catalan Levels** (`src/lib/levels.ts`) - Pollet (0 XP) → Superestrella (10000 XP) with fun Catalan names and emojis
+  - **Daily Streak System** - Calendar-based tracking, streak freezes earned every 7 days (max 2), practice history
+  - **XPProgressHeader** - Shows level, XP bar, daily streak, freezes, and stars on home page
+  - **LevelUpCelebration** - Full-screen modal with confetti when leveling up
+  - **DailyRewardModal** - Shows on first visit each day with streak status and calendar
+  - **Stats Page** (`/stats`) - Full profile with level progress, calendar, badges, all achievements
+  - **XP Animation** - "+15 XP" floating animation on task completion
+  - **HamburgerMenu** - Added "Estadístiques" link to stats page
+- **Fixed MatchingTask type** - Added optional `leftImage` property to pairs
+
+### Recently Completed (Feb 3, 2026 - Session 1)
 - **Fixed illustrations not showing in themes 10-12** - Added 18 missing words to wordsWithIllustrations set
 - **UX improvement: ❌ → 🔄** - Replaced harsh X with RefreshCcw "try again" icon for wrong answers in 8 task components
 - **Els Oficis word-search** - Added 2 more words (mestre, policia) - now 7 total
@@ -196,13 +224,18 @@ npm run test:ui  # Playwright UI mode
 - xandall, americana, corbata, banyador, banyador-de-dona, biquini, sandalies, anell, ulleres, collaret, cinturo, caputxa, pantalons-curts, samarreta-de-tirants
 
 ### NEXT SESSION TODO (Priority Order)
-1. ✅ ~~Update Playwright answer keys for themes 7-9~~ - DONE (Feb 3, 2026)
-2. ✅ ~~WebP conversion~~ - DONE (Feb 3, 2026) - 119MB → 7.5MB (94% reduction)
-3. ✅ ~~Deploy~~ - DONE (Feb 3, 2026)
-4. ✅ ~~Redo blurry arracades illustration~~ - DONE (Feb 3, 2026) - regenerated on ChatGPT
-5. ✅ ~~Fix illustrations not showing~~ - DONE (Feb 3, 2026) - added 18 words to wordsWithIllustrations
-6. ✅ ~~UX: Replace ❌ with retry icon~~ - DONE (Feb 3, 2026) - RefreshCcw in 8 components
-7. **Optional: Redo 14 Bing illustrations** for consistency with ChatGPT style
+1. **CRITICAL: Generate 33 missing illustrations** - See `MISSING-ILLUSTRATIONS-HANDOVER.md` for full prompts and workflow
+   - People illustrations (6): laura-carles, maria, carolina, sergi, sara, xavier
+   - Albert's family drawings (5): albert-dibuix-1 through albert-dibuix-5
+   - Scene/composite images (6): arbre-familiar, casa-exterior, classroom-items, roba-silueta, aliments, animals
+   - Named family tree (1): arbre-familiar-complet
+   - Family appearance (1): familia-foto
+   - Clothing states (4): pantalons-bruts, jersei-nou, sabates-velles, mitjons-nets
+   - Counting images (4): 3-llapis, 2-gomes, 4-llibres, 5-retoladors
+   - Preposition images (6): a-sobre, a-sota, a-dins, a-fora, a-davant, a-darrere
+2. **Add text content to data files** - Restaurant menu, snake reading passage, Carlota/Cesc pet answers
+3. **Update task data files** - Add `image: "[name]"` property to tasks that use new illustrations
+4. **Optional: Redo 14 Bing illustrations** for consistency with ChatGPT style
 
 ### Recently Generated Illustrations (Feb 3, 2026)
 All 18 missing illustrations have been generated via ChatGPT custom GPT:

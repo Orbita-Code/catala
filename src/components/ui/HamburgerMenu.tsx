@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Home, Settings, Trophy, Star } from "lucide-react";
+import { Menu, X, Home, Settings, Trophy, Star, BarChart3 } from "lucide-react";
 import Link from "next/link";
 import { getTotalStars, getEarnedBadgeIds, allBadges } from "@/lib/badges";
 
@@ -79,6 +79,14 @@ export default function HamburgerMenu() {
                 >
                   <Home size={20} />
                   Inici
+                </Link>
+                <Link
+                  href="/stats"
+                  onClick={() => setOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-[var(--text)] hover:bg-gray-50 transition-colors"
+                >
+                  <BarChart3 size={20} />
+                  Estadístiques
                 </Link>
                 <Link
                   href="/configuracio"

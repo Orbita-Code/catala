@@ -14,12 +14,16 @@ import { taskData, getScoringTaskCount } from "@/data/task-data";
 import { getThemeProgress, completeTask, isThemeFullyComplete } from "@/lib/progress";
 import { getEncouragement } from "@/lib/encouragement";
 
-import { TaskResult } from "@/types/tasks";
+import type { TaskResult } from "@/types/tasks";
 import { celebrate, celebrateBig } from "@/lib/confetti";
 import { initAudio, isMuted, toggleMute, playCorrect, playWrong, playCombo, playThemeComplete } from "@/lib/audio";
 import SparkleOverlay from "@/components/ui/SparkleOverlay";
 import BalloonCelebration from "@/components/ui/BalloonCelebration";
 import FireworksBurst from "@/components/ui/FireworksBurst";
+import { calculateTaskXP, isFirstTaskOfDay, addXP } from "@/lib/xp";
+import { updateDailyStreak } from "@/lib/progress";
+import XPGainAnimation from "@/components/gamification/XPGainAnimation";
+import LevelUpCelebration from "@/components/gamification/LevelUpCelebration";
 
 interface TemaContentProps {
   slug: string;
@@ -38,6 +42,9 @@ export default function TemaContent({ slug }: TemaContentProps) {
   const [muted, setMuted] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [sparkleTrigger, setSparkleTrigger] = useState(0);
+  const [xpGained, setXpGained] = useState(0);
+  const [showXpAnimation, setShowXpAnimation] = useState(false);
+  const [levelUpData, setLevelUpData] = useState<{ prev: number; new: number } | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -99,6 +106,9 @@ export default function TemaContent({ slug }: TemaContentProps) {
     const progressResult = completeTask(slug, currentTask.id, taskResult, currentTaskIndex + 1, isBonus);
     setStreak(progressResult.streak);
 
+    // Update daily streak on first task completion
+    updateDailyStreak();
+
     if (taskResult.allCorrect) {
       if (progressResult.streak > 1) {
         playCombo();
@@ -115,6 +125,28 @@ export default function TemaContent({ slug }: TemaContentProps) {
 
       celebrate([theme.color, "#FDCB6E", "#00CECE"]);
       setSparkleTrigger((t) => t + 1);
+
+      // Award XP for correct answers (not for bonus tasks)
+      if (!isBonus) {
+        const xpAmount = calculateTaskXP(
+          taskResult.allCorrect,
+          progressResult.streak,
+          isFirstTaskOfDay()
+        );
+        const xpResult = addXP(xpAmount);
+
+        // Show XP animation
+        setXpGained(xpAmount);
+        setShowXpAnimation(true);
+        setTimeout(() => setShowXpAnimation(false), 1500);
+
+        // Check for level up
+        if (xpResult.isLevelUp) {
+          setTimeout(() => {
+            setLevelUpData({ prev: xpResult.previousLevel, new: xpResult.newLevel });
+          }, 1800);
+        }
+      }
     } else {
       playWrong();
       const enc = getEncouragement("wrong");
@@ -304,6 +336,18 @@ export default function TemaContent({ slug }: TemaContentProps) {
 
   return (
     <div className="min-h-dvh flex flex-col">
+      {/* XP Gain Animation */}
+      <XPGainAnimation amount={xpGained} visible={showXpAnimation} />
+
+      {/* Level Up Celebration Modal */}
+      {levelUpData && (
+        <LevelUpCelebration
+          previousLevel={levelUpData.prev}
+          newLevel={levelUpData.new}
+          onClose={() => setLevelUpData(null)}
+        />
+      )}
+
       {/* Header */}
       <header className="sticky top-0 z-10 bg-[var(--background)] px-4 pt-3 pb-2">
         <div className="flex items-center gap-3 mb-2">

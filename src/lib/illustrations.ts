@@ -833,6 +833,12 @@ const wordsWithIllustrations = new Set([
   "extintor",
   "xeringa",
   "paella",
+  // === PERSONES (People with hair colors) ===
+  "persona-a",
+  "persona-b",
+  "persona-c",
+  "persona-d",
+  "persona-e",
 ]);
 
 // Strip accents for filename matching (e.g. "bolígraf" → "boligraf")
