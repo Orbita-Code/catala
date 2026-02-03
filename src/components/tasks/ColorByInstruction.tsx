@@ -28,114 +28,184 @@ const PALETTE = [
 
 export default function ColorByInstruction({ task, onComplete }: Props) {
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const [coloredItems, setColoredItems] = useState<Record<string, string>>({});
-  const [checked, setChecked] = useState(false);
-  const [results, setResults] = useState<Record<string, boolean>>({});
+  const [correctItems, setCorrectItems] = useState<Set<string>>(new Set());
+  const [wrongItem, setWrongItem] = useState<string | null>(null);
+  const [wrongColor, setWrongColor] = useState<string | null>(null);
+  const [erroredItems, setErroredItems] = useState<Set<string>>(new Set());
 
   const getHex = (name: string) =>
     PALETTE.find((p) => p.name === name)?.color ?? "#ccc";
 
-  const handleItemTap = (targetItem: string) => {
-    if (checked || !selectedColor) return;
-    setColoredItems((prev) => ({ ...prev, [targetItem]: selectedColor }));
-    speak(targetItem);
-  };
+  const applyColor = (item: string, color: string) => {
+    // Find the instruction for this item
+    const inst = task.instructions.find((i) => i.targetItem === item);
+    if (!inst) return;
 
-  const allColored = task.instructions.every(
-    (inst) => coloredItems[inst.targetItem]
-  );
+    const isCorrect = color.toLowerCase() === inst.targetColor.toLowerCase();
 
-  const handleCheck = () => {
-    const newResults: Record<string, boolean> = {};
-    let allCorrect = true;
-    task.instructions.forEach((inst) => {
-      const applied = coloredItems[inst.targetItem];
-      const correct = applied?.toLowerCase() === inst.targetColor.toLowerCase();
-      newResults[inst.targetItem] = correct;
-      if (!correct) allCorrect = false;
-    });
-    setResults(newResults);
-    setChecked(true);
-    if (allCorrect) {
+    if (isCorrect) {
+      setColoredItems((prev) => ({ ...prev, [item]: color }));
+      setCorrectItems((prev) => new Set(prev).add(item));
+      setSelectedItem(null);
+      setSelectedColor(null);
+      speak(item);
+
       confetti({
-        particleCount: 40,
-        spread: 60,
-        origin: { y: 0.6 },
-        colors: ["#6C5CE7", "#FDCB6E", "#00CECE", "#FF6B6B"],
+        particleCount: 15,
+        spread: 35,
+        origin: { y: 0.5 },
+        colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
       });
-      setTimeout(() => onComplete({ allCorrect: true, erroredItems: [] }), 1400);
+
+      // Check if all done
+      const newCorrectCount = correctItems.size + 1;
+      if (newCorrectCount === task.instructions.length) {
+        confetti({
+          particleCount: 40,
+          spread: 60,
+          origin: { y: 0.6 },
+          colors: ["#6C5CE7", "#FDCB6E", "#00CECE", "#FF6B6B"],
+        });
+        setTimeout(
+          () =>
+            onComplete({
+              allCorrect: erroredItems.size === 0,
+              erroredItems: Array.from(erroredItems),
+            }),
+          1400
+        );
+      }
+    } else {
+      // Wrong — show X on item and color, then clear
+      setWrongItem(item);
+      setWrongColor(color);
+      setErroredItems((prev) => new Set(prev).add(item));
+      setTimeout(() => {
+        setWrongItem(null);
+        setWrongColor(null);
+        // Clear the coloring so they can retry
+        setColoredItems((prev) => {
+          const next = { ...prev };
+          delete next[item];
+          return next;
+        });
+        setSelectedItem(null);
+        setSelectedColor(null);
+      }, 1200);
     }
   };
 
-  const handleRetry = () => {
-    setColoredItems({});
-    setChecked(false);
-    setResults({});
-    setSelectedColor(null);
+  const handleColorTap = (colorName: string) => {
+    if (wrongItem) return; // wait for wrong feedback to clear
+
+    if (selectedItem) {
+      // Item was selected first → apply this color to it
+      applyColor(selectedItem, colorName);
+    } else {
+      // Just select the color
+      setSelectedColor(colorName);
+    }
   };
 
-  const allCorrect = checked && Object.values(results).every(Boolean);
+  const handleItemTap = (targetItem: string) => {
+    if (wrongItem) return; // wait for wrong feedback to clear
+    if (correctItems.has(targetItem)) return; // already correct
+
+    if (selectedColor) {
+      // Color was selected first → apply it to this item
+      applyColor(targetItem, selectedColor);
+    } else {
+      // Just select the item
+      setSelectedItem(targetItem);
+    }
+  };
+
+  const allDone = correctItems.size === task.instructions.length;
 
   return (
     <div className="space-y-4">
+      {/* Instruction text */}
+      <p className="text-sm text-[var(--text-light)] mb-2 text-center">
+        {selectedItem && !selectedColor
+          ? `Ara tria un color per a: ${selectedItem}`
+          : selectedColor && !selectedItem
+            ? `Color triat: ${selectedColor} — toca un objecte`
+            : "Tria un color o un objecte:"}
+      </p>
+
       {/* Color palette at top */}
-      <div>
-        <p className="text-sm text-[var(--text-light)] mb-2 text-center">
-          {selectedColor
-            ? `Color triat: ${selectedColor}`
-            : "Tria un color i després toca un objecte:"}
-        </p>
-        <div className="flex flex-wrap gap-2 justify-center">
-          {PALETTE.map((p) => (
+      <div className="flex flex-wrap gap-2 justify-center">
+        {PALETTE.map((p) => {
+          const isWrong = wrongColor === p.name;
+          return (
             <motion.button
               key={p.name}
               whileTap={{ scale: 0.9 }}
-              onClick={() => !checked && setSelectedColor(p.name)}
-              disabled={checked}
-              className={`w-9 h-9 rounded-full border-2 transition-all ${
-                selectedColor === p.name
-                  ? "ring-3 ring-[var(--primary)] scale-110 border-[var(--primary)]"
-                  : "border-gray-300"
+              onClick={() => handleColorTap(p.name)}
+              disabled={allDone}
+              className={`relative w-9 h-9 rounded-full border-2 transition-all ${
+                isWrong
+                  ? "ring-3 ring-red-400 scale-110 border-red-400"
+                  : selectedColor === p.name
+                    ? "ring-3 ring-[var(--primary)] scale-110 border-[var(--primary)]"
+                    : "border-gray-300"
               }`}
               style={{ backgroundColor: p.color }}
               aria-label={p.name}
-            />
-          ))}
-        </div>
+            >
+              {isWrong && (
+                <motion.span
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  className="absolute inset-0 flex items-center justify-center text-red-600 font-black text-lg drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]"
+                >
+                  ✗
+                </motion.span>
+              )}
+            </motion.button>
+          );
+        })}
       </div>
 
-      {/* Item cards grid - 4 per row on md+, 3 on small */}
+      {/* Item cards grid */}
       <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
         {task.instructions.map((inst, i) => {
           const illustration = getWordIllustration(inst.targetItem);
           const appliedColor = coloredItems[inst.targetItem];
-          const isCorrect = checked ? results[inst.targetItem] : null;
+          const isCorrect = correctItems.has(inst.targetItem);
+          const isWrong = wrongItem === inst.targetItem;
+          const isSelected = selectedItem === inst.targetItem;
 
           return (
             <motion.button
               key={i}
-              whileTap={checked ? undefined : { scale: 0.95 }}
+              whileTap={isCorrect ? undefined : { scale: 0.95 }}
               onClick={() => handleItemTap(inst.targetItem)}
-              disabled={checked || !selectedColor}
+              disabled={allDone || isCorrect}
               className={`relative bg-white rounded-xl shadow-sm border-2 transition-all flex flex-col items-center p-2 gap-1 ${
-                isCorrect === true
+                isCorrect
                   ? "border-green-400 bg-green-50"
-                  : isCorrect === false
-                    ? "border-red-400 bg-red-50"
-                    : appliedColor
-                      ? ""
-                      : selectedColor
-                        ? "border-gray-200 hover:border-purple-300 cursor-pointer"
-                        : "border-gray-200"
+                  : isWrong
+                    ? "border-red-400 bg-red-50 animate-[shake_0.3s]"
+                    : isSelected
+                      ? "border-[var(--primary)] bg-purple-50 ring-2 ring-[var(--primary)]"
+                      : appliedColor
+                        ? ""
+                        : "border-gray-200 hover:border-purple-300 cursor-pointer"
               }`}
               style={{
                 borderColor:
-                  isCorrect !== null
+                  isCorrect || isWrong || isSelected
                     ? undefined
                     : appliedColor
                       ? getHex(appliedColor)
                       : undefined,
-                borderWidth: appliedColor && isCorrect === null ? 3 : undefined,
+                borderWidth:
+                  appliedColor && !isCorrect && !isWrong && !isSelected
+                    ? 3
+                    : undefined,
               }}
             >
               {/* Illustration */}
@@ -146,7 +216,7 @@ export default function ColorByInstruction({ task, onComplete }: Props) {
                     alt={inst.targetItem}
                     className="w-14 h-14 object-contain transition-all duration-500"
                     style={{
-                      filter: appliedColor
+                      filter: isCorrect || appliedColor
                         ? "none"
                         : "grayscale(1) opacity(0.5)",
                     }}
@@ -166,7 +236,7 @@ export default function ColorByInstruction({ task, onComplete }: Props) {
 
               {/* Applied color dot */}
               <AnimatePresence>
-                {appliedColor && !checked && (
+                {appliedColor && !isCorrect && !isWrong && (
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
@@ -176,39 +246,22 @@ export default function ColorByInstruction({ task, onComplete }: Props) {
                 )}
               </AnimatePresence>
 
-              {/* Result icon */}
-              {isCorrect !== null && (
-                <span className="absolute top-0.5 right-0.5 text-sm">
-                  {isCorrect ? "✅" : "❌"}
-                </span>
+              {/* Result icons */}
+              {isCorrect && (
+                <span className="absolute top-0.5 right-0.5 text-sm">✅</span>
+              )}
+              {isWrong && (
+                <motion.span
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  className="absolute top-0.5 right-0.5 text-sm"
+                >
+                  ❌
+                </motion.span>
               )}
             </motion.button>
           );
         })}
-      </div>
-
-      {/* Check / Retry */}
-      <div className="flex justify-center pt-2">
-        {!checked ? (
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleCheck}
-            disabled={!allColored}
-            className="px-8 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg disabled:opacity-40 shadow-[0_4px_12px_rgba(108,92,231,0.3)]"
-          >
-            Comprova!
-          </motion.button>
-        ) : !allCorrect ? (
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleRetry}
-            className="px-8 py-3 bg-[var(--secondary)] text-white font-bold rounded-2xl text-lg shadow-md"
-          >
-            Torna a provar!
-          </motion.button>
-        ) : null}
       </div>
     </div>
   );
