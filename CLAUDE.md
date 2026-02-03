@@ -178,6 +178,7 @@ npm run test:ui  # Playwright UI mode
 - Nothing in progress
 
 ### Recently Completed (Feb 3, 2026)
+- **Arracades illustration REDONE** - Replaced blurry Bing earrings with new ChatGPT-generated version (elegant drop earrings with blue gems)
 - **WebP conversion COMPLETE** - Converted 434 illustrations from PNG (119MB) to WebP (7.5MB) - 94% size reduction
 - **Playwright E2E answer keys updated** - Themes 7-9 (les-botigues, el-menjar, els-animals) updated to match rewritten data files
 - **ALL 18 MISSING ILLUSTRATIONS GENERATED** - Les Botigues (7), El Menjar (7), Els Animals (3), Els Vehicles (1)
@@ -189,17 +190,14 @@ npm run test:ui  # Playwright UI mode
   - All single-line: dilluns (pink heart), dimarts (blue circle), dimecres (yellow star), dijous (orange heart), divendres (purple circle), dissabte (green heart), diumenge (red star)
 
 ### Illustrations made with Bing Image Creator (may need redo with ChatGPT later for consistency)
-- xandall, americana, corbata, banyador, banyador-de-dona, biquini, sandalies, arracades, anell, ulleres, collaret, cinturo, caputxa, pantalons-curts, samarreta-de-tirants
-
-### Illustrations to REDO (blurry/bad quality from Bing)
-- **arracades** (earrings) - current image is blurry (made on Bing), regenerate on ChatGPT and replace
+- xandall, americana, corbata, banyador, banyador-de-dona, biquini, sandalies, anell, ulleres, collaret, cinturo, caputxa, pantalons-curts, samarreta-de-tirants
 
 ### NEXT SESSION TODO (Priority Order)
 1. ✅ ~~Update Playwright answer keys for themes 7-9~~ - DONE (Feb 3, 2026)
 2. ✅ ~~WebP conversion~~ - DONE (Feb 3, 2026) - 119MB → 7.5MB (94% reduction)
 3. ✅ ~~Deploy~~ - DONE (Feb 3, 2026)
-4. **Redo blurry arracades illustration** - regenerate on ChatGPT and replace
-5. **Optional: Redo 15 Bing illustrations** for consistency with ChatGPT style
+4. ✅ ~~Redo blurry arracades illustration~~ - DONE (Feb 3, 2026) - regenerated on ChatGPT
+5. **Optional: Redo 14 Bing illustrations** for consistency with ChatGPT style
 
 ### Recently Generated Illustrations (Feb 3, 2026)
 All 18 missing illustrations have been generated via ChatGPT custom GPT:
