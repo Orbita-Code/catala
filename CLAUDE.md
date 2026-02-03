@@ -140,25 +140,19 @@ npm run test:ui  # Playwright UI mode
 - **Live at:** `catala.orbitacode.com` (Coolify Dockerfile build pack, auto-deploy from GitHub main branch)
 
 ### In Progress
-- **3D Illustrations:** ~160/~280 done via ChatGPT custom GPT + Bing Image Creator.
-  - **COMPLETE themes:** La classe, L'escola, El cos, La roba, La casa, La família, Les botigues, El menjar
-  - **Current theme:** Els animals - vec imamo 13 ilustracija (conill, elefant, gat, girafa, gos, lleo, ocell, porc, salmo, serp, tigre, tonyina, tortuga), fali jos ~37
-  - **Remaining after:** La ciutat, Els vehicles, Els oficis
+- **3D Illustrations:** ALL 12 themes COMPLETE via ChatGPT custom GPT + Bing Image Creator.
+  - **ALL 12 themes COMPLETE** - La classe, L'escola, El cos, La roba, La casa, La família, Les botigues, El menjar, Els animals, La ciutat, Els vehicles, Els oficis
+  - **camaleo (chameleon):** Generated on Bing with alternative prompt (described as "colorful green lizard with curly spiral tail" to bypass content filter)
   - Full workbook mapping: see `Ilustracije/WORKBOOK-VS-ILLUSTRATIONS.md`
+- **Days of week illustrations (Bing Image Creator):** ALL 7 COMPLETE
+  - All single-line: dilluns (pink heart), dimarts (blue circle), dimecres (yellow star), dijous (orange heart), divendres (purple circle), dissabte (green heart), diumenge (red star)
 
 ### Illustrations made with Bing Image Creator (may need redo with ChatGPT later for consistency)
 - xandall, americana, corbata, banyador, banyador-de-dona, biquini, sandalies, arracades, anell, ulleres, collaret, cinturo, caputxa, pantalons-curts, samarreta-de-tirants
 
 ### NEXT SESSION TODO (Priority Order)
-1. **Continue Els animals ilustracije via Bing Image Creator** (https://www.bing.com/images/create?FORM=IRPGEN, model: GPT-4o)
-   - **Sledeca rec: pollet (pile)** - gallina i gall vec zavrseni
-   - **Bing prompt format za zivotinje:** `A realistic [ANIMAL] with [OPIS]. Soft, gentle colors. 3D cartoon style render with accurate proportions. Pure white (#FFFFFF) background with small subtle pastel-colored decorative hearts, circles, dots, and five-pointed stars. 512x512px, cheerful, for children ages 5-8. Output format: PNG.`
-   - **VAZNO:** Za zivotinje koristiti realisticniji opis (ne kawaii/chibi stil), ali ZADRZATI nasu dekoraciju (srca, zvezdice, krugovi). Dekoracija MORA biti SUPTILNA i u PASTELNIM bojama, ne jarkim. Zivotinje trebaju imati meke/blage boje.
-   - **VAZNO:** Kad Bing generise 4 slike, UVEK prvo pitaj korisnika koju da sacuva pre cuvanja!
-   - **VAZNO:** U promptu OBAVEZNO naglasiti "pure white background" ili "clean white #FFFFFF background" - Bing ima tendenciju da pravi krem/bezh pozadinu umesto bele! Proveriti na screenshotu da li je pozadina zaista bela.
-   - **VAZNO:** Bing cuva kao JPEG - preimenovati u .png i kopirati u oba foldera (Ilustracije/ i public/illustrations/)
-   - **Fale od zivotinja:** gallina, gall, pollet, oreneta, gavina, pingui, estruc, mussol, gorila/mico, zebra, cavall, vaca, camell, rinoceront, ovella, hipopotam, mosca, formiga, abella, escarabat, papallona, mosquit, tauro, peix-espasa, bacalla, cocodril, camaleo, dofi, balena, pop, medusa, os
-2. **When ChatGPT resets** - switch back to ChatGPT custom GPT (URL u sekciji Illustration Workflow) for better quality/consistency
+1. **WebP conversion** - convert all PNG illustrations to WebP for smaller file sizes
+2. **Deploy** - push all new illustrations to GitHub and deploy
 
 ### Illustration Workflow
 - **ChatGPT chat:** Custom GPT "Igrice katalonski jezik" → chat "AI ilustracije za decu"
