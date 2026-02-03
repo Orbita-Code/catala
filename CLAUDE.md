@@ -111,7 +111,8 @@ npm run test:ui  # Playwright UI mode
 - Home page with 12 theme cards showing dynamic progress
 - Task engine with 12 task type components (all implemented)
 - 209 tasks total across 12 themes (variable per theme: 14-23)
-- Themes 1-9 rewritten to match physical workbook exercises (exact order, words, structure)
+- Themes 1-6 rewritten to match physical workbook exercises (exact order, words, structure)
+- Themes 7-9 partially match workbook (rewritten in earlier sessions, need re-verification)
 - Themes 10-12 expanded from 9 to 15 tasks each (no workbook source)
 - Star mascot with speech bubble feedback
 - Animated SVG star mascot (expressions, animations, reactions)
@@ -151,8 +152,16 @@ npm run test:ui  # Playwright UI mode
 - xandall, americana, corbata, banyador, banyador-de-dona, biquini, sandalies, arracades, anell, ulleres, collaret, cinturo, caputxa, pantalons-curts, samarreta-de-tirants
 
 ### NEXT SESSION TODO (Priority Order)
-1. **WebP conversion** - convert all PNG illustrations to WebP for smaller file sizes
-2. **Deploy** - push all new illustrations to GitHub and deploy
+1. **La familia slika porodice na sofi** - sacuvati sliku iz ChatGPT chata, napraviti label-write zadatak sa strelicama i poljima za popunjavanje imena
+2. **Rewrite remaining themes to match workbook** - les-botigues, el-menjar, els-animals (themes 7-9 have workbook photos in Svi zadaci/)
+3. **WebP conversion** - convert all PNG illustrations to WebP for smaller file sizes
+4. **Deploy** - push all new illustrations to GitHub and deploy
+
+### Missing Illustrations (2 files needed)
+| Word | Filename | ChatGPT Prompt |
+|------|----------|----------------|
+| cola de barra | cola-de-barra.png | cola de barra (glue stick) - 3D cartoon style illustration, white background with small decorative hearts and stars, 512x512px, PNG, colorful and cheerful, for children ages 5-8. No face or eyes on the object. A purple/white glue stick with cap off. |
+| llapis de colors | llapis-de-colors.png | llapis de colors (colored pencils) - 3D cartoon style illustration, white background with small decorative hearts and stars, 512x512px, PNG, colorful and cheerful, for children ages 5-8. No face or eyes on the object. A set of colorful pencils (rainbow colors) bundled together. |
 
 ### Illustration Workflow
 - **ChatGPT chat:** Custom GPT "Igrice katalonski jezik" → chat "AI ilustracije za decu"
@@ -215,14 +224,13 @@ npm run test:ui  # Playwright UI mode
 | menjador | menjador-casa.png | Kućna trpezarija (home dining room) - home dining room with family table | La casa (home context) |
 
 ### Recently Completed
+- **Workbook rewrite themes 1-6:** La classe, L'escola, El cos, La roba, La casa (24 tasks), La familia (16 tasks) - all match workbook exactly
+- **La casa rewrite:** 28→24 tasks. Added classify-columns (articles), write-antonym, order-words, count-and-write. Rooms with 9 items each.
+- **La familia rewrite:** 14→16 tasks. Added decode-grid, add-article, separate-words. Added pets/animals section (tasks 13-15).
+- **363 illustrations** copied to public/illustrations/ from Ilustracije/ folder
 - **Full testing of ALL 209 tasks** via Playwright browser automation across all 12 themes
-- **Progress persistence bug fixed** (`src/lib/progress.ts` + `TemaContent.tsx`): `completeTask()` now receives the actual next task index instead of blindly incrementing `currentTask` from localStorage. This fixes the issue where navigating with "Següent" caused `currentTask` in localStorage to diverge from the actual UI position, resulting in tasks not being saved as complete.
-- All 12 themes verified complete: 209/209 stars, 19/19 badges
 - Auto-speak (TTS) on correct answers for ALL 12 task types
 - Speaker buttons on CopyWord, LabelImage, SelfAssessment, Unscramble
-- 4 data/code bugs fixed (word search grid, hint length, classify-columns, SVG path)
-- Test/ folder with comprehensive TESTING-GUIDE.md and BUG-REPORT.md
-- All 209 tasks data-validated
 
 ### Not Yet Implemented
 - 3D illustrations for vocabulary words (word list prepared, emojis to be replaced)
@@ -234,15 +242,15 @@ npm run test:ui  # Playwright UI mode
 | 2. L'escola | l-escola | 20 |
 | 3. El cos | el-cos | 20 |
 | 4. La roba | la-roba | 19 |
-| 5. La casa | la-casa | 28 |
-| 6. La família | la-familia | 14 |
+| 5. La casa | la-casa | 24 |
+| 6. La família | la-familia | 16 |
 | 7. Les botigues | les-botigues | 21 |
 | 8. El menjar | el-menjar | 27 |
 | 9. Els animals | els-animals | 27 |
 | 10. La ciutat | la-ciutat | 15 |
 | 11. Els vehicles | els-vehicles | 15 |
 | 12. Els oficis | els-oficis | 15 |
-| **Total** | | **~241** |
+| **Total** | | **~239** |
 
 ## Important Notes
 - Theme slugs match filenames: `la-classe`, `l-escola`, `el-cos`, etc.
