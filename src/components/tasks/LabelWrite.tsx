@@ -159,7 +159,7 @@ export default function LabelWrite({ task, onComplete }: Props) {
           {/* Center image with hotspot dots */}
           <div className="relative w-48 h-72 sm:w-56 sm:h-80 flex-shrink-0 mx-2">
             <img
-              src={`/illustrations/${task.image}.png`}
+              src={`/illustrations/${task.image}.webp`}
               alt={task.image}
               className="w-full h-full object-contain"
             />

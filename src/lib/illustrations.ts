@@ -826,7 +826,7 @@ function stripAccents(s: string): string {
 export function getWordIllustration(word: string): string | null {
   const key = stripAccents(word.toLowerCase().trim()).replace(/\s+/g, "-");
   if (wordsWithIllustrations.has(key)) {
-    return `/illustrations/${key}.png`;
+    return `/illustrations/${key}.webp`;
   }
   return null;
 }
