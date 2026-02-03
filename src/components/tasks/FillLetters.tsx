@@ -44,8 +44,7 @@ for (const [base, accented] of Object.entries(ACCENT_VARIANTS)) {
 }
 
 // Generate letter options for a blank position: correct letter + distractors.
-// When the correct letter is accented, includes both the accented and base version.
-// When the correct letter is a base that has accented variants, includes both.
+// Does NOT show both accented and non-accented versions to avoid confusing children.
 function generateOptions(correctLetter: string, count: number = 5): string[] {
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
   const correct = correctLetter.toLowerCase();
@@ -53,16 +52,7 @@ function generateOptions(correctLetter: string, count: number = 5): string[] {
   const options: string[] = [correct];
   const usedBases = new Set<string>([base]);
 
-  // If correct is accented (e.g. "í"), also add the base letter (e.g. "i")
-  if (ACCENT_TO_BASE[correct]) {
-    options.push(ACCENT_TO_BASE[correct]);
-  }
-  // If correct is a base letter that has accented variants, add the most common variant
-  else if (ACCENT_VARIANTS[correct]) {
-    options.push(ACCENT_VARIANTS[correct][0]);
-  }
-
-  // Fill remaining slots with random distractors (different bases)
+  // Fill remaining slots with random distractors (different bases, no accent variants)
   let attempts = 0;
   while (options.length < count && attempts < 100) {
     const rand = alphabet[Math.floor(Math.random() * alphabet.length)];
