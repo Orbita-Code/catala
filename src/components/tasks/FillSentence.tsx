@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FillSentenceTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
-import confetti from "canvas-confetti";
+import { celebrate, celebrateBig } from "@/lib/confetti";
 import { speak } from "@/lib/tts";
 import SpeakerButton from "@/components/ui/SpeakerButton";
 
@@ -38,12 +38,7 @@ export default function FillSentence({ task, onComplete }: Props) {
       const blanks = task.sentences.map((s) => s.blank).join(", ");
       speak(blanks);
       // Celebration confetti
-      confetti({
-        particleCount: 30,
-        spread: 50,
-        origin: { y: 0.6 },
-        colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
-      });
+      celebrateBig();
       setTimeout(() => onComplete({ allCorrect: true, erroredItems: [] }), 1200);
     }
   };

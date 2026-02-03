@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ColorByInstructionTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
-import confetti from "canvas-confetti";
+import { celebrate, celebrateBig } from "@/lib/confetti";
 import { speak } from "@/lib/tts";
 import SpeakerButton from "@/components/ui/SpeakerButton";
 
@@ -51,23 +51,12 @@ export default function ColorByInstruction({ task, onComplete }: Props) {
       setSelectedItem(null);
       setSelectedColor(null);
       speak(item);
-
-      confetti({
-        particleCount: 15,
-        spread: 35,
-        origin: { y: 0.5 },
-        colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
-      });
+      celebrate();
 
       // Check if all done
       const newCorrectCount = correctItems.size + 1;
       if (newCorrectCount === task.instructions.length) {
-        confetti({
-          particleCount: 40,
-          spread: 60,
-          origin: { y: 0.6 },
-          colors: ["#6C5CE7", "#FDCB6E", "#00CECE", "#FF6B6B"],
-        });
+        celebrateBig();
         setTimeout(
           () =>
             onComplete({

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FillLettersTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
 import AnimatedStar from "@/components/star/AnimatedStar";
-import confetti from "canvas-confetti";
+import { celebrate, celebrateBig } from "@/lib/confetti";
 import { speak } from "@/lib/tts";
 
 const retryPhrases = [
@@ -205,12 +205,7 @@ export default function FillLetters({ task, onComplete }: Props) {
     if (checkedWords.size === task.words.length) {
       const allCorrect = Object.values(wordResults).every(Boolean);
       if (allCorrect) {
-        confetti({
-          particleCount: 30,
-          spread: 50,
-          origin: { y: 0.6 },
-          colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
-        });
+      celebrateBig();
         setAllDone(true);
         setTimeout(
           () =>

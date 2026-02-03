@@ -4,7 +4,7 @@ import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { ClassifyColumnsTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
-import confetti from "canvas-confetti";
+import { celebrate, celebrateBig } from "@/lib/confetti";
 import { speak } from "@/lib/tts";
 import { useDragAndDrop } from "@/hooks/useDragAndDrop";
 import DragOverlay from "@/components/ui/DragOverlay";
@@ -44,12 +44,7 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
       setLastPlacedCorrect(correct);
 
       if (correct) {
-        confetti({
-          particleCount: 15,
-          spread: 35,
-          origin: { y: 0.5 },
-          colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
-        });
+      celebrate();
         speak(item);
       }
 

@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LabelWriteTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
-import confetti from "canvas-confetti";
+import { celebrate, celebrateBig } from "@/lib/confetti";
 import { speak } from "@/lib/tts";
 
 interface Props {
@@ -80,12 +80,7 @@ export default function LabelWrite({ task, onComplete }: Props) {
     if (allCorrect) {
       const words = task.labels.map((l) => l.text).join(", ");
       speak(words);
-      confetti({
-        particleCount: 30,
-        spread: 50,
-        origin: { y: 0.6 },
-        colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
-      });
+      celebrate();
       setTimeout(() => onComplete({ allCorrect: true, erroredItems: [] }), 1200);
     }
   };

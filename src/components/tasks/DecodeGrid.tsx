@@ -4,7 +4,7 @@ import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { DecodeGridTask, TaskResult } from "@/types/tasks";
 import { ArrowLeft } from "lucide-react";
-import confetti from "canvas-confetti";
+import { celebrate, celebrateBig } from "@/lib/confetti";
 import { speak } from "@/lib/tts";
 
 interface Props {
@@ -63,12 +63,7 @@ export default function DecodeGrid({ task, onComplete }: Props) {
     setCorrect(isCorrect);
 
     if (isCorrect) {
-      confetti({
-        particleCount: 25,
-        spread: 50,
-        origin: { y: 0.6 },
-        colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
-      });
+      celebrate();
       speak(currentWord.answer);
       setTimeout(() => moveToNext(), 1200);
     } else {

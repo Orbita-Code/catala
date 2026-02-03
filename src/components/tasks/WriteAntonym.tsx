@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { WriteAntonymTask, TaskResult } from "@/types/tasks";
-import confetti from "canvas-confetti";
+import { celebrate, celebrateBig } from "@/lib/confetti";
 import { speak } from "@/lib/tts";
 
 interface Props {
@@ -47,12 +47,7 @@ export default function WriteAntonym({ task, onComplete }: Props) {
     if (allCorrect) {
       const words = task.pairs.map((p) => `${p.word} - ${p.antonym}`).join(", ");
       speak(words);
-      confetti({
-        particleCount: 30,
-        spread: 50,
-        origin: { y: 0.6 },
-        colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
-      });
+      celebrate();
       setTimeout(() => onComplete({ allCorrect: true, erroredItems: [] }), 1200);
     }
   };

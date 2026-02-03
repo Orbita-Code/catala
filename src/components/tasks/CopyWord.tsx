@@ -13,7 +13,7 @@ import { useHintSystem } from "@/hooks/useHintSystem";
 import { speak } from "@/lib/tts";
 
 import { ArrowLeft } from "lucide-react";
-import confetti from "canvas-confetti";
+import { celebrate, celebrateBig } from "@/lib/confetti";
 
 interface Props {
   task: CopyWordTask;
@@ -129,13 +129,7 @@ export default function CopyWord({ task, onComplete }: Props) {
       setCompletedCount(newCount);
       hints.dismissHint();
       setHintLetterIdx(null);
-
-      confetti({
-        particleCount: 25,
-        spread: 50,
-        origin: { y: 0.6 },
-        colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
-      });
+      celebrate();
       speak(currentWord.catalan);
 
       setTimeout(() => moveToNext(), 1000);

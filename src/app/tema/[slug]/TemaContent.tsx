@@ -14,7 +14,7 @@ import { getThemeProgress, completeTask, isThemeFullyComplete } from "@/lib/prog
 import { getEncouragement } from "@/lib/encouragement";
 
 import { TaskResult } from "@/types/tasks";
-import confetti from "canvas-confetti";
+import { celebrate, celebrateBig } from "@/lib/confetti";
 import { initAudio, isMuted, toggleMute, playCorrect, playWrong, playCombo, playThemeComplete } from "@/lib/audio";
 
 interface TemaContentProps {
@@ -105,12 +105,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
       const reactionEvent = getReactionEvent("correct", progressResult.streak);
       setFeedbackReaction(getStarReaction(reactionEvent));
 
-      confetti({
-        particleCount: 50,
-        spread: 60,
-        origin: { y: 0.7 },
-        colors: [theme.color, "#FDCB6E", "#00CECE"],
-      });
+      celebrate([theme.color, "#FDCB6E", "#00CECE"]);
     } else {
       playWrong();
       const enc = getEncouragement("wrong");
@@ -134,36 +129,16 @@ export default function TemaContent({ slug }: TemaContentProps) {
         if (fullyComplete) {
           playThemeComplete();
           // Multiple confetti waves for perfect completion
-          confetti({
-            particleCount: 200,
-            spread: 120,
-            origin: { y: 0.5 },
-            colors: [theme.color, "#FDCB6E", "#00CECE", "#00B894"],
-          });
+          celebrateBig([theme.color, "#FDCB6E", "#00CECE", "#00B894"]);
           setTimeout(() => {
-            confetti({
-              particleCount: 100,
-              spread: 90,
-              origin: { x: 0.2, y: 0.6 },
-              colors: [theme.color, "#FDCB6E"],
-            });
+            celebrateBig([theme.color, "#FDCB6E"]);
           }, 500);
           setTimeout(() => {
-            confetti({
-              particleCount: 100,
-              spread: 90,
-              origin: { x: 0.8, y: 0.6 },
-              colors: ["#00CECE", "#00B894"],
-            });
+            celebrateBig(["#00CECE", "#00B894"]);
           }, 1000);
         } else {
           playCorrect();
-          confetti({
-            particleCount: 50,
-            spread: 60,
-            origin: { y: 0.5 },
-            colors: [theme.color, "#FDCB6E"],
-          });
+          celebrate([theme.color, "#FDCB6E"]);
         }
       }, 2000);
     }

@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { WordSearchTask, TaskResult } from "@/types/tasks";
-import confetti from "canvas-confetti";
+import { celebrate, celebrateBig } from "@/lib/confetti";
 import { speak } from "@/lib/tts";
 
 const WORD_COLORS = [
@@ -95,12 +95,7 @@ export default function WordSearch({ task, onComplete }: Props) {
       // Speak the found word
       speak(word);
       // Mini celebration for each found word
-      confetti({
-        particleCount: 20,
-        spread: 40,
-        origin: { y: 0.5 },
-        colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
-      });
+      celebrate();
 
       if (newFound.size === task.words.length) {
         setTimeout(() => onComplete({ allCorrect: true, erroredItems: [] }), 1000);

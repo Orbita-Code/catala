@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { MultipleChoiceTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
-import confetti from "canvas-confetti";
+import { celebrate, celebrateBig } from "@/lib/confetti";
 import { speak } from "@/lib/tts";
 import SpeakerButton from "@/components/ui/SpeakerButton";
 
@@ -34,12 +34,7 @@ export default function MultipleChoice({ task, onComplete }: Props) {
     // Mini celebration for correct answer
     if (isRight) {
       speak(question.options[question.correct]);
-      confetti({
-        particleCount: 25,
-        spread: 50,
-        origin: { y: 0.6 },
-        colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
-      });
+      celebrate();
     }
 
     setTimeout(() => {

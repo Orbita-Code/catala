@@ -9,7 +9,7 @@ import SlotRow from "@/components/ui/SlotRow";
 import InlineHintMascot from "@/components/ui/InlineHintMascot";
 import { useHintSystem } from "@/hooks/useHintSystem";
 import { ArrowLeft } from "lucide-react";
-import confetti from "canvas-confetti";
+import { celebrate, celebrateBig } from "@/lib/confetti";
 import { speak } from "@/lib/tts";
 import SpeakerButton from "@/components/ui/SpeakerButton";
 
@@ -136,13 +136,7 @@ export default function Unscramble({ task, onComplete }: Props) {
     if (isCorrect) {
       hints.dismissHint();
       setHintLetterIdx(null);
-
-      confetti({
-        particleCount: 25,
-        spread: 50,
-        origin: { y: 0.6 },
-        colors: ["#6C5CE7", "#FDCB6E", "#00CECE"],
-      });
+      celebrate();
 
       speak(currentWord.correct);
 

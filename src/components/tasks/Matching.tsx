@@ -4,7 +4,7 @@ import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MatchingTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
-import confetti from "canvas-confetti";
+import { celebrate, celebrateBig } from "@/lib/confetti";
 import { speak } from "@/lib/tts";
 import { useDragAndDrop } from "@/hooks/useDragAndDrop";
 import DragOverlay from "@/components/ui/DragOverlay";
@@ -57,13 +57,7 @@ export default function Matching({ task, onComplete }: Props) {
         setSelected(null);
         setWrongPair(null);
         setLastMatchedIdx(leftIdx);
-
-        confetti({
-          particleCount: 25,
-          spread: 50,
-          origin: { y: 0.6 },
-          colors: ["#6C5CE7", "#FDCB6E", "#00CECE", "#FF6B6B"],
-        });
+      celebrate();
         speak(task.pairs[leftIdx].left);
 
         if (newMatched.size === task.pairs.length) {
