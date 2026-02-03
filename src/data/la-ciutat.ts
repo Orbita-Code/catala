@@ -115,12 +115,12 @@ export const laCiutatTasks: Task[] = [
       {
         text: "Anem al ___ per veure una pel·lícula.",
         blank: "cinema",
-        options: ["cinema", "mercat", "hospital"],
+        options: ["mercat", "cinema", "hospital"],
       },
       {
         text: "Comprem al ___.",
         blank: "mercat",
-        options: ["mercat", "museu", "parc"],
+        options: ["museu", "parc", "mercat"],
       },
       {
         text: "Juguem al ___.",
@@ -130,7 +130,7 @@ export const laCiutatTasks: Task[] = [
       {
         text: "Estudiem a l'___.",
         blank: "escola",
-        options: ["escola", "restaurant", "teatre"],
+        options: ["restaurant", "escola", "teatre"],
       },
     ],
   },
@@ -204,22 +204,22 @@ export const laCiutatTasks: Task[] = [
       {
         text: "Per comprar fruita vaig al ___.",
         blank: "mercat",
-        options: ["mercat", "cinema", "hospital"],
+        options: ["cinema", "mercat", "hospital"],
       },
       {
         text: "Per llegir llibres vaig a la ___.",
         blank: "biblioteca",
-        options: ["biblioteca", "estació", "plaça"],
+        options: ["estació", "plaça", "biblioteca"],
       },
       {
         text: "Per viatjar en tren vaig a l'___.",
         blank: "estació",
-        options: ["estació", "escola", "hospital"],
+        options: ["escola", "estació", "hospital"],
       },
       {
         text: "Per passejar vaig al ___.",
         blank: "parc",
-        options: ["parc", "mercat", "museu"],
+        options: ["mercat", "museu", "parc"],
       },
     ],
   },
@@ -259,17 +259,17 @@ export const laCiutatTasks: Task[] = [
       {
         text: "A la meva ciutat hi ha un ___ molt gran.",
         blank: "parc",
-        options: ["parc", "llapis", "gat"],
+        options: ["llapis", "gat", "parc"],
       },
       {
         text: "El ___ és al centre de la ciutat.",
         blank: "mercat",
-        options: ["mercat", "bosc", "riu"],
+        options: ["bosc", "mercat", "riu"],
       },
       {
         text: "L' ___ és molt moderna.",
         blank: "escola",
-        options: ["escola", "cova", "illa"],
+        options: ["cova", "illa", "escola"],
       },
       {
         text: "La ___ té molts arbres.",

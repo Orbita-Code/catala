@@ -189,12 +189,12 @@ export const laCasaTasks: Task[] = [
       {
         text: "A la sala d'estar hi ha una ___.",
         blank: "televisió",
-        options: ["televisió", "nevera", "banyera"],
+        options: ["nevera", "televisió", "banyera"],
       },
       {
         text: "A la sala d'estar hi ha ___.",
         blank: "un sofà",
-        options: ["un sofà", "un llit", "una nevera"],
+        options: ["un llit", "una nevera", "un sofà"],
       },
       {
         text: "A la sala d'estar hi ha ___.",
@@ -204,7 +204,7 @@ export const laCasaTasks: Task[] = [
       {
         text: "A la sala d'estar hi ha ___.",
         blank: "una catifa",
-        options: ["una catifa", "una banyera", "un llit"],
+        options: ["una banyera", "una catifa", "un llit"],
       },
     ],
   },
@@ -268,22 +268,22 @@ export const laCasaTasks: Task[] = [
       {
         text: "On dorms.",
         blank: "llit",
-        options: ["llit", "coixí", "manta"],
+        options: ["coixí", "llit", "manta"],
       },
       {
         text: "On poses el teu cap.",
         blank: "coixí",
-        options: ["coixí", "manta", "llit"],
+        options: ["manta", "llit", "coixí"],
       },
       {
         text: "Te la poses a sobre quan tens fred.",
         blank: "manta",
-        options: ["manta", "llençol", "coixí"],
+        options: ["llençol", "manta", "coixí"],
       },
       {
         text: "El configures quan necessites aixecar-te aviat.",
         blank: "despertador",
-        options: ["despertador", "rellotge", "televisió"],
+        options: ["rellotge", "televisió", "despertador"],
       },
       {
         text: "Aquí guardes la teva roba.",
@@ -293,7 +293,7 @@ export const laCasaTasks: Task[] = [
       {
         text: "Vesteixes el llit amb elles.",
         blank: "llençols",
-        options: ["llençols", "mantes", "coixins"],
+        options: ["mantes", "llençols", "coixins"],
       },
     ],
   },
@@ -325,32 +325,32 @@ export const laCasaTasks: Task[] = [
       {
         text: "Jo em rento les ___.",
         blank: "mans",
-        options: ["mans", "cames", "orelles"],
+        options: ["cames", "mans", "orelles"],
       },
       {
         text: "Tu et rentes les ___.",
         blank: "mans",
-        options: ["mans", "dents", "cames"],
+        options: ["dents", "cames", "mans"],
       },
       {
         text: "Ell es renta ___.",
         blank: "la cara",
-        options: ["la cara", "el braç", "el peu"],
+        options: ["el braç", "la cara", "el peu"],
       },
       {
         text: "Nosaltres ens rentem ___.",
         blank: "les mans",
-        options: ["les mans", "els peus", "el cap"],
+        options: ["els peus", "el cap", "les mans"],
       },
       {
         text: "Vosaltres us renteu ___.",
         blank: "les dents",
-        options: ["les dents", "els ulls", "el nas"],
+        options: ["els ulls", "les dents", "el nas"],
       },
       {
         text: "Ells es renten ___.",
         blank: "la cara",
-        options: ["la cara", "el braç", "les cames"],
+        options: ["el braç", "les cames", "la cara"],
       },
     ],
   },
@@ -411,12 +411,12 @@ export const laCasaTasks: Task[] = [
       {
         text: "Dormim a ___.",
         blank: "l'habitació",
-        options: ["l'habitació", "la cuina", "el jardí"],
+        options: ["la cuina", "l'habitació", "el jardí"],
       },
       {
         text: "Mengem a ___.",
         blank: "el menjador",
-        options: ["el menjador", "el lavabo", "el garatge"],
+        options: ["el lavabo", "el garatge", "el menjador"],
       },
       {
         text: "Cuinem a ___.",
@@ -426,22 +426,22 @@ export const laCasaTasks: Task[] = [
       {
         text: "Ens rentem a ___.",
         blank: "el lavabo",
-        options: ["el lavabo", "la cuina", "el menjador"],
+        options: ["la cuina", "el lavabo", "el menjador"],
       },
       {
         text: "Guardem el cotxe a ___.",
         blank: "el garatge",
-        options: ["el garatge", "el jardí", "la terrassa"],
+        options: ["el jardí", "la terrassa", "el garatge"],
       },
       {
         text: "Prenem el sol a ___.",
         blank: "la terrassa",
-        options: ["la terrassa", "el dormitori", "la cuina"],
+        options: ["el dormitori", "la terrassa", "la cuina"],
       },
       {
         text: "Mirem la televisió a ___.",
         blank: "la sala d'estar",
-        options: ["la sala d'estar", "el lavabo", "la cuina"],
+        options: ["el lavabo", "la cuina", "la sala d'estar"],
       },
       {
         text: "Guardem el menjar a ___.",

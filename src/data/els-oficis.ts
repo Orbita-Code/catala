@@ -115,22 +115,22 @@ export const elsOficisTasks: Task[] = [
       {
         text: "El ___ apaga el foc.",
         blank: "bomber",
-        options: ["mestre", "bomber", "pilot"],
+        options: ["mestre", "pilot", "bomber"],
       },
       {
         text: "El ___ ensenya a l'escola.",
         blank: "mestre",
-        options: ["metge", "cuiner", "mestre"],
+        options: ["metge", "mestre", "cuiner"],
       },
       {
         text: "El ___ cura els malalts.",
         blank: "metge",
-        options: ["metge", "dentista", "jardiner"],
+        options: ["dentista", "metge", "jardiner"],
       },
       {
         text: "El ___ porta les cartes.",
         blank: "carter",
-        options: ["policia", "carter", "bomber"],
+        options: ["policia", "bomber", "carter"],
       },
     ],
   },
@@ -199,22 +199,22 @@ export const elsOficisTasks: Task[] = [
       {
         text: "El ___ cuida els animals.",
         blank: "veterinari",
-        options: ["veterinari", "bomber", "mestre"],
+        options: ["bomber", "veterinari", "mestre"],
       },
       {
         text: "L' ___ ajuda el metge a l'hospital.",
         blank: "infermer",
-        options: ["infermer", "cuiner", "policia"],
+        options: ["cuiner", "policia", "infermer"],
       },
       {
         text: "El ___ cultiva verdures i fruites.",
         blank: "pagès",
-        options: ["pagès", "pilot", "cambrer"],
+        options: ["pilot", "pagès", "cambrer"],
       },
       {
         text: "El ___ arregla les dents.",
         blank: "dentista",
-        options: ["dentista", "jardiner", "carter"],
+        options: ["jardiner", "carter", "dentista"],
       },
     ],
   },
@@ -273,17 +273,17 @@ export const elsOficisTasks: Task[] = [
       {
         text: "De gran vull ser ___ per curar la gent.",
         blank: "metge",
-        options: ["metge", "cuiner", "jardiner"],
+        options: ["cuiner", "metge", "jardiner"],
       },
       {
         text: "De gran vull ser ___ per ensenyar.",
         blank: "mestre",
-        options: ["mestre", "bomber", "policia"],
+        options: ["bomber", "policia", "mestre"],
       },
       {
         text: "De gran vull ser ___ per volar.",
         blank: "pilot",
-        options: ["pilot", "pagès", "cambrer"],
+        options: ["pagès", "pilot", "cambrer"],
       },
       {
         text: "De gran vull ser ___ per cuinar.",

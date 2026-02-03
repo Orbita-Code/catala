@@ -25,12 +25,12 @@ export const lesBotiguesTasks: Task[] = [
       {
         text: "Compro peix a la ___.",
         blank: "peixeteria",
-        options: ["peixeteria", "carnisseria", "fleca"],
+        options: ["carnisseria", "peixeteria", "fleca"],
       },
       {
         text: "Compro pa a la ___.",
         blank: "fleca",
-        options: ["fleca", "fruiteria", "farmàcia"],
+        options: ["fruiteria", "farmàcia", "fleca"],
       },
       {
         text: "Compro fruita a la ___.",
@@ -40,12 +40,12 @@ export const lesBotiguesTasks: Task[] = [
       {
         text: "Compro medicaments a la ___.",
         blank: "farmàcia",
-        options: ["farmàcia", "fleca", "fruiteria"],
+        options: ["fleca", "farmàcia", "fruiteria"],
       },
       {
         text: "Compro carn a la ___.",
         blank: "carnisseria",
-        options: ["carnisseria", "farmàcia", "peixeteria"],
+        options: ["farmàcia", "peixeteria", "carnisseria"],
       },
     ],
   },
@@ -157,17 +157,17 @@ export const lesBotiguesTasks: Task[] = [
       {
         text: "La ___ és de color taronja.",
         blank: "pastanaga",
-        options: ["pastanaga", "ceba", "pebrot"],
+        options: ["ceba", "pebrot", "pastanaga"],
       },
       {
         text: "El ___ és de color vermell.",
         blank: "tomàquet",
-        options: ["tomàquet", "enciam", "patata"],
+        options: ["enciam", "tomàquet", "patata"],
       },
       {
         text: "L'___ és verd i el mengem a l'amanida.",
         blank: "enciam",
-        options: ["enciam", "pebrot", "ceba"],
+        options: ["pebrot", "ceba", "enciam"],
       },
       {
         text: "La ___ fa plorar quan la tallem.",
@@ -315,22 +315,22 @@ export const lesBotiguesTasks: Task[] = [
       {
         text: "Ahir ___ anar a la fruiteria.",
         blank: "vaig",
-        options: ["vaig", "aniré", "vaig anar"],
+        options: ["aniré", "vaig", "vaig anar"],
       },
       {
         text: "Avui ___ a la fleca.",
         blank: "vaig",
-        options: ["vaig", "aniré", "anava"],
+        options: ["aniré", "anava", "vaig"],
       },
       {
         text: "Demà ___ a la peixeteria.",
         blank: "aniré",
-        options: ["aniré", "vaig", "anava"],
+        options: ["vaig", "aniré", "anava"],
       },
       {
         text: "Ahir ___ comprar sardines.",
         blank: "vaig",
-        options: ["vaig", "compraré", "compro"],
+        options: ["compraré", "compro", "vaig"],
       },
     ],
   },

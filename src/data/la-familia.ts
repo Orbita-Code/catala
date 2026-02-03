@@ -36,12 +36,12 @@ export const laFamiliaTasks: Task[] = [
       {
         text: "Dibuix 1. És l'avi o àvia de l'Albert? És ___.",
         blank: "l'avi",
-        options: ["l'avi", "l'àvia"],
+        options: ["l'àvia", "l'avi"],
       },
       {
         text: "Dibuix 2. És l'àvia o la mare de l'Albert? És ___.",
         blank: "l'àvia",
-        options: ["l'àvia", "la mare"],
+        options: ["la mare", "l'àvia"],
       },
       {
         text: "Dibuix 3. És l'avi o pare de l'Albert? És ___.",
@@ -51,7 +51,7 @@ export const laFamiliaTasks: Task[] = [
       {
         text: "Dibuix 4. És la mare o germana de l'Albert? És ___.",
         blank: "la mare",
-        options: ["la mare", "la germana"],
+        options: ["la germana", "la mare"],
       },
       {
         text: "Dibuix 5. És la mare o germana de l'Albert? És ___.",
@@ -87,17 +87,17 @@ export const laFamiliaTasks: Task[] = [
       {
         text: "Ella és la germana de la meva mare. És la meva ___.",
         blank: "tieta",
-        options: ["tieta", "cosina", "àvia"],
+        options: ["cosina", "tieta", "àvia"],
       },
       {
         text: "Ell és el marit de la meva tieta. És el meu ___.",
         blank: "oncle",
-        options: ["oncle", "pare", "avi"],
+        options: ["pare", "avi", "oncle"],
       },
       {
         text: "Ella és la filla del meu oncle i de la meva tieta. És la meva ___.",
         blank: "cosina",
-        options: ["cosina", "germana", "tieta"],
+        options: ["germana", "cosina", "tieta"],
       },
     ],
   },
@@ -131,6 +131,7 @@ export const laFamiliaTasks: Task[] = [
       "dona",
       "avi",
     ],
+    circleMode: true,
   },
 
   // ── Task 7: Completa amb (articles) ──
@@ -275,51 +276,51 @@ export const laFamiliaTasks: Task[] = [
       {
         text: "Qui és en Manel? És ___.",
         blank: "l'avi",
-        options: ["l'avi", "el pare", "l'oncle"],
+        options: ["el pare", "l'avi", "l'oncle"],
       },
       {
         text: "Qui és la Júlia? És ___.",
         blank: "l'àvia",
-        options: ["l'àvia", "la mare", "la tieta"],
+        options: ["la mare", "la tieta", "l'àvia"],
       },
       {
         text: "Qui és l'Anna respecte la Júlia? És ___.",
         blank: "la filla",
-        options: ["la filla", "la germana", "la cosina"],
+        options: ["la germana", "la filla", "la cosina"],
       },
       {
         text: "Amb qui està casat en Pol? Amb ___.",
         blank: "l'Anna",
-        options: ["l'Anna", "la Sara", "la Júlia"],
+        options: ["la Sara", "la Júlia", "l'Anna"],
       },
       {
         text: "Qui és la filla de l'Anna i d'en Pol? És ___.",
         blank: "la Marta",
-        options: ["la Marta", "la Dafne", "la Sara"],
+        options: ["la Dafne", "la Marta", "la Sara"],
       },
       {
         text: "Qui és la Marta respecte la Sara? És ___.",
         blank: "la neboda",
-        options: ["la neboda", "la cosina", "la germana"],
+        options: ["la cosina", "la germana", "la neboda"],
       },
       {
         text: "Qui és la Sara respecte la Dafne i en Tomàs? És ___.",
         blank: "la mare",
-        options: ["la mare", "la tieta", "l'àvia"],
+        options: ["la tieta", "la mare", "l'àvia"],
       },
       {
         text: "Qui és en Pere? És ___.",
         blank: "el pare de la Dafne i en Tomàs",
         options: [
-          "el pare de la Dafne i en Tomàs",
           "l'oncle de la Marta",
           "el germà d'en Pol",
+          "el pare de la Dafne i en Tomàs",
         ],
       },
       {
         text: "Qui és la Marta respecte la Dafne i en Tomàs? És ___.",
         blank: "la cosina",
-        options: ["la cosina", "la germana", "la neboda"],
+        options: ["la germana", "la neboda", "la cosina"],
       },
     ],
   },

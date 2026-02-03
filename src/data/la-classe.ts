@@ -239,12 +239,12 @@ export const laClasseTasks: Task[] = [
       {
         text: "La maquineta és ___.",
         blank: "blava",
-        options: ["blava", "vermella", "groga"],
+        options: ["vermella", "blava", "groga"],
       },
       {
         text: "El regle és ___.",
         blank: "groc",
-        options: ["groc", "blau", "negre"],
+        options: ["blau", "negre", "groc"],
       },
       {
         text: "El bolígraf és ___.",
@@ -254,12 +254,12 @@ export const laClasseTasks: Task[] = [
       {
         text: "El pinzell és ___.",
         blank: "taronja",
-        options: ["taronja", "blau", "lila"],
+        options: ["blau", "taronja", "lila"],
       },
       {
         text: "El clip és ___.",
         blank: "gris",
-        options: ["gris", "negre", "blanc"],
+        options: ["negre", "blanc", "gris"],
       },
       {
         text: "La cola de barra és ___.",
@@ -269,7 +269,7 @@ export const laClasseTasks: Task[] = [
       {
         text: "Les tisores són ___.",
         blank: "negres",
-        options: ["negres", "grises", "blanques"],
+        options: ["grises", "negres", "blanques"],
       },
     ],
   },
@@ -284,31 +284,31 @@ export const laClasseTasks: Task[] = [
       {
         text: "L'Ema ___.",
         blank: "dibuixa",
-        options: ["dibuixa", "canta", "escriu"],
+        options: ["canta", "dibuixa", "escriu"],
         image: "nena-dibuixa",
       },
       {
         text: "En Pau ___.",
         blank: "pinta",
-        options: ["retalla", "pinta", "canta"],
+        options: ["retalla", "canta", "pinta"],
         image: "nen-pinta",
       },
       {
         text: "La Júlia ___.",
         blank: "canta",
-        options: ["canta", "dibuixa", "pinta"],
+        options: ["dibuixa", "pinta", "canta"],
         image: "nena-canta",
       },
       {
         text: "En Hugo ___.",
         blank: "escriu",
-        options: ["pinta", "escriu", "retalla"],
+        options: ["escriu", "pinta", "retalla"],
         image: "nen-escriu",
       },
       {
         text: "La Mia ___.",
         blank: "retalla",
-        options: ["escriu", "retalla", "dibuixa"],
+        options: ["dibuixa", "retalla", "escriu"],
         image: "nena-retalla",
       },
     ],
@@ -420,12 +420,12 @@ export const laClasseTasks: Task[] = [
       {
         text: "Jo retallo amb les ___.",
         blank: "tisores",
-        options: ["tisores", "gomes", "regles"],
+        options: ["gomes", "tisores", "regles"],
       },
       {
         text: "Jo escric amb el ___.",
         blank: "llapis",
-        options: ["llapis", "borrador", "estoig"],
+        options: ["borrador", "estoig", "llapis"],
       },
       {
         text: "Jo esborro amb la ___.",
@@ -435,17 +435,17 @@ export const laClasseTasks: Task[] = [
       {
         text: "Jo dibuixo amb els ___.",
         blank: "retoladors",
-        options: ["retoladors", "llibres", "guixos"],
+        options: ["llibres", "retoladors", "guixos"],
       },
       {
         text: "Nosaltres dibuixem a la ___.",
         blank: "llibreta",
-        options: ["llibreta", "pissarra", "motxilla"],
+        options: ["pissarra", "motxilla", "llibreta"],
       },
       {
         text: "Vosaltres pinteu amb les ___.",
         blank: "pintures",
-        options: ["pintures", "tisores", "gomes"],
+        options: ["tisores", "pintures", "gomes"],
       },
     ],
   },

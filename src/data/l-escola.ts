@@ -204,12 +204,12 @@ export const lEscolaTasks: Task[] = [
       {
         text: "El ___ és el segon dia de la setmana.",
         blank: "dimarts",
-        options: ["dimarts", "dimecres", "dijous"],
+        options: ["dimecres", "dimarts", "dijous"],
       },
       {
         text: "El ___ és el tercer dia de la setmana.",
         blank: "dimecres",
-        options: ["dimecres", "divendres", "dilluns"],
+        options: ["divendres", "dilluns", "dimecres"],
       },
       {
         text: "El ___ és el quart dia de la setmana.",
@@ -219,17 +219,17 @@ export const lEscolaTasks: Task[] = [
       {
         text: "El ___ és el cinquè dia de la setmana.",
         blank: "divendres",
-        options: ["divendres", "diumenge", "dimecres"],
+        options: ["diumenge", "divendres", "dimecres"],
       },
       {
         text: "El ___ és el sisè dia de la setmana.",
         blank: "dissabte",
-        options: ["dissabte", "dilluns", "dijous"],
+        options: ["dilluns", "dijous", "dissabte"],
       },
       {
         text: "El ___ és el setè dia de la setmana.",
         blank: "diumenge",
-        options: ["diumenge", "dissabte", "dimarts"],
+        options: ["dissabte", "diumenge", "dimarts"],
       },
     ],
   },
@@ -259,12 +259,12 @@ export const lEscolaTasks: Task[] = [
       {
         text: "El dia abans de divendres és ___.",
         blank: "dijous",
-        options: ["dijous", "dimecres", "dissabte"],
+        options: ["dimecres", "dijous", "dissabte"],
       },
       {
         text: "El dia després de divendres és ___.",
         blank: "dissabte",
-        options: ["dissabte", "diumenge", "dijous"],
+        options: ["diumenge", "dijous", "dissabte"],
       },
       {
         text: "El dia abans de dimarts és ___.",
@@ -274,27 +274,27 @@ export const lEscolaTasks: Task[] = [
       {
         text: "El dia després de dimarts és ___.",
         blank: "dimecres",
-        options: ["dimecres", "dijous", "dilluns"],
+        options: ["dijous", "dimecres", "dilluns"],
       },
       {
         text: "El dia abans de diumenge és ___.",
         blank: "dissabte",
-        options: ["dissabte", "divendres", "dilluns"],
+        options: ["divendres", "dilluns", "dissabte"],
       },
       {
         text: "El dia després de diumenge és ___.",
         blank: "dilluns",
-        options: ["dilluns", "dimarts", "dissabte"],
+        options: ["dimarts", "dilluns", "dissabte"],
       },
       {
         text: "El dia abans de dijous és ___.",
         blank: "dimecres",
-        options: ["dimecres", "dimarts", "divendres"],
+        options: ["dimarts", "divendres", "dimecres"],
       },
       {
         text: "El dia després de dijous és ___.",
         blank: "divendres",
-        options: ["divendres", "dissabte", "dimecres"],
+        options: ["dissabte", "dimecres", "divendres"],
       },
     ],
   },
@@ -324,12 +324,12 @@ export const lEscolaTasks: Task[] = [
       {
         text: "El llapis està ___ la taula.",
         blank: "a sobre",
-        options: ["a sobre", "a sota", "a dins"],
+        options: ["a sota", "a sobre", "a dins"],
       },
       {
         text: "L'estoig està ___ de la cadira.",
         blank: "al davant",
-        options: ["al davant", "al darrere", "al costat"],
+        options: ["al darrere", "al costat", "al davant"],
       },
       {
         text: "El bolígraf està ___ de l'estoig.",
@@ -339,12 +339,12 @@ export const lEscolaTasks: Task[] = [
       {
         text: "El professor està ___ de la taula.",
         blank: "al costat",
-        options: ["al costat", "al davant", "al darrere"],
+        options: ["al davant", "al costat", "al darrere"],
       },
       {
         text: "La cadira està ___ de la taula.",
         blank: "al darrere",
-        options: ["al darrere", "al davant", "a sota"],
+        options: ["al davant", "a sota", "al darrere"],
       },
     ],
   },
@@ -358,37 +358,37 @@ export const lEscolaTasks: Task[] = [
       {
         text: "Jo entro al menjador. Tu ___ al menjador.",
         blank: "entres",
-        options: ["entres", "entra", "entrem"],
+        options: ["entra", "entres", "entrem"],
       },
       {
         text: "Jo entro al menjador. Ell ___ al menjador.",
         blank: "entra",
-        options: ["entra", "entres", "entren"],
+        options: ["entres", "entren", "entra"],
       },
       {
         text: "Jo entro al menjador. Nosaltres ___ al menjador.",
         blank: "entrem",
-        options: ["entrem", "entreu", "entren"],
+        options: ["entreu", "entrem", "entren"],
       },
       {
         text: "Jo entro al menjador. Ells ___ al menjador.",
         blank: "entren",
-        options: ["entren", "entrem", "entra"],
+        options: ["entrem", "entra", "entren"],
       },
       {
         text: "Jo surto al passadís. Tu ___ al passadís.",
         blank: "surts",
-        options: ["surts", "surt", "sortim"],
+        options: ["surt", "sortim", "surts"],
       },
       {
         text: "Jo surto al passadís. Ell ___ al passadís.",
         blank: "surt",
-        options: ["surt", "surts", "surten"],
+        options: ["surts", "surt", "surten"],
       },
       {
         text: "Jo surto al passadís. Nosaltres ___ al passadís.",
         blank: "sortim",
-        options: ["sortim", "sortiu", "surten"],
+        options: ["sortiu", "surten", "sortim"],
       },
       {
         text: "Jo surto al passadís. Ells ___ al passadís.",

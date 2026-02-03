@@ -179,12 +179,12 @@ export const laRobaTasks: Task[] = [
       {
         text: "Els pantalons estan ___.",
         blank: "bruts",
-        options: ["bruts", "nets", "nous"],
+        options: ["nets", "bruts", "nous"],
       },
       {
         text: "El jersei és ___.",
         blank: "nou",
-        options: ["nou", "vell", "brut"],
+        options: ["vell", "brut", "nou"],
       },
       {
         text: "Les sabates són ___.",
@@ -194,7 +194,7 @@ export const laRobaTasks: Task[] = [
       {
         text: "Els mitjons estan ___.",
         blank: "nets",
-        options: ["nets", "bruts", "vells"],
+        options: ["bruts", "nets", "vells"],
       },
     ],
   },
@@ -273,12 +273,12 @@ export const laRobaTasks: Task[] = [
       {
         text: "Les portem als peus: ___.",
         blank: "sabates",
-        options: ["sabates", "guants", "gorra"],
+        options: ["guants", "sabates", "gorra"],
       },
       {
         text: "Ens abriga a l'hivern: ___.",
         blank: "abric",
-        options: ["abric", "banyador", "samarreta"],
+        options: ["banyador", "samarreta", "abric"],
       },
       {
         text: "Ens la posem al cap: ___.",
@@ -288,27 +288,27 @@ export const laRobaTasks: Task[] = [
       {
         text: "Té botons: ___.",
         blank: "camisa",
-        options: ["camisa", "xandall", "sabates"],
+        options: ["xandall", "camisa", "sabates"],
       },
       {
         text: "Ens abriga les mans: ___.",
         blank: "guants",
-        options: ["guants", "botes", "bufanda"],
+        options: ["botes", "bufanda", "guants"],
       },
       {
         text: "Ens els posem als peus i no són sabates: ___.",
         blank: "mitjons",
-        options: ["mitjons", "guants", "gorra"],
+        options: ["guants", "mitjons", "gorra"],
       },
       {
         text: "Ens el posem per dormir: ___.",
         blank: "pijama",
-        options: ["pijama", "vestit", "anorac"],
+        options: ["vestit", "anorac", "pijama"],
       },
       {
         text: "El portem per anar a la piscina: ___.",
         blank: "banyador",
-        options: ["banyador", "abric", "jaqueta"],
+        options: ["abric", "banyador", "jaqueta"],
       },
       {
         text: "El portem per fer exercici: ___.",

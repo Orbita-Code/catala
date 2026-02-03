@@ -5,6 +5,8 @@ const USER = process.env.BASIC_AUTH_USER || "catala";
 const PASS = process.env.BASIC_AUTH_PASS || "catala2025";
 
 export function middleware(request: NextRequest) {
+  // TEMP: skip auth in development for testing
+  if (process.env.NODE_ENV === "development") return NextResponse.next();
   const authHeader = request.headers.get("authorization");
 
   if (authHeader) {

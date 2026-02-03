@@ -170,12 +170,12 @@ export const elCosTasks: Task[] = [
       {
         text: "La Laura és més ___ que en Carles.",
         blank: "alta",
-        options: ["alta", "baixa", "vella"],
+        options: ["baixa", "alta", "vella"],
       },
       {
         text: "En Carles és més ___ que la Laura.",
         blank: "baix",
-        options: ["baix", "alt", "jove"],
+        options: ["alt", "jove", "baix"],
       },
     ],
   },
@@ -189,12 +189,12 @@ export const elCosTasks: Task[] = [
       {
         text: "Un noi vell → Una noia ___.",
         blank: "vella",
-        options: ["vella", "vell", "jove"],
+        options: ["vell", "jove", "vella"],
       },
       {
         text: "Un noi alt → Una noia ___.",
         blank: "alta",
-        options: ["alta", "alt", "baixa"],
+        options: ["alt", "alta", "baixa"],
       },
       {
         text: "Un noi baix → Una noia ___.",
@@ -204,7 +204,7 @@ export const elCosTasks: Task[] = [
       {
         text: "Un noi jove → Una noia ___.",
         blank: "jove",
-        options: ["jove", "vella", "alta"],
+        options: ["vella", "alta", "jove"],
       },
     ],
   },
@@ -287,22 +287,22 @@ export const elCosTasks: Task[] = [
       {
         text: "La ___ és jove, té el cabell llarg i negre. També porta ulleres.",
         blank: "Carolina",
-        options: ["Carolina", "Sara", "Xavier"],
+        options: ["Sara", "Carolina", "Xavier"],
       },
       {
         text: "En ___ és un nen baix, amb el cabell curt i negre.",
         blank: "Sergi",
-        options: ["Sergi", "Xavier", "Carolina"],
+        options: ["Xavier", "Carolina", "Sergi"],
       },
       {
         text: "La ___ és molt jove, amb el cabell marró recollit en una cua.",
         blank: "Sara",
-        options: ["Sara", "Carolina", "Sergi"],
+        options: ["Carolina", "Sara", "Sergi"],
       },
       {
         text: "En ___ és jove i alt, té bigoti i el cabell curt.",
         blank: "Xavier",
-        options: ["Xavier", "Sergi", "Sara"],
+        options: ["Sergi", "Sara", "Xavier"],
       },
     ],
   },

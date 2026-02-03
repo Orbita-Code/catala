@@ -118,41 +118,46 @@ export default function SeparateWords({ task, onComplete }: Props) {
           Toca entre les lletres per separar les paraules
         </p>
 
-        <div className="flex flex-wrap justify-center items-center gap-0 mb-5">
-          {letters.map((letter, i) => (
-            <div key={i} className="flex items-center">
-              <span className="text-2xl font-black text-[var(--primary)] font-handwriting px-0.5">
-                {letter}
+        {/* Letters displayed CONNECTED - click between them to add space */}
+        <div className="flex flex-wrap justify-center items-center mb-5 leading-relaxed">
+          {letters.map((letter, i) => {
+            const hasSeparatorAfter = separators.has(i + 1);
+            const isCorrectPosition = correctPositions?.has(i + 1);
+            const showSeparator = hasSeparatorAfter || (checked && isCorrectPosition);
+            const isLastLetter = i === letters.length - 1;
+
+            return (
+              <span key={i} className="inline-flex items-center">
+                {/* The letter itself - no padding, letters touch each other */}
+                <span className="text-2xl font-black text-[var(--primary)] font-handwriting select-none">
+                  {letter}
+                </span>
+
+                {/* Clickable gap between letters (not after the last letter) */}
+                {!isLastLetter && (
+                  <button
+                    onClick={() => toggleSeparator(i + 1)}
+                    disabled={checked}
+                    className={`inline-flex items-center justify-center transition-all duration-200 ${
+                      showSeparator
+                        ? checked
+                          ? hasSeparatorAfter && isCorrectPosition
+                            ? "w-4 h-8 bg-green-400 rounded-sm mx-0.5" // Correct separator - green
+                            : hasSeparatorAfter && !isCorrectPosition
+                              ? "w-4 h-8 bg-red-400 rounded-sm mx-0.5" // Wrong separator - red
+                              : "w-4 h-8 bg-green-300 rounded-sm mx-0.5" // Missed separator - light green
+                          : "w-4 h-8 bg-amber-400 rounded-sm mx-0.5" // User-placed separator - yellow/amber
+                        : "w-0 hover:w-2 hover:bg-purple-200 hover:mx-0.5 rounded-sm cursor-pointer" // Hidden but clickable
+                    }`}
+                    aria-label={showSeparator ? "Espai" : "Afegeix espai"}
+                  />
+                )}
               </span>
-              {i < letters.length - 1 && (
-                <button
-                  onClick={() => toggleSeparator(i + 1)}
-                  disabled={checked}
-                  className={`w-6 h-10 flex items-center justify-center mx-0.5 rounded transition-all ${
-                    separators.has(i + 1)
-                      ? checked
-                        ? correctPositions?.has(i + 1)
-                          ? "bg-green-200 text-green-700"
-                          : "bg-red-200 text-red-700"
-                        : "bg-purple-200 text-[var(--primary)]"
-                      : checked && correctPositions?.has(i + 1)
-                        ? "bg-green-100 text-green-600"
-                        : "hover:bg-gray-100"
-                  }`}
-                >
-                  {separators.has(i + 1) ? (
-                    <span className="text-lg font-bold">|</span>
-                  ) : checked && correctPositions?.has(i + 1) ? (
-                    <span className="text-lg font-bold text-green-500">|</span>
-                  ) : (
-                    <span className="text-gray-300">·</span>
-                  )}
-                </button>
-              )}
-            </div>
-          ))}
+            );
+          })}
         </div>
 
+        {/* Show the correctly separated sentence after checking */}
         <AnimatePresence>
           {checked && correct && (
             <motion.div
@@ -160,8 +165,8 @@ export default function SeparateWords({ task, onComplete }: Props) {
               animate={{ opacity: 1, y: 0 }}
               className="text-center mb-4"
             >
-              <p className="text-green-600 font-bold text-lg">
-                {currentItem.words.join(" / ")}
+              <p className="text-green-600 font-bold text-lg font-handwriting">
+                {currentItem.words.join(" ")}
               </p>
             </motion.div>
           )}
@@ -172,7 +177,7 @@ export default function SeparateWords({ task, onComplete }: Props) {
               className="text-center mb-4"
             >
               <p className="text-[var(--error)] font-bold">
-                Resposta correcta: {currentItem.words.join(" / ")}
+                Resposta correcta: {currentItem.words.join(" ")}
               </p>
             </motion.div>
           )}

@@ -99,22 +99,22 @@ export const elMenjarTasks: Task[] = [
       {
         text: "Per esmorzar menjo ___ amb llet.",
         blank: "cereals",
-        options: ["cereals", "sopa", "pizza"],
+        options: ["sopa", "cereals", "pizza"],
       },
       {
         text: "Per dinar menjo ___ amb verdures.",
         blank: "arròs",
-        options: ["arròs", "galetes", "te"],
+        options: ["galetes", "te", "arròs"],
       },
       {
         text: "Per berenar menjo un ___.",
         blank: "sandvitx",
-        options: ["sandvitx", "arròs", "sopa"],
+        options: ["arròs", "sandvitx", "sopa"],
       },
       {
         text: "Per sopar menjo ___.",
         blank: "sopa",
-        options: ["sopa", "cereals", "cafè"],
+        options: ["cereals", "cafè", "sopa"],
       },
     ],
   },
@@ -177,6 +177,7 @@ export const elMenjarTasks: Task[] = [
       "aigua",
       "refresc",
     ],
+    circleMode: true,
   },
 
   // === Workbook Ex. 11: Relaciona (match sentences to utensils) ===
@@ -252,6 +253,7 @@ export const elMenjarTasks: Task[] = [
       "pizza",
       "macarrons",
     ],
+    circleMode: true,
   },
 
   // === Workbook Ex. 13: Escriu FRED o CALENT (color version) ===
@@ -281,17 +283,17 @@ export const elMenjarTasks: Task[] = [
       {
         text: "A la ___ hi ha suc fresc.",
         blank: "nevera",
-        options: ["nevera", "tovalló", "estovalles"],
+        options: ["tovalló", "nevera", "estovalles"],
       },
       {
         text: "Quan em taco, em netejo amb el ___.",
         blank: "tovalló",
-        options: ["tovalló", "nevera", "estovalles"],
+        options: ["nevera", "estovalles", "tovalló"],
       },
       {
         text: "M'encanta vestir la taula amb unes boniques ___.",
         blank: "estovalles",
-        options: ["estovalles", "tovalló", "nevera"],
+        options: ["tovalló", "estovalles", "nevera"],
       },
     ],
   },
@@ -305,22 +307,22 @@ export const elMenjarTasks: Task[] = [
       {
         text: "El gelat és ___.",
         blank: "fred",
-        options: ["fred", "freda", "calent"],
+        options: ["freda", "calent", "fred"],
       },
       {
         text: "La pizza és ___.",
         blank: "calenta",
-        options: ["calenta", "calent", "freda"],
+        options: ["calent", "calenta", "freda"],
       },
       {
         text: "El cafè és ___.",
         blank: "calent",
-        options: ["calent", "fred", "calenta"],
+        options: ["fred", "calent", "calenta"],
       },
       {
         text: "La fruita és ___.",
         blank: "freda",
-        options: ["freda", "calenta", "fred"],
+        options: ["calenta", "fred", "freda"],
       },
     ],
   },
@@ -356,6 +358,7 @@ export const elMenjarTasks: Task[] = [
       "pernil",
       "sal",
     ],
+    circleMode: true,
   },
 
   // === Workbook Ex. 19-20: Menú del restaurant ===
@@ -396,17 +399,17 @@ export const elMenjarTasks: Task[] = [
       {
         text: "Què ___? — Per dinar tinc macarrons amb tomàquet.",
         blank: "dinaràs",
-        options: ["dinaràs", "soparàs", "esmorzaràs"],
+        options: ["soparàs", "dinaràs", "esmorzaràs"],
       },
       {
         text: "Què ___? — Per berenar menjo pa amb xocolata.",
         blank: "berenaràs",
-        options: ["berenaràs", "dinaràs", "soparàs"],
+        options: ["dinaràs", "soparàs", "berenaràs"],
       },
       {
         text: "Què ___? — Per esmorzar menjo galetes amb llet.",
         blank: "esmorzaràs",
-        options: ["esmorzaràs", "soparàs", "berenaràs"],
+        options: ["soparàs", "esmorzaràs", "berenaràs"],
       },
     ],
   },

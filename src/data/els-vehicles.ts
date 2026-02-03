@@ -104,6 +104,7 @@ export const elsVehiclesTasks: Task[] = [
       "avió",
       "helicòpter",
     ],
+    circleMode: true,
   },
   {
     id: "els-vehicles-7",
@@ -113,22 +114,22 @@ export const elsVehiclesTasks: Task[] = [
       {
         text: "Anem a l'escola en ___.",
         blank: "autobús",
-        options: ["autobús", "vaixell", "helicòpter"],
+        options: ["vaixell", "autobús", "helicòpter"],
       },
       {
         text: "Viatgem per l'aire en ___.",
         blank: "avió",
-        options: ["avió", "tren", "bicicleta"],
+        options: ["tren", "bicicleta", "avió"],
       },
       {
         text: "Naveguem pel mar en ___.",
         blank: "vaixell",
-        options: ["vaixell", "cotxe", "moto"],
+        options: ["cotxe", "vaixell", "moto"],
       },
       {
         text: "Anem ràpid en ___.",
         blank: "cotxe",
-        options: ["cotxe", "patinet", "barca"],
+        options: ["patinet", "barca", "cotxe"],
       },
     ],
   },
@@ -197,22 +198,22 @@ export const elsVehiclesTasks: Task[] = [
       {
         text: "El ___ va per les vies.",
         blank: "tren",
-        options: ["tren", "cotxe", "vaixell"],
+        options: ["cotxe", "tren", "vaixell"],
       },
       {
         text: "L' ___ vola pel cel.",
         blank: "avió",
-        options: ["avió", "bicicleta", "autobús"],
+        options: ["bicicleta", "autobús", "avió"],
       },
       {
         text: "L' ___ té moltes rodes i porta molta gent.",
         blank: "autobús",
-        options: ["autobús", "moto", "barca"],
+        options: ["moto", "autobús", "barca"],
       },
       {
         text: "La ___ té dues rodes i pedals.",
         blank: "bicicleta",
-        options: ["bicicleta", "ambulància", "taxi"],
+        options: ["ambulància", "taxi", "bicicleta"],
       },
     ],
   },
@@ -272,17 +273,17 @@ export const elsVehiclesTasks: Task[] = [
       {
         text: "El cotxe té ___ rodes.",
         blank: "quatre",
-        options: ["quatre", "dues", "tres"],
+        options: ["dues", "quatre", "tres"],
       },
       {
         text: "La bicicleta té ___ rodes.",
         blank: "dues",
-        options: ["dues", "quatre", "una"],
+        options: ["quatre", "una", "dues"],
       },
       {
         text: "L'ambulància porta els malalts a l'___.",
         blank: "hospital",
-        options: ["hospital", "escola", "cinema"],
+        options: ["escola", "hospital", "cinema"],
       },
       {
         text: "El camió porta coses molt ___.",

@@ -28,22 +28,22 @@ export const elsAnimalsTasks: Task[] = [
       {
         text: "Les aus tenen el cos cobert de ___.",
         blank: "plomes",
-        options: ["plomes", "escates", "pel"],
+        options: ["escates", "plomes", "pel"],
       },
       {
         text: "Neixen dels ___.",
         blank: "ous",
-        options: ["ous", "arbres", "rius"],
+        options: ["arbres", "rius", "ous"],
       },
       {
         text: "Tenen ___ per poder volar.",
         blank: "ales",
-        options: ["ales", "potes", "cua"],
+        options: ["potes", "ales", "cua"],
       },
       {
         text: "Tenen ___ potes.",
         blank: "dues",
-        options: ["dues", "quatre", "sis"],
+        options: ["quatre", "sis", "dues"],
       },
       {
         text: "Nosaltres tenim boca i les aus tenen ___.",
@@ -297,32 +297,32 @@ export const elsAnimalsTasks: Task[] = [
       {
         text: "El tauró ___.",
         blank: "neda",
-        options: ["neda", "vola", "camina", "s'arrossega"],
+        options: ["vola", "neda", "camina", "s'arrossega"],
       },
       {
         text: "El mussol ___.",
         blank: "vola",
-        options: ["vola", "neda", "camina", "s'arrossega"],
+        options: ["neda", "camina", "vola", "s'arrossega"],
       },
       {
         text: "El gos ___.",
         blank: "camina",
-        options: ["camina", "vola", "neda", "s'arrossega"],
+        options: ["vola", "neda", "camina", "s'arrossega"],
       },
       {
         text: "La serp ___.",
         blank: "s'arrossega",
-        options: ["s'arrossega", "neda", "vola", "camina"],
+        options: ["neda", "vola", "camina", "s'arrossega"],
       },
       {
         text: "L'elefant ___.",
         blank: "camina",
-        options: ["camina", "vola", "neda", "s'arrossega"],
+        options: ["s'arrossega", "vola", "camina", "neda"],
       },
       {
         text: "La sardina ___.",
         blank: "neda",
-        options: ["neda", "vola", "camina", "s'arrossega"],
+        options: ["camina", "s'arrossega", "neda", "vola"],
       },
     ],
   },
@@ -440,22 +440,22 @@ export const elsAnimalsTasks: Task[] = [
       {
         text: "Mamífer amb orelles grans i una gran trompa: ___.",
         blank: "elefant",
-        options: ["elefant", "lleó", "gos"],
+        options: ["lleó", "elefant", "gos"],
       },
       {
         text: "Rèptil perillos, amb moltes dents, de color verd: ___.",
         blank: "cocodril",
-        options: ["cocodril", "tortuga", "serp"],
+        options: ["tortuga", "serp", "cocodril"],
       },
       {
         text: "Rèptil verinós, llarg, que s'arrossega: ___.",
         blank: "serp",
-        options: ["serp", "cocodril", "tortuga"],
+        options: ["cocodril", "serp", "tortuga"],
       },
       {
         text: "Viu a la selva, negre i groc, sembla un gat gran: ___.",
         blank: "tigre",
-        options: ["tigre", "lleó", "gat"],
+        options: ["lleó", "gat", "tigre"],
       },
     ],
   },
