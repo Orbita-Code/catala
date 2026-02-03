@@ -24,6 +24,7 @@ export interface BaseTask {
   type: TaskType;
   prompt: string;
   audioPrompt?: string;
+  bonus?: boolean;
 }
 
 export interface CopyWordTask extends BaseTask {

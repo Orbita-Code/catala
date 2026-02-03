@@ -229,14 +229,6 @@ export const laRobaTasks: Task[] = [
     ],
   },
 
-  // ── Task 11: Dibuixa i pinta ──
-  {
-    id: "la-roba-11",
-    type: "drawing-canvas",
-    prompt:
-      "Dibuixa i pinta: Un nena que vesteix banyador vermell, sandàlies marrons, pantalons curts blancs i ulleres de sol.",
-  },
-
   // ── Task 12: Llegeix i pinta (color clothing) ──
   {
     id: "la-roba-12",
@@ -326,13 +318,6 @@ export const laRobaTasks: Task[] = [
     ],
   },
 
-  // ── Task 14: Com vas vestit/da avui? ──
-  {
-    id: "la-roba-14",
-    type: "drawing-canvas",
-    prompt: "Com vas vestit o vestida avui? Dibuixa i escriu!",
-  },
-
   // ── Task 15: Autoavaluació ──
   {
     id: "la-roba-15",
@@ -355,5 +340,13 @@ export const laRobaTasks: Task[] = [
       { catalan: "gorra", translation: "kapa", image: "gorra" },
       { catalan: "pijama", translation: "pidžama", image: "pijama" },
     ],
+  },
+
+  // Bonus activity: Fun drawing
+  {
+    id: "la-roba-bonus",
+    type: "drawing-canvas",
+    prompt: "Dibuixa un triangle lila!",
+    bonus: true,
   },
 ];

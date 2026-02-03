@@ -292,9 +292,11 @@ export const elsOficisTasks: Task[] = [
       },
     ],
   },
+  // Bonus activity: Fun drawing
   {
-    id: "els-oficis-15",
+    id: "els-oficis-bonus",
     type: "drawing-canvas",
-    prompt: "Dibuixa el que vols ser de gran! 👷",
+    prompt: "Dibuixa un cercle groc!",
+    bonus: true,
   },
 ];

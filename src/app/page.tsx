@@ -10,7 +10,7 @@ import BadgeDisplay from "@/components/ui/BadgeDisplay";
 import HamburgerMenu from "@/components/ui/HamburgerMenu";
 import InstallPrompt from "@/components/ui/InstallPrompt";
 import { themes } from "@/data/themes";
-import { getTaskCount } from "@/data/task-data";
+import { getScoringTaskCount } from "@/data/task-data";
 import { getProgress } from "@/lib/progress";
 import { getTotalStars } from "@/lib/badges";
 import type { UserProgress } from "@/types/tasks";
@@ -23,7 +23,7 @@ export default function HomePage() {
   useEffect(() => {
     setProgress(getProgress());
     setTotalStars(getTotalStars());
-    setTotalTasks(themes.reduce((sum, t) => sum + getTaskCount(t.slug), 0));
+    setTotalTasks(themes.reduce((sum, t) => sum + getScoringTaskCount(t.slug), 0));
   }, []);
 
   return (
@@ -75,7 +75,7 @@ export default function HomePage() {
               key={theme.slug}
               theme={theme}
               progress={progress[theme.slug]?.completedTasks?.length || 0}
-              totalTasks={getTaskCount(theme.slug)}
+              totalTasks={getScoringTaskCount(theme.slug)}
               index={index}
             />
           ))}

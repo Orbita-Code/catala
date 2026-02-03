@@ -299,13 +299,6 @@ export const lEscolaTasks: Task[] = [
     ],
   },
 
-  // ── Task 14: Escriu (free writing about school days) ──
-  {
-    id: "l-escola-14",
-    type: "drawing-canvas",
-    prompt: "Escriu: Dies que vas a l'escola, dies que no hi vas, i el dia d'avui.",
-  },
-
   // ── Task 15: Observa i completa - Preposicions de lloc ──
   {
     id: "l-escola-15",
@@ -405,13 +398,6 @@ export const lEscolaTasks: Task[] = [
     ],
   },
 
-  // ── Task 18: Ara dibuixa ──
-  {
-    id: "l-escola-18",
-    type: "drawing-canvas",
-    prompt: "Ara dibuixa! Fes un dibuix de la teva escola.",
-  },
-
   // ── Task 19: Autoavaluació ──
   {
     id: "l-escola-19",
@@ -431,5 +417,13 @@ export const lEscolaTasks: Task[] = [
       { catalan: "a sobre", translation: "na/iznad" },
       { catalan: "a sota", translation: "ispod" },
     ],
+  },
+
+  // Bonus activity: Fun drawing
+  {
+    id: "l-escola-bonus",
+    type: "drawing-canvas",
+    prompt: "Dibuixa un núvol blau!",
+    bonus: true,
   },
 ];

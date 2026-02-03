@@ -30,3 +30,9 @@ export const taskData: Record<string, Task[]> = {
 export function getTaskCount(slug: string): number {
   return taskData[slug]?.length || 0;
 }
+
+export function getScoringTaskCount(slug: string): number {
+  const tasks = taskData[slug];
+  if (!tasks) return 0;
+  return tasks.filter(t => !t.bonus).length;
+}

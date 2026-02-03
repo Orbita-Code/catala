@@ -525,14 +525,6 @@ export const laCasaTasks: Task[] = [
     ],
   },
 
-  // ── Task 19: Llegeix i dibuixa ──
-  {
-    id: "la-casa-23",
-    type: "drawing-canvas",
-    prompt:
-      "Llegeix i dibuixa: La casa de la Maria és gran. A la teulada vermella hi ha una xemeneia grisa. Té un balcó amb flors. També té quatre finestres amb cortines.",
-  },
-
   // ── Autoavaluació ──
   {
     id: "la-casa-24",
@@ -555,5 +547,13 @@ export const laCasaTasks: Task[] = [
       { catalan: "terrassa", translation: "terasa" },
       { catalan: "lavabo", translation: "kupatilo" },
     ],
+  },
+
+  // Bonus activity: Fun drawing
+  {
+    id: "la-casa-bonus",
+    type: "drawing-canvas",
+    prompt: "Dibuixa una casa taronja!",
+    bonus: true,
   },
 ];

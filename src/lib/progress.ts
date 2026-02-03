@@ -42,15 +42,18 @@ export function completeTask(
   slug: string,
   taskId: string,
   result: TaskResult,
-  nextTaskIndex?: number
+  nextTaskIndex?: number,
+  isBonus?: boolean
 ) {
   const current = getThemeProgress(slug);
   const completedTasks = current.completedTasks.includes(taskId)
     ? current.completedTasks
     : [...current.completedTasks, taskId];
-  const streak = result.allCorrect ? current.streak + 1 : 0;
+
+  // Bonus tasks don't affect streak or stars
+  const streak = isBonus ? current.streak : (result.allCorrect ? current.streak + 1 : 0);
   const bestStreak = Math.max(streak, current.bestStreak);
-  const stars = completedTasks.length;
+  const stars = isBonus ? current.stars : completedTasks.length;
 
   // Track errors per task
   const taskErrors = { ...(current.taskErrors || {}) };

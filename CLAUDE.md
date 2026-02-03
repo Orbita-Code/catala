@@ -12,7 +12,7 @@
 **Posle svakog zavrsenog zadatka, taska, kartice ili bilo kog koraka razvoja - OBAVEZNO azuriraj ovaj CLAUDE.md fajl (sekciju "Current Status") i ROADMAP.md checkboxove.** Ovo je kriticno da sledeca sesija zna dokle smo stigli. Nikad ne zavrsavaj rad bez azuriranja dokumentacije.
 
 ## Project Overview
-Interactive Catalan language learning web app for children (ages 5-8). Engine-based architecture renders 18 task types across 12 themes from TypeScript data files. Star mascot provides encouragement in Catalan. Total: ~270 tasks.
+Interactive Catalan language learning web app for children (ages 5-8). Engine-based architecture renders 18 task types across 12 themes from TypeScript data files. Star mascot provides encouragement in Catalan. Total: ~226 tasks.
 
 ## Tech Stack
 - **Framework:** Next.js 16 (App Router) + React 19 + TypeScript
@@ -65,9 +65,9 @@ src/
 │   ├── la-roba.ts              # Theme 4: Clothing (19 tasks)
 │   ├── la-casa.ts              # Theme 5: House (28 tasks)
 │   ├── la-familia.ts           # Theme 6: Family (14 tasks)
-│   ├── les-botigues.ts         # Theme 7: Shops (21 tasks)
-│   ├── el-menjar.ts            # Theme 8: Food (27 tasks)
-│   ├── els-animals.ts          # Theme 9: Animals (27 tasks)
+│   ├── les-botigues.ts         # Theme 7: Shops (20 tasks)
+│   ├── el-menjar.ts            # Theme 8: Food (21 tasks)
+│   ├── els-animals.ts          # Theme 9: Animals (21 tasks)
 │   ├── la-ciutat.ts            # Theme 10: City (15 tasks)
 │   ├── els-vehicles.ts         # Theme 11: Vehicles (15 tasks)
 │   └── els-oficis.ts           # Theme 12: Professions (15 tasks)
@@ -87,7 +87,7 @@ public/
 - **Engine pattern:** TaskRenderer switches on `task.type` to render the correct component
 - **Data as TypeScript:** Theme data lives in `.ts` files (not JSON), each exporting a tasks array with variable length
 - **18 task types implemented:** copy-word, fill-letters, unscramble, matching, word-search, classify-columns, fill-sentence, multiple-choice, self-assessment, color-by-instruction, label-image, drawing-canvas, add-article, separate-words, count-and-write, write-antonym, order-words, decode-grid
-- **Dynamic task counts:** Each theme has a different number of tasks (14-21). `getTaskCount()` from `task-data.ts` returns the actual array length.
+- **Dynamic task counts:** Each theme has a different number of tasks (15-24). `getTaskCount()` from `task-data.ts` returns the actual array length.
 - **No shadcn/ui:** Project uses custom components with Tailwind only
 - **Hint system:** `useHintSystem` hook + `HintDialog` component provide progressive hints for all task types
 - **Badges system:** 19 badges (12 theme completion + 3 streak + 3 star count + 1 master)
@@ -110,9 +110,8 @@ npm run test:ui  # Playwright UI mode
 - Next.js 16 project setup with TypeScript + Tailwind + Framer Motion
 - Home page with 12 theme cards showing dynamic progress
 - Task engine with 12 task type components (all implemented)
-- 209 tasks total across 12 themes (variable per theme: 14-23)
-- Themes 1-6 rewritten to match physical workbook exercises (exact order, words, structure)
-- Themes 7-9 partially match workbook (rewritten in earlier sessions, need re-verification)
+- ~226 tasks total across 12 themes (variable per theme: 15-24)
+- Themes 1-9 rewritten to match physical workbook exercises (exact order, words, structure)
 - Themes 10-12 expanded from 9 to 15 tasks each (no workbook source)
 - Star mascot with speech bubble feedback
 - Animated SVG star mascot (expressions, animations, reactions)
@@ -127,16 +126,16 @@ npm run test:ui  # Playwright UI mode
 - PWA support (offline, install prompt)
 - Settings page + Hamburger menu
 - Hint system for all task types
-- StarCounter shows dynamic total (0/209)
+- StarCounter shows dynamic total (0/226)
 - ILLUSTRATION-PROMPTS.md with ~281 AI image generation prompts
 - LabelImage: row-flexible checking (same-row labels interchangeable, e.g. family tree)
 - Drag-and-drop for LabelImage, ClassifyColumns, Matching (pointer events for mouse+touch)
-- All 209 tasks data-validated (no structural errors, all required fields present)
+- All ~226 tasks data-validated (no structural errors, all required fields present)
 - Test/ folder with TESTING-GUIDE.md and BUG-REPORT.md for automated and manual testing
 - Data quality fixes: answer bias removed from multiple-choice (la-classe-19) and 6 fill-sentence tasks
 - Word-search grids regenerated with varied directions (5 grids: la-roba-5, la-familia-5, les-botigues-5, la-casa-2, els-vehicles-5)
 - Multi-color WordSearch highlighting (8 colors, each word gets unique color in grid and word list)
-- Playwright E2E test infrastructure: config, page objects, 12 task solvers, 209 answer keys, 12 theme specs + smoke test
+- Playwright E2E test infrastructure: config, page objects, 12 task solvers, answer keys, 12 theme specs + smoke test (answer keys may need update for themes 7-9 rewrite)
 - **Deploy pipeline:** Multi-stage Dockerfile + standalone Next.js output, deployed via Coolify on Hetzner server (88.198.218.69)
 - **Live at:** `catala.orbitacode.com` (Coolify Dockerfile build pack, auto-deploy from GitHub main branch)
 
@@ -151,17 +150,46 @@ npm run test:ui  # Playwright UI mode
 ### Illustrations made with Bing Image Creator (may need redo with ChatGPT later for consistency)
 - xandall, americana, corbata, banyador, banyador-de-dona, biquini, sandalies, arracades, anell, ulleres, collaret, cinturo, caputxa, pantalons-curts, samarreta-de-tirants
 
+### Illustrations to REDO (blurry/bad quality from Bing)
+- **arracades** (earrings) - current image is blurry (made on Bing), regenerate on ChatGPT and replace
+
 ### NEXT SESSION TODO (Priority Order)
-1. **La familia slika porodice na sofi** - sacuvati sliku iz ChatGPT chata, napraviti label-write zadatak sa strelicama i poljima za popunjavanje imena
-2. **Rewrite remaining themes to match workbook** - les-botigues, el-menjar, els-animals (themes 7-9 have workbook photos in Svi zadaci/)
+1. **Generate missing illustrations (18 words)** - see "Missing Illustrations" table below
+2. **Update Playwright answer keys for themes 7-9** - rewritten data files changed task IDs and content, E2E test answer keys are now stale
 3. **WebP conversion** - convert all PNG illustrations to WebP for smaller file sizes
 4. **Deploy** - push all new illustrations to GitHub and deploy
 
-### Missing Illustrations (2 files needed)
-| Word | Filename | ChatGPT Prompt |
-|------|----------|----------------|
-| cola de barra | cola-de-barra.png | cola de barra (glue stick) - 3D cartoon style illustration, white background with small decorative hearts and stars, 512x512px, PNG, colorful and cheerful, for children ages 5-8. No face or eyes on the object. A purple/white glue stick with cap off. |
-| llapis de colors | llapis-de-colors.png | llapis de colors (colored pencils) - 3D cartoon style illustration, white background with small decorative hearts and stars, 512x512px, PNG, colorful and cheerful, for children ages 5-8. No face or eyes on the object. A set of colorful pencils (rainbow colors) bundled together. |
+### Missing Illustrations (18 files needed)
+
+#### Les Botigues (Theme 7) — 7 missing
+| Word | Filename | Description |
+|------|----------|-------------|
+| barra de pa | barra-de-pa.png | Baguette / bread loaf |
+| cansalada | cansalada.png | Bacon strips |
+| cotó | coto.png | Medical cotton ball/pad |
+| pa rodó | pa-rodo.png | Round bread loaf |
+| salsitxa | salsitxa.png | Sausage |
+| venda | venda.png | Medical bandage/wrap |
+| verduleria | verduleria.png | Vegetable shop/greengrocer |
+
+#### El Menjar (Theme 8) — 8 missing
+| Word | Filename | Description |
+|------|----------|-------------|
+| caramels | caramels.png | Candies/sweets |
+| estovalles | estovalles.png | Tablecloth |
+| gelat | gelat.png | Ice cream cone/scoop |
+| pa de pessic | pa-de-pessic.png | Sponge cake |
+| pastís de xocolata | pastis-de-xocolata.png | Chocolate cake |
+| sal | sal.png | Salt shaker |
+| sucre | sucre.png | Sugar bowl/bag |
+| truita de patates | truita-de-patates.png | Spanish omelette / potato tortilla |
+
+#### Els Animals (Theme 9) — 3 missing
+| Word | Filename | Description |
+|------|----------|-------------|
+| cigonya | cigonya.png | Stork bird |
+| llop | llop.png | Wolf |
+| ratolí | ratoli.png | Mouse |
 
 ### Illustration Workflow
 - **ChatGPT chat:** Custom GPT "Igrice katalonski jezik" → chat "AI ilustracije za decu"
@@ -198,7 +226,15 @@ npm run test:ui  # Playwright UI mode
    - **CRITICAL TIMING RULE:** Note the EXACT current time when the rate limit message appears. Calculate the exact time to resend = current time + N minutes + 1 minute. When that time arrives, IMMEDIATELY resend the SAME prompt that was rate-limited. Do NOT wait longer than necessary - send it as soon as the calculated time passes. Example: if at 4:15 ChatGPT says "wait 22 minutes", calculate 4:15 + 23 = 4:38, and send the prompt at exactly 4:38.
 3. **One word at a time:** NEVER send a new word until ChatGPT has fully responded to the previous one (either with an image or a rate limit message).
 4. **NO duplicate prompts:** NEVER send the same word/prompt to ChatGPT more than once. If ChatGPT already generated an image for a word, do NOT re-request it unless the user explicitly says to redo it.
-5. **Check existing illustrations FIRST:** Before generating ANY illustration, ALWAYS check if the file already exists in `public/illustrations/`. Never generate duplicates of existing files.
+5. **Check existing illustrations FIRST (CRITICAL - NO DUPLICATES):** Before generating ANY illustration, you MUST thoroughly check BOTH `public/illustrations/` AND `Ilustracije/` folders for:
+   - The exact filename (e.g. `cireres.png`)
+   - The singular form (e.g. `cirera.png` when looking for `cireres`)
+   - The plural form (e.g. `botes.png` when looking for `bota`)
+   - Variants without accents (e.g. `pressec.png` for `préssec`)
+   - Variants with different spelling (e.g. `aigualera.png` for `aiguera`)
+   - Use `ls Ilustracije/ | grep -i [root]` to search broadly
+   - If ANY similar file exists, do NOT generate a new one. Instead, copy/rename the existing file or update the code reference.
+   - **This is a hard rule:** Generating a duplicate illustration wastes ChatGPT quota and the user's time. ALWAYS verify before generating.
 6. **Wait for user command:** Do NOT send prompts to ChatGPT autonomously during rate limits or without user's explicit go-ahead. When rate limited, inform the user and WAIT for their command to continue.
 4. **Verify every illustration:** After each image is generated, take a screenshot and verify the image matches what was requested. Common ChatGPT mistakes to check for:
    - barret (beret) → might generate a regular cap instead of a French-style beret
@@ -224,11 +260,15 @@ npm run test:ui  # Playwright UI mode
 | menjador | menjador-casa.png | Kućna trpezarija (home dining room) - home dining room with family table | La casa (home context) |
 
 ### Recently Completed
+- **Workbook rewrite themes 7-9:** Les botigues (21→20), El menjar (27→21), Els animals (27→21) - all match workbook exactly
+  - Les botigues: shops (fruiteria, verduleria, peixeteria, carnisseria, fleca, farmàcia), fruits(9), vegetables(7), fish(6), meat(6), bakery(6), pharmacy(6)
+  - El menjar: tableware(9), breakfast(9), lunch(9), snack+dinner(8), hot/cold, sweet/salty, restaurant menu, masculine/feminine adjectives
+  - Els animals: birds(9), insects(6), fish(6), reptiles(3), mammals(18), animal categories, body parts, actions
 - **Workbook rewrite themes 1-6:** La classe, L'escola, El cos, La roba, La casa (24 tasks), La familia (16 tasks) - all match workbook exactly
 - **La casa rewrite:** 28→24 tasks. Added classify-columns (articles), write-antonym, order-words, count-and-write. Rooms with 9 items each.
 - **La familia rewrite:** 14→16 tasks. Added decode-grid, add-article, separate-words. Added pets/animals section (tasks 13-15).
 - **363 illustrations** copied to public/illustrations/ from Ilustracije/ folder
-- **Full testing of ALL 209 tasks** via Playwright browser automation across all 12 themes
+- **Full testing of ALL tasks** via Playwright browser automation across all 12 themes (answer keys need update for themes 7-9 after rewrite)
 - Auto-speak (TTS) on correct answers for ALL 12 task types
 - Speaker buttons on CopyWord, LabelImage, SelfAssessment, Unscramble
 
@@ -244,17 +284,17 @@ npm run test:ui  # Playwright UI mode
 | 4. La roba | la-roba | 19 |
 | 5. La casa | la-casa | 24 |
 | 6. La família | la-familia | 16 |
-| 7. Les botigues | les-botigues | 21 |
-| 8. El menjar | el-menjar | 27 |
-| 9. Els animals | els-animals | 27 |
+| 7. Les botigues | les-botigues | 20 |
+| 8. El menjar | el-menjar | 21 |
+| 9. Els animals | els-animals | 21 |
 | 10. La ciutat | la-ciutat | 15 |
 | 11. Els vehicles | els-vehicles | 15 |
 | 12. Els oficis | els-oficis | 15 |
-| **Total** | | **~239** |
+| **Total** | | **~226** |
 
 ## Important Notes
 - Theme slugs match filenames: `la-classe`, `l-escola`, `el-cos`, etc.
-- Each theme has a variable number of tasks (14-21), derived from data array length
+- Each theme has a variable number of tasks (15-24), derived from data array length
 - Progress is per-theme in localStorage
 - **Mascot is Star.png** (star character) - elephant.png and Bubble.png in root are rejected alternatives, NOT used
 - `Svi zadaci/` folder contains 37+ JPG photos of the physical workbook (source material for tasks)

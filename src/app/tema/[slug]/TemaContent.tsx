@@ -9,7 +9,7 @@ import AnimatedStar from "@/components/star/AnimatedStar";
 import type { StarReaction } from "@/components/star/starTypes";
 import { getStarReaction, getReactionEvent } from "@/lib/starReactions";
 import { themes } from "@/data/themes";
-import { taskData } from "@/data/task-data";
+import { taskData, getScoringTaskCount } from "@/data/task-data";
 import { getThemeProgress, completeTask, isThemeFullyComplete } from "@/lib/progress";
 import { getEncouragement } from "@/lib/encouragement";
 
@@ -89,10 +89,13 @@ export default function TemaContent({ slug }: TemaContentProps) {
   }
 
   const currentTask = tasks[currentTaskIndex];
-  const progress = ((currentTaskIndex + 1) / tasks.length) * 100;
+  const isBonus = !!currentTask.bonus;
+  const scoringCount = getScoringTaskCount(slug);
+  const scoringIndex = isBonus ? scoringCount : currentTaskIndex + 1;
+  const progress = Math.min(((currentTaskIndex + 1) / tasks.length) * 100, 100);
 
   const handleTaskComplete = (taskResult: TaskResult) => {
-    const progressResult = completeTask(slug, currentTask.id, taskResult, currentTaskIndex + 1);
+    const progressResult = completeTask(slug, currentTask.id, taskResult, currentTaskIndex + 1, isBonus);
     setStreak(progressResult.streak);
 
     if (taskResult.allCorrect) {
@@ -130,7 +133,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
         setFeedbackReaction(null);
         setShowCelebration(true);
 
-        const fullyComplete = isThemeFullyComplete(slug, tasks.length);
+        const fullyComplete = isThemeFullyComplete(slug, scoringCount);
         if (fullyComplete) {
           playThemeComplete();
           // Multiple confetti waves for perfect completion
@@ -152,7 +155,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
   if (showCelebration) {
     const nextTheme =
       themeIndex < themes.length - 1 ? themes[themeIndex + 1] : null;
-    const fullyComplete = isThemeFullyComplete(slug, tasks.length);
+    const fullyComplete = isThemeFullyComplete(slug, scoringCount);
 
     return (
       <>
@@ -232,7 +235,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
             className="space-y-2"
           >
             <p className="text-lg">
-              ⭐ {tasks.length}/{tasks.length} tasques
+              ⭐ {scoringCount}/{scoringCount} tasques
             </p>
             <p className="text-lg">🔥 Millor ratxa: {streak}</p>
           </motion.div>
@@ -319,7 +322,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
                 Tema {themeIndex + 1}: {theme.name}
               </span>
               <span className="text-sm text-[var(--text-light)]">
-                {currentTaskIndex + 1}/{tasks.length}
+                {isBonus ? `${scoringCount}/${scoringCount} + bonus` : `${currentTaskIndex + 1}/${scoringCount}`}
               </span>
             </div>
             <div className="w-full h-2.5 bg-gray-200 rounded-full overflow-hidden">
@@ -368,7 +371,11 @@ export default function TemaContent({ slug }: TemaContentProps) {
             transition={{ duration: 0.3 }}
           >
             <h2 className="text-xl font-bold text-[var(--text)] mb-4">
-              <span className="text-[var(--text-light)]">{currentTaskIndex + 1}.</span>{" "}
+              {isBonus ? (
+                <span className="text-[var(--primary)]">Activitat extra! 🎨 </span>
+              ) : (
+                <span className="text-[var(--text-light)]">{currentTaskIndex + 1}. </span>
+              )}
               {currentTask.prompt}
             </h2>
             <TaskRenderer

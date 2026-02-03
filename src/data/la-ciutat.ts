@@ -291,9 +291,11 @@ export const laCiutatTasks: Task[] = [
     ],
     options: ["semàfor", "pas de vianants", "parada d'autobús", "fanal", "paperera", "escola"],
   },
+  // Bonus activity: Fun drawing
   {
-    id: "la-ciutat-15",
+    id: "la-ciutat-bonus",
     type: "drawing-canvas",
-    prompt: "Dibuixa la teva ciutat ideal! 🏙️",
+    prompt: "Dibuixa un arbre verd!",
+    bonus: true,
   },
 ];

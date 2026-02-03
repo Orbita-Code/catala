@@ -58,7 +58,7 @@ export default function Matching({ task, onComplete }: Props) {
         setWrongPair(null);
         setLastMatchedIdx(leftIdx);
       celebrate();
-        speak(task.pairs[leftIdx].left);
+        speak(task.pairs[leftIdx].left + task.pairs[leftIdx].right);
 
         if (newMatched.size === task.pairs.length) {
           setTimeout(() => onComplete({ allCorrect: true, erroredItems: [] }), 800);
@@ -340,7 +340,11 @@ export default function Matching({ task, onComplete }: Props) {
                 }`}
                 style={{ cursor: isMatched ? "default" : "grab" }}
               >
-                {getWordIllustration(pair.left) ? <img src={getWordIllustration(pair.left)!} alt="" className="w-12 h-12 object-contain inline mr-1" /> : null}
+                {(() => {
+                  const fullWord = pair.left + pair.right;
+                  const ill = getWordIllustration(pair.left) || getWordIllustration(fullWord);
+                  return ill ? <img src={ill} alt="" className="w-10 h-10 object-contain inline mr-1" /> : null;
+                })()}
                 <span className="font-handwriting text-lg">{pair.left}</span>
               </motion.button>
             );
@@ -375,7 +379,12 @@ export default function Matching({ task, onComplete }: Props) {
                           : "bg-white border-2 border-gray-200 text-[var(--text)] hover:border-purple-300 hover:shadow-md"
                 }`}
               >
-                {getWordIllustration(task.pairs[actualIdx].right) ? <img src={getWordIllustration(task.pairs[actualIdx].right)!} alt="" className="w-12 h-12 object-contain inline mr-1" /> : null}
+                {(() => {
+                  const p = task.pairs[actualIdx];
+                  const fullWord = p.left + p.right;
+                  const ill = getWordIllustration(p.right) || getWordIllustration(fullWord);
+                  return ill ? <img src={ill} alt="" className="w-10 h-10 object-contain inline mr-1" /> : null;
+                })()}
                 <span className="font-handwriting text-lg">{task.pairs[actualIdx].right}</span>
               </motion.button>
             );

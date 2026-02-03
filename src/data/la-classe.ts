@@ -488,13 +488,6 @@ export const laClasseTasks: Task[] = [
     ],
   },
 
-  // Exercise 17: Dibuixa la teva classe (workbook task 17)
-  {
-    id: "la-classe-17",
-    type: "drawing-canvas",
-    prompt: "Dibuixa la teva classe.",
-  },
-
   // Exercise 18: Autoavaluació (workbook: self-assessment with traffic lights)
   {
     id: "la-classe-18",
@@ -523,5 +516,13 @@ export const laClasseTasks: Task[] = [
       { catalan: "porta", translation: "vrata" },
       { catalan: "finestra", translation: "prozor" },
     ],
+  },
+
+  // Bonus activity: Fun drawing
+  {
+    id: "la-classe-bonus",
+    type: "drawing-canvas",
+    prompt: "Dibuixa una estrella groga!",
+    bonus: true,
   },
 ];

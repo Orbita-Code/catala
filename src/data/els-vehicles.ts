@@ -291,9 +291,11 @@ export const elsVehiclesTasks: Task[] = [
       },
     ],
   },
+  // Bonus activity: Fun drawing
   {
-    id: "els-vehicles-15",
+    id: "els-vehicles-bonus",
     type: "drawing-canvas",
-    prompt: "Dibuixa el teu vehicle preferit! 🚗",
+    prompt: "Dibuixa un cotxe vermell!",
+    bonus: true,
   },
 ];

@@ -209,14 +209,6 @@ export const elCosTasks: Task[] = [
     ],
   },
 
-  // ── Task 13: Llegeix i dibuixa segons les instruccions ──
-  {
-    id: "el-cos-13",
-    type: "drawing-canvas",
-    prompt:
-      "Llegeix i dibuixa: Un noi alt amb el cabell curt de color marró, ulls verds, nas gran i boca petita.",
-  },
-
   // ── Task 14: Observa i pinta SÍ o NO ──
   {
     id: "el-cos-14",
@@ -315,13 +307,6 @@ export const elCosTasks: Task[] = [
     ],
   },
 
-  // ── Task 17: Dibuixa una persona ──
-  {
-    id: "el-cos-17",
-    type: "drawing-canvas",
-    prompt: "Dibuixa una persona amb totes les parts del cos.",
-  },
-
   // ── Task 18: Autoavaluació ──
   {
     id: "el-cos-18",
@@ -341,5 +326,13 @@ export const elCosTasks: Task[] = [
       { catalan: "cabell", translation: "kosa", image: "cabell" },
       { catalan: "dents", translation: "zubi", image: "dents" },
     ],
+  },
+
+  // Bonus activity: Fun drawing
+  {
+    id: "el-cos-bonus",
+    type: "drawing-canvas",
+    prompt: "Dibuixa un cor rosa!",
+    bonus: true,
   },
 ];

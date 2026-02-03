@@ -102,13 +102,6 @@ export const laFamiliaTasks: Task[] = [
     ],
   },
 
-  // ── Task 5: Fes l'arbre de la teva família (drawing) ──
-  {
-    id: "la-familia-5",
-    type: "drawing-canvas",
-    prompt: "Fes l'arbre de la teva família i escriu-ne els noms.",
-  },
-
   // ── Task 6: Classifica (EL vs LA) ──
   {
     id: "la-familia-6",
@@ -188,14 +181,6 @@ export const laFamiliaTasks: Task[] = [
         words: ["El", "meu", "cosí", "es", "diu", "Joan."],
       },
     ],
-  },
-
-  // ── Task 9: Completa i pinta aquesta família (drawing) ──
-  {
-    id: "la-familia-9",
-    type: "drawing-canvas",
-    prompt:
-      "Completa i pinta aquesta família: avi, àvia, mare, pare, fill.",
   },
 
   // ── Task 10: Observa i marca les oracions correctes ──
@@ -430,5 +415,13 @@ export const laFamiliaTasks: Task[] = [
       { catalan: "conill", translation: "zec" },
       { catalan: "tortuga", translation: "kornjača" },
     ],
+  },
+
+  // Bonus activity: Fun drawing
+  {
+    id: "la-familia-bonus",
+    type: "drawing-canvas",
+    prompt: "Dibuixa un sol groc!",
+    bonus: true,
   },
 ];

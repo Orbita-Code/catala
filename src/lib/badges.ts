@@ -2,7 +2,7 @@
 
 import { getProgress } from "./progress";
 import { themes } from "@/data/themes";
-import { getTaskCount } from "@/data/task-data";
+import { getScoringTaskCount } from "@/data/task-data";
 
 export interface Badge {
   id: string;
@@ -51,7 +51,7 @@ export function getEarnedBadgeIds(): Set<string> {
     totalStars += tp.completedTasks?.length || 0;
     maxStreak = Math.max(maxStreak, tp.bestStreak || 0);
 
-    if ((tp.completedTasks?.length || 0) >= getTaskCount(theme.slug)) {
+    if ((tp.completedTasks?.length || 0) >= getScoringTaskCount(theme.slug)) {
       earned.add(`theme-${theme.slug}`);
       completedThemes++;
     }
@@ -62,7 +62,7 @@ export function getEarnedBadgeIds(): Set<string> {
   if (maxStreak >= 10) earned.add("streak-10");
   if (totalStars >= 10) earned.add("stars-10");
   if (totalStars >= 50) earned.add("stars-50");
-  const totalPossibleStars = themes.reduce((sum, t) => sum + getTaskCount(t.slug), 0);
+  const totalPossibleStars = themes.reduce((sum, t) => sum + getScoringTaskCount(t.slug), 0);
   if (totalStars >= totalPossibleStars) earned.add("stars-all");
   if (completedThemes >= 12) earned.add("all-themes");
 

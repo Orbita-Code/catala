@@ -1,545 +1,457 @@
 import { Task } from "@/types/tasks";
 
 export const elMenjarTasks: Task[] = [
-  // Task 1: Copy food words
+  // === Workbook Ex. 1: Llegeix i copia (tableware 9) ===
   {
     id: "el-menjar-1",
     type: "copy-word",
-    prompt: "Llegeix i copia els aliments:",
+    prompt: "Llegeix i copia els estris de cuina:",
     words: [
-      { catalan: "poma" },
-      { catalan: "pera" },
-      { catalan: "plàtan" },
-      { catalan: "taronja" },
-      { catalan: "maduixa" },
-      { catalan: "tomàquet" },
-      { catalan: "pastanaga" },
-      { catalan: "pa" },
-      { catalan: "peix" },
-      { catalan: "llet" },
-      { catalan: "formatge" },
-      { catalan: "ou" },
+      { catalan: "tassa" },
+      { catalan: "ampolla" },
+      { catalan: "got" },
+      { catalan: "copa" },
+      { catalan: "ganivet" },
+      { catalan: "cullera" },
+      { catalan: "forquilla" },
+      { catalan: "plat" },
+      { catalan: "tovalló" },
     ],
   },
 
-  // Task 2: Fill in missing letters (word=answer, hint=pattern)
+  // === Workbook Ex. 2: Singular/plural table for tableware ===
   {
     id: "el-menjar-2",
-    type: "fill-letters",
-    prompt: "Completa les lletres que falten:",
-    words: [
-      { word: "poma", hint: "p_ma" },
-      { word: "pera", hint: "p_r_" },
-      { word: "plàtan", hint: "pl_t_n" },
-      { word: "taronja", hint: "t_ro_ja" },
-      { word: "maduixa", hint: "m_du_xa" },
-      { word: "tomàquet", hint: "tom_qu_t" },
-      { word: "pastanaga", hint: "pa_tan_ga" },
-      { word: "llet", hint: "ll_t" },
-      { word: "formatge", hint: "fo_mat_e" },
-      { word: "peix", hint: "p_ix" },
+    type: "matching",
+    prompt: "Relaciona el singular amb el plural:",
+    pairs: [
+      { left: "tassa", right: "tasses" },
+      { left: "ampolla", right: "ampolles" },
+      { left: "got", right: "gots" },
+      { left: "copa", right: "copes" },
+      { left: "ganivet", right: "ganivets" },
+      { left: "cullera", right: "culleres" },
+      { left: "forquilla", right: "forquilles" },
+      { left: "plat", right: "plats" },
+      { left: "tovalló", right: "tovallons" },
     ],
   },
 
-  // Task 3: Unscramble food words (exact anagrams)
-  {
-    id: "el-menjar-3",
-    type: "unscramble",
-    prompt: "Ordena les lletres per formar la paraula:",
-    words: [
-      { scrambled: "amop", correct: "poma" },
-      { scrambled: "repa", correct: "pera" },
-      { scrambled: "xpei", correct: "peix" },
-      { scrambled: "etll", correct: "llet" },
-      { scrambled: "baec", correct: "ceba" },
-    ],
-  },
-
-  // Task 4: Match meals with foods
+  // === Workbook Ex. 4: Observa aliments esmorzar (9) ===
   {
     id: "el-menjar-4",
-    type: "matching",
-    prompt: "Relaciona cada àpat amb el que menges:",
-    pairs: [
-      { left: "esmorzar", right: "cereals" },
-      { left: "dinar", right: "sopa" },
-      { left: "berenar", right: "fruita" },
-      { left: "sopar", right: "amanida" },
+    type: "copy-word",
+    prompt: "Llegeix i copia els aliments de l'esmorzar:",
+    words: [
+      { catalan: "suc" },
+      { catalan: "cafè" },
+      { catalan: "pa de pessic" },
+      { catalan: "te" },
+      { catalan: "cereals" },
+      { catalan: "llet" },
+      { catalan: "galetes" },
+      { catalan: "entrepà" },
+      { catalan: "fruita" },
     ],
   },
 
-  // Task 5: Word search
+  // === Workbook Ex. 5: Observa aliments dinar (9) ===
   {
     id: "el-menjar-5",
-    type: "word-search",
-    prompt: "Troba les paraules a la sopa de lletres:",
-    gridSize: 10,
-    words: ["poma", "pera", "pa", "llet", "ou"],
-    grid: [
-      ["p", "o", "m", "a", "f", "g", "t", "r", "s", "l"],
-      ["d", "v", "n", "h", "b", "k", "j", "c", "q", "l"],
-      ["w", "x", "r", "z", "i", "p", "e", "r", "a", "e"],
-      ["g", "k", "t", "n", "d", "f", "h", "v", "b", "t"],
-      ["s", "p", "a", "j", "m", "r", "c", "x", "w", "z"],
-      ["f", "h", "d", "q", "v", "n", "g", "k", "t", "b"],
-      ["r", "m", "w", "x", "j", "s", "d", "f", "h", "n"],
-      ["c", "t", "v", "k", "b", "g", "o", "u", "r", "q"],
-      ["n", "d", "j", "f", "h", "x", "w", "m", "s", "p"],
-      ["z", "q", "b", "r", "t", "k", "v", "g", "d", "f"],
+    type: "copy-word",
+    prompt: "Llegeix i copia els aliments del dinar:",
+    words: [
+      { catalan: "verdures" },
+      { catalan: "arròs" },
+      { catalan: "macarrons" },
+      { catalan: "amanida" },
+      { catalan: "patates fregides" },
+      { catalan: "pollastre" },
+      { catalan: "pa" },
+      { catalan: "aigua" },
+      { catalan: "refresc" },
     ],
   },
 
-  // Task 6: Classify fruit vs vegetable
+  // === Workbook Ex. 6+7: Observa berenar (3) + sopar (6) ===
   {
     id: "el-menjar-6",
-    type: "classify-columns",
-    prompt: "Classifica: fruita o verdura?",
-    columns: [
-      { title: "Fruita", items: ["poma", "pera", "plàtan", "taronja", "maduixa"] },
-      { title: "Verdura", items: ["tomàquet", "pastanaga", "ceba", "enciam", "patata"] },
-    ],
-    allItems: [
-      "poma",
-      "tomàquet",
-      "pera",
-      "pastanaga",
-      "plàtan",
-      "ceba",
-      "taronja",
-      "enciam",
-      "maduixa",
-      "patata",
+    type: "copy-word",
+    prompt: "Llegeix i copia els aliments del berenar i el sopar:",
+    words: [
+      { catalan: "sandvitx" },
+      { catalan: "iogurt" },
+      { catalan: "hamburguesa" },
+      { catalan: "truita de patates" },
+      { catalan: "sopa" },
+      { catalan: "pizza" },
+      { catalan: "formatge" },
+      { catalan: "pernil" },
     ],
   },
 
-  // Task 7: Fill in sentences about meals
+  // === Workbook Ex. 8: I tu, què menges? ===
   {
     id: "el-menjar-7",
     type: "fill-sentence",
-    prompt: "Completa la frase:",
+    prompt: "Completa les frases sobre els àpats:",
     sentences: [
       {
-        text: "Al matí esmorzem ___.",
-        blank: "llet",
-        options: ["llet", "sopa", "amanida", "fruita"],
+        text: "Per esmorzar menjo ___ amb llet.",
+        blank: "cereals",
+        options: ["cereals", "sopa", "pizza"],
       },
       {
-        text: "A migdia dinem ___.",
+        text: "Per dinar menjo ___ amb verdures.",
+        blank: "arròs",
+        options: ["arròs", "galetes", "te"],
+      },
+      {
+        text: "Per berenar menjo un ___.",
+        blank: "sandvitx",
+        options: ["sandvitx", "arròs", "sopa"],
+      },
+      {
+        text: "Per sopar menjo ___.",
         blank: "sopa",
-        options: ["llet", "sopa", "cereals", "ou"],
-      },
-      {
-        text: "A la tarda berenem ___.",
-        blank: "fruita",
-        options: ["amanida", "sopa", "fruita", "peix"],
-      },
-      {
-        text: "Al vespre sopem ___.",
-        blank: "amanida",
-        options: ["cereals", "llet", "fruita", "amanida"],
+        options: ["sopa", "cereals", "cafè"],
       },
     ],
   },
 
-  // Task 8: Multiple choice about food
+  // === Workbook Ex. 9: interactive version ===
   {
     id: "el-menjar-8",
     type: "multiple-choice",
     prompt: "Tria la resposta correcta:",
     questions: [
       {
-        question: "Quin d'aquests és una fruita?",
-        options: ["tomàquet", "poma", "pastanaga", "ceba"],
-        correct: 1,
+        question: "Què mengem per esmorzar normalment?",
+        options: ["Cereals amb llet", "Sopa de peix", "Pizza", "Hamburguesa"],
+        correct: 0,
       },
       {
         question: "Amb què tallem el menjar?",
-        options: ["cullera", "forquilla", "ganivet", "got"],
+        options: ["Cullera", "Tassa", "Ganivet", "Plat"],
         correct: 2,
       },
       {
-        question: "Quin àpat fem al matí?",
-        options: ["dinar", "sopar", "berenar", "esmorzar"],
-        correct: 3,
-      },
-      {
         question: "On posem la sopa?",
-        options: ["got", "plat", "tovalló", "forquilla"],
+        options: ["Al got", "Al plat", "A la copa", "A la forquilla"],
         correct: 1,
       },
+      {
+        question: "Quin àpat fem al migdia?",
+        options: ["Esmorzar", "Berenar", "Sopar", "Dinar"],
+        correct: 3,
+      },
     ],
   },
 
-  // Task 9: Self-assessment with Serbian translations
+  // === Workbook Ex. 10: Classifica PER MENJAR vs PER BEURE ===
   {
     id: "el-menjar-9",
-    type: "self-assessment",
-    prompt: "Saps dir aquestes paraules en català?",
-    items: [
-      { catalan: "poma", translation: "jabuka" },
-      { catalan: "pera", translation: "kruška" },
-      { catalan: "plàtan", translation: "banana" },
-      { catalan: "taronja", translation: "pomorandža" },
-      { catalan: "pa", translation: "hleb" },
-      { catalan: "llet", translation: "mleko" },
-      { catalan: "peix", translation: "riba" },
-      { catalan: "ou", translation: "jaje" },
-      { catalan: "maduixa", translation: "jagoda" },
-      { catalan: "tomàquet", translation: "paradajz" },
-      { catalan: "formatge", translation: "sir" },
-      { catalan: "pastanaga", translation: "šargarepa" },
-    ],
-  },
-
-  // Task 10: Label breakfast items
-  {
-    id: "el-menjar-10",
-    type: "label-image",
-    prompt: "Escriu el nom dels aliments de l'esmorzar:",
-    image: "esmorzar",
-    labels: [
-      { text: "cereals", x: 15, y: 30 },
-      { text: "suc", x: 40, y: 30 },
-      { text: "llet", x: 65, y: 30 },
-      { text: "torrada", x: 85, y: 30 },
-      { text: "fruita", x: 50, y: 70 },
-    ],
-    options: ["cereals", "suc", "llet", "torrada", "fruita", "pa", "formatge"],
-  },
-
-  // Task 11: Fill sentences about meals
-  {
-    id: "el-menjar-11",
-    type: "fill-sentence",
-    prompt: "Què menges a cada àpat?",
-    sentences: [
-      {
-        text: "Per esmorzar menjo ___.",
-        blank: "cereals",
-        options: ["cereals", "sopa", "pizza"],
-      },
-      {
-        text: "Per dinar menjo ___.",
-        blank: "arròs",
-        options: ["arròs", "cereals", "torrada"],
-      },
-      {
-        text: "Per berenar menjo un ___.",
-        blank: "entrepà",
-        options: ["entrepà", "arròs", "sopa"],
-      },
-      {
-        text: "Per sopar menjo ___.",
-        blank: "sopa",
-        options: ["sopa", "cereals", "torrada"],
-      },
-    ],
-  },
-
-  // Task 12: Label food items
-  {
-    id: "el-menjar-12",
-    type: "label-image",
-    prompt: "Escriu el nom dels aliments:",
-    image: "aliments",
-    labels: [
-      { text: "pa", x: 15, y: 25 },
-      { text: "formatge", x: 50, y: 25 },
-      { text: "ou", x: 85, y: 25 },
-      { text: "pizza", x: 15, y: 70 },
-      { text: "pasta", x: 50, y: 70 },
-      { text: "hamburguesa", x: 85, y: 70 },
-    ],
-    options: ["pa", "formatge", "ou", "pizza", "pasta", "hamburguesa", "arròs", "sopa"],
-  },
-
-  // Task 13: Classify meals - Esmorzar vs Dinar vs Sopar
-  {
-    id: "el-menjar-13",
     type: "classify-columns",
-    prompt: "Classifica: Esmorzar vs Dinar vs Sopar",
+    prompt: "Classifica: Per menjar o per beure?",
     columns: [
-      { title: "Esmorzar", items: ["cereals", "torrada", "llet", "suc", "fruita"] },
-      { title: "Dinar", items: ["arròs", "carn", "peix", "amanida", "pasta"] },
-      { title: "Sopar", items: ["sopa", "entrepà", "ou", "formatge"] },
+      {
+        title: "Per menjar",
+        items: ["entrepà", "pizza", "hamburguesa", "amanida", "macarrons", "galetes"],
+      },
+      {
+        title: "Per beure",
+        items: ["suc", "cafè", "te", "llet", "aigua", "refresc"],
+      },
     ],
     allItems: [
-      "cereals",
-      "torrada",
-      "llet",
-      "suc",
-      "fruita",
-      "arròs",
-      "carn",
-      "peix",
-      "amanida",
-      "pasta",
-      "sopa",
-      "entrepà",
-      "ou",
-      "formatge",
-    ],
-  },
-
-  // Task 14: Fill sentences about food descriptions
-  {
-    id: "el-menjar-14",
-    type: "fill-sentence",
-    prompt: "Completa sobre el menjar:",
-    sentences: [
-      {
-        text: "El ___ és blanc i es beu.",
-        blank: "llet",
-        options: ["llet", "suc", "pa"],
-      },
-      {
-        text: "La ___ és amb enciam i tomàquet.",
-        blank: "amanida",
-        options: ["amanida", "pizza", "sopa"],
-      },
-      {
-        text: "L' ___ el ponen les gallines.",
-        blank: "ou",
-        options: ["ou", "pa", "arròs"],
-      },
-      {
-        text: "El ___ es fa amb farina.",
-        blank: "pa",
-        options: ["pa", "ou", "peix"],
-      },
-    ],
-  },
-
-  // Task 15: Fill missing letters for food words
-  {
-    id: "el-menjar-15",
-    type: "fill-letters",
-    prompt: "Completa el nom de l'aliment:",
-    words: [
-      { word: "hamburguesa", hint: "h_mb_rgu_sa" },
-      { word: "entrepà", hint: "_ntr_pà" },
-      { word: "formatge", hint: "f_rm_tge" },
-      { word: "amanida", hint: "_man_da" },
-      { word: "cereals", hint: "c_re_ls" },
-      { word: "torrada", hint: "t_rr_da" },
-    ],
-  },
-
-  // Task 16: Classify sweet vs salty
-  {
-    id: "el-menjar-16",
-    type: "classify-columns",
-    prompt: "Classifica: Dolç vs Salat",
-    columns: [
-      { title: "Dolç", items: ["xocolata", "pastís", "galeta", "melmelada", "fruita"] },
-      { title: "Salat", items: ["formatge", "pernil", "entrepà", "pizza", "sopa"] },
-    ],
-    allItems: [
-      "xocolata",
-      "pastís",
-      "galeta",
-      "melmelada",
-      "fruita",
-      "formatge",
-      "pernil",
       "entrepà",
       "pizza",
-      "sopa",
+      "hamburguesa",
+      "amanida",
+      "macarrons",
+      "galetes",
+      "suc",
+      "cafè",
+      "te",
+      "llet",
+      "aigua",
+      "refresc",
     ],
   },
 
-  // Task 17: Fill sentences about food preferences
+  // === Workbook Ex. 11: Relaciona (match sentences to utensils) ===
   {
-    id: "el-menjar-17",
-    type: "fill-sentence",
-    prompt: "Escriu el teu menú:",
-    sentences: [
-      {
-        text: "El meu menjar preferit és ___.",
-        blank: "pizza",
-        options: ["pizza", "sopa", "ou"],
-      },
-      {
-        text: "No m'agrada ___.",
-        blank: "peix",
-        options: ["peix", "pa", "llet"],
-      },
-      {
-        text: "M'encanta la ___.",
-        blank: "xocolata",
-        options: ["xocolata", "ceba", "pastanaga"],
-      },
-    ],
-  },
-
-  // Task 18: Label dinner menu
-  {
-    id: "el-menjar-18",
-    type: "label-image",
-    prompt: "Escriu el menú del sopar:",
-    image: "sopar",
-    labels: [
-      { text: "sopa", x: 25, y: 25 },
-      { text: "pa", x: 75, y: 25 },
-      { text: "formatge", x: 25, y: 70 },
-      { text: "fruita", x: 75, y: 70 },
-    ],
-    options: ["sopa", "pa", "formatge", "fruita", "pizza", "arròs"],
-  },
-
-  // Task 19: Label lunch menu
-  {
-    id: "el-menjar-19",
-    type: "label-image",
-    prompt: "Escriu el menú del dinar:",
-    image: "dinar",
-    labels: [
-      { text: "amanida", x: 25, y: 25 },
-      { text: "arròs", x: 75, y: 25 },
-      { text: "peix", x: 25, y: 70 },
-      { text: "suc", x: 75, y: 70 },
-    ],
-    options: ["amanida", "arròs", "peix", "suc", "sopa", "torrada"],
-  },
-
-  // Task 20: Copy drinks and containers
-  {
-    id: "el-menjar-20",
-    type: "copy-word",
-    prompt: "Llegeix i copia les begudes i recipients:",
-    words: [
-      { catalan: "cafè" },
-      { catalan: "te" },
-      { catalan: "refresc" },
-      { catalan: "aigua" },
-      { catalan: "tassa" },
-      { catalan: "ampolla" },
-      { catalan: "copa" },
-    ],
-  },
-
-  // Task 21: Copy proteins
-  {
-    id: "el-menjar-21",
-    type: "copy-word",
-    prompt: "Llegeix i copia les proteïnes:",
-    words: [
-      { catalan: "tonyina" },
-      { catalan: "salmó" },
-      { catalan: "calamar" },
-      { catalan: "musclo" },
-      { catalan: "bistec" },
-      { catalan: "mandonguilles" },
-    ],
-  },
-
-  // Task 22: Copy carbs
-  {
-    id: "el-menjar-22",
-    type: "copy-word",
-    prompt: "Llegeix i copia:",
-    words: [
-      { catalan: "macarrons" },
-      { catalan: "sandvitx" },
-      { catalan: "croissant" },
-    ],
-  },
-
-  // Task 23: Fill letters for new food words
-  {
-    id: "el-menjar-23",
-    type: "fill-letters",
-    prompt: "Completa les lletres que falten:",
-    words: [
-      { word: "cafè", hint: "c_f_" },
-      { word: "tonyina", hint: "t_ny_na" },
-      { word: "salmó", hint: "s_lm_" },
-      { word: "calamar", hint: "c_l_m_r" },
-      { word: "macarrons", hint: "m_c_rr_ns" },
-      { word: "sandvitx", hint: "s_ndv_tx" },
-      { word: "croissant", hint: "cr_iss_nt" },
-      { word: "iogurt", hint: "i_g_rt" },
-    ],
-  },
-
-  // Task 24: Matching food to meal
-  {
-    id: "el-menjar-24",
+    id: "el-menjar-10",
     type: "matching",
-    prompt: "Relaciona cada aliment amb l'àpat:",
+    prompt: "Relaciona cada frase amb l'estri correcte:",
     pairs: [
-      { left: "croissant", right: "esmorzar" },
-      { left: "bistec", right: "dinar" },
-      { left: "sopa", right: "sopar" },
-      { left: "sandvitx", right: "berenar" },
-      { left: "cafè", right: "esmorzar" },
+      { left: "Bec el cafè amb...", right: "tassa" },
+      { left: "Menjo l'amanida amb...", right: "forquilla" },
+      { left: "Tallo la carn amb...", right: "ganivet" },
+      { left: "Menjo la sopa amb...", right: "cullera" },
+      { left: "Poso el menjar al...", right: "plat" },
+      { left: "Bec aigua amb...", right: "got" },
     ],
   },
 
-  // Task 25: Classify Begudes vs Proteïnes
+  // === Workbook Ex. 11b: Separa oracions ===
   {
-    id: "el-menjar-25",
+    id: "el-menjar-11",
+    type: "separate-words",
+    prompt: "Separa i copia les oracions:",
+    items: [
+      {
+        joined: "Becsucdetaronjaperesmorzar.",
+        words: ["Bec", "suc", "de", "taronja", "per", "esmorzar."],
+      },
+      {
+        joined: "Menjomacarronsambtomàquet.",
+        words: ["Menjo", "macarrons", "amb", "tomàquet."],
+      },
+      {
+        joined: "Latassaésperbeurecafè.",
+        words: ["La", "tassa", "és", "per", "beure", "cafè."],
+      },
+      {
+        joined: "Posoelmenjaraldamuntdelplat.",
+        words: ["Poso", "el", "menjar", "al", "damunt", "del", "plat."],
+      },
+      {
+        joined: "Perberenarmenjo galetesam bllet.",
+        words: ["Per", "berenar", "menjo", "galetes", "amb", "llet."],
+      },
+    ],
+  },
+
+  // === Workbook Ex. 12: Classifica fred vs calent ===
+  {
+    id: "el-menjar-12",
     type: "classify-columns",
-    prompt: "Classifica: Begudes vs Proteïnes",
+    prompt: "Classifica: Fred o calent?",
     columns: [
       {
-        title: "Begudes",
-        items: ["cafè", "te", "refresc", "aigua", "llet", "suc"],
+        title: "Fred",
+        items: ["gelat", "suc", "amanida", "iogurt", "refresc", "fruita"],
       },
       {
-        title: "Proteïnes",
-        items: ["tonyina", "salmó", "calamar", "musclo", "bistec", "mandonguilles"],
+        title: "Calent",
+        items: ["sopa", "cafè", "te", "arròs", "pizza", "macarrons"],
       },
     ],
     allItems: [
+      "gelat",
+      "suc",
+      "amanida",
+      "iogurt",
+      "refresc",
+      "fruita",
+      "sopa",
       "cafè",
       "te",
-      "refresc",
-      "aigua",
-      "llet",
-      "suc",
-      "tonyina",
-      "salmó",
-      "calamar",
-      "musclo",
-      "bistec",
-      "mandonguilles",
+      "arròs",
+      "pizza",
+      "macarrons",
     ],
   },
 
-  // Task 26: Fill sentences about new food
+  // === Workbook Ex. 13: Escriu FRED o CALENT (color version) ===
   {
-    id: "el-menjar-26",
+    id: "el-menjar-13",
+    type: "color-by-instruction",
+    prompt: "Pinta de blau el menjar fred i de vermell el calent:",
+    image: "aliments",
+    instructions: [
+      { text: "Pinta el gelat de color blau (fred)", targetColor: "blau", targetItem: "gelat" },
+      { text: "Pinta la sopa de color vermell (calent)", targetColor: "vermell", targetItem: "sopa" },
+      { text: "Pinta el cafè de color vermell (calent)", targetColor: "vermell", targetItem: "cafè" },
+      { text: "Pinta el suc de color blau (fred)", targetColor: "blau", targetItem: "suc" },
+      { text: "Pinta la pizza de color vermell (calent)", targetColor: "vermell", targetItem: "pizza" },
+      { text: "Pinta el iogurt de color blau (fred)", targetColor: "blau", targetItem: "iogurt" },
+      { text: "Pinta el te de color vermell (calent)", targetColor: "vermell", targetItem: "te" },
+      { text: "Pinta el refresc de color blau (fred)", targetColor: "blau", targetItem: "refresc" },
+    ],
+  },
+
+  // === Workbook Ex. 14+15: Observa tovalló/nevera/estovalles + Completa ===
+  {
+    id: "el-menjar-14",
     type: "fill-sentence",
     prompt: "Completa les frases:",
     sentences: [
       {
-        text: "Bec ___ al matí.",
-        blank: "cafè",
-        options: ["cafè", "sopa", "amanida"],
+        text: "A la ___ hi ha suc fresc.",
+        blank: "nevera",
+        options: ["nevera", "tovalló", "estovalles"],
       },
       {
-        text: "El ___ viu al mar.",
-        blank: "calamar",
-        options: ["calamar", "bistec", "croissant"],
+        text: "Quan em taco, em netejo amb el ___.",
+        blank: "tovalló",
+        options: ["tovalló", "nevera", "estovalles"],
       },
       {
-        text: "Menjo un ___ per berenar.",
-        blank: "sandvitx",
-        options: ["sandvitx", "salmó", "musclo"],
-      },
-      {
-        text: "La ___ és de vidre.",
-        blank: "ampolla",
-        options: ["ampolla", "tonyina", "macarrons"],
+        text: "M'encanta vestir la taula amb unes boniques ___.",
+        blank: "estovalles",
+        options: ["estovalles", "tovalló", "nevera"],
       },
     ],
   },
 
-  // Task 27: Drawing canvas - draw your favorite dish
+  // === Workbook Ex. 16: MASCULÍ / FEMENÍ ===
   {
-    id: "el-menjar-27",
+    id: "el-menjar-15",
+    type: "fill-sentence",
+    prompt: "Completa amb fred, freda, calent o calenta:",
+    sentences: [
+      {
+        text: "El gelat és ___.",
+        blank: "fred",
+        options: ["fred", "freda", "calent"],
+      },
+      {
+        text: "La pizza és ___.",
+        blank: "calenta",
+        options: ["calenta", "calent", "freda"],
+      },
+      {
+        text: "El cafè és ___.",
+        blank: "calent",
+        options: ["calent", "fred", "calenta"],
+      },
+      {
+        text: "La fruita és ___.",
+        blank: "freda",
+        options: ["freda", "calenta", "fred"],
+      },
+    ],
+  },
+
+  // === Workbook Ex. 17+18: Classifica DOLÇ vs SALAT ===
+  {
+    id: "el-menjar-16",
+    type: "classify-columns",
+    prompt: "Classifica: Dolç o salat?",
+    columns: [
+      {
+        title: "Dolç",
+        items: ["pastís de xocolata", "gelat", "xocolata", "galetes", "caramels", "sucre", "plàtan"],
+      },
+      {
+        title: "Salat",
+        items: ["pizza", "macarrons", "amanida", "arròs", "entrepà", "pernil", "sal"],
+      },
+    ],
+    allItems: [
+      "pastís de xocolata",
+      "gelat",
+      "xocolata",
+      "galetes",
+      "caramels",
+      "sucre",
+      "plàtan",
+      "pizza",
+      "macarrons",
+      "amanida",
+      "arròs",
+      "entrepà",
+      "pernil",
+      "sal",
+    ],
+  },
+
+  // === Workbook Ex. 19-20: Menú del restaurant ===
+  {
+    id: "el-menjar-17",
+    type: "multiple-choice",
+    prompt: "Llegeix el menú del restaurant Tot Bo i contesta:",
+    questions: [
+      {
+        question: "Quin primer plat pots triar al restaurant?",
+        options: ["Amanida", "Hamburguesa", "Pastís", "Cafè"],
+        correct: 0,
+      },
+      {
+        question: "Quin segon plat hi ha amb patates?",
+        options: ["Sopa", "Hamburguesa amb patates", "Amanida", "Macarrons"],
+        correct: 1,
+      },
+      {
+        question: "Què pots prendre de postres?",
+        options: ["Sopa", "Entrepà", "Fruita amb gelat", "Arròs"],
+        correct: 2,
+      },
+      {
+        question: "Quina beguda ofereix el menú?",
+        options: ["Refresc", "Cafè amb llet", "Xocolata", "Te"],
+        correct: 1,
+      },
+    ],
+  },
+
+  // === Workbook Ex. 21: Escriu la pregunta ===
+  {
+    id: "el-menjar-18",
+    type: "fill-sentence",
+    prompt: "Completa la pregunta per cada resposta:",
+    sentences: [
+      {
+        text: "Què ___? — Per dinar tinc macarrons amb tomàquet.",
+        blank: "dinaràs",
+        options: ["dinaràs", "soparàs", "esmorzaràs"],
+      },
+      {
+        text: "Què ___? — Per berenar menjo pa amb xocolata.",
+        blank: "berenaràs",
+        options: ["berenaràs", "dinaràs", "soparàs"],
+      },
+      {
+        text: "Què ___? — Per esmorzar menjo galetes amb llet.",
+        blank: "esmorzaràs",
+        options: ["esmorzaràs", "soparàs", "berenaràs"],
+      },
+    ],
+  },
+
+  // === Fill-letters for key vocabulary ===
+  {
+    id: "el-menjar-20",
+    type: "fill-letters",
+    prompt: "Completa les lletres que falten:",
+    words: [
+      { word: "forquilla", hint: "f_rqu_lla" },
+      { word: "ganivet", hint: "g_n_v_t" },
+      { word: "cullera", hint: "c_ll_ra" },
+      { word: "tovalló", hint: "t_v_lló" },
+      { word: "ampolla", hint: "_mp_lla" },
+      { word: "cereals", hint: "c_re_ls" },
+      { word: "hamburguesa", hint: "h_mb_rgu_sa" },
+      { word: "macarrons", hint: "m_c_rr_ns" },
+    ],
+  },
+
+  // === AUTOAVALUACIÓ ===
+  {
+    id: "el-menjar-21",
+    type: "self-assessment",
+    prompt: "Saps dir aquestes paraules en català?",
+    items: [
+      { catalan: "ganivet", translation: "nož" },
+      { catalan: "cullera", translation: "kašika" },
+      { catalan: "forquilla", translation: "viljuška" },
+      { catalan: "plat", translation: "tanjir" },
+      { catalan: "tassa", translation: "šolja" },
+      { catalan: "got", translation: "čaša" },
+      { catalan: "cereals", translation: "žitarice" },
+      { catalan: "sopa", translation: "supa" },
+      { catalan: "hamburguesa", translation: "hamburger" },
+      { catalan: "gelat", translation: "sladoled" },
+    ],
+  },
+
+  // Bonus activity: Fun drawing
+  {
+    id: "el-menjar-bonus",
     type: "drawing-canvas",
-    prompt: "Dibuixa el teu plat preferit! 🍽️",
+    prompt: "Dibuixa una poma verda!",
+    bonus: true,
   },
 ];

@@ -13,9 +13,14 @@ interface Props {
   onComplete: (result: TaskResult) => void;
 }
 
-const ARTICLES = ["el", "la", "l'", "els", "les"];
-
 export default function AddArticle({ task, onComplete }: Props) {
+  // Derive article options from the task data instead of hardcoding
+  const articles = (() => {
+    const unique = [...new Set(task.words.map((w) => w.article.toLowerCase()))];
+    // Sort in a natural order: definite first (el, la, l', els, les), then indefinite (un, una)
+    const order = ["el", "la", "l'", "els", "les", "un", "una"];
+    return unique.sort((a, b) => order.indexOf(a) - order.indexOf(b));
+  })();
   const [currentIdx, setCurrentIdx] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
   const [correct, setCorrect] = useState<boolean | null>(null);
@@ -124,7 +129,7 @@ export default function AddArticle({ task, onComplete }: Props) {
         </AnimatePresence>
 
         <div className="flex flex-wrap justify-center gap-3">
-          {ARTICLES.map((article) => (
+          {articles.map((article) => (
             <motion.button
               key={article}
               whileTap={{ scale: 0.9 }}

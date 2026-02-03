@@ -1,383 +1,441 @@
 import { Task } from "@/types/tasks";
 
 export const lesBotiguesTasks: Task[] = [
+  // === Workbook Ex. 1: Llegeix i copia les botigues ===
   {
     id: "les-botigues-1",
     type: "copy-word",
     prompt: "Llegeix i copia les botigues:",
     words: [
-      { catalan: "supermercat" },
-      { catalan: "carnisseria" },
-      { catalan: "peixateria" },
-      { catalan: "farmàcia" },
-      { catalan: "fleca" },
-      { catalan: "pastisseria" },
       { catalan: "fruiteria" },
-      { catalan: "joguineria" },
-      { catalan: "llibreria" },
+      { catalan: "verduleria" },
+      { catalan: "peixeteria" },
+      { catalan: "carnisseria" },
+      { catalan: "fleca" },
+      { catalan: "farmàcia" },
     ],
   },
+
+  // === Workbook Ex. 2: Completa (fill sentences about shops) ===
   {
     id: "les-botigues-2",
-    type: "fill-letters",
-    prompt: "Completa les lletres que falten:",
-    words: [
-      { word: "supermercat", hint: "s_p_rm_rc_t" },
-      { word: "fleca", hint: "fl_c_" },
-      { word: "peixateria", hint: "p_ix_t_r_a" },
-      { word: "carnisseria", hint: "c_rn_ss_r_a" },
-      { word: "farmàcia", hint: "f_rm_c_a" },
-      { word: "llibreria", hint: "ll_br_r_a" },
-      { word: "pastisseria", hint: "p_st_ss_r_a" },
-      { word: "fruiteria", hint: "fr__t_r_a" },
-      { word: "joguineria", hint: "j_g__n_r_a" },
-    ],
-  },
-  {
-    id: "les-botigues-3",
-    type: "unscramble",
-    prompt: "Ordena les lletres per formar la paraula:",
-    words: [
-      { scrambled: "acelf", correct: "fleca" },
-      { scrambled: "àamfcria", correct: "farmàcia" },
-      { scrambled: "eriautfri", correct: "fruiteria" },
-      { scrambled: "rillbeair", correct: "llibreria" },
-      { scrambled: "ieanrgjuoi", correct: "joguineria" },
-    ],
-  },
-  {
-    id: "les-botigues-4",
-    type: "matching",
-    prompt: "Relaciona cada botiga amb el que hi compres:",
-    pairs: [
-      { left: "fleca", right: "pa" },
-      { left: "peixateria", right: "peix" },
-      { left: "carnisseria", right: "carn" },
-      { left: "farmàcia", right: "medicaments" },
-      { left: "fruiteria", right: "fruita" },
-    ],
-  },
-  {
-    id: "les-botigues-5",
-    type: "word-search",
-    prompt: "Troba les paraules a la sopa de lletres:",
-    gridSize: 10,
-    words: ["fleca", "carn", "peix", "fruita", "pa"],
-    grid: [
-      ["f", "l", "e", "c", "a", "g", "h", "d", "k", "n"],
-      ["t", "o", "s", "j", "n", "p", "a", "r", "l", "f"],
-      ["g", "h", "r", "l", "d", "k", "r", "q", "s", "r"],
-      ["c", "a", "r", "n", "g", "p", "h", "n", "t", "u"],
-      ["p", "e", "i", "x", "r", "a", "d", "k", "f", "i"],
-      ["d", "l", "q", "h", "j", "n", "r", "s", "g", "t"],
-      ["r", "f", "g", "k", "l", "d", "q", "h", "j", "a"],
-      ["s", "d", "a", "t", "p", "a", "r", "f", "l", "g"],
-      ["k", "n", "h", "j", "r", "l", "f", "g", "d", "q"],
-      ["t", "r", "l", "f", "g", "s", "n", "h", "j", "k"],
-    ],
-  },
-  {
-    id: "les-botigues-6",
-    type: "classify-columns",
-    prompt: "Classifica: menjar o no menjar?",
-    columns: [
-      {
-        title: "Menjar",
-        items: ["fleca", "peixateria", "carnisseria", "pastisseria", "fruiteria", "supermercat"],
-      },
-      {
-        title: "No menjar",
-        items: ["farmàcia", "llibreria", "joguineria", "botiga de roba"],
-      },
-    ],
-    allItems: [
-      "fleca",
-      "peixateria",
-      "carnisseria",
-      "pastisseria",
-      "fruiteria",
-      "supermercat",
-      "farmàcia",
-      "llibreria",
-      "joguineria",
-      "botiga de roba",
-    ],
-  },
-  {
-    id: "les-botigues-7",
     type: "fill-sentence",
     prompt: "Completa la frase:",
     sentences: [
       {
-        text: "Compro pa a la ___.",
-        blank: "fleca",
-        options: ["farmàcia", "llibreria", "fleca"],
+        text: "Compro peix a la ___.",
+        blank: "peixeteria",
+        options: ["peixeteria", "carnisseria", "fleca"],
       },
       {
-        text: "Compro peix a la ___.",
-        blank: "peixateria",
-        options: ["peixateria", "pastisseria", "joguineria"],
+        text: "Compro pa a la ___.",
+        blank: "fleca",
+        options: ["fleca", "fruiteria", "farmàcia"],
       },
       {
         text: "Compro fruita a la ___.",
         blank: "fruiteria",
-        options: ["carnisseria", "fruiteria", "llibreria"],
+        options: ["fruiteria", "peixeteria", "carnisseria"],
       },
       {
-        text: "Compro joguines a la ___.",
-        blank: "joguineria",
-        options: ["farmàcia", "joguineria", "fruiteria"],
+        text: "Compro medicaments a la ___.",
+        blank: "farmàcia",
+        options: ["farmàcia", "fleca", "fruiteria"],
+      },
+      {
+        text: "Compro carn a la ___.",
+        blank: "carnisseria",
+        options: ["carnisseria", "farmàcia", "peixeteria"],
       },
     ],
   },
+
+  // === Workbook Ex. 3: Separa i copia les oracions ===
+  {
+    id: "les-botigues-3",
+    type: "separate-words",
+    prompt: "Separa i copia les oracions:",
+    items: [
+      {
+        joined: "Comprofruitaalafruiteria.",
+        words: ["Compro", "fruita", "a", "la", "fruiteria."],
+      },
+      {
+        joined: "Lapeixeteriavenpeix.",
+        words: ["La", "peixeteria", "ven", "peix."],
+      },
+      {
+        joined: "Compropaalafleca.",
+        words: ["Compro", "pa", "a", "la", "fleca."],
+      },
+      {
+        joined: "Lafarmàciavenmedicaments.",
+        words: ["La", "farmàcia", "ven", "medicaments."],
+      },
+      {
+        joined: "Lacarnisseriavencarn.",
+        words: ["La", "carnisseria", "ven", "carn."],
+      },
+    ],
+  },
+
+  // === Workbook Ex. 4a: Observa les fruites (9) ===
+  {
+    id: "les-botigues-4",
+    type: "copy-word",
+    prompt: "Llegeix i copia les fruites:",
+    words: [
+      { catalan: "poma" },
+      { catalan: "pera" },
+      { catalan: "plàtan" },
+      { catalan: "taronja" },
+      { catalan: "maduixa" },
+      { catalan: "cirera" },
+      { catalan: "préssec" },
+      { catalan: "meló" },
+      { catalan: "síndria" },
+    ],
+  },
+
+  // === Workbook Ex. 4b: Observa les verdures (9) ===
+  {
+    id: "les-botigues-5",
+    type: "copy-word",
+    prompt: "Llegeix i copia les verdures:",
+    words: [
+      { catalan: "ceba" },
+      { catalan: "enciam" },
+      { catalan: "pastanaga" },
+      { catalan: "patata" },
+      { catalan: "pebrot" },
+      { catalan: "tomàquet" },
+      { catalan: "mongetes" },
+    ],
+  },
+
+  // === Workbook Ex. 5: Completa (fill-letters for fruits) ===
+  {
+    id: "les-botigues-6",
+    type: "fill-letters",
+    prompt: "Completa les lletres que falten:",
+    words: [
+      { word: "meló", hint: "m_l_" },
+      { word: "préssec", hint: "pr_ss_c" },
+      { word: "poma", hint: "p_m_" },
+      { word: "síndria", hint: "s_ndr_a" },
+      { word: "taronja", hint: "t_r_nj_" },
+      { word: "plàtan", hint: "pl_t_n" },
+      { word: "cirera", hint: "c_r_ra" },
+      { word: "pera", hint: "p_r_" },
+      { word: "maduixa", hint: "m_du_x_" },
+    ],
+  },
+
+  // === Workbook Ex. 5b: Llegeix i pinta les verdures ===
+  {
+    id: "les-botigues-7",
+    type: "color-by-instruction",
+    prompt: "Pinta les verdures del color correcte:",
+    image: "verdures",
+    instructions: [
+      { text: "Pinta la ceba de color groc", targetColor: "groc", targetItem: "ceba" },
+      { text: "Pinta l'enciam de color verd", targetColor: "verd", targetItem: "enciam" },
+      { text: "Pinta la pastanaga de color taronja", targetColor: "taronja", targetItem: "pastanaga" },
+      { text: "Pinta la patata de color marró", targetColor: "marró", targetItem: "patata" },
+      { text: "Pinta el pebrot de color vermell", targetColor: "vermell", targetItem: "pebrot" },
+      { text: "Pinta el tomàquet de color vermell", targetColor: "vermell", targetItem: "tomàquet" },
+      { text: "Pinta les mongetes de color verd", targetColor: "verd", targetItem: "mongetes" },
+    ],
+  },
+
+  // === Workbook Ex. 6: Completa (fill sentences with vegetables) ===
   {
     id: "les-botigues-8",
-    type: "multiple-choice",
-    prompt: "Tria la resposta correcta:",
-    questions: [
+    type: "fill-sentence",
+    prompt: "Completa amb el nom de la verdura:",
+    sentences: [
       {
-        question: "On comprem pa i pastissos?",
-        options: ["A la fleca", "A la farmàcia", "A la llibreria", "A la joguineria"],
-        correct: 0,
+        text: "La ___ és de color taronja.",
+        blank: "pastanaga",
+        options: ["pastanaga", "ceba", "pebrot"],
       },
       {
-        question: "On comprem medicaments?",
-        options: ["A la carnisseria", "A la farmàcia", "Al supermercat", "A la fruiteria"],
-        correct: 1,
+        text: "El ___ és de color vermell.",
+        blank: "tomàquet",
+        options: ["tomàquet", "enciam", "patata"],
       },
       {
-        question: "On comprem pomes i taronges?",
-        options: ["A la peixateria", "A la fleca", "A la fruiteria", "A la llibreria"],
-        correct: 2,
+        text: "L'___ és verd i el mengem a l'amanida.",
+        blank: "enciam",
+        options: ["enciam", "pebrot", "ceba"],
       },
       {
-        question: "On comprem llibres?",
-        options: ["A la farmàcia", "A la carnisseria", "A la fleca", "A la llibreria"],
-        correct: 3,
+        text: "La ___ fa plorar quan la tallem.",
+        blank: "ceba",
+        options: ["ceba", "patata", "pastanaga"],
       },
     ],
   },
+
+  // === Workbook Ex. 7: Observa el peix (6) ===
   {
     id: "les-botigues-9",
-    type: "self-assessment",
-    prompt: "Saps dir aquestes paraules en català?",
-    items: [
-      { catalan: "supermercat", translation: "supermarket" },
-      { catalan: "fleca", translation: "pekara" },
-      { catalan: "peixateria", translation: "ribarnica" },
-      { catalan: "carnisseria", translation: "mesara" },
-      { catalan: "farmàcia", translation: "apoteka" },
-      { catalan: "llibreria", translation: "knjižara" },
-      { catalan: "fruiteria", translation: "voćara" },
-      { catalan: "pastisseria", translation: "poslastičarnica" },
-      { catalan: "joguineria", translation: "prodavnica igračaka" },
-      { catalan: "botiga de roba", translation: "prodavnica odeće" },
+    type: "copy-word",
+    prompt: "Llegeix i copia el peix:",
+    words: [
+      { catalan: "sardina" },
+      { catalan: "tonyina" },
+      { catalan: "salmó" },
+      { catalan: "calamar" },
+      { catalan: "gamba" },
+      { catalan: "musclo" },
     ],
   },
+
+  // === Workbook Ex. 8: Completa singular/plural peix ===
   {
     id: "les-botigues-10",
-    type: "label-image",
-    prompt: "Escriu el nom de cada fruita:",
-    image: "fruites",
-    labels: [
-      { text: "poma", x: 15, y: 25 },
-      { text: "pera", x: 50, y: 25 },
-      { text: "plàtan", x: 85, y: 25 },
-      { text: "taronja", x: 15, y: 70 },
-      { text: "maduixa", x: 50, y: 70 },
-      { text: "cirera", x: 85, y: 70 },
+    type: "matching",
+    prompt: "Relaciona el singular amb el plural:",
+    pairs: [
+      { left: "sardina", right: "sardines" },
+      { left: "tonyina", right: "tonyines" },
+      { left: "salmó", right: "salmons" },
+      { left: "calamar", right: "calamars" },
+      { left: "gamba", right: "gambes" },
+      { left: "musclo", right: "musclos" },
     ],
-    options: ["poma", "pera", "plàtan", "taronja", "maduixa", "cirera", "síndria", "meló"],
   },
+
+  // === Workbook Ex. 9: Observa la carn (6) ===
   {
     id: "les-botigues-11",
-    type: "label-image",
-    prompt: "Escriu el nom de cada verdura:",
-    image: "verdures",
-    labels: [
-      { text: "pastanaga", x: 15, y: 30 },
-      { text: "ceba", x: 40, y: 30 },
-      { text: "tomàquet", x: 65, y: 30 },
-      { text: "pebrot", x: 85, y: 30 },
-      { text: "enciam", x: 50, y: 70 },
+    type: "copy-word",
+    prompt: "Llegeix i copia la carn:",
+    words: [
+      { catalan: "pollastre" },
+      { catalan: "salsitxa" },
+      { catalan: "mandonguilla" },
+      { catalan: "hamburguesa" },
+      { catalan: "bistec" },
+      { catalan: "cansalada" },
     ],
-    options: ["pastanaga", "ceba", "tomàquet", "pebrot", "enciam", "patata", "carbassó"],
   },
+
+  // === Workbook Ex. 10: Classifica EL / LA (carn) ===
   {
     id: "les-botigues-12",
-    type: "fill-letters",
-    prompt: "Completa el nom de l'aliment:",
-    words: [
-      { word: "pastanaga", hint: "p_st_n_ga" },
-      { word: "tomàquet", hint: "t_m_qu_t" },
-      { word: "pollastre", hint: "p_ll_str_" },
-      { word: "sardina", hint: "s_rd_na" },
-      { word: "maduixa", hint: "m_du_xa" },
-      { word: "plàtan", hint: "pl_t_n" },
-    ],
-  },
-  {
-    id: "les-botigues-13",
-    type: "label-image",
-    prompt: "Escriu el nom de cada peix o carn:",
-    image: "carn-peix",
-    labels: [
-      { text: "pollastre", x: 25, y: 30 },
-      { text: "porc", x: 75, y: 30 },
-      { text: "peix", x: 25, y: 70 },
-      { text: "gamba", x: 75, y: 70 },
-    ],
-    options: ["pollastre", "porc", "peix", "gamba", "vedella", "sardina"],
-  },
-  {
-    id: "les-botigues-14",
     type: "classify-columns",
-    prompt: "Classifica: Fruites vs Verdures vs Carn",
+    prompt: "Classifica: EL o LA?",
     columns: [
       {
-        title: "Fruites",
-        items: ["poma", "pera", "plàtan", "taronja", "maduixa"],
+        title: "EL",
+        items: ["pollastre", "bistec"],
       },
       {
-        title: "Verdures",
-        items: ["pastanaga", "ceba", "tomàquet", "pebrot", "enciam"],
-      },
-      {
-        title: "Carn i peix",
-        items: ["pollastre", "porc", "peix", "gamba"],
+        title: "LA",
+        items: ["salsitxa", "mandonguilla", "hamburguesa", "cansalada"],
       },
     ],
     allItems: [
-      "poma",
-      "pera",
-      "plàtan",
-      "taronja",
-      "maduixa",
-      "pastanaga",
-      "ceba",
-      "tomàquet",
-      "pebrot",
-      "enciam",
       "pollastre",
-      "porc",
-      "peix",
-      "gamba",
+      "salsitxa",
+      "mandonguilla",
+      "hamburguesa",
+      "bistec",
+      "cansalada",
+    ],
+    circleMode: true,
+  },
+
+  // === Workbook Ex. 12: Observa productes de fleca (6) ===
+  {
+    id: "les-botigues-14",
+    type: "copy-word",
+    prompt: "Llegeix i copia els productes de la fleca:",
+    words: [
+      { catalan: "barra de pa" },
+      { catalan: "pa rodó" },
+      { catalan: "pa de motlle" },
+      { catalan: "pastís" },
+      { catalan: "croissant" },
+      { catalan: "galeta" },
     ],
   },
+
+  // === Workbook Ex. 13: Classifica en 4 botigues ===
   {
     id: "les-botigues-15",
+    type: "classify-columns",
+    prompt: "Classifica els productes a la seva botiga:",
+    columns: [
+      {
+        title: "Peixeteria",
+        items: ["sardina", "tonyina", "gamba", "musclo"],
+      },
+      {
+        title: "Carnisseria",
+        items: ["pollastre", "bistec", "salsitxa", "hamburguesa"],
+      },
+      {
+        title: "Fleca",
+        items: ["barra de pa", "croissant", "pastís", "galeta"],
+      },
+      {
+        title: "Fruiteria",
+        items: ["poma", "taronja", "pastanaga", "tomàquet"],
+      },
+    ],
+    allItems: [
+      "sardina",
+      "tonyina",
+      "gamba",
+      "musclo",
+      "pollastre",
+      "bistec",
+      "salsitxa",
+      "hamburguesa",
+      "barra de pa",
+      "croissant",
+      "pastís",
+      "galeta",
+      "poma",
+      "taronja",
+      "pastanaga",
+      "tomàquet",
+    ],
+  },
+
+  // === Workbook Ex. 14: Completa AHIR / AVUI / DEMÀ ===
+  {
+    id: "les-botigues-16",
+    type: "fill-sentence",
+    prompt: "Completa amb el verb correcte:",
+    sentences: [
+      {
+        text: "Ahir ___ anar a la fruiteria.",
+        blank: "vaig",
+        options: ["vaig", "aniré", "vaig anar"],
+      },
+      {
+        text: "Avui ___ a la fleca.",
+        blank: "vaig",
+        options: ["vaig", "aniré", "anava"],
+      },
+      {
+        text: "Demà ___ a la peixeteria.",
+        blank: "aniré",
+        options: ["aniré", "vaig", "anava"],
+      },
+      {
+        text: "Ahir ___ comprar sardines.",
+        blank: "vaig",
+        options: ["vaig", "compraré", "compro"],
+      },
+    ],
+  },
+
+  // === Workbook Ex. 15: Observa productes de farmàcia (6) ===
+  {
+    id: "les-botigues-17",
     type: "copy-word",
     prompt: "Llegeix i copia els productes de la farmàcia:",
     words: [
       { catalan: "tirita" },
       { catalan: "pastilla" },
-      { catalan: "xarop" },
+      { catalan: "xeringa" },
       { catalan: "termòmetre" },
-      { catalan: "crema" },
+      { catalan: "cotó" },
+      { catalan: "venda" },
     ],
   },
-  {
-    id: "les-botigues-16",
-    type: "copy-word",
-    prompt: "Llegeix i copia les fruites i verdures:",
-    words: [
-      { catalan: "mongetes" },
-      { catalan: "préssec" },
-      { catalan: "cireres" },
-    ],
-  },
-  {
-    id: "les-botigues-17",
-    type: "fill-letters",
-    prompt: "Completa les lletres que falten:",
-    words: [
-      { word: "tirita", hint: "t_r_ta" },
-      { word: "pastilla", hint: "p_st_lla" },
-      { word: "xarop", hint: "x_r_p" },
-      { word: "termòmetre", hint: "t_rm_m_tre" },
-      { word: "crema", hint: "cr_m_" },
-      { word: "mongetes", hint: "m_ng_tes" },
-      { word: "préssec", hint: "pr_ss_c" },
-      { word: "cireres", hint: "c_r_res" },
-      { word: "fleca", hint: "fl_c_" },
-    ],
-  },
+
+  // === Workbook Ex. 16: Separa oracions (farmàcia) ===
   {
     id: "les-botigues-18",
-    type: "matching",
-    prompt: "Relaciona cada producte amb la seva botiga:",
-    pairs: [
-      { left: "tirita", right: "farmàcia" },
-      { left: "préssec", right: "fruiteria" },
-      { left: "sardina", right: "peixateria" },
-      { left: "pa", right: "fleca" },
-      { left: "pastís", right: "pastisseria" },
+    type: "separate-words",
+    prompt: "Separa i copia les oracions:",
+    items: [
+      {
+        joined: "Eltermòmetremesurala temperatura.",
+        words: ["El", "termòmetre", "mesura", "la", "temperatura."],
+      },
+      {
+        joined: "Lainfermeraposaunatirita.",
+        words: ["La", "infermera", "posa", "una", "tirita."],
+      },
+      {
+        joined: "Prencculleresdexarop.",
+        words: ["Prenc", "culleres", "de", "xarop."],
+      },
+      {
+        joined: "Lavendaprotegeixlaferida.",
+        words: ["La", "venda", "protegeix", "la", "ferida."],
+      },
     ],
   },
+
+  // === Workbook Ex. 17: Classifica productes per botiga ===
   {
     id: "les-botigues-19",
     type: "classify-columns",
-    prompt: "Classifica: Què compres a cada botiga?",
+    prompt: "Classifica: A quina botiga ho compres?",
     columns: [
       {
         title: "Farmàcia",
-        items: ["tirita", "pastilla", "xarop", "termòmetre", "crema"],
+        items: ["tirita", "pastilla", "xeringa", "termòmetre", "venda"],
       },
       {
         title: "Fruiteria",
-        items: ["préssec", "cireres", "mongetes", "poma", "taronja"],
+        items: ["poma", "pastanaga", "cirera", "pera", "tomàquet"],
       },
       {
         title: "Fleca",
-        items: ["pa", "croissant", "barra de pa"],
+        items: ["barra de pa", "croissant", "galeta", "pastís"],
       },
     ],
     allItems: [
       "tirita",
       "pastilla",
-      "xarop",
+      "xeringa",
       "termòmetre",
-      "crema",
-      "préssec",
-      "cireres",
-      "mongetes",
+      "venda",
       "poma",
-      "taronja",
-      "pa",
-      "croissant",
+      "pastanaga",
+      "cirera",
+      "pera",
+      "tomàquet",
       "barra de pa",
+      "croissant",
+      "galeta",
+      "pastís",
     ],
   },
+
+  // === Workbook: AUTOAVALUACIÓ ===
   {
     id: "les-botigues-20",
-    type: "fill-sentence",
-    prompt: "Completa les frases:",
-    sentences: [
-      {
-        text: "Compro pa a la ___.",
-        blank: "fleca",
-        options: ["fleca", "farmàcia", "peixateria"],
-      },
-      {
-        text: "Compro tirites a la ___.",
-        blank: "farmàcia",
-        options: ["farmàcia", "fruiteria", "carnisseria"],
-      },
-      {
-        text: "Compro cireres a la ___.",
-        blank: "fruiteria",
-        options: ["fruiteria", "fleca", "llibreria"],
-      },
-      {
-        text: "Prenc ___ quan em fa mal el cap.",
-        blank: "pastilla",
-        options: ["pastilla", "tirita", "crema"],
-      },
+    type: "self-assessment",
+    prompt: "Saps dir aquestes paraules en català?",
+    items: [
+      { catalan: "fruiteria", translation: "voćara" },
+      { catalan: "peixeteria", translation: "ribarnica" },
+      { catalan: "carnisseria", translation: "mesara" },
+      { catalan: "fleca", translation: "pekara" },
+      { catalan: "farmàcia", translation: "apoteka" },
+      { catalan: "sardina", translation: "sardina" },
+      { catalan: "pollastre", translation: "piletina" },
+      { catalan: "pastanaga", translation: "šargarepa" },
+      { catalan: "tirita", translation: "flaster" },
+      { catalan: "croissant", translation: "kroasan" },
     ],
   },
+
+  // Bonus activity: Fun drawing
   {
-    id: "les-botigues-21",
+    id: "les-botigues-bonus",
     type: "drawing-canvas",
-    prompt: "Dibuixa la teva botiga preferida! 🛒",
+    prompt: "Dibuixa una flor vermella!",
+    bonus: true,
   },
 ];
