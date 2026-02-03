@@ -115,82 +115,169 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
         {Math.min(currentItemIdx + 1, items.length)} / {items.length}
       </div>
 
-      {/* Current item to classify - draggable */}
-      {!allPlaced && currentItem && (
-        <motion.div
-          key={currentItem}
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center"
-        >
-          <div
-            onPointerDown={(e) => {
-              if (lastPlacedCorrect === null && !showResults) {
-                handlePointerDown(currentItem, "current", e);
-              }
-            }}
-            className="inline-flex flex-col items-center select-none"
-            style={{ cursor: lastPlacedCorrect !== null || showResults ? "default" : "grab" }}
+      {/* Circle mode: horizontal layout - left circle | item | right circle */}
+      {task.circleMode && !allPlaced && currentItem && !showResults ? (
+        <div className="flex items-center gap-2 justify-center">
+          {/* Left column circle */}
+          <motion.button
+            data-drop-target="col-0"
+            whileTap={dragState.isDragging ? undefined : { scale: 0.95 }}
+            onClick={() => handleColumnTap(0)}
+            disabled={lastPlacedCorrect !== null}
+            className={`aspect-square rounded-full w-[120px] sm:w-[140px] flex-shrink-0 bg-white p-3 shadow-sm border-2 transition-all flex flex-col items-center justify-center gap-1 ${
+              dragState.isDragging
+                ? "border-[var(--primary)] bg-purple-50 animate-pulse"
+                : "border-gray-200 hover:border-[var(--primary)]"
+            }`}
           >
-            {getWordIllustration(currentItem) ? (
-              <div className="mb-2 flex justify-center"><img src={getWordIllustration(currentItem)!} alt="" className="w-44 h-44 object-contain pointer-events-none" /></div>
-            ) : null}
-            <div
-              className={`inline-block px-6 py-3 rounded-2xl text-2xl font-black font-handwriting transition-all ${
-                dragState.isDragging && dragState.draggedItem === currentItem
-                  ? "opacity-40 bg-gray-100 text-gray-300"
-                  : lastPlacedCorrect === true
-                    ? "bg-green-100 text-green-700"
-                    : lastPlacedCorrect === false
-                      ? "bg-red-100 text-red-700"
-                      : "bg-[var(--accent)] text-[var(--text)]"
-              }`}
-            >
-              {currentItem}
-              {lastPlacedCorrect === true && " ✅"}
-              {lastPlacedCorrect === false && " ❌"}
+            <h4 className="text-base sm:text-lg font-black text-[var(--primary)] leading-tight text-center">
+              {task.columns[0].title}
+            </h4>
+            <div className="text-[10px] text-[var(--text-light)]">
+              {Object.values(placed).filter((c) => c === 0).length} posades
             </div>
-          </div>
-          {!showResults && lastPlacedCorrect === null && (
-            <p className="text-xs text-[var(--text-light)] mt-2">
-              {dragState.isDragging ? "Arrossega al grup correcte!" : "Toca un grup o arrossega la paraula"}
-            </p>
-          )}
-        </motion.div>
-      )}
+            {dragState.isDragging && <span className="text-lg">⬅️</span>}
+          </motion.button>
 
-      {/* Two big column/circle buttons - drop targets */}
-      {!allPlaced && !showResults && (
-        <div className="grid grid-cols-2 gap-4">
-          {task.columns.map((col, colIdx) => (
-            <motion.button
-              key={colIdx}
-              data-drop-target={`col-${colIdx}`}
-              whileTap={dragState.isDragging ? undefined : { scale: 0.95 }}
-              onClick={() => handleColumnTap(colIdx)}
-              disabled={lastPlacedCorrect !== null}
-              className={`${
-                task.circleMode
-                  ? "aspect-square rounded-full min-h-[140px]"
-                  : "min-h-[120px] rounded-2xl"
-              } bg-white p-4 shadow-sm border-2 transition-all flex flex-col items-center justify-center gap-2 ${
-                dragState.isDragging
-                  ? "border-[var(--primary)] bg-purple-50 animate-pulse"
-                  : "border-gray-200 hover:border-[var(--primary)]"
-              }`}
+          {/* Center: current item */}
+          <motion.div
+            key={currentItem}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="flex-shrink-0 text-center"
+          >
+            <div
+              onPointerDown={(e) => {
+                if (lastPlacedCorrect === null && !showResults) {
+                  handlePointerDown(currentItem, "current", e);
+                }
+              }}
+              className="inline-flex flex-col items-center select-none"
+              style={{ cursor: lastPlacedCorrect !== null || showResults ? "default" : "grab" }}
             >
-              <h4 className="text-xl font-black text-[var(--primary)]">
-                {col.title}
-              </h4>
-              <div className="text-xs text-[var(--text-light)]">
-                {Object.values(placed).filter((c) => c === colIdx).length} posades
+              {getWordIllustration(currentItem) ? (
+                <div className="mb-1 flex justify-center"><img src={getWordIllustration(currentItem)!} alt="" className="w-28 h-28 sm:w-36 sm:h-36 object-contain pointer-events-none" /></div>
+              ) : null}
+              <div
+                className={`inline-block px-4 py-2 rounded-2xl text-xl sm:text-2xl font-black font-handwriting transition-all ${
+                  dragState.isDragging && dragState.draggedItem === currentItem
+                    ? "opacity-40 bg-gray-100 text-gray-300"
+                    : lastPlacedCorrect === true
+                      ? "bg-green-100 text-green-700"
+                      : lastPlacedCorrect === false
+                        ? "bg-red-100 text-red-700"
+                        : "bg-[var(--accent)] text-[var(--text)]"
+                }`}
+              >
+                {currentItem}
+                {lastPlacedCorrect === true && " ✅"}
+                {lastPlacedCorrect === false && " ❌"}
               </div>
-              {dragState.isDragging && (
-                <span className="text-2xl">⬇️</span>
-              )}
-            </motion.button>
-          ))}
+            </div>
+            {lastPlacedCorrect === null && (
+              <p className="text-[10px] text-[var(--text-light)] mt-1">
+                {dragState.isDragging ? "Arrossega!" : "Toca o arrossega"}
+              </p>
+            )}
+          </motion.div>
+
+          {/* Right column circle */}
+          <motion.button
+            data-drop-target="col-1"
+            whileTap={dragState.isDragging ? undefined : { scale: 0.95 }}
+            onClick={() => handleColumnTap(1)}
+            disabled={lastPlacedCorrect !== null}
+            className={`aspect-square rounded-full w-[120px] sm:w-[140px] flex-shrink-0 bg-white p-3 shadow-sm border-2 transition-all flex flex-col items-center justify-center gap-1 ${
+              dragState.isDragging
+                ? "border-[var(--primary)] bg-purple-50 animate-pulse"
+                : "border-gray-200 hover:border-[var(--primary)]"
+            }`}
+          >
+            <h4 className="text-base sm:text-lg font-black text-[var(--primary)] leading-tight text-center">
+              {task.columns[1].title}
+            </h4>
+            <div className="text-[10px] text-[var(--text-light)]">
+              {Object.values(placed).filter((c) => c === 1).length} posades
+            </div>
+            {dragState.isDragging && <span className="text-lg">➡️</span>}
+          </motion.button>
         </div>
+      ) : (
+        <>
+          {/* Non-circle mode: vertical layout (item on top, columns below) */}
+          {!allPlaced && currentItem && (
+            <motion.div
+              key={currentItem}
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center"
+            >
+              <div
+                onPointerDown={(e) => {
+                  if (lastPlacedCorrect === null && !showResults) {
+                    handlePointerDown(currentItem, "current", e);
+                  }
+                }}
+                className="inline-flex flex-col items-center select-none"
+                style={{ cursor: lastPlacedCorrect !== null || showResults ? "default" : "grab" }}
+              >
+                {getWordIllustration(currentItem) ? (
+                  <div className="mb-2 flex justify-center"><img src={getWordIllustration(currentItem)!} alt="" className="w-44 h-44 object-contain pointer-events-none" /></div>
+                ) : null}
+                <div
+                  className={`inline-block px-6 py-3 rounded-2xl text-2xl font-black font-handwriting transition-all ${
+                    dragState.isDragging && dragState.draggedItem === currentItem
+                      ? "opacity-40 bg-gray-100 text-gray-300"
+                      : lastPlacedCorrect === true
+                        ? "bg-green-100 text-green-700"
+                        : lastPlacedCorrect === false
+                          ? "bg-red-100 text-red-700"
+                          : "bg-[var(--accent)] text-[var(--text)]"
+                  }`}
+                >
+                  {currentItem}
+                  {lastPlacedCorrect === true && " ✅"}
+                  {lastPlacedCorrect === false && " ❌"}
+                </div>
+              </div>
+              {!showResults && lastPlacedCorrect === null && (
+                <p className="text-xs text-[var(--text-light)] mt-2">
+                  {dragState.isDragging ? "Arrossega al grup correcte!" : "Toca un grup o arrossega la paraula"}
+                </p>
+              )}
+            </motion.div>
+          )}
+
+          {/* Column buttons below (non-circle mode) */}
+          {!allPlaced && !showResults && !task.circleMode && (
+            <div className="grid grid-cols-2 gap-4">
+              {task.columns.map((col, colIdx) => (
+                <motion.button
+                  key={colIdx}
+                  data-drop-target={`col-${colIdx}`}
+                  whileTap={dragState.isDragging ? undefined : { scale: 0.95 }}
+                  onClick={() => handleColumnTap(colIdx)}
+                  disabled={lastPlacedCorrect !== null}
+                  className={`min-h-[120px] rounded-2xl bg-white p-4 shadow-sm border-2 transition-all flex flex-col items-center justify-center gap-2 ${
+                    dragState.isDragging
+                      ? "border-[var(--primary)] bg-purple-50 animate-pulse"
+                      : "border-gray-200 hover:border-[var(--primary)]"
+                  }`}
+                >
+                  <h4 className="text-xl font-black text-[var(--primary)]">
+                    {col.title}
+                  </h4>
+                  <div className="text-xs text-[var(--text-light)]">
+                    {Object.values(placed).filter((c) => c === colIdx).length} posades
+                  </div>
+                  {dragState.isDragging && (
+                    <span className="text-2xl">⬇️</span>
+                  )}
+                </motion.button>
+              ))}
+            </div>
+          )}
+        </>
       )}
 
       {/* Results view */}
