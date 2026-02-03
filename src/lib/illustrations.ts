@@ -839,6 +839,47 @@ const wordsWithIllustrations = new Set([
   "persona-c",
   "persona-d",
   "persona-e",
+  // === MISSING ILLUSTRATIONS (generated Feb 2026) ===
+  // People for El cos tasks
+  "laura-carles",
+  "maria",
+  "carolina",
+  "sergi",
+  "sara",
+  "xavier",
+  // Albert's family drawings for La familia
+  "albert-dibuix-1",
+  "albert-dibuix-2",
+  "albert-dibuix-3",
+  "albert-dibuix-4",
+  "albert-dibuix-5",
+  // Scene/composite images
+  "arbre-familiar",
+  "arbre-familiar-complet",
+  "casa-exterior",
+  "classroom-items",
+  "roba-silueta",
+  "aliments",
+  "animals",
+  // Prepositions
+  "a-sobre",
+  "a-sota",
+  "a-dins",
+  "a-fora",
+  "a-davant",
+  "a-darrere",
+  // Family
+  "familia-foto",
+  // Clothing states
+  "pantalons-bruts",
+  "jersei-nou",
+  "sabates-velles",
+  "mitjons-nets",
+  // Counting
+  "3-llapis",
+  "2-gomes",
+  "4-llibres",
+  "5-retoladors",
 ]);
 
 // Strip accents for filename matching (e.g. "bolígraf" → "boligraf")

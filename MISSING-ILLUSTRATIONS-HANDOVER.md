@@ -1,7 +1,41 @@
 # Missing Illustrations Handover
 
 **Created:** 2026-02-03
+**Updated:** 2026-02-03 15:20
 **Purpose:** Guide for next session to generate all missing illustrations for tasks to be solvable
+
+## PROGRESS: 23/33 COMPLETE
+
+### Completed (saved to public/illustrations/):
+- [x] laura-carles.webp
+- [x] maria.webp
+- [x] carolina.webp
+- [x] sergi.webp
+- [x] sara.webp
+- [x] xavier.webp
+- [x] albert-dibuix-1.webp (grandfather)
+- [x] albert-dibuix-2.webp (grandmother)
+- [x] albert-dibuix-3.webp (father)
+- [x] albert-dibuix-4.webp (mother)
+- [x] albert-dibuix-5.webp (sister)
+- [x] arbre-familiar.webp
+- [x] casa-exterior.webp
+- [x] classroom-items.webp
+- [x] roba-silueta.webp
+- [x] aliments.webp
+- [x] animals.webp
+- [x] a-sobre.webp (preposition: on top of)
+- [x] a-sota.webp (preposition: underneath)
+- [x] a-dins.webp (preposition: inside)
+- [x] a-fora.webp (preposition: outside)
+- [x] a-davant.webp (preposition: in front of)
+- [x] a-darrere.webp (preposition: behind)
+
+### Remaining (10):
+- [ ] arbre-familiar-complet
+- [ ] familia-foto
+- [ ] pantalons-bruts, jersei-nou, sabates-velles, mitjons-nets (4)
+- [ ] 3-llapis, 2-gomes, 4-llibres, 5-retoladors (4)
 
 ## ChatGPT Custom GPT URL
 https://chatgpt.com/g/g-p-697a9ef9e7fc8191a6f01584dad8ea4d-igrice-katalonski-jezik/c/697a9f6b-f218-8332-a5d0-89b7ed59ec5b
