@@ -92,17 +92,17 @@ export const elCosTasks: Task[] = [
     options: ["ulls", "nas", "cabell", "boca", "orella", "colze"],
   },
 
-  // ── Task 6: Llegeix i uneix la persona amb la descripció correcta ──
+  // ── Task 6: Uneix cada part del cos amb la seva funció ──
   {
     id: "el-cos-6",
     type: "matching",
-    prompt: "Llegeix i uneix la persona amb la descripció correcta.",
+    prompt: "Uneix cada part del cos amb la seva funció.",
     pairs: [
-      { left: "Persona A", right: "cabell taronja" },
-      { left: "Persona B", right: "cabell marró" },
-      { left: "Persona C", right: "cabell ros" },
-      { left: "Persona D", right: "cabell negre" },
-      { left: "Persona E", right: "cabell blanc" },
+      { left: "ull", right: "veure" },
+      { left: "orella", right: "escoltar" },
+      { left: "nas", right: "olorar" },
+      { left: "boca", right: "parlar" },
+      { left: "mà", right: "tocar" },
     ],
   },
 
