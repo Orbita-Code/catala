@@ -98,6 +98,7 @@ export const laClasseTasks: Task[] = [
     id: "la-classe-4",
     type: "classify-columns",
     prompt: "Classifica les paraules: femení (una) o masculí (un).",
+    circleMode: true,
     columns: [
       {
         title: "Femení (una)",
