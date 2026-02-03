@@ -183,18 +183,16 @@ export const laCiutatTasks: Task[] = [
   },
   {
     id: "la-ciutat-10",
-    type: "label-image",
-    prompt: "Col·loca cada lloc al mapa de la ciutat:",
-    image: "ciutat-mapa",
-    labels: [
-      { text: "hospital", x: 20, y: 20 },
-      { text: "escola", x: 70, y: 20 },
-      { text: "parc", x: 20, y: 55 },
-      { text: "mercat", x: 70, y: 55 },
-      { text: "estació", x: 20, y: 85 },
-      { text: "cinema", x: 70, y: 85 },
+    type: "matching",
+    prompt: "Relaciona cada lloc amb què hi fas:",
+    pairs: [
+      { left: "hospital", right: "curar-se" },
+      { left: "escola", right: "estudiar" },
+      { left: "parc", right: "passejar" },
+      { left: "mercat", right: "comprar" },
+      { left: "estació", right: "viatjar" },
+      { left: "cinema", right: "veure pel·lícules" },
     ],
-    options: ["hospital", "escola", "parc", "mercat", "estació", "cinema", "farmàcia", "biblioteca"],
   },
   {
     id: "la-ciutat-11",
@@ -280,16 +278,30 @@ export const laCiutatTasks: Task[] = [
   },
   {
     id: "la-ciutat-14",
-    type: "label-image",
-    prompt: "Escriu el nom dels senyals de la ciutat:",
-    image: "senyals-ciutat",
-    labels: [
-      { text: "semàfor", x: 25, y: 25 },
-      { text: "pas de vianants", x: 75, y: 25 },
-      { text: "parada d'autobús", x: 25, y: 70 },
-      { text: "fanal", x: 75, y: 70 },
+    type: "fill-sentence",
+    prompt: "Completa les frases sobre la ciutat:",
+    sentences: [
+      {
+        text: "El ___ ens indica quan podem creuar.",
+        blank: "semàfor",
+        options: ["parc", "semàfor", "mercat"],
+      },
+      {
+        text: "Creuem pel ___ quan el semàfor és verd.",
+        blank: "pas de vianants",
+        options: ["pas de vianants", "cinema", "hospital"],
+      },
+      {
+        text: "Esperem l'autobús a la ___.",
+        blank: "parada d'autobús",
+        options: ["escola", "estació", "parada d'autobús"],
+      },
+      {
+        text: "El ___ il·lumina el carrer a la nit.",
+        blank: "fanal",
+        options: ["fanal", "semàfor", "parc"],
+      },
     ],
-    options: ["semàfor", "pas de vianants", "parada d'autobús", "fanal", "paperera", "escola"],
   },
   // Bonus activity: Fun drawing
   {

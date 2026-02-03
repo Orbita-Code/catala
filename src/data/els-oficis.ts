@@ -178,18 +178,30 @@ export const elsOficisTasks: Task[] = [
   },
   {
     id: "els-oficis-10",
-    type: "label-image",
-    prompt: "Qui és? Escriu l'ofici:",
-    image: "oficis",
-    labels: [
-      { text: "bomber", x: 15, y: 25 },
-      { text: "policia", x: 50, y: 25 },
-      { text: "metge", x: 85, y: 25 },
-      { text: "mestre", x: 15, y: 70 },
-      { text: "cuiner", x: 50, y: 70 },
-      { text: "jardiner", x: 85, y: 70 },
+    type: "multiple-choice",
+    prompt: "Qui és? Tria l'ofici correcte:",
+    questions: [
+      {
+        question: "Qui apaga focs?",
+        options: ["Bomber", "Policia", "Metge", "Cuiner"],
+        correct: 0,
+      },
+      {
+        question: "Qui cuida la seguretat?",
+        options: ["Mestre", "Bomber", "Policia", "Jardiner"],
+        correct: 2,
+      },
+      {
+        question: "Qui cura els malalts?",
+        options: ["Cuiner", "Pilot", "Jardiner", "Metge"],
+        correct: 3,
+      },
+      {
+        question: "Qui ensenya als nens?",
+        options: ["Mestre", "Carter", "Bomber", "Policia"],
+        correct: 0,
+      },
     ],
-    options: ["bomber", "policia", "metge", "mestre", "cuiner", "jardiner", "pare", "mare"],
   },
   {
     id: "els-oficis-11",
@@ -254,16 +266,16 @@ export const elsOficisTasks: Task[] = [
   },
   {
     id: "els-oficis-13",
-    type: "label-image",
-    prompt: "Escriu les eines de cada ofici:",
-    image: "eines-oficis",
-    labels: [
-      { text: "estetoscopi", x: 25, y: 25 },
-      { text: "extintor", x: 75, y: 25 },
-      { text: "xeringa", x: 25, y: 70 },
-      { text: "paella", x: 75, y: 70 },
+    type: "matching",
+    prompt: "Relaciona cada eina amb el seu ofici:",
+    pairs: [
+      { left: "estetoscopi", right: "metge" },
+      { left: "extintor", right: "bomber" },
+      { left: "xeringa", right: "infermer" },
+      { left: "paella", right: "cuiner" },
+      { left: "pissarra", right: "mestre" },
+      { left: "tisores", right: "jardiner" },
     ],
-    options: ["estetoscopi", "extintor", "xeringa", "paella", "pissarra", "tisores"],
   },
   {
     id: "els-oficis-14",

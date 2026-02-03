@@ -177,18 +177,16 @@ export const elsVehiclesTasks: Task[] = [
   },
   {
     id: "els-vehicles-10",
-    type: "label-image",
-    prompt: "Escriu el nom de cada vehicle:",
-    image: "vehicles",
-    labels: [
-      { text: "cotxe", x: 15, y: 25 },
-      { text: "autobús", x: 50, y: 25 },
-      { text: "tren", x: 85, y: 25 },
-      { text: "avió", x: 15, y: 70 },
-      { text: "vaixell", x: 50, y: 70 },
-      { text: "bicicleta", x: 85, y: 70 },
+    type: "matching",
+    prompt: "Relaciona cada vehicle amb on va:",
+    pairs: [
+      { left: "cotxe", right: "carretera" },
+      { left: "autobús", right: "parada" },
+      { left: "tren", right: "vies" },
+      { left: "avió", right: "cel" },
+      { left: "vaixell", right: "mar" },
+      { left: "bicicleta", right: "carril bici" },
     ],
-    options: ["cotxe", "autobús", "tren", "avió", "vaixell", "bicicleta", "casa", "escola"],
   },
   {
     id: "els-vehicles-11",
@@ -253,17 +251,30 @@ export const elsVehiclesTasks: Task[] = [
   },
   {
     id: "els-vehicles-13",
-    type: "label-image",
-    prompt: "Escriu les parts del cotxe:",
-    image: "cotxe-parts",
-    labels: [
-      { text: "roda", x: 25, y: 80 },
-      { text: "porta", x: 50, y: 50 },
-      { text: "volant", x: 35, y: 35 },
-      { text: "mirall", x: 15, y: 35 },
-      { text: "far", x: 85, y: 50 },
+    type: "fill-sentence",
+    prompt: "Completa amb les parts del cotxe:",
+    sentences: [
+      {
+        text: "Les ___ fan girar el cotxe.",
+        blank: "rodes",
+        options: ["rodes", "portes", "fars"],
+      },
+      {
+        text: "Obrim la ___ per entrar al cotxe.",
+        blank: "porta",
+        options: ["roda", "porta", "volant"],
+      },
+      {
+        text: "El conductor gira el ___ per conduir.",
+        blank: "volant",
+        options: ["mirall", "far", "volant"],
+      },
+      {
+        text: "Els ___ il·luminen el camí a la nit.",
+        blank: "fars",
+        options: ["miralls", "volants", "fars"],
+      },
     ],
-    options: ["roda", "porta", "volant", "mirall", "far", "finestra", "llapis"],
   },
   {
     id: "els-vehicles-14",
