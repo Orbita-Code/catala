@@ -565,324 +565,304 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
   ],
 
   // ═══════════════════════════════════════════
-  // Theme 7: Les Botigues (21 tasks)
+  // Theme 7: Les Botigues (20 tasks + bonus)
   // ═══════════════════════════════════════════
   "les-botigues": [
-    // 1. copy-word
+    // 1. copy-word (shops)
     { type: "copy-word" },
-    // 2. fill-letters
-    { type: "fill-letters", words: ["supermercat", "fleca", "peixateria", "carnisseria", "farmàcia", "llibreria", "pastisseria", "fruiteria", "joguineria"] },
-    // 3. unscramble
-    { type: "unscramble", words: ["fleca", "farmàcia", "fruiteria", "llibreria", "joguineria"] },
-    // 4. matching
+    // 2. fill-sentence (which shop sells what)
+    { type: "fill-sentence", blanks: ["peixeteria", "fleca", "fruiteria", "farmàcia", "carnisseria"] },
+    // 3. separate-words
+    { type: "separate-words" },
+    // 4. copy-word (fruits)
+    { type: "copy-word" },
+    // 5. copy-word (vegetables)
+    { type: "copy-word" },
+    // 6. fill-letters (fruits)
+    { type: "fill-letters", words: ["meló", "préssec", "poma", "síndria", "taronja", "plàtan", "cirera", "pera", "maduixa"] },
+    // 7. color-by-instruction (vegetables)
+    {
+      type: "color-by-instruction",
+      areas: [
+        { area: "ceba", color: "groc" },
+        { area: "enciam", color: "verd" },
+        { area: "pastanaga", color: "taronja" },
+        { area: "patata", color: "marró" },
+        { area: "pebrot", color: "vermell" },
+        { area: "tomàquet", color: "vermell" },
+        { area: "mongetes", color: "verd" },
+      ],
+    },
+    // 8. fill-sentence (vegetables)
+    { type: "fill-sentence", blanks: ["pastanaga", "tomàquet", "enciam", "ceba"] },
+    // 9. copy-word (fish)
+    { type: "copy-word" },
+    // 10. matching (singular/plural fish)
     {
       type: "matching",
       pairs: [
-        ["fleca", "pa"],
-        ["peixateria", "peix"],
-        ["carnisseria", "carn"],
-        ["farmàcia", "medicaments"],
-        ["fruiteria", "fruita"],
+        ["sardina", "sardines"],
+        ["tonyina", "tonyines"],
+        ["salmó", "salmons"],
+        ["calamar", "calamars"],
+        ["gamba", "gambes"],
+        ["musclo", "musclos"],
       ],
     },
-    // 5. word-search
-    {
-      type: "word-search",
-      gridSize: 10,
-      wordPositions: [
-        { word: "fleca", startRow: 0, startCol: 0, endRow: 0, endCol: 4 },
-        { word: "carn", startRow: 3, startCol: 0, endRow: 3, endCol: 3 },
-        { word: "peix", startRow: 4, startCol: 0, endRow: 4, endCol: 3 },
-        { word: "fruita", startRow: 7, startCol: 5, endRow: 7, endCol: 0 },
-        { word: "pa", startRow: 1, startCol: 5, endRow: 1, endCol: 6 },
-      ],
-    },
-    // 6. classify-columns
+    // 11. copy-word (meat)
+    { type: "copy-word" },
+    // 12. classify-columns (EL/LA meat)
     {
       type: "classify-columns",
       columns: [
-        { columnName: "Menjar", items: ["fleca", "peixateria", "carnisseria", "pastisseria", "fruiteria", "supermercat"] },
-        { columnName: "No menjar", items: ["farmàcia", "llibreria", "joguineria", "botiga de roba"] },
+        { columnName: "EL", items: ["pollastre", "bistec"] },
+        { columnName: "LA", items: ["salsitxa", "mandonguilla", "hamburguesa", "cansalada"] },
       ],
     },
-    // 7. fill-sentence
-    { type: "fill-sentence", blanks: ["fleca", "peixateria", "fruiteria", "joguineria"] },
-    // 8. multiple-choice
-    { type: "multiple-choice", correctIndices: [0, 1, 2, 3] },
-    // 9. self-assessment
-    { type: "self-assessment" },
-    // 10. label-image (fruits)
-    { type: "label-image", labels: ["poma", "pera", "plàtan", "taronja", "maduixa", "cirera"] },
-    // 11. label-image (vegetables)
-    { type: "label-image", labels: ["pastanaga", "ceba", "tomàquet", "pebrot", "enciam"] },
-    // 12. fill-letters
-    { type: "fill-letters", words: ["pastanaga", "tomàquet", "pollastre", "sardina", "maduixa", "plàtan"] },
-    // 13. label-image (meat/fish)
-    { type: "label-image", labels: ["pollastre", "porc", "peix", "gamba"] },
-    // 14. classify-columns
+    // 13. (ID skipped in data)
+    // 14. copy-word (bakery)
+    { type: "copy-word" },
+    // 15. classify-columns (4 shops)
     {
       type: "classify-columns",
       columns: [
-        { columnName: "Fruites", items: ["poma", "pera", "plàtan", "taronja", "maduixa"] },
-        { columnName: "Verdures", items: ["pastanaga", "ceba", "tomàquet", "pebrot", "enciam"] },
-        { columnName: "Carn i peix", items: ["pollastre", "porc", "peix", "gamba"] },
+        { columnName: "Peixeteria", items: ["sardina", "tonyina", "gamba", "musclo"] },
+        { columnName: "Carnisseria", items: ["pollastre", "bistec", "salsitxa", "hamburguesa"] },
+        { columnName: "Fleca", items: ["barra de pa", "croissant", "pastís", "galeta"] },
+        { columnName: "Fruiteria", items: ["poma", "taronja", "pastanaga", "tomàquet"] },
       ],
     },
-    // 15. copy-word (pharmacy)
+    // 16. fill-sentence (AHIR/AVUI/DEMÀ)
+    { type: "fill-sentence", blanks: ["vaig", "vaig", "aniré", "vaig"] },
+    // 17. copy-word (pharmacy)
     { type: "copy-word" },
-    // 16. copy-word (fruits/veg)
-    { type: "copy-word" },
-    // 17. fill-letters (new products)
-    { type: "fill-letters", words: ["tirita", "pastilla", "xarop", "termòmetre", "crema", "mongetes", "préssec", "cireres", "fleca"] },
-    // 18. matching (product-shop)
-    {
-      type: "matching",
-      pairs: [
-        ["tirita", "farmàcia"],
-        ["préssec", "fruiteria"],
-        ["sardina", "peixateria"],
-        ["pa", "fleca"],
-        ["pastís", "pastisseria"],
-      ],
-    },
+    // 18. separate-words (pharmacy)
+    { type: "separate-words" },
     // 19. classify-columns (by shop)
     {
       type: "classify-columns",
       columns: [
-        { columnName: "Farmàcia", items: ["tirita", "pastilla", "xarop", "termòmetre", "crema"] },
-        { columnName: "Fruiteria", items: ["préssec", "cireres", "mongetes", "poma", "taronja"] },
-        { columnName: "Fleca", items: ["pa", "croissant", "barra de pa"] },
+        { columnName: "Farmàcia", items: ["tirita", "pastilla", "xeringa", "termòmetre", "venda"] },
+        { columnName: "Fruiteria", items: ["poma", "pastanaga", "cirera", "pera", "tomàquet"] },
+        { columnName: "Fleca", items: ["barra de pa", "croissant", "galeta", "pastís"] },
       ],
     },
-    // 20. fill-sentence
-    { type: "fill-sentence", blanks: ["fleca", "farmàcia", "fruiteria", "pastilla"] },
-    // 21. drawing-canvas
+    // 20. self-assessment
+    { type: "self-assessment" },
+    // bonus. drawing-canvas
     { type: "drawing-canvas" },
   ],
 
   // ═══════════════════════════════════════════
-  // Theme 8: El Menjar (27 tasks)
+  // Theme 8: El Menjar (21 tasks + bonus)
   // ═══════════════════════════════════════════
   "el-menjar": [
-    // 1. copy-word
+    // 1. copy-word (tableware)
     { type: "copy-word" },
-    // 2. fill-letters
-    { type: "fill-letters", words: ["poma", "pera", "plàtan", "taronja", "maduixa", "tomàquet", "pastanaga", "llet", "formatge", "peix"] },
-    // 3. unscramble
-    { type: "unscramble", words: ["poma", "pera", "peix", "llet", "ceba"] },
-    // 4. matching (meal-food)
+    // 2. matching (singular/plural tableware)
     {
       type: "matching",
       pairs: [
-        ["esmorzar", "cereals"],
-        ["dinar", "sopa"],
-        ["berenar", "fruita"],
-        ["sopar", "amanida"],
+        ["tassa", "tasses"],
+        ["ampolla", "ampolles"],
+        ["got", "gots"],
+        ["copa", "copes"],
+        ["ganivet", "ganivets"],
+        ["cullera", "culleres"],
+        ["forquilla", "forquilles"],
+        ["plat", "plats"],
+        ["tovalló", "tovallons"],
       ],
     },
-    // 5. word-search
-    {
-      type: "word-search",
-      gridSize: 10,
-      wordPositions: [
-        { word: "poma", startRow: 0, startCol: 0, endRow: 0, endCol: 3 },
-        { word: "pera", startRow: 2, startCol: 5, endRow: 2, endCol: 8 },
-        { word: "pa", startRow: 2, startCol: 0, endRow: 2, endCol: 1 },
-        { word: "llet", startRow: 3, startCol: 0, endRow: 3, endCol: 3 },
-        { word: "ou", startRow: 7, startCol: 6, endRow: 7, endCol: 7 },
-      ],
-    },
-    // 6. classify-columns (fruit vs vegetable)
-    {
-      type: "classify-columns",
-      columns: [
-        { columnName: "Fruita", items: ["poma", "pera", "plàtan", "taronja", "maduixa"] },
-        { columnName: "Verdura", items: ["tomàquet", "pastanaga", "ceba", "enciam", "patata"] },
-      ],
-    },
-    // 7. fill-sentence
-    { type: "fill-sentence", blanks: ["llet", "sopa", "fruita", "amanida"] },
+    // 3. (ID skipped in data)
+    // 4. copy-word (breakfast)
+    { type: "copy-word" },
+    // 5. copy-word (lunch)
+    { type: "copy-word" },
+    // 6. copy-word (snack/dinner)
+    { type: "copy-word" },
+    // 7. fill-sentence (meals)
+    { type: "fill-sentence", blanks: ["cereals", "arròs", "sandvitx", "sopa"] },
     // 8. multiple-choice
-    { type: "multiple-choice", correctIndices: [1, 2, 3, 1] },
-    // 9. self-assessment
-    { type: "self-assessment" },
-    // 10. label-image (breakfast)
-    { type: "label-image", labels: ["cereals", "suc", "llet", "torrada", "fruita"] },
-    // 11. fill-sentence
-    { type: "fill-sentence", blanks: ["cereals", "arròs", "entrepà", "sopa"] },
-    // 12. label-image (food items)
-    { type: "label-image", labels: ["pa", "formatge", "ou", "pizza", "pasta", "hamburguesa"] },
-    // 13. classify-columns (meals)
+    { type: "multiple-choice", correctIndices: [0, 2, 1, 3] },
+    // 9. classify-columns (eat vs drink)
     {
       type: "classify-columns",
       columns: [
-        { columnName: "Esmorzar", items: ["cereals", "torrada", "llet", "suc", "fruita"] },
-        { columnName: "Dinar", items: ["arròs", "carn", "peix", "amanida", "pasta"] },
-        { columnName: "Sopar", items: ["sopa", "entrepà", "ou", "formatge"] },
+        { columnName: "Per menjar", items: ["entrepà", "pizza", "hamburguesa", "amanida", "macarrons", "galetes"] },
+        { columnName: "Per beure", items: ["suc", "cafè", "te", "llet", "aigua", "refresc"] },
       ],
     },
-    // 14. fill-sentence
-    { type: "fill-sentence", blanks: ["llet", "amanida", "ou", "pa"] },
-    // 15. fill-letters
-    { type: "fill-letters", words: ["hamburguesa", "entrepà", "formatge", "amanida", "cereals", "torrada"] },
-    // 16. classify-columns (sweet vs salty)
-    {
-      type: "classify-columns",
-      columns: [
-        { columnName: "Dolç", items: ["xocolata", "pastís", "galeta", "melmelada", "fruita"] },
-        { columnName: "Salat", items: ["formatge", "pernil", "entrepà", "pizza", "sopa"] },
-      ],
-    },
-    // 17. fill-sentence
-    { type: "fill-sentence", blanks: ["pizza", "peix", "xocolata"] },
-    // 18. label-image (dinner)
-    { type: "label-image", labels: ["sopa", "pa", "formatge", "fruita"] },
-    // 19. label-image (lunch)
-    { type: "label-image", labels: ["amanida", "arròs", "peix", "suc"] },
-    // 20. copy-word (drinks)
-    { type: "copy-word" },
-    // 21. copy-word (proteins)
-    { type: "copy-word" },
-    // 22. copy-word (carbs)
-    { type: "copy-word" },
-    // 23. fill-letters (new food)
-    { type: "fill-letters", words: ["cafè", "tonyina", "salmó", "calamar", "macarrons", "sandvitx", "croissant", "iogurt"] },
-    // 24. matching (food-meal)
+    // 10. matching (utensils)
     {
       type: "matching",
       pairs: [
-        ["croissant", "esmorzar"],
-        ["bistec", "dinar"],
-        ["sopa", "sopar"],
-        ["sandvitx", "berenar"],
-        ["cafè", "esmorzar"],
+        ["Bec el cafè amb...", "tassa"],
+        ["Menjo l'amanida amb...", "forquilla"],
+        ["Tallo la carn amb...", "ganivet"],
+        ["Menjo la sopa amb...", "cullera"],
+        ["Poso el menjar al...", "plat"],
+        ["Bec aigua amb...", "got"],
       ],
     },
-    // 25. classify-columns (drinks vs proteins)
+    // 11. separate-words
+    { type: "separate-words" },
+    // 12. classify-columns (hot/cold)
     {
       type: "classify-columns",
       columns: [
-        { columnName: "Begudes", items: ["cafè", "te", "refresc", "aigua", "llet", "suc"] },
-        { columnName: "Proteïnes", items: ["tonyina", "salmó", "calamar", "musclo", "bistec", "mandonguilles"] },
+        { columnName: "Fred", items: ["gelat", "suc", "amanida", "iogurt", "refresc", "fruita"] },
+        { columnName: "Calent", items: ["sopa", "cafè", "te", "arròs", "pizza", "macarrons"] },
       ],
     },
-    // 26. fill-sentence
-    { type: "fill-sentence", blanks: ["cafè", "calamar", "sandvitx", "ampolla"] },
-    // 27. drawing-canvas
+    // 13. color-by-instruction (hot/cold)
+    {
+      type: "color-by-instruction",
+      areas: [
+        { area: "gelat", color: "blau" },
+        { area: "sopa", color: "vermell" },
+        { area: "cafè", color: "vermell" },
+        { area: "suc", color: "blau" },
+        { area: "pizza", color: "vermell" },
+        { area: "iogurt", color: "blau" },
+        { area: "te", color: "vermell" },
+        { area: "refresc", color: "blau" },
+      ],
+    },
+    // 14. fill-sentence (nevera/tovalló/estovalles)
+    { type: "fill-sentence", blanks: ["nevera", "tovalló", "estovalles"] },
+    // 15. fill-sentence (fred/freda/calent/calenta)
+    { type: "fill-sentence", blanks: ["fred", "calenta", "calent", "freda"] },
+    // 16. classify-columns (sweet/salty)
+    {
+      type: "classify-columns",
+      columns: [
+        { columnName: "Dolç", items: ["pastís de xocolata", "gelat", "xocolata", "galetes", "caramels", "sucre", "plàtan"] },
+        { columnName: "Salat", items: ["pizza", "macarrons", "amanida", "arròs", "entrepà", "pernil", "sal"] },
+      ],
+    },
+    // 17. multiple-choice (restaurant menu)
+    { type: "multiple-choice", correctIndices: [0, 1, 2, 1] },
+    // 18. fill-sentence (meal questions)
+    { type: "fill-sentence", blanks: ["dinaràs", "berenaràs", "esmorzaràs"] },
+    // 19. (ID skipped in data)
+    // 20. fill-letters
+    { type: "fill-letters", words: ["forquilla", "ganivet", "cullera", "tovalló", "ampolla", "cereals", "hamburguesa", "macarrons"] },
+    // 21. self-assessment
+    { type: "self-assessment" },
+    // bonus. drawing-canvas
     { type: "drawing-canvas" },
   ],
 
   // ═══════════════════════════════════════════
-  // Theme 9: Els Animals (27 tasks)
+  // Theme 9: Els Animals (21 tasks + bonus)
   // ═══════════════════════════════════════════
   "els-animals": [
-    // 1. copy-word
+    // 1. copy-word (birds - 9 words)
     { type: "copy-word" },
-    // 2. fill-letters
-    { type: "fill-letters", words: ["conill", "tigre", "elefant", "tortuga", "girafa", "dofí", "ocell", "serp", "lleó", "gos"] },
-    // 3. unscramble
-    { type: "unscramble", words: ["conill", "tigre", "peix", "girafa", "lleó"] },
-    // 4. matching (animal-sound)
+    // 2. fill-sentence (bird facts)
+    { type: "fill-sentence", blanks: ["plomes", "ous", "ales", "dues", "bec"] },
+    // 3. copy-word (insects - 6 words)
+    { type: "copy-word" },
+    // 4. copy-word (fish - 6 words)
+    { type: "copy-word" },
+    // 5. copy-word (reptiles - 3 words)
+    { type: "copy-word" },
+    // 6. classify-columns (4 categories: Au, Insecte, Peix, Rèptil)
+    {
+      type: "classify-columns",
+      columns: [
+        { columnName: "Au", items: ["gallina", "mussol", "oreneta", "gavina"] },
+        { columnName: "Insecte", items: ["mosca", "formiga", "abella", "papallona"] },
+        { columnName: "Peix", items: ["sardina", "tauró", "tonyina", "salmó"] },
+        { columnName: "Rèptil", items: ["serp", "tortuga", "cocodril"] },
+      ],
+    },
+    // 7. copy-word (mammals - 18 words)
+    { type: "copy-word" },
+    // 8. matching (animal to category)
     {
       type: "matching",
       pairs: [
-        ["gos", "bup bup"],
-        ["gat", "meu meu"],
-        ["lleó", "grr"],
-        ["ocell", "piu piu"],
-        ["serp", "sss"],
+        ["gat", "mamífer"],
+        ["sardina", "peix"],
+        ["oreneta", "au"],
+        ["serp", "rèptil"],
+        ["papallona", "insecte"],
+        ["lleó", "mamífer"],
+        ["tauró", "peix"],
+        ["pingüí", "au"],
+        ["tortuga", "rèptil"],
+        ["mosquit", "insecte"],
       ],
     },
-    // 5. word-search
+    // 9. classify-columns (UN / UNA)
+    {
+      type: "classify-columns",
+      columns: [
+        { columnName: "UN", items: ["estruç", "gat", "tauró", "pingüí", "lleó", "mosquit"] },
+        { columnName: "UNA", items: ["sardina", "oreneta", "serp", "papallona", "tortuga"] },
+      ],
+    },
+    // 10. word-search (8 mammals)
     {
       type: "word-search",
       gridSize: 10,
       wordPositions: [
-        { word: "gos", startRow: 0, startCol: 0, endRow: 0, endCol: 2 },
-        { word: "gat", startRow: 2, startCol: 0, endRow: 2, endCol: 2 },
-        { word: "lleo", startRow: 6, startCol: 0, endRow: 6, endCol: 3 },
-        { word: "peix", startRow: 4, startCol: 0, endRow: 4, endCol: 3 },
-        { word: "serp", startRow: 0, startCol: 9, endRow: 3, endCol: 9 },
+        { word: "vaca", startRow: 0, startCol: 5, endRow: 0, endCol: 8 },
+        { word: "gos", startRow: 2, startCol: 2, endRow: 2, endCol: 4 },
+        { word: "os", startRow: 3, startCol: 9, endRow: 3, endCol: 9 },
+        { word: "lleo", startRow: 8, startCol: 1, endRow: 8, endCol: 2 },
+        { word: "ovella", startRow: 8, startCol: 2, endRow: 8, endCol: 7 },
+        { word: "porc", startRow: 9, startCol: 6, endRow: 9, endCol: 9 },
       ],
     },
-    // 6. classify-columns (domestic vs wild)
+    // 11. color-by-instruction
     {
-      type: "classify-columns",
-      columns: [
-        { columnName: "Domèstics", items: ["gos", "gat", "conill", "hàmster", "tortuga"] },
-        { columnName: "Salvatges", items: ["lleó", "tigre", "elefant", "girafa", "serp"] },
+      type: "color-by-instruction",
+      areas: [
+        { area: "lleó", color: "verd" },
+        { area: "gavina", color: "groc" },
+        { area: "cocodril", color: "vermell" },
+        { area: "ratolí", color: "verd" },
+        { area: "tauró", color: "blau" },
+        { area: "serp", color: "vermell" },
+        { area: "conill", color: "verd" },
+        { area: "vaca", color: "verd" },
+        { area: "tortuga", color: "vermell" },
       ],
     },
-    // 7. fill-sentence
-    { type: "fill-sentence", blanks: ["gos", "tigre", "elefant", "peix"] },
-    // 8. multiple-choice
-    { type: "multiple-choice", correctIndices: [1, 2, 3, 0] },
-    // 9. self-assessment
-    { type: "self-assessment" },
-    // 10. label-image (bird parts)
+    // 12. label-image (bird parts)
     { type: "label-image", labels: ["bec", "ales", "plomes", "cua", "potes"] },
-    // 11. copy-word (marine)
-    { type: "copy-word" },
-    // 12. fill-letters (marine)
-    { type: "fill-letters", words: ["dofí", "balena", "tauró", "medusa", "pop", "tortuga"] },
-    // 13. copy-word (wild)
-    { type: "copy-word" },
-    // 14. classify-columns (farm vs wild)
-    {
-      type: "classify-columns",
-      columns: [
-        { columnName: "Animals de granja", items: ["gos", "gat", "conill", "cavall", "vaca", "ovella", "gallina", "ànec", "porc"] },
-        { columnName: "Animals salvatges", items: ["lleó", "tigre", "elefant", "girafa", "zebra", "ós", "mico"] },
-      ],
-    },
-    // 15. fill-sentence
-    { type: "fill-sentence", blanks: ["lleó", "vaca", "gallina", "dofí", "elefant"] },
-    // 16. label-image (farm)
-    { type: "label-image", labels: ["gos", "gat", "vaca", "cavall", "gallina", "ovella"] },
-    // 17. classify-columns (sea vs land vs air)
-    {
-      type: "classify-columns",
-      columns: [
-        { columnName: "Mar", items: ["dofí", "balena", "tauró", "pop", "medusa"] },
-        { columnName: "Terra", items: ["lleó", "elefant", "gos", "gat", "conill"] },
-        { columnName: "Aire", items: ["àguila", "oreneta", "mussol", "gaviota", "papallona"] },
-      ],
-    },
-    // 18. fill-sentence (animal sounds)
-    { type: "fill-sentence", blanks: ["borda", "miola", "mugeix", "canta"] },
-    // 19. label-image (insects)
-    { type: "label-image", labels: ["formiga", "papallona", "abella", "aranya"] },
-    // 20. fill-sentence (describe pet)
-    { type: "fill-sentence", blanks: ["gos", "quatre", "marró", "casa"] },
-    // 21. copy-word (farm + insects)
-    { type: "copy-word" },
-    // 22. copy-word (exotic)
-    { type: "copy-word" },
-    // 23. copy-word (sea animals)
-    { type: "copy-word" },
-    // 24. fill-letters (new animals)
-    { type: "fill-letters", words: ["gorila", "camell", "lince", "guineu", "mosquit", "pingüí", "bacallà", "estruç"] },
-    // 25. matching (animal-habitat)
+    // 13. matching (gender pairs)
     {
       type: "matching",
       pairs: [
-        ["camell", "desert"],
-        ["pingüí", "gel"],
-        ["gorila", "selva"],
-        ["bacallà", "mar"],
-        ["guineu", "bosc"],
+        ["gos", "gossa"],
+        ["lleó", "lleona"],
+        ["gat", "gata"],
+        ["ós", "óssa"],
+        ["conill", "conilla"],
+        ["gall", "gallina"],
+        ["tigre", "tigressa"],
+        ["elefant", "elefanta"],
       ],
     },
-    // 26. classify-columns (farm vs wild vs marine)
-    {
-      type: "classify-columns",
-      columns: [
-        { columnName: "Animals de granja", items: ["gall", "pollet", "gallina", "vaca", "ovella", "porc"] },
-        { columnName: "Animals salvatges", items: ["gorila", "camell", "lince", "guineu", "estruç"] },
-        { columnName: "Animals marins", items: ["peix espasa", "bacallà", "pingüí", "dofí", "balena"] },
-      ],
-    },
-    // 27. drawing-canvas
+    // 14. fill-sentence (what do animals do)
+    { type: "fill-sentence", blanks: ["neda", "vola", "camina", "s'arrossega", "camina", "neda"] },
+    // 15. multiple-choice (descriptions)
+    { type: "multiple-choice", correctIndices: [0, 1, 2, 3] },
+    // 16. order-words
+    { type: "order-words" },
+    // 17. multiple-choice (snake reading comprehension)
+    { type: "multiple-choice", correctIndices: [1, 0, 1, 1] },
+    // 18. fill-sentence (riddles)
+    { type: "fill-sentence", blanks: ["elefant", "cocodril", "serp", "tigre"] },
+    // 19. fill-letters
+    { type: "fill-letters", words: ["gallina", "oreneta", "papallona", "cocodril", "elefant", "hipopòtam", "tortuga", "sardina"] },
+    // 20. self-assessment
+    { type: "self-assessment" },
+    // bonus. drawing-canvas
     { type: "drawing-canvas" },
   ],
 
