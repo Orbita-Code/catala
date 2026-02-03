@@ -120,19 +120,19 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
             whileTap={dragState.isDragging ? undefined : { scale: 0.95 }}
             onClick={() => handleColumnTap(0)}
             disabled={lastPlacedCorrect !== null}
-            className={`aspect-square rounded-full w-[120px] sm:w-[140px] flex-shrink-0 bg-white p-3 shadow-sm border-2 transition-all flex flex-col items-center justify-center gap-1 ${
+            className={`aspect-square rounded-full w-[140px] sm:w-[180px] md:w-[220px] flex-shrink-0 bg-white p-3 shadow-sm border-2 transition-all flex flex-col items-center justify-center gap-1 ${
               dragState.isDragging
                 ? "border-[var(--primary)] bg-purple-50 animate-pulse"
                 : "border-gray-200 hover:border-[var(--primary)]"
             }`}
           >
-            <h4 className="text-base sm:text-lg font-black text-[var(--primary)] leading-tight text-center">
+            <h4 className="text-lg sm:text-xl md:text-2xl font-black text-[var(--primary)] leading-tight text-center">
               {task.columns[0].title}
             </h4>
-            <div className="text-[10px] text-[var(--text-light)]">
+            <div className="text-xs text-[var(--text-light)]">
               {Object.values(placed).filter((c) => c === 0).length} posades
             </div>
-            {dragState.isDragging && <span className="text-lg">⬅️</span>}
+            {dragState.isDragging && <span className="text-xl md:text-2xl">⬅️</span>}
           </motion.button>
 
           {/* Center: current item */}
@@ -152,10 +152,10 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
               style={{ cursor: lastPlacedCorrect !== null || showResults ? "default" : "grab" }}
             >
               {getWordIllustration(currentItem) ? (
-                <div className="mb-1 flex justify-center"><img src={getWordIllustration(currentItem)!} alt="" className="w-28 h-28 sm:w-36 sm:h-36 object-contain pointer-events-none" /></div>
+                <div className="mb-2 flex justify-center"><img src={getWordIllustration(currentItem)!} alt="" className="w-36 h-36 sm:w-44 sm:h-44 md:w-52 md:h-52 object-contain pointer-events-none" /></div>
               ) : null}
               <div
-                className={`inline-block px-4 py-2 rounded-2xl text-xl sm:text-2xl font-black font-handwriting transition-all ${
+                className={`inline-block px-5 py-3 rounded-2xl text-2xl sm:text-3xl md:text-4xl font-black font-handwriting transition-all ${
                   dragState.isDragging && dragState.draggedItem === currentItem
                     ? "opacity-40 bg-gray-100 text-gray-300"
                     : lastPlacedCorrect === true
@@ -167,11 +167,11 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
               >
                 {currentItem}
                 {lastPlacedCorrect === true && " ✅"}
-                {lastPlacedCorrect === false && <RefreshCcw className="inline w-4 h-4 text-orange-500 ml-1" />}
+                {lastPlacedCorrect === false && <RefreshCcw className="inline w-5 h-5 md:w-6 md:h-6 text-orange-500 ml-1" />}
               </div>
             </div>
             {lastPlacedCorrect === null && (
-              <p className="text-[10px] text-[var(--text-light)] mt-1">
+              <p className="text-xs md:text-sm text-[var(--text-light)] mt-2">
                 {dragState.isDragging ? "Arrossega!" : "Toca o arrossega"}
               </p>
             )}
@@ -183,19 +183,19 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
             whileTap={dragState.isDragging ? undefined : { scale: 0.95 }}
             onClick={() => handleColumnTap(1)}
             disabled={lastPlacedCorrect !== null}
-            className={`aspect-square rounded-full w-[120px] sm:w-[140px] flex-shrink-0 bg-white p-3 shadow-sm border-2 transition-all flex flex-col items-center justify-center gap-1 ${
+            className={`aspect-square rounded-full w-[140px] sm:w-[180px] md:w-[220px] flex-shrink-0 bg-white p-3 shadow-sm border-2 transition-all flex flex-col items-center justify-center gap-1 ${
               dragState.isDragging
                 ? "border-[var(--primary)] bg-purple-50 animate-pulse"
                 : "border-gray-200 hover:border-[var(--primary)]"
             }`}
           >
-            <h4 className="text-base sm:text-lg font-black text-[var(--primary)] leading-tight text-center">
+            <h4 className="text-lg sm:text-xl md:text-2xl font-black text-[var(--primary)] leading-tight text-center">
               {task.columns[1].title}
             </h4>
-            <div className="text-[10px] text-[var(--text-light)]">
+            <div className="text-xs text-[var(--text-light)]">
               {Object.values(placed).filter((c) => c === 1).length} posades
             </div>
-            {dragState.isDragging && <span className="text-lg">➡️</span>}
+            {dragState.isDragging && <span className="text-xl md:text-2xl">➡️</span>}
           </motion.button>
         </div>
       ) : (
