@@ -178,6 +178,9 @@ npm run test:ui  # Playwright UI mode
 - Nothing in progress
 
 ### Recently Completed (Feb 3, 2026)
+- **Fixed illustrations not showing in themes 10-12** - Added 18 missing words to wordsWithIllustrations set
+- **UX improvement: ❌ → 🔄** - Replaced harsh X with RefreshCcw "try again" icon for wrong answers in 8 task components
+- **Els Oficis word-search** - Added 2 more words (mestre, policia) - now 7 total
 - **Arracades illustration REDONE** - Replaced blurry Bing earrings with new ChatGPT-generated version (elegant drop earrings with blue gems)
 - **WebP conversion COMPLETE** - Converted 434 illustrations from PNG (119MB) to WebP (7.5MB) - 94% size reduction
 - **Playwright E2E answer keys updated** - Themes 7-9 (les-botigues, el-menjar, els-animals) updated to match rewritten data files
@@ -197,7 +200,9 @@ npm run test:ui  # Playwright UI mode
 2. ✅ ~~WebP conversion~~ - DONE (Feb 3, 2026) - 119MB → 7.5MB (94% reduction)
 3. ✅ ~~Deploy~~ - DONE (Feb 3, 2026)
 4. ✅ ~~Redo blurry arracades illustration~~ - DONE (Feb 3, 2026) - regenerated on ChatGPT
-5. **Optional: Redo 14 Bing illustrations** for consistency with ChatGPT style
+5. ✅ ~~Fix illustrations not showing~~ - DONE (Feb 3, 2026) - added 18 words to wordsWithIllustrations
+6. ✅ ~~UX: Replace ❌ with retry icon~~ - DONE (Feb 3, 2026) - RefreshCcw in 8 components
+7. **Optional: Redo 14 Bing illustrations** for consistency with ChatGPT style
 
 ### Recently Generated Illustrations (Feb 3, 2026)
 All 18 missing illustrations have been generated via ChatGPT custom GPT:
