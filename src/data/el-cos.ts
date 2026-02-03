@@ -30,13 +30,15 @@ export const elCosTasks: Task[] = [
     id: "el-cos-2",
     type: "label-write",
     prompt: "Escriu les parts del cap.",
-    image: "cap",
+    image: "cara-detall",
     labels: [
-      { text: "cabell", x: 50, y: 8 },
-      { text: "ull", x: 35, y: 38 },
-      { text: "nas", x: 50, y: 52 },
-      { text: "boca", x: 50, y: 68 },
-      { text: "orella", x: 85, y: 40 },
+      // Left side (3): cabell, ull, nas
+      { text: "cabell", x: 25, y: 12 },
+      { text: "ull", x: 30, y: 40 },
+      { text: "nas", x: 48, y: 58 },
+      // Right side (2): boca, orella
+      { text: "boca", x: 52, y: 75 },
+      { text: "orella", x: 85, y: 42 },
     ],
   },
 
