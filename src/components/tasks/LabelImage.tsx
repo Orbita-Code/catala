@@ -8,6 +8,7 @@ import SpeakerButton from "@/components/ui/SpeakerButton";
 import { speak } from "@/lib/tts";
 import { useDragAndDrop } from "@/hooks/useDragAndDrop";
 import DragOverlay from "@/components/ui/DragOverlay";
+import { RefreshCcw } from "lucide-react";
 
 interface Props {
   task: LabelImageTask;
@@ -186,7 +187,7 @@ export default function LabelImage({ task, onComplete }: Props) {
                       <>
                         {getWordIllustration(placed[i]) ? <img src={getWordIllustration(placed[i])!} alt="" className="w-10 h-10 object-contain inline" /> : null}
                         {placed[i]}
-                        {checked && (results[i] ? " ✅" : " ❌")}
+                        {checked && (results[i] ? " ✅" : <RefreshCcw className="inline w-4 h-4 text-orange-500 ml-1" />)}
                       </>
                     ) : (
                       <span className="text-2xl">{dragState.isDragging ? "⬇️" : "❓"}</span>

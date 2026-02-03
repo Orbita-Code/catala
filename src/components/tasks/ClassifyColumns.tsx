@@ -8,6 +8,7 @@ import { celebrate, celebrateBig } from "@/lib/confetti";
 import { speak } from "@/lib/tts";
 import { useDragAndDrop } from "@/hooks/useDragAndDrop";
 import DragOverlay from "@/components/ui/DragOverlay";
+import { RefreshCcw } from "lucide-react";
 
 interface Props {
   task: ClassifyColumnsTask;
@@ -166,7 +167,7 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
               >
                 {currentItem}
                 {lastPlacedCorrect === true && " ✅"}
-                {lastPlacedCorrect === false && " ❌"}
+                {lastPlacedCorrect === false && <RefreshCcw className="inline w-4 h-4 text-orange-500 ml-1" />}
               </div>
             </div>
             {lastPlacedCorrect === null && (
@@ -232,7 +233,7 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
                 >
                   {currentItem}
                   {lastPlacedCorrect === true && " ✅"}
-                  {lastPlacedCorrect === false && " ❌"}
+                  {lastPlacedCorrect === false && <RefreshCcw className="inline w-4 h-4 text-orange-500 ml-1" />}
                 </div>
               </div>
               {!showResults && lastPlacedCorrect === null && (

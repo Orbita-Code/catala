@@ -7,6 +7,7 @@ import { getWordIllustration } from "@/lib/illustrations";
 import AnimatedStar from "@/components/star/AnimatedStar";
 import { celebrate, celebrateBig } from "@/lib/confetti";
 import { speak } from "@/lib/tts";
+import { RefreshCcw } from "lucide-react";
 
 const retryPhrases = [
   "Prova una altra vegada!",
@@ -397,7 +398,7 @@ export default function FillLetters({ task, onComplete }: Props) {
                       animate={{ scale: 1 }}
                       className="text-2xl ml-1"
                     >
-                      {isCorrect ? "✅" : "❌"}
+                      {isCorrect ? "✅" : <RefreshCcw className="inline w-6 h-6 text-orange-500" />}
                     </motion.span>
                   )}
                 </AnimatePresence>

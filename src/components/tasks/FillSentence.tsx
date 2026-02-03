@@ -7,6 +7,7 @@ import { getWordIllustration } from "@/lib/illustrations";
 import { celebrate, celebrateBig } from "@/lib/confetti";
 import { speak } from "@/lib/tts";
 import SpeakerButton from "@/components/ui/SpeakerButton";
+import { RefreshCcw } from "lucide-react";
 
 interface Props {
   task: FillSentenceTask;
@@ -129,7 +130,7 @@ export default function FillSentence({ task, onComplete }: Props) {
                       animate={{ scale: 1 }}
                       className="ml-2"
                     >
-                      {results[i] ? "✅" : "❌"}
+                      {results[i] ? "✅" : <RefreshCcw className="inline w-5 h-5 text-orange-500" />}
                     </motion.span>
                   )}
                 </AnimatePresence>

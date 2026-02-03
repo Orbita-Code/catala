@@ -7,6 +7,7 @@ import { getWordIllustration } from "@/lib/illustrations";
 import { celebrate, celebrateBig } from "@/lib/confetti";
 import { speak } from "@/lib/tts";
 import SpeakerButton from "@/components/ui/SpeakerButton";
+import { RefreshCcw } from "lucide-react";
 
 interface Props {
   task: MultipleChoiceTask;
@@ -92,7 +93,7 @@ export default function MultipleChoice({ task, onComplete }: Props) {
               {getWordIllustration(option) ? <img src={getWordIllustration(option)!} alt="" className="w-12 h-12 object-contain inline mr-2" /> : null}
               {option}
               {showResult && i === question.correct && " ✅"}
-              {showResult && i === selected && !isCorrect && " ❌"}
+              {showResult && i === selected && !isCorrect && <RefreshCcw className="inline w-5 h-5 text-orange-500 ml-1" />}
             </motion.button>
           ))}
         </div>

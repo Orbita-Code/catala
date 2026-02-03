@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { CountAndWriteTask, TaskResult } from "@/types/tasks";
 import { celebrate, celebrateBig } from "@/lib/confetti";
 import { speak } from "@/lib/tts";
+import { RefreshCcw } from "lucide-react";
 
 interface Props {
   task: CountAndWriteTask;
@@ -119,7 +120,7 @@ export default function CountAndWrite({ task, onComplete }: Props) {
             <AnimatePresence>
               {checked && (
                 <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }}>
-                  {results[i] ? "✅" : "❌"}
+                  {results[i] ? "✅" : <RefreshCcw className="inline w-5 h-5 text-orange-500" />}
                 </motion.span>
               )}
             </AnimatePresence>

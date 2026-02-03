@@ -7,6 +7,7 @@ import { getWordIllustration } from "@/lib/illustrations";
 import { celebrate, celebrateBig } from "@/lib/confetti";
 import { speak } from "@/lib/tts";
 import SpeakerButton from "@/components/ui/SpeakerButton";
+import { RefreshCcw } from "lucide-react";
 
 interface Props {
   task: ColorByInstructionTask;
@@ -243,9 +244,9 @@ export default function ColorByInstruction({ task, onComplete }: Props) {
                 <motion.span
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  className="absolute top-0.5 right-0.5 text-sm"
+                  className="absolute top-0.5 right-0.5"
                 >
-                  ❌
+                  <RefreshCcw className="w-4 h-4 text-orange-500" />
                 </motion.span>
               )}
             </motion.button>
