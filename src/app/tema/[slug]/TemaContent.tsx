@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, ArrowRight, Volume2, VolumeX, Home } from "lucide-react";
 import TaskRenderer from "@/components/tasks/TaskRenderer";
+import SpeakerButton from "@/components/ui/SpeakerButton";
 import AnimatedStar from "@/components/star/AnimatedStar";
 import type { StarReaction } from "@/components/star/starTypes";
 import { getStarReaction, getReactionEvent } from "@/lib/starReactions";
@@ -370,14 +371,17 @@ export default function TemaContent({ slug }: TemaContentProps) {
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.3 }}
           >
-            <h2 className="text-xl font-bold text-[var(--text)] mb-4">
-              {isBonus ? (
-                <span className="text-[var(--primary)]">Activitat extra! 🎨 </span>
-              ) : (
-                <span className="text-[var(--text-light)]">{currentTaskIndex + 1}. </span>
-              )}
-              {currentTask.prompt}
-            </h2>
+            <div className="flex items-start gap-2 mb-4">
+              <SpeakerButton text={currentTask.prompt} size={24} />
+              <h2 className="text-xl font-bold text-[var(--text)]">
+                {isBonus ? (
+                  <span className="text-[var(--primary)]">Activitat extra! 🎨 </span>
+                ) : (
+                  <span className="text-[var(--text-light)]">{currentTaskIndex + 1}. </span>
+                )}
+                {currentTask.prompt}
+              </h2>
+            </div>
             <TaskRenderer
               task={currentTask}
               onComplete={handleTaskComplete}
