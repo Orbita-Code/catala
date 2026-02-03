@@ -175,11 +175,11 @@ export const laClasseTasks: Task[] = [
     circleMode: true,
     columns: [
       {
-        title: "UN (singular)",
+        title: "Singular (un)",
         items: ["llapis", "goma", "llibre", "estoig", "regle"],
       },
       {
-        title: "MOLTS (plural)",
+        title: "Plural (molts)",
         items: [
           "bolígrafs",
           "retoladors",

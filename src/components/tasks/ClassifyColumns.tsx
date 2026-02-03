@@ -46,11 +46,16 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
 
       if (correct) {
         celebrate();
-        // Extract article from column title (e.g. "Femení (una)" → "una")
+        // Extract article from column title
         const title = task.columns[colIdx].title;
         const articleMatch = title.match(/\(([^)]+)\)/);
-        const article = articleMatch ? articleMatch[1] : "";
-        // Speak article + word (e.g. "una carpeta")
+        // Check if title itself is an article (EL, LA, UN, UNA, ELS, LES, L')
+        const shortArticles = ["el", "la", "un", "una", "els", "les", "l'"];
+        const titleLower = title.toLowerCase().trim();
+        const isArticleTitle = shortArticles.includes(titleLower);
+        // Use parentheses content, or title if it's an article, or nothing
+        const article = articleMatch ? articleMatch[1] : (isArticleTitle ? title.toLowerCase() : "");
+        // Speak article + word (e.g. "una carpeta", "el balcó")
         speak(article ? `${article} ${item}` : item);
       }
 
