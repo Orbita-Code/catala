@@ -113,7 +113,7 @@ export default function LabelWrite({ task, onComplete }: Props) {
 
       <div className="relative bg-white rounded-2xl p-4 shadow-sm">
         {/* Three-column layout: left fields | image | right fields */}
-        <div className="flex items-center justify-center gap-2 min-h-[280px]">
+        <div className="flex items-center justify-center gap-2 min-h-[320px]">
           {/* Left side fields */}
           <div className="flex flex-col gap-4 flex-1">
             {leftLabels.map((i) => (
@@ -157,7 +157,7 @@ export default function LabelWrite({ task, onComplete }: Props) {
           </div>
 
           {/* Center image with hotspot dots */}
-          <div className="relative w-36 h-56 flex-shrink-0 mx-2">
+          <div className="relative w-48 h-72 sm:w-56 sm:h-80 flex-shrink-0 mx-2">
             <img
               src={`/illustrations/${task.image}.png`}
               alt={task.image}

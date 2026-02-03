@@ -38,12 +38,12 @@ export const laRobaTasks: Task[] = [
     prompt: "Observa i escriu les peces de roba.",
     image: "nena-vestida",
     labels: [
-      { text: "gorro", x: 50, y: 5 },
-      { text: "bufanda", x: 75, y: 25 },
-      { text: "jaqueta", x: 25, y: 35 },
-      { text: "guants", x: 15, y: 50 },
-      { text: "faldilla", x: 50, y: 55 },
-      { text: "botes", x: 50, y: 85 },
+      { text: "gorro", x: 35, y: 8 },
+      { text: "jaqueta", x: 25, y: 40 },
+      { text: "guants", x: 18, y: 55 },
+      { text: "bufanda", x: 65, y: 25 },
+      { text: "faldilla", x: 65, y: 62 },
+      { text: "botes", x: 60, y: 83 },
     ],
   },
 
