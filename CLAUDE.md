@@ -175,6 +175,11 @@ npm run test:ui  # Playwright UI mode
 - **Live at:** `catala.orbitacode.com` (Coolify Dockerfile build pack, auto-deploy from GitHub main branch)
 
 ### In Progress
+- **WebP conversion** - convert all PNG illustrations to WebP for smaller file sizes
+- **Deploy** - push all new illustrations to GitHub and deploy
+
+### Recently Completed (Feb 3, 2026)
+- **ALL 18 MISSING ILLUSTRATIONS GENERATED** - Les Botigues (7), El Menjar (7), Els Animals (3), Els Vehicles (1)
 - **3D Illustrations:** ALL 12 themes COMPLETE via ChatGPT custom GPT + Bing Image Creator.
   - **ALL 12 themes COMPLETE** - La classe, L'escola, El cos, La roba, La casa, La família, Les botigues, El menjar, Els animals, La ciutat, Els vehicles, Els oficis
   - **camaleo (chameleon):** Generated on Bing with alternative prompt (described as "colorful green lizard with curly spiral tail" to bypass content filter)
@@ -189,48 +194,16 @@ npm run test:ui  # Playwright UI mode
 - **arracades** (earrings) - current image is blurry (made on Bing), regenerate on ChatGPT and replace
 
 ### NEXT SESSION TODO (Priority Order)
-1. **Generate missing illustrations (18 words)** - see "Missing Illustrations" table below
-2. **Update Playwright answer keys for themes 7-9** - rewritten data files changed task IDs and content, E2E test answer keys are now stale
-3. **WebP conversion** - convert all PNG illustrations to WebP for smaller file sizes
-4. **Deploy** - push all new illustrations to GitHub and deploy
+1. **Update Playwright answer keys for themes 7-9** - rewritten data files changed task IDs and content, E2E test answer keys are now stale
+2. **WebP conversion** - convert all PNG illustrations to WebP for smaller file sizes
+3. **Deploy** - push all new illustrations to GitHub and deploy
 
-### Missing Illustrations (18 files needed)
-
-**Note:** `getWordEmoji()` is dead code - NO component uses it. Missing illustrations show nothing (empty space), NOT emoji.
-
-#### Les Botigues (Theme 7) — 7 missing
-| Word | Filename | Description |
-|------|----------|-------------|
-| barra de pa | barra-de-pa.png | Baguette / bread loaf |
-| cansalada | cansalada.png | Bacon strips |
-| cotó | coto.png | Medical cotton ball/pad |
-| pa rodó | pa-rodo.png | Round bread loaf |
-| salsitxa | salsitxa.png | Sausage |
-| venda | venda.png | Medical bandage/wrap |
-| verduleria | verduleria.png | Vegetable shop/greengrocer |
-
-#### El Menjar (Theme 8) — 7 missing
-| Word | Filename | Description |
-|------|----------|-------------|
-| caramels | caramels.png | Candies/sweets |
-| gelat | gelat.png | Ice cream cone/scoop |
-| pa de pessic | pa-de-pessic.png | Sponge cake |
-| pastís de xocolata | pastis-de-xocolata.png | Chocolate cake |
-| sal | sal.png | Salt shaker |
-| sucre | sucre.png | Sugar bowl/bag |
-| truita de patates | truita-de-patates.png | Spanish omelette / potato tortilla |
-
-#### Els Animals (Theme 9) — 3 missing
-| Word | Filename | Description |
-|------|----------|-------------|
-| cigonya | cigonya.png | Stork bird |
-| llop | llop.png | Wolf |
-| ratolí | ratoli.png | Mouse |
-
-#### Els Vehicles (Theme 11) — 1 missing
-| Word | Filename | Description |
-|------|----------|-------------|
-| ambulància | ambulancia.png | Ambulance vehicle |
+### Recently Generated Illustrations (Feb 3, 2026)
+All 18 missing illustrations have been generated via ChatGPT custom GPT:
+- **Les Botigues (7):** barra-de-pa, cansalada, coto, pa-rodo, salsitxa, venda, verduleria
+- **El Menjar (7):** caramels, gelat, pa-de-pessic, pastis-de-xocolata, sal, sucre, truita-de-patates
+- **Els Animals (3):** cigonya, llop, ratoli
+- **Els Vehicles (1):** ambulancia
 
 ### Illustration Workflow
 - **ChatGPT chat:** Custom GPT "Igrice katalonski jezik" → chat "AI ilustracije za decu"
