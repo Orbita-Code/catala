@@ -6,6 +6,7 @@ import { MultipleChoiceTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
 import confetti from "canvas-confetti";
 import { speak } from "@/lib/tts";
+import SpeakerButton from "@/components/ui/SpeakerButton";
 
 interface Props {
   task: MultipleChoiceTask;
@@ -67,9 +68,12 @@ export default function MultipleChoice({ task, onComplete }: Props) {
         animate={{ opacity: 1, x: 0 }}
         className="bg-white rounded-2xl p-5 shadow-sm"
       >
-        <h3 className="text-xl font-bold text-[var(--text)] mb-4 text-center font-handwriting">
-          {question.question}
-        </h3>
+        <div className="flex items-center justify-center gap-1 mb-4">
+          <SpeakerButton text={question.question} size={18} />
+          <h3 className="text-xl font-bold text-[var(--text)] text-center font-handwriting">
+            {question.question}
+          </h3>
+        </div>
 
         <div className="space-y-2">
           {question.options.map((option, i) => (

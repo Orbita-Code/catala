@@ -25,20 +25,49 @@ function baseChar(s: string): string {
   return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 }
 
+// Map of base letters to their Catalan accented variants
+const ACCENT_VARIANTS: Record<string, string[]> = {
+  a: ["à"],
+  e: ["è", "é"],
+  i: ["í", "ï"],
+  o: ["ò", "ó"],
+  u: ["ú", "ü"],
+};
+
+// Build reverse map: accented → base
+const ACCENT_TO_BASE: Record<string, string> = {};
+for (const [base, accented] of Object.entries(ACCENT_VARIANTS)) {
+  for (const a of accented) {
+    ACCENT_TO_BASE[a] = base;
+  }
+}
+
 // Generate letter options for a blank position: correct letter + distractors.
-// Never includes two letters with the same base form (e.g. "i" and "í").
+// When the correct letter is accented, includes both the accented and base version.
+// When the correct letter is a base that has accented variants, includes both.
 function generateOptions(correctLetter: string, count: number = 5): string[] {
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
   const correct = correctLetter.toLowerCase();
+  const base = baseChar(correct);
   const options: string[] = [correct];
-  const usedBases = new Set<string>([baseChar(correct)]);
+  const usedBases = new Set<string>([base]);
 
+  // If correct is accented (e.g. "í"), also add the base letter (e.g. "i")
+  if (ACCENT_TO_BASE[correct]) {
+    options.push(ACCENT_TO_BASE[correct]);
+  }
+  // If correct is a base letter that has accented variants, add the most common variant
+  else if (ACCENT_VARIANTS[correct]) {
+    options.push(ACCENT_VARIANTS[correct][0]);
+  }
+
+  // Fill remaining slots with random distractors (different bases)
   let attempts = 0;
   while (options.length < count && attempts < 100) {
     const rand = alphabet[Math.floor(Math.random() * alphabet.length)];
-    const base = baseChar(rand);
-    if (!usedBases.has(base)) {
-      usedBases.add(base);
+    const randBase = baseChar(rand);
+    if (!usedBases.has(randBase)) {
+      usedBases.add(randBase);
       options.push(rand);
     }
     attempts++;

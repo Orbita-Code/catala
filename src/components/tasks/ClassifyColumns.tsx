@@ -123,29 +123,33 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
           animate={{ opacity: 1, y: 0 }}
           className="text-center"
         >
-          {getWordIllustration(currentItem) ? (
-            <div className="mb-2 flex justify-center"><img src={getWordIllustration(currentItem)!} alt="" className="w-44 h-44 object-contain" /></div>
-          ) : null}
           <div
             onPointerDown={(e) => {
               if (lastPlacedCorrect === null && !showResults) {
                 handlePointerDown(currentItem, "current", e);
               }
             }}
-            className={`inline-block px-6 py-3 rounded-2xl text-2xl font-black font-handwriting transition-all select-none ${
-              dragState.isDragging && dragState.draggedItem === currentItem
-                ? "opacity-40 bg-gray-100 text-gray-300"
-                : lastPlacedCorrect === true
-                  ? "bg-green-100 text-green-700"
-                  : lastPlacedCorrect === false
-                    ? "bg-red-100 text-red-700"
-                    : "bg-[var(--accent)] text-[var(--text)]"
-            }`}
+            className="inline-flex flex-col items-center select-none"
             style={{ cursor: lastPlacedCorrect !== null || showResults ? "default" : "grab" }}
           >
-            {currentItem}
-            {lastPlacedCorrect === true && " ✅"}
-            {lastPlacedCorrect === false && " ❌"}
+            {getWordIllustration(currentItem) ? (
+              <div className="mb-2 flex justify-center"><img src={getWordIllustration(currentItem)!} alt="" className="w-44 h-44 object-contain pointer-events-none" /></div>
+            ) : null}
+            <div
+              className={`inline-block px-6 py-3 rounded-2xl text-2xl font-black font-handwriting transition-all ${
+                dragState.isDragging && dragState.draggedItem === currentItem
+                  ? "opacity-40 bg-gray-100 text-gray-300"
+                  : lastPlacedCorrect === true
+                    ? "bg-green-100 text-green-700"
+                    : lastPlacedCorrect === false
+                      ? "bg-red-100 text-red-700"
+                      : "bg-[var(--accent)] text-[var(--text)]"
+              }`}
+            >
+              {currentItem}
+              {lastPlacedCorrect === true && " ✅"}
+              {lastPlacedCorrect === false && " ❌"}
+            </div>
           </div>
           {!showResults && lastPlacedCorrect === null && (
             <p className="text-xs text-[var(--text-light)] mt-2">
