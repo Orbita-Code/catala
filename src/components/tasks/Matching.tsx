@@ -57,8 +57,10 @@ export default function Matching({ task, onComplete }: Props) {
         setSelected(null);
         setWrongPair(null);
         setLastMatchedIdx(leftIdx);
-      celebrate();
-        speak(task.pairs[leftIdx].left + task.pairs[leftIdx].right);
+        celebrate();
+        // Speak only once if left and right are the same word (illustration matching)
+        const pair = task.pairs[leftIdx];
+        speak(pair.left === pair.right ? pair.left : `${pair.left}, ${pair.right}`);
 
         if (newMatched.size === task.pairs.length) {
           setTimeout(() => onComplete({ allCorrect: true, erroredItems: [] }), 800);
