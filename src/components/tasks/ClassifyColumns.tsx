@@ -45,8 +45,13 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
       setLastPlacedCorrect(correct);
 
       if (correct) {
-      celebrate();
-        speak(item);
+        celebrate();
+        // Extract article from column title (e.g. "Femení (una)" → "una")
+        const title = task.columns[colIdx].title;
+        const articleMatch = title.match(/\(([^)]+)\)/);
+        const article = articleMatch ? articleMatch[1] : "";
+        // Speak article + word (e.g. "una carpeta")
+        speak(article ? `${article} ${item}` : item);
       }
 
       setTimeout(() => {
