@@ -20,6 +20,7 @@ import { initAudio, isMuted, toggleMute, playCorrect, playWrong, playCombo, play
 import SparkleOverlay from "@/components/ui/SparkleOverlay";
 import BalloonCelebration from "@/components/ui/BalloonCelebration";
 import FireworksBurst from "@/components/ui/FireworksBurst";
+import MagicCelebration from "@/components/ui/MagicCelebration";
 import { calculateTaskXP, isFirstTaskOfDay, addXP } from "@/lib/xp";
 import { updateDailyStreak } from "@/lib/progress";
 import XPGainAnimation from "@/components/gamification/XPGainAnimation";
@@ -192,58 +193,74 @@ export default function TemaContent({ slug }: TemaContentProps) {
 
     return (
       <>
-        {/* Background celebration effects */}
-        <BalloonCelebration count={fullyComplete ? 20 : 10} />
-        {fullyComplete && <FireworksBurst waves={5} />}
+        {/* Background celebration effects - MAGICAL! */}
+        <MagicCelebration intensity={fullyComplete ? "high" : "medium"} />
+        <BalloonCelebration count={fullyComplete ? 25 : 15} />
+        <FireworksBurst waves={fullyComplete ? 8 : 4} />
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className="min-h-dvh flex flex-col items-center justify-center gap-6 px-4 text-center relative z-10"
         >
-          {/* Dancing mascot */}
+          {/* Dancing mascot with glow effect */}
           <motion.div
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ type: "spring", damping: 10 }}
             className="relative"
           >
-            {/* TODO: Replace with Runway video when ready:
-                <video src="/star-celebration.webm" autoPlay loop muted playsInline className="w-40 h-40" /> */}
+            {/* Magical glow behind mascot */}
+            <motion.div
+              className="absolute inset-0 rounded-full blur-3xl"
+              style={{ backgroundColor: theme?.color || "#6C5CE7" }}
+              animate={{
+                scale: [1, 1.3, 1],
+                opacity: [0.3, 0.6, 0.3],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
             <AnimatedStar
               size="xl"
               reaction={getStarReaction(fullyComplete ? "themePerfect" : "themeComplete")}
             />
           </motion.div>
 
-          {/* Bouncing emoji rain for fully complete */}
-          {fullyComplete && (
-            <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-              {["🌟", "⭐", "🎉", "🏆", "💫", "✨", "🎊", "💖"].map((emoji, i) => (
-                <motion.span
-                  key={i}
-                  initial={{
-                    x: `${10 + Math.random() * 80}vw`,
-                    y: "-10vh",
-                    rotate: 0,
-                  }}
-                  animate={{
-                    y: "110vh",
-                    rotate: 360,
-                  }}
-                  transition={{
-                    duration: 4 + Math.random() * 3,
-                    delay: i * 0.4,
-                    ease: "linear",
-                    repeat: Infinity,
-                  }}
-                  className="absolute text-2xl"
-                >
-                  {emoji}
-                </motion.span>
-              ))}
-            </div>
-          )}
+          {/* Bouncing emoji rain - MORE for celebrations! */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+            {(fullyComplete
+              ? ["🌟", "⭐", "🎉", "🏆", "💫", "✨", "🎊", "💖", "🌈", "🦄", "🎆", "🎇", "💎", "👑", "🥳", "🎁"]
+              : ["🌟", "⭐", "🎉", "💫", "✨", "💖", "🎊", "🥳"]
+            ).map((emoji, i) => (
+              <motion.span
+                key={i}
+                initial={{
+                  x: `${5 + Math.random() * 90}vw`,
+                  y: "-10vh",
+                  rotate: 0,
+                  scale: 0.8 + Math.random() * 0.8,
+                }}
+                animate={{
+                  y: "110vh",
+                  rotate: 360 + Math.random() * 360,
+                }}
+                transition={{
+                  duration: 6 + Math.random() * 4,
+                  delay: i * 0.3,
+                  ease: "linear",
+                  repeat: Infinity,
+                }}
+                className="absolute text-3xl"
+                style={{ filter: "drop-shadow(0 0 4px rgba(255,255,255,0.8))" }}
+              >
+                {emoji}
+              </motion.span>
+            ))}
+          </div>
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}

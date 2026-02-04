@@ -174,26 +174,34 @@ export default function ColorByInstruction({ task, onComplete }: Props) {
               whileTap={isCorrect ? undefined : { scale: 0.95 }}
               onClick={() => handleItemTap(inst.targetItem)}
               disabled={allDone || isCorrect}
-              className={`relative bg-white rounded-xl shadow-sm border-2 transition-all flex flex-col items-center p-2 gap-1 ${
+              className={`relative rounded-xl shadow-sm border-2 transition-all flex flex-col items-center p-2 gap-1 ${
                 isCorrect
-                  ? "border-green-400 bg-green-50"
+                  ? "" // Use style for target color background
                   : isWrong
                     ? "border-red-400 bg-red-50 animate-[shake_0.3s]"
                     : isSelected
                       ? "border-[var(--primary)] bg-purple-50 ring-2 ring-[var(--primary)]"
                       : appliedColor
                         ? ""
-                        : "border-gray-200 hover:border-purple-300 cursor-pointer"
+                        : "bg-white border-gray-200 hover:border-purple-300 cursor-pointer"
               }`}
               style={{
-                borderColor:
-                  isCorrect || isWrong || isSelected
+                backgroundColor: isCorrect
+                  ? `${getHex(inst.targetColor)}30` // Target color with 30% opacity
+                  : isWrong || isSelected
+                    ? undefined
+                    : appliedColor
+                      ? undefined
+                      : undefined,
+                borderColor: isCorrect
+                  ? getHex(inst.targetColor) // Target color border when correct
+                  : isWrong || isSelected
                     ? undefined
                     : appliedColor
                       ? getHex(appliedColor)
                       : undefined,
                 borderWidth:
-                  appliedColor && !isCorrect && !isWrong && !isSelected
+                  (isCorrect || (appliedColor && !isWrong && !isSelected))
                     ? 3
                     : undefined,
               }}

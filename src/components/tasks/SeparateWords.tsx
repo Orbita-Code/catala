@@ -115,47 +115,73 @@ export default function SeparateWords({ task, onComplete }: Props) {
         className="bg-white rounded-2xl p-5 shadow-sm"
       >
         <p className="text-center text-sm text-[var(--text-light)] mb-4">
-          Toca entre les lletres per separar les paraules
+          Toca les línies per separar les paraules
         </p>
 
-        {/* Letters displayed CONNECTED - click between them to add space */}
+        {/* Letters displayed with VISIBLE tap zones between them */}
         <div className="flex flex-wrap justify-center items-center mb-5 leading-relaxed">
           {letters.map((letter, i) => {
             const hasSeparatorAfter = separators.has(i + 1);
             const isCorrectPosition = correctPositions?.has(i + 1);
-            const showSeparator = hasSeparatorAfter || (checked && isCorrectPosition);
             const isLastLetter = i === letters.length - 1;
 
             return (
               <span key={i} className="inline-flex items-center">
-                {/* The letter itself - no padding, letters touch each other */}
+                {/* The letter itself */}
                 <span className="text-2xl font-black text-[var(--primary)] font-handwriting select-none">
                   {letter}
                 </span>
 
-                {/* Clickable gap between letters (not after the last letter) */}
+                {/* VISIBLE clickable zone between letters (not after the last letter) */}
                 {!isLastLetter && (
                   <button
                     onClick={() => toggleSeparator(i + 1)}
                     disabled={checked}
-                    className={`inline-flex items-center justify-center transition-all duration-200 ${
-                      showSeparator
+                    className={`inline-flex items-center justify-center transition-all duration-200 h-10 ${
+                      hasSeparatorAfter
                         ? checked
-                          ? hasSeparatorAfter && isCorrectPosition
-                            ? "w-4 h-8 bg-green-400 rounded-sm mx-0.5" // Correct separator - green
-                            : hasSeparatorAfter && !isCorrectPosition
-                              ? "w-4 h-8 bg-red-400 rounded-sm mx-0.5" // Wrong separator - red
-                              : "w-4 h-8 bg-green-300 rounded-sm mx-0.5" // Missed separator - light green
-                          : "w-4 h-8 bg-amber-400 rounded-sm mx-0.5" // User-placed separator - yellow/amber
-                        : "w-0 hover:w-2 hover:bg-purple-200 hover:mx-0.5 rounded-sm cursor-pointer" // Hidden but clickable
+                          ? isCorrectPosition
+                            ? "w-3 mx-1" // Correct - will show green bar
+                            : "w-3 mx-1" // Wrong - will show red bar
+                          : "w-3 mx-1" // User placed - will show amber bar
+                        : checked && isCorrectPosition
+                          ? "w-3 mx-1" // Missed separator - will show
+                          : "w-2 mx-0.5 cursor-pointer active:scale-110" // Default visible dashed line
                     }`}
-                    aria-label={showSeparator ? "Espai" : "Afegeix espai"}
-                  />
+                    aria-label={hasSeparatorAfter ? "Treu espai" : "Afegeix espai"}
+                  >
+                    {/* Visual indicator */}
+                    {hasSeparatorAfter ? (
+                      // User placed a separator here
+                      <span
+                        className={`w-1.5 h-8 rounded-full ${
+                          checked
+                            ? isCorrectPosition
+                              ? "bg-green-500"
+                              : "bg-red-500"
+                            : "bg-amber-400"
+                        }`}
+                      />
+                    ) : checked && isCorrectPosition ? (
+                      // Missed separator - show in light green
+                      <span className="w-1.5 h-8 rounded-full bg-green-300" />
+                    ) : (
+                      // Default: visible dashed line to tap
+                      <span className="w-0.5 h-6 border-l-2 border-dashed border-purple-300 hover:border-purple-500" />
+                    )}
+                  </button>
                 )}
               </span>
             );
           })}
         </div>
+
+        {/* Hint text */}
+        {!checked && separators.size === 0 && (
+          <p className="text-center text-xs text-purple-400 mb-3 animate-pulse">
+            👆 Toca les línies de punts per posar espais
+          </p>
+        )}
 
         {/* Show the correctly separated sentence after checking */}
         <AnimatePresence>
@@ -166,7 +192,7 @@ export default function SeparateWords({ task, onComplete }: Props) {
               className="text-center mb-4"
             >
               <p className="text-green-600 font-bold text-lg font-handwriting">
-                {currentItem.words.join(" ")}
+                {currentItem.words.join(" ")} ✅
               </p>
             </motion.div>
           )}
