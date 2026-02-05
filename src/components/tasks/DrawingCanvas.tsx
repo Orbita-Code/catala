@@ -2,6 +2,8 @@
 
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
+import { RefreshCcw } from "lucide-react";
+import Image from "next/image";
 
 interface DrawingCanvasTask {
   id: string;
@@ -22,13 +24,25 @@ const COLORS = [
   "#FDCB6E", "#E84393", "#FF9F43", "#6C5CE7",
 ];
 
-const STICKERS = ["⭐", "🌈", "❤️", "🌸", "🦋", "😊", "🎵", "✨"];
+const STICKERS = [
+  // Fun basics
+  "⭐", "🌈", "❤️", "✨", "🎵", "😊", "🎉", "🎈",
+  // Animals
+  "🦋", "🐱", "🐶", "🐰", "🦁", "🐻", "🐼", "🦊",
+  "🦄", "🐬", "🐢", "🦀", "🐝", "🐞", "🦖", "🦕",
+  // Vehicles & boys stuff
+  "🚗", "🚀", "✈️", "🚂", "🏎️", "🚁", "⚽", "🏀",
+  // Nature & food
+  "🌸", "🌻", "🌺", "🍎", "🍦", "🍕", "🧁", "🍭",
+  // More fun
+  "👑", "💎", "🎀", "🌟", "💫", "🔥", "⚡", "🎪",
+];
 
-const TOOL_ICONS: Record<Tool, { emoji: string; label: string }> = {
-  brush: { emoji: "🖌️", label: "Pinzell" },
-  bucket: { emoji: "🪣", label: "Omplir" },
+const TOOL_CONFIG: Record<Tool, { image?: string; emoji?: string; label: string }> = {
+  brush: { image: "/illustrations/pinzell.webp", label: "Pinzell" },
+  bucket: { image: "/illustrations/galleda-de-pintura.webp", label: "Omplir" },
   sticker: { emoji: "🏷️", label: "Adhesius" },
-  eraser: { emoji: "🧹", label: "Goma" },
+  eraser: { image: "/illustrations/goma.webp", label: "Goma" },
 };
 
 function colorMatch(r1: number, g1: number, b1: number, a1: number, r2: number, g2: number, b2: number, a2: number, tolerance: number): boolean {
@@ -207,22 +221,46 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
   return (
     <div className="space-y-3">
       {/* Tool buttons */}
-      <div className="flex items-center gap-2 justify-center">
-        {(Object.keys(TOOL_ICONS) as Tool[]).map((t) => (
-          <motion.button
-            key={t}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => setTool(t)}
-            className={`flex flex-col items-center gap-0.5 px-3 py-2 rounded-xl transition-all ${
-              tool === t
-                ? "bg-[var(--primary)] text-white shadow-md scale-105"
-                : "bg-gray-100 text-[var(--text)]"
-            }`}
-          >
-            <span className="text-xl">{TOOL_ICONS[t].emoji}</span>
-            <span className="text-[10px] font-bold">{TOOL_ICONS[t].label}</span>
-          </motion.button>
-        ))}
+      <div className="flex items-center gap-2 justify-center flex-wrap">
+        {(Object.keys(TOOL_CONFIG) as Tool[]).map((t) => {
+          const config = TOOL_CONFIG[t];
+          return (
+            <motion.button
+              key={t}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => setTool(t)}
+              className={`flex flex-col items-center gap-0.5 px-3 py-2 rounded-xl transition-all ${
+                tool === t
+                  ? "bg-[var(--primary)] text-white shadow-md scale-105"
+                  : "bg-gray-100 text-[var(--text)]"
+              }`}
+            >
+              {config.image ? (
+                <div className="w-8 h-8 relative">
+                  <Image
+                    src={config.image}
+                    alt={config.label}
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              ) : (
+                <span className="text-xl">{config.emoji}</span>
+              )}
+              <span className="text-[10px] font-bold">{config.label}</span>
+            </motion.button>
+          );
+        })}
+        {/* Reset button */}
+        <motion.button
+          whileTap={{ scale: 0.9 }}
+          onClick={handleClear}
+          className="flex flex-col items-center gap-0.5 px-3 py-2 rounded-xl bg-gray-100 text-[var(--text)] hover:bg-red-100 transition-all"
+          title="Torna a començar"
+        >
+          <RefreshCcw size={24} className="text-red-500" />
+          <span className="text-[10px] font-bold">Reiniciar</span>
+        </motion.button>
       </div>
 
       {/* Color palette */}
@@ -246,20 +284,22 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
-          className="flex items-center gap-2 justify-center flex-wrap"
+          className="bg-gray-50 rounded-xl p-2 max-h-32 overflow-y-auto"
         >
-          {STICKERS.map((s) => (
-            <motion.button
-              key={s}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => setSelectedSticker(s)}
-              className={`w-10 h-10 rounded-xl flex items-center justify-center text-2xl transition-all ${
-                selectedSticker === s ? "bg-purple-100 ring-2 ring-[var(--primary)] scale-110" : "bg-gray-50"
-              }`}
-            >
-              {s}
-            </motion.button>
-          ))}
+          <div className="grid grid-cols-8 sm:grid-cols-10 md:grid-cols-12 gap-1">
+            {STICKERS.map((s) => (
+              <motion.button
+                key={s}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => setSelectedSticker(s)}
+                className={`w-9 h-9 rounded-lg flex items-center justify-center text-xl transition-all ${
+                  selectedSticker === s ? "bg-purple-200 ring-2 ring-[var(--primary)] scale-105" : "bg-white hover:bg-purple-50"
+                }`}
+              >
+                {s}
+              </motion.button>
+            ))}
+          </div>
         </motion.div>
       )}
 
@@ -286,9 +326,10 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
         <motion.button
           whileTap={{ scale: 0.95 }}
           onClick={handleClear}
-          className="px-6 py-3 bg-gray-100 text-[var(--text)] font-bold rounded-2xl text-base"
+          className="flex items-center gap-2 px-6 py-3 bg-gray-100 text-[var(--text)] font-bold rounded-2xl text-base hover:bg-red-100 transition-colors"
         >
-          Esborra tot
+          <RefreshCcw size={20} className="text-red-500" />
+          Torna a començar
         </motion.button>
         <motion.button
           whileHover={{ scale: 1.05 }}
