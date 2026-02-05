@@ -13,7 +13,9 @@ import { themes } from "@/data/themes";
 import { taskData, getScoringTaskCount } from "@/data/task-data";
 import { getThemeProgress, completeTask, isThemeFullyComplete } from "@/lib/progress";
 import { getEncouragement } from "@/lib/encouragement";
-import { addError, getThemeErrorCount, getErroredItemsList, removeError } from "@/lib/errors";
+import { addError, getThemeErrorCount, getErroredItemsList, removeError, clearThemeErrors } from "@/lib/errors";
+import { speak } from "@/lib/tts";
+import { getWordIllustration } from "@/lib/illustrations";
 
 import type { TaskResult } from "@/types/tasks";
 import { celebrate, celebrateBig } from "@/lib/confetti";
@@ -49,6 +51,9 @@ export default function TemaContent({ slug }: TemaContentProps) {
   const [levelUpData, setLevelUpData] = useState<{ prev: number; new: number } | null>(null);
   const [showReviewDialog, setShowReviewDialog] = useState(false);
   const [themeErrorCount, setThemeErrorCount] = useState(0);
+  const [reviewMode, setReviewMode] = useState(false);
+  const [reviewItems, setReviewItems] = useState<{ taskId: string; item: string }[]>([]);
+  const [reviewIndex, setReviewIndex] = useState(0);
 
   useEffect(() => {
     setMounted(true);
@@ -212,6 +217,129 @@ export default function TemaContent({ slug }: TemaContentProps) {
     }
   };
 
+  // Review mode - practice errored items
+  if (reviewMode && reviewItems.length > 0) {
+    const currentItem = reviewItems[reviewIndex];
+    const illustration = getWordIllustration(currentItem.item);
+
+    const handleCorrect = () => {
+      // Remove this error
+      removeError(slug, currentItem.taskId, currentItem.item);
+      celebrate([theme.color, "#00B894"]);
+      playCorrect();
+
+      if (reviewIndex < reviewItems.length - 1) {
+        // Next item
+        setReviewIndex(reviewIndex + 1);
+      } else {
+        // All done!
+        celebrateBig([theme.color, "#FDCB6E", "#00CECE"]);
+        setReviewMode(false);
+        setShowCelebration(true);
+        playApplause(3);
+      }
+    };
+
+    const handleSkipReview = () => {
+      if (reviewIndex < reviewItems.length - 1) {
+        setReviewIndex(reviewIndex + 1);
+      } else {
+        // Done with review (some errors may remain)
+        setReviewMode(false);
+        setShowCelebration(true);
+        celebrate([theme.color, "#FDCB6E"]);
+      }
+    };
+
+    return (
+      <div className="min-h-dvh flex flex-col">
+        {/* Header */}
+        <header className="sticky top-0 z-10 bg-[var(--background)] px-4 pt-3 pb-2">
+          <div className="flex items-center gap-3 mb-2">
+            <button
+              onClick={() => {
+                setReviewMode(false);
+                setShowCelebration(true);
+              }}
+              className="p-2 rounded-xl hover:bg-gray-100 transition-colors"
+            >
+              <Home size={24} className="text-[var(--text)]" />
+            </button>
+            <div className="flex-1">
+              <div className="flex justify-between items-center mb-1">
+                <span className="text-sm font-bold text-orange-500">
+                  🔄 Practicar paraules
+                </span>
+                <span className="text-sm text-[var(--text-light)]">
+                  {reviewIndex + 1}/{reviewItems.length}
+                </span>
+              </div>
+              <div className="w-full h-2.5 bg-gray-200 rounded-full overflow-hidden">
+                <motion.div
+                  className="h-full rounded-full bg-orange-500"
+                  animate={{ width: `${((reviewIndex + 1) / reviewItems.length) * 100}%` }}
+                  transition={{ duration: 0.4 }}
+                />
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* Review content */}
+        <main className="flex-1 px-4 pb-24 flex flex-col items-center justify-center gap-6">
+          <motion.div
+            key={reviewIndex}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white rounded-2xl p-6 shadow-lg max-w-sm w-full text-center"
+          >
+            {illustration ? (
+              <img
+                src={illustration}
+                alt={currentItem.item}
+                className="w-32 h-32 mx-auto mb-4 object-contain"
+              />
+            ) : (
+              <div className="w-32 h-32 mx-auto mb-4 bg-gray-100 rounded-xl flex items-center justify-center text-4xl">
+                📝
+              </div>
+            )}
+
+            <p className="text-2xl font-black font-handwriting text-[var(--primary)] mb-4">
+              {currentItem.item}
+            </p>
+
+            <button
+              onClick={() => speak(currentItem.item)}
+              className="mb-6 px-4 py-2 bg-[var(--primary)] text-white rounded-full font-bold flex items-center gap-2 mx-auto"
+            >
+              <Volume2 size={20} /> Escolta
+            </button>
+
+            <p className="text-sm text-[var(--text-light)] mb-4">
+              Pots dir-ho en veu alta?
+            </p>
+
+            <div className="flex gap-3 justify-center">
+              <button
+                onClick={handleCorrect}
+                className="px-6 py-3 bg-green-500 text-white font-bold rounded-2xl text-lg shadow-md hover:bg-green-600 transition-colors"
+              >
+                Ho sé! ✅
+              </button>
+              <button
+                onClick={handleSkipReview}
+                className="px-6 py-3 bg-gray-200 text-[var(--text)] font-bold rounded-2xl text-lg"
+              >
+                Encara no 😅
+              </button>
+            </div>
+          </motion.div>
+        </main>
+      </div>
+    );
+  }
+
   // Review dialog - offer to practice errors
   if (showReviewDialog) {
     return (
@@ -262,9 +390,12 @@ export default function TemaContent({ slug }: TemaContentProps) {
         >
           <button
             onClick={() => {
-              // TODO: Enter review mode
+              // Enter review mode
+              const items = getErroredItemsList(slug);
+              setReviewItems(items);
+              setReviewIndex(0);
               setShowReviewDialog(false);
-              setShowCelebration(true);
+              setReviewMode(true);
             }}
             className="w-full py-3 bg-orange-500 text-white font-bold rounded-2xl text-lg shadow-md hover:bg-orange-600 transition-colors"
           >
