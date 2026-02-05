@@ -126,6 +126,10 @@ public/
 - **No shadcn/ui:** Project uses custom components with Tailwind only
 - **Hint system:** `useHintSystem` hook + `HintDialog` component provide progressive hints for all task types
 - **Badges system:** 19 badges (12 theme completion + 3 streak + 3 star count + 1 master)
+- **Error tracking system:** Silent error tracking during tasks, end-of-theme review mode, badge on ThemeCard
+  - `src/lib/errors.ts` - Error tracking functions (localStorage-based)
+  - `src/contexts/ErrorTrackingContext.tsx` - React context for task components
+  - Review mode in TemaContent - flashcard-style practice for errored items
 - **Gamification system:** XP rewards, 12 levels (Pollet → Superestrella), daily streaks with freezes, level-up celebrations
   - `src/lib/xp.ts` - XP calculation and storage
   - `src/lib/levels.ts` - Level definitions and progress
@@ -184,6 +188,20 @@ npm run test:ui  # Playwright UI mode
 - Nothing in progress
 
 ### Recently Completed (Feb 5, 2026)
+- **ERROR TRACKING SYSTEM** - Duolingo-style error review (silent tracking, no stress for kids):
+  - `src/lib/errors.ts` - Error tracking library (addError, removeError, getThemeErrors, etc.)
+  - `src/contexts/ErrorTrackingContext.tsx` - React context for task components to track errors
+  - ThemeCard shows orange badge "X per practicar" when there are errors to review
+  - End-of-theme review dialog: "Vols practicar les paraules difícils?"
+  - Review mode: flashcard-style practice with illustration + word + TTS "Escolta" button
+  - Child clicks "Ho sé!" (removes error) or "Encara no" (keeps for later)
+  - Errors tracked silently during tasks via ErrorTrackingProvider
+- **SelfAssessment layout fix:**
+  - Changed from horizontal to vertical layout (image top, mic below)
+  - Microphones now visible on all cards (were hidden by images before)
+  - Added "🎤 Escoltant..." text indicator when recording
+  - Larger mic button (56px) for easier tapping
+  - Better Catalan error messages for speech recognition
 - **Auto-check for all task types** - Removed "Comprova" buttons, tasks auto-check when all inputs filled (300ms delay)
   - Updated: CopyWord, Unscramble, FillSentence, OrderWords, CountAndWrite, WriteAntonym, LabelImage, DecodeGrid, LabelWrite
   - Exception: SeparateWords keeps manual "Comprova" button
@@ -196,10 +214,6 @@ npm run test:ui  # Playwright UI mode
   - Task 14 (copy-word): Added image property for all 7 prepositions
   - Task 15 (fill-sentence): Changed to "el gat" sentences so same cat illustrations work
   - Created Task #7 to generate 7 cat preposition illustrations via ChatGPT
-- **SelfAssessment improvements:**
-  - Increased image sizes from 64px to 96px (sm: 80px to 112px)
-  - Added microphone error message display
-  - Added "No ho sé" skip button always visible (not just on retry)
 
 ### Recently Completed (Feb 3, 2026 - Session 3)
 - **Comprehensive App Testing** - Tested all 12 themes (~226 tasks) as a 7-year-old child
