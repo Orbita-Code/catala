@@ -130,13 +130,13 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
             whileTap={dragState.isDragging ? undefined : { scale: 0.95 }}
             onClick={() => handleColumnTap(0)}
             disabled={lastPlacedCorrect !== null}
-            className={`aspect-square rounded-full w-[140px] sm:w-[180px] md:w-[220px] flex-shrink-0 bg-white p-3 shadow-sm border-2 transition-all flex flex-col items-center justify-center gap-1 ${
+            className={`aspect-square rounded-full w-[150px] sm:w-[190px] md:w-[240px] flex-shrink-0 bg-white p-3 shadow-sm border-2 transition-all flex flex-col items-center justify-center gap-1 ${
               dragState.isDragging
                 ? "border-[var(--primary)] bg-purple-50 animate-pulse"
                 : "border-gray-200 hover:border-[var(--primary)]"
             }`}
           >
-            <h4 className="text-lg sm:text-xl md:text-2xl font-black text-[var(--primary)] leading-tight text-center">
+            <h4 className="text-sm sm:text-base md:text-lg font-black text-[var(--primary)] leading-tight text-center whitespace-nowrap">
               {task.columns[0].title}
             </h4>
             <div className="text-xs text-[var(--text-light)]">
@@ -162,7 +162,7 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
               style={{ cursor: lastPlacedCorrect !== null || showResults ? "default" : "grab" }}
             >
               {getWordIllustration(currentItem) ? (
-                <div className="mb-2 flex justify-center"><img src={getWordIllustration(currentItem)!} alt="" className="w-36 h-36 sm:w-44 sm:h-44 md:w-52 md:h-52 object-contain pointer-events-none" /></div>
+                <div className="mb-2 flex justify-center"><img src={getWordIllustration(currentItem)!} alt="" className="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 object-contain pointer-events-none" /></div>
               ) : null}
               <div
                 className={`inline-block px-5 py-3 rounded-2xl text-2xl sm:text-3xl md:text-4xl font-black font-handwriting transition-all ${
@@ -193,13 +193,13 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
             whileTap={dragState.isDragging ? undefined : { scale: 0.95 }}
             onClick={() => handleColumnTap(1)}
             disabled={lastPlacedCorrect !== null}
-            className={`aspect-square rounded-full w-[140px] sm:w-[180px] md:w-[220px] flex-shrink-0 bg-white p-3 shadow-sm border-2 transition-all flex flex-col items-center justify-center gap-1 ${
+            className={`aspect-square rounded-full w-[150px] sm:w-[190px] md:w-[240px] flex-shrink-0 bg-white p-3 shadow-sm border-2 transition-all flex flex-col items-center justify-center gap-1 ${
               dragState.isDragging
                 ? "border-[var(--primary)] bg-purple-50 animate-pulse"
                 : "border-gray-200 hover:border-[var(--primary)]"
             }`}
           >
-            <h4 className="text-lg sm:text-xl md:text-2xl font-black text-[var(--primary)] leading-tight text-center">
+            <h4 className="text-sm sm:text-base md:text-lg font-black text-[var(--primary)] leading-tight text-center whitespace-nowrap">
               {task.columns[1].title}
             </h4>
             <div className="text-xs text-[var(--text-light)]">
