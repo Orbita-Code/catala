@@ -128,7 +128,7 @@ export default function SeparateWords({ task, onComplete }: Props) {
             return (
               <span key={i} className="inline-flex items-center">
                 {/* The letter itself */}
-                <span className="text-2xl font-black text-[var(--primary)] font-handwriting select-none">
+                <span className="text-3xl md:text-4xl font-black text-[var(--primary)] font-handwriting select-none">
                   {letter}
                 </span>
 
@@ -137,16 +137,16 @@ export default function SeparateWords({ task, onComplete }: Props) {
                   <button
                     onClick={() => toggleSeparator(i + 1)}
                     disabled={checked}
-                    className={`inline-flex items-center justify-center transition-all duration-200 h-10 ${
+                    className={`inline-flex items-center justify-center transition-all duration-200 h-12 ${
                       hasSeparatorAfter
                         ? checked
                           ? isCorrectPosition
-                            ? "w-3 mx-1" // Correct - will show green bar
-                            : "w-3 mx-1" // Wrong - will show red bar
-                          : "w-3 mx-1" // User placed - will show amber bar
+                            ? "w-4 mx-1.5" // Correct - will show green bar
+                            : "w-4 mx-1.5" // Wrong - will show red bar
+                          : "w-4 mx-1.5" // User placed - will show amber bar
                         : checked && isCorrectPosition
-                          ? "w-3 mx-1" // Missed separator - will show
-                          : "w-2 mx-0.5 cursor-pointer active:scale-110" // Default visible dashed line
+                          ? "w-4 mx-1.5" // Missed separator - will show
+                          : "w-3 mx-0.5 cursor-pointer active:scale-110" // Default visible dashed line
                     }`}
                     aria-label={hasSeparatorAfter ? "Treu espai" : "Afegeix espai"}
                   >
@@ -154,7 +154,7 @@ export default function SeparateWords({ task, onComplete }: Props) {
                     {hasSeparatorAfter ? (
                       // User placed a separator here
                       <span
-                        className={`w-1.5 h-8 rounded-full ${
+                        className={`w-2 h-10 rounded-full ${
                           checked
                             ? isCorrectPosition
                               ? "bg-green-500"
@@ -164,10 +164,10 @@ export default function SeparateWords({ task, onComplete }: Props) {
                       />
                     ) : checked && isCorrectPosition ? (
                       // Missed separator - show in light green
-                      <span className="w-1.5 h-8 rounded-full bg-green-300" />
+                      <span className="w-2 h-10 rounded-full bg-green-300" />
                     ) : (
                       // Default: visible dashed line to tap
-                      <span className="w-0.5 h-6 border-l-2 border-dashed border-purple-300 hover:border-purple-500" />
+                      <span className="w-0.5 h-8 border-l-2 border-dashed border-purple-300 hover:border-purple-500" />
                     )}
                   </button>
                 )}
@@ -191,7 +191,7 @@ export default function SeparateWords({ task, onComplete }: Props) {
               animate={{ opacity: 1, y: 0 }}
               className="text-center mb-4"
             >
-              <p className="text-green-600 font-bold text-lg font-handwriting">
+              <p className="text-green-600 font-bold text-2xl md:text-3xl font-handwriting">
                 {currentItem.words.join(" ")} ✅
               </p>
             </motion.div>
@@ -202,7 +202,7 @@ export default function SeparateWords({ task, onComplete }: Props) {
               animate={{ opacity: 1, y: 0 }}
               className="text-center mb-4"
             >
-              <p className="text-[var(--error)] font-bold">
+              <p className="text-[var(--error)] font-bold text-xl md:text-2xl font-handwriting">
                 Resposta correcta: {currentItem.words.join(" ")}
               </p>
             </motion.div>
