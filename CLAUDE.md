@@ -183,6 +183,24 @@ npm run test:ui  # Playwright UI mode
 ### In Progress
 - Nothing in progress
 
+### Recently Completed (Feb 5, 2026)
+- **Auto-check for all task types** - Removed "Comprova" buttons, tasks auto-check when all inputs filled (300ms delay)
+  - Updated: CopyWord, Unscramble, FillSentence, OrderWords, CountAndWrite, WriteAntonym, LabelImage, DecodeGrid, LabelWrite
+  - Exception: SeparateWords keeps manual "Comprova" button
+- **Clickable RefreshCcw retry icons** - All retry icons now clickable for immediate retry:
+  - FillSentence, WriteAntonym, LabelImage: retry single item, keep other correct answers
+  - CountAndWrite, MultipleChoice, FillLetters: instant retry on click
+- **CopyWord spacebar support** - Spacebar now works for multi-word entries like "a sobre", "a dins"
+- **Theme 2 preposition tasks redesigned (Tasks 14-15):**
+  - Changed to cat-themed illustrations (cute cat on/under/behind chair, in/out of box)
+  - Task 14 (copy-word): Added image property for all 7 prepositions
+  - Task 15 (fill-sentence): Changed to "el gat" sentences so same cat illustrations work
+  - Created Task #7 to generate 7 cat preposition illustrations via ChatGPT
+- **SelfAssessment improvements:**
+  - Increased image sizes from 64px to 96px (sm: 80px to 112px)
+  - Added microphone error message display
+  - Added "No ho sé" skip button always visible (not just on retry)
+
 ### Recently Completed (Feb 3, 2026 - Session 3)
 - **Comprehensive App Testing** - Tested all 12 themes (~226 tasks) as a 7-year-old child
 - **Identified 18 CRITICAL issues** - Missing illustrations that prevent task completion
@@ -224,7 +242,11 @@ npm run test:ui  # Playwright UI mode
 - xandall, americana, corbata, banyador, banyador-de-dona, biquini, sandalies, anell, ulleres, collaret, cinturo, caputxa, pantalons-curts, samarreta-de-tirants
 
 ### NEXT SESSION TODO (Priority Order)
-1. **CRITICAL: Generate 33 missing illustrations** - See `MISSING-ILLUSTRATIONS-HANDOVER.md` for full prompts and workflow
+1. **Generate 7 cat preposition illustrations (ChatGPT)** - Theme 2 Tasks 14-15
+   - Filenames: a-sobre.webp, a-sota.webp, a-dins.webp, a-fora.webp, al-costat.webp, al-davant.webp, al-darrere.webp
+   - Prompt: "Cute orange tabby cat [POSITION] a wooden chair, 3D cartoon style, white background with decorative hearts and stars, 512x512px, for children ages 5-8, cheerful, no text"
+   - For a-dins/a-fora use box instead of chair
+2. **Generate 33 missing illustrations** - See `MISSING-ILLUSTRATIONS-HANDOVER.md` for full prompts and workflow
    - People illustrations (6): laura-carles, maria, carolina, sergi, sara, xavier
    - Albert's family drawings (5): albert-dibuix-1 through albert-dibuix-5
    - Scene/composite images (6): arbre-familiar, casa-exterior, classroom-items, roba-silueta, aliments, animals
