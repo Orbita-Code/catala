@@ -61,6 +61,10 @@ export default function BalloonCelebration({ count = 20 }: { count?: number }) {
   }, [count]);
 
   const popBalloon = useCallback((id: number, event: React.MouseEvent | React.TouchEvent) => {
+    // Prevent default to avoid any interference
+    event.preventDefault();
+    event.stopPropagation();
+
     const balloon = balloons.find((b) => b.id === id);
     if (!balloon || balloon.popped) return;
 
@@ -69,12 +73,13 @@ export default function BalloonCelebration({ count = 20 }: { count?: number }) {
     const x = rect.left + rect.width / 2;
     const y = rect.top + rect.height / 2;
 
-    // Add pop effect
-    setPopEffects((prev) => [...prev, { id: Date.now(), x, y, color: balloon.color }]);
+    // Add pop effect with unique ID
+    const effectId = Date.now() + Math.random();
+    setPopEffects((prev) => [...prev, { id: effectId, x, y, color: balloon.color }]);
 
     // Remove pop effect after animation
     setTimeout(() => {
-      setPopEffects((prev) => prev.filter((e) => e.id !== Date.now()));
+      setPopEffects((prev) => prev.filter((e) => e.id !== effectId));
     }, 600);
 
     setBalloons((prev) =>
@@ -178,9 +183,9 @@ export default function BalloonCelebration({ count = 20 }: { count?: number }) {
                 },
                 opacity: { duration: 0.5, delay: balloon.delay },
               }}
-              onClick={(e) => popBalloon(balloon.id, e)}
-              onTouchEnd={(e) => popBalloon(balloon.id, e)}
-              className="absolute pointer-events-auto cursor-pointer"
+              onMouseDown={(e) => popBalloon(balloon.id, e)}
+              onTouchStart={(e) => popBalloon(balloon.id, e)}
+              className="absolute pointer-events-auto cursor-pointer select-none"
               style={{ width: balloon.size, left: 0, top: 0 }}
             >
               {/* Balloon SVG - proper teardrop shape */}

@@ -367,6 +367,18 @@ export default function StatsPage() {
           </div>
         </motion.div>
       </main>
+
+      {/* Footer */}
+      <footer className="mt-8 pb-4 text-center">
+        <a
+          href="https://orbitacode.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm text-[var(--text-light)] hover:text-[var(--primary)] transition-colors"
+        >
+          Powered by <span className="font-semibold">Orbita Code</span> 🚀
+        </a>
+      </footer>
     </div>
   );
 }
