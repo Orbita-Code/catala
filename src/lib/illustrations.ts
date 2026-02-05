@@ -884,9 +884,9 @@ const wordsWithIllustrations = new Set([
   "5-retoladors",
 ]);
 
-// Strip accents for filename matching (e.g. "bolígraf" → "boligraf")
+// Strip accents for filename matching (e.g. "bolígraf" → "boligraf", "goril·la" → "gorila")
 function stripAccents(s: string): string {
-  return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/·/g, "");
 }
 
 // Get the illustration image path for a word (returns null if no illustration exists)

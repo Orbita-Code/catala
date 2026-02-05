@@ -64,18 +64,18 @@ export const elsVehiclesTasks: Task[] = [
     type: "word-search",
     prompt: "Troba les paraules a la sopa de lletres:",
     gridSize: 10,
-    words: ["cotxe", "tren", "moto", "taxi", "avió"],
+    words: ["cotxe", "tren", "moto", "taxi", "avió", "barca", "camió", "vaixell"],
     grid: [
-      ["l", "c", "r", "p", "g", "d", "t", "f", "k", "s"],
-      ["h", "j", "o", "k", "n", "r", "a", "q", "l", "g"],
-      ["d", "f", "g", "t", "s", "l", "x", "p", "t", "n"],
-      ["q", "r", "l", "h", "x", "j", "i", "k", "r", "f"],
-      ["s", "g", "d", "k", "n", "e", "f", "h", "e", "l"],
-      ["p", "r", "l", "o", "t", "o", "m", "g", "n", "j"],
-      ["k", "f", "n", "d", "q", "r", "l", "g", "h", "s"],
-      ["a", "v", "i", "ó", "p", "r", "l", "f", "s", "d"],
-      ["h", "j", "g", "k", "f", "s", "q", "r", "n", "e"],
-      ["l", "p", "d", "r", "g", "h", "j", "k", "f", "s"],
+      ["c", "o", "t", "x", "e", "p", "t", "r", "e", "n"],
+      ["a", "h", "k", "l", "f", "g", "j", "d", "s", "q"],
+      ["m", "r", "v", "a", "i", "x", "e", "l", "l", "p"],
+      ["i", "t", "a", "x", "i", "k", "n", "h", "f", "r"],
+      ["ó", "s", "d", "g", "j", "l", "p", "q", "k", "s"],
+      ["b", "a", "r", "c", "a", "f", "h", "d", "g", "l"],
+      ["n", "k", "p", "l", "s", "r", "j", "f", "h", "k"],
+      ["m", "o", "t", "o", "q", "g", "d", "n", "p", "r"],
+      ["f", "j", "h", "k", "a", "v", "i", "ó", "s", "l"],
+      ["d", "g", "r", "s", "l", "p", "k", "f", "h", "j"],
     ],
   },
   {
@@ -177,19 +177,6 @@ export const elsVehiclesTasks: Task[] = [
   },
   {
     id: "els-vehicles-10",
-    type: "matching",
-    prompt: "Relaciona cada vehicle amb on va:",
-    pairs: [
-      { left: "cotxe", right: "carretera" },
-      { left: "autobús", right: "parada" },
-      { left: "tren", right: "vies" },
-      { left: "avió", right: "cel" },
-      { left: "vaixell", right: "mar" },
-      { left: "bicicleta", right: "carril bici" },
-    ],
-  },
-  {
-    id: "els-vehicles-11",
     type: "fill-sentence",
     prompt: "Completa les frases sobre els vehicles:",
     sentences: [
@@ -216,7 +203,7 @@ export const elsVehiclesTasks: Task[] = [
     ],
   },
   {
-    id: "els-vehicles-12",
+    id: "els-vehicles-11",
     type: "classify-columns",
     prompt: "Classifica: Terra vs Mar vs Aire",
     columns: [
@@ -250,57 +237,18 @@ export const elsVehiclesTasks: Task[] = [
     ],
   },
   {
-    id: "els-vehicles-13",
-    type: "fill-sentence",
-    prompt: "Completa amb les parts del cotxe:",
-    sentences: [
-      {
-        text: "Les ___ fan girar el cotxe.",
-        blank: "rodes",
-        options: ["rodes", "portes", "fars"],
-      },
-      {
-        text: "Obrim la ___ per entrar al cotxe.",
-        blank: "porta",
-        options: ["roda", "porta", "volant"],
-      },
-      {
-        text: "El conductor gira el ___ per conduir.",
-        blank: "volant",
-        options: ["mirall", "far", "volant"],
-      },
-      {
-        text: "Els ___ il·luminen el camí a la nit.",
-        blank: "fars",
-        options: ["miralls", "volants", "fars"],
-      },
-    ],
-  },
-  {
-    id: "els-vehicles-14",
-    type: "fill-sentence",
-    prompt: "Descriu els vehicles:",
-    sentences: [
-      {
-        text: "El cotxe té ___ rodes.",
-        blank: "quatre",
-        options: ["dues", "quatre", "tres"],
-      },
-      {
-        text: "La bicicleta té ___ rodes.",
-        blank: "dues",
-        options: ["quatre", "una", "dues"],
-      },
-      {
-        text: "L'ambulància porta els malalts a l'___.",
-        blank: "hospital",
-        options: ["escola", "hospital", "cinema"],
-      },
-      {
-        text: "El camió porta coses molt ___.",
-        blank: "pesades",
-        options: ["pesades", "petites", "lleugeres"],
-      },
+    id: "els-vehicles-12",
+    type: "unscramble",
+    prompt: "Mira la imatge i ordena les síl·labes:",
+    words: [
+      { scrambled: "xe-cot", correct: "cotxe", image: "cotxe" },
+      { scrambled: "bús-to-au", correct: "autobús", image: "autobus" },
+      { scrambled: "ó-vi-a", correct: "avió", image: "avio" },
+      { scrambled: "to-mo", correct: "moto", image: "moto" },
+      { scrambled: "xell-vai", correct: "vaixell", image: "vaixell" },
+      { scrambled: "ó-mi-ca", correct: "camió", image: "camio" },
+      { scrambled: "xi-ta", correct: "taxi", image: "taxi" },
+      { scrambled: "ta-cle-ci-bi", correct: "bicicleta", image: "bicicleta" },
     ],
   },
   // Bonus activity: Fun drawing

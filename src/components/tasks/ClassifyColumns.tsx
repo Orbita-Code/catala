@@ -228,7 +228,7 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
                 style={{ cursor: lastPlacedCorrect !== null || showResults ? "default" : "grab" }}
               >
                 {getWordIllustration(currentItem) ? (
-                  <div className="mb-2 flex justify-center"><img src={getWordIllustration(currentItem)!} alt="" className="w-44 h-44 object-contain pointer-events-none" /></div>
+                  <div className="mb-2 flex justify-center"><img src={getWordIllustration(currentItem)!} alt="" className="w-48 h-48 sm:w-56 sm:h-56 object-contain pointer-events-none" /></div>
                 ) : null}
                 <div
                   className={`inline-block px-6 py-3 rounded-2xl text-2xl font-black font-handwriting transition-all ${
@@ -256,7 +256,7 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
 
           {/* Column buttons below (non-circle mode) */}
           {!allPlaced && !showResults && !task.circleMode && (
-            <div className="grid grid-cols-2 gap-4">
+            <div className={`grid gap-2 ${task.columns.length === 3 ? "grid-cols-3" : "grid-cols-2"}`}>
               {task.columns.map((col, colIdx) => (
                 <motion.button
                   key={colIdx}
@@ -264,20 +264,20 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
                   whileTap={dragState.isDragging ? undefined : { scale: 0.95 }}
                   onClick={() => handleColumnTap(colIdx)}
                   disabled={lastPlacedCorrect !== null}
-                  className={`min-h-[160px] rounded-2xl bg-white p-5 shadow-sm border-3 transition-all flex flex-col items-center justify-center gap-3 ${
+                  className={`min-h-[100px] rounded-2xl bg-white p-3 shadow-sm border-2 transition-all flex flex-col items-center justify-center gap-1 ${
                     dragState.isDragging
                       ? "border-[var(--primary)] bg-purple-50 animate-pulse"
                       : "border-gray-200 hover:border-[var(--primary)]"
                   }`}
                 >
-                  <h4 className="text-2xl md:text-3xl font-black text-[var(--primary)]">
+                  <h4 className={`font-black text-[var(--primary)] ${task.columns.length === 3 ? "text-base md:text-lg" : "text-2xl md:text-3xl"}`}>
                     {col.title}
                   </h4>
-                  <div className="text-sm text-[var(--text-light)]">
+                  <div className="text-xs text-[var(--text-light)]">
                     {Object.values(placed).filter((c) => c === colIdx).length} posades
                   </div>
                   {dragState.isDragging && (
-                    <span className="text-3xl">⬇️</span>
+                    <span className={task.columns.length === 3 ? "text-xl" : "text-3xl"}>⬇️</span>
                   )}
                 </motion.button>
               ))}
@@ -288,29 +288,29 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
 
       {/* Results view */}
       {showResults && (
-        <div className="grid grid-cols-2 gap-4">
+        <div className={`grid gap-3 ${task.columns.length === 3 ? "grid-cols-3" : "grid-cols-2"}`}>
           {task.columns.map((col, colIdx) => {
             const colItems = Object.entries(placed)
               .filter(([, idx]) => idx === colIdx)
               .map(([item]) => item);
             return (
-              <div key={colIdx} className={`bg-white ${task.circleMode ? "rounded-full aspect-square flex flex-col justify-center" : "rounded-2xl"} p-5 shadow-sm border-2 border-gray-100`}>
-                <h4 className="text-center font-black text-xl md:text-2xl text-[var(--primary)] mb-4">
+              <div key={colIdx} className={`bg-white ${task.circleMode ? "rounded-full aspect-square flex flex-col justify-center" : "rounded-2xl"} p-3 shadow-sm border-2 border-gray-100`}>
+                <h4 className={`text-center font-black text-[var(--primary)] mb-2 ${task.columns.length === 3 ? "text-base" : "text-xl md:text-2xl"}`}>
                   {col.title}
                 </h4>
-                <div className="space-y-2">
+                <div className="space-y-1">
                   {colItems.map((item) => {
                     const isCorrect = col.items.includes(item);
                     return (
                       <div
                         key={item}
-                        className={`px-4 py-2 rounded-xl text-lg font-semibold text-center font-handwriting ${
+                        className={`px-2 py-1 rounded-lg text-sm font-semibold text-center font-handwriting ${
                           isCorrect
                             ? "bg-green-100 text-green-700"
                             : "bg-red-100 text-red-700"
                         }`}
                       >
-                        {getWordIllustration(item) ? <img src={getWordIllustration(item)!} alt="" className="w-12 h-12 object-contain inline mr-2" /> : null} {item} {isCorrect ? "✅" : "❌"}
+                        {getWordIllustration(item) ? <img src={getWordIllustration(item)!} alt="" className="w-8 h-8 object-contain inline mr-1" /> : null} {item} {isCorrect ? "✅" : "❌"}
                       </div>
                     );
                   })}
