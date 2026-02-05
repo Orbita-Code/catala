@@ -309,9 +309,9 @@ export default function Matching({ task, onComplete }: Props) {
         </p>
       )}
 
-      <div className="flex gap-3 justify-center">
+      <div className="flex gap-4 justify-center">
         {/* LEFT COLUMN */}
-        <div className="flex flex-col gap-2 flex-1 max-w-[200px]">
+        <div className="flex flex-col gap-2 w-[180px] md:w-[220px]">
           {task.pairs.map((pair, i) => {
             const isBeingDragged = dragState.isDragging && dragState.draggedItem === `left-${i}`;
             const isMatched = matched.has(i);
@@ -329,7 +329,7 @@ export default function Matching({ task, onComplete }: Props) {
                 onPointerDown={(e) => {
                   if (!isMatched) handlePointerDown(`left-${i}`, "left", e);
                 }}
-                className={`rounded-2xl font-bold text-center transition-all select-none p-3 text-base ${
+                className={`rounded-2xl font-bold text-center transition-all select-none p-3 min-h-[60px] flex items-center justify-center ${
                   isBeingDragged
                     ? "opacity-40 bg-gray-100 text-gray-300 border-2 border-gray-200"
                     : isMatched
@@ -345,16 +345,16 @@ export default function Matching({ task, onComplete }: Props) {
                 {(() => {
                   const fullWord = pair.left + pair.right;
                   const ill = getWordIllustration(pair.left) || getWordIllustration(fullWord);
-                  return ill ? <img src={ill} alt="" className="w-10 h-10 object-contain inline mr-1" /> : null;
+                  return ill ? <img src={ill} alt="" className="w-10 h-10 object-contain mr-1" /> : null;
                 })()}
-                <span className="font-handwriting text-lg">{pair.left}</span>
+                <span className="font-handwriting text-xl md:text-2xl">{pair.left}</span>
               </motion.button>
             );
           })}
         </div>
 
         {/* RIGHT COLUMN */}
-        <div className="flex flex-col gap-2 flex-1 max-w-[200px]">
+        <div className="flex flex-col gap-2 w-[180px] md:w-[220px]">
           {shuffledRight.map((actualIdx, displayIdx) => {
             const isMatched = matched.has(actualIdx);
             const isSelected = selected?.side === "right" && selected.index === displayIdx;
@@ -369,7 +369,7 @@ export default function Matching({ task, onComplete }: Props) {
                 transition={{ delay: displayIdx * 0.05 }}
                 whileTap={dragState.isDragging ? undefined : { scale: 0.93 }}
                 onClick={() => handleSelect("right", displayIdx)}
-                className={`rounded-2xl font-bold text-center transition-all p-3 text-base ${
+                className={`rounded-2xl font-bold text-center transition-all p-3 min-h-[60px] flex items-center justify-center ${
                   dragState.isDragging && !isMatched
                     ? "border-[var(--primary)] bg-purple-50 border-2 border-dashed animate-pulse"
                     : isMatched
@@ -385,9 +385,9 @@ export default function Matching({ task, onComplete }: Props) {
                   const p = task.pairs[actualIdx];
                   const fullWord = p.left + p.right;
                   const ill = getWordIllustration(p.right) || getWordIllustration(fullWord);
-                  return ill ? <img src={ill} alt="" className="w-10 h-10 object-contain inline mr-1" /> : null;
+                  return ill ? <img src={ill} alt="" className="w-10 h-10 object-contain mr-1" /> : null;
                 })()}
-                <span className="font-handwriting text-lg">{task.pairs[actualIdx].right}</span>
+                <span className="font-handwriting text-xl md:text-2xl">{task.pairs[actualIdx].right}</span>
               </motion.button>
             );
           })}

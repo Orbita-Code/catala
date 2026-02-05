@@ -173,6 +173,32 @@ export default function FillSentence({ task, onComplete }: Props) {
           </div>
         </motion.div>
       ))}
+
+      {/* Button inside grid for tasks with images (task 9) - as last grid item */}
+      {allSentencesHaveImages && (
+        <div className="flex items-center justify-center">
+          {!checked ? (
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleCheck}
+              disabled={!allAnswered}
+              className="px-6 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg disabled:opacity-40 shadow-[0_4px_12px_rgba(108,92,231,0.3)]"
+            >
+              Comprova!
+            </motion.button>
+          ) : !allCorrect ? (
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleRetry}
+              className="px-6 py-3 bg-[var(--secondary)] text-white font-bold rounded-2xl text-lg shadow-md"
+            >
+              Torna a provar!
+            </motion.button>
+          ) : null}
+        </div>
+      )}
     </div>
   );
 
@@ -331,29 +357,31 @@ export default function FillSentence({ task, onComplete }: Props) {
         renderSentences()
       )}
 
-      {/* Check/Retry button */}
-      <div className="flex justify-center pt-2">
-        {!checked ? (
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleCheck}
-            disabled={!allAnswered}
-            className="px-8 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg disabled:opacity-40 shadow-[0_4px_12px_rgba(108,92,231,0.3)]"
-          >
-            Comprova!
-          </motion.button>
-        ) : !allCorrect ? (
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleRetry}
-            className="px-8 py-3 bg-[var(--secondary)] text-white font-bold rounded-2xl text-lg shadow-md"
-          >
-            Torna a provar!
-          </motion.button>
-        ) : null}
-      </div>
+      {/* Check/Retry button - only show when NOT using grid with images (button is inside grid for those) */}
+      {!allSentencesHaveImages && (
+        <div className="flex justify-center pt-2">
+          {!checked ? (
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleCheck}
+              disabled={!allAnswered}
+              className="px-8 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg disabled:opacity-40 shadow-[0_4px_12px_rgba(108,92,231,0.3)]"
+            >
+              Comprova!
+            </motion.button>
+          ) : !allCorrect ? (
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleRetry}
+              className="px-8 py-3 bg-[var(--secondary)] text-white font-bold rounded-2xl text-lg shadow-md"
+            >
+              Torna a provar!
+            </motion.button>
+          ) : null}
+        </div>
+      )}
     </div>
   );
 }
