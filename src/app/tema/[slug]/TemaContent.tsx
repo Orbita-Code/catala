@@ -16,7 +16,7 @@ import { getEncouragement } from "@/lib/encouragement";
 
 import type { TaskResult } from "@/types/tasks";
 import { celebrate, celebrateBig } from "@/lib/confetti";
-import { initAudio, isMuted, toggleMute, playCorrect, playWrong, playCombo, playThemeComplete } from "@/lib/audio";
+import { initAudio, isMuted, toggleMute, playCorrect, playWrong, playCombo, playThemeComplete, playApplause } from "@/lib/audio";
 import SparkleOverlay from "@/components/ui/SparkleOverlay";
 import BalloonCelebration from "@/components/ui/BalloonCelebration";
 import FireworksBurst from "@/components/ui/FireworksBurst";
@@ -168,6 +168,9 @@ export default function TemaContent({ slug }: TemaContentProps) {
         setShowCelebration(true);
 
         const fullyComplete = isThemeFullyComplete(slug, scoringCount);
+        // Play applause and cheering for all completions
+        playApplause(fullyComplete ? 5 : 3);
+
         if (fullyComplete) {
           playThemeComplete();
           // Multiple confetti waves for perfect completion
@@ -230,36 +233,79 @@ export default function TemaContent({ slug }: TemaContentProps) {
             />
           </motion.div>
 
-          {/* Bouncing emoji rain - MORE for celebrations! */}
+          {/* Pulsating hearts, stars, and Saturn decorations */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-            {(fullyComplete
-              ? ["🌟", "⭐", "🎉", "🏆", "💫", "✨", "🎊", "💖", "🌈", "🦄", "🎆", "🎇", "💎", "👑", "🥳", "🎁"]
-              : ["🌟", "⭐", "🎉", "💫", "✨", "💖", "🎊", "🥳"]
-            ).map((emoji, i) => (
-              <motion.span
-                key={i}
-                initial={{
-                  x: `${5 + Math.random() * 90}vw`,
-                  y: "-10vh",
-                  rotate: 0,
-                  scale: 0.8 + Math.random() * 0.8,
-                }}
+            {/* Pulsating hearts scattered around */}
+            {[
+              { x: "8%", y: "15%", size: "2.5rem", delay: 0 },
+              { x: "85%", y: "20%", size: "2rem", delay: 0.3 },
+              { x: "15%", y: "75%", size: "2.2rem", delay: 0.6 },
+              { x: "78%", y: "70%", size: "2rem", delay: 0.9 },
+              { x: "50%", y: "85%", size: "1.8rem", delay: 1.2 },
+            ].map((heart, i) => (
+              <motion.div
+                key={`heart-${i}`}
+                className="absolute"
+                style={{ left: heart.x, top: heart.y, fontSize: heart.size }}
                 animate={{
-                  y: "110vh",
-                  rotate: 360 + Math.random() * 360,
+                  scale: [1, 1.3, 1],
+                  opacity: [0.7, 1, 0.7],
                 }}
                 transition={{
-                  duration: 6 + Math.random() * 4,
-                  delay: i * 0.3,
-                  ease: "linear",
+                  duration: 1.2,
+                  delay: heart.delay,
                   repeat: Infinity,
+                  ease: "easeInOut",
                 }}
-                className="absolute text-3xl"
-                style={{ filter: "drop-shadow(0 0 4px rgba(255,255,255,0.8))" }}
               >
-                {emoji}
-              </motion.span>
+                ❤️
+              </motion.div>
             ))}
+
+            {/* Pulsating stars scattered around */}
+            {[
+              { x: "25%", y: "12%", size: "2.5rem", delay: 0.2 },
+              { x: "70%", y: "10%", size: "2.2rem", delay: 0.5 },
+              { x: "5%", y: "45%", size: "2rem", delay: 0.8 },
+              { x: "92%", y: "50%", size: "2.3rem", delay: 1.1 },
+              { x: "35%", y: "80%", size: "1.8rem", delay: 1.4 },
+              { x: "65%", y: "82%", size: "2rem", delay: 0.1 },
+            ].map((star, i) => (
+              <motion.div
+                key={`star-${i}`}
+                className="absolute"
+                style={{ left: star.x, top: star.y, fontSize: star.size }}
+                animate={{
+                  scale: [1, 1.4, 1],
+                  rotate: [0, 15, -15, 0],
+                  opacity: [0.8, 1, 0.8],
+                }}
+                transition={{
+                  duration: 1.5,
+                  delay: star.delay,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              >
+                ⭐
+              </motion.div>
+            ))}
+
+            {/* Planet Saturn - slowly rotating */}
+            <motion.div
+              className="absolute text-6xl"
+              style={{ left: "45%", top: "8%", filter: "drop-shadow(0 0 10px rgba(255, 200, 100, 0.5))" }}
+              animate={{
+                rotate: [0, 360],
+                y: [0, -10, 0],
+              }}
+              transition={{
+                rotate: { duration: 20, repeat: Infinity, ease: "linear" },
+                y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+              }}
+            >
+              🪐
+            </motion.div>
           </div>
 
           <motion.h1

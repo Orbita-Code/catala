@@ -443,11 +443,6 @@ export const laClasseTasks: Task[] = [
         blank: "llibreta",
         options: ["carpeta", "motxilla", "llibreta"],
       },
-      {
-        text: "Vosaltres pinteu amb les ___.",
-        blank: "pintures",
-        options: ["tisores", "pintures", "gomes"],
-      },
     ],
   },
 
@@ -469,23 +464,6 @@ export const laClasseTasks: Task[] = [
         joined: "Elllapisésdecolorgroc",
         words: ["El", "llapis", "és", "de", "color", "groc"],
       },
-    ],
-  },
-
-  // Exercise 16: Observa i escriu (workbook: count objects and write number)
-  {
-    id: "la-classe-16",
-    type: "count-and-write",
-    prompt: "Compta els objectes i escriu el número.",
-    items: [
-      { description: "llapis", count: 3, word: "tres" },
-      { description: "goma", count: 2, word: "dues" },
-      { description: "llibre", count: 4, word: "quatre" },
-      { description: "ordinador", count: 1, word: "un" },
-      { description: "regle", count: 5, word: "cinc" },
-      { description: "retolador", count: 6, word: "sis" },
-      { description: "tisores", count: 7, word: "set" },
-      { description: "estoig", count: 8, word: "vuit" },
     ],
   },
 
@@ -523,7 +501,7 @@ export const laClasseTasks: Task[] = [
   {
     id: "la-classe-bonus",
     type: "drawing-canvas",
-    prompt: "🎨 Activitat extra! Diverteix-te, activa la creativitat i dibuixa alguna cosa màgica! ✨",
+    prompt: "Activitat extra! Diverteix-te, activa la creativitat i dibuixa alguna cosa màgica!",
     bonus: true,
   },
 ];

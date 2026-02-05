@@ -3,7 +3,6 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { RefreshCcw, Play, Sparkles } from "lucide-react";
-import Image from "next/image";
 
 interface DrawingCanvasTask {
   id: string;
@@ -17,7 +16,8 @@ interface Props {
   onComplete: (result: { allCorrect: boolean; erroredItems: string[] }) => void;
 }
 
-type Tool = "brush" | "rainbow" | "neon" | "magic" | "mirror" | "bucket" | "sticker" | "eraser";
+type Tool = "brush" | "rainbow" | "neon" | "mirror" | "bucket" | "sticker" | "eraser";
+type BrushSize = "small" | "medium" | "large";
 
 const COLORS = [
   "#2D3436", "#FF6B6B", "#0984E3", "#00B894",
@@ -28,8 +28,6 @@ const NEON_COLORS = [
   "#FF0080", "#00FFFF", "#FF00FF", "#00FF00",
   "#FFFF00", "#FF6600", "#00FF80", "#8000FF",
 ];
-
-const MAGIC_SHAPES = ["❤️", "⭐", "🌸", "💎", "🦋", "✨", "🌟", "💫"];
 
 const STICKERS = [
   // Fun basics
@@ -45,15 +43,21 @@ const STICKERS = [
   "👑", "💎", "🎀", "🌟", "💫", "🔥", "⚡", "🎪",
 ];
 
-const TOOL_CONFIG: Record<Tool, { emoji: string; label: string; description: string }> = {
-  brush: { emoji: "🖌️", label: "Pinzell", description: "Dibuixa lliure" },
-  rainbow: { emoji: "🌈", label: "Arc iris", description: "Colors màgics!" },
-  neon: { emoji: "✨", label: "Neó", description: "Brilla en fosc!" },
-  magic: { emoji: "💫", label: "Màgic", description: "Formes automàtiques" },
-  mirror: { emoji: "🪞", label: "Mirall", description: "Dibuix simètric" },
-  bucket: { emoji: "🪣", label: "Omplir", description: "Omple de color" },
-  sticker: { emoji: "🏷️", label: "Adhesius", description: "Enganxa coses!" },
-  eraser: { emoji: "🧹", label: "Goma", description: "Esborra" },
+const BRUSH_SIZES: Record<BrushSize, { px: number; label: string }> = {
+  small: { px: 4, label: "Petit" },
+  medium: { px: 10, label: "Mitjà" },
+  large: { px: 20, label: "Gran" },
+};
+
+// Tool config with illustration paths instead of emojis
+const TOOL_CONFIG: Record<Tool, { icon: string; label: string; description: string; isIllustration?: boolean }> = {
+  brush: { icon: "/illustrations/pinzell.webp", label: "Pinzell", description: "Dibuixa lliure", isIllustration: true },
+  rainbow: { icon: "🌈", label: "Arc iris", description: "Colors màgics!" },
+  neon: { icon: "✨", label: "Neó", description: "Brilla en fosc!" },
+  mirror: { icon: "🪞", label: "Mirall", description: "Dibuix simètric" },
+  bucket: { icon: "/illustrations/galleda-de-pintura.webp", label: "Omplir", description: "Omple de color", isIllustration: true },
+  sticker: { icon: "😊", label: "Adhesius", description: "Enganxa coses!" },
+  eraser: { icon: "/illustrations/goma.webp", label: "Goma", description: "Esborra", isIllustration: true },
 };
 
 // Sound effects (using Web Audio API for simple sounds)
@@ -164,8 +168,8 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
   const [drawing, setDrawing] = useState(false);
   const [color, setColor] = useState(COLORS[1]); // Start with red
   const [tool, setTool] = useState<Tool>("brush");
+  const [brushSize, setBrushSize] = useState<BrushSize>("medium");
   const [selectedSticker, setSelectedSticker] = useState(STICKERS[0]);
-  const [selectedMagicShape, setSelectedMagicShape] = useState(MAGIC_SHAPES[0]);
   const [hasDrawn, setHasDrawn] = useState(false);
   const [isNeonMode, setIsNeonMode] = useState(false);
   const [showSparkles, setShowSparkles] = useState(false);
@@ -174,7 +178,12 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
   const drawHistory = useRef<ImageData[]>([]);
   const [isReplaying, setIsReplaying] = useState(false);
 
-  const lineWidth = tool === "eraser" ? 20 : tool === "neon" ? 12 : 6;
+  // Calculate line width based on tool and brush size
+  const getLineWidth = () => {
+    if (tool === "eraser") return BRUSH_SIZES[brushSize].px * 2;
+    if (tool === "neon") return BRUSH_SIZES[brushSize].px * 1.5;
+    return BRUSH_SIZES[brushSize].px;
+  };
 
   // Save canvas state for replay
   const saveState = useCallback(() => {
@@ -214,19 +223,21 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
     const ctx = canvas.getContext("2d");
     if (!ctx || !lastPos.current) return;
 
+    const lineWidth = getLineWidth();
+
     ctx.beginPath();
     ctx.moveTo(lastPos.current.x, lastPos.current.y);
     ctx.lineTo(pos.x, pos.y);
 
     if (tool === "eraser") {
-      ctx.strokeStyle = isNeonMode ? "#1a1a2e" : "#FFFFFF";
+      ctx.strokeStyle = isNeonMode ? "#0a0a1a" : "#FFFFFF";
     } else if (tool === "rainbow") {
       rainbowT.current += 1;
       ctx.strokeStyle = getRainbowColor(rainbowT.current);
     } else if (tool === "neon") {
       ctx.strokeStyle = color;
       ctx.shadowColor = color;
-      ctx.shadowBlur = 15;
+      ctx.shadowBlur = 20;
     } else if (tool === "mirror") {
       // Draw on both sides
       ctx.strokeStyle = color;
@@ -256,7 +267,7 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
     lastPos.current = pos;
     setHasDrawn(true);
     saveState();
-  }, [color, lineWidth, tool, isNeonMode, saveState]);
+  }, [color, tool, isNeonMode, saveState, brushSize]);
 
   const handleStart = (e: React.TouchEvent | React.MouseEvent) => {
     e.preventDefault();
@@ -290,25 +301,6 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
       return;
     }
 
-    if (tool === "magic") {
-      const canvas = canvasRef.current;
-      if (!canvas) return;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
-      ctx.font = "36px serif";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText(selectedMagicShape, pos.x, pos.y);
-      setHasDrawn(true);
-      playSound("sparkle");
-
-      // Add sparkle effect
-      setShowSparkles(true);
-      setTimeout(() => setShowSparkles(false), 500);
-      saveState();
-      return;
-    }
-
     setDrawing(true);
     lastPos.current = pos;
 
@@ -334,7 +326,7 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    ctx.fillStyle = isNeonMode ? "#1a1a2e" : "#FFFFFF";
+    ctx.fillStyle = isNeonMode ? "#0a0a1a" : "#FFFFFF";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     setHasDrawn(false);
     drawHistory.current = [];
@@ -350,7 +342,7 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
     if (!ctx) return;
 
     setIsReplaying(true);
-    ctx.fillStyle = isNeonMode ? "#1a1a2e" : "#FFFFFF";
+    ctx.fillStyle = isNeonMode ? "#0a0a1a" : "#FFFFFF";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     for (let i = 0; i < drawHistory.current.length; i++) {
@@ -370,10 +362,11 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
     const newMode = !isNeonMode;
     setIsNeonMode(newMode);
 
-    if (!hasDrawn) {
-      ctx.fillStyle = newMode ? "#1a1a2e" : "#FFFFFF";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-    }
+    // Always change canvas background when toggling
+    ctx.fillStyle = newMode ? "#0a0a1a" : "#FFFFFF";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    setHasDrawn(false);
+    drawHistory.current = [];
 
     if (newMode) {
       setColor(NEON_COLORS[0]);
@@ -430,11 +423,11 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
           }`}
         >
           <Sparkles size={18} />
-          {isNeonMode ? "Mode Neó ACTIVAT! ✨" : "Activa Mode Neó"}
+          {isNeonMode ? "Mode Neó ACTIVAT!" : "Activa Mode Neó"}
         </motion.button>
       </div>
 
-      {/* Tool buttons */}
+      {/* Tool buttons with illustrations */}
       <div className="flex items-center gap-1.5 justify-center flex-wrap">
         {(Object.keys(TOOL_CONFIG) as Tool[]).map((t) => {
           const config = TOOL_CONFIG[t];
@@ -453,7 +446,11 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
               }`}
               title={config.description}
             >
-              <span className="text-lg">{config.emoji}</span>
+              {config.isIllustration ? (
+                <img src={config.icon} alt={config.label} className="w-6 h-6 object-contain" />
+              ) : (
+                <span className="text-lg">{config.icon}</span>
+              )}
               <span className="text-[9px] font-bold">{config.label}</span>
             </motion.button>
           );
@@ -481,6 +478,40 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
         </motion.button>
       </div>
 
+      {/* Brush size selector */}
+      <div className="flex items-center gap-2 justify-center">
+        <span className="text-xs text-[var(--text-light)] font-semibold">Mida:</span>
+        {(Object.keys(BRUSH_SIZES) as BrushSize[]).map((size) => {
+          const config = BRUSH_SIZES[size];
+          const isActive = brushSize === size;
+          return (
+            <motion.button
+              key={size}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => setBrushSize(size)}
+              className={`flex items-center justify-center rounded-full transition-all ${
+                isActive
+                  ? "bg-[var(--primary)] text-white"
+                  : "bg-gray-100 text-[var(--text)] hover:bg-gray-200"
+              }`}
+              style={{
+                width: size === "small" ? 28 : size === "medium" ? 36 : 44,
+                height: size === "small" ? 28 : size === "medium" ? 36 : 44,
+              }}
+              title={config.label}
+            >
+              <div
+                className={`rounded-full ${isActive ? "bg-white" : "bg-[var(--text)]"}`}
+                style={{
+                  width: config.px,
+                  height: config.px,
+                }}
+              />
+            </motion.button>
+          );
+        })}
+      </div>
+
       {/* Color palette */}
       <div className="flex items-center gap-2 justify-center flex-wrap">
         {currentColors.map((c) => (
@@ -490,37 +521,14 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
             onClick={() => setColor(c)}
             className={`w-8 h-8 rounded-full transition-all ${
               color === c ? "ring-3 ring-offset-2 ring-[var(--primary)] scale-110" : ""
-            } ${isNeonMode ? "shadow-lg" : ""}`}
+            }`}
             style={{
               backgroundColor: c,
-              boxShadow: isNeonMode ? `0 0 10px ${c}` : undefined
+              boxShadow: isNeonMode ? `0 0 15px ${c}, 0 0 30px ${c}` : undefined
             }}
           />
         ))}
       </div>
-
-      {/* Magic shape picker */}
-      {tool === "magic" && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          className="flex items-center gap-2 justify-center flex-wrap bg-purple-50 rounded-xl p-2"
-        >
-          <span className="text-xs text-purple-600 font-bold">Tria forma:</span>
-          {MAGIC_SHAPES.map((s) => (
-            <motion.button
-              key={s}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => setSelectedMagicShape(s)}
-              className={`w-9 h-9 rounded-lg flex items-center justify-center text-xl transition-all ${
-                selectedMagicShape === s ? "bg-purple-200 ring-2 ring-purple-400 scale-105" : "bg-white"
-              }`}
-            >
-              {s}
-            </motion.button>
-          ))}
-        </motion.div>
-      )}
 
       {/* Sticker picker */}
       {tool === "sticker" && (
@@ -547,16 +555,19 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
         </motion.div>
       )}
 
-      {/* Canvas */}
-      <div className={`rounded-2xl shadow-sm overflow-hidden border-2 ${
-        isNeonMode ? "border-purple-500 shadow-purple-500/30 shadow-lg" : "border-gray-100"
+      {/* Canvas - full width */}
+      <div className={`rounded-2xl shadow-sm overflow-hidden border-2 mx-auto ${
+        isNeonMode ? "border-purple-500 shadow-purple-500/50 shadow-lg" : "border-gray-100"
       }`}>
         <canvas
           ref={canvasRef}
-          width={600}
-          height={400}
+          width={900}
+          height={500}
           className="w-full touch-none cursor-crosshair"
-          style={{ aspectRatio: "3/2" }}
+          style={{
+            aspectRatio: "9/5",
+            background: isNeonMode ? "#0a0a1a" : "#FFFFFF"
+          }}
           onMouseDown={handleStart}
           onMouseMove={handleMove}
           onMouseUp={handleEnd}
@@ -580,7 +591,7 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
               : "bg-[var(--primary)] text-white shadow-[0_4px_12px_rgba(108,92,231,0.3)]"
           }`}
         >
-          Fet! 🎨
+          Fet!
         </motion.button>
       </div>
     </div>

@@ -185,50 +185,51 @@ export default function BalloonCelebration({ count = 20 }: { count?: number }) {
               whileHover={{ scale: 1.15 }}
               whileTap={{ scale: 0.9 }}
             >
-              {/* Balloon SVG */}
+              {/* Balloon SVG - proper teardrop shape */}
               <svg
-                viewBox="0 0 60 80"
+                viewBox="0 0 60 90"
                 width={balloon.size}
-                height={balloon.size * 1.33}
+                height={balloon.size * 1.5}
                 className="drop-shadow-lg"
               >
-                {/* Balloon body */}
-                <ellipse
-                  cx="30"
-                  cy="28"
-                  rx="26"
-                  ry="30"
+                {/* Balloon body - teardrop shape with rounded top */}
+                <path
+                  d="M30 4
+                     C12 4 4 18 4 32
+                     C4 50 16 62 30 66
+                     C44 62 56 50 56 32
+                     C56 18 48 4 30 4 Z"
                   fill={balloon.color}
                   opacity="0.95"
                 />
-                {/* Shine highlight */}
+                {/* Main shine highlight */}
                 <ellipse
                   cx="18"
-                  cy="16"
+                  cy="22"
                   rx="8"
-                  ry="12"
+                  ry="14"
                   fill="white"
-                  opacity="0.4"
-                  transform="rotate(-25 18 16)"
+                  opacity="0.45"
+                  transform="rotate(-20 18 22)"
                 />
-                {/* Small shine */}
+                {/* Secondary small shine */}
                 <ellipse
-                  cx="38"
-                  cy="35"
+                  cx="40"
+                  cy="38"
                   rx="4"
                   ry="6"
                   fill="white"
-                  opacity="0.2"
+                  opacity="0.25"
                 />
-                {/* Knot */}
-                <polygon
-                  points="26,56 30,60 34,56 30,58"
+                {/* Knot at bottom */}
+                <path
+                  d="M26 66 L30 72 L34 66 L30 68 Z"
                   fill={balloon.color}
                   opacity="0.85"
                 />
                 {/* String with curve */}
                 <path
-                  d="M30 60 Q25 70 30 75 Q35 80 30 85"
+                  d="M30 72 Q24 80 30 85 Q36 90 30 95"
                   stroke="#888"
                   strokeWidth="1.5"
                   fill="none"

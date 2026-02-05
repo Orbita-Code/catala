@@ -500,7 +500,7 @@ export const elsAnimalsTasks: Task[] = [
   {
     id: "els-animals-bonus",
     type: "drawing-canvas",
-    prompt: "🎨 Activitat extra! Diverteix-te, activa la creativitat i dibuixa alguna cosa màgica! ✨",
+    prompt: "Activitat extra! Diverteix-te, activa la creativitat i dibuixa alguna cosa màgica!",
     bonus: true,
   },
 ];

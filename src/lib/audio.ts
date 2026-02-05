@@ -175,3 +175,62 @@ export function playThemeComplete() {
     });
   } catch {}
 }
+
+// Applause and cheering sound - synthesized crowd noise
+export function playApplause(duration: number = 4) {
+  if (muted || typeof window === "undefined") return;
+  try {
+    const ctx = getCtx();
+    const now = ctx.currentTime;
+
+    // Create multiple noise sources for crowd effect
+    for (let i = 0; i < 6; i++) {
+      // White noise for clapping
+      const bufferSize = 2 * ctx.sampleRate;
+      const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const output = noiseBuffer.getChannelData(0);
+      for (let j = 0; j < bufferSize; j++) {
+        output[j] = Math.random() * 2 - 1;
+      }
+
+      const noise = ctx.createBufferSource();
+      noise.buffer = noiseBuffer;
+
+      // Band-pass filter for more natural clap sound
+      const filter = ctx.createBiquadFilter();
+      filter.type = "bandpass";
+      filter.frequency.value = 1000 + i * 200;
+      filter.Q.value = 1;
+
+      const gain = ctx.createGain();
+      const delay = i * 0.1;
+      gain.gain.setValueAtTime(0, now + delay);
+      gain.gain.linearRampToValueAtTime(0.08, now + delay + 0.3);
+      gain.gain.setValueAtTime(0.08, now + delay + duration - 0.5);
+      gain.gain.linearRampToValueAtTime(0, now + delay + duration);
+
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+
+      noise.start(now + delay);
+      noise.stop(now + delay + duration);
+    }
+
+    // Add some whistles/cheers
+    const whistleFreqs = [1200, 1400, 1600, 1800];
+    whistleFreqs.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(freq, now + 0.5 + i * 0.8);
+      osc.frequency.linearRampToValueAtTime(freq * 1.2, now + 0.8 + i * 0.8);
+      g.gain.setValueAtTime(0.05, now + 0.5 + i * 0.8);
+      g.gain.exponentialRampToValueAtTime(0.001, now + 1 + i * 0.8);
+      osc.connect(g);
+      g.connect(ctx.destination);
+      osc.start(now + 0.5 + i * 0.8);
+      osc.stop(now + 1.2 + i * 0.8);
+    });
+  } catch {}
+}

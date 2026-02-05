@@ -112,23 +112,23 @@ export default function SeparateWords({ task, onComplete }: Props) {
         key={currentIdx}
         initial={{ opacity: 0, x: 30 }}
         animate={{ opacity: 1, x: 0 }}
-        className="bg-white rounded-2xl p-5 shadow-sm"
+        className="bg-white rounded-2xl px-2 py-4 shadow-sm"
       >
         <p className="text-center text-sm text-[var(--text-light)] mb-4">
           Toca les línies per separar les paraules
         </p>
 
-        {/* Letters displayed with VISIBLE tap zones between them */}
-        <div className="flex flex-wrap justify-center items-center mb-5 leading-relaxed">
+        {/* Letters displayed with VISIBLE tap zones between them - FULL WIDTH, NO WRAP */}
+        <div className="flex justify-center items-center mb-5 w-full">
           {letters.map((letter, i) => {
             const hasSeparatorAfter = separators.has(i + 1);
             const isCorrectPosition = correctPositions?.has(i + 1);
             const isLastLetter = i === letters.length - 1;
 
             return (
-              <span key={i} className="inline-flex items-center">
+              <span key={i} className="inline-flex items-center flex-shrink-0">
                 {/* The letter itself */}
-                <span className="text-3xl md:text-4xl font-black text-[var(--primary)] font-handwriting select-none">
+                <span className="text-2xl sm:text-3xl md:text-4xl font-black text-[var(--primary)] font-handwriting select-none">
                   {letter}
                 </span>
 
@@ -137,16 +137,16 @@ export default function SeparateWords({ task, onComplete }: Props) {
                   <button
                     onClick={() => toggleSeparator(i + 1)}
                     disabled={checked}
-                    className={`inline-flex items-center justify-center transition-all duration-200 h-12 ${
+                    className={`inline-flex items-center justify-center transition-all duration-200 h-12 flex-shrink-0 ${
                       hasSeparatorAfter
                         ? checked
                           ? isCorrectPosition
-                            ? "w-4 mx-1.5" // Correct - will show green bar
-                            : "w-4 mx-1.5" // Wrong - will show red bar
-                          : "w-4 mx-1.5" // User placed - will show amber bar
+                            ? "w-4 mx-1" // Correct - will show green bar
+                            : "w-4 mx-1" // Wrong - will show red bar
+                          : "w-4 mx-1" // User placed - will show amber bar
                         : checked && isCorrectPosition
-                          ? "w-4 mx-1.5" // Missed separator - will show
-                          : "w-3 mx-0.5 cursor-pointer active:scale-110" // Default visible dashed line
+                          ? "w-4 mx-1" // Missed separator - will show
+                          : "w-2 mx-0.5 cursor-pointer active:scale-110" // Default visible dashed line
                     }`}
                     aria-label={hasSeparatorAfter ? "Treu espai" : "Afegeix espai"}
                   >
