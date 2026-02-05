@@ -97,41 +97,62 @@ export default function FillSentence({ task, onComplete }: Props) {
               />
             </div>
           )}
-          <div className="flex items-start gap-1 mb-2">
-            <SpeakerButton text={sentence.text.replace(/\s*___\.?/, "")} size={14} />
-            <p className="font-semibold text-[var(--text)] font-handwriting text-sm leading-tight">
-              {sentence.text.split("___").map((part, j, arr) => (
-                <span key={j}>
-                  {part}
-                  {j < arr.length - 1 && (
-                    <span
-                      className={`inline-block px-2 py-0.5 mx-0.5 rounded-lg font-bold text-sm ${
-                        answers[i]
-                          ? checked
-                            ? results[i]
-                              ? "bg-green-100 text-green-700"
-                              : "bg-red-100 text-red-700"
-                            : "bg-purple-100 text-[var(--primary)]"
-                          : "bg-gray-100 text-gray-400"
-                      }`}
-                    >
-                      {answers[i] || "___"}
+          <div className="flex items-start gap-2 mb-2">
+            <div className="flex-1">
+              <div className="flex items-start gap-1">
+                <SpeakerButton text={sentence.text.replace(/\s*___\.?/, "")} size={14} />
+                <p className="font-semibold text-[var(--text)] font-handwriting text-sm leading-tight">
+                  {sentence.text.split("___").map((part, j, arr) => (
+                    <span key={j}>
+                      {part}
+                      {j < arr.length - 1 && (
+                        <span
+                          className={`inline-block px-2 py-0.5 mx-0.5 rounded-lg font-bold text-sm ${
+                            answers[i]
+                              ? checked
+                                ? results[i]
+                                  ? "bg-green-100 text-green-700"
+                                  : "bg-red-100 text-red-700"
+                                : "bg-purple-100 text-[var(--primary)]"
+                              : "bg-gray-100 text-gray-400"
+                          }`}
+                        >
+                          {answers[i] || "___"}
+                        </span>
+                      )}
                     </span>
-                  )}
-                </span>
-              ))}
-              <AnimatePresence>
-                {checked && (
-                  <motion.span
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    className="ml-1"
-                  >
-                    {results[i] ? "✅" : <RefreshCcw className="inline w-4 h-4 text-orange-500" />}
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </p>
+                  ))}
+                  <AnimatePresence>
+                    {checked && (
+                      <motion.span
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className="ml-1"
+                      >
+                        {results[i] ? "✅" : <RefreshCcw className="inline w-4 h-4 text-orange-500" />}
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+                </p>
+              </div>
+            </div>
+            {/* Show illustration of correct answer when selected correctly */}
+            <AnimatePresence>
+              {answers[i] && answers[i].toLowerCase() === sentence.blank.toLowerCase() && getWordIllustration(sentence.blank) && (
+                <motion.div
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0, opacity: 0 }}
+                  className="flex-shrink-0"
+                >
+                  <img
+                    src={getWordIllustration(sentence.blank)!}
+                    alt={sentence.blank}
+                    className="w-16 h-16 object-contain"
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
           <div className="flex flex-wrap gap-1.5">
             {sentence.options?.map((option) => (

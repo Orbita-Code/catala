@@ -442,7 +442,7 @@ export const laClasseTasks: Task[] = [
       {
         text: "Nosaltres dibuixem a la ___.",
         blank: "llibreta",
-        options: ["pissarra", "motxilla", "llibreta"],
+        options: ["carpeta", "motxilla", "llibreta"],
       },
       {
         text: "Vosaltres pinteu amb les ___.",
