@@ -628,13 +628,13 @@ const wordsWithIllustrations = new Set([
   "pollastre",
   "porc",
   "gamba",
-  "sardina",
+  // "sardina", — removed: file was corrupted JSON response, not actual image
   "pebrot",
   "pastis",
   "cirera",
   "sindria",
   "melo",
-  "carbasso",
+  // "carbasso", — removed: file was corrupted JSON response, not actual image
   "vedella",
   "tirita",
   "pastilla",

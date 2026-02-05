@@ -188,7 +188,7 @@ npm run test:ui  # Playwright UI mode
 - Nothing in progress
 
 ### URGENT: Illustrations to Generate (Feb 5, 2026)
-**Total: 18 illustrations needed. Use Bing Image Creator with GPT-4o model OR ChatGPT custom GPT.**
+**Total: 19 illustrations needed. Use Bing Image Creator with GPT-4o model OR ChatGPT custom GPT.**
 
 **Brojevi 11-20 (10 novih) - Bing:**
 ```
@@ -207,8 +207,11 @@ Repeat for: onze (11), dotze (12), tretze (13), catorze (14), quinze (15), setze
 - muntanya: `Mountain with snow peak, 3D cartoon style, white background with hearts and stars, 512x512px, for children ages 5-8`
 
 **Životinje (2) - ChatGPT ili Bing:**
-- sardina: `Sardine fish, 3D cartoon style, white background with hearts and stars, 512x512px, for children ages 5-8` (NOVO - stara slika korumpirana)
+- sardina: `Sardine fish, 3D cartoon style, white background with hearts and stars, 512x512px, for children ages 5-8` (NOVO - stara slika bila korumpiran JSON)
 - porc: `Cute pig animal (NOT pork meat!), 3D cartoon style, white background with hearts and stars, 512x512px, for children ages 5-8` (REGENERACIJA - prikazuje meso umesto svinje)
+
+**Povrće (1) - ChatGPT ili Bing:**
+- carbasso: `Pumpkin/squash vegetable, 3D cartoon style, white background with hearts and stars, 512x512px, for children ages 5-8` (NOVO - stara slika bila korumpiran JSON)
 
 **Nakon generisanja:**
 1. Sačuvaj u `Ilustracije/` kao `[ime].png`
