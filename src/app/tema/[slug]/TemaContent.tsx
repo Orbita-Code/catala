@@ -463,15 +463,14 @@ export default function TemaContent({ slug }: TemaContentProps) {
             />
           </motion.div>
 
-          {/* Pulsating hearts, stars, and Saturn decorations */}
+          {/* Pulsating hearts, stars, and Saturn decorations - AWAY from buttons */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-            {/* Pulsating hearts scattered around */}
+            {/* Pulsating hearts - only in corners, not over buttons */}
             {[
-              { x: "8%", y: "15%", size: "2.5rem", delay: 0 },
-              { x: "85%", y: "20%", size: "2rem", delay: 0.3 },
-              { x: "15%", y: "75%", size: "2.2rem", delay: 0.6 },
-              { x: "78%", y: "70%", size: "2rem", delay: 0.9 },
-              { x: "50%", y: "85%", size: "1.8rem", delay: 1.2 },
+              { x: "5%", y: "12%", size: "2.5rem", delay: 0 },
+              { x: "88%", y: "15%", size: "2rem", delay: 0.3 },
+              { x: "8%", y: "38%", size: "2.2rem", delay: 0.6 },
+              { x: "90%", y: "42%", size: "2rem", delay: 0.9 },
             ].map((heart, i) => (
               <motion.div
                 key={`heart-${i}`}
@@ -492,14 +491,12 @@ export default function TemaContent({ slug }: TemaContentProps) {
               </motion.div>
             ))}
 
-            {/* Pulsating stars scattered around */}
+            {/* Pulsating stars - only on sides, not over buttons */}
             {[
-              { x: "25%", y: "12%", size: "2.5rem", delay: 0.2 },
-              { x: "70%", y: "10%", size: "2.2rem", delay: 0.5 },
-              { x: "5%", y: "45%", size: "2rem", delay: 0.8 },
-              { x: "92%", y: "50%", size: "2.3rem", delay: 1.1 },
-              { x: "35%", y: "80%", size: "1.8rem", delay: 1.4 },
-              { x: "65%", y: "82%", size: "2rem", delay: 0.1 },
+              { x: "18%", y: "8%", size: "2.5rem", delay: 0.2 },
+              { x: "80%", y: "6%", size: "2.2rem", delay: 0.5 },
+              { x: "3%", y: "55%", size: "2rem", delay: 0.8 },
+              { x: "94%", y: "58%", size: "2.3rem", delay: 1.1 },
             ].map((star, i) => (
               <motion.div
                 key={`star-${i}`}
@@ -521,13 +518,13 @@ export default function TemaContent({ slug }: TemaContentProps) {
               </motion.div>
             ))}
 
-            {/* Planet Saturn - slowly rotating */}
+            {/* Planet Saturn - upper left corner */}
             <motion.div
-              className="absolute text-6xl"
-              style={{ left: "45%", top: "8%", filter: "drop-shadow(0 0 10px rgba(255, 200, 100, 0.5))" }}
+              className="absolute text-5xl"
+              style={{ left: "8%", top: "5%", filter: "drop-shadow(0 0 10px rgba(255, 200, 100, 0.5))" }}
               animate={{
                 rotate: [0, 360],
-                y: [0, -10, 0],
+                y: [0, -8, 0],
               }}
               transition={{
                 rotate: { duration: 20, repeat: Infinity, ease: "linear" },

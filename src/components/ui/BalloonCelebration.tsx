@@ -180,10 +180,8 @@ export default function BalloonCelebration({ count = 20 }: { count?: number }) {
               }}
               onClick={(e) => popBalloon(balloon.id, e)}
               onTouchEnd={(e) => popBalloon(balloon.id, e)}
-              className="absolute pointer-events-auto cursor-pointer hover:scale-110 transition-transform"
+              className="absolute pointer-events-auto cursor-pointer"
               style={{ width: balloon.size, left: 0, top: 0 }}
-              whileHover={{ scale: 1.15 }}
-              whileTap={{ scale: 0.9 }}
             >
               {/* Balloon SVG - proper teardrop shape */}
               <svg
