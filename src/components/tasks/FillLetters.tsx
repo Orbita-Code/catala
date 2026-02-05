@@ -334,22 +334,22 @@ export default function FillLetters({ task, onComplete }: Props) {
                   : ""
               }`}
             >
-              {/* Word number + illustration + letters */}
-              <div className="flex items-center gap-3 mb-3 flex-wrap">
+              {/* Word number + illustration + letters - all in one row */}
+              <div className="flex items-center gap-3 mb-3 overflow-x-auto pb-1">
                 {/* Word number */}
-                <span className="text-lg font-black text-[var(--text-light)] min-w-[28px]">
+                <span className="text-lg font-black text-[var(--text-light)] flex-shrink-0">
                   {wordIdx + 1}.
                 </span>
 
                 {/* Illustration */}
                 {illustration ? (
-                  <div className="w-24 h-24 flex items-center justify-center flex-shrink-0">
-                    <img src={illustration} alt={item.word} className="w-24 h-24 object-contain" />
+                  <div className="w-20 h-20 flex items-center justify-center flex-shrink-0">
+                    <img src={illustration} alt={item.word} className="w-20 h-20 object-contain" />
                   </div>
                 ) : null}
 
                 {/* Letter fields */}
-                <div className="flex items-center gap-1 flex-wrap">
+                <div className="flex items-center gap-1 flex-shrink-0">
                   {(item.hint || item.word).split("").map((char, charIdx) => {
                     if (char === "_") {
                       const key = `${wordIdx}-${charIdx}`;
