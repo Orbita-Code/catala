@@ -91,7 +91,7 @@ export default function FillSentence({ task, onComplete }: Props) {
     <div
       className={
         allSentencesHaveImages
-          ? "grid grid-cols-2 md:grid-cols-3 gap-3" // 3 columns for image-based sentences
+          ? "flex flex-wrap justify-center gap-3" // Compact cards, centered
           : task.columns === 2
             ? "grid grid-cols-1 md:grid-cols-2 gap-2"
             : "space-y-2"
@@ -103,7 +103,9 @@ export default function FillSentence({ task, onComplete }: Props) {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: i * 0.05 }}
-          className={`bg-white rounded-xl p-3 shadow-sm ${
+          className={`bg-white rounded-xl p-2 shadow-sm ${
+            allSentencesHaveImages ? "w-[140px] md:w-[160px]" : ""
+          } ${
             checked
               ? results[i]
                 ? "ring-2 ring-[var(--success)]"
@@ -111,84 +113,131 @@ export default function FillSentence({ task, onComplete }: Props) {
               : ""
           }`}
         >
-          {sentence.image && getWordIllustration(sentence.image) && (
-            <div className="flex justify-center mb-2">
-              <img
-                src={getWordIllustration(sentence.image)!}
-                alt=""
-                className={allSentencesHaveImages ? "w-28 h-28 md:w-32 md:h-32 object-contain" : "w-20 h-20 object-contain"}
-              />
-            </div>
-          )}
-          <div className="flex items-start gap-2 mb-2">
-            <div className="flex-1">
-              <div className="flex items-start gap-1">
-                <SpeakerButton text={sentence.text.replace(/\s*___\.?/, "")} size={14} />
-                <p className="font-semibold text-[var(--text)] font-handwriting text-sm leading-tight">
-                  {sentence.text.split("___").map((part, j, arr) => (
-                    <span key={j}>
-                      {part}
-                      {j < arr.length - 1 && (
-                        <span
-                          className={`inline-block px-2 py-0.5 mx-0.5 rounded-lg font-bold text-sm ${
-                            answers[i]
-                              ? checked
-                                ? results[i]
-                                  ? "bg-green-100 text-green-700"
-                                  : "bg-red-100 text-red-700"
-                                : "bg-purple-100 text-[var(--primary)]"
-                              : "bg-gray-100 text-gray-400"
-                          }`}
-                        >
-                          {answers[i] || "___"}
-                        </span>
-                      )}
-                    </span>
-                  ))}
-                  <AnimatePresence>
-                    {checked && (
-                      <motion.span
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        className="ml-1"
-                      >
-                        {results[i] ? "✅" : (
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleRetrySingle(i);
-                            }}
-                            className="inline-flex items-center justify-center p-1 rounded-full hover:bg-orange-100 transition-colors"
-                            aria-label="Torna a provar aquesta frase"
-                          >
-                            <RefreshCcw className="w-4 h-4 text-orange-500" />
-                          </button>
-                        )}
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
-                </p>
+          {/* Compact layout for image-based sentences */}
+          {allSentencesHaveImages && sentence.image && getWordIllustration(sentence.image) ? (
+            <>
+              <div className="flex justify-center">
+                <img
+                  src={getWordIllustration(sentence.image)!}
+                  alt=""
+                  className="w-[120px] h-[120px] md:w-[140px] md:h-[140px] object-contain"
+                />
               </div>
-            </div>
-            {/* Show illustration of correct answer when selected correctly */}
-            <AnimatePresence>
-              {answers[i] && answers[i].toLowerCase() === sentence.blank.toLowerCase() && getWordIllustration(sentence.blank) && (
-                <motion.div
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0, opacity: 0 }}
-                  className="flex-shrink-0"
+              {/* Answer display */}
+              <div className="text-center my-1">
+                <span
+                  className={`inline-block px-3 py-1 rounded-lg font-bold text-sm font-handwriting ${
+                    answers[i]
+                      ? checked
+                        ? results[i]
+                          ? "bg-green-100 text-green-700"
+                          : "bg-red-100 text-red-700"
+                        : "bg-purple-100 text-[var(--primary)]"
+                      : "bg-gray-100 text-gray-400"
+                  }`}
                 >
+                  {answers[i] || "?"}
+                </span>
+                {checked && (
+                  <span className="ml-1">
+                    {results[i] ? "✅" : (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleRetrySingle(i);
+                        }}
+                        className="inline-flex items-center justify-center p-0.5 rounded-full hover:bg-orange-100 transition-colors"
+                        aria-label="Torna a provar"
+                      >
+                        <RefreshCcw className="w-4 h-4 text-orange-500" />
+                      </button>
+                    )}
+                  </span>
+                )}
+              </div>
+            </>
+          ) : (
+            <>
+              {sentence.image && getWordIllustration(sentence.image) && (
+                <div className="flex justify-center mb-2">
                   <img
-                    src={getWordIllustration(sentence.blank)!}
-                    alt={sentence.blank}
-                    className="w-16 h-16 object-contain"
+                    src={getWordIllustration(sentence.image)!}
+                    alt=""
+                    className="w-20 h-20 object-contain"
                   />
-                </motion.div>
+                </div>
               )}
-            </AnimatePresence>
-          </div>
-          <div className="flex flex-wrap gap-1.5">
+              <div className="flex items-start gap-2 mb-2">
+                <div className="flex-1">
+                  <div className="flex items-start gap-1">
+                    <SpeakerButton text={sentence.text.replace(/\s*___\.?/, "")} size={14} />
+                    <p className="font-semibold text-[var(--text)] font-handwriting text-sm leading-tight">
+                      {sentence.text.split("___").map((part, j, arr) => (
+                        <span key={j}>
+                          {part}
+                          {j < arr.length - 1 && (
+                            <span
+                              className={`inline-block px-2 py-0.5 mx-0.5 rounded-lg font-bold text-sm ${
+                                answers[i]
+                                  ? checked
+                                    ? results[i]
+                                      ? "bg-green-100 text-green-700"
+                                      : "bg-red-100 text-red-700"
+                                    : "bg-purple-100 text-[var(--primary)]"
+                                  : "bg-gray-100 text-gray-400"
+                              }`}
+                            >
+                              {answers[i] || "___"}
+                            </span>
+                          )}
+                        </span>
+                      ))}
+                      <AnimatePresence>
+                        {checked && (
+                          <motion.span
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            className="ml-1"
+                          >
+                            {results[i] ? "✅" : (
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleRetrySingle(i);
+                                }}
+                                className="inline-flex items-center justify-center p-1 rounded-full hover:bg-orange-100 transition-colors"
+                                aria-label="Torna a provar aquesta frase"
+                              >
+                                <RefreshCcw className="w-4 h-4 text-orange-500" />
+                              </button>
+                            )}
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
+                    </p>
+                  </div>
+                </div>
+                {/* Show illustration of correct answer when selected correctly */}
+                <AnimatePresence>
+                  {answers[i] && answers[i].toLowerCase() === sentence.blank.toLowerCase() && getWordIllustration(sentence.blank) && (
+                    <motion.div
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0, opacity: 0 }}
+                      className="flex-shrink-0"
+                    >
+                      <img
+                        src={getWordIllustration(sentence.blank)!}
+                        alt={sentence.blank}
+                        className="w-16 h-16 object-contain"
+                      />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </>
+          )}
+          <div className="flex flex-wrap gap-1.5 justify-center">
             {sentence.options?.map((option) => (
               <motion.button
                 key={option}
