@@ -426,6 +426,7 @@ const wordsWithIllustrations = new Set([
   "motxilles",
   // L'escola
   "aula",
+  "classe",
   "biblioteca",
   "pati",
   "menjador",

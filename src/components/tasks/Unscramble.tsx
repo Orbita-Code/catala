@@ -146,6 +146,17 @@ export default function Unscramble({ task, onComplete }: Props) {
     }
   }, [slots, currentWord, hints, moveToNext]);
 
+  // Auto-check when all slots are filled
+  useEffect(() => {
+    if (allFilled && !checked) {
+      // Small delay so the user can see the last piece placed
+      const timer = setTimeout(() => {
+        handleCheck();
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [allFilled, checked, handleCheck]);
+
   // Auto-advance after 5 wrong attempts
   useEffect(() => {
     if (hints.shouldAutoAdvance(currentWord.correct) && checked && !correct) {
@@ -303,18 +314,9 @@ export default function Unscramble({ task, onComplete }: Props) {
           ))}
         </div>
 
-        <div className="flex justify-center gap-3">
-          {!checked ? (
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleCheck}
-              disabled={!allFilled}
-              className="px-8 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg disabled:opacity-40 shadow-[0_4px_12px_rgba(108,92,231,0.3)]"
-            >
-              Comprova!
-            </motion.button>
-          ) : !correct ? (
+        {/* Retry button - only shown after wrong answer */}
+        {checked && !correct && (
+          <div className="flex justify-center gap-3">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -323,8 +325,8 @@ export default function Unscramble({ task, onComplete }: Props) {
             >
               Torna a provar!
             </motion.button>
-          ) : null}
-        </div>
+          </div>
+        )}
       </motion.div>
     </div>
   );

@@ -29,13 +29,18 @@ function shuffleArray<T>(arr: T[]): T[] {
   return a;
 }
 
+// Strip accents from a string (à→a, é→e, ï→i, etc.)
+function stripAccents(str: string): string {
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
 export default function CopyWord({ task, onComplete }: Props) {
   const [currentWordIdx, setCurrentWordIdx] = useState(0);
   const [slots, setSlots] = useState<(string | null)[]>(
     Array(task.words[0].catalan.length).fill(null)
   );
   const [bank, setBank] = useState<{ letter: string; used: boolean }[]>(() =>
-    shuffleArray(task.words[0].catalan.split("")).map((l) => ({ letter: l, used: false }))
+    shuffleArray(task.words[0].catalan.split("")).map((l) => ({ letter: stripAccents(l), used: false }))
   );
   const [checked, setChecked] = useState(false);
   const [correct, setCorrect] = useState<boolean | null>(null);
@@ -52,8 +57,8 @@ export default function CopyWord({ task, onComplete }: Props) {
       // Find the next empty slot index
       const nextSlotIdx = slots.findIndex((s) => s === null);
       if (nextSlotIdx === -1) return;
-      // The correct letter for that slot
-      const correctLetter = currentWord.catalan[nextSlotIdx];
+      // The correct letter for that slot (stripped of accents since bank has no accents)
+      const correctLetter = stripAccents(currentWord.catalan[nextSlotIdx]);
       // Find that letter in the bank (unused)
       const bankIdx = bank.findIndex(
         (b) => !b.used && b.letter.toLowerCase() === correctLetter.toLowerCase()
@@ -106,7 +111,7 @@ export default function CopyWord({ task, onComplete }: Props) {
       const nextWord = task.words[nextIdx];
       setCurrentWordIdx(nextIdx);
       setSlots(Array(nextWord.catalan.length).fill(null));
-      setBank(shuffleArray(nextWord.catalan.split("")).map((l) => ({ letter: l, used: false })));
+      setBank(shuffleArray(nextWord.catalan.split("")).map((l) => ({ letter: stripAccents(l), used: false })));
       setChecked(false);
       setCorrect(null);
       setHintLetterIdx(null);
@@ -120,7 +125,7 @@ export default function CopyWord({ task, onComplete }: Props) {
 
   const handleCheck = useCallback(() => {
     const answer = slots.join("").toLowerCase();
-    const isCorrect = answer === currentWord.catalan.toLowerCase();
+    const isCorrect = answer === stripAccents(currentWord.catalan).toLowerCase();
     setChecked(true);
     setCorrect(isCorrect);
 
@@ -138,6 +143,16 @@ export default function CopyWord({ task, onComplete }: Props) {
     }
   }, [slots, currentWord, completedCount, hints, moveToNext]);
 
+  // Auto-check when all slots are filled
+  useEffect(() => {
+    if (allFilled && !checked) {
+      const timer = setTimeout(() => {
+        handleCheck();
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [allFilled, checked, handleCheck]);
+
   // Auto-advance after 5 wrong attempts
   useEffect(() => {
     if (hints.shouldAutoAdvance(currentWord.catalan) && checked && !correct) {
@@ -149,7 +164,7 @@ export default function CopyWord({ task, onComplete }: Props) {
 
   const handleRetry = useCallback(() => {
     setSlots(Array(currentWord.catalan.length).fill(null));
-    setBank(shuffleArray(currentWord.catalan.split("")).map((l) => ({ letter: l, used: false })));
+    setBank(shuffleArray(currentWord.catalan.split("")).map((l) => ({ letter: stripAccents(l), used: false })));
     setChecked(false);
     setCorrect(null);
     setHintLetterIdx(null);
@@ -186,17 +201,11 @@ export default function CopyWord({ task, onComplete }: Props) {
 
       // Match letter keys (including accented Catalan characters)
       if (e.key.length === 1 && /^[a-zA-ZàèéìòóùúïüçÀÈÉÌÒÓÙÚÏÜÇ]$/.test(e.key)) {
-        const pressed = e.key.toLowerCase();
-        const stripAccents = (s: string) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        // First try exact match, then try base-letter match (e.g. "i" matches "í")
-        let bankIdx = bank.findIndex(
+        const pressed = stripAccents(e.key.toLowerCase());
+        // Bank letters are already stripped of accents, so direct match works
+        const bankIdx = bank.findIndex(
           (b) => !b.used && b.letter.toLowerCase() === pressed
         );
-        if (bankIdx === -1) {
-          bankIdx = bank.findIndex(
-            (b) => !b.used && stripAccents(b.letter.toLowerCase()) === stripAccents(pressed)
-          );
-        }
         if (bankIdx !== -1) {
           handleLetterTap(bankIdx);
         }
@@ -221,7 +230,7 @@ export default function CopyWord({ task, onComplete }: Props) {
               const prevWord = task.words[prevIdx];
               setCurrentWordIdx(prevIdx);
               setSlots(Array(prevWord.catalan.length).fill(null));
-              setBank(shuffleArray(prevWord.catalan.split("")).map((l) => ({ letter: l, used: false })));
+              setBank(shuffleArray(prevWord.catalan.split("")).map((l) => ({ letter: stripAccents(l), used: false })));
               setChecked(false);
               setCorrect(null);
               setHintLetterIdx(null);
@@ -270,7 +279,7 @@ export default function CopyWord({ task, onComplete }: Props) {
             hints.acceptHint();
             // Auto-reset slots so child can retry with hint visible
             setSlots(Array(currentWord.catalan.length).fill(null));
-            setBank(shuffleArray(currentWord.catalan.split("")).map((l) => ({ letter: l, used: false })));
+            setBank(shuffleArray(currentWord.catalan.split("")).map((l) => ({ letter: stripAccents(l), used: false })));
             setChecked(false);
             setCorrect(null);
           }}
@@ -301,19 +310,9 @@ export default function CopyWord({ task, onComplete }: Props) {
           ))}
         </div>
 
-        {/* Check / Retry buttons */}
-        <div className="flex justify-center gap-3">
-          {!checked ? (
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleCheck}
-              disabled={!allFilled}
-              className="px-8 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg disabled:opacity-40 shadow-[0_4px_12px_rgba(108,92,231,0.3)]"
-            >
-              Comprova!
-            </motion.button>
-          ) : !correct ? (
+        {/* Retry button - only shown after wrong answer */}
+        {checked && !correct && (
+          <div className="flex justify-center gap-3">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -322,8 +321,8 @@ export default function CopyWord({ task, onComplete }: Props) {
             >
               Torna a provar!
             </motion.button>
-          ) : null}
-        </div>
+          </div>
+        )}
       </motion.div>
     </div>
   );
