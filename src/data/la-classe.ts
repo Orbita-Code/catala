@@ -357,6 +357,7 @@ export const laClasseTasks: Task[] = [
           "televisio",
           "anell",
           "bicicleta",
+          "collaret",
         ],
       },
     ],
@@ -376,6 +377,7 @@ export const laClasseTasks: Task[] = [
       "guix",
       "goma",
       "estoig",
+      "collaret",
     ],
   },
 
