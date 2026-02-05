@@ -435,7 +435,7 @@ export const lesBotiguesTasks: Task[] = [
   {
     id: "les-botigues-bonus",
     type: "drawing-canvas",
-    prompt: "Dibuixa una flor vermella!",
+    prompt: "🎨 Activitat extra! Diverteix-te, activa la creativitat i dibuixa alguna cosa màgica! ✨",
     bonus: true,
   },
 ];

@@ -422,7 +422,7 @@ export const laFamiliaTasks: Task[] = [
   {
     id: "la-familia-bonus",
     type: "drawing-canvas",
-    prompt: "Dibuixa un sol groc!",
+    prompt: "🎨 Activitat extra! Diverteix-te, activa la creativitat i dibuixa alguna cosa màgica! ✨",
     bonus: true,
   },
 ];

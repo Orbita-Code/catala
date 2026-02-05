@@ -334,7 +334,7 @@ export const elCosTasks: Task[] = [
   {
     id: "el-cos-bonus",
     type: "drawing-canvas",
-    prompt: "Dibuixa un cor rosa!",
+    prompt: "🎨 Activitat extra! Diverteix-te, activa la creativitat i dibuixa alguna cosa màgica! ✨",
     bonus: true,
   },
 ];

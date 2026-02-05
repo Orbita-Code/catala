@@ -524,7 +524,7 @@ export const laClasseTasks: Task[] = [
   {
     id: "la-classe-bonus",
     type: "drawing-canvas",
-    prompt: "Dibuixa una estrella groga!",
+    prompt: "🎨 Activitat extra! Diverteix-te, activa la creativitat i dibuixa alguna cosa màgica! ✨",
     bonus: true,
   },
 ];

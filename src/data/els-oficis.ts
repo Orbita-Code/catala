@@ -308,7 +308,7 @@ export const elsOficisTasks: Task[] = [
   {
     id: "els-oficis-bonus",
     type: "drawing-canvas",
-    prompt: "Dibuixa un cercle groc!",
+    prompt: "🎨 Activitat extra! Diverteix-te, activa la creativitat i dibuixa alguna cosa màgica! ✨",
     bonus: true,
   },
 ];

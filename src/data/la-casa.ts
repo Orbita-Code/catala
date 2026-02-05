@@ -553,7 +553,7 @@ export const laCasaTasks: Task[] = [
   {
     id: "la-casa-bonus",
     type: "drawing-canvas",
-    prompt: "Dibuixa una casa taronja!",
+    prompt: "🎨 Activitat extra! Diverteix-te, activa la creativitat i dibuixa alguna cosa màgica! ✨",
     bonus: true,
   },
 ];

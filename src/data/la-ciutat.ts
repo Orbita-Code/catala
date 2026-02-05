@@ -307,7 +307,7 @@ export const laCiutatTasks: Task[] = [
   {
     id: "la-ciutat-bonus",
     type: "drawing-canvas",
-    prompt: "Dibuixa un arbre verd!",
+    prompt: "🎨 Activitat extra! Diverteix-te, activa la creativitat i dibuixa alguna cosa màgica! ✨",
     bonus: true,
   },
 ];

@@ -346,7 +346,7 @@ export const laRobaTasks: Task[] = [
   {
     id: "la-roba-bonus",
     type: "drawing-canvas",
-    prompt: "Dibuixa un triangle lila!",
+    prompt: "🎨 Activitat extra! Diverteix-te, activa la creativitat i dibuixa alguna cosa màgica! ✨",
     bonus: true,
   },
 ];

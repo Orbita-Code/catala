@@ -423,7 +423,7 @@ export const lEscolaTasks: Task[] = [
   {
     id: "l-escola-bonus",
     type: "drawing-canvas",
-    prompt: "Dibuixa un núvol blau!",
+    prompt: "🎨 Activitat extra! Diverteix-te, activa la creativitat i dibuixa alguna cosa màgica! ✨",
     bonus: true,
   },
 ];

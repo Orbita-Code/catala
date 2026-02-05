@@ -454,7 +454,7 @@ export const elMenjarTasks: Task[] = [
   {
     id: "el-menjar-bonus",
     type: "drawing-canvas",
-    prompt: "Dibuixa una poma verda!",
+    prompt: "🎨 Activitat extra! Diverteix-te, activa la creativitat i dibuixa alguna cosa màgica! ✨",
     bonus: true,
   },
 ];

@@ -500,7 +500,7 @@ export const elsAnimalsTasks: Task[] = [
   {
     id: "els-animals-bonus",
     type: "drawing-canvas",
-    prompt: "Dibuixa un peix blau!",
+    prompt: "🎨 Activitat extra! Diverteix-te, activa la creativitat i dibuixa alguna cosa màgica! ✨",
     bonus: true,
   },
 ];
