@@ -186,13 +186,16 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
   };
 
   // Save canvas state for replay
+  const frameCounter = useRef(0);
   const saveState = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    // Save every 10th frame to avoid memory issues
-    if (drawHistory.current.length < 100) {
+
+    // Save every 5th frame to balance smoothness and memory
+    frameCounter.current++;
+    if (frameCounter.current % 5 === 0 && drawHistory.current.length < 200) {
       drawHistory.current.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
     }
   }, []);
@@ -345,9 +348,10 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
     ctx.fillStyle = isNeonMode ? "#0a0a1a" : "#FFFFFF";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    // Slower replay - 150ms per frame for better viewing
     for (let i = 0; i < drawHistory.current.length; i++) {
       ctx.putImageData(drawHistory.current[i], 0, 0);
-      await new Promise(resolve => setTimeout(resolve, 50));
+      await new Promise(resolve => setTimeout(resolve, 150));
     }
 
     setIsReplaying(false);
