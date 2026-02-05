@@ -13,6 +13,7 @@ import { themes } from "@/data/themes";
 import { taskData, getScoringTaskCount } from "@/data/task-data";
 import { getThemeProgress, completeTask, isThemeFullyComplete } from "@/lib/progress";
 import { getEncouragement } from "@/lib/encouragement";
+import { addError, getThemeErrorCount, getErroredItemsList, removeError } from "@/lib/errors";
 
 import type { TaskResult } from "@/types/tasks";
 import { celebrate, celebrateBig } from "@/lib/confetti";
@@ -46,6 +47,8 @@ export default function TemaContent({ slug }: TemaContentProps) {
   const [xpGained, setXpGained] = useState(0);
   const [showXpAnimation, setShowXpAnimation] = useState(false);
   const [levelUpData, setLevelUpData] = useState<{ prev: number; new: number } | null>(null);
+  const [showReviewDialog, setShowReviewDialog] = useState(false);
+  const [themeErrorCount, setThemeErrorCount] = useState(0);
 
   useEffect(() => {
     setMounted(true);
@@ -110,6 +113,13 @@ export default function TemaContent({ slug }: TemaContentProps) {
     // Update daily streak on first task completion
     updateDailyStreak();
 
+    // Track errors silently for later review
+    if (taskResult.erroredItems && taskResult.erroredItems.length > 0) {
+      for (const item of taskResult.erroredItems) {
+        addError(slug, currentTask.id, item);
+      }
+    }
+
     if (taskResult.allCorrect) {
       if (progressResult.streak > 1) {
         playCombo();
@@ -165,29 +175,117 @@ export default function TemaContent({ slug }: TemaContentProps) {
       setTimeout(() => {
         setFeedbackMessage(null);
         setFeedbackReaction(null);
-        setShowCelebration(true);
 
-        const fullyComplete = isThemeFullyComplete(slug, scoringCount);
-        // Play applause and cheering for all completions
-        playApplause(fullyComplete ? 5 : 3);
+        // Check for errors to offer review
+        const errorCount = getThemeErrorCount(slug);
+        setThemeErrorCount(errorCount);
 
-        if (fullyComplete) {
-          playThemeComplete();
-          // Multiple confetti waves for perfect completion
-          celebrateBig([theme.color, "#FDCB6E", "#00CECE", "#00B894"]);
-          setTimeout(() => {
-            celebrateBig([theme.color, "#FDCB6E"]);
-          }, 500);
-          setTimeout(() => {
-            celebrateBig(["#00CECE", "#00B894"]);
-          }, 1000);
-        } else {
+        if (errorCount > 0) {
+          // Show review dialog first
+          setShowReviewDialog(true);
           playCorrect();
           celebrate([theme.color, "#FDCB6E"]);
+        } else {
+          // No errors - go straight to celebration
+          setShowCelebration(true);
+
+          const fullyComplete = isThemeFullyComplete(slug, scoringCount);
+          // Play applause and cheering for all completions
+          playApplause(fullyComplete ? 5 : 3);
+
+          if (fullyComplete) {
+            playThemeComplete();
+            // Multiple confetti waves for perfect completion
+            celebrateBig([theme.color, "#FDCB6E", "#00CECE", "#00B894"]);
+            setTimeout(() => {
+              celebrateBig([theme.color, "#FDCB6E"]);
+            }, 500);
+            setTimeout(() => {
+              celebrateBig(["#00CECE", "#00B894"]);
+            }, 1000);
+          } else {
+            playCorrect();
+            celebrate([theme.color, "#FDCB6E"]);
+          }
         }
       }, 2000);
     }
   };
+
+  // Review dialog - offer to practice errors
+  if (showReviewDialog) {
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="min-h-dvh flex flex-col items-center justify-center gap-6 px-4 text-center"
+      >
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ type: "spring", damping: 10 }}
+        >
+          <AnimatedStar
+            size="lg"
+            reaction={getStarReaction("correct")}
+          />
+        </motion.div>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="text-2xl font-black text-[var(--text)]"
+        >
+          Molt bé! 🎉
+        </motion.h1>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="bg-orange-50 rounded-2xl p-5 max-w-sm border border-orange-200"
+        >
+          <p className="text-lg font-bold text-orange-800 mb-2">
+            🔄 Tens {themeErrorCount} {themeErrorCount === 1 ? "paraula" : "paraules"} per practicar!
+          </p>
+          <p className="text-sm text-orange-700">
+            Vols practicar les paraules difícils ara?
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7 }}
+          className="flex flex-col gap-3 w-full max-w-xs"
+        >
+          <button
+            onClick={() => {
+              // TODO: Enter review mode
+              setShowReviewDialog(false);
+              setShowCelebration(true);
+            }}
+            className="w-full py-3 bg-orange-500 text-white font-bold rounded-2xl text-lg shadow-md hover:bg-orange-600 transition-colors"
+          >
+            Sí, practica! 💪
+          </button>
+          <button
+            onClick={() => {
+              setShowReviewDialog(false);
+              setShowCelebration(true);
+              const fullyComplete = isThemeFullyComplete(slug, scoringCount);
+              playApplause(fullyComplete ? 5 : 3);
+              celebrate([theme.color, "#FDCB6E"]);
+            }}
+            className="w-full py-3 bg-gray-100 text-[var(--text)] font-bold rounded-2xl text-lg"
+          >
+            Ara no, després
+          </button>
+        </motion.div>
+      </motion.div>
+    );
+  }
 
   if (showCelebration) {
     const nextTheme =
