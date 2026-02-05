@@ -155,13 +155,30 @@ export function useSpeechRecognition(
       };
 
       recognitionRef.current.onerror = (event: SpeechRecognitionErrorEvent) => {
-        const errorMsg = event.error === "no-speech"
-          ? "No s'ha detectat cap veu"
-          : event.error === "not-allowed"
-            ? "Permís de micròfon denegat"
-            : `Error: ${event.error}`;
-        setError(errorMsg);
-        onError?.(errorMsg);
+        let errorMsg: string;
+        switch (event.error) {
+          case "no-speech":
+            errorMsg = "No s'ha detectat cap veu. Torna a provar!";
+            break;
+          case "not-allowed":
+            errorMsg = "Permís de micròfon denegat. Demana a un adult que permeti el micròfon.";
+            break;
+          case "audio-capture":
+            errorMsg = "No s'ha trobat cap micròfon. Connecta un micròfon i torna a provar.";
+            break;
+          case "network":
+            errorMsg = "Error de xarxa. Comprova la connexió a internet.";
+            break;
+          case "aborted":
+            errorMsg = ""; // Don't show error for user-initiated abort
+            break;
+          default:
+            errorMsg = `Error del micròfon: ${event.error}`;
+        }
+        if (errorMsg) {
+          setError(errorMsg);
+          onError?.(errorMsg);
+        }
         setIsListening(false);
       };
 

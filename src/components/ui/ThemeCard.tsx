@@ -1,9 +1,11 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { ThemeInfo } from "@/data/themes";
+import { getThemeErrorCount } from "@/lib/errors";
 
 interface ThemeCardProps {
   theme: ThemeInfo;
@@ -13,6 +15,12 @@ interface ThemeCardProps {
 }
 
 export default function ThemeCard({ theme, progress, totalTasks, index }: ThemeCardProps) {
+  const [errorCount, setErrorCount] = useState(0);
+
+  useEffect(() => {
+    setErrorCount(getThemeErrorCount(theme.slug));
+  }, [theme.slug]);
+
   const completedCount = progress;
   const totalCount = totalTasks;
   const progressPercent = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
@@ -47,6 +55,12 @@ export default function ThemeCard({ theme, progress, totalTasks, index }: ThemeC
             </div>
             {isCompleted && (
               <div className="absolute bottom-2 right-2 text-2xl">✅</div>
+            )}
+            {/* Error review badge */}
+            {errorCount > 0 && (
+              <div className="absolute bottom-2 left-2 bg-orange-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-md">
+                {errorCount} per practicar
+              </div>
             )}
           </div>
 

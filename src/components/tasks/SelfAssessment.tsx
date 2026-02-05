@@ -105,7 +105,7 @@ export default function SelfAssessment({ task, onComplete }: Props) {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: idx * 0.03 }}
-              className={`bg-white rounded-xl p-3 shadow-sm border-3 transition-all flex items-center gap-3 ${
+              className={`bg-white rounded-xl p-3 shadow-sm border-3 transition-all flex flex-col items-center ${
                 status === "correct"
                   ? "border-green-500 bg-green-50"
                   : status === "retry"
@@ -115,23 +115,23 @@ export default function SelfAssessment({ task, onComplete }: Props) {
                       : "border-gray-200"
               }`}
             >
-              {/* Image - left side */}
-              <div className="flex-shrink-0">
+              {/* Image - top */}
+              <div className="mb-2">
                 {illustration ? (
                   <img
                     src={illustration}
                     alt=""
-                    className="w-24 h-24 sm:w-28 sm:h-28 object-contain"
+                    className="w-20 h-20 sm:w-24 sm:h-24 object-contain"
                   />
                 ) : (
-                  <div className="w-24 h-24 sm:w-28 sm:h-28 bg-gray-100 rounded-lg flex items-center justify-center text-2xl">
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 rounded-lg flex items-center justify-center text-2xl">
                     ❓
                   </div>
                 )}
               </div>
 
-              {/* Right side - microphone and status */}
-              <div className="flex-1 flex flex-col items-center gap-2">
+              {/* Bottom - microphone and status */}
+              <div className="flex flex-col items-center gap-2">
                 {status === "correct" ? (
                   /* Correct - show checkmark */
                   <motion.div
@@ -157,14 +157,25 @@ export default function SelfAssessment({ task, onComplete }: Props) {
                       whileTap={{ scale: 0.9 }}
                       onClick={() => handleMicClick(idx)}
                       disabled={isListening && activeIdx !== idx}
-                      className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center transition-all ${
+                      className={`w-14 h-14 rounded-full flex items-center justify-center transition-all ${
                         isRecording
                           ? "bg-red-500 animate-pulse shadow-lg shadow-red-300"
                           : "bg-[var(--primary)] hover:bg-[var(--secondary)]"
                       } text-white disabled:opacity-50`}
                     >
-                      <Mic className={`w-6 h-6 ${isRecording ? "animate-bounce" : ""}`} />
+                      <Mic className={`w-7 h-7 ${isRecording ? "animate-bounce" : ""}`} />
                     </motion.button>
+
+                    {/* Recording indicator text */}
+                    {isRecording && (
+                      <motion.span
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="text-xs text-red-500 font-bold"
+                      >
+                        🎤 Escoltant...
+                      </motion.span>
+                    )}
 
                     {/* Retry indicator or skip button */}
                     {status === "retry" ? (
@@ -177,7 +188,7 @@ export default function SelfAssessment({ task, onComplete }: Props) {
                           Passa
                         </button>
                       </div>
-                    ) : (
+                    ) : !isRecording && (
                       <button
                         onClick={() => handleSkip(idx)}
                         className="text-xs text-gray-400 hover:text-gray-600"
@@ -261,7 +272,7 @@ function FallbackSelfAssessment({
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: idx * 0.03 }}
-              className={`bg-white rounded-xl p-3 shadow-sm border-3 transition-all ${
+              className={`bg-white rounded-xl p-3 shadow-sm border-3 transition-all flex flex-col items-center ${
                 rating === "yes"
                   ? "border-green-500 bg-green-50"
                   : rating === "no"
@@ -270,15 +281,15 @@ function FallbackSelfAssessment({
               }`}
             >
               {/* Image */}
-              <div className="flex justify-center mb-2">
+              <div className="mb-2">
                 {illustration ? (
                   <img
                     src={illustration}
                     alt=""
-                    className="w-24 h-24 sm:w-28 sm:h-28 object-contain"
+                    className="w-20 h-20 sm:w-24 sm:h-24 object-contain"
                   />
                 ) : (
-                  <div className="w-24 h-24 sm:w-28 sm:h-28 bg-gray-100 rounded-lg flex items-center justify-center text-2xl">
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 rounded-lg flex items-center justify-center text-2xl">
                     ❓
                   </div>
                 )}
@@ -293,16 +304,16 @@ function FallbackSelfAssessment({
                   <span className="text-xl">{rating === "yes" ? "✅" : "😅"}</span>
                 </div>
               ) : (
-                <div className="flex justify-center gap-2">
+                <div className="flex flex-col gap-2">
                   <button
                     onClick={() => handleRate(idx, "yes", item.catalan)}
-                    className="px-3 py-1.5 bg-green-100 hover:bg-green-200 rounded-lg text-sm font-bold"
+                    className="px-4 py-2 bg-green-100 hover:bg-green-200 rounded-lg text-sm font-bold"
                   >
                     Ho sé! ✅
                   </button>
                   <button
                     onClick={() => handleRate(idx, "no", item.catalan)}
-                    className="px-3 py-1.5 bg-red-100 hover:bg-red-200 rounded-lg text-sm font-bold"
+                    className="px-4 py-2 bg-red-100 hover:bg-red-200 rounded-lg text-sm font-bold"
                   >
                     No 😅
                   </button>
