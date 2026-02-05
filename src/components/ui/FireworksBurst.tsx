@@ -1,140 +1,224 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-interface Particle {
+interface Spark {
   id: number;
   x: number;
   y: number;
-  angle: number;
-  distance: number;
+  vx: number;
+  vy: number;
   color: string;
   size: number;
+  life: number;
 }
 
-interface Burst {
+interface Firework {
   id: number;
-  cx: number;
-  cy: number;
-  particles: Particle[];
+  x: number;
+  y: number;
+  targetY: number;
+  color: string;
+  exploded: boolean;
+  sparks: Spark[];
 }
 
-const COLORS = [
-  "#FF6B6B", "#FDCB6E", "#00CECE", "#6C5CE7", "#00B894",
-  "#FF9F43", "#A29BFE", "#FDA7DF", "#55EFC4", "#FF7675",
+// Bright, vivid firework colors
+const FIREWORK_COLORS = [
+  "#FF0040", "#FF6B00", "#FFD700", "#00FF00", "#00FFFF",
+  "#0080FF", "#8000FF", "#FF00FF", "#FF1493", "#00FF80",
+  "#FFFF00", "#FF4500", "#7FFF00", "#00CED1", "#FF69B4",
 ];
 
 /**
- * Continuous fireworks in top left and right corners.
- * Fires forever while visible on the celebration screen.
+ * Solitaire-style magical fireworks!
+ * Continuous explosions of color across the entire screen.
+ * Never stops - pure celebration magic!
  */
-export default function FireworksBurst({ continuous = true }: { continuous?: boolean; waves?: number }) {
-  const [bursts, setBursts] = useState<Burst[]>([]);
+export default function FireworksBurst({ waves = 4 }: { waves?: number }) {
+  const [fireworks, setFireworks] = useState<Firework[]>([]);
+  const [sparks, setSparks] = useState<Spark[]>([]);
 
-  useEffect(() => {
-    const createBurst = (corner: "left" | "right"): Burst => {
-      // Left corner: 5-20%, Right corner: 80-95%
-      const cx = corner === "left"
-        ? 5 + Math.random() * 15
-        : 80 + Math.random() * 15;
-      const cy = 5 + Math.random() * 20; // Top 5-25%
-
-      const particleCount = 12 + Math.floor(Math.random() * 8);
-      const burstColor = COLORS[Math.floor(Math.random() * COLORS.length)];
-      const particles: Particle[] = Array.from({ length: particleCount }, (_, pi) => ({
-        id: pi,
-        x: 0,
-        y: 0,
-        angle: (pi / particleCount) * 360,
-        distance: 40 + Math.random() * 60,
-        color: Math.random() > 0.3 ? burstColor : COLORS[Math.floor(Math.random() * COLORS.length)],
-        size: 4 + Math.random() * 5,
-      }));
-
-      return {
-        id: Date.now() + Math.random() * 1000,
-        cx,
-        cy,
-        particles,
-      };
+  const createFirework = useCallback((): Firework => {
+    return {
+      id: Date.now() + Math.random() * 10000,
+      x: 10 + Math.random() * 80, // Anywhere horizontally
+      y: 100, // Start from bottom
+      targetY: 15 + Math.random() * 40, // Explode at 15-55% from top
+      color: FIREWORK_COLORS[Math.floor(Math.random() * FIREWORK_COLORS.length)],
+      exploded: false,
+      sparks: [],
     };
-
-    // Fire initial bursts
-    setBursts([createBurst("left"), createBurst("right")]);
-
-    // Continuously fire new fireworks
-    const interval = setInterval(() => {
-      // Alternate between corners or fire both
-      const shouldFireBoth = Math.random() > 0.5;
-      const newBursts: Burst[] = [];
-
-      if (shouldFireBoth) {
-        newBursts.push(createBurst("left"), createBurst("right"));
-      } else {
-        newBursts.push(createBurst(Math.random() > 0.5 ? "left" : "right"));
-      }
-
-      setBursts((prev) => [...prev, ...newBursts]);
-    }, 600 + Math.random() * 400); // Fire every 600-1000ms
-
-    return () => clearInterval(interval);
-  }, [continuous]);
-
-  // Clean up old bursts to prevent memory issues
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setBursts((prev) => {
-        if (prev.length > 20) return prev.slice(-10);
-        return prev;
-      });
-    }, 2000);
-    return () => clearInterval(timer);
   }, []);
+
+  const createExplosion = useCallback((x: number, y: number, color: string): Spark[] => {
+    const sparkCount = 30 + Math.floor(Math.random() * 20); // 30-50 sparks per explosion
+    const newSparks: Spark[] = [];
+
+    for (let i = 0; i < sparkCount; i++) {
+      const angle = (Math.random() * Math.PI * 2);
+      const speed = 2 + Math.random() * 4;
+      const sparkColor = Math.random() > 0.3
+        ? color
+        : FIREWORK_COLORS[Math.floor(Math.random() * FIREWORK_COLORS.length)];
+
+      newSparks.push({
+        id: Date.now() + i + Math.random() * 1000,
+        x,
+        y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        color: sparkColor,
+        size: 2 + Math.random() * 4,
+        life: 1,
+      });
+    }
+
+    return newSparks;
+  }, []);
+
+  // Launch fireworks continuously
+  useEffect(() => {
+    const launchInterval = setInterval(() => {
+      setFireworks(prev => {
+        // Keep max 8 active fireworks
+        const active = prev.filter(f => !f.exploded || f.sparks.length > 0);
+        if (active.length < 8) {
+          return [...active, createFirework()];
+        }
+        return active;
+      });
+    }, 200 + Math.random() * 300); // Launch every 200-500ms
+
+    return () => clearInterval(launchInterval);
+  }, [createFirework]);
+
+  // Animate fireworks rising and exploding
+  useEffect(() => {
+    const animationInterval = setInterval(() => {
+      setFireworks(prev => {
+        const newFireworks = prev.map(fw => {
+          if (fw.exploded) return fw;
+
+          // Rise up
+          const newY = fw.y - 2;
+
+          // Check if reached target - explode!
+          if (newY <= fw.targetY) {
+            const explosion = createExplosion(fw.x, fw.y, fw.color);
+            setSparks(s => [...s, ...explosion]);
+            return { ...fw, y: newY, exploded: true };
+          }
+
+          return { ...fw, y: newY };
+        });
+
+        // Remove fully exploded fireworks
+        return newFireworks.filter(fw => !fw.exploded || fw.y > fw.targetY - 5);
+      });
+    }, 30);
+
+    return () => clearInterval(animationInterval);
+  }, [createExplosion]);
+
+  // Animate sparks falling with gravity and fading
+  useEffect(() => {
+    const sparkInterval = setInterval(() => {
+      setSparks(prev => {
+        return prev
+          .map(spark => ({
+            ...spark,
+            x: spark.x + spark.vx,
+            y: spark.y + spark.vy,
+            vy: spark.vy + 0.1, // Gravity
+            vx: spark.vx * 0.98, // Air resistance
+            life: spark.life - 0.02,
+          }))
+          .filter(spark => spark.life > 0 && spark.y < 110);
+      });
+    }, 30);
+
+    return () => clearInterval(sparkInterval);
+  }, []);
+
+  // Intensity based on waves prop
+  const intensity = Math.min(waves, 8);
 
   return (
     <div className="fixed inset-0 pointer-events-none z-30 overflow-hidden">
-      <AnimatePresence>
-        {bursts.map((burst) => (
+      {/* Rising fireworks - bright streaks going up */}
+      {fireworks.filter(fw => !fw.exploded).map(fw => (
+        <motion.div
+          key={fw.id}
+          className="absolute"
+          style={{
+            left: `${fw.x}%`,
+            top: `${fw.y}%`,
+          }}
+        >
+          {/* Firework trail */}
           <div
-            key={burst.id}
-            className="absolute"
-            style={{ left: `${burst.cx}%`, top: `${burst.cy}%` }}
-          >
-            {burst.particles.map((p) => {
-              const rad = (p.angle * Math.PI) / 180;
-              const tx = Math.cos(rad) * p.distance;
-              const ty = Math.sin(rad) * p.distance;
-              return (
-                <motion.div
-                  key={p.id}
-                  initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
-                  animate={{
-                    x: tx,
-                    y: ty,
-                    opacity: 0,
-                    scale: 0.2,
-                  }}
-                  transition={{ duration: 1 + Math.random() * 0.5, ease: "easeOut" }}
-                  className="absolute rounded-full"
-                  style={{
-                    width: p.size,
-                    height: p.size,
-                    backgroundColor: p.color,
-                    boxShadow: `0 0 ${p.size * 3}px ${p.color}`,
-                  }}
-                />
-              );
-            })}
-            {/* Center flash */}
-            <motion.div
-              initial={{ scale: 0, opacity: 1 }}
-              animate={{ scale: 2, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="absolute w-4 h-4 -translate-x-2 -translate-y-2 rounded-full bg-white"
-              style={{ boxShadow: "0 0 20px white, 0 0 40px white" }}
-            />
-          </div>
+            className="absolute w-1 rounded-full"
+            style={{
+              height: 20,
+              background: `linear-gradient(to top, transparent, ${fw.color})`,
+              boxShadow: `0 0 10px ${fw.color}, 0 0 20px ${fw.color}`,
+              transform: 'translateX(-50%)',
+            }}
+          />
+          {/* Firework head - bright glowing point */}
+          <div
+            className="absolute w-3 h-3 rounded-full -translate-x-1/2 -translate-y-1/2"
+            style={{
+              backgroundColor: '#FFF',
+              boxShadow: `0 0 10px ${fw.color}, 0 0 20px ${fw.color}, 0 0 30px white`,
+            }}
+          />
+        </motion.div>
+      ))}
+
+      {/* Explosion sparks - the magic! */}
+      {sparks.map(spark => (
+        <div
+          key={spark.id}
+          className="absolute rounded-full"
+          style={{
+            left: `${spark.x}%`,
+            top: `${spark.y}%`,
+            width: spark.size * spark.life,
+            height: spark.size * spark.life,
+            backgroundColor: spark.color,
+            opacity: spark.life,
+            boxShadow: `0 0 ${spark.size * 2}px ${spark.color}, 0 0 ${spark.size * 4}px ${spark.color}`,
+            transform: 'translate(-50%, -50%)',
+          }}
+        />
+      ))}
+
+      {/* Extra sparkle layer - tiny twinkling stars */}
+      <AnimatePresence>
+        {Array.from({ length: intensity * 3 }).map((_, i) => (
+          <motion.div
+            key={`twinkle-${i}`}
+            className="absolute w-1 h-1 bg-white rounded-full"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{
+              opacity: [0, 1, 0],
+              scale: [0, 1.5, 0],
+            }}
+            transition={{
+              duration: 0.8,
+              repeat: Infinity,
+              delay: i * 0.2,
+              repeatDelay: 1 + (i % 3),
+            }}
+            style={{
+              left: `${10 + (i * 7) % 80}%`,
+              top: `${10 + (i * 11) % 50}%`,
+              boxShadow: '0 0 4px white, 0 0 8px white',
+            }}
+          />
         ))}
       </AnimatePresence>
     </div>

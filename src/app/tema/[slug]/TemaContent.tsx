@@ -436,31 +436,14 @@ export default function TemaContent({ slug }: TemaContentProps) {
           animate={{ opacity: 1 }}
           className="min-h-dvh flex flex-col items-center justify-center gap-6 px-4 text-center relative z-10"
         >
-          {/* Dancing mascot with glow effect */}
+          {/* Celebration emoji instead of mascot */}
           <motion.div
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ type: "spring", damping: 10 }}
-            className="relative"
+            className="text-8xl"
           >
-            {/* Magical glow behind mascot */}
-            <motion.div
-              className="absolute inset-0 rounded-full blur-3xl"
-              style={{ backgroundColor: theme?.color || "#6C5CE7" }}
-              animate={{
-                scale: [1, 1.3, 1],
-                opacity: [0.3, 0.6, 0.3],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-            <AnimatedStar
-              size="xl"
-              reaction={getStarReaction(fullyComplete ? "themePerfect" : "themeComplete")}
-            />
+            {fullyComplete ? "🏆" : "🎉"}
           </motion.div>
 
           {/* Pulsating hearts, stars, and Saturn decorations - AWAY from buttons */}
