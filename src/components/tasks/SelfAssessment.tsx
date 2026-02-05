@@ -115,29 +115,29 @@ export default function SelfAssessment({ task, onComplete }: Props) {
                       : "border-gray-200"
               }`}
             >
-              {/* Image - top */}
+              {/* Image - top (larger) */}
               <div className="mb-2">
                 {illustration ? (
                   <img
                     src={illustration}
                     alt=""
-                    className="w-20 h-20 sm:w-24 sm:h-24 object-contain"
+                    className="w-28 h-28 sm:w-32 sm:h-32 object-contain"
                   />
                 ) : (
-                  <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 rounded-lg flex items-center justify-center text-2xl">
+                  <div className="w-28 h-28 sm:w-32 sm:h-32 bg-gray-100 rounded-lg flex items-center justify-center text-3xl">
                     ❓
                   </div>
                 )}
               </div>
 
               {/* Bottom - microphone and status */}
-              <div className="flex flex-col items-center gap-2">
+              <div className="flex flex-col items-center gap-1.5">
                 {status === "correct" ? (
                   /* Correct - show checkmark */
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    className="text-3xl"
+                    className="text-2xl"
                   >
                     ✅
                   </motion.div>
@@ -146,24 +146,24 @@ export default function SelfAssessment({ task, onComplete }: Props) {
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    className="text-2xl text-red-500 font-bold"
+                    className="text-xl text-red-500 font-bold"
                   >
                     ✗
                   </motion.div>
                 ) : (
-                  /* Microphone button */
+                  /* Microphone button (smaller) */
                   <>
                     <motion.button
                       whileTap={{ scale: 0.9 }}
                       onClick={() => handleMicClick(idx)}
                       disabled={isListening && activeIdx !== idx}
-                      className={`w-14 h-14 rounded-full flex items-center justify-center transition-all ${
+                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
                         isRecording
                           ? "bg-red-500 animate-pulse shadow-lg shadow-red-300"
                           : "bg-[var(--primary)] hover:bg-[var(--secondary)]"
                       } text-white disabled:opacity-50`}
                     >
-                      <Mic className={`w-7 h-7 ${isRecording ? "animate-bounce" : ""}`} />
+                      <Mic className={`w-5 h-5 ${isRecording ? "animate-bounce" : ""}`} />
                     </motion.button>
 
                     {/* Recording indicator text */}
@@ -280,16 +280,16 @@ function FallbackSelfAssessment({
                     : "border-gray-200"
               }`}
             >
-              {/* Image */}
+              {/* Image (larger) */}
               <div className="mb-2">
                 {illustration ? (
                   <img
                     src={illustration}
                     alt=""
-                    className="w-20 h-20 sm:w-24 sm:h-24 object-contain"
+                    className="w-28 h-28 sm:w-32 sm:h-32 object-contain"
                   />
                 ) : (
-                  <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 rounded-lg flex items-center justify-center text-2xl">
+                  <div className="w-28 h-28 sm:w-32 sm:h-32 bg-gray-100 rounded-lg flex items-center justify-center text-3xl">
                     ❓
                   </div>
                 )}
@@ -301,19 +301,19 @@ function FallbackSelfAssessment({
                   <p className="text-sm font-bold font-handwriting text-[var(--primary)]">
                     {item.catalan}
                   </p>
-                  <span className="text-xl">{rating === "yes" ? "✅" : "😅"}</span>
+                  <span className="text-lg">{rating === "yes" ? "✅" : "😅"}</span>
                 </div>
               ) : (
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-1.5">
                   <button
                     onClick={() => handleRate(idx, "yes", item.catalan)}
-                    className="px-4 py-2 bg-green-100 hover:bg-green-200 rounded-lg text-sm font-bold"
+                    className="px-3 py-1.5 bg-green-100 hover:bg-green-200 rounded-lg text-sm font-bold"
                   >
                     Ho sé! ✅
                   </button>
                   <button
                     onClick={() => handleRate(idx, "no", item.catalan)}
-                    className="px-4 py-2 bg-red-100 hover:bg-red-200 rounded-lg text-sm font-bold"
+                    className="px-3 py-1.5 bg-red-100 hover:bg-red-200 rounded-lg text-sm font-bold"
                   >
                     No 😅
                   </button>

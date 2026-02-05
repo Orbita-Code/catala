@@ -133,6 +133,15 @@ export function useSpeechRecognition(
   const [isSupported, setIsSupported] = useState(false);
 
   const recognitionRef = useRef<SpeechRecognitionInterface | null>(null);
+  // Use refs for callbacks to avoid re-creating recognition on every render
+  const onResultRef = useRef(onResult);
+  const onErrorRef = useRef(onError);
+
+  // Keep refs updated
+  useEffect(() => {
+    onResultRef.current = onResult;
+    onErrorRef.current = onError;
+  }, [onResult, onError]);
 
   useEffect(() => {
     // Check if Speech Recognition is supported
@@ -141,20 +150,28 @@ export function useSpeechRecognition(
 
     if (SpeechRecognition) {
       setIsSupported(true);
-      recognitionRef.current = new SpeechRecognition() as SpeechRecognitionInterface;
-      recognitionRef.current.continuous = false;
-      recognitionRef.current.interimResults = false;
-      recognitionRef.current.lang = lang;
-      recognitionRef.current.maxAlternatives = 3;
+      const recognition = new SpeechRecognition() as SpeechRecognitionInterface;
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = lang;
+      recognition.maxAlternatives = 3;
 
-      recognitionRef.current.onresult = (event: SpeechRecognitionEvent) => {
+      // Add onstart to confirm recording has actually started
+      (recognition as any).onstart = () => {
+        console.log("[Speech] Recording started");
+        setIsListening(true);
+      };
+
+      recognition.onresult = (event: SpeechRecognitionEvent) => {
         const result = event.results[0][0].transcript;
+        console.log("[Speech] Got result:", result);
         setTranscript(result);
-        onResult?.(result);
+        onResultRef.current?.(result);
         setIsListening(false);
       };
 
-      recognitionRef.current.onerror = (event: SpeechRecognitionErrorEvent) => {
+      recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
+        console.log("[Speech] Error:", event.error);
         let errorMsg: string;
         switch (event.error) {
           case "no-speech":
@@ -177,14 +194,19 @@ export function useSpeechRecognition(
         }
         if (errorMsg) {
           setError(errorMsg);
-          onError?.(errorMsg);
+          onErrorRef.current?.(errorMsg);
         }
         setIsListening(false);
       };
 
-      recognitionRef.current.onend = () => {
+      recognition.onend = () => {
+        console.log("[Speech] Recording ended");
         setIsListening(false);
       };
+
+      recognitionRef.current = recognition;
+    } else {
+      console.log("[Speech] Not supported in this browser");
     }
 
     return () => {
@@ -192,19 +214,25 @@ export function useSpeechRecognition(
         recognitionRef.current.abort();
       }
     };
-  }, [lang, onResult, onError]);
+  }, [lang]); // Only re-create when language changes
 
   const startListening = useCallback(() => {
-    if (!recognitionRef.current) return;
+    if (!recognitionRef.current) {
+      console.log("[Speech] No recognition instance");
+      return;
+    }
 
     setError(null);
     setTranscript("");
-    setIsListening(true);
+    // Don't set isListening here - wait for onstart event
+    console.log("[Speech] Starting...");
 
     try {
       recognitionRef.current.start();
     } catch (e) {
-      // Already started, ignore
+      console.log("[Speech] Start error:", e);
+      // Already started or other error
+      setError("Error iniciant el micròfon. Torna a provar.");
     }
   }, []);
 
