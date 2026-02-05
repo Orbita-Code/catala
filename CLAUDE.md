@@ -104,7 +104,7 @@ src/
 │   ├── el-menjar.ts            # Theme 8: Food (21 tasks)
 │   ├── els-animals.ts          # Theme 9: Animals (21 tasks)
 │   ├── la-ciutat.ts            # Theme 10: City (15 tasks)
-│   ├── els-vehicles.ts         # Theme 11: Vehicles (15 tasks)
+│   ├── els-vehicles.ts         # Theme 11: Vehicles (12 tasks + bonus)
 │   └── els-oficis.ts           # Theme 12: Professions (15 tasks)
 ├── lib/
 │   ├── progress.ts             # localStorage progress utilities
@@ -187,7 +187,52 @@ npm run test:ui  # Playwright UI mode
 ### In Progress
 - Nothing in progress
 
-### Recently Completed (Feb 5, 2026)
+### URGENT: Illustrations to Generate (Feb 5, 2026)
+**Total: 18 illustrations needed. Use Bing Image Creator with GPT-4o model OR ChatGPT custom GPT.**
+
+**Brojevi 11-20 (10 novih) - Bing:**
+```
+Number 11, 3D cartoon style, big colorful digits with confetti and stars around, white background, 512x512px, cheerful, for children ages 5-8
+```
+Repeat for: onze (11), dotze (12), tretze (13), catorze (14), quinze (15), setze (16), disset (17), divuit (18), dinou (19), vint (20)
+
+**Lokacije (4) - Bing:**
+- carretera: `Road/highway, 3D cartoon style, white background with hearts and stars, 512x512px, for children ages 5-8`
+- sota-terra: `Underground metro station, 3D cartoon style, white background with hearts and stars, 512x512px, for children ages 5-8`
+- cel: `Sky with clouds and sun, 3D cartoon style, white background with hearts and stars, 512x512px, for children ages 5-8` (REGENERACIJA - mutna)
+- vies: `Train tracks/rails, 3D cartoon style, white background with hearts and stars, 512x512px, for children ages 5-8` (REGENERACIJA - mutna)
+
+**Priroda (2) - Bing:**
+- bosc: `Forest with green trees, 3D cartoon style, white background with hearts and stars, 512x512px, for children ages 5-8`
+- muntanya: `Mountain with snow peak, 3D cartoon style, white background with hearts and stars, 512x512px, for children ages 5-8`
+
+**Životinje (2) - ChatGPT ili Bing:**
+- sardina: `Sardine fish, 3D cartoon style, white background with hearts and stars, 512x512px, for children ages 5-8` (NOVO - stara slika korumpirana)
+- porc: `Cute pig animal (NOT pork meat!), 3D cartoon style, white background with hearts and stars, 512x512px, for children ages 5-8` (REGENERACIJA - prikazuje meso umesto svinje)
+
+**Nakon generisanja:**
+1. Sačuvaj u `Ilustracije/` kao `[ime].png`
+2. Konvertuj: `cwebp -q 80 Ilustracije/[ime].png -o public/illustrations/[ime].webp`
+3. Dodaj u `wordsWithIllustrations` set u `src/lib/illustrations.ts`
+
+### Recently Completed (Feb 5, 2026) - Session 2
+- **Theme 11 (Els Vehicles) cleanup:**
+  - Deleted duplicate tasks (10, 12, 14) - now 12 tasks + bonus
+  - Word-search expanded: 5 → 8 words (cotxe, tren, moto, taxi, avió, barca, camió, vaixell)
+  - New task 12: unscramble by syllables with vehicle images
+  - ClassifyColumns: 3-column support in single row, bigger illustrations, smaller cards
+- **Theme 9 (Els Animals) fixes:**
+  - Task 10 (UN/UNA): balanced columns (6 each), no word repetition with task 6
+  - Fixed goril·la illustration: stripAccents now removes middle dot (·)
+- **UI improvements:**
+  - XPProgressHeader: "Nv.1" → "Nivell 1", flame shows "X dies" instead of just number
+  - Added "Powered by Orbita Code 🚀" footer to home, settings, stats pages
+  - BalloonCelebration: fixed click detection (onMouseDown instead of onClick)
+- **Code cleanup:**
+  - Installed cliclick for mouse automation (brew)
+  - Created scripts/generate-bing-images.js for Playwright automation (not working without MCP)
+
+### Recently Completed (Feb 5, 2026) - Session 1
 - **ERROR TRACKING SYSTEM** - Duolingo-style error review (silent tracking, no stress for kids):
   - `src/lib/errors.ts` - Error tracking library (addError, removeError, getThemeErrors, etc.)
   - `src/contexts/ErrorTrackingContext.tsx` - React context for task components to track errors
@@ -256,22 +301,25 @@ npm run test:ui  # Playwright UI mode
 - xandall, americana, corbata, banyador, banyador-de-dona, biquini, sandalies, anell, ulleres, collaret, cinturo, caputxa, pantalons-curts, samarreta-de-tirants
 
 ### NEXT SESSION TODO (Priority Order)
-1. **Generate 7 cat preposition illustrations (ChatGPT)** - Theme 2 Tasks 14-15
+1. **🎨 GENERATE 18 ILLUSTRATIONS** - See "URGENT: Illustrations to Generate" section above
+   - Use Playwright MCP browser if available (check with `mcp__playwright__*` tools)
+   - If no Playwright MCP, open Bing manually: https://www.bing.com/images/create
+   - Select GPT-4o model (NOT DALL-E 3)
+   - After generating, convert and copy to public/illustrations/
+
+2. **Generate 7 cat preposition illustrations (ChatGPT)** - Theme 2 Tasks 14-15
    - Filenames: a-sobre.webp, a-sota.webp, a-dins.webp, a-fora.webp, al-costat.webp, al-davant.webp, al-darrere.webp
    - Prompt: "Cute orange tabby cat [POSITION] a wooden chair, 3D cartoon style, white background with decorative hearts and stars, 512x512px, for children ages 5-8, cheerful, no text"
    - For a-dins/a-fora use box instead of chair
-2. **Generate 33 missing illustrations** - See `MISSING-ILLUSTRATIONS-HANDOVER.md` for full prompts and workflow
-   - People illustrations (6): laura-carles, maria, carolina, sergi, sara, xavier
-   - Albert's family drawings (5): albert-dibuix-1 through albert-dibuix-5
-   - Scene/composite images (6): arbre-familiar, casa-exterior, classroom-items, roba-silueta, aliments, animals
-   - Named family tree (1): arbre-familiar-complet
-   - Family appearance (1): familia-foto
-   - Clothing states (4): pantalons-bruts, jersei-nou, sabates-velles, mitjons-nets
-   - Counting images (4): 3-llapis, 2-gomes, 4-llibres, 5-retoladors
-   - Preposition images (6): a-sobre, a-sota, a-dins, a-fora, a-davant, a-darrere
-2. **Add text content to data files** - Restaurant menu, snake reading passage, Carlota/Cesc pet answers
-3. **Update task data files** - Add `image: "[name]"` property to tasks that use new illustrations
-4. **Optional: Redo 14 Bing illustrations** for consistency with ChatGPT style
+
+3. **Redesign 12 gamification levels** - Current levels are abstract (Pollet → Superestrella)
+   - Need better, more fun and vivid themes for children ages 5-8
+   - Then generate illustrations for each level
+   - See Task #8 in task list for details
+
+4. **Optional improvements:**
+   - Redo 14 Bing illustrations for consistency with ChatGPT style
+   - Add text content to data files (restaurant menu, snake reading passage)
 
 ### Recently Generated Illustrations (Feb 3, 2026)
 All 18 missing illustrations have been generated via ChatGPT custom GPT:
@@ -377,9 +425,9 @@ All 18 missing illustrations have been generated via ChatGPT custom GPT:
 | 8. El menjar | el-menjar | 21 |
 | 9. Els animals | els-animals | 21 |
 | 10. La ciutat | la-ciutat | 15 |
-| 11. Els vehicles | els-vehicles | 15 |
+| 11. Els vehicles | els-vehicles | 12 + bonus |
 | 12. Els oficis | els-oficis | 15 |
-| **Total** | | **~226** |
+| **Total** | | **~223** |
 
 ## Important Notes
 - Theme slugs match filenames: `la-classe`, `l-escola`, `el-cos`, etc.
