@@ -16,6 +16,7 @@ import { getEncouragement } from "@/lib/encouragement";
 import { addError, getThemeErrorCount, getErroredItemsList, removeError, clearThemeErrors } from "@/lib/errors";
 import { speak } from "@/lib/tts";
 import { getWordIllustration } from "@/lib/illustrations";
+import { ErrorTrackingProvider } from "@/contexts/ErrorTrackingContext";
 
 import type { TaskResult } from "@/types/tasks";
 import { celebrate, celebrateBig } from "@/lib/confetti";
@@ -718,10 +719,12 @@ export default function TemaContent({ slug }: TemaContentProps) {
                 {currentTask.prompt}
               </h2>
             </div>
-            <TaskRenderer
-              task={currentTask}
-              onComplete={handleTaskComplete}
-            />
+            <ErrorTrackingProvider themeSlug={slug} taskId={currentTask.id}>
+              <TaskRenderer
+                task={currentTask}
+                onComplete={handleTaskComplete}
+              />
+            </ErrorTrackingProvider>
           </motion.div>
         </AnimatePresence>
       </main>

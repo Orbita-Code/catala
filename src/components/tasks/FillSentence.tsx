@@ -8,6 +8,7 @@ import { celebrate, celebrateBig } from "@/lib/confetti";
 import { speak } from "@/lib/tts";
 import SpeakerButton from "@/components/ui/SpeakerButton";
 import { RefreshCcw } from "lucide-react";
+import { useErrorTracking } from "@/contexts/ErrorTrackingContext";
 
 interface Props {
   task: FillSentenceTask;
@@ -18,6 +19,7 @@ export default function FillSentence({ task, onComplete }: Props) {
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [checked, setChecked] = useState(false);
   const [results, setResults] = useState<Record<number, boolean>>({});
+  const { trackError } = useErrorTracking();
 
   const handleSelect = (sentenceIdx: number, option: string) => {
     if (checked) return;
@@ -36,7 +38,11 @@ export default function FillSentence({ task, onComplete }: Props) {
     task.sentences.forEach((s, i) => {
       const correct = answers[i]?.toLowerCase() === s.blank.toLowerCase();
       newResults[i] = correct;
-      if (!correct) allCorrect = false;
+      if (!correct) {
+        allCorrect = false;
+        // Track error silently for later review
+        trackError(s.blank);
+      }
     });
     setResults(newResults);
     setChecked(true);
@@ -45,7 +51,7 @@ export default function FillSentence({ task, onComplete }: Props) {
       celebrateBig();
       setTimeout(() => onComplete({ allCorrect: true, erroredItems: [] }), 1200);
     }
-  }, [answers, task.sentences, onComplete]);
+  }, [answers, task.sentences, onComplete, trackError]);
 
   const handleRetry = () => {
     setChecked(false);
