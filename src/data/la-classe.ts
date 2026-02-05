@@ -398,18 +398,18 @@ export const laClasseTasks: Task[] = [
     ],
   },
 
-  // Exercise 13: Escriu i pinta (workbook: write name of BW objects)
+  // Exercise 13: Escriu i pinta (workbook: write name of BW objects - classroom furniture)
   {
     id: "la-classe-13",
     type: "copy-word",
-    prompt: "Escriu el nom de cada objecte.",
+    prompt: "Escriu el nom dels mobles de la classe.",
     words: [
-      { catalan: "llapis" },
-      { catalan: "llibre" },
+      { catalan: "cadira" },
+      { catalan: "taula" },
       { catalan: "porta" },
       { catalan: "finestra" },
-      { catalan: "motxilla" },
-      { catalan: "estoig" },
+      { catalan: "pissarra" },
+      { catalan: "armari" },
     ],
   },
 
