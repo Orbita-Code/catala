@@ -39,25 +39,25 @@ export default function XPProgressHeader({ compact = false }: XPProgressHeaderPr
 
   if (compact) {
     return (
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
         {/* Level badge */}
-        <div className="flex items-center gap-1.5 px-3 py-1.5 bg-purple-100 rounded-full">
-          <span className="text-lg">{currentLevel.emoji}</span>
-          <span className="text-sm font-bold text-purple-700">Nv.{currentLevel.level}</span>
+        <div className="flex items-center gap-1.5 px-2 py-1 bg-purple-100 rounded-full">
+          <span className="text-base">{currentLevel.emoji}</span>
+          <span className="text-xs font-bold text-purple-700">Nivell {currentLevel.level}</span>
         </div>
 
         {/* Daily streak */}
         {dailyStreak > 0 && (
           <div className="flex items-center gap-1 px-2 py-1 bg-orange-100 rounded-full">
-            <Flame size={16} className="text-orange-500" />
-            <span className="text-sm font-bold text-orange-600">{dailyStreak}</span>
+            <Flame size={14} className="text-orange-500" />
+            <span className="text-xs font-bold text-orange-600">{dailyStreak} dies</span>
           </div>
         )}
 
         {/* Stars */}
-        <div className="flex items-center gap-1">
-          <span className="text-lg">⭐</span>
-          <span className="text-sm font-bold text-amber-600">{totalStars}</span>
+        <div className="flex items-center gap-1 px-2 py-1 bg-amber-50 rounded-full">
+          <span className="text-base">⭐</span>
+          <span className="text-xs font-bold text-amber-600">{totalStars}</span>
         </div>
       </div>
     );
