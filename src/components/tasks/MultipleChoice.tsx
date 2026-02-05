@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { MultipleChoiceTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
@@ -19,6 +19,7 @@ export default function MultipleChoice({ task, onComplete }: Props) {
   const [selected, setSelected] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [wrongQuestions, setWrongQuestions] = useState<string[]>([]);
+  const autoAdvanceTimer = useRef<NodeJS.Timeout | null>(null);
 
   const question = task.questions[currentQ];
   const isCorrect = selected === question.correct;
@@ -38,7 +39,12 @@ export default function MultipleChoice({ task, onComplete }: Props) {
       celebrate();
     }
 
-    setTimeout(() => {
+    // Clear any existing timer
+    if (autoAdvanceTimer.current) {
+      clearTimeout(autoAdvanceTimer.current);
+    }
+
+    autoAdvanceTimer.current = setTimeout(() => {
       if (currentQ < task.questions.length - 1) {
         setCurrentQ(currentQ + 1);
         setSelected(null);
@@ -50,6 +56,16 @@ export default function MultipleChoice({ task, onComplete }: Props) {
         });
       }
     }, 1200);
+  };
+
+  const handleRetry = () => {
+    // Cancel auto-advance
+    if (autoAdvanceTimer.current) {
+      clearTimeout(autoAdvanceTimer.current);
+      autoAdvanceTimer.current = null;
+    }
+    setSelected(null);
+    setShowResult(false);
   };
 
   return (
@@ -93,7 +109,18 @@ export default function MultipleChoice({ task, onComplete }: Props) {
               {getWordIllustration(option) ? <img src={getWordIllustration(option)!} alt="" className="w-12 h-12 object-contain inline mr-2" /> : null}
               {option}
               {showResult && i === question.correct && " ✅"}
-              {showResult && i === selected && !isCorrect && <RefreshCcw className="inline w-5 h-5 text-orange-500 ml-1" />}
+              {showResult && i === selected && !isCorrect && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleRetry();
+                  }}
+                  className="inline-flex items-center justify-center p-1 ml-1 rounded-full hover:bg-orange-100 transition-colors"
+                  aria-label="Torna a provar"
+                >
+                  <RefreshCcw className="w-5 h-5 text-orange-500" />
+                </button>
+              )}
             </motion.button>
           ))}
         </div>

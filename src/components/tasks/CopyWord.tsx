@@ -199,15 +199,19 @@ export default function CopyWord({ task, onComplete }: Props) {
         return;
       }
 
-      // Match letter keys (including accented Catalan characters)
-      if (e.key.length === 1 && /^[a-zA-ZàèéìòóùúïüçÀÈÉÌÒÓÙÚÏÜÇ]$/.test(e.key)) {
-        const pressed = stripAccents(e.key.toLowerCase());
+      // Match letter keys (including accented Catalan characters) AND space
+      if (e.key === " " || (e.key.length === 1 && /^[a-zA-ZàèéìòóùúïüçÀÈÉÌÒÓÙÚÏÜÇ]$/.test(e.key))) {
+        const pressed = e.key === " " ? " " : stripAccents(e.key.toLowerCase());
         // Bank letters are already stripped of accents, so direct match works
         const bankIdx = bank.findIndex(
           (b) => !b.used && b.letter.toLowerCase() === pressed
         );
         if (bankIdx !== -1) {
           handleLetterTap(bankIdx);
+        }
+        // Prevent page scroll when pressing space
+        if (e.key === " ") {
+          e.preventDefault();
         }
       }
     },

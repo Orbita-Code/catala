@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { WriteAntonymTask, TaskResult } from "@/types/tasks";
 import { celebrate, celebrateBig } from "@/lib/confetti";
@@ -27,7 +27,7 @@ export default function WriteAntonym({ task, onComplete }: Props) {
     setAnswers({ ...answers, [pairIdx]: value });
   };
 
-  const handleCheck = () => {
+  const handleCheck = useCallback(() => {
     const newResults: Record<number, boolean> = {};
     let allCorrect = true;
     const erroredItems: string[] = [];
@@ -51,7 +51,7 @@ export default function WriteAntonym({ task, onComplete }: Props) {
       celebrate();
       setTimeout(() => onComplete({ allCorrect: true, erroredItems: [] }), 1200);
     }
-  };
+  }, [answers, task.pairs, onComplete]);
 
   const handleRetry = () => {
     setChecked(false);
@@ -59,8 +59,31 @@ export default function WriteAntonym({ task, onComplete }: Props) {
     setAnswers({});
   };
 
+  // Retry only a single wrong pair
+  const handleRetrySingle = (pairIdx: number) => {
+    const newAnswers = { ...answers };
+    delete newAnswers[pairIdx];
+    setAnswers(newAnswers);
+
+    const newResults = { ...results };
+    delete newResults[pairIdx];
+    setResults(newResults);
+
+    setChecked(false);
+  };
+
   const allAnswered = task.pairs.every((_, i) => answers[i]?.trim());
   const allCorrect = checked && Object.values(results).every(Boolean);
+
+  // Auto-check when all answers are filled
+  useEffect(() => {
+    if (allAnswered && !checked) {
+      const timer = setTimeout(() => {
+        handleCheck();
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [allAnswered, checked, handleCheck]);
 
   return (
     <div className="space-y-4">
@@ -116,7 +139,15 @@ export default function WriteAntonym({ task, onComplete }: Props) {
             <AnimatePresence>
               {checked && (
                 <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }}>
-                  {results[i] ? "✅" : <RefreshCcw className="inline w-5 h-5 text-orange-500" />}
+                  {results[i] ? "✅" : (
+                    <button
+                      onClick={() => handleRetrySingle(i)}
+                      className="inline-flex items-center justify-center p-1 rounded-full hover:bg-orange-100 transition-colors"
+                      aria-label="Torna a provar"
+                    >
+                      <RefreshCcw className="w-5 h-5 text-orange-500" />
+                    </button>
+                  )}
                 </motion.span>
               )}
             </AnimatePresence>
@@ -150,18 +181,9 @@ export default function WriteAntonym({ task, onComplete }: Props) {
         </motion.div>
       ))}
 
-      <div className="flex justify-center pt-2">
-        {!checked ? (
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleCheck}
-            disabled={!allAnswered}
-            className="px-8 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg disabled:opacity-40 shadow-[0_4px_12px_rgba(108,92,231,0.3)]"
-          >
-            Comprova!
-          </motion.button>
-        ) : !allCorrect ? (
+      {/* Retry button - only shown after wrong answer */}
+      {checked && !allCorrect && (
+        <div className="flex justify-center pt-2">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -170,8 +192,8 @@ export default function WriteAntonym({ task, onComplete }: Props) {
           >
             Torna a provar!
           </motion.button>
-        ) : null}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

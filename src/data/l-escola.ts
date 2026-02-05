@@ -195,16 +195,26 @@ export const lEscolaTasks: Task[] = [
     ],
   },
 
-  // ── Task 11: Completa - Ordinal days ──
+  // ── Task 11: Completa - Ordinal days (shuffled) ──
   {
     id: "l-escola-11",
     type: "fill-sentence",
     prompt: "Completa els dies de la setmana:",
     sentences: [
       {
-        text: "El ___ és el segon dia de la setmana.",
-        blank: "dimarts",
-        options: ["dimecres", "dimarts", "dijous"],
+        text: "El ___ és el cinquè dia de la setmana.",
+        blank: "divendres",
+        options: ["diumenge", "divendres", "dimecres"],
+      },
+      {
+        text: "El ___ és el primer dia de la setmana.",
+        blank: "dilluns",
+        options: ["dilluns", "dimarts", "diumenge"],
+      },
+      {
+        text: "El ___ és el setè dia de la setmana.",
+        blank: "diumenge",
+        options: ["dissabte", "diumenge", "dimarts"],
       },
       {
         text: "El ___ és el tercer dia de la setmana.",
@@ -212,24 +222,19 @@ export const lEscolaTasks: Task[] = [
         options: ["divendres", "dilluns", "dimecres"],
       },
       {
-        text: "El ___ és el quart dia de la setmana.",
-        blank: "dijous",
-        options: ["dijous", "dimarts", "dissabte"],
-      },
-      {
-        text: "El ___ és el cinquè dia de la setmana.",
-        blank: "divendres",
-        options: ["diumenge", "divendres", "dimecres"],
-      },
-      {
         text: "El ___ és el sisè dia de la setmana.",
         blank: "dissabte",
         options: ["dilluns", "dijous", "dissabte"],
       },
       {
-        text: "El ___ és el setè dia de la setmana.",
-        blank: "diumenge",
-        options: ["dissabte", "diumenge", "dimarts"],
+        text: "El ___ és el segon dia de la setmana.",
+        blank: "dimarts",
+        options: ["dimecres", "dimarts", "dijous"],
+      },
+      {
+        text: "El ___ és el quart dia de la setmana.",
+        blank: "dijous",
+        options: ["dijous", "dimarts", "dissabte"],
       },
     ],
   },
@@ -299,52 +304,69 @@ export const lEscolaTasks: Task[] = [
     ],
   },
 
-  // ── Task 15: Observa i completa - Preposicions de lloc ──
+  // ── Task 15: Observa i completa - Preposicions de lloc (el gat) ──
   {
     id: "l-escola-15",
     type: "copy-word",
-    prompt: "Observa i copia les preposicions de lloc:",
+    prompt: "On és el gat? Observa i copia les preposicions de lloc:",
     words: [
-      { catalan: "a sobre" },
-      { catalan: "a sota" },
-      { catalan: "a dins" },
-      { catalan: "a fora" },
-      { catalan: "al costat" },
-      { catalan: "al davant" },
-      { catalan: "al darrere" },
+      { catalan: "a sobre", image: "a-sobre" },
+      { catalan: "a sota", image: "a-sota" },
+      { catalan: "a dins", image: "a-dins" },
+      { catalan: "a fora", image: "a-fora" },
+      { catalan: "al costat", image: "al-costat" },
+      { catalan: "al davant", image: "al-davant" },
+      { catalan: "al darrere", image: "al-darrere" },
     ],
   },
 
-  // ── Task 16: Completa amb preposicions ──
+  // ── Task 16: Completa amb preposicions (el gat) ──
   {
     id: "l-escola-16",
     type: "fill-sentence",
-    prompt: "Completa amb la preposició correcta:",
+    prompt: "On és el gat? Completa amb la preposició correcta:",
     sentences: [
       {
-        text: "El llapis està ___ la taula.",
+        text: "El gat està ___ la cadira.",
         blank: "a sobre",
         options: ["a sota", "a sobre", "a dins"],
+        image: "a-sobre",
       },
       {
-        text: "L'estoig està ___ de la cadira.",
-        blank: "al davant",
-        options: ["al darrere", "al costat", "al davant"],
+        text: "El gat està ___ la cadira.",
+        blank: "a sota",
+        options: ["a sobre", "a sota", "al costat"],
+        image: "a-sota",
       },
       {
-        text: "El bolígraf està ___ de l'estoig.",
+        text: "El gat està ___ de la caixa.",
         blank: "a dins",
         options: ["a dins", "a fora", "a sobre"],
+        image: "a-dins",
       },
       {
-        text: "El professor està ___ de la taula.",
+        text: "El gat està ___ de la caixa.",
+        blank: "a fora",
+        options: ["a dins", "a fora", "a sota"],
+        image: "a-fora",
+      },
+      {
+        text: "El gat està ___ de la cadira.",
         blank: "al costat",
         options: ["al davant", "al costat", "al darrere"],
+        image: "al-costat",
       },
       {
-        text: "La cadira està ___ de la taula.",
+        text: "El gat està ___ de la cadira.",
+        blank: "al davant",
+        options: ["al darrere", "al costat", "al davant"],
+        image: "al-davant",
+      },
+      {
+        text: "El gat està ___ de la cadira.",
         blank: "al darrere",
         options: ["al davant", "a sota", "al darrere"],
+        image: "al-darrere",
       },
     ],
   },

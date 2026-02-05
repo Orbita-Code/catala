@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LabelWriteTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
@@ -59,7 +59,7 @@ export default function LabelWrite({ task, onComplete }: Props) {
     setAnswers({ ...answers, [idx]: value });
   };
 
-  const handleCheck = () => {
+  const handleCheck = useCallback(() => {
     const newResults: Record<number, boolean> = {};
     let allCorrect = true;
     const erroredItems: string[] = [];
@@ -83,7 +83,7 @@ export default function LabelWrite({ task, onComplete }: Props) {
       celebrate();
       setTimeout(() => onComplete({ allCorrect: true, erroredItems: [] }), 1200);
     }
-  };
+  }, [answers, task.labels, onComplete]);
 
   const handleRetry = () => {
     setChecked(false);
@@ -93,6 +93,16 @@ export default function LabelWrite({ task, onComplete }: Props) {
 
   const allAnswered = task.labels.every((_, i) => answers[i]?.trim());
   const allCorrect = checked && Object.values(results).every(Boolean);
+
+  // Auto-check when all answers are filled
+  useEffect(() => {
+    if (allAnswered && !checked) {
+      const timer = setTimeout(() => {
+        handleCheck();
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [allAnswered, checked, handleCheck]);
 
   // Separate labels into left and right sides
   const leftLabels: number[] = [];
@@ -253,19 +263,9 @@ export default function LabelWrite({ task, onComplete }: Props) {
         </svg>
       </div>
 
-      {/* Check / Retry */}
-      <div className="flex justify-center pt-2">
-        {!checked ? (
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleCheck}
-            disabled={!allAnswered}
-            className="px-8 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg disabled:opacity-40 shadow-[0_4px_12px_rgba(108,92,231,0.3)]"
-          >
-            Comprova!
-          </motion.button>
-        ) : !allCorrect ? (
+      {/* Retry button - only shown after wrong answer */}
+      {checked && !allCorrect && (
+        <div className="flex justify-center pt-2">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -274,8 +274,8 @@ export default function LabelWrite({ task, onComplete }: Props) {
           >
             Torna a provar!
           </motion.button>
-        ) : null}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

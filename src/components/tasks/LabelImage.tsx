@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
 import { LabelImageTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
@@ -83,7 +83,7 @@ export default function LabelImage({ task, onComplete }: Props) {
 
   const allPlaced = task.labels.every((_, i) => placed[i]);
 
-  const handleCheck = () => {
+  const handleCheck = useCallback(() => {
     const newResults: Record<number, boolean> = {};
     let allCorrect = true;
 
@@ -124,12 +124,36 @@ export default function LabelImage({ task, onComplete }: Props) {
       speak(words);
       setTimeout(() => onComplete({ allCorrect: true, erroredItems: [] }), 1200);
     }
-  };
+  }, [placed, task.labels, onComplete]);
+
+  // Auto-check when all labels are placed
+  useEffect(() => {
+    if (allPlaced && !checked) {
+      const timer = setTimeout(() => {
+        handleCheck();
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [allPlaced, checked, handleCheck]);
 
   const handleRetry = () => {
     setPlaced({});
     setChecked(false);
     setResults({});
+    setSelectedWord(null);
+  };
+
+  // Retry only a single wrong label
+  const handleRetrySingle = (labelIdx: number) => {
+    const newPlaced = { ...placed };
+    delete newPlaced[labelIdx];
+    setPlaced(newPlaced);
+
+    const newResults = { ...results };
+    delete newResults[labelIdx];
+    setResults(newResults);
+
+    setChecked(false);
     setSelectedWord(null);
   };
 
@@ -187,7 +211,18 @@ export default function LabelImage({ task, onComplete }: Props) {
                       <>
                         {getWordIllustration(placed[i]) ? <img src={getWordIllustration(placed[i])!} alt="" className="w-10 h-10 object-contain inline" /> : null}
                         {placed[i]}
-                        {checked && (results[i] ? " ✅" : <RefreshCcw className="inline w-4 h-4 text-orange-500 ml-1" />)}
+                        {checked && (results[i] ? " ✅" : (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleRetrySingle(i);
+                            }}
+                            className="inline-flex items-center justify-center p-1 ml-1 rounded-full hover:bg-orange-100 transition-colors"
+                            aria-label="Torna a provar"
+                          >
+                            <RefreshCcw className="w-4 h-4 text-orange-500" />
+                          </button>
+                        ))}
                       </>
                     ) : (
                       <span className="text-2xl">{dragState.isDragging ? "⬇️" : "❓"}</span>
@@ -245,19 +280,9 @@ export default function LabelImage({ task, onComplete }: Props) {
         </div>
       </div>
 
-      {/* Check / Retry */}
-      <div className="flex justify-center pt-2">
-        {!checked ? (
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleCheck}
-            disabled={!allPlaced}
-            className="px-8 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg disabled:opacity-40 shadow-[0_4px_12px_rgba(108,92,231,0.3)]"
-          >
-            Comprova!
-          </motion.button>
-        ) : !allCorrect ? (
+      {/* Retry button - only shown after wrong answer */}
+      {checked && !allCorrect && (
+        <div className="flex justify-center pt-2">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -266,8 +291,8 @@ export default function LabelImage({ task, onComplete }: Props) {
           >
             Torna a provar!
           </motion.button>
-        ) : null}
-      </div>
+        </div>
+      )}
 
       {/* Drag overlay */}
       <DragOverlay word={dragState.draggedItem} position={dragState.dragPosition} />

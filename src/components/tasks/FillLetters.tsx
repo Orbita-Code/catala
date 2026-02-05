@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect, useCallback } from "react";
+import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FillLettersTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
@@ -78,6 +78,7 @@ export default function FillLetters({ task, onComplete }: Props) {
   const [allDone, setAllDone] = useState(false);
   const [retryWordIdx, setRetryWordIdx] = useState<number | null>(null);
   const [retryMessage, setRetryMessage] = useState<string | null>(null);
+  const retryTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Pre-generate letter options for each blank
   const blankOptions = useMemo(() => {
@@ -155,39 +156,54 @@ export default function FillLetters({ task, onComplete }: Props) {
         setRetryWordIdx(wordIdx);
         setRetryMessage(retryPhrases[Math.floor(Math.random() * retryPhrases.length)]);
 
-        setTimeout(() => {
-          // Hide star
-          setRetryWordIdx(null);
-          setRetryMessage(null);
-          // Clear this word's inputs
-          setInputs((prev) => {
-            const next = { ...prev };
-            blanks.forEach((pos) => {
-              delete next[`${wordIdx}-${pos}`];
-            });
-            return next;
-          });
-          // Uncheck so child can retry
-          setCheckedWords((prev) => {
-            const next = new Set(prev);
-            next.delete(wordIdx);
-            return next;
-          });
-          setWordResults((prev) => {
-            const next = { ...prev };
-            delete next[wordIdx];
-            return next;
-          });
-          // Move focus to first blank of this word
-          const firstBlank = blanks[0];
-          if (firstBlank !== undefined) {
-            setActiveBlank(`${wordIdx}-${firstBlank}`);
-          }
+        // Clear any existing timer
+        if (retryTimerRef.current) {
+          clearTimeout(retryTimerRef.current);
+        }
+
+        retryTimerRef.current = setTimeout(() => {
+          resetWord(wordIdx, blanks);
         }, 2000);
       }
     },
     [task.words, checkedWords]
   );
+
+  // Reset a specific word for retry
+  const resetWord = useCallback((wordIdx: number, blanks: number[]) => {
+    // Clear timer if exists
+    if (retryTimerRef.current) {
+      clearTimeout(retryTimerRef.current);
+      retryTimerRef.current = null;
+    }
+    // Hide star
+    setRetryWordIdx(null);
+    setRetryMessage(null);
+    // Clear this word's inputs
+    setInputs((prev) => {
+      const next = { ...prev };
+      blanks.forEach((pos) => {
+        delete next[`${wordIdx}-${pos}`];
+      });
+      return next;
+    });
+    // Uncheck so child can retry
+    setCheckedWords((prev) => {
+      const next = new Set(prev);
+      next.delete(wordIdx);
+      return next;
+    });
+    setWordResults((prev) => {
+      const next = { ...prev };
+      delete next[wordIdx];
+      return next;
+    });
+    // Move focus to first blank of this word
+    const firstBlank = blanks[0];
+    if (firstBlank !== undefined) {
+      setActiveBlank(`${wordIdx}-${firstBlank}`);
+    }
+  }, []);
 
   // Check if all words are done correctly → complete the task
   useEffect(() => {
@@ -374,7 +390,7 @@ export default function FillLetters({ task, onComplete }: Props) {
                         key={charIdx}
                         className="w-10 h-10 flex items-center justify-center text-xl font-bold text-[var(--text)] font-handwriting"
                       >
-                        {char}
+                        {char.toUpperCase()}
                       </span>
                     );
                   })}
@@ -388,7 +404,15 @@ export default function FillLetters({ task, onComplete }: Props) {
                       animate={{ scale: 1 }}
                       className="text-2xl ml-1"
                     >
-                      {isCorrect ? "✅" : <RefreshCcw className="inline w-6 h-6 text-orange-500" />}
+                      {isCorrect ? "✅" : (
+                        <button
+                          onClick={() => resetWord(wordIdx, blanks)}
+                          className="inline-flex items-center justify-center p-1 rounded-full hover:bg-orange-100 transition-colors"
+                          aria-label="Torna a provar"
+                        >
+                          <RefreshCcw className="w-6 h-6 text-orange-500" />
+                        </button>
+                      )}
                     </motion.span>
                   )}
                 </AnimatePresence>

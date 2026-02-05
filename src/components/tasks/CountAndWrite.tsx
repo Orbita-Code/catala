@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CountAndWriteTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
@@ -23,7 +23,7 @@ export default function CountAndWrite({ task, onComplete }: Props) {
   const currentItem = task.items[currentIdx];
   const illustration = getWordIllustration(currentItem.description);
 
-  const handleCheck = () => {
+  const handleCheck = useCallback(() => {
     const trimmed = answer.trim();
     // Accept either the number or the word
     const isCorrect =
@@ -56,7 +56,17 @@ export default function CountAndWrite({ task, onComplete }: Props) {
           : [...prev, currentItem.description]
       );
     }
-  };
+  }, [answer, currentItem, currentIdx, task.items.length, erroredItems, onComplete]);
+
+  // Auto-check when answer is entered
+  useEffect(() => {
+    if (answer.trim() && !checked) {
+      const timer = setTimeout(() => {
+        handleCheck();
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [answer, checked, handleCheck]);
 
   const handleRetry = () => {
     setChecked(false);
@@ -137,7 +147,15 @@ export default function CountAndWrite({ task, onComplete }: Props) {
           <AnimatePresence>
             {checked && (
               <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-2xl">
-                {correct ? "✅" : <RefreshCcw className="inline w-6 h-6 text-orange-500" />}
+                {correct ? "✅" : (
+                  <button
+                    onClick={handleRetry}
+                    className="inline-flex items-center justify-center p-1 rounded-full hover:bg-orange-100 transition-colors"
+                    aria-label="Torna a provar"
+                  >
+                    <RefreshCcw className="w-6 h-6 text-orange-500" />
+                  </button>
+                )}
               </motion.span>
             )}
           </AnimatePresence>
@@ -154,19 +172,9 @@ export default function CountAndWrite({ task, onComplete }: Props) {
           </motion.p>
         )}
 
-        {/* Buttons */}
-        <div className="flex justify-center pt-4">
-          {!checked ? (
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleCheck}
-              disabled={!answer.trim()}
-              className="px-8 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg disabled:opacity-40 shadow-[0_4px_12px_rgba(108,92,231,0.3)]"
-            >
-              Comprova!
-            </motion.button>
-          ) : !correct ? (
+        {/* Retry button - only shown after wrong answer */}
+        {checked && !correct && (
+          <div className="flex justify-center pt-4">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -175,8 +183,8 @@ export default function CountAndWrite({ task, onComplete }: Props) {
             >
               Torna a provar!
             </motion.button>
-          ) : null}
-        </div>
+          </div>
+        )}
       </motion.div>
     </div>
   );

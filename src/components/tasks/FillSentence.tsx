@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FillSentenceTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
@@ -30,7 +30,7 @@ export default function FillSentence({ task, onComplete }: Props) {
     }
   };
 
-  const handleCheck = () => {
+  const handleCheck = useCallback(() => {
     const newResults: Record<number, boolean> = {};
     let allCorrect = true;
     task.sentences.forEach((s, i) => {
@@ -45,7 +45,7 @@ export default function FillSentence({ task, onComplete }: Props) {
       celebrateBig();
       setTimeout(() => onComplete({ allCorrect: true, erroredItems: [] }), 1200);
     }
-  };
+  }, [answers, task.sentences, onComplete]);
 
   const handleRetry = () => {
     setChecked(false);
@@ -53,8 +53,31 @@ export default function FillSentence({ task, onComplete }: Props) {
     setAnswers({});
   };
 
+  // Retry only a single wrong sentence
+  const handleRetrySingle = (sentenceIdx: number) => {
+    const newAnswers = { ...answers };
+    delete newAnswers[sentenceIdx];
+    setAnswers(newAnswers);
+
+    const newResults = { ...results };
+    delete newResults[sentenceIdx];
+    setResults(newResults);
+
+    setChecked(false);
+  };
+
   const allAnswered = task.sentences.every((_, i) => answers[i]);
   const allCorrect = checked && Object.values(results).every(Boolean);
+
+  // Auto-check when all answers are filled
+  useEffect(() => {
+    if (allAnswered && !checked) {
+      const timer = setTimeout(() => {
+        handleCheck();
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [allAnswered, checked, handleCheck]);
 
   const hasMainImage = task.image && getWordIllustration(task.image);
 
@@ -129,7 +152,18 @@ export default function FillSentence({ task, onComplete }: Props) {
                         animate={{ scale: 1 }}
                         className="ml-1"
                       >
-                        {results[i] ? "✅" : <RefreshCcw className="inline w-4 h-4 text-orange-500" />}
+                        {results[i] ? "✅" : (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleRetrySingle(i);
+                            }}
+                            className="inline-flex items-center justify-center p-1 rounded-full hover:bg-orange-100 transition-colors"
+                            aria-label="Torna a provar aquesta frase"
+                          >
+                            <RefreshCcw className="w-4 h-4 text-orange-500" />
+                          </button>
+                        )}
                       </motion.span>
                     )}
                   </AnimatePresence>
@@ -174,29 +208,17 @@ export default function FillSentence({ task, onComplete }: Props) {
         </motion.div>
       ))}
 
-      {/* Button inside grid for tasks with images (task 9) - as last grid item */}
-      {allSentencesHaveImages && (
+      {/* Retry button inside grid for tasks with images */}
+      {allSentencesHaveImages && checked && !allCorrect && (
         <div className="flex items-center justify-center">
-          {!checked ? (
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleCheck}
-              disabled={!allAnswered}
-              className="px-6 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg disabled:opacity-40 shadow-[0_4px_12px_rgba(108,92,231,0.3)]"
-            >
-              Comprova!
-            </motion.button>
-          ) : !allCorrect ? (
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleRetry}
-              className="px-6 py-3 bg-[var(--secondary)] text-white font-bold rounded-2xl text-lg shadow-md"
-            >
-              Torna a provar!
-            </motion.button>
-          ) : null}
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleRetry}
+            className="px-6 py-3 bg-[var(--secondary)] text-white font-bold rounded-2xl text-lg shadow-md"
+          >
+            Torna a provar!
+          </motion.button>
         </div>
       )}
     </div>
@@ -263,7 +285,18 @@ export default function FillSentence({ task, onComplete }: Props) {
                     animate={{ scale: 1 }}
                     className="ml-1"
                   >
-                    {results[i] ? "✅" : <RefreshCcw className="inline w-4 h-4 text-orange-500" />}
+                    {results[i] ? "✅" : (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleRetrySingle(i);
+                        }}
+                        className="inline-flex items-center justify-center p-1 rounded-full hover:bg-orange-100 transition-colors"
+                        aria-label="Torna a provar aquesta frase"
+                      >
+                        <RefreshCcw className="w-4 h-4 text-orange-500" />
+                      </button>
+                    )}
                   </motion.span>
                 )}
               </AnimatePresence>
@@ -357,29 +390,17 @@ export default function FillSentence({ task, onComplete }: Props) {
         renderSentences()
       )}
 
-      {/* Check/Retry button - only show when NOT using grid with images (button is inside grid for those) */}
-      {!allSentencesHaveImages && (
+      {/* Retry button - only show after wrong answer */}
+      {!allSentencesHaveImages && checked && !allCorrect && (
         <div className="flex justify-center pt-2">
-          {!checked ? (
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleCheck}
-              disabled={!allAnswered}
-              className="px-8 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg disabled:opacity-40 shadow-[0_4px_12px_rgba(108,92,231,0.3)]"
-            >
-              Comprova!
-            </motion.button>
-          ) : !allCorrect ? (
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleRetry}
-              className="px-8 py-3 bg-[var(--secondary)] text-white font-bold rounded-2xl text-lg shadow-md"
-            >
-              Torna a provar!
-            </motion.button>
-          ) : null}
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleRetry}
+            className="px-8 py-3 bg-[var(--secondary)] text-white font-bold rounded-2xl text-lg shadow-md"
+          >
+            Torna a provar!
+          </motion.button>
         </div>
       )}
     </div>
