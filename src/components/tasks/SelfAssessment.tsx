@@ -18,8 +18,14 @@ export default function SelfAssessment({ task, onComplete }: Props) {
   const [results, setResults] = useState<Record<number, "correct" | "wrong" | "retry">>({});
   const [activeIdx, setActiveIdx] = useState<number | null>(null);
 
-  const { isListening, isSupported, startListening } = useSpeechRecognition({
+  const [micError, setMicError] = useState<string | null>(null);
+
+  const { isListening, isSupported, startListening, error } = useSpeechRecognition({
     lang: "ca-ES",
+    onError: (err) => {
+      setMicError(err);
+      setActiveIdx(null);
+    },
     onResult: (transcript) => {
       if (activeIdx === null) return;
 
@@ -67,6 +73,20 @@ export default function SelfAssessment({ task, onComplete }: Props) {
 
   return (
     <div className="space-y-4">
+      {/* Microphone error message */}
+      {micError && (
+        <div className="flex items-center justify-center gap-2 p-3 bg-red-50 rounded-xl">
+          <MicOff className="w-5 h-5 text-red-600" />
+          <p className="text-sm text-red-700">{micError}</p>
+          <button
+            onClick={() => setMicError(null)}
+            className="text-red-500 font-bold ml-2"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
       {/* Progress */}
       <div className="text-sm text-[var(--text-light)] text-center">
         {correctCount} / {task.items.length} paraules
@@ -101,10 +121,10 @@ export default function SelfAssessment({ task, onComplete }: Props) {
                   <img
                     src={illustration}
                     alt=""
-                    className="w-16 h-16 sm:w-20 sm:h-20 object-contain"
+                    className="w-24 h-24 sm:w-28 sm:h-28 object-contain"
                   />
                 ) : (
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gray-100 rounded-lg flex items-center justify-center text-2xl">
+                  <div className="w-24 h-24 sm:w-28 sm:h-28 bg-gray-100 rounded-lg flex items-center justify-center text-2xl">
                     ❓
                   </div>
                 )}
@@ -146,8 +166,8 @@ export default function SelfAssessment({ task, onComplete }: Props) {
                       <Mic className={`w-6 h-6 ${isRecording ? "animate-bounce" : ""}`} />
                     </motion.button>
 
-                    {/* Retry indicator */}
-                    {status === "retry" && (
+                    {/* Retry indicator or skip button */}
+                    {status === "retry" ? (
                       <div className="flex items-center gap-1">
                         <RefreshCcw className="w-4 h-4 text-orange-500" />
                         <button
@@ -157,6 +177,13 @@ export default function SelfAssessment({ task, onComplete }: Props) {
                           Passa
                         </button>
                       </div>
+                    ) : (
+                      <button
+                        onClick={() => handleSkip(idx)}
+                        className="text-xs text-gray-400 hover:text-gray-600"
+                      >
+                        No ho sé
+                      </button>
                     )}
                   </>
                 )}
@@ -248,10 +275,10 @@ function FallbackSelfAssessment({
                   <img
                     src={illustration}
                     alt=""
-                    className="w-16 h-16 sm:w-20 sm:h-20 object-contain"
+                    className="w-24 h-24 sm:w-28 sm:h-28 object-contain"
                   />
                 ) : (
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gray-100 rounded-lg flex items-center justify-center text-2xl">
+                  <div className="w-24 h-24 sm:w-28 sm:h-28 bg-gray-100 rounded-lg flex items-center justify-center text-2xl">
                     ❓
                   </div>
                 )}
