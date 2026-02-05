@@ -409,7 +409,6 @@ export const laClasseTasks: Task[] = [
       { catalan: "porta" },
       { catalan: "finestra" },
       { catalan: "pissarra" },
-      { catalan: "armari" },
     ],
   },
 
