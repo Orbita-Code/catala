@@ -51,7 +51,7 @@ export default function ColorByInstruction({ task, onComplete }: Props) {
       setCorrectItems((prev) => new Set(prev).add(item));
       setSelectedItem(null);
       setSelectedColor(null);
-      speak(item);
+      speak(color); // Speak the color name, not the item
       celebrate();
 
       // Check if all done

@@ -458,6 +458,7 @@ const wordsWithIllustrations = new Set([
   "nena-vestida",
   "estoig-obert",
   "nena-canta",
+  "nena-dibuixa",
   "nen-escriu",
   "nen-dibuixa",
   "nen-pinta",
