@@ -464,7 +464,7 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
           title="Mira el teu dibuix!"
         >
           <Play size={18} className={isReplaying ? "animate-pulse" : ""} />
-          <span className="text-[9px] font-bold">{isReplaying ? "..." : "Replay"}</span>
+          <span className="text-[9px] font-bold">{isReplaying ? "..." : "Mira!"}</span>
         </motion.button>
         {/* Reset button */}
         <motion.button
