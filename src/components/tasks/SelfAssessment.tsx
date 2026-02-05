@@ -1,13 +1,14 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SelfAssessmentTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
 import SpeakerButton from "@/components/ui/SpeakerButton";
 import { speak } from "@/lib/tts";
-import { Mic, MicOff, Volume2 } from "lucide-react";
+import { Mic, MicOff, RefreshCcw } from "lucide-react";
 import { useSpeechRecognition, wordsMatch } from "@/hooks/useSpeechRecognition";
+import { celebrate, celebrateBig } from "@/lib/confetti";
 
 interface Props {
   task: SelfAssessmentTask;
@@ -15,255 +16,258 @@ interface Props {
 }
 
 export default function SelfAssessment({ task, onComplete }: Props) {
-  const [currentIdx, setCurrentIdx] = useState(0);
-  const [results, setResults] = useState<Record<number, "correct" | "incorrect">>({});
-  const [attempts, setAttempts] = useState<Record<number, number>>({});
+  const [results, setResults] = useState<Record<number, "correct" | "wrong" | "retry">>({});
+  const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const [lastSpoken, setLastSpoken] = useState<string | null>(null);
-  const [showHint, setShowHint] = useState(false);
-
-  const currentItem = task.items[currentIdx];
-  const illustration = getWordIllustration(currentItem.catalan);
-
-  const handleResult = useCallback(
-    (transcript: string) => {
-      setLastSpoken(transcript);
-      const isCorrect = wordsMatch(transcript, currentItem.catalan);
-
-      if (isCorrect) {
-        // Correct! Mark and move on
-        setResults((prev) => ({ ...prev, [currentIdx]: "correct" }));
-        speak(currentItem.catalan); // Reinforce with correct pronunciation
-
-        setTimeout(() => {
-          if (currentIdx < task.items.length - 1) {
-            setCurrentIdx(currentIdx + 1);
-            setLastSpoken(null);
-            setShowHint(false);
-          } else {
-            // All done
-            const erroredItems = Object.entries(results)
-              .filter(([, r]) => r === "incorrect")
-              .map(([idx]) => task.items[parseInt(idx)].catalan);
-            onComplete({ allCorrect: erroredItems.length === 0, erroredItems });
-          }
-        }, 1500);
-      } else {
-        // Incorrect - allow retry
-        const newAttempts = (attempts[currentIdx] || 0) + 1;
-        setAttempts((prev) => ({ ...prev, [currentIdx]: newAttempts }));
-
-        if (newAttempts >= 2) {
-          // After 2 failed attempts, show hint
-          setShowHint(true);
-        }
-      }
-    },
-    [currentIdx, currentItem, task.items, results, attempts, onComplete]
-  );
 
   const { isListening, isSupported, startListening, error } = useSpeechRecognition({
     lang: "ca-ES",
-    onResult: handleResult,
+    onResult: (transcript) => {
+      if (selectedIdx === null) return;
+
+      setLastSpoken(transcript);
+      const item = task.items[selectedIdx];
+      const isCorrect = wordsMatch(transcript, item.catalan);
+
+      if (isCorrect) {
+        setResults((prev) => ({ ...prev, [selectedIdx]: "correct" }));
+        speak(item.catalan);
+        celebrate();
+        setSelectedIdx(null);
+        setLastSpoken(null);
+
+        // Check if all done
+        const newResults = { ...results, [selectedIdx]: "correct" as const };
+        const correctCount = Object.values(newResults).filter((r) => r === "correct").length;
+        if (correctCount === task.items.length) {
+          celebrateBig();
+          setTimeout(() => {
+            const erroredItems = Object.entries(newResults)
+              .filter(([, r]) => r === "wrong")
+              .map(([idx]) => task.items[parseInt(idx)].catalan);
+            onComplete({ allCorrect: erroredItems.length === 0, erroredItems });
+          }, 1200);
+        }
+      } else {
+        setResults((prev) => ({ ...prev, [selectedIdx]: "retry" }));
+      }
+    },
   });
 
-  const handleSkip = () => {
-    // Skip this word (mark as incorrect)
-    setResults((prev) => ({ ...prev, [currentIdx]: "incorrect" }));
-    speak(currentItem.catalan); // Say the correct word
-
-    setTimeout(() => {
-      if (currentIdx < task.items.length - 1) {
-        setCurrentIdx(currentIdx + 1);
-        setLastSpoken(null);
-        setShowHint(false);
-      } else {
-        const erroredItems = Object.entries({ ...results, [currentIdx]: "incorrect" })
-          .filter(([, r]) => r === "incorrect")
-          .map(([idx]) => task.items[parseInt(idx)].catalan);
-        onComplete({ allCorrect: erroredItems.length === 0, erroredItems });
-      }
-    }, 1500);
+  const handleItemClick = (idx: number) => {
+    if (results[idx] === "correct") return; // Already done
+    setSelectedIdx(idx);
+    setLastSpoken(null);
+    setResults((prev) => {
+      const newResults = { ...prev };
+      delete newResults[idx]; // Clear previous state
+      return newResults;
+    });
   };
 
-  const handleListenFirst = () => {
-    speak(currentItem.catalan);
+  const handleMicClick = () => {
+    if (selectedIdx === null) return;
+    startListening();
   };
 
-  const isCorrect = results[currentIdx] === "correct";
-  const currentAttempts = attempts[currentIdx] || 0;
+  const handleSkip = (idx: number) => {
+    setResults((prev) => ({ ...prev, [idx]: "wrong" }));
+    speak(task.items[idx].catalan);
+    setSelectedIdx(null);
+    setLastSpoken(null);
+  };
 
-  // If speech recognition is not supported, fall back to simpler UI
+  const allDone = Object.values(results).filter((r) => r === "correct").length === task.items.length;
+
+  // Fallback for browsers without speech recognition
   if (!isSupported) {
     return <FallbackSelfAssessment task={task} onComplete={onComplete} />;
   }
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4">
       {/* Progress */}
       <div className="text-sm text-[var(--text-light)] text-center">
-        {currentIdx + 1} / {task.items.length}
+        {Object.values(results).filter((r) => r === "correct").length} / {task.items.length} paraules
       </div>
 
-      {/* Progress bar */}
-      <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-        <motion.div
-          className="h-full bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)]"
-          initial={{ width: 0 }}
-          animate={{ width: `${((currentIdx + (isCorrect ? 1 : 0)) / task.items.length) * 100}%` }}
-        />
-      </div>
+      {/* Grid of all items */}
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
+        {task.items.map((item, idx) => {
+          const status = results[idx];
+          const isSelected = selectedIdx === idx;
+          const illustration = getWordIllustration(item.catalan);
 
-      <motion.div
-        key={currentIdx}
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="bg-white rounded-2xl p-6 shadow-sm"
-      >
-        {/* Instruction */}
-        <p className="text-center text-sm text-[var(--text-light)] mb-4">
-          Mira el dibuix i digues la paraula en català
-        </p>
-
-        {/* Illustration */}
-        <div className="flex justify-center mb-5">
-          {illustration ? (
-            <motion.img
-              src={illustration}
-              alt=""
-              className="w-40 h-40 object-contain"
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-            />
-          ) : (
-            <div className="w-40 h-40 bg-gray-100 rounded-xl flex items-center justify-center">
-              <span className="text-5xl">❓</span>
-            </div>
-          )}
-        </div>
-
-        {/* Listen first button */}
-        <div className="flex justify-center mb-4">
-          <motion.button
-            whileTap={{ scale: 0.95 }}
-            onClick={handleListenFirst}
-            className="flex items-center gap-2 px-4 py-2 bg-purple-100 text-[var(--primary)] rounded-xl text-sm font-semibold"
-          >
-            <Volume2 className="w-4 h-4" />
-            Escolta primer
-          </motion.button>
-        </div>
-
-        {/* Microphone button */}
-        <div className="flex flex-col items-center gap-3">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={startListening}
-            disabled={isListening || isCorrect}
-            className={`w-20 h-20 rounded-full flex items-center justify-center transition-all ${
-              isListening
-                ? "bg-red-500 animate-pulse"
-                : isCorrect
-                  ? "bg-green-500"
-                  : "bg-[var(--primary)] hover:bg-[var(--secondary)]"
-            } text-white shadow-lg`}
-          >
-            {isListening ? (
-              <Mic className="w-10 h-10 animate-bounce" />
-            ) : isCorrect ? (
-              <span className="text-3xl">✅</span>
-            ) : (
-              <Mic className="w-10 h-10" />
-            )}
-          </motion.button>
-
-          <p className="text-sm text-[var(--text-light)]">
-            {isListening
-              ? "Escoltant... parla ara!"
-              : isCorrect
-                ? "Molt bé!"
-                : "Toca el micròfon i digues la paraula"}
-          </p>
-        </div>
-
-        {/* Last spoken text */}
-        <AnimatePresence>
-          {lastSpoken && !isCorrect && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              className="mt-4 text-center"
-            >
-              <p className="text-sm text-gray-500">Has dit:</p>
-              <p className="text-lg font-bold text-orange-500 font-handwriting">
-                "{lastSpoken}"
-              </p>
-              <p className="text-sm text-[var(--error)] mt-1">
-                Intenta-ho de nou! 🔄
-              </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Hint after 2 failed attempts */}
-        <AnimatePresence>
-          {showHint && !isCorrect && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mt-4 p-3 bg-amber-50 rounded-xl text-center"
-            >
-              <p className="text-sm text-amber-700">Pista: la paraula és...</p>
-              <p className="text-xl font-bold text-amber-600 font-handwriting">
-                {currentItem.catalan}
-              </p>
-              <SpeakerButton text={currentItem.catalan} size={20} className="mt-1" />
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Error message */}
-        {error && (
-          <p className="text-center text-sm text-[var(--error)] mt-3">{error}</p>
-        )}
-
-        {/* Skip button (after attempts) */}
-        {currentAttempts >= 2 && !isCorrect && (
-          <div className="flex justify-center mt-4">
+          return (
             <motion.button
-              whileTap={{ scale: 0.95 }}
-              onClick={handleSkip}
-              className="px-6 py-2 bg-gray-200 text-gray-600 rounded-xl text-sm font-semibold"
+              key={idx}
+              whileTap={status === "correct" ? undefined : { scale: 0.95 }}
+              onClick={() => handleItemClick(idx)}
+              disabled={status === "correct"}
+              className={`relative rounded-xl p-2 transition-all border-3 ${
+                status === "correct"
+                  ? "bg-green-100 border-green-400"
+                  : status === "retry"
+                    ? "bg-orange-50 border-orange-300"
+                    : status === "wrong"
+                      ? "bg-red-50 border-red-300"
+                      : isSelected
+                        ? "bg-purple-100 border-[var(--primary)] ring-2 ring-[var(--primary)]"
+                        : "bg-white border-gray-200 hover:border-purple-300"
+              }`}
             >
-              Passa a la següent →
+              {/* Illustration */}
+              <div className="flex justify-center">
+                {illustration ? (
+                  <img
+                    src={illustration}
+                    alt=""
+                    className="w-14 h-14 sm:w-16 sm:h-16 object-contain"
+                  />
+                ) : (
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gray-100 rounded-lg flex items-center justify-center text-2xl">
+                    ❓
+                  </div>
+                )}
+              </div>
+
+              {/* Status icon */}
+              <AnimatePresence>
+                {status === "correct" && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="absolute top-1 right-1 text-green-600"
+                  >
+                    ✅
+                  </motion.div>
+                )}
+                {status === "retry" && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="absolute top-1 right-1"
+                  >
+                    <RefreshCcw className="w-5 h-5 text-orange-500" />
+                  </motion.div>
+                )}
+                {status === "wrong" && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="absolute top-1 right-1 text-red-500 font-bold"
+                  >
+                    ✗
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Word (shown when correct or wrong) */}
+              {(status === "correct" || status === "wrong") && (
+                <p className={`text-xs font-bold mt-1 text-center font-handwriting ${
+                  status === "correct" ? "text-green-700" : "text-red-600"
+                }`}>
+                  {item.catalan}
+                </p>
+              )}
             </motion.button>
+          );
+        })}
+      </div>
+
+      {/* Microphone section */}
+      <div className="bg-white rounded-2xl p-4 shadow-sm">
+        {selectedIdx !== null ? (
+          <div className="flex flex-col items-center gap-3">
+            <p className="text-sm text-[var(--text-light)]">
+              Digues la paraula en català:
+            </p>
+
+            {/* Show selected item larger */}
+            <div className="flex items-center gap-3">
+              {getWordIllustration(task.items[selectedIdx].catalan) && (
+                <img
+                  src={getWordIllustration(task.items[selectedIdx].catalan)!}
+                  alt=""
+                  className="w-20 h-20 object-contain"
+                />
+              )}
+              <SpeakerButton text={task.items[selectedIdx].catalan} size={24} />
+            </div>
+
+            {/* Microphone button */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleMicClick}
+              disabled={isListening}
+              className={`w-16 h-16 rounded-full flex items-center justify-center transition-all ${
+                isListening
+                  ? "bg-red-500 animate-pulse"
+                  : "bg-[var(--primary)] hover:bg-[var(--secondary)]"
+              } text-white shadow-lg`}
+            >
+              <Mic className={`w-8 h-8 ${isListening ? "animate-bounce" : ""}`} />
+            </motion.button>
+
+            <p className="text-xs text-[var(--text-light)]">
+              {isListening ? "Escoltant... parla ara!" : "Toca el micròfon"}
+            </p>
+
+            {/* Last spoken feedback */}
+            {lastSpoken && results[selectedIdx] === "retry" && (
+              <div className="text-center">
+                <p className="text-sm text-gray-500">Has dit: <span className="font-bold text-orange-500">"{lastSpoken}"</span></p>
+                <p className="text-xs text-orange-500">Intenta-ho de nou! 🔄</p>
+              </div>
+            )}
+
+            {/* Skip button */}
+            {results[selectedIdx] === "retry" && (
+              <motion.button
+                whileTap={{ scale: 0.95 }}
+                onClick={() => handleSkip(selectedIdx)}
+                className="px-4 py-2 bg-gray-200 text-gray-600 rounded-xl text-sm font-semibold"
+              >
+                Passa →
+              </motion.button>
+            )}
           </div>
+        ) : (
+          <p className="text-center text-[var(--text-light)]">
+            👆 Toca una imatge per començar
+          </p>
         )}
 
-        {/* Correct answer display */}
-        <AnimatePresence>
-          {isCorrect && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="mt-4 text-center"
-            >
-              <p className="text-2xl font-bold text-green-600 font-handwriting">
-                {currentItem.catalan} ✅
-              </p>
-              <p className="text-sm text-gray-500 mt-1">
-                {currentItem.translation}
-              </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
+        {error && (
+          <p className="text-center text-sm text-[var(--error)] mt-2">{error}</p>
+        )}
+      </div>
+
+      {/* Complete button when all done */}
+      {allDone && (
+        <div className="flex justify-center">
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => {
+              const erroredItems = Object.entries(results)
+                .filter(([, r]) => r === "wrong")
+                .map(([idx]) => task.items[parseInt(idx)].catalan);
+              onComplete({ allCorrect: erroredItems.length === 0, erroredItems });
+            }}
+            className="px-8 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg shadow-md"
+          >
+            Molt bé! Continua! 🎉
+          </motion.button>
+        </div>
+      )}
     </div>
   );
 }
 
-// Fallback component when speech recognition is not supported
+// Fallback when speech recognition not supported
 function FallbackSelfAssessment({
   task,
   onComplete,
@@ -275,14 +279,12 @@ function FallbackSelfAssessment({
   const [ratings, setRatings] = useState<Record<number, "yes" | "no">>({});
 
   const handleReveal = (idx: number, catalanWord: string) => {
-    const newRevealed = new Set(revealed);
-    newRevealed.add(idx);
-    setRevealed(newRevealed);
+    setRevealed((prev) => new Set(prev).add(idx));
     speak(catalanWord);
   };
 
   const handleRate = (idx: number, rating: "yes" | "no") => {
-    setRatings({ ...ratings, [idx]: rating });
+    setRatings((prev) => ({ ...prev, [idx]: rating }));
   };
 
   const allRated = task.items.every((_, i) => ratings[i]);
@@ -292,82 +294,81 @@ function FallbackSelfAssessment({
       <div className="flex items-center justify-center gap-2 mb-4 p-3 bg-amber-50 rounded-xl">
         <MicOff className="w-5 h-5 text-amber-600" />
         <p className="text-sm text-amber-700">
-          El micròfon no està disponible. Demana a un adult que t'ajudi!
+          El micròfon no està disponible. Demana a un adult!
         </p>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
         {task.items.map((item, i) => (
           <motion.div
             key={i}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: i * 0.03 }}
-            className="bg-white rounded-2xl p-3 shadow-sm flex flex-col items-center"
+            transition={{ delay: i * 0.02 }}
+            className={`bg-white rounded-xl p-2 shadow-sm flex flex-col items-center border-2 ${
+              ratings[i] === "yes"
+                ? "border-green-400 bg-green-50"
+                : ratings[i] === "no"
+                  ? "border-red-300 bg-red-50"
+                  : "border-gray-200"
+            }`}
           >
             {getWordIllustration(item.catalan) ? (
               <img
                 src={getWordIllustration(item.catalan)!}
                 alt=""
-                className="w-16 h-16 object-contain mb-2"
+                className="w-14 h-14 object-contain"
               />
             ) : (
-              <div className="w-16 h-16 bg-gray-100 rounded-xl mb-2 flex items-center justify-center text-2xl">
+              <div className="w-14 h-14 bg-gray-100 rounded-lg flex items-center justify-center text-2xl">
                 ❓
               </div>
             )}
 
             {revealed.has(i) ? (
-              <div className="flex flex-col items-center gap-1">
-                <div className="flex items-center gap-1 bg-green-50 px-2 py-1 rounded-lg">
-                  <span className="text-sm font-bold text-green-600 font-handwriting">
+              <div className="flex flex-col items-center gap-1 mt-1">
+                <div className="flex items-center gap-1">
+                  <span className="text-xs font-bold text-[var(--primary)] font-handwriting">
                     {item.catalan}
                   </span>
-                  <SpeakerButton text={item.catalan} size={14} />
+                  <SpeakerButton text={item.catalan} size={12} />
                 </div>
-                <div className="flex gap-1 mt-1">
-                  <motion.button
-                    whileTap={{ scale: 0.9 }}
+                <div className="flex gap-1">
+                  <button
                     onClick={() => handleRate(i, "yes")}
-                    className={`w-8 h-8 rounded-full text-lg ${
-                      ratings[i] === "yes"
-                        ? "bg-green-200 ring-2 ring-green-400"
-                        : "bg-gray-100"
+                    className={`w-7 h-7 rounded-full text-sm ${
+                      ratings[i] === "yes" ? "bg-green-200 ring-2 ring-green-400" : "bg-gray-100"
                     }`}
                   >
                     ✅
-                  </motion.button>
-                  <motion.button
-                    whileTap={{ scale: 0.9 }}
+                  </button>
+                  <button
                     onClick={() => handleRate(i, "no")}
-                    className={`w-8 h-8 rounded-full text-lg ${
-                      ratings[i] === "no"
-                        ? "bg-red-200 ring-2 ring-red-400"
-                        : "bg-gray-100"
+                    className={`w-7 h-7 rounded-full text-sm ${
+                      ratings[i] === "no" ? "bg-red-200 ring-2 ring-red-400" : "bg-gray-100"
                     }`}
                   >
                     😅
-                  </motion.button>
+                  </button>
                 </div>
               </div>
             ) : (
-              <motion.button
-                whileTap={{ scale: 0.95 }}
+              <button
                 onClick={() => handleReveal(i, item.catalan)}
-                className="px-3 py-1.5 bg-[var(--primary)] text-white rounded-xl font-semibold text-xs shadow-md"
+                className="mt-1 px-2 py-1 bg-[var(--primary)] text-white rounded-lg font-semibold text-xs"
               >
                 Mostra
-              </motion.button>
+              </button>
             )}
           </motion.div>
         ))}
       </div>
 
       {allRated && (
-        <div className="flex justify-center pt-4">
+        <div className="flex justify-center pt-3">
           <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => {
               const erroredItems = Object.entries(ratings)
@@ -377,7 +378,7 @@ function FallbackSelfAssessment({
             }}
             className="px-8 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg shadow-md"
           >
-            Molt bé! Continua! 🎉
+            Continua! 🎉
           </motion.button>
         </div>
       )}
