@@ -60,40 +60,10 @@ const TOOL_CONFIG: Record<Tool, { icon: string; label: string; description: stri
   eraser: { icon: "/illustrations/goma.webp", label: "Goma", description: "Esborra", isIllustration: true },
 };
 
-// Sound effects (using Web Audio API for simple sounds)
-function playSound(type: "pop" | "sparkle" | "whoosh") {
-  if (typeof window === "undefined") return;
-  try {
-    const ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-
-    if (type === "pop") {
-      osc.frequency.value = 800;
-      gain.gain.setValueAtTime(0.3, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
-      osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + 0.1);
-    } else if (type === "sparkle") {
-      osc.frequency.value = 1200;
-      osc.type = "sine";
-      gain.gain.setValueAtTime(0.2, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
-      osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + 0.15);
-    } else if (type === "whoosh") {
-      osc.frequency.value = 400;
-      osc.type = "sawtooth";
-      gain.gain.setValueAtTime(0.1, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
-      osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + 0.2);
-    }
-  } catch {
-    // Audio not supported
-  }
+// Sound effects disabled - was annoying
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function playSound(_type: "pop" | "sparkle" | "whoosh") {
+  // Sounds removed intentionally
 }
 
 function colorMatch(r1: number, g1: number, b1: number, a1: number, r2: number, g2: number, b2: number, a2: number, tolerance: number): boolean {
