@@ -187,36 +187,20 @@ npm run test:ui  # Playwright UI mode
 ### In Progress
 - Nothing in progress
 
-### URGENT: Illustrations to Generate (Feb 5, 2026)
-**Total: 19 illustrations needed. Use Bing Image Creator with GPT-4o model OR ChatGPT custom GPT.**
-
-**Brojevi 11-20 (10 novih) - Bing:**
-```
-Number 11, 3D cartoon style, big colorful digits with confetti and stars around, white background, 512x512px, cheerful, for children ages 5-8
-```
-Repeat for: onze (11), dotze (12), tretze (13), catorze (14), quinze (15), setze (16), disset (17), divuit (18), dinou (19), vint (20)
-
-**Lokacije (4) - Bing:**
-- carretera: `Road/highway, 3D cartoon style, white background with hearts and stars, 512x512px, for children ages 5-8`
-- sota-terra: `Underground metro station, 3D cartoon style, white background with hearts and stars, 512x512px, for children ages 5-8`
-- cel: `Sky with clouds and sun, 3D cartoon style, white background with hearts and stars, 512x512px, for children ages 5-8` (REGENERACIJA - mutna)
-- vies: `Train tracks/rails, 3D cartoon style, white background with hearts and stars, 512x512px, for children ages 5-8` (REGENERACIJA - mutna)
-
-**Priroda (2) - Bing:**
-- bosc: `Forest with green trees, 3D cartoon style, white background with hearts and stars, 512x512px, for children ages 5-8`
-- muntanya: `Mountain with snow peak, 3D cartoon style, white background with hearts and stars, 512x512px, for children ages 5-8`
-
-**Životinje (2) - ChatGPT ili Bing:**
-- sardina: `Sardine fish, 3D cartoon style, white background with hearts and stars, 512x512px, for children ages 5-8` (NOVO - stara slika bila korumpiran JSON)
-- porc: `Cute pig animal (NOT pork meat!), 3D cartoon style, white background with hearts and stars, 512x512px, for children ages 5-8` (REGENERACIJA - prikazuje meso umesto svinje)
-
-**Povrće (1) - ChatGPT ili Bing:**
-- carbasso: `Pumpkin/squash vegetable, 3D cartoon style, white background with hearts and stars, 512x512px, for children ages 5-8` (NOVO - stara slika bila korumpiran JSON)
-
-**Nakon generisanja:**
-1. Sačuvaj u `Ilustracije/` kao `[ime].png`
-2. Konvertuj: `cwebp -q 80 Ilustracije/[ime].png -o public/illustrations/[ime].webp`
-3. Dodaj u `wordsWithIllustrations` set u `src/lib/illustrations.ts`
+### Recently Completed (Feb 7, 2026)
+- **ALL 7 CAT PREPOSITION ILLUSTRATIONS COMPLETE** - Theme 2 Tasks 14-15 now fully illustrated:
+  - a-sobre (37KB) - cat ON wooden chair
+  - a-sota (70KB) - cat UNDER wooden chair
+  - a-dins (80KB) - cat INSIDE cardboard box
+  - a-fora (57KB) - cat OUTSIDE cardboard box
+  - al-costat (38KB) - cat NEXT TO wooden chair (sitting on floor beside it)
+  - al-davant (31KB) - cat IN FRONT OF wooden chair (facing camera, chair behind)
+  - al-darrere (31KB) - cat BEHIND wooden chair (peeking from behind)
+- **porc (pig) illustration regenerated** - Old showed meat instead of live pig, now correct cute pig
+- **carbasso (pumpkin) illustration regenerated** - Old was corrupted JSON, now correct pumpkin without face
+- **sardina re-added to wordsWithIllustrations** - File was already valid, just needed re-registration
+- **cinturo (belt) regenerated** - Was star mascot placeholder, now proper leather belt
+- **IDENTIFIED 4 STAR MASCOT PLACEHOLDERS** - cinturo ✅, entrada, fasada, peu (all same hash, need regeneration)
 
 ### Recently Completed (Feb 5, 2026) - Session 2
 - **Theme 11 (Els Vehicles) cleanup:**
@@ -300,28 +284,25 @@ Repeat for: onze (11), dotze (12), tretze (13), catorze (14), quinze (15), setze
 - **Days of week illustrations (Bing Image Creator):** ALL 7 COMPLETE
   - All single-line: dilluns (pink heart), dimarts (blue circle), dimecres (yellow star), dijous (orange heart), divendres (purple circle), dissabte (green heart), diumenge (red star)
 
-### Illustrations made with Bing Image Creator (may need redo with ChatGPT later for consistency)
-- xandall, americana, corbata, banyador, banyador-de-dona, biquini, sandalies, anell, ulleres, collaret, cinturo, caputxa, pantalons-curts, samarreta-de-tirants
+### Illustrations made with Bing Image Creator
+- xandall ✅ (regenerated Feb 8), americana ✅ (regenerated Feb 8), corbata ✅ (regenerated Feb 8), banyador, biquini, sandalies, anell, ulleres, collaret, cinturo ✅ (regenerated Feb 7), caputxa, pantalons-curts, samarreta-de-tirants
+- **Full regeneration list (~65 items):** See `.planning/todos/pending/illustration-regeneration.md`
 
 ### NEXT SESSION TODO (Priority Order)
-1. **🎨 GENERATE 18 ILLUSTRATIONS** - See "URGENT: Illustrations to Generate" section above
-   - Use Playwright MCP browser if available (check with `mcp__playwright__*` tools)
-   - If no Playwright MCP, open Bing manually: https://www.bing.com/images/create
-   - Select GPT-4o model (NOT DALL-E 3)
-   - After generating, convert and copy to public/illustrations/
+1. **ILLUSTRATION REGENERATION (~65 items)** — See `.planning/todos/pending/illustration-regeneration.md`
+   - ~12 wrong content (star mascot placeholders, wrong objects)
+   - ~30 blurry images need regeneration
+   - ~7 content corrections (English text, wrong details)
+   - 2 new illustrations (aigualera, aiguera)
+   - 5 task logic changes (labels on images vs code)
+   - 5 verify first (globus, golfes, llop, prestatge, prestatgeria)
+   - 2 delete (musclo, panxa 2)
 
-2. **Generate 7 cat preposition illustrations (ChatGPT)** - Theme 2 Tasks 14-15
-   - Filenames: a-sobre.webp, a-sota.webp, a-dins.webp, a-fora.webp, al-costat.webp, al-davant.webp, al-darrere.webp
-   - Prompt: "Cute orange tabby cat [POSITION] a wooden chair, 3D cartoon style, white background with decorative hearts and stars, 512x512px, for children ages 5-8, cheerful, no text"
-   - For a-dins/a-fora use box instead of chair
-
-3. **Redesign 12 gamification levels** - Current levels are abstract (Pollet → Superestrella)
+2. **Redesign 12 gamification levels** - Current levels are abstract (Pollet → Superestrella)
    - Need better, more fun and vivid themes for children ages 5-8
    - Then generate illustrations for each level
-   - See Task #8 in task list for details
 
-4. **Optional improvements:**
-   - Redo 14 Bing illustrations for consistency with ChatGPT style
+3. **Optional improvements:**
    - Add text content to data files (restaurant menu, snake reading passage)
 
 ### Recently Generated Illustrations (Feb 3, 2026)
