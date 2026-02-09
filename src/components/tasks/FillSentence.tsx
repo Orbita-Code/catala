@@ -129,21 +129,28 @@ export default function FillSentence({ task, onComplete }: Props) {
                   className="w-[120px] h-[120px] md:w-[140px] md:h-[140px] object-contain"
                 />
               </div>
-              {/* Answer display */}
-              <div className="text-center my-1">
-                <span
-                  className={`inline-block px-3 py-1 rounded-lg font-bold text-sm font-handwriting ${
-                    answers[i]
-                      ? checked
-                        ? results[i]
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
-                        : "bg-purple-100 text-[var(--primary)]"
-                      : "bg-gray-100 text-gray-400"
-                  }`}
-                >
-                  {answers[i] || "?"}
-                </span>
+              {/* Sentence text with name */}
+              <p className="text-center text-sm font-semibold text-[var(--text)] font-handwriting my-1">
+                {sentence.text.split("___").map((part, j, arr) => (
+                  <span key={j}>
+                    {part}
+                    {j < arr.length - 1 && (
+                      <span
+                        className={`inline-block px-2 py-0.5 mx-0.5 rounded-lg font-bold text-sm ${
+                          answers[i]
+                            ? checked
+                              ? results[i]
+                                ? "bg-green-100 text-green-700"
+                                : "bg-red-100 text-red-700"
+                              : "bg-purple-100 text-[var(--primary)]"
+                            : "bg-gray-100 text-gray-400"
+                        }`}
+                      >
+                        {answers[i] || "___"}
+                      </span>
+                    )}
+                  </span>
+                ))}
                 {checked && (
                   <span className="ml-1">
                     {results[i] ? "✅" : (
@@ -160,7 +167,7 @@ export default function FillSentence({ task, onComplete }: Props) {
                     )}
                   </span>
                 )}
-              </div>
+              </p>
             </>
           ) : (
             <>
