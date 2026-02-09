@@ -405,20 +405,20 @@ export default function FillSentence({ task, onComplete }: Props) {
 
   return (
     <div className="space-y-3">
-      {/* 3-column layout for main image: LEFT sentences | CENTER image | RIGHT sentences */}
+      {/* Layout with main reference image */}
       {hasMainImage && !allSentencesHaveImages ? (
         <>
-          {/* Mobile: Image on top, then all sentences */}
+          {/* Mobile/Tablet: Sentences first, then large sticky image below */}
           <div className="md:hidden">
-            <div className="flex justify-center mb-3">
+            <div className="space-y-2 mb-4">
+              {task.sentences.map((sentence, i) => renderSentenceCard(sentence, i))}
+            </div>
+            <div className="sticky bottom-16 flex justify-center bg-[var(--background)] py-2">
               <img
                 src={getWordIllustration(task.image!)!}
                 alt=""
-                className="w-40 h-40 object-contain rounded-xl bg-white p-2 shadow-sm"
+                className="w-64 h-64 object-contain rounded-xl bg-white p-3 shadow-lg"
               />
-            </div>
-            <div className="space-y-2">
-              {task.sentences.map((sentence, i) => renderSentenceCard(sentence, i))}
             </div>
           </div>
 
@@ -430,11 +430,11 @@ export default function FillSentence({ task, onComplete }: Props) {
             </div>
 
             {/* Center - image */}
-            <div className="flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center sticky top-20">
               <img
                 src={getWordIllustration(task.image!)!}
                 alt=""
-                className="w-48 h-auto max-h-[400px] object-contain rounded-xl bg-white p-3 shadow-sm"
+                className="w-64 h-auto max-h-[400px] object-contain rounded-xl bg-white p-3 shadow-sm"
               />
               <p className="text-xs text-center text-[var(--text-light)] mt-2">
                 👆 Mira la imatge!

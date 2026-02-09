@@ -118,31 +118,31 @@ export default function SeparateWords({ task, onComplete }: Props) {
           Toca les línies per separar les paraules
         </p>
 
-        {/* Letters displayed with VISIBLE tap zones between them - FULL WIDTH, NO WRAP */}
-        <div className="flex justify-center items-center mb-5 w-full">
+        {/* Letters displayed with tap zones between them - wraps on narrow screens */}
+        <div className="flex flex-wrap justify-center items-center mb-5 w-full px-1">
           {letters.map((letter, i) => {
             const hasSeparatorAfter = separators.has(i + 1);
             const isCorrectPosition = correctPositions?.has(i + 1);
             const isLastLetter = i === letters.length - 1;
 
             return (
-              <span key={i} className="inline-flex items-center flex-shrink-0">
+              <span key={i} className="inline-flex items-center">
                 {/* The letter itself */}
-                <span className="text-2xl sm:text-3xl md:text-4xl font-black text-[var(--primary)] font-handwriting select-none">
+                <span className="text-xl sm:text-2xl md:text-3xl font-black text-[var(--primary)] font-handwriting select-none">
                   {letter}
                 </span>
 
-                {/* VISIBLE clickable zone between letters (not after the last letter) */}
+                {/* Clickable zone between letters (not after the last letter) */}
                 {!isLastLetter && (
                   <button
                     onClick={() => toggleSeparator(i + 1)}
                     disabled={checked}
-                    className={`inline-flex items-center justify-center transition-all duration-200 min-h-[44px] flex-shrink-0 ${
+                    className={`inline-flex items-center justify-center transition-all duration-200 min-h-[44px] ${
                       hasSeparatorAfter
-                        ? "w-8" // Separator placed - wide touch target
+                        ? "w-6 sm:w-8" // Separator placed
                         : checked && isCorrectPosition
-                          ? "w-8" // Missed separator - wide
-                          : "w-8 cursor-pointer active:scale-110" // Default - wide touch target
+                          ? "w-6 sm:w-8" // Missed separator
+                          : "w-5 sm:w-7 cursor-pointer active:scale-110" // Default tap zone
                     }`}
                     aria-label={hasSeparatorAfter ? "Treu espai" : "Afegeix espai"}
                   >
