@@ -122,7 +122,11 @@ export default function LevelUpCelebration({
             <div className="flex items-center justify-center gap-3 mb-4">
               {prevLevelData && (
                 <>
-                  <div className="text-4xl opacity-50">{prevLevelData.emoji}</div>
+                  <img
+                    src={prevLevelData.image}
+                    alt={prevLevelData.name}
+                    className="w-14 h-14 object-contain opacity-50"
+                  />
                   <motion.div
                     animate={{ x: [0, 5, 0] }}
                     transition={{ repeat: Infinity, duration: 1 }}
@@ -132,13 +136,13 @@ export default function LevelUpCelebration({
                   </motion.div>
                 </>
               )}
-              <motion.div
+              <motion.img
+                src={newLevelData.image}
+                alt={newLevelData.name}
                 animate={{ scale: [1, 1.1, 1] }}
                 transition={{ repeat: Infinity, duration: 1.5 }}
-                className="text-6xl"
-              >
-                {newLevelData.emoji}
-              </motion.div>
+                className="w-24 h-24 object-contain drop-shadow-lg"
+              />
             </div>
 
             <motion.h2

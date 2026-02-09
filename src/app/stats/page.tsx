@@ -112,8 +112,8 @@ export default function StatsPage() {
           className="bg-gradient-to-br from-purple-500 to-purple-700 rounded-3xl p-6 text-white shadow-lg"
         >
           <div className="flex items-center gap-4 mb-4">
-            <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center text-4xl">
-              {currentLevel.emoji}
+            <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center">
+              <img src={currentLevel.image} alt={currentLevel.name} className="w-14 h-14 object-contain" />
             </div>
             <div>
               <p className="text-purple-200 text-sm font-medium">Nivell {currentLevel.level}</p>
@@ -309,7 +309,7 @@ export default function StatsPage() {
                       : "opacity-50"
                   }`}
                 >
-                  <span className="text-xl">{level.emoji}</span>
+                  <img src={level.image} alt={level.name} className="w-8 h-8 object-contain" />
                   <div className="flex-1">
                     <p
                       className={`font-semibold text-sm ${

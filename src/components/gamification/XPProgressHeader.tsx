@@ -14,8 +14,8 @@ interface XPProgressHeaderProps {
 export default function XPProgressHeader({ compact = false }: XPProgressHeaderProps) {
   const [mounted, setMounted] = useState(false);
   const [levelData, setLevelData] = useState({
-    currentLevel: { level: 1, name: "Pollet", emoji: "🐣", minXP: 0 },
-    nextLevel: null as { level: number; name: string; emoji: string; minXP: number } | null,
+    currentLevel: { level: 1, name: "Pollet", emoji: "🐣", image: "/levels/estrella-1.png", minXP: 0 },
+    nextLevel: null as { level: number; name: string; emoji: string; image: string; minXP: number } | null,
     currentXP: 0,
     xpInCurrentLevel: 0,
     xpNeededForNext: 100,
@@ -42,7 +42,7 @@ export default function XPProgressHeader({ compact = false }: XPProgressHeaderPr
       <div className="flex items-center gap-2">
         {/* Level badge */}
         <div className="flex items-center gap-1.5 px-2 py-1 bg-purple-100 rounded-full">
-          <span className="text-base">{currentLevel.emoji}</span>
+          <img src={currentLevel.image} alt={currentLevel.name} className="w-5 h-5 object-contain" />
           <span className="text-xs font-bold text-purple-700">Nivell {currentLevel.level}</span>
         </div>
 
@@ -73,10 +73,10 @@ export default function XPProgressHeader({ compact = false }: XPProgressHeaderPr
         {/* Level indicator */}
         <div className="flex items-center gap-2">
           <motion.div
-            className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-xl shadow-md"
+            className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center shadow-md"
             whileHover={{ scale: 1.05 }}
           >
-            {currentLevel.emoji}
+            <img src={currentLevel.image} alt={currentLevel.name} className="w-8 h-8 object-contain" />
           </motion.div>
           <div className="hidden sm:block">
             <p className="text-xs text-purple-600 font-medium">{currentLevel.name}</p>
