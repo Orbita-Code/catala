@@ -123,7 +123,7 @@ export default function ConfiguracioPage() {
 
             <div>
               <span className="text-sm text-[var(--text)]">Velocitat de veu</span>
-              <div className="flex gap-2 mt-2">
+              <div className="grid grid-cols-2 sm:flex gap-2 mt-2">
                 {[0.5, 0.8, 1.0, 1.2].map((speed) => (
                   <button
                     key={speed}

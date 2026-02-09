@@ -74,7 +74,7 @@ export const laClasseTasks: Task[] = [
       { word: "llibre", hint: "ll_br_" },
       { word: "bolígraf", hint: "bo_í_r_f" },
       { word: "llibreta", hint: "ll_br_t_" },
-      { word: "retolador", hint: "r_to_d_r" },
+      { word: "retolador", hint: "r_tol_d_r" },
       { word: "carpeta", hint: "c_rp_t_" },
       { word: "estoig", hint: "e_t_ig" },
       { word: "maquineta", hint: "m_qu_n_ta" },

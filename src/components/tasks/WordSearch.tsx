@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
 import { WordSearchTask, TaskResult } from "@/types/tasks";
 import { celebrate, celebrateBig } from "@/lib/confetti";
@@ -27,6 +27,7 @@ export default function WordSearch({ task, onComplete }: Props) {
   const [selecting, setSelecting] = useState(false);
   const [selectedCells, setSelectedCells] = useState<[number, number][]>([]);
   const [foundCells, setFoundCells] = useState<Map<string, number>>(new Map());
+  const gridRef = useRef<HTMLDivElement>(null);
 
   const cellKey = (r: number, c: number) => `${r}-${c}`;
 
@@ -56,28 +57,48 @@ export default function WordSearch({ task, onComplete }: Props) {
     setSelectedCells([[r, c]]);
   };
 
-  const handleCellEnter = (r: number, c: number) => {
-    if (!selecting) return;
-    if (selectedCells.length === 0) return;
+  const handleCellEnter = useCallback(
+    (r: number, c: number) => {
+      if (!selecting) return;
+      if (selectedCells.length === 0) return;
 
-    const [startR, startC] = selectedCells[0];
-    const dr = Math.sign(r - startR);
-    const dc = Math.sign(c - startC);
+      const [startR, startC] = selectedCells[0];
+      const dr = Math.sign(r - startR);
+      const dc = Math.sign(c - startC);
 
-    if (dr === 0 && dc === 0) return;
-    if (dr !== 0 && dc !== 0 && Math.abs(r - startR) !== Math.abs(c - startC)) return;
+      if (dr === 0 && dc === 0) return;
+      if (dr !== 0 && dc !== 0 && Math.abs(r - startR) !== Math.abs(c - startC)) return;
 
-    const cells: [number, number][] = [];
-    let cr = startR,
-      cc = startC;
-    while (cr !== r + dr || cc !== c + dc) {
-      cells.push([cr, cc]);
-      cr += dr;
-      cc += dc;
-      if (cells.length > task.gridSize) break;
-    }
-    setSelectedCells(cells);
-  };
+      const cells: [number, number][] = [];
+      let cr = startR,
+        cc = startC;
+      while (cr !== r + dr || cc !== c + dc) {
+        cells.push([cr, cc]);
+        cr += dr;
+        cc += dc;
+        if (cells.length > task.gridSize) break;
+      }
+      setSelectedCells(cells);
+    },
+    [selecting, selectedCells, task.gridSize]
+  );
+
+  const handleTouchMove = useCallback(
+    (e: React.TouchEvent) => {
+      if (!selecting) return;
+      const touch = e.touches[0];
+      const el = document.elementFromPoint(touch.clientX, touch.clientY);
+      if (!el) return;
+      const cell = el.closest("[data-cell]");
+      if (!cell) return;
+      const r = Number(cell.getAttribute("data-row"));
+      const c = Number(cell.getAttribute("data-col"));
+      if (!isNaN(r) && !isNaN(c)) {
+        handleCellEnter(r, c);
+      }
+    },
+    [selecting, handleCellEnter]
+  );
 
   const handleCellUp = () => {
     setSelecting(false);
@@ -142,9 +163,11 @@ export default function WordSearch({ task, onComplete }: Props) {
       </div>
 
       <div
-        className="bg-white rounded-2xl p-3 shadow-sm inline-block mx-auto select-none"
+        ref={gridRef}
+        className="bg-white rounded-2xl p-3 shadow-sm inline-block mx-auto select-none touch-none"
         onMouseUp={handleCellUp}
         onMouseLeave={handleCellUp}
+        onTouchMove={handleTouchMove}
         onTouchEnd={handleCellUp}
       >
         <div
@@ -157,10 +180,13 @@ export default function WordSearch({ task, onComplete }: Props) {
             row.map((letter, c) => (
               <motion.div
                 key={cellKey(r, c)}
+                data-cell
+                data-row={r}
+                data-col={c}
                 onMouseDown={() => handleCellDown(r, c)}
                 onMouseEnter={() => handleCellEnter(r, c)}
                 onTouchStart={() => handleCellDown(r, c)}
-                className={`w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center text-sm sm:text-base font-bold rounded-md cursor-pointer select-none transition-colors ${getCellClass(r, c)}`}
+                className={`w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-sm sm:text-base font-bold rounded-md cursor-pointer select-none transition-colors ${getCellClass(r, c)}`}
               >
                 {letter.toUpperCase()}
               </motion.div>

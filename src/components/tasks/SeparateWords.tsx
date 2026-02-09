@@ -137,16 +137,12 @@ export default function SeparateWords({ task, onComplete }: Props) {
                   <button
                     onClick={() => toggleSeparator(i + 1)}
                     disabled={checked}
-                    className={`inline-flex items-center justify-center transition-all duration-200 h-12 flex-shrink-0 ${
+                    className={`inline-flex items-center justify-center transition-all duration-200 min-h-[44px] flex-shrink-0 ${
                       hasSeparatorAfter
-                        ? checked
-                          ? isCorrectPosition
-                            ? "w-4 mx-1" // Correct - will show green bar
-                            : "w-4 mx-1" // Wrong - will show red bar
-                          : "w-4 mx-1" // User placed - will show amber bar
+                        ? "w-8" // Separator placed - wide touch target
                         : checked && isCorrectPosition
-                          ? "w-4 mx-1" // Missed separator - will show
-                          : "w-2 mx-0.5 cursor-pointer active:scale-110" // Default visible dashed line
+                          ? "w-8" // Missed separator - wide
+                          : "w-8 cursor-pointer active:scale-110" // Default - wide touch target
                     }`}
                     aria-label={hasSeparatorAfter ? "Treu espai" : "Afegeix espai"}
                   >
@@ -154,7 +150,7 @@ export default function SeparateWords({ task, onComplete }: Props) {
                     {hasSeparatorAfter ? (
                       // User placed a separator here
                       <span
-                        className={`w-2 h-10 rounded-full ${
+                        className={`w-1.5 h-10 rounded-full ${
                           checked
                             ? isCorrectPosition
                               ? "bg-green-500"
@@ -164,7 +160,7 @@ export default function SeparateWords({ task, onComplete }: Props) {
                       />
                     ) : checked && isCorrectPosition ? (
                       // Missed separator - show in light green
-                      <span className="w-2 h-10 rounded-full bg-green-300" />
+                      <span className="w-1.5 h-10 rounded-full bg-green-300" />
                     ) : (
                       // Default: visible dashed line to tap
                       <span className="w-0.5 h-8 border-l-2 border-dashed border-purple-300 hover:border-purple-500" />

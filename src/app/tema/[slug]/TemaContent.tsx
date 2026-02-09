@@ -321,7 +321,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
               Pots dir-ho en veu alta?
             </p>
 
-            <div className="flex gap-3 justify-center">
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <button
                 onClick={handleCorrect}
                 className="px-6 py-3 bg-green-500 text-white font-bold rounded-2xl text-lg shadow-md hover:bg-green-600 transition-colors"
@@ -634,7 +634,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
           <div className="flex-1">
             <div className="flex justify-between items-center mb-1">
               <span
-                className="text-sm font-bold"
+                className="text-sm font-bold truncate max-w-[120px] sm:max-w-none"
                 style={{ color: theme.color }}
               >
                 Tema {themeIndex + 1}: {theme.name}

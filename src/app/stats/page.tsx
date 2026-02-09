@@ -344,7 +344,7 @@ export default function StatsPage() {
             </span>
           </div>
 
-          <div className="grid grid-cols-4 gap-3">
+          <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
             {allBadges.map((badge) => {
               const isEarned = earnedBadgeIds.has(badge.id);
               return (
@@ -358,7 +358,7 @@ export default function StatsPage() {
                   <span className={`text-2xl ${isEarned ? "" : "grayscale"}`}>
                     {badge.emoji}
                   </span>
-                  <p className="text-[10px] font-medium text-gray-600 mt-1 truncate">
+                  <p className="text-xs font-medium text-gray-600 mt-1 truncate">
                     {badge.name}
                   </p>
                 </div>
