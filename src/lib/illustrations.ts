@@ -536,6 +536,7 @@ const wordsWithIllustrations = new Set([
   // "bany", — removed: bad Bing illustration (two bathtubs), lavabo covers bathroom
   "escala",
   "terrat",
+  "teulada",
   "terrassa",
   "jardi",
   "balco",
@@ -547,6 +548,7 @@ const wordsWithIllustrations = new Set([
   "butaca",
   "planta",
   "aiguera",
+  "aigualera",
   "escorreplats",
   "fogons",
   "campana",
@@ -628,13 +630,13 @@ const wordsWithIllustrations = new Set([
   "pollastre",
   "porc",
   "gamba",
-  // "sardina", — removed: file was corrupted JSON response, not actual image
+  "sardina",
   "pebrot",
   "pastis",
   "cirera",
   "sindria",
   "melo",
-  // "carbasso", — removed: file was corrupted JSON response, not actual image
+  "carbasso",
   "vedella",
   "tirita",
   "pastilla",
@@ -812,9 +814,15 @@ const wordsWithIllustrations = new Set([
   "roda",
   "volant",
   "far",
+  "fanall",
+  "carretera",
   "vies",
   "mar",
   "cel",
+  "sota-terra",
+  "bosc",
+  "muntanya",
+  "sardina",
   // === ELS OFICIS (Professions) ===
   "mestre",
   "metge",
@@ -870,6 +878,9 @@ const wordsWithIllustrations = new Set([
   "a-fora",
   "a-davant",
   "a-darrere",
+  "al-costat",
+  "al-davant",
+  "al-darrere",
   // Family
   "familia-foto",
   // Clothing states
@@ -882,6 +893,17 @@ const wordsWithIllustrations = new Set([
   "2-gomes",
   "4-llibres",
   "5-retoladors",
+  // Numbers 11-20
+  "onze",
+  "dotze",
+  "tretze",
+  "catorze",
+  "quinze",
+  "setze",
+  "disset",
+  "divuit",
+  "dinou",
+  "vint",
 ]);
 
 // Strip accents for filename matching (e.g. "bolígraf" → "boligraf", "goril·la" → "gorila")
