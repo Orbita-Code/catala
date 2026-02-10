@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { SelfAssessmentTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
@@ -18,13 +18,17 @@ export default function SelfAssessment({ task, onComplete }: Props) {
   const [results, setResults] = useState<Record<number, "correct" | "wrong" | "retry">>({});
   const [activeIdx, setActiveIdx] = useState<number | null>(null);
   const [forceFallback, setForceFallback] = useState(false);
+  const micEverStartedRef = useRef(false);
 
   const { isListening, isSupported, startListening } = useSpeechRecognition({
     lang: "ca-ES",
     onError: () => {
-      // Mic failed → immediately switch to manual mode (mic is optional for self-assessment)
       setActiveIdx(null);
-      setForceFallback(true);
+      // Only auto-fallback if mic NEVER started (broken API / iPad Safari).
+      // If mic started before (laptop), just reset — user can tap mic again.
+      if (!micEverStartedRef.current) {
+        setForceFallback(true);
+      }
     },
     onResult: (transcript, alternatives) => {
       if (activeIdx === null) return;
@@ -53,6 +57,11 @@ export default function SelfAssessment({ task, onComplete }: Props) {
       setActiveIdx(null);
     },
   });
+
+  // Track if the mic ever successfully started (onstart fired → isListening became true)
+  useEffect(() => {
+    if (isListening) micEverStartedRef.current = true;
+  }, [isListening]);
 
   const handleMicClick = (idx: number) => {
     if (results[idx] === "correct") return; // Already done
