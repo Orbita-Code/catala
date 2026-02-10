@@ -145,11 +145,11 @@ export const elCosTasks: Task[] = [
     type: "matching",
     prompt: "Relaciona cada acció amb la part del cos.",
     pairs: [
-      { left: "mirem", right: "ulls" },
-      { left: "escoltem", right: "orelles" },
-      { left: "parlem", right: "boca" },
-      { left: "aplaudim", right: "mans" },
-      { left: "caminem", right: "cames" },
+      { left: "mirem", right: "ulls", leftImage: "mirar" },
+      { left: "escoltem", right: "orelles", leftImage: "escoltar" },
+      { left: "parlem", right: "boca", leftImage: "parlar" },
+      { left: "aplaudim", right: "mans", leftImage: "aplaudir" },
+      { left: "caminem", right: "cames", leftImage: "caminar" },
     ],
   },
 

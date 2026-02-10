@@ -129,6 +129,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
   const scoringCount = getScoringTaskCount(slug);
   const scoringIndex = isBonus ? scoringCount : currentTaskIndex + 1;
   const progress = Math.min(((currentTaskIndex + 1) / tasks.length) * 100, 100);
+  const isTaskCompleted = getThemeProgress(slug).completedTasks.includes(currentTask.id);
 
   const handleTaskComplete = (taskResult: TaskResult) => {
     const progressResult = completeTask(slug, currentTask.id, taskResult, currentTaskIndex + 1, isBonus);
@@ -737,10 +738,27 @@ export default function TemaContent({ slug }: TemaContentProps) {
               </h2>
             </div>
             <ErrorTrackingProvider themeSlug={slug} taskId={currentTask.id}>
-              <TaskRenderer
-                task={currentTask}
-                onComplete={handleTaskComplete}
-              />
+              {isTaskCompleted ? (
+                <div className="relative">
+                  <div className="opacity-50 pointer-events-none select-none">
+                    <TaskRenderer
+                      task={currentTask}
+                      onComplete={handleTaskComplete}
+                    />
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="bg-green-100 border-2 border-green-400 rounded-2xl px-8 py-4 text-center shadow-lg">
+                      <span className="text-4xl">✅</span>
+                      <p className="text-lg font-bold text-green-700 mt-1">Completat!</p>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <TaskRenderer
+                  task={currentTask}
+                  onComplete={handleTaskComplete}
+                />
+              )}
             </ErrorTrackingProvider>
           </motion.div>
         </AnimatePresence>
