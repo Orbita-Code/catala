@@ -334,23 +334,43 @@ export default function FillLetters({ task, onComplete }: Props) {
                   : ""
               }`}
             >
-              {/* Word number + illustration + letters - all in one row */}
-              <div className="flex items-center gap-3 mb-3 overflow-x-auto pb-1">
-                {/* Word number */}
+              {/* Word number + illustration + check indicator */}
+              <div className="flex items-center gap-3 mb-2">
                 <span className="text-lg font-black text-[var(--text-light)] flex-shrink-0">
                   {wordIdx + 1}.
                 </span>
-
-                {/* Illustration */}
                 {illustration ? (
-                  <div className="w-20 h-20 flex items-center justify-center flex-shrink-0">
-                    <img src={illustration} alt={item.word} className="w-20 h-20 object-contain" />
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center flex-shrink-0">
+                    <img src={illustration} alt={item.word} className="w-16 h-16 sm:w-20 sm:h-20 object-contain" />
                   </div>
                 ) : null}
+                <AnimatePresence>
+                  {isChecked && (
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="text-2xl ml-auto"
+                    >
+                      {isCorrect ? "✅" : (
+                        <button
+                          onClick={() => resetWord(wordIdx, blanks)}
+                          className="inline-flex items-center justify-center p-1 rounded-full hover:bg-orange-100 transition-colors"
+                          aria-label="Torna a provar"
+                        >
+                          <RefreshCcw className="w-6 h-6 text-orange-500" />
+                        </button>
+                      )}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </div>
 
-                {/* Letter fields */}
-                <div className="flex items-center gap-1 flex-shrink-0">
+              {/* Letter fields - own row so long words wrap */}
+              <div className="flex flex-wrap items-center gap-0.5 sm:gap-1 mb-1">
                   {(item.hint || item.word).split("").map((char, charIdx) => {
+                    if (char === " ") {
+                      return <div key={charIdx} className="w-2 sm:w-3" />;
+                    }
                     if (char === "_") {
                       const key = `${wordIdx}-${charIdx}`;
                       const filled = inputs[key];
@@ -369,7 +389,7 @@ export default function FillLetters({ task, onComplete }: Props) {
                               }
                             }
                           }}
-                          className={`w-11 h-11 flex items-center justify-center text-xl font-bold rounded-lg border-2 transition-all ${
+                          className={`w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-base sm:text-lg font-bold rounded-lg border-2 transition-all ${
                             isChecked
                               ? isCorrect
                                 ? "border-[var(--success)] bg-green-50 text-green-700"
@@ -388,34 +408,12 @@ export default function FillLetters({ task, onComplete }: Props) {
                     return (
                       <span
                         key={charIdx}
-                        className="w-11 h-11 flex items-center justify-center text-xl font-bold text-[var(--text)] font-handwriting"
+                        className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-base sm:text-lg font-bold text-[var(--text)] font-handwriting"
                       >
                         {char.toUpperCase()}
                       </span>
                     );
                   })}
-                </div>
-
-                {/* Check/X indicator */}
-                <AnimatePresence>
-                  {isChecked && (
-                    <motion.span
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      className="text-2xl ml-1"
-                    >
-                      {isCorrect ? "✅" : (
-                        <button
-                          onClick={() => resetWord(wordIdx, blanks)}
-                          className="inline-flex items-center justify-center p-1 rounded-full hover:bg-orange-100 transition-colors"
-                          aria-label="Torna a provar"
-                        >
-                          <RefreshCcw className="w-6 h-6 text-orange-500" />
-                        </button>
-                      )}
-                    </motion.span>
-                  )}
-                </AnimatePresence>
               </div>
 
               {/* Animated star retry encouragement */}
