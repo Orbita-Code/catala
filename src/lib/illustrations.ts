@@ -912,10 +912,21 @@ function stripAccents(s: string): string {
 }
 
 // Get the illustration image path for a word (returns null if no illustration exists)
+// Common Catalan articles to strip when looking up illustrations
+const CATALAN_ARTICLES = /^(el |la |l'|els |les |un |una )/;
+
 export function getWordIllustration(word: string): string | null {
   const key = stripAccents(word.toLowerCase().trim()).replace(/\s+/g, "-");
   if (wordsWithIllustrations.has(key)) {
     return `/illustrations/${key}.webp`;
+  }
+  // Try stripping article prefix (e.g. "la classe" → "classe", "l'escola" → "escola")
+  const stripped = word.toLowerCase().trim().replace(CATALAN_ARTICLES, "");
+  if (stripped !== word.toLowerCase().trim()) {
+    const strippedKey = stripAccents(stripped).replace(/\s+/g, "-");
+    if (wordsWithIllustrations.has(strippedKey)) {
+      return `/illustrations/${strippedKey}.webp`;
+    }
   }
   return null;
 }
