@@ -1,9 +1,10 @@
 import type { NextConfig } from "next";
+import { resolve } from "path";
 
 const nextConfig: NextConfig = {
   output: "standalone",
   turbopack: {
-    root: "/Users/jovana.jovic/Desktop/Projects/Katalonski",
+    root: resolve(__dirname),
   },
 };
 
