@@ -23,7 +23,7 @@ export default function SpeakerButton({
         e.stopPropagation();
         speak(text);
       }}
-      className={`p-2 rounded-xl ${light ? "hover:bg-white/20" : "hover:bg-purple-50"} active:scale-90 transition-all ${className}`}
+      className={`p-2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl ${light ? "hover:bg-white/20" : "hover:bg-purple-50"} active:scale-90 transition-all ${className}`}
       aria-label={`Escolta: ${text}`}
     >
       <Volume2 size={size} className={light ? "text-white" : "text-[var(--primary)]"} />

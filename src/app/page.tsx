@@ -12,14 +12,25 @@ import { XPProgressHeader, DailyRewardModal } from "@/components/gamification";
 import { themes } from "@/data/themes";
 import { getScoringTaskCount } from "@/data/task-data";
 import { getProgress, shouldShowDailyReward } from "@/lib/progress";
+import { getLevelProgress } from "@/lib/levels";
+import type { Level } from "@/lib/levels";
 import type { UserProgress } from "@/types/tasks";
 
 export default function HomePage() {
   const [progress, setProgress] = useState<UserProgress>({});
   const [showDailyReward, setShowDailyReward] = useState(false);
+  const [levelData, setLevelData] = useState<{
+    currentLevel: Level;
+    nextLevel: Level | null;
+    currentXP: number;
+    progressPercent: number;
+    xpNeededForNext: number;
+    xpInCurrentLevel: number;
+  } | null>(null);
 
   useEffect(() => {
     setProgress(getProgress());
+    setLevelData(getLevelProgress());
 
     // Check if we should show daily reward modal
     if (shouldShowDailyReward()) {
@@ -68,6 +79,48 @@ export default function HomePage() {
       </header>
 
       <main className="px-4 max-w-5xl mx-auto">
+        {/* Prominent Level Display */}
+        {levelData && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="mb-5 bg-gradient-to-r from-purple-50 to-amber-50 rounded-2xl p-4 flex items-center gap-4"
+          >
+            <img
+              src={levelData.currentLevel.image}
+              alt={levelData.currentLevel.name}
+              className="w-16 h-16 sm:w-20 sm:h-20 object-contain drop-shadow-md"
+            />
+            <div className="flex-1 min-w-0">
+              <p className="text-sm text-purple-600 font-medium">
+                Nivell {levelData.currentLevel.level}
+              </p>
+              <p className="text-lg sm:text-xl font-black text-[var(--primary)]">
+                {levelData.currentLevel.name}
+              </p>
+              <div className="flex items-center gap-2 mt-1.5">
+                <div className="flex-1 h-2.5 bg-purple-100 rounded-full overflow-hidden">
+                  <motion.div
+                    className="h-full bg-gradient-to-r from-purple-400 to-purple-600 rounded-full"
+                    initial={{ width: 0 }}
+                    animate={{ width: `${levelData.progressPercent}%` }}
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                  />
+                </div>
+                <span className="text-xs text-purple-600 font-bold whitespace-nowrap">
+                  {levelData.currentXP} XP
+                </span>
+              </div>
+              {levelData.nextLevel && (
+                <p className="text-[11px] text-gray-400 mt-0.5">
+                  {levelData.nextLevel.minXP - levelData.currentXP} XP fins a {levelData.nextLevel.name}
+                </p>
+              )}
+            </div>
+          </motion.div>
+        )}
+
         <motion.h2
           className="text-xl font-bold text-[var(--text)] mb-4"
           initial={{ opacity: 0 }}

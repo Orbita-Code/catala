@@ -357,7 +357,7 @@ export const lesBotiguesTasks: Task[] = [
     prompt: "Separa i copia les oracions:",
     items: [
       {
-        joined: "Eltermòmetremesurala temperatura.",
+        joined: "Eltermòmetremesuralatemperatura.",
         words: ["El", "termòmetre", "mesura", "la", "temperatura."],
       },
       {

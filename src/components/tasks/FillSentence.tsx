@@ -257,7 +257,7 @@ export default function FillSentence({ task, onComplete }: Props) {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => handleSelect(i, option)}
                 disabled={checked}
-                className={`rounded-lg font-bold font-handwriting transition-all px-3 py-1.5 text-sm ${
+                className={`rounded-lg font-bold font-handwriting transition-all px-4 py-2 min-h-[44px] text-base ${
                   answers[i] === option
                     ? "bg-[var(--primary)] text-white"
                     : "bg-gray-100 text-[var(--text)] hover:bg-gray-200"
@@ -390,7 +390,7 @@ export default function FillSentence({ task, onComplete }: Props) {
             whileTap={{ scale: 0.95 }}
             onClick={() => handleSelect(i, option)}
             disabled={checked}
-            className={`rounded-lg font-bold font-handwriting transition-all px-3 py-1.5 text-base ${
+            className={`rounded-lg font-bold font-handwriting transition-all px-4 py-2 min-h-[44px] text-base ${
               answers[i] === option
                 ? "bg-[var(--primary)] text-white"
                 : "bg-gray-100 text-[var(--text)] hover:bg-gray-200"

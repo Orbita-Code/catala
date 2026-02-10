@@ -218,7 +218,7 @@ export const elMenjarTasks: Task[] = [
         words: ["Poso", "el", "menjar", "al", "damunt", "del", "plat."],
       },
       {
-        joined: "Perberenarmenjogaretesambllet.",
+        joined: "Perberenarmenjogaletesambllet.",
         words: ["Per", "berenar", "menjo", "galetes", "amb", "llet."],
       },
     ],

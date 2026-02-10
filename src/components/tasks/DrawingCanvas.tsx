@@ -425,7 +425,7 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
               ) : (
                 <span className="text-lg">{config.icon}</span>
               )}
-              <span className="text-[9px] font-bold">{config.label}</span>
+              <span className="text-[11px] font-bold">{config.label}</span>
             </motion.button>
           );
         })}
@@ -438,7 +438,7 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
           title="Mira el teu dibuix!"
         >
           <Play size={18} className={isReplaying ? "animate-pulse" : ""} />
-          <span className="text-[9px] font-bold">{isReplaying ? "..." : "Mira!"}</span>
+          <span className="text-[11px] font-bold">{isReplaying ? "..." : "Mira!"}</span>
         </motion.button>
         {/* Reset button */}
         <motion.button
@@ -448,7 +448,7 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
           title="Torna a començar"
         >
           <RefreshCcw size={18} />
-          <span className="text-[9px] font-bold">Esborra</span>
+          <span className="text-[11px] font-bold">Esborra</span>
         </motion.button>
       </div>
 
@@ -469,8 +469,8 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
                   : "bg-gray-100 text-[var(--text)] hover:bg-gray-200"
               }`}
               style={{
-                width: size === "small" ? 28 : size === "medium" ? 36 : 44,
-                height: size === "small" ? 28 : size === "medium" ? 36 : 44,
+                width: size === "small" ? 36 : size === "medium" ? 44 : 52,
+                height: size === "small" ? 36 : size === "medium" ? 44 : 52,
               }}
               title={config.label}
             >
@@ -493,7 +493,7 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
             key={c}
             whileTap={{ scale: 0.9 }}
             onClick={() => setColor(c)}
-            className={`w-8 h-8 rounded-full transition-all ${
+            className={`w-10 h-10 rounded-full transition-all ${
               color === c ? "ring-3 ring-offset-2 ring-[var(--primary)] scale-110" : ""
             }`}
             style={{

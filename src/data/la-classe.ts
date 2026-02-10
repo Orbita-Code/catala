@@ -457,7 +457,7 @@ export const laClasseTasks: Task[] = [
         words: ["Jo", "escric", "amb", "el", "meu", "llapis"],
       },
       {
-        joined: "Elsnensescriuenalalilibreta",
+        joined: "Elsnensescriuenalallibreta",
         words: ["Els", "nens", "escriuen", "a", "la", "llibreta"],
       },
       {

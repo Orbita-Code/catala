@@ -135,7 +135,7 @@ export default function ColorByInstruction({ task, onComplete }: Props) {
               whileTap={{ scale: 0.9 }}
               onClick={() => handleColorTap(p.name)}
               disabled={allDone}
-              className={`relative w-9 h-9 rounded-full border-2 transition-all ${
+              className={`relative w-11 h-11 rounded-full border-2 transition-all ${
                 isWrong
                   ? "ring-3 ring-red-400 scale-110 border-red-400"
                   : selectedColor === p.name
@@ -227,7 +227,7 @@ export default function ColorByInstruction({ task, onComplete }: Props) {
               {/* Instruction text */}
               <div className="flex items-center gap-0.5">
                 <SpeakerButton text={inst.text} size={12} className="p-1 flex-shrink-0" />
-                <p className="text-[10px] leading-tight font-semibold text-[var(--text)] text-center">
+                <p className="text-xs leading-tight font-semibold text-[var(--text)] text-center">
                   {inst.text}
                 </p>
               </div>

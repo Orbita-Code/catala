@@ -27,6 +27,8 @@ import FireworksBurst from "@/components/ui/FireworksBurst";
 import MagicCelebration from "@/components/ui/MagicCelebration";
 import { calculateTaskXP, isFirstTaskOfDay, addXP } from "@/lib/xp";
 import { updateDailyStreak } from "@/lib/progress";
+import { getLevelProgress } from "@/lib/levels";
+import type { Level } from "@/lib/levels";
 import XPGainAnimation from "@/components/gamification/XPGainAnimation";
 import LevelUpCelebration from "@/components/gamification/LevelUpCelebration";
 
@@ -55,11 +57,24 @@ export default function TemaContent({ slug }: TemaContentProps) {
   const [reviewMode, setReviewMode] = useState(false);
   const [reviewItems, setReviewItems] = useState<{ taskId: string; item: string }[]>([]);
   const [reviewIndex, setReviewIndex] = useState(0);
+  const [xpData, setXpData] = useState<{
+    currentLevel: Level;
+    nextLevel: Level | null;
+    currentXP: number;
+    progressPercent: number;
+    xpNeededForNext: number;
+    xpInCurrentLevel: number;
+  } | null>(null);
+
+  const refreshXpData = () => {
+    setXpData(getLevelProgress());
+  };
 
   useEffect(() => {
     setMounted(true);
     initAudio();
     setMuted(isMuted());
+    refreshXpData();
   }, []);
 
   useEffect(() => {
@@ -156,6 +171,9 @@ export default function TemaContent({ slug }: TemaContentProps) {
         setXpGained(xpAmount);
         setShowXpAnimation(true);
         setTimeout(() => setShowXpAnimation(false), 1500);
+
+        // Refresh XP data in header
+        refreshXpData();
 
         // Check for level up
         if (xpResult.isLevelUp) {
@@ -626,10 +644,10 @@ export default function TemaContent({ slug }: TemaContentProps) {
         <div className="flex items-center gap-3 mb-2">
           <button
             onClick={() => router.push("/")}
-            className="p-2 rounded-xl hover:bg-gray-100 transition-colors"
+            className="p-2.5 rounded-xl hover:bg-gray-100 transition-colors"
             aria-label="Torna a l'inici"
           >
-            <Home size={24} className="text-[var(--text)]" />
+            <Home size={22} className="text-[var(--text)]" />
           </button>
           <div className="flex-1">
             <div className="flex justify-between items-center mb-1">
@@ -651,6 +669,22 @@ export default function TemaContent({ slug }: TemaContentProps) {
                 transition={{ duration: 0.4 }}
               />
             </div>
+            {/* XP mini-bar */}
+            {xpData && (
+              <div className="flex items-center gap-1.5 mt-1">
+                <img src={xpData.currentLevel.image} alt="" className="w-4 h-4 object-contain" />
+                <div className="flex-1 h-1.5 bg-purple-100 rounded-full overflow-hidden">
+                  <motion.div
+                    className="h-full bg-purple-500 rounded-full"
+                    animate={{ width: `${xpData.progressPercent}%` }}
+                    transition={{ duration: 0.5 }}
+                  />
+                </div>
+                <span className="text-[10px] text-purple-600 font-medium whitespace-nowrap">
+                  {xpData.currentXP} XP
+                </span>
+              </div>
+            )}
           </div>
           {streak > 1 && (
             <motion.div
@@ -666,7 +700,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
           )}
           <button
             onClick={() => setMuted(toggleMute())}
-            className="p-2 rounded-xl hover:bg-gray-100 transition-colors"
+            className="p-2.5 rounded-xl hover:bg-gray-100 transition-colors"
             aria-label={muted ? "Activa so" : "Silencia"}
           >
             {muted ? (

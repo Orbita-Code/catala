@@ -369,7 +369,7 @@ export default function FillLetters({ task, onComplete }: Props) {
                               }
                             }
                           }}
-                          className={`w-10 h-10 flex items-center justify-center text-xl font-bold rounded-lg border-2 transition-all ${
+                          className={`w-11 h-11 flex items-center justify-center text-xl font-bold rounded-lg border-2 transition-all ${
                             isChecked
                               ? isCorrect
                                 ? "border-[var(--success)] bg-green-50 text-green-700"
@@ -388,7 +388,7 @@ export default function FillLetters({ task, onComplete }: Props) {
                     return (
                       <span
                         key={charIdx}
-                        className="w-10 h-10 flex items-center justify-center text-xl font-bold text-[var(--text)] font-handwriting"
+                        className="w-11 h-11 flex items-center justify-center text-xl font-bold text-[var(--text)] font-handwriting"
                       >
                         {char.toUpperCase()}
                       </span>
