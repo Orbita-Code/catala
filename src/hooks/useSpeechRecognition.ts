@@ -139,11 +139,13 @@ export function useSpeechRecognition(
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [isSupported] = useState(() => getSpeechRecognitionClass() !== null);
+  const [isSupported, setIsSupported] = useState(() => getSpeechRecognitionClass() !== null);
 
   const recognitionRef = useRef<SpeechRecognitionInterface | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const startTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const gotResultRef = useRef(false);
+  const didStartRef = useRef(false);
   // Use refs for callbacks to avoid stale closures
   const onResultRef = useRef(onResult);
   const onErrorRef = useRef(onError);
@@ -160,6 +162,7 @@ export function useSpeechRecognition(
   useEffect(() => {
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      if (startTimeoutRef.current) clearTimeout(startTimeoutRef.current);
       if (recognitionRef.current) {
         try { recognitionRef.current.abort(); } catch {}
         recognitionRef.current = null;
@@ -192,6 +195,7 @@ export function useSpeechRecognition(
     setError(null);
     setTranscript("");
     gotResultRef.current = false;
+    didStartRef.current = false;
     console.log("[Speech] Creating fresh instance...");
 
     // Create a fresh instance each time to avoid stale state on iOS/tablets
@@ -202,6 +206,11 @@ export function useSpeechRecognition(
     recognition.maxAlternatives = 5;
 
     (recognition as any).onstart = () => {
+      didStartRef.current = true;
+      if (startTimeoutRef.current) {
+        clearTimeout(startTimeoutRef.current);
+        startTimeoutRef.current = null;
+      }
       console.log("[Speech] Recording started");
       setIsListening(true);
 
@@ -244,21 +253,29 @@ export function useSpeechRecognition(
     };
 
     recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
+      if (startTimeoutRef.current) {
+        clearTimeout(startTimeoutRef.current);
+        startTimeoutRef.current = null;
+      }
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
         timeoutRef.current = null;
       }
       console.log("[Speech] Error:", event.error);
+
+      // Permanent errors: mic not available or permission denied — switch to fallback immediately
+      if (event.error === "not-allowed" || event.error === "audio-capture") {
+        console.log("[Speech] Permanent error, switching to fallback");
+        setIsListening(false);
+        setIsSupported(false);
+        recognitionRef.current = null;
+        return;
+      }
+
       let errorMsg: string;
       switch (event.error) {
         case "no-speech":
           errorMsg = "No s'ha detectat cap veu. Torna a provar!";
-          break;
-        case "not-allowed":
-          errorMsg = "Permís de micròfon denegat. Demana a un adult que permeti el micròfon.";
-          break;
-        case "audio-capture":
-          errorMsg = "No s'ha trobat cap micròfon. Connecta un micròfon i torna a provar.";
           break;
         case "network":
           errorMsg = "Error de xarxa. Comprova la connexió a internet.";
@@ -278,10 +295,22 @@ export function useSpeechRecognition(
     };
 
     recognition.onend = () => {
-      console.log("[Speech] Recording ended, gotResult:", gotResultRef.current);
+      console.log("[Speech] Recording ended, didStart:", didStartRef.current, "gotResult:", gotResultRef.current);
+      if (startTimeoutRef.current) {
+        clearTimeout(startTimeoutRef.current);
+        startTimeoutRef.current = null;
+      }
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
         timeoutRef.current = null;
+      }
+      // If onend fires but onstart never did, the API is broken (iPad Safari)
+      if (!didStartRef.current) {
+        console.log("[Speech] API broken — onend fired without onstart, switching to fallback");
+        setIsListening(false);
+        setIsSupported(false);
+        recognitionRef.current = null;
+        return;
       }
       // If ended without a result or error, show feedback
       if (!gotResultRef.current && recognitionRef.current) {
@@ -297,11 +326,27 @@ export function useSpeechRecognition(
 
     try {
       recognition.start();
+
+      // Detect broken Speech API (e.g. iPad Safari): class exists but start() silently fails.
+      // If onstart is not called within 3 seconds, mark as unsupported and switch to fallback.
+      startTimeoutRef.current = setTimeout(() => {
+        if (!didStartRef.current) {
+          console.log("[Speech] API broken — onstart never fired, switching to fallback");
+          try { recognition.abort(); } catch {}
+          recognitionRef.current = null;
+          setIsListening(false);
+          setIsSupported(false);
+        }
+      }, 3000);
     } catch (e) {
       console.log("[Speech] Start error:", e);
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
         timeoutRef.current = null;
+      }
+      if (startTimeoutRef.current) {
+        clearTimeout(startTimeoutRef.current);
+        startTimeoutRef.current = null;
       }
       setError("Error iniciant el micròfon. Torna a provar.");
       setIsListening(false);
