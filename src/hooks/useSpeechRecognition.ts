@@ -45,7 +45,7 @@ interface SpeechRecognitionInterface extends EventTarget {
 
 interface UseSpeechRecognitionOptions {
   lang?: string;
-  onResult?: (transcript: string) => void;
+  onResult?: (transcript: string, alternatives?: string[]) => void;
   onError?: (error: string) => void;
 }
 
@@ -142,6 +142,8 @@ export function useSpeechRecognition(
   const [isSupported] = useState(() => getSpeechRecognitionClass() !== null);
 
   const recognitionRef = useRef<SpeechRecognitionInterface | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const gotResultRef = useRef(false);
   // Use refs for callbacks to avoid stale closures
   const onResultRef = useRef(onResult);
   const onErrorRef = useRef(onError);
@@ -157,6 +159,7 @@ export function useSpeechRecognition(
   // Cleanup on unmount
   useEffect(() => {
     return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
       if (recognitionRef.current) {
         try { recognitionRef.current.abort(); } catch {}
         recognitionRef.current = null;
@@ -176,9 +179,19 @@ export function useSpeechRecognition(
       try { recognitionRef.current.abort(); } catch {}
       recognitionRef.current = null;
     }
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+
+    // Cancel any ongoing TTS — it can block mic input on tablets
+    if (typeof window !== "undefined" && window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
 
     setError(null);
     setTranscript("");
+    gotResultRef.current = false;
     console.log("[Speech] Creating fresh instance...");
 
     // Create a fresh instance each time to avoid stale state on iOS/tablets
@@ -186,23 +199,55 @@ export function useSpeechRecognition(
     recognition.continuous = false;
     recognition.interimResults = false;
     recognition.lang = langRef.current;
-    recognition.maxAlternatives = 3;
+    recognition.maxAlternatives = 5;
 
     (recognition as any).onstart = () => {
       console.log("[Speech] Recording started");
       setIsListening(true);
+
+      // Safety timeout: if no result within 8 seconds, stop and show error
+      timeoutRef.current = setTimeout(() => {
+        console.log("[Speech] Timeout - no result received");
+        if (recognitionRef.current) {
+          try { recognitionRef.current.abort(); } catch {}
+          recognitionRef.current = null;
+        }
+        if (!gotResultRef.current) {
+          const msg = "No s'ha detectat cap veu. Torna a provar!";
+          setError(msg);
+          onErrorRef.current?.(msg);
+        }
+        setIsListening(false);
+      }, 8000);
     };
 
     recognition.onresult = (event: SpeechRecognitionEvent) => {
-      const result = event.results[0][0].transcript;
-      console.log("[Speech] Got result:", result);
-      setTranscript(result);
-      onResultRef.current?.(result);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+      gotResultRef.current = true;
+
+      // Check all alternatives, not just the first one
+      const allTranscripts: string[] = [];
+      for (let i = 0; i < event.results[0].length; i++) {
+        allTranscripts.push(event.results[0][i].transcript);
+      }
+      const bestTranscript = allTranscripts[0];
+      console.log("[Speech] Got results:", allTranscripts);
+
+      setTranscript(bestTranscript);
+      // Pass all alternatives so the caller can check each one
+      onResultRef.current?.(bestTranscript, allTranscripts);
       setIsListening(false);
       recognitionRef.current = null;
     };
 
     recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
       console.log("[Speech] Error:", event.error);
       let errorMsg: string;
       switch (event.error) {
@@ -233,7 +278,17 @@ export function useSpeechRecognition(
     };
 
     recognition.onend = () => {
-      console.log("[Speech] Recording ended");
+      console.log("[Speech] Recording ended, gotResult:", gotResultRef.current);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+      // If ended without a result or error, show feedback
+      if (!gotResultRef.current && recognitionRef.current) {
+        const msg = "No s'ha detectat cap veu. Torna a provar!";
+        setError(msg);
+        onErrorRef.current?.(msg);
+      }
       setIsListening(false);
       recognitionRef.current = null;
     };
@@ -244,6 +299,10 @@ export function useSpeechRecognition(
       recognition.start();
     } catch (e) {
       console.log("[Speech] Start error:", e);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
       setError("Error iniciant el micròfon. Torna a provar.");
       setIsListening(false);
       recognitionRef.current = null;

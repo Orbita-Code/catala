@@ -26,11 +26,13 @@ export default function SelfAssessment({ task, onComplete }: Props) {
       setMicError(err);
       setActiveIdx(null);
     },
-    onResult: (transcript) => {
+    onResult: (transcript, alternatives) => {
       if (activeIdx === null) return;
 
       const item = task.items[activeIdx];
-      const isCorrect = wordsMatch(transcript, item.catalan);
+      // Check best transcript and all alternatives for a match
+      const allTranscripts = alternatives || [transcript];
+      const isCorrect = allTranscripts.some((t) => wordsMatch(t, item.catalan));
 
       if (isCorrect) {
         setResults((prev) => ({ ...prev, [activeIdx]: "correct" }));
