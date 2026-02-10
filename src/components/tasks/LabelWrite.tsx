@@ -24,35 +24,39 @@ export default function LabelWrite({ task, onComplete }: Props) {
   const fieldRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   // Calculate SVG lines from dots to fields
-  useEffect(() => {
-    const update = () => {
-      if (!containerRef.current) return;
-      const containerRect = containerRef.current.getBoundingClientRect();
-      const newLines: { x1: number; y1: number; x2: number; y2: number }[] =
-        [];
-      task.labels.forEach((_, i) => {
-        const dot = dotRefs.current[i];
-        const field = fieldRefs.current[i];
-        if (dot && field) {
-          const dotRect = dot.getBoundingClientRect();
-          const fieldRect = field.getBoundingClientRect();
-          newLines.push({
-            x1: dotRect.left + dotRect.width / 2 - containerRect.left,
-            y1: dotRect.top + dotRect.height / 2 - containerRect.top,
-            x2:
-              fieldRect.left < dotRect.left
-                ? fieldRect.right - containerRect.left
-                : fieldRect.left - containerRect.left,
-            y2: fieldRect.top + fieldRect.height / 2 - containerRect.top,
-          });
-        }
-      });
-      setLines(newLines);
-    };
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
+  const updateLines = useCallback(() => {
+    if (!containerRef.current) return;
+    const containerRect = containerRef.current.getBoundingClientRect();
+    const newLines: { x1: number; y1: number; x2: number; y2: number }[] = [];
+    task.labels.forEach((_, i) => {
+      const dot = dotRefs.current[i];
+      const field = fieldRefs.current[i];
+      if (dot && field) {
+        const dotRect = dot.getBoundingClientRect();
+        const fieldRect = field.getBoundingClientRect();
+        newLines.push({
+          x1: dotRect.left + dotRect.width / 2 - containerRect.left,
+          y1: dotRect.top + dotRect.height / 2 - containerRect.top,
+          x2:
+            fieldRect.left < dotRect.left
+              ? fieldRect.right - containerRect.left
+              : fieldRect.left - containerRect.left,
+          y2: fieldRect.top + fieldRect.height / 2 - containerRect.top,
+        });
+      }
+    });
+    setLines(newLines);
   }, [task.labels]);
+
+  useEffect(() => {
+    // Delay initial calculation to let layout settle
+    const timer = setTimeout(updateLines, 100);
+    window.addEventListener("resize", updateLines);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", updateLines);
+    };
+  }, [updateLines]);
 
   const handleChange = (idx: number, value: string) => {
     if (checked) return;
@@ -116,12 +120,12 @@ export default function LabelWrite({ task, onComplete }: Props) {
   });
 
   return (
-    <div className="space-y-4" ref={containerRef}>
+    <div className="space-y-4">
       <p className="text-center text-sm text-[var(--text-light)] mb-2">
         Escriu el nom de cada part del cap:
       </p>
 
-      <div className="relative bg-white rounded-2xl p-4 shadow-sm">
+      <div className="relative bg-white rounded-2xl p-4 shadow-sm" ref={containerRef}>
         {/* Three-column layout: left fields | image | right fields */}
         <div className="flex items-center justify-center gap-2 min-h-[320px]">
           {/* Left side fields */}
@@ -172,6 +176,7 @@ export default function LabelWrite({ task, onComplete }: Props) {
               src={`/illustrations/${task.image}.webp`}
               alt={task.image}
               className="w-full h-full object-contain"
+              onLoad={updateLines}
             />
             {/* Pulsing dots on the image */}
             {task.labels.map((label, i) => (

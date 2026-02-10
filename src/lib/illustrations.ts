@@ -488,6 +488,8 @@ const wordsWithIllustrations = new Set([
   "parlar",
   "olorar",
   "tocar",
+  "alt-baix",
+  "noi-noia",
   // La roba
   "anorac",
   "jersei",

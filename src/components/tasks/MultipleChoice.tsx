@@ -70,6 +70,17 @@ export default function MultipleChoice({ task, onComplete }: Props) {
 
   return (
     <div>
+      {/* Reference image when provided */}
+      {task.image && getWordIllustration(task.image) && (
+        <div className="flex justify-center mb-3">
+          <img
+            src={getWordIllustration(task.image)!}
+            alt=""
+            className="w-48 h-48 sm:w-56 sm:h-56 object-contain rounded-2xl bg-white shadow-sm p-2"
+          />
+        </div>
+      )}
+
       <div className="text-sm text-[var(--text-light)] mb-2 text-center">
         {currentQ + 1} / {task.questions.length}
       </div>

@@ -219,7 +219,7 @@ export const elsAnimalsTasks: Task[] = [
   {
     id: "els-animals-11",
     type: "word-search",
-    prompt: "Busca 8 mamífers a la sopa de lletres. Poden anar → ← ↓ ↑ ↗",
+    prompt: "Busca 8 mamífers a la sopa de lletres. Poden anar →\u00A0←\u00A0↓\u00A0↑\u00A0↗",
     gridSize: 10,
     words: ["gos", "gat", "lleo", "vaca", "ovella", "porc", "os", "tigre"],
     grid: [

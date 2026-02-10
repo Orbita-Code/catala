@@ -89,6 +89,7 @@ export interface LabelImageTask extends BaseTask {
 
 export interface MultipleChoiceTask extends BaseTask {
   type: "multiple-choice";
+  image?: string;
   questions: {
     question: string;
     options: string[];

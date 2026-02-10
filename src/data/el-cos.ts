@@ -61,7 +61,7 @@ export const elCosTasks: Task[] = [
   {
     id: "el-cos-4",
     type: "word-search",
-    prompt: "Busca 7 paraules a la sopa de lletres. Poden anar → ← ↓ ↑ ↗",
+    prompt: "Busca 7 paraules a la sopa de lletres. Poden anar →\u00A0←\u00A0↓\u00A0↑\u00A0↗",
     gridSize: 9,
     words: ["nas", "ull", "boca", "panxa", "orella", "mà", "braç"],
     grid: [
@@ -110,7 +110,7 @@ export const elCosTasks: Task[] = [
   {
     id: "el-cos-7",
     type: "word-search",
-    prompt: "Observa i busca les paraules a la sopa de lletres. Poden anar → ← ↓ ↑ ↗",
+    prompt: "Observa i busca les paraules a la sopa de lletres. Poden anar →\u00A0←\u00A0↓\u00A0↑\u00A0↗",
     gridSize: 9,
     words: ["cella", "front", "esquena", "espatlla", "llavi"],
     grid: [
@@ -171,6 +171,7 @@ export const elCosTasks: Task[] = [
     id: "el-cos-11",
     type: "fill-sentence",
     prompt: "Observa i completa les frases.",
+    image: "alt-baix",
     sentences: [
       {
         text: "La Laura és més ___ que en Carles.",
@@ -190,6 +191,7 @@ export const elCosTasks: Task[] = [
     id: "el-cos-12",
     type: "fill-sentence",
     prompt: "Fixa-t'hi i completa: noi → noia.",
+    image: "noi-noia",
     sentences: [
       {
         text: "Un noi vell → Una noia ___.",
@@ -219,6 +221,7 @@ export const elCosTasks: Task[] = [
     id: "el-cos-14",
     type: "multiple-choice",
     prompt: "Observa la Maria i contesta SÍ o NO.",
+    image: "maria",
     questions: [
       {
         question: "La Maria té els ulls grans?",

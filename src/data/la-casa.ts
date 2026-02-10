@@ -23,7 +23,7 @@ export const laCasaTasks: Task[] = [
   {
     id: "la-casa-2",
     type: "word-search",
-    prompt: "Busca 6 paraules relacionades amb la casa. Poden anar → ← ↓ ↑ ↗",
+    prompt: "Busca 6 paraules relacionades amb la casa. Poden anar →\u00A0←\u00A0↓\u00A0↑\u00A0↗",
     gridSize: 9,
     words: ["persiana", "antena", "escala", "cortina", "jardí", "balcó"],
     grid: [
