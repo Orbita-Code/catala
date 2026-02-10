@@ -612,17 +612,15 @@ export default function TemaContent({ slug }: TemaContentProps) {
             >
               Torna a l&apos;inici
             </button>
-            {fullyComplete && (
-              <button
-                onClick={() => {
-                  setCurrentTaskIndex(0);
-                  setShowCelebration(false);
-                }}
-                className="w-full py-3 bg-gray-100 text-[var(--text)] font-bold rounded-2xl text-lg"
-              >
-                Repeteix el tema
-              </button>
-            )}
+            <button
+              onClick={() => {
+                setCurrentTaskIndex(0);
+                setShowCelebration(false);
+              }}
+              className="w-full py-3 bg-gray-100 text-[var(--text)] font-bold rounded-2xl text-lg"
+            >
+              {fullyComplete ? "Repeteix el tema" : "Repassa els exercicis"} 📖
+            </button>
           </motion.div>
         </motion.div>
       </>
@@ -813,12 +811,16 @@ export default function TemaContent({ slug }: TemaContentProps) {
             <ArrowLeft size={18} /> Anterior
           </button>
           <button
-            onClick={() =>
-              setCurrentTaskIndex(
-                Math.min(tasks.length - 1, currentTaskIndex + 1)
-              )
-            }
-            disabled={currentTaskIndex === tasks.length - 1}
+            onClick={() => {
+              if (currentTaskIndex === tasks.length - 1 && isTaskCompleted) {
+                setShowCelebration(true);
+              } else {
+                setCurrentTaskIndex(
+                  Math.min(tasks.length - 1, currentTaskIndex + 1)
+                );
+              }
+            }}
+            disabled={currentTaskIndex === tasks.length - 1 && !isTaskCompleted}
             className="flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-white bg-[var(--secondary)] disabled:opacity-30 hover:brightness-110 active:scale-95 transition-all shadow-md"
           >
             Següent <ArrowRight size={18} />
