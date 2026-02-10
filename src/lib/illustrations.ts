@@ -468,6 +468,7 @@ const wordsWithIllustrations = new Set([
   "cos",
   "cap",
   "ull",
+  "ulls",
   "nas",
   "boca",
   "orella",
