@@ -187,20 +187,27 @@ npm run test:ui  # Playwright UI mode
 ### In Progress
 - Nothing in progress
 
+### Recently Completed (Feb 9, 2026)
+- **Word-search grid fixes:** el-cos-7 (6x9→9x9, "hombro"→"espatlla"), la-casa-2 (7x9→9x9), la-familia-14 (7x9→8x8)
+- **Service worker cache fix:** Bumped `catala-v1`→`catala-v2` to fix stale cached images in browser
+- **Speech recognition rewrite:** Fresh SpeechRecognition instance per call (fixes tablet/iOS stale state)
+- **Build stability:** Added `turbopack.root: resolve(__dirname)` to next.config.ts (fixes intermittent ENOENT)
+- **Coolify server:** Applied 12 Ubuntu security updates (kernel 6.8.0-90→6.8.0-100)
+
+### Recently Completed (Feb 9, 2026 - Illustrations)
+- **ALL 65 ILLUSTRATION REGENERATION ITEMS COMPLETE** — See `.planning/todos/done/illustration-regeneration.md`
+  - ~12 wrong content fixed (star mascot placeholders replaced)
+  - ~30 blurry images regenerated
+  - ~7 content corrections (English text, wrong details)
+  - New illustrations (aigualera, aiguera)
+  - Task logic changes done
+  - Verified items (globus, golfes, llop, prestatge, prestatgeria)
+  - Deleted duplicates (musclo, panxa 2)
+- **12 gamification level illustrations COMPLETE** (commit c9567c4)
+
 ### Recently Completed (Feb 7, 2026)
-- **ALL 7 CAT PREPOSITION ILLUSTRATIONS COMPLETE** - Theme 2 Tasks 14-15 now fully illustrated:
-  - a-sobre (37KB) - cat ON wooden chair
-  - a-sota (70KB) - cat UNDER wooden chair
-  - a-dins (80KB) - cat INSIDE cardboard box
-  - a-fora (57KB) - cat OUTSIDE cardboard box
-  - al-costat (38KB) - cat NEXT TO wooden chair (sitting on floor beside it)
-  - al-davant (31KB) - cat IN FRONT OF wooden chair (facing camera, chair behind)
-  - al-darrere (31KB) - cat BEHIND wooden chair (peeking from behind)
-- **porc (pig) illustration regenerated** - Old showed meat instead of live pig, now correct cute pig
-- **carbasso (pumpkin) illustration regenerated** - Old was corrupted JSON, now correct pumpkin without face
-- **sardina re-added to wordsWithIllustrations** - File was already valid, just needed re-registration
-- **cinturo (belt) regenerated** - Was star mascot placeholder, now proper leather belt
-- **IDENTIFIED 4 STAR MASCOT PLACEHOLDERS** - cinturo ✅, entrada, fasada, peu (all same hash, need regeneration)
+- **ALL 7 CAT PREPOSITION ILLUSTRATIONS COMPLETE** - Theme 2 Tasks 14-15 now fully illustrated
+- **porc, carbasso, sardina, cinturo illustrations regenerated/fixed**
 
 ### Recently Completed (Feb 5, 2026) - Session 2
 - **Theme 11 (Els Vehicles) cleanup:**
@@ -285,24 +292,20 @@ npm run test:ui  # Playwright UI mode
   - All single-line: dilluns (pink heart), dimarts (blue circle), dimecres (yellow star), dijous (orange heart), divendres (purple circle), dissabte (green heart), diumenge (red star)
 
 ### Illustrations made with Bing Image Creator
-- xandall ✅ (regenerated Feb 8), americana ✅ (regenerated Feb 8), corbata ✅ (regenerated Feb 8), banyador, biquini, sandalies, anell, ulleres, collaret, cinturo ✅ (regenerated Feb 7), caputxa, pantalons-curts, samarreta-de-tirants
-- **Full regeneration list (~65 items):** See `.planning/todos/pending/illustration-regeneration.md`
+- xandall, americana, corbata, banyador, biquini, sandalies, anell, ulleres, collaret, cinturo, caputxa, pantalons-curts, samarreta-de-tirants (all regenerated Feb 7-8)
+- **Full regeneration list (65 items) COMPLETE:** See `.planning/todos/done/illustration-regeneration.md`
 
 ### NEXT SESSION TODO (Priority Order)
-1. **ILLUSTRATION REGENERATION (~65 items)** — See `.planning/todos/pending/illustration-regeneration.md`
-   - ~12 wrong content (star mascot placeholders, wrong objects)
-   - ~30 blurry images need regeneration
-   - ~7 content corrections (English text, wrong details)
-   - 2 new illustrations (aigualera, aiguera)
-   - 5 task logic changes (labels on images vs code)
-   - 5 verify first (globus, golfes, llop, prestatge, prestatgeria)
-   - 2 delete (musclo, panxa 2)
+1. **Touch/mobile/tablet fixes** — See plan at `.claude/plans/drifting-purring-sedgewick.md`
+   - SeparateWords touch targets too small
+   - WordSearch cell size increase
+   - TemaContent header/buttons responsive
+   - Stats page badges grid overflow
+   - Settings page TTS buttons layout
+   - Global touch improvements (globals.css)
+   - retolador hint bug fix (la-classe task 3)
 
-2. **Redesign 12 gamification levels** - Current levels are abstract (Pollet → Superestrella)
-   - Need better, more fun and vivid themes for children ages 5-8
-   - Then generate illustrations for each level
-
-3. **Optional improvements:**
+2. **Optional improvements:**
    - Add text content to data files (restaurant menu, snake reading passage)
 
 ### Recently Generated Illustrations (Feb 3, 2026)
@@ -393,8 +396,11 @@ All 18 missing illustrations have been generated via ChatGPT custom GPT:
 - Auto-speak (TTS) on correct answers for ALL 12 task types
 - Speaker buttons on CopyWord, LabelImage, SelfAssessment, Unscramble
 
-### Not Yet Implemented
-- 3D illustrations for vocabulary words (word list prepared, emojis to be replaced)
+### All Major Features Complete
+- All 363+ illustrations generated, converted to WebP, and integrated
+- All 65 illustration regeneration items resolved
+- 12 gamification level illustrations done
+- All 12 themes with ~223 tasks fully functional
 
 ## Task Counts Per Theme
 | Theme | Slug | Tasks |
