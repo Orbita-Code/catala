@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { SelfAssessmentTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
 import { speak } from "@/lib/tts";
@@ -19,15 +19,12 @@ export default function SelfAssessment({ task, onComplete }: Props) {
   const [activeIdx, setActiveIdx] = useState<number | null>(null);
   const [forceFallback, setForceFallback] = useState(false);
 
-  const [micError, setMicError] = useState<string | null>(null);
-  const [micFailCount, setMicFailCount] = useState(0);
-
-  const { isListening, isSupported, startListening, error } = useSpeechRecognition({
+  const { isListening, isSupported, startListening } = useSpeechRecognition({
     lang: "ca-ES",
-    onError: (err) => {
-      setMicError(err);
+    onError: () => {
+      // Mic failed → immediately switch to manual mode (mic is optional for self-assessment)
       setActiveIdx(null);
-      setMicFailCount((c) => c + 1);
+      setForceFallback(true);
     },
     onResult: (transcript, alternatives) => {
       if (activeIdx === null) return;
@@ -73,46 +70,20 @@ export default function SelfAssessment({ task, onComplete }: Props) {
 
   // Fallback for browsers without speech recognition or when mic doesn't work
   if (!isSupported || forceFallback) {
-    return <FallbackSelfAssessment task={task} onComplete={onComplete} />;
+    return <FallbackSelfAssessment task={task} onComplete={onComplete} showWarning={!isSupported} />;
   }
 
   return (
     <div className="space-y-4">
-      {/* Microphone error message */}
-      {micError && (
-        <div className="flex flex-col items-center gap-2 p-3 bg-red-50 rounded-xl">
-          <div className="flex items-center gap-2">
-            <MicOff className="w-5 h-5 text-red-600" />
-            <p className="text-sm text-red-700">{micError}</p>
-            <button
-              onClick={() => setMicError(null)}
-              className="text-red-500 font-bold ml-2"
-            >
-              ✕
-            </button>
-          </div>
-          {micFailCount >= 2 && (
-            <button
-              onClick={() => setForceFallback(true)}
-              className="text-sm text-amber-700 underline font-semibold"
-            >
-              Canvia a mode manual (sense micròfon)
-            </button>
-          )}
-        </div>
-      )}
-
-      {/* Manual fallback link */}
-      {!micError && (
-        <div className="text-center">
-          <button
-            onClick={() => setForceFallback(true)}
-            className="text-xs text-gray-400 hover:text-gray-600"
-          >
-            El micròfon no funciona?
-          </button>
-        </div>
-      )}
+      {/* Manual fallback link — always visible, easy to find */}
+      <div className="text-center">
+        <button
+          onClick={() => setForceFallback(true)}
+          className="text-sm text-[var(--text-light)] hover:text-[var(--primary)] underline"
+        >
+          Sense micròfon? Prem aquí
+        </button>
+      </div>
 
       {/* Progress */}
       <div className="text-sm text-[var(--text-light)] text-center">
@@ -251,13 +222,15 @@ export default function SelfAssessment({ task, onComplete }: Props) {
   );
 }
 
-// Fallback when speech recognition not supported
+// Fallback when speech recognition not supported or mic failed
 function FallbackSelfAssessment({
   task,
   onComplete,
+  showWarning = true,
 }: {
   task: SelfAssessmentTask;
   onComplete: (result: TaskResult) => void;
+  showWarning?: boolean;
 }) {
   const [ratings, setRatings] = useState<Record<number, "yes" | "no">>({});
 
@@ -274,13 +247,15 @@ function FallbackSelfAssessment({
 
   return (
     <div className="space-y-4">
-      {/* Warning */}
-      <div className="flex items-center justify-center gap-2 p-3 bg-amber-50 rounded-xl">
-        <MicOff className="w-5 h-5 text-amber-600" />
-        <p className="text-sm text-amber-700">
-          El micròfon no està disponible. Demana a un adult!
-        </p>
-      </div>
+      {/* Warning — only show for hardware-level unsupported, not for auto-fallback */}
+      {showWarning && (
+        <div className="flex items-center justify-center gap-2 p-3 bg-amber-50 rounded-xl">
+          <MicOff className="w-5 h-5 text-amber-600" />
+          <p className="text-sm text-amber-700">
+            El micròfon no està disponible. Demana a un adult!
+          </p>
+        </div>
+      )}
 
       {/* Progress */}
       <div className="text-sm text-[var(--text-light)] text-center">

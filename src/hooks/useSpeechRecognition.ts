@@ -327,17 +327,22 @@ export function useSpeechRecognition(
     try {
       recognition.start();
 
-      // Detect broken Speech API (e.g. iPad Safari): class exists but start() silently fails.
-      // If onstart is not called within 3 seconds, mark as unsupported and switch to fallback.
+      // Catch-all timeout: if nothing happens within 10 seconds (accounting for
+      // permission dialogs which can take 5+ seconds), abort and report error.
+      // We do NOT set isSupported=false here because the API might work on retry
+      // (e.g. first call was slow due to permission dialog).
+      // The definitive "broken API" detection is in onend (onend without onstart).
       startTimeoutRef.current = setTimeout(() => {
         if (!didStartRef.current) {
-          console.log("[Speech] API broken — onstart never fired, switching to fallback");
+          console.log("[Speech] Start timeout — no callbacks fired in 10s");
           try { recognition.abort(); } catch {}
           recognitionRef.current = null;
           setIsListening(false);
-          setIsSupported(false);
+          const msg = "El micròfon no respon. Prova el mode manual.";
+          setError(msg);
+          onErrorRef.current?.(msg);
         }
-      }, 3000);
+      }, 10000);
     } catch (e) {
       console.log("[Speech] Start error:", e);
       if (timeoutRef.current) {
