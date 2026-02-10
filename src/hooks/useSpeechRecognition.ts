@@ -122,6 +122,15 @@ function levenshteinDistance(a: string, b: string): number {
   return matrix[b.length][a.length];
 }
 
+function getSpeechRecognitionClass(): (new () => SpeechRecognitionInterface) | null {
+  if (typeof window === "undefined") return null;
+  return (
+    (window as any).SpeechRecognition ||
+    (window as any).webkitSpeechRecognition ||
+    null
+  );
+}
+
 export function useSpeechRecognition(
   options: UseSpeechRecognitionOptions = {}
 ): UseSpeechRecognitionReturn {
@@ -130,116 +139,120 @@ export function useSpeechRecognition(
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [isSupported, setIsSupported] = useState(false);
+  const [isSupported] = useState(() => getSpeechRecognitionClass() !== null);
 
   const recognitionRef = useRef<SpeechRecognitionInterface | null>(null);
-  // Use refs for callbacks to avoid re-creating recognition on every render
+  // Use refs for callbacks to avoid stale closures
   const onResultRef = useRef(onResult);
   const onErrorRef = useRef(onError);
+  const langRef = useRef(lang);
 
   // Keep refs updated
   useEffect(() => {
     onResultRef.current = onResult;
     onErrorRef.current = onError;
-  }, [onResult, onError]);
+    langRef.current = lang;
+  }, [onResult, onError, lang]);
 
+  // Cleanup on unmount
   useEffect(() => {
-    // Check if Speech Recognition is supported
-    const SpeechRecognition =
-      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-
-    if (SpeechRecognition) {
-      setIsSupported(true);
-      const recognition = new SpeechRecognition() as SpeechRecognitionInterface;
-      recognition.continuous = false;
-      recognition.interimResults = false;
-      recognition.lang = lang;
-      recognition.maxAlternatives = 3;
-
-      // Add onstart to confirm recording has actually started
-      (recognition as any).onstart = () => {
-        console.log("[Speech] Recording started");
-        setIsListening(true);
-      };
-
-      recognition.onresult = (event: SpeechRecognitionEvent) => {
-        const result = event.results[0][0].transcript;
-        console.log("[Speech] Got result:", result);
-        setTranscript(result);
-        onResultRef.current?.(result);
-        setIsListening(false);
-      };
-
-      recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
-        console.log("[Speech] Error:", event.error);
-        let errorMsg: string;
-        switch (event.error) {
-          case "no-speech":
-            errorMsg = "No s'ha detectat cap veu. Torna a provar!";
-            break;
-          case "not-allowed":
-            errorMsg = "Permís de micròfon denegat. Demana a un adult que permeti el micròfon.";
-            break;
-          case "audio-capture":
-            errorMsg = "No s'ha trobat cap micròfon. Connecta un micròfon i torna a provar.";
-            break;
-          case "network":
-            errorMsg = "Error de xarxa. Comprova la connexió a internet.";
-            break;
-          case "aborted":
-            errorMsg = ""; // Don't show error for user-initiated abort
-            break;
-          default:
-            errorMsg = `Error del micròfon: ${event.error}`;
-        }
-        if (errorMsg) {
-          setError(errorMsg);
-          onErrorRef.current?.(errorMsg);
-        }
-        setIsListening(false);
-      };
-
-      recognition.onend = () => {
-        console.log("[Speech] Recording ended");
-        setIsListening(false);
-      };
-
-      recognitionRef.current = recognition;
-    } else {
-      console.log("[Speech] Not supported in this browser");
-    }
-
     return () => {
       if (recognitionRef.current) {
-        recognitionRef.current.abort();
+        try { recognitionRef.current.abort(); } catch {}
+        recognitionRef.current = null;
       }
     };
-  }, [lang]); // Only re-create when language changes
+  }, []);
 
   const startListening = useCallback(() => {
-    if (!recognitionRef.current) {
-      console.log("[Speech] No recognition instance");
+    const SpeechRecognition = getSpeechRecognitionClass();
+    if (!SpeechRecognition) {
+      console.log("[Speech] Not supported");
       return;
+    }
+
+    // Abort any existing instance first
+    if (recognitionRef.current) {
+      try { recognitionRef.current.abort(); } catch {}
+      recognitionRef.current = null;
     }
 
     setError(null);
     setTranscript("");
-    // Don't set isListening here - wait for onstart event
-    console.log("[Speech] Starting...");
+    console.log("[Speech] Creating fresh instance...");
+
+    // Create a fresh instance each time to avoid stale state on iOS/tablets
+    const recognition = new SpeechRecognition() as SpeechRecognitionInterface;
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = langRef.current;
+    recognition.maxAlternatives = 3;
+
+    (recognition as any).onstart = () => {
+      console.log("[Speech] Recording started");
+      setIsListening(true);
+    };
+
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
+      const result = event.results[0][0].transcript;
+      console.log("[Speech] Got result:", result);
+      setTranscript(result);
+      onResultRef.current?.(result);
+      setIsListening(false);
+      recognitionRef.current = null;
+    };
+
+    recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
+      console.log("[Speech] Error:", event.error);
+      let errorMsg: string;
+      switch (event.error) {
+        case "no-speech":
+          errorMsg = "No s'ha detectat cap veu. Torna a provar!";
+          break;
+        case "not-allowed":
+          errorMsg = "Permís de micròfon denegat. Demana a un adult que permeti el micròfon.";
+          break;
+        case "audio-capture":
+          errorMsg = "No s'ha trobat cap micròfon. Connecta un micròfon i torna a provar.";
+          break;
+        case "network":
+          errorMsg = "Error de xarxa. Comprova la connexió a internet.";
+          break;
+        case "aborted":
+          errorMsg = ""; // Don't show error for user-initiated abort
+          break;
+        default:
+          errorMsg = `Error del micròfon: ${event.error}`;
+      }
+      if (errorMsg) {
+        setError(errorMsg);
+        onErrorRef.current?.(errorMsg);
+      }
+      setIsListening(false);
+      recognitionRef.current = null;
+    };
+
+    recognition.onend = () => {
+      console.log("[Speech] Recording ended");
+      setIsListening(false);
+      recognitionRef.current = null;
+    };
+
+    recognitionRef.current = recognition;
 
     try {
-      recognitionRef.current.start();
+      recognition.start();
     } catch (e) {
       console.log("[Speech] Start error:", e);
-      // Already started or other error
       setError("Error iniciant el micròfon. Torna a provar.");
+      setIsListening(false);
+      recognitionRef.current = null;
     }
   }, []);
 
   const stopListening = useCallback(() => {
     if (!recognitionRef.current) return;
-
-    recognitionRef.current.stop();
+    try { recognitionRef.current.stop(); } catch {}
     setIsListening(false);
   }, []);
 
