@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { WordSearchTask, TaskResult } from "@/types/tasks";
 import { celebrate, celebrateBig } from "@/lib/confetti";
 import { speak } from "@/lib/tts";
+import { getWordIllustration } from "@/lib/illustrations";
 
 const WORD_COLORS = [
   { bg: "bg-green-200", text: "text-green-800" },
@@ -143,24 +144,47 @@ export default function WordSearch({ task, onComplete }: Props) {
 
   return (
     <div className="space-y-4">
+      {/* Word list with illustrations */}
       <div className="flex flex-wrap gap-2 justify-center mb-3">
         {task.words.map((word, i) => {
           const isFound = foundWords.has(word);
           const color = WORD_COLORS[i % WORD_COLORS.length];
+          const illustration = getWordIllustration(word);
           return (
-            <span
+            <motion.div
               key={word}
-              className={`px-3 py-1 rounded-full text-base font-bold font-handwriting ${
-                isFound
-                  ? `${color.bg} ${color.text} line-through`
-                  : "bg-purple-100 text-[var(--primary)]"
-              }`}
+              className="flex flex-col items-center gap-0.5"
+              animate={isFound ? { scale: [1, 1.2, 1] } : {}}
+              transition={{ duration: 0.3 }}
             >
-              {word}
-            </span>
+              {isFound && illustration ? (
+                <motion.img
+                  src={illustration}
+                  alt={word}
+                  className="w-12 h-12 sm:w-14 sm:h-14 object-contain"
+                  initial={{ scale: 0, rotate: -20 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ type: "spring", damping: 8, stiffness: 200 }}
+                />
+              ) : illustration ? (
+                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gray-100 rounded-lg flex items-center justify-center text-lg">
+                  ❓
+                </div>
+              ) : null}
+              <span
+                className={`px-3 py-1 rounded-full text-sm font-bold font-handwriting ${
+                  isFound
+                    ? `${color.bg} ${color.text} line-through`
+                    : "bg-purple-100 text-[var(--primary)]"
+                }`}
+              >
+                {word}
+              </span>
+            </motion.div>
           );
         })}
       </div>
+
 
       <div
         ref={gridRef}

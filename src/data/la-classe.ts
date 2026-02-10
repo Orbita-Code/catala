@@ -35,7 +35,7 @@ export const laClasseTasks: Task[] = [
   {
     id: "la-classe-2",
     type: "word-search",
-    prompt: "Busca 10 paraules a la sopa de lletres.",
+    prompt: "Busca 10 paraules a la sopa de lletres. Poden anar → ← ↓ ↑ ↗",
     gridSize: 10,
     words: [
       "tisores",

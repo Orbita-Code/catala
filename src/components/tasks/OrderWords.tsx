@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { OrderWordsTask, TaskResult } from "@/types/tasks";
 import { ArrowLeft } from "lucide-react";
@@ -97,16 +97,6 @@ export default function OrderWords({ task, onComplete }: Props) {
       });
     }
   }, [selectedWords, currentSentence, moveToNext]);
-
-  // Auto-check when all words are placed
-  useEffect(() => {
-    if (allFilled && !checked) {
-      const timer = setTimeout(() => {
-        handleCheck();
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [allFilled, checked, handleCheck]);
 
   const handleRetry = useCallback(() => {
     setSelectedWords([]);
@@ -217,6 +207,20 @@ export default function OrderWords({ task, onComplete }: Props) {
             </motion.button>
           ))}
         </div>
+
+        {/* Comprova button */}
+        {allFilled && !checked && (
+          <div className="flex justify-center pt-3">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleCheck}
+              className="px-8 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg shadow-md"
+            >
+              Comprova!
+            </motion.button>
+          </div>
+        )}
 
         {/* Retry button - only shown after wrong answer */}
         {checked && !correct && (

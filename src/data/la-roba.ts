@@ -69,7 +69,7 @@ export const laRobaTasks: Task[] = [
   {
     id: "la-roba-4",
     type: "word-search",
-    prompt: "Busca 6 peces de vestir a la sopa de lletres:",
+    prompt: "Busca 6 peces de vestir a la sopa de lletres. Poden anar → ← ↓ ↑ ↗",
     gridSize: 10,
     words: ["pantalons", "camisa", "jaqueta", "corbata", "faldilla", "vestit"],
     grid: [

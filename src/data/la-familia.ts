@@ -347,7 +347,7 @@ export const laFamiliaTasks: Task[] = [
   {
     id: "la-familia-14",
     type: "word-search",
-    prompt: "Cerca i copia 6 animals:",
+    prompt: "Cerca i copia 6 animals. Poden anar → ← ↓ ↑ ↗",
     gridSize: 8,
     words: ["conill", "serp", "tortuga", "gos", "gat", "ocell"],
     grid: [

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { DecodeGridTask, TaskResult } from "@/types/tasks";
 import { ArrowLeft } from "lucide-react";
@@ -82,16 +82,6 @@ export default function DecodeGrid({ task, onComplete }: Props) {
   }, [currentWord]);
 
   const allFilled = inputs.every((v) => v.trim() !== "");
-
-  // Auto-check when all inputs are filled
-  useEffect(() => {
-    if (allFilled && !checked) {
-      const timer = setTimeout(() => {
-        handleCheck();
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [allFilled, checked, handleCheck]);
 
   return (
     <div className="space-y-5">
@@ -201,6 +191,20 @@ export default function DecodeGrid({ task, onComplete }: Props) {
             </motion.p>
           )}
         </AnimatePresence>
+
+        {/* Comprova button */}
+        {allFilled && !checked && (
+          <div className="flex justify-center pt-3">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleCheck}
+              className="px-8 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg shadow-md"
+            >
+              Comprova!
+            </motion.button>
+          </div>
+        )}
 
         {/* Retry button - only shown after wrong answer */}
         {checked && !correct && (

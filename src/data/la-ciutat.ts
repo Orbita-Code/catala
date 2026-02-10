@@ -64,7 +64,7 @@ export const laCiutatTasks: Task[] = [
   {
     id: "la-ciutat-5",
     type: "word-search",
-    prompt: "Troba les paraules a la sopa de lletres:",
+    prompt: "Troba les paraules a la sopa de lletres. Poden anar → ← ↓ ↑ ↗",
     gridSize: 10,
     words: ["parc", "museu", "plaça", "mercat", "cinema"],
     grid: [

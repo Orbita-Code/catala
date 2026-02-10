@@ -143,16 +143,6 @@ export default function CopyWord({ task, onComplete }: Props) {
     }
   }, [slots, currentWord, completedCount, hints, moveToNext]);
 
-  // Auto-check when all slots are filled
-  useEffect(() => {
-    if (allFilled && !checked) {
-      const timer = setTimeout(() => {
-        handleCheck();
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [allFilled, checked, handleCheck]);
-
   // Auto-advance after 5 wrong attempts
   useEffect(() => {
     if (hints.shouldAutoAdvance(currentWord.catalan) && checked && !correct) {
@@ -313,6 +303,20 @@ export default function CopyWord({ task, onComplete }: Props) {
             </div>
           ))}
         </div>
+
+        {/* Comprova button */}
+        {allFilled && !checked && (
+          <div className="flex justify-center pt-3">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleCheck}
+              className="px-8 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg shadow-md"
+            >
+              Comprova!
+            </motion.button>
+          </div>
+        )}
 
         {/* Retry button - only shown after wrong answer */}
         {checked && !correct && (

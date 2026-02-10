@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { motion } from "framer-motion";
 import { LabelImageTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
@@ -126,16 +126,6 @@ export default function LabelImage({ task, onComplete }: Props) {
     }
   }, [placed, task.labels, onComplete]);
 
-  // Auto-check when all labels are placed
-  useEffect(() => {
-    if (allPlaced && !checked) {
-      const timer = setTimeout(() => {
-        handleCheck();
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [allPlaced, checked, handleCheck]);
-
   const handleRetry = () => {
     setPlaced({});
     setChecked(false);
@@ -180,6 +170,17 @@ export default function LabelImage({ task, onComplete }: Props) {
       className="space-y-4"
       style={{ touchAction: dragState.isDragging ? "none" : "auto" }}
     >
+      {/* Reference image when provided */}
+      {task.image && getWordIllustration(task.image) && (
+        <div className="flex justify-center mb-3">
+          <img
+            src={getWordIllustration(task.image)!}
+            alt=""
+            className="w-48 h-48 sm:w-56 sm:h-56 object-contain rounded-2xl bg-white shadow-sm p-2"
+          />
+        </div>
+      )}
+
       {/* Hotspots - drop targets */}
       <div className="relative bg-white rounded-2xl p-4 shadow-sm min-h-[200px]">
         <div className="space-y-3">
@@ -279,6 +280,20 @@ export default function LabelImage({ task, onComplete }: Props) {
           })}
         </div>
       </div>
+
+      {/* Comprova button */}
+      {allPlaced && !checked && (
+        <div className="flex justify-center pt-3">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleCheck}
+            className="px-8 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg shadow-md"
+          >
+            Comprova!
+          </motion.button>
+        </div>
+      )}
 
       {/* Retry button - only shown after wrong answer */}
       {checked && !allCorrect && (

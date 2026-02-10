@@ -64,7 +64,7 @@ export const elsOficisTasks: Task[] = [
   {
     id: "els-oficis-5",
     type: "word-search",
-    prompt: "Troba les paraules a la sopa de lletres:",
+    prompt: "Troba les paraules a la sopa de lletres. Poden anar → ← ↓ ↑ ↗",
     gridSize: 10,
     words: ["metge", "pilot", "bomber", "pagès", "cuiner", "mestre", "policia"],
     grid: [

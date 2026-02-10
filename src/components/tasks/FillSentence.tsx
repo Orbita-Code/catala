@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FillSentenceTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
@@ -74,16 +74,6 @@ export default function FillSentence({ task, onComplete }: Props) {
 
   const allAnswered = task.sentences.every((_, i) => answers[i]);
   const allCorrect = checked && Object.values(results).every(Boolean);
-
-  // Auto-check when all answers are filled
-  useEffect(() => {
-    if (allAnswered && !checked) {
-      const timer = setTimeout(() => {
-        handleCheck();
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [allAnswered, checked, handleCheck]);
 
   const hasMainImage = task.image && getWordIllustration(task.image);
 
@@ -450,6 +440,20 @@ export default function FillSentence({ task, onComplete }: Props) {
       ) : (
         // No main image OR all sentences have images - use original grid layout
         renderSentences()
+      )}
+
+      {/* Comprova button */}
+      {allAnswered && !checked && (
+        <div className="flex justify-center pt-3">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleCheck}
+            className="px-8 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg shadow-md"
+          >
+            Comprova!
+          </motion.button>
+        </div>
       )}
 
       {/* Retry button - only show after wrong answer */}

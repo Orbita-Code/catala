@@ -61,19 +61,19 @@ export const elCosTasks: Task[] = [
   {
     id: "el-cos-4",
     type: "word-search",
-    prompt: "Busca 7 paraules a la sopa de lletres.",
+    prompt: "Busca 7 paraules a la sopa de lletres. Poden anar → ← ↓ ↑ ↗",
     gridSize: 9,
     words: ["nas", "ull", "boca", "panxa", "orella", "mà", "braç"],
     grid: [
-      ["a", "y", "c", "n", "a", "s", "n", "d", "o"],
-      ["k", "m", "v", "s", "w", "h", "e", "k", "r"],
-      ["p", "j", "e", "o", "g", "p", "u", "q", "e"],
-      ["x", "a", "f", "u", "l", "l", "z", "u", "l"],
-      ["r", "v", "n", "b", "i", "b", "r", "n", "l"],
-      ["a", "c", "l", "x", "a", "o", "a", "f", "a"],
-      ["h", "m", "w", "z", "a", "y", "c", "g", "x"],
-      ["d", "t", "a", "s", "q", "j", "o", "i", "m"],
-      ["m", "a", "x", "c", "b", "p", "b", "t", "l"],
+      ["m", "m", "l", "l", "u", "g", "t", "f", "h"],
+      ["h", "a", "l", "l", "e", "r", "o", "m", "a"],
+      ["e", "y", "c", "i", "x", "m", "q", "v", "w"],
+      ["r", "p", "a", "n", "x", "a", "c", "t", "p"],
+      ["g", "n", "x", "t", "s", "b", "r", "a", "c"],
+      ["g", "z", "z", "l", "m", "v", "g", "e", "o"],
+      ["v", "f", "s", "k", "c", "w", "q", "v", "y"],
+      ["n", "a", "s", "c", "p", "k", "m", "b", "i"],
+      ["r", "b", "o", "c", "a", "a", "n", "g", "l"],
     ],
   },
 
@@ -81,12 +81,12 @@ export const elCosTasks: Task[] = [
   {
     id: "el-cos-5",
     type: "label-image",
-    prompt: "Completa el dibuix amb les parts del requadre.",
+    prompt: "Col·loca les parts de la cara al lloc correcte.",
     image: "cara",
     labels: [
+      { text: "cabell", x: 50, y: 10 },
       { text: "ulls", x: 35, y: 35 },
       { text: "nas", x: 50, y: 50 },
-      { text: "cabell", x: 50, y: 10 },
       { text: "boca", x: 50, y: 70 },
     ],
     options: ["ulls", "nas", "cabell", "boca", "orella", "colze"],
@@ -110,7 +110,7 @@ export const elCosTasks: Task[] = [
   {
     id: "el-cos-7",
     type: "word-search",
-    prompt: "Observa i busca les paraules a la sopa de lletres.",
+    prompt: "Observa i busca les paraules a la sopa de lletres. Poden anar → ← ↓ ↑ ↗",
     gridSize: 9,
     words: ["cella", "front", "esquena", "espatlla", "llavi"],
     grid: [
@@ -132,7 +132,7 @@ export const elCosTasks: Task[] = [
     type: "copy-word",
     prompt: "Llegeix i copia els verbs dels sentits.",
     words: [
-      { catalan: "escoltar", image: "escoltar" },
+      { catalan: "escoltar" },
       { catalan: "mirar" },
       { catalan: "cantar" },
       { catalan: "aplaudir" },

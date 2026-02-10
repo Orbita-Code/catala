@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CountAndWriteTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
@@ -57,16 +57,6 @@ export default function CountAndWrite({ task, onComplete }: Props) {
       );
     }
   }, [answer, currentItem, currentIdx, task.items.length, erroredItems, onComplete]);
-
-  // Auto-check when answer is entered
-  useEffect(() => {
-    if (answer.trim() && !checked) {
-      const timer = setTimeout(() => {
-        handleCheck();
-      }, 500);
-      return () => clearTimeout(timer);
-    }
-  }, [answer, checked, handleCheck]);
 
   const handleRetry = () => {
     setChecked(false);
@@ -170,6 +160,20 @@ export default function CountAndWrite({ task, onComplete }: Props) {
           >
             Resposta: {currentItem.count} ({currentItem.word})
           </motion.p>
+        )}
+
+        {/* Comprova button */}
+        {answer.trim() && !checked && (
+          <div className="flex justify-center pt-3">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleCheck}
+              className="px-8 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg shadow-md"
+            >
+              Comprova!
+            </motion.button>
+          </div>
         )}
 
         {/* Retry button - only shown after wrong answer */}

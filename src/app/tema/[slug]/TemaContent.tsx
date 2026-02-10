@@ -80,7 +80,10 @@ export default function TemaContent({ slug }: TemaContentProps) {
   useEffect(() => {
     if (!mounted) return;
     const progress = getThemeProgress(slug);
-    if (progress.currentTask > 0 && progress.currentTask < tasks.length) {
+    if (progress.currentTask >= tasks.length && progress.completedTasks.length > 0) {
+      // All tasks were completed before — show celebration
+      setShowCelebration(true);
+    } else if (progress.currentTask > 0 && progress.currentTask < tasks.length) {
       setCurrentTaskIndex(progress.currentTask);
     }
     setStreak(progress.streak);

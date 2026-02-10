@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { WriteAntonymTask, TaskResult } from "@/types/tasks";
 import { celebrate, celebrateBig } from "@/lib/confetti";
@@ -74,16 +74,6 @@ export default function WriteAntonym({ task, onComplete }: Props) {
 
   const allAnswered = task.pairs.every((_, i) => answers[i]?.trim());
   const allCorrect = checked && Object.values(results).every(Boolean);
-
-  // Auto-check when all answers are filled
-  useEffect(() => {
-    if (allAnswered && !checked) {
-      const timer = setTimeout(() => {
-        handleCheck();
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [allAnswered, checked, handleCheck]);
 
   return (
     <div className="space-y-4">
@@ -180,6 +170,20 @@ export default function WriteAntonym({ task, onComplete }: Props) {
           )}
         </motion.div>
       ))}
+
+      {/* Comprova button */}
+      {allAnswered && !checked && (
+        <div className="flex justify-center pt-3">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleCheck}
+            className="px-8 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg shadow-md"
+          >
+            Comprova!
+          </motion.button>
+        </div>
+      )}
 
       {/* Retry button - only shown after wrong answer */}
       {checked && !allCorrect && (
