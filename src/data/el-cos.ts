@@ -132,7 +132,7 @@ export const elCosTasks: Task[] = [
     type: "copy-word",
     prompt: "Llegeix i copia els verbs dels sentits.",
     words: [
-      { catalan: "escoltar" },
+      { catalan: "escoltar", image: "escoltar" },
       { catalan: "mirar" },
       { catalan: "cantar" },
       { catalan: "aplaudir" },
