@@ -87,11 +87,11 @@ export const laCiutatTasks: Task[] = [
     columns: [
       {
         title: "Diversió",
-        items: ["parc", "cinema", "teatre", "museu", "restaurant"],
+        items: ["parc", "cinema", "teatre", "museu"],
       },
       {
         title: "Serveis",
-        items: ["hospital", "escola", "estació", "mercat", "ajuntament"],
+        items: ["hospital", "estació", "mercat", "ajuntament"],
       },
     ],
     allItems: [
@@ -99,9 +99,7 @@ export const laCiutatTasks: Task[] = [
       "cinema",
       "teatre",
       "museu",
-      "restaurant",
       "hospital",
-      "escola",
       "estació",
       "mercat",
       "ajuntament",
@@ -294,7 +292,7 @@ export const laCiutatTasks: Task[] = [
       {
         text: "Esperem l'autobús a la ___.",
         blank: "parada d'autobús",
-        options: ["escola", "estació", "parada d'autobús"],
+        options: ["biblioteca", "museu", "parada d'autobús"],
       },
       {
         text: "El ___ il·lumina el carrer a la nit.",

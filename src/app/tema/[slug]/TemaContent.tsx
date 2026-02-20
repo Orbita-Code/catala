@@ -737,18 +737,33 @@ export default function TemaContent({ slug }: TemaContentProps) {
             </div>
             <ErrorTrackingProvider themeSlug={slug} taskId={currentTask.id}>
               {isTaskCompleted ? (
-                <div className="relative">
-                  <div className="opacity-50 pointer-events-none select-none">
+                <div>
+                  <div className="pointer-events-none select-none">
                     <TaskRenderer
                       task={currentTask}
                       onComplete={handleTaskComplete}
                     />
                   </div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="bg-green-100 border-2 border-green-400 rounded-2xl px-8 py-4 text-center shadow-lg">
-                      <span className="text-4xl">✅</span>
-                      <p className="text-lg font-bold text-green-700 mt-1">Completat!</p>
+                  <div className="flex items-center justify-center gap-4 mt-4">
+                    <div className="flex items-center gap-2 bg-green-100 border-2 border-green-400 rounded-2xl px-5 py-2">
+                      <span className="text-2xl">✅</span>
+                      <p className="text-base font-bold text-green-700">Completat!</p>
                     </div>
+                    <button
+                      onClick={() => {
+                        const progress = getThemeProgress(slug);
+                        const updated = {
+                          ...progress,
+                          completedTasks: progress.completedTasks.filter((id: string) => id !== currentTask.id),
+                        };
+                        localStorage.setItem(`catala-progress-${slug}`, JSON.stringify(updated));
+                        window.location.reload();
+                      }}
+                      className="flex items-center gap-2 bg-purple-100 border-2 border-purple-400 rounded-2xl px-5 py-2 hover:bg-purple-200 transition-colors cursor-pointer"
+                    >
+                      <span className="text-2xl">🔄</span>
+                      <p className="text-base font-bold text-purple-700">Repeteix</p>
+                    </button>
                   </div>
                 </div>
               ) : (
