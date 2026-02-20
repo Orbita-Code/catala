@@ -191,7 +191,7 @@ export const elsAnimalsTasks: Task[] = [
     columns: [
       {
         title: "UN",
-        items: ["gos", "gat", "lleó", "ós", "cavall", "elefant"],
+        items: ["gos", "gat", "lleó", "dofí", "cavall", "elefant"],
       },
       {
         title: "UNA",
@@ -202,7 +202,7 @@ export const elsAnimalsTasks: Task[] = [
       "gos",
       "gat",
       "lleó",
-      "ós",
+      "dofí",
       "cavall",
       "elefant",
       "vaca",
