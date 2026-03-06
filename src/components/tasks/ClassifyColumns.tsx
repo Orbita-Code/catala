@@ -321,16 +321,29 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
         </div>
       )}
 
-      {/* Retry button */}
+      {/* Retry + Continue buttons */}
       {showResults && !allCorrect && (
-        <div className="flex justify-center pt-2">
+        <div className="flex justify-center gap-3 pt-2">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleRetry}
-            className="px-8 py-3 bg-[var(--secondary)] text-white font-bold rounded-2xl text-lg shadow-md"
+            className="px-6 py-3 bg-[var(--secondary)] text-white font-bold rounded-2xl text-lg shadow-md"
           >
             Torna a provar!
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => {
+              const errored = Object.entries(placed)
+                .filter(([item, colIdx]) => !task.columns[colIdx].items.includes(item))
+                .map(([item]) => item);
+              onComplete({ allCorrect: false, erroredItems: errored });
+            }}
+            className="px-6 py-3 bg-gray-200 text-[var(--text)] font-bold rounded-2xl text-lg"
+          >
+            Continua
           </motion.button>
         </div>
       )}

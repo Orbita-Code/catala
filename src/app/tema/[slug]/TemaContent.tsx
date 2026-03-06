@@ -13,7 +13,7 @@ import { themes } from "@/data/themes";
 import { taskData, getScoringTaskCount } from "@/data/task-data";
 import { getThemeProgress, completeTask, isThemeFullyComplete } from "@/lib/progress";
 import { getEncouragement } from "@/lib/encouragement";
-import { addError, getThemeErrorCount, getErroredItemsList, removeError, clearThemeErrors } from "@/lib/errors";
+import { addError, getThemeErrors, getThemeErrorCount, getErroredItemsList, removeError, clearThemeErrors } from "@/lib/errors";
 import { speak } from "@/lib/tts";
 import { getWordIllustration } from "@/lib/illustrations";
 import { ErrorTrackingProvider } from "@/contexts/ErrorTrackingContext";
@@ -57,6 +57,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
   const [reviewMode, setReviewMode] = useState(false);
   const [reviewItems, setReviewItems] = useState<{ taskId: string; item: string }[]>([]);
   const [reviewIndex, setReviewIndex] = useState(0);
+  const [justCompletedTaskId, setJustCompletedTaskId] = useState<string | null>(null);
   const [xpData, setXpData] = useState<{
     currentLevel: Level;
     nextLevel: Level | null;
@@ -129,9 +130,10 @@ export default function TemaContent({ slug }: TemaContentProps) {
   const scoringCount = getScoringTaskCount(slug);
   const scoringIndex = isBonus ? scoringCount : currentTaskIndex + 1;
   const progress = Math.min(((currentTaskIndex + 1) / tasks.length) * 100, 100);
-  const isTaskCompleted = getThemeProgress(slug).completedTasks.includes(currentTask.id);
+  const isTaskCompleted = justCompletedTaskId !== currentTask.id && getThemeProgress(slug).completedTasks.includes(currentTask.id);
 
   const handleTaskComplete = (taskResult: TaskResult) => {
+    setJustCompletedTaskId(currentTask.id);
     const progressResult = completeTask(slug, currentTask.id, taskResult, currentTaskIndex + 1, isBonus);
     setStreak(progressResult.streak);
 
@@ -197,12 +199,14 @@ export default function TemaContent({ slug }: TemaContentProps) {
       setTimeout(() => {
         setFeedbackMessage(null);
         setFeedbackReaction(null);
+        setJustCompletedTaskId(null);
         setCurrentTaskIndex(currentTaskIndex + 1);
       }, 2000);
     } else {
       setTimeout(() => {
         setFeedbackMessage(null);
         setFeedbackReaction(null);
+        setJustCompletedTaskId(null);
 
         // Check for errors to offer review
         const errorCount = getThemeErrorCount(slug);
@@ -413,12 +417,32 @@ export default function TemaContent({ slug }: TemaContentProps) {
         >
           <button
             onClick={() => {
-              // Enter review mode
-              const items = getErroredItemsList(slug);
-              setReviewItems(items);
-              setReviewIndex(0);
+              // Find the first task that has errors and navigate to it
+              const themeErrors = getThemeErrors(slug);
+              const erroredTaskIds = Object.keys(themeErrors);
+              if (erroredTaskIds.length > 0) {
+                // Find the index of the first errored task
+                const firstErroredIdx = tasks.findIndex(t => erroredTaskIds.includes(t.id));
+                if (firstErroredIdx >= 0) {
+                  // Reset completed status for errored tasks so user can redo them
+                  const progress = getThemeProgress(slug);
+                  const updated = {
+                    ...progress,
+                    completedTasks: progress.completedTasks.filter(
+                      (id: string) => !erroredTaskIds.includes(id)
+                    ),
+                  };
+                  localStorage.setItem(`catala-progress-${slug}`, JSON.stringify(updated));
+                  // Clear errors since user is redoing the tasks
+                  clearThemeErrors(slug);
+                  setShowReviewDialog(false);
+                  setCurrentTaskIndex(firstErroredIdx);
+                  return;
+                }
+              }
+              // Fallback: go to celebration
               setShowReviewDialog(false);
-              setReviewMode(true);
+              setShowCelebration(true);
             }}
             className="w-full py-3 bg-orange-500 text-white font-bold rounded-2xl text-lg shadow-md hover:bg-orange-600 transition-colors"
           >
