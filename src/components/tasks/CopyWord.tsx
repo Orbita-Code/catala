@@ -29,9 +29,16 @@ function shuffleArray<T>(arr: T[]): T[] {
   return a;
 }
 
-// Strip accents from a string (à→a, é→e, ï→i, etc.)
+// Strip accents from a string (à→a, é→e, ï→i, etc.) but keep ç (it's a separate letter in Catalan)
 function stripAccents(str: string): string {
-  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  // Preserve ç/Ç before NFD normalization (ç is a letter, not an accent)
+  return str
+    .replace(/ç/g, "\x01")
+    .replace(/Ç/g, "\x02")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\x01/g, "ç")
+    .replace(/\x02/g, "Ç");
 }
 
 export default function CopyWord({ task, onComplete }: Props) {

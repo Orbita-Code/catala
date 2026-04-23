@@ -1,29 +1,51 @@
 import { Task } from "@/types/tasks";
 
 export const laFamiliaTasks: Task[] = [
-  // ── Task 1: Observa i completa (family members) ──
+  // ── Task 1: Observa i completa els noms de la família ──
   {
     id: "la-familia-1",
-    type: "label-image",
-    prompt: "Observa i completa:",
-    image: "familia-sofa",
-    labels: [
-      { text: "el fill gran", x: 10, y: 30 },
-      { text: "el pare", x: 35, y: 15 },
-      { text: "la mare", x: 55, y: 15 },
-      { text: "l'avi", x: 85, y: 15 },
-      { text: "l'àvia", x: 10, y: 75 },
-      { text: "la filla petita", x: 55, y: 75 },
+    type: "fill-sentence",
+    prompt: "Observa i completa els noms de la família:",
+    description: [
+      "• El pare es diu Borja.",
+      "• La mare es diu Sofia.",
+      "• El fill es diu Jaume.",
+      "• La filla es diu Fiona.",
+      "• L'avi es diu Miquel.",
+      "• L'àvia es diu Anna.",
     ],
-    options: [
-      "el pare",
-      "la mare",
-      "el fill gran",
-      "la filla petita",
-      "l'avi",
-      "l'àvia",
-      "l'oncle",
-      "la tieta",
+    image: "familia-sofa",
+    sentences: [
+      {
+        text: "El pare es diu ___.",
+        blank: "Borja",
+        options: ["Sofia", "Borja", "Miquel"],
+      },
+      {
+        text: "La mare es diu ___.",
+        blank: "Sofia",
+        options: ["Anna", "Fiona", "Sofia"],
+      },
+      {
+        text: "El fill es diu ___.",
+        blank: "Jaume",
+        options: ["Jaume", "Borja", "Miquel"],
+      },
+      {
+        text: "La filla es diu ___.",
+        blank: "Fiona",
+        options: ["Sofia", "Anna", "Fiona"],
+      },
+      {
+        text: "L'avi es diu ___.",
+        blank: "Miquel",
+        options: ["Miquel", "Borja", "Jaume"],
+      },
+      {
+        text: "L'àvia es diu ___.",
+        blank: "Anna",
+        options: ["Fiona", "Sofia", "Anna"],
+      },
     ],
   },
 
@@ -66,7 +88,7 @@ export const laFamiliaTasks: Task[] = [
     id: "la-familia-3",
     type: "label-image",
     prompt: "Observa l'arbre genealògic i completa:",
-    image: "arbre-familiar",
+    image: "arbre-familiar-complet",
     labels: [
       { text: "avi", x: 20, y: 15 },
       { text: "àvia", x: 60, y: 15 },
@@ -189,6 +211,7 @@ export const laFamiliaTasks: Task[] = [
     id: "la-familia-10",
     type: "multiple-choice",
     prompt: "Observa i marca les oracions correctes:",
+    image: "familia-sofa",
     questions: [
       {
         question: "La mare té els cabells curts.",
@@ -216,7 +239,7 @@ export const laFamiliaTasks: Task[] = [
         correct: 1,
       },
       {
-        question: "El pare té la samarreta marró.",
+        question: "El pare té la samarreta lila.",
         options: ["Sí", "No"],
         correct: 0,
       },
@@ -259,11 +282,10 @@ export const laFamiliaTasks: Task[] = [
       { codes: ["A1", "B1", "E3", "C3"], answer: "ELLA TÉ VINT ANYS" },
       { codes: ["B1", "D1", "C2", "A3"], answer: "TÉ ELS CABELLS CASTANYS" },
       { codes: ["A2", "D1", "E4", "C4"], answer: "I ELS ULLS BLAUS" },
-      { codes: ["B1", "D2", "A4", "A2"], answer: "TÉ DOS GERMANS I" },
-      { codes: ["B2", "E2", "C2", "A3"], answer: "UNA GERMANA CABELLS CASTANYS" },
+      { codes: ["B1", "D2", "A4"], answer: "TÉ DOS GERMANS" },
+      { codes: ["B2", "E2", "B1", "D1", "C2", "A3"], answer: "UNA GERMANA TÉ ELS CABELLS CASTANYS" },
       { codes: ["A1", "B4", "D4", "B3"], answer: "ELLA ES DIU ANNA" },
       { codes: ["E1", "C1", "D3"], answer: "PORTA UN GORRO" },
-      { codes: ["D3", "B4", "D4", "B3"], answer: "GORRO ES DIU ANNA" },
     ],
   },
 

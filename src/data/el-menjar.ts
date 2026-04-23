@@ -268,7 +268,7 @@ export const elMenjarTasks: Task[] = [
       { text: "Pinta el cafè de color vermell (calent)", targetColor: "vermell", targetItem: "cafè" },
       { text: "Pinta el suc de color blau (fred)", targetColor: "blau", targetItem: "suc" },
       { text: "Pinta la pizza de color vermell (calent)", targetColor: "vermell", targetItem: "pizza" },
-      { text: "Pinta el iogurt de color blau (fred)", targetColor: "blau", targetItem: "iogurt" },
+      { text: "Pinta l'iogurt de color blau (fred)", targetColor: "blau", targetItem: "iogurt" },
       { text: "Pinta el te de color vermell (calent)", targetColor: "vermell", targetItem: "te" },
       { text: "Pinta el refresc de color blau (fred)", targetColor: "blau", targetItem: "refresc" },
     ],

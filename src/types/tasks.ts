@@ -71,6 +71,7 @@ export interface ColorByInstructionTask extends BaseTask {
 export interface FillSentenceTask extends BaseTask {
   type: "fill-sentence";
   image?: string;
+  description?: string[];
   columns?: number;
   sentences: {
     text: string;

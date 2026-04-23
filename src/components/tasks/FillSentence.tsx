@@ -398,17 +398,24 @@ export default function FillSentence({ task, onComplete }: Props) {
       {/* Layout with main reference image */}
       {hasMainImage && !allSentencesHaveImages ? (
         <>
-          {/* Mobile/Tablet: Sentences first, then large sticky image below */}
+          {/* Mobile/Tablet: Image, then description, then sentences */}
           <div className="md:hidden">
-            <div className="space-y-2 mb-4">
-              {task.sentences.map((sentence, i) => renderSentenceCard(sentence, i))}
-            </div>
-            <div className="sticky bottom-16 flex justify-center bg-[var(--background)] py-2">
+            <div className="flex justify-center mb-3">
               <img
                 src={getWordIllustration(task.image!)!}
                 alt=""
                 className="w-64 h-64 object-contain rounded-xl bg-white p-3 shadow-lg"
               />
+            </div>
+            {task.description && (
+              <div className="bg-amber-50 rounded-xl p-3 mb-4 text-sm space-y-1">
+                {task.description.map((line, i) => (
+                  <p key={i} className="text-[var(--text)]">{line}</p>
+                ))}
+              </div>
+            )}
+            <div className="space-y-2">
+              {task.sentences.map((sentence, i) => renderSentenceCard(sentence, i))}
             </div>
           </div>
 
@@ -429,6 +436,13 @@ export default function FillSentence({ task, onComplete }: Props) {
               <p className="text-xs text-center text-[var(--text-light)] mt-2">
                 👆 Mira la imatge!
               </p>
+              {task.description && (
+                <div className="bg-amber-50 rounded-xl p-3 mt-3 text-sm space-y-1 max-w-[250px]">
+                  {task.description.map((line, i) => (
+                    <p key={i} className="text-[var(--text)]">{line}</p>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Right column - second half of sentences */}

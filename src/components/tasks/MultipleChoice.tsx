@@ -76,7 +76,7 @@ export default function MultipleChoice({ task, onComplete }: Props) {
           <img
             src={getWordIllustration(task.image)!}
             alt=""
-            className="w-48 h-48 sm:w-56 sm:h-56 object-contain rounded-2xl bg-white shadow-sm p-2"
+            className="w-full max-w-md h-auto object-contain rounded-2xl bg-white shadow-sm p-2"
           />
         </div>
       )}
