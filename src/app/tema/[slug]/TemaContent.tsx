@@ -59,6 +59,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
   const [reviewIndex, setReviewIndex] = useState(0);
   const [justCompletedTaskId, setJustCompletedTaskId] = useState<string | null>(null);
   const [retryTick, setRetryTick] = useState(0);
+  const [hundredPercentJustHit, setHundredPercentJustHit] = useState(false);
   const [xpData, setXpData] = useState<{
     currentLevel: Level;
     nextLevel: Level | null;
@@ -135,9 +136,11 @@ export default function TemaContent({ slug }: TemaContentProps) {
   const isTaskCompleted = justCompletedTaskId !== currentTask.id && getThemeProgress(slug).completedTasks.includes(currentTask.id);
 
   const handleTaskComplete = (taskResult: TaskResult) => {
+    const wasFullyCompleteBefore = isThemeFullyComplete(slug, scoringCount);
     setJustCompletedTaskId(currentTask.id);
     const progressResult = completeTask(slug, currentTask.id, taskResult, currentTaskIndex + 1, isBonus);
     setStreak(progressResult.streak);
+    const justHit100 = !wasFullyCompleteBefore && isThemeFullyComplete(slug, scoringCount);
 
     // Update daily streak on first task completion
     updateDailyStreak();
@@ -197,7 +200,19 @@ export default function TemaContent({ slug }: TemaContentProps) {
       setFeedbackReaction(getStarReaction("wrong"));
     }
 
-    if (currentTaskIndex < tasks.length - 1) {
+    if (justHit100) {
+      // User just achieved 100% (likely by completing an errored task during review) — go straight to celebration
+      setTimeout(() => {
+        setFeedbackMessage(null);
+        setFeedbackReaction(null);
+        setJustCompletedTaskId(null);
+        setHundredPercentJustHit(true);
+        setShowCelebration(true);
+        playThemeComplete();
+        playApplause(5);
+        celebrateBig();
+      }, 2000);
+    } else if (currentTaskIndex < tasks.length - 1) {
       setTimeout(() => {
         setFeedbackMessage(null);
         setFeedbackReaction(null);
@@ -572,8 +587,20 @@ export default function TemaContent({ slug }: TemaContentProps) {
             transition={{ delay: 0.3 }}
             className="text-3xl font-black text-[var(--text)]"
           >
-            {fullyComplete ? "Perfecte! 🏆🎉" : "Molt bé! 👏"}
+            {hundredPercentJustHit ? "Bravíssim! 🏆✨" : fullyComplete ? "Perfecte! 🏆🎉" : "Molt bé! 👏"}
           </motion.h1>
+          {hundredPercentJustHit && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.4 }}
+              className="bg-gradient-to-r from-yellow-300 to-orange-300 rounded-2xl px-5 py-3 shadow-md"
+            >
+              <p className="text-lg font-black text-orange-900 text-center">
+                Has completat el 100% del Tema {themeIndex + 1}: {theme.name}! 🌟
+              </p>
+            </motion.div>
+          )}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -630,6 +657,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
                   localStorage.setItem(`catala-progress-${slug}`, JSON.stringify(updated));
                   clearThemeErrors(slug);
                   setJustCompletedTaskId(null);
+                  setHundredPercentJustHit(false);
                   setCurrentTaskIndex(firstErroredIdx);
                   setShowCelebration(false);
                 }}
@@ -652,6 +680,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
                 clearThemeErrors(slug);
                 setStreak(0);
                 setJustCompletedTaskId(null);
+                setHundredPercentJustHit(false);
                 setCurrentTaskIndex(0);
                 setShowCelebration(false);
               }}
