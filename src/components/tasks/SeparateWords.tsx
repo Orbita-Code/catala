@@ -137,21 +137,21 @@ export default function SeparateWords({ task, onComplete }: Props) {
                   <button
                     onClick={() => toggleSeparator(i + 1)}
                     disabled={checked}
-                    className={`inline-flex items-center justify-center transition-all duration-200 min-h-[48px] min-w-[32px] sm:min-w-[40px] ${
+                    className={`relative inline-flex items-center justify-center transition-all duration-200 min-h-[56px] min-w-[44px] sm:min-w-[52px] rounded-lg ${
                       hasSeparatorAfter
-                        ? "" // Separator placed
+                        ? ""
                         : checked && isCorrectPosition
-                          ? "" // Missed separator
-                          : "cursor-pointer active:scale-110" // Default tap zone
+                          ? ""
+                          : "cursor-pointer active:scale-110 hover:bg-purple-50 active:bg-purple-100"
                     }`}
                     style={{ touchAction: "manipulation" }}
                     aria-label={hasSeparatorAfter ? "Treu espai" : "Afegeix espai"}
                   >
-                    {/* Visual indicator */}
+                    {/* Visual indicator — fills the full tap area so any tap on the strip works */}
                     {hasSeparatorAfter ? (
                       // User placed a separator here
                       <span
-                        className={`w-2 h-10 rounded-full ${
+                        className={`w-2.5 h-12 rounded-full ${
                           checked
                             ? isCorrectPosition
                               ? "bg-green-500"
@@ -161,10 +161,11 @@ export default function SeparateWords({ task, onComplete }: Props) {
                       />
                     ) : checked && isCorrectPosition ? (
                       // Missed separator - show in light green
-                      <span className="w-2 h-10 rounded-full bg-green-300" />
+                      <span className="w-2.5 h-12 rounded-full bg-green-300" />
                     ) : (
-                      // Default: visible dashed line to tap
-                      <span className="w-1 h-9 border-l-[3px] border-dashed border-purple-400 hover:border-purple-600" />
+                      // Default: dashed line spans the full tap area, so kids can
+                      // tap anywhere along the strip instead of having to aim at the tip
+                      <span className="w-1.5 h-12 border-l-[4px] border-dashed border-purple-400 group-hover:border-purple-600" />
                     )}
                   </button>
                 )}
