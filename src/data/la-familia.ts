@@ -173,7 +173,7 @@ export const laFamiliaTasks: Task[] = [
       { word: "tietes", article: "les" },
       { word: "àvia", article: "la" },
       { word: "germana", article: "la" },
-      { word: "primer", article: "el" },
+      { word: "nét", article: "el" },
       { word: "germanes", article: "les" },
       { word: "cosins", article: "els" },
       { word: "mare", article: "la" },
