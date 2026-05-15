@@ -188,14 +188,14 @@ export default function WordSearch({ task, onComplete }: Props) {
 
       <div
         ref={gridRef}
-        className="bg-white rounded-2xl p-3 shadow-sm inline-block mx-auto select-none touch-none"
+        className="bg-white rounded-2xl p-2 sm:p-3 shadow-sm inline-block select-none touch-none max-w-full"
         onMouseUp={handleCellUp}
         onMouseLeave={handleCellUp}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleCellUp}
       >
         <div
-          className="grid gap-0.5"
+          className="grid gap-0.5 sm:gap-1"
           style={{
             gridTemplateColumns: `repeat(${task.gridSize}, minmax(0, 1fr))`,
           }}
@@ -210,7 +210,7 @@ export default function WordSearch({ task, onComplete }: Props) {
                 onMouseDown={() => handleCellDown(r, c)}
                 onMouseEnter={() => handleCellEnter(r, c)}
                 onTouchStart={() => handleCellDown(r, c)}
-                className={`w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-sm sm:text-base font-bold rounded-md cursor-pointer select-none transition-colors ${getCellClass(r, c)}`}
+                className={`w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 flex items-center justify-center text-base sm:text-lg font-bold rounded-md cursor-pointer select-none transition-colors ${getCellClass(r, c)}`}
               >
                 {letter.toUpperCase()}
               </motion.div>

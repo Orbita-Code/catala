@@ -344,21 +344,21 @@ export default function StatsPage() {
             </span>
           </div>
 
-          <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 sm:gap-3">
             {allBadges.map((badge) => {
               const isEarned = earnedBadgeIds.has(badge.id);
               return (
                 <div
                   key={badge.id}
-                  className={`text-center p-2 rounded-xl ${
+                  className={`flex flex-col items-center text-center p-2 sm:p-3 rounded-xl min-h-[88px] ${
                     isEarned ? "bg-amber-50" : "bg-gray-100 opacity-40"
                   }`}
                   title={badge.description}
                 >
-                  <span className={`text-2xl ${isEarned ? "" : "grayscale"}`}>
+                  <span className={`text-3xl ${isEarned ? "" : "grayscale"}`}>
                     {badge.emoji}
                   </span>
-                  <p className="text-xs font-medium text-gray-600 mt-1 truncate">
+                  <p className="text-[11px] sm:text-xs font-medium text-gray-600 mt-1 leading-tight break-words">
                     {badge.name}
                   </p>
                 </div>

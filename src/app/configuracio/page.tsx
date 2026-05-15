@@ -123,12 +123,12 @@ export default function ConfiguracioPage() {
 
             <div>
               <span className="text-sm text-[var(--text)]">Velocitat de veu</span>
-              <div className="grid grid-cols-2 sm:flex gap-2 mt-2">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
                 {[0.5, 0.8, 1.0, 1.2].map((speed) => (
                   <button
                     key={speed}
                     onClick={() => handleSpeedChange(speed)}
-                    className={`flex-1 py-2 rounded-xl font-bold text-sm transition-all ${
+                    className={`min-h-[48px] py-3 px-2 rounded-xl font-bold text-sm transition-all ${
                       settings.ttsSpeed === speed
                         ? "bg-[var(--primary)] text-white"
                         : "bg-gray-100 text-[var(--text)]"

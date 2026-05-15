@@ -96,11 +96,11 @@ export default function CopyWord({ task, onComplete }: Props) {
   const handleSlotTap = useCallback((slotIdx: number) => {
     if (checked || slots[slotIdx] === null) return;
     const letter = slots[slotIdx]!;
+    // Just empty the tapped slot — do NOT shift remaining letters left.
+    // Shifting confused kids who watched their letters jump positions.
     const newSlots = [...slots];
     newSlots[slotIdx] = null;
-    const filled = newSlots.filter((s) => s !== null);
-    const result = [...filled, ...Array(newSlots.length - filled.length).fill(null)];
-    setSlots(result);
+    setSlots(newSlots);
 
     const bankIdx = bank.findIndex((b) => b.used && b.letter === letter);
     if (bankIdx !== -1) {
