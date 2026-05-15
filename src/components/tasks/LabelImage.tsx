@@ -23,22 +23,6 @@ export default function LabelImage({ task, onComplete }: Props) {
 
   const usedWords = new Set(Object.values(placed));
 
-  // Speak the word if it matches ANY expected label in the same row
-  // (rows are flexible — labels with same y are interchangeable)
-  const speakIfCorrect = useCallback(
-    (word: string, slotIdx: number) => {
-      const slotY = task.labels[slotIdx]?.y;
-      if (slotY === undefined) return;
-      const rowExpected = task.labels
-        .filter((l) => l.y === slotY)
-        .map((l) => l.text.toLowerCase());
-      if (rowExpected.includes(word.toLowerCase())) {
-        speak(word);
-      }
-    },
-    [task.labels]
-  );
-
   const handleDrop = useCallback(
     (item: string, targetId: string) => {
       if (checked) return;
@@ -52,9 +36,9 @@ export default function LabelImage({ task, onComplete }: Props) {
       newPlaced[idx] = item;
       setPlaced(newPlaced);
       setSelectedWord(null);
-      speakIfCorrect(item, idx);
+      speak(item);
     },
-    [placed, checked, speakIfCorrect]
+    [placed, checked]
   );
 
   const { dragState, handlePointerDown } =
@@ -81,7 +65,7 @@ export default function LabelImage({ task, onComplete }: Props) {
     setPlaced(newPlaced);
     const placedWord = selectedWord;
     setSelectedWord(null);
-    speakIfCorrect(placedWord, labelIdx);
+    speak(placedWord);
   };
 
   const handleWordTap = (word: string) => {
@@ -114,25 +98,32 @@ export default function LabelImage({ task, onComplete }: Props) {
     });
 
     for (const indices of Object.values(rowGroups)) {
-      if (indices.length === 1) {
-        const i = indices[0];
-        const correct = placed[i]?.toLowerCase() === task.labels[i].text.toLowerCase();
-        newResults[i] = correct;
-        if (!correct) allCorrect = false;
-      } else {
-        const expectedWords = new Set(indices.map((i) => task.labels[i].text.toLowerCase()));
-        const placedWords = indices.map((i) => placed[i]?.toLowerCase() || "");
-        const placedSet = new Set(placedWords);
+      const expectedTexts = indices.map((i) => task.labels[i].text.toLowerCase());
+      const consumed = new Set<string>();
 
-        const rowCorrect =
-          placedWords.length === expectedWords.size &&
-          placedWords.every((w) => expectedWords.has(w)) &&
-          placedSet.size === expectedWords.size;
+      // Pass 1: exact slot matches (claim the expected word for this slot)
+      for (const i of indices) {
+        const placedWord = placed[i]?.toLowerCase();
+        const expected = task.labels[i].text.toLowerCase();
+        if (placedWord && placedWord === expected) {
+          newResults[i] = true;
+          consumed.add(placedWord);
+        }
+      }
 
-        indices.forEach((i) => {
-          newResults[i] = rowCorrect;
-        });
-        if (!rowCorrect) allCorrect = false;
+      // Pass 2: row-swap bonus — a word placed in the wrong slot but still
+      // belonging to this row counts as correct if its rightful slot hasn't
+      // already claimed it
+      for (const i of indices) {
+        if (newResults[i]) continue;
+        const placedWord = placed[i]?.toLowerCase();
+        if (placedWord && expectedTexts.includes(placedWord) && !consumed.has(placedWord)) {
+          newResults[i] = true;
+          consumed.add(placedWord);
+        } else {
+          newResults[i] = false;
+          allCorrect = false;
+        }
       }
     }
 
