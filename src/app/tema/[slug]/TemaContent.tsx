@@ -601,7 +601,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
               className="bg-yellow-50 rounded-2xl p-4 max-w-xs border border-yellow-200"
             >
               <p className="text-sm font-semibold text-yellow-800">
-                Algunes tasques tenen errors. Repeteix el tema per aconseguir la celebració completa! 🌟
+                Algunes tasques tenen errors. Repassa-les per aconseguir la celebració completa! 🌟
               </p>
             </motion.div>
           )}
@@ -614,15 +614,52 @@ export default function TemaContent({ slug }: TemaContentProps) {
             {!fullyComplete && (
               <button
                 onClick={() => {
-                  setCurrentTaskIndex(0);
+                  const themeErrors = getThemeErrors(slug);
+                  const erroredTaskIds = Object.keys(themeErrors);
+                  if (erroredTaskIds.length === 0) return;
+                  const firstErroredIdx = tasks.findIndex((t) => erroredTaskIds.includes(t.id));
+                  if (firstErroredIdx < 0) return;
+                  const progress = getThemeProgress(slug);
+                  const updated = {
+                    ...progress,
+                    completedTasks: progress.completedTasks.filter(
+                      (id: string) => !erroredTaskIds.includes(id)
+                    ),
+                    currentTask: firstErroredIdx,
+                  };
+                  localStorage.setItem(`catala-progress-${slug}`, JSON.stringify(updated));
+                  clearThemeErrors(slug);
+                  setJustCompletedTaskId(null);
+                  setCurrentTaskIndex(firstErroredIdx);
                   setShowCelebration(false);
                 }}
-                className="w-full py-3 text-white font-bold rounded-2xl text-lg"
-                style={{ backgroundColor: theme.color }}
+                className="w-full py-3 bg-orange-500 text-white font-bold rounded-2xl text-lg shadow-md hover:bg-orange-600 transition-colors"
               >
-                Repeteix per millorar! 💪
+                Repassa els errors 💪
               </button>
             )}
+            <button
+              onClick={() => {
+                const progress = getThemeProgress(slug);
+                const updated = {
+                  ...progress,
+                  completedTasks: [],
+                  currentTask: 0,
+                  streak: 0,
+                  taskErrors: {},
+                };
+                localStorage.setItem(`catala-progress-${slug}`, JSON.stringify(updated));
+                clearThemeErrors(slug);
+                setStreak(0);
+                setJustCompletedTaskId(null);
+                setCurrentTaskIndex(0);
+                setShowCelebration(false);
+              }}
+              className="w-full py-3 text-white font-bold rounded-2xl text-lg"
+              style={{ backgroundColor: theme.color }}
+            >
+              Repeteix tot el tema 📖
+            </button>
             {nextTheme && (
               <button
                 onClick={() => router.push(`/tema/${nextTheme.slug}`)}
@@ -637,15 +674,6 @@ export default function TemaContent({ slug }: TemaContentProps) {
               className="w-full py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg"
             >
               Torna a l&apos;inici
-            </button>
-            <button
-              onClick={() => {
-                setCurrentTaskIndex(0);
-                setShowCelebration(false);
-              }}
-              className="w-full py-3 bg-gray-100 text-[var(--text)] font-bold rounded-2xl text-lg"
-            >
-              {fullyComplete ? "Repeteix el tema" : "Repassa els exercicis"} 📖
             </button>
           </motion.div>
         </motion.div>
