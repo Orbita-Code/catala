@@ -11,7 +11,7 @@ import type { StarReaction } from "@/components/star/starTypes";
 import { getStarReaction, getReactionEvent } from "@/lib/starReactions";
 import { themes } from "@/data/themes";
 import { taskData, getScoringTaskCount } from "@/data/task-data";
-import { getThemeProgress, completeTask, isThemeFullyComplete } from "@/lib/progress";
+import { getThemeProgress, completeTask, isThemeFullyComplete, saveThemeProgress } from "@/lib/progress";
 import { getEncouragement } from "@/lib/encouragement";
 import { addError, getThemeErrors, getThemeErrorCount, getErroredItemsList, removeError, clearThemeErrors } from "@/lib/errors";
 import { speak } from "@/lib/tts";
@@ -443,13 +443,11 @@ export default function TemaContent({ slug }: TemaContentProps) {
                 if (firstErroredIdx >= 0) {
                   // Reset completed status for errored tasks so user can redo them
                   const progress = getThemeProgress(slug);
-                  const updated = {
-                    ...progress,
+                  saveThemeProgress(slug, {
                     completedTasks: progress.completedTasks.filter(
                       (id: string) => !erroredTaskIds.includes(id)
                     ),
-                  };
-                  localStorage.setItem(`catala-progress-${slug}`, JSON.stringify(updated));
+                  });
                   // Clear errors since user is redoing the tasks
                   clearThemeErrors(slug);
                   setShowReviewDialog(false);
@@ -647,14 +645,12 @@ export default function TemaContent({ slug }: TemaContentProps) {
                   const firstErroredIdx = tasks.findIndex((t) => erroredTaskIds.includes(t.id));
                   if (firstErroredIdx < 0) return;
                   const progress = getThemeProgress(slug);
-                  const updated = {
-                    ...progress,
+                  saveThemeProgress(slug, {
                     completedTasks: progress.completedTasks.filter(
                       (id: string) => !erroredTaskIds.includes(id)
                     ),
                     currentTask: firstErroredIdx,
-                  };
-                  localStorage.setItem(`catala-progress-${slug}`, JSON.stringify(updated));
+                  });
                   clearThemeErrors(slug);
                   setJustCompletedTaskId(null);
                   setHundredPercentJustHit(false);
@@ -668,15 +664,12 @@ export default function TemaContent({ slug }: TemaContentProps) {
             )}
             <button
               onClick={() => {
-                const progress = getThemeProgress(slug);
-                const updated = {
-                  ...progress,
+                saveThemeProgress(slug, {
                   completedTasks: [],
                   currentTask: 0,
                   streak: 0,
                   taskErrors: {},
-                };
-                localStorage.setItem(`catala-progress-${slug}`, JSON.stringify(updated));
+                });
                 clearThemeErrors(slug);
                 setStreak(0);
                 setJustCompletedTaskId(null);
@@ -835,12 +828,10 @@ export default function TemaContent({ slug }: TemaContentProps) {
                     <button
                       onClick={() => {
                         const progress = getThemeProgress(slug);
-                        const updated = {
-                          ...progress,
+                        saveThemeProgress(slug, {
                           completedTasks: progress.completedTasks.filter((id: string) => id !== currentTask.id),
                           currentTask: currentTaskIndex,
-                        };
-                        localStorage.setItem(`catala-progress-${slug}`, JSON.stringify(updated));
+                        });
                         setJustCompletedTaskId(null);
                         setRetryTick((t) => t + 1);
                       }}

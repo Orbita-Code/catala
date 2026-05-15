@@ -23,6 +23,22 @@ export default function LabelImage({ task, onComplete }: Props) {
 
   const usedWords = new Set(Object.values(placed));
 
+  // Speak the word if it matches ANY expected label in the same row
+  // (rows are flexible — labels with same y are interchangeable)
+  const speakIfCorrect = useCallback(
+    (word: string, slotIdx: number) => {
+      const slotY = task.labels[slotIdx]?.y;
+      if (slotY === undefined) return;
+      const rowExpected = task.labels
+        .filter((l) => l.y === slotY)
+        .map((l) => l.text.toLowerCase());
+      if (rowExpected.includes(word.toLowerCase())) {
+        speak(word);
+      }
+    },
+    [task.labels]
+  );
+
   const handleDrop = useCallback(
     (item: string, targetId: string) => {
       if (checked) return;
@@ -36,8 +52,9 @@ export default function LabelImage({ task, onComplete }: Props) {
       newPlaced[idx] = item;
       setPlaced(newPlaced);
       setSelectedWord(null);
+      speakIfCorrect(item, idx);
     },
-    [placed, checked]
+    [placed, checked, speakIfCorrect]
   );
 
   const { dragState, handlePointerDown } =
@@ -62,7 +79,9 @@ export default function LabelImage({ task, onComplete }: Props) {
     }
     newPlaced[labelIdx] = selectedWord;
     setPlaced(newPlaced);
+    const placedWord = selectedWord;
     setSelectedWord(null);
+    speakIfCorrect(placedWord, labelIdx);
   };
 
   const handleWordTap = (word: string) => {

@@ -33,12 +33,12 @@ export const elCosTasks: Task[] = [
     image: "cap",
     labels: [
       // Left side (x<=50): cabell, ull, nas
-      { text: "cabell", x: 48, y: 25 },
-      { text: "ull", x: 38, y: 45 },
-      { text: "nas", x: 48, y: 48 },
+      { text: "cabell", x: 50, y: 18 },
+      { text: "ull", x: 38, y: 50 },
+      { text: "nas", x: 50, y: 62 },
       // Right side (x>50): orella, boca
-      { text: "orella", x: 72, y: 48 },
-      { text: "boca", x: 52, y: 55 },
+      { text: "orella", x: 80, y: 55 },
+      { text: "boca", x: 50, y: 74 },
     ],
   },
 
