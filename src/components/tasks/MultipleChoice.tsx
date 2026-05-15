@@ -33,9 +33,9 @@ export default function MultipleChoice({ task, onComplete }: Props) {
     const newWrong = isRight ? wrongQuestions : [...wrongQuestions, question.question];
     if (!isRight) setWrongQuestions(newWrong);
 
-    // Mini celebration for correct answer
+    // Speak whichever option the kid picked, right or wrong
+    speak(question.options[optionIdx]);
     if (isRight) {
-      speak(question.options[question.correct]);
       celebrate();
     }
 

@@ -46,12 +46,14 @@ export default function ColorByInstruction({ task, onComplete }: Props) {
 
     const isCorrect = color.toLowerCase() === inst.targetColor.toLowerCase();
 
+    // Speak the chosen color regardless of correctness
+    speak(color);
+
     if (isCorrect) {
       setColoredItems((prev) => ({ ...prev, [item]: color }));
       setCorrectItems((prev) => new Set(prev).add(item));
       setSelectedItem(null);
       setSelectedColor(null);
-      speak(color); // Speak the color name, not the item
       celebrate();
 
       // Check if all done

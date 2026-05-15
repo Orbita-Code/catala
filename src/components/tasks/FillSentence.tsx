@@ -24,12 +24,8 @@ export default function FillSentence({ task, onComplete }: Props) {
   const handleSelect = (sentenceIdx: number, option: string) => {
     if (checked) return;
     setAnswers({ ...answers, [sentenceIdx]: option });
-
-    // Speak the answer immediately when selected (if correct)
-    const sentence = task.sentences[sentenceIdx];
-    if (option.toLowerCase() === sentence.blank.toLowerCase()) {
-      speak(option);
-    }
+    // Speak every selection so kids hear what they picked, right or wrong
+    speak(option);
   };
 
   const handleCheck = useCallback(() => {

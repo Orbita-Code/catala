@@ -44,19 +44,19 @@ export default function ClassifyColumns({ task, onComplete }: Props) {
       const correct = task.columns[colIdx].items.includes(item);
       setLastPlacedCorrect(correct);
 
+      // Extract article from the column the kid dropped into so we always
+      // pronounce the word the same way it appears in that column
+      const title = task.columns[colIdx].title;
+      const articleMatch = title.match(/\(([^)]+)\)/);
+      const shortArticles = ["el", "la", "un", "una", "els", "les", "l'"];
+      const titleLower = title.toLowerCase().trim();
+      const isArticleTitle = shortArticles.includes(titleLower);
+      const article = articleMatch ? articleMatch[1] : (isArticleTitle ? title.toLowerCase() : "");
+      // Speak the placed word every time, right or wrong
+      speak(article ? `${article} ${item}` : item);
+
       if (correct) {
         celebrate();
-        // Extract article from column title
-        const title = task.columns[colIdx].title;
-        const articleMatch = title.match(/\(([^)]+)\)/);
-        // Check if title itself is an article (EL, LA, UN, UNA, ELS, LES, L')
-        const shortArticles = ["el", "la", "un", "una", "els", "les", "l'"];
-        const titleLower = title.toLowerCase().trim();
-        const isArticleTitle = shortArticles.includes(titleLower);
-        // Use parentheses content, or title if it's an article, or nothing
-        const article = articleMatch ? articleMatch[1] : (isArticleTitle ? title.toLowerCase() : "");
-        // Speak article + word (e.g. "una carpeta", "el balcó")
-        speak(article ? `${article} ${item}` : item);
       }
 
       setTimeout(() => {

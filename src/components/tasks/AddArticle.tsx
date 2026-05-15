@@ -47,9 +47,11 @@ export default function AddArticle({ task, onComplete }: Props) {
     const isCorrect = article.toLowerCase() === currentWord.article.toLowerCase();
     setCorrect(isCorrect);
 
+    // Speak the article + word the kid picked, right or wrong
+    speak(`${article} ${currentWord.word}`);
+
     if (isCorrect) {
       celebrate();
-      speak(`${currentWord.article} ${currentWord.word}`);
       setTimeout(() => moveToNext(), 1000);
     } else {
       setErroredItems((prev) =>
