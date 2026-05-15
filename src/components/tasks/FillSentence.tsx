@@ -451,6 +451,25 @@ export default function FillSentence({ task, onComplete }: Props) {
             </div>
           </div>
         </>
+      ) : hasMainImage && allSentencesHaveImages ? (
+        // Main image + per-sentence images: show main image header above compact cards
+        <>
+          <div className="flex flex-col items-center mb-4">
+            <img
+              src={getWordIllustration(task.image!)!}
+              alt=""
+              className="w-40 h-40 md:w-48 md:h-48 object-contain rounded-xl bg-white p-3 shadow-md"
+            />
+            {task.description && (
+              <div className="bg-amber-50 rounded-xl px-4 py-2 mt-3 text-base md:text-lg space-y-1">
+                {task.description.map((line, i) => (
+                  <p key={i} className="text-[var(--text)] font-handwriting font-semibold text-center">{line}</p>
+                ))}
+              </div>
+            )}
+          </div>
+          {renderSentences()}
+        </>
       ) : (
         // No main image OR all sentences have images - use original grid layout
         renderSentences()

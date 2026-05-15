@@ -865,6 +865,7 @@ const wordsWithIllustrations = new Set([
   "sara",
   "xavier",
   // Albert's family drawings for La familia
+  "albert",
   "albert-dibuix-1",
   "albert-dibuix-2",
   "albert-dibuix-3",

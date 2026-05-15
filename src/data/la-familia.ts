@@ -53,32 +53,39 @@ export const laFamiliaTasks: Task[] = [
   {
     id: "la-familia-2",
     type: "fill-sentence",
-    prompt: "Observa i completa. Jo soc l'Albert.",
+    prompt: "Observa i completa:",
+    image: "albert",
+    description: ["Jo soc l'Albert."],
     sentences: [
       {
         text: "Dibuix 1. És l'avi o àvia de l'Albert? És ___.",
         blank: "l'avi",
         options: ["l'àvia", "l'avi"],
+        image: "albert-dibuix-1",
       },
       {
         text: "Dibuix 2. És l'àvia o la mare de l'Albert? És ___.",
         blank: "l'àvia",
         options: ["la mare", "l'àvia"],
+        image: "albert-dibuix-2",
       },
       {
         text: "Dibuix 3. És l'avi o pare de l'Albert? És ___.",
         blank: "el pare",
         options: ["el pare", "l'avi"],
+        image: "albert-dibuix-3",
       },
       {
         text: "Dibuix 4. És la mare o germana de l'Albert? És ___.",
         blank: "la mare",
         options: ["la germana", "la mare"],
+        image: "albert-dibuix-4",
       },
       {
         text: "Dibuix 5. És la mare o germana de l'Albert? És ___.",
         blank: "la germana",
         options: ["la germana", "la mare"],
+        image: "albert-dibuix-5",
       },
     ],
   },
