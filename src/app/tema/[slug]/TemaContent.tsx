@@ -58,6 +58,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
   const [reviewItems, setReviewItems] = useState<{ taskId: string; item: string }[]>([]);
   const [reviewIndex, setReviewIndex] = useState(0);
   const [justCompletedTaskId, setJustCompletedTaskId] = useState<string | null>(null);
+  const [retryTick, setRetryTick] = useState(0);
   const [xpData, setXpData] = useState<{
     currentLevel: Level;
     nextLevel: Level | null;
@@ -130,6 +131,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
   const scoringCount = getScoringTaskCount(slug);
   const scoringIndex = isBonus ? scoringCount : currentTaskIndex + 1;
   const progress = Math.min(((currentTaskIndex + 1) / tasks.length) * 100, 100);
+  void retryTick;
   const isTaskCompleted = justCompletedTaskId !== currentTask.id && getThemeProgress(slug).completedTasks.includes(currentTask.id);
 
   const handleTaskComplete = (taskResult: TaskResult) => {
@@ -779,9 +781,11 @@ export default function TemaContent({ slug }: TemaContentProps) {
                         const updated = {
                           ...progress,
                           completedTasks: progress.completedTasks.filter((id: string) => id !== currentTask.id),
+                          currentTask: currentTaskIndex,
                         };
                         localStorage.setItem(`catala-progress-${slug}`, JSON.stringify(updated));
-                        window.location.reload();
+                        setJustCompletedTaskId(null);
+                        setRetryTick((t) => t + 1);
                       }}
                       className="flex items-center gap-2 bg-purple-100 border-2 border-purple-400 rounded-2xl px-5 py-2 hover:bg-purple-200 transition-colors cursor-pointer"
                     >
