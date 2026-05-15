@@ -77,19 +77,25 @@ export const elCosTasks: Task[] = [
     ],
   },
 
-  // ── Task 5: Completa el dibuix amb les parts del requadre ──
+  // ── Task 5: Classifica: parts del cap o parts del cos? ──
   {
     id: "el-cos-5",
-    type: "label-image",
-    prompt: "Col·loca les parts de la cara al lloc correcte.",
-    image: "cara",
-    labels: [
-      { text: "cabell", x: 50, y: 10 },
-      { text: "ulls", x: 35, y: 35 },
-      { text: "nas", x: 50, y: 50 },
-      { text: "boca", x: 50, y: 70 },
+    type: "classify-columns",
+    prompt: "Classifica: és una part del cap o del cos?",
+    columns: [
+      {
+        title: "Parts del cap",
+        items: ["cabell", "ull", "nas", "boca", "orella"],
+      },
+      {
+        title: "Parts del cos",
+        items: ["braç", "cama", "mà", "peu", "panxa"],
+      },
     ],
-    options: ["ulls", "nas", "cabell", "boca", "orella", "colze"],
+    allItems: [
+      "cabell", "braç", "ull", "cama", "nas", "mà", "boca", "peu", "orella", "panxa",
+    ],
+    circleMode: true,
   },
 
   // ── Task 6: Uneix cada part del cos amb la seva funció ──
