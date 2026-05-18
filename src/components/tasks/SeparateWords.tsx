@@ -124,6 +124,10 @@ export default function SeparateWords({ task, onComplete }: Props) {
             const hasSeparatorAfter = separators.has(i + 1);
             const isCorrectPosition = correctPositions?.has(i + 1);
             const isLastLetter = i === letters.length - 1;
+            // Hide the tap zone right before sentence-final punctuation —
+            // the period/comma/!/? stays attached to its word, so showing a
+            // dashed line there only tempts kids to place a wrong separator.
+            const nextIsPunctuation = !isLastLetter && /[.,!?]/.test(letters[i + 1]);
 
             return (
               <span key={i} className="inline-flex items-center">
@@ -132,8 +136,8 @@ export default function SeparateWords({ task, onComplete }: Props) {
                   {letter}
                 </span>
 
-                {/* Clickable zone between letters (not after the last letter) */}
-                {!isLastLetter && (
+                {/* Clickable zone between letters (not after the last letter, not before punctuation) */}
+                {!isLastLetter && !nextIsPunctuation && (
                   <button
                     onClick={() => toggleSeparator(i + 1)}
                     disabled={checked}
