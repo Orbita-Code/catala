@@ -169,17 +169,13 @@ export const elsAnimalsTasks: Task[] = [
     id: "els-animals-9",
     type: "matching",
     prompt: "Relaciona cada animal amb la seva categoria:",
+    rightTextOnly: true,
     pairs: [
       { left: "gat", right: "mamífer" },
       { left: "sardina", right: "peix" },
       { left: "oreneta", right: "au" },
       { left: "serp", right: "rèptil" },
       { left: "papallona", right: "insecte" },
-      { left: "lleó", right: "mamífer" },
-      { left: "tauró", right: "peix" },
-      { left: "pingüí", right: "au" },
-      { left: "tortuga", right: "rèptil" },
-      { left: "mosquit", right: "insecte" },
     ],
   },
 

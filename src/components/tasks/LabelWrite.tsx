@@ -10,12 +10,24 @@ import { speak } from "@/lib/tts";
 interface Props {
   task: LabelWriteTask;
   onComplete: (result: TaskResult) => void;
+  /** When true, show the solved state: every field pre-filled with the correct label, all green. */
+  review?: boolean;
 }
 
-export default function LabelWrite({ task, onComplete }: Props) {
-  const [answers, setAnswers] = useState<Record<number, string>>({});
-  const [checked, setChecked] = useState(false);
-  const [results, setResults] = useState<Record<number, boolean>>({});
+export default function LabelWrite({ task, onComplete, review = false }: Props) {
+  // In review mode pre-fill every field with its correct label text and mark
+  // it checked+correct so each input renders green with its illustration.
+  const [answers, setAnswers] = useState<Record<number, string>>(() =>
+    review
+      ? Object.fromEntries(task.labels.map((l, i) => [i, l.text]))
+      : {}
+  );
+  const [checked, setChecked] = useState(review);
+  const [results, setResults] = useState<Record<number, boolean>>(() =>
+    review
+      ? Object.fromEntries(task.labels.map((_, i) => [i, true]))
+      : {}
+  );
   const containerRef = useRef<HTMLDivElement>(null);
   const [lines, setLines] = useState<
     { x1: number; y1: number; x2: number; y2: number }[]
@@ -100,13 +112,14 @@ export default function LabelWrite({ task, onComplete }: Props) {
 
   // Auto-check when all answers are filled
   useEffect(() => {
+    if (review) return; // In review mode the task is already solved; never auto-check/complete.
     if (allAnswered && !checked) {
       const timer = setTimeout(() => {
         handleCheck();
       }, 300);
       return () => clearTimeout(timer);
     }
-  }, [allAnswered, checked, handleCheck]);
+  }, [allAnswered, checked, handleCheck, review]);
 
   // Separate labels into left and right sides
   const leftLabels: number[] = [];

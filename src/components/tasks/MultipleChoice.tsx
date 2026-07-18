@@ -12,12 +12,18 @@ import { RefreshCcw } from "lucide-react";
 interface Props {
   task: MultipleChoiceTask;
   onComplete: (result: TaskResult) => void;
+  /** When true, show the solved state: the correct option selected and marked green. */
+  review?: boolean;
 }
 
-export default function MultipleChoice({ task, onComplete }: Props) {
+export default function MultipleChoice({ task, onComplete, review = false }: Props) {
   const [currentQ, setCurrentQ] = useState(0);
-  const [selected, setSelected] = useState<number | null>(null);
-  const [showResult, setShowResult] = useState(false);
+  // In review mode the task is already solved: pre-select the correct option for the
+  // current (first) question and reveal the result (green + ✅).
+  const [selected, setSelected] = useState<number | null>(() =>
+    review ? task.questions[0].correct : null
+  );
+  const [showResult, setShowResult] = useState(review);
   const [wrongQuestions, setWrongQuestions] = useState<string[]>([]);
   const autoAdvanceTimer = useRef<NodeJS.Timeout | null>(null);
 

@@ -10,13 +10,30 @@ import { speak } from "@/lib/tts";
 interface Props {
   task: SeparateWordsTask;
   onComplete: (result: TaskResult) => void;
+  /** When true, show the solved state: separators placed at the correct splits, all green. */
+  review?: boolean;
 }
 
-export default function SeparateWords({ task, onComplete }: Props) {
+// Correct separator positions for an item = cumulative word lengths (splits).
+function correctSeparatorsFor(item: SeparateWordsTask["items"][number]): Set<number> {
+  const positions = new Set<number>();
+  let pos = 0;
+  for (let i = 0; i < item.words.length - 1; i++) {
+    pos += item.words[i].length;
+    positions.add(pos);
+  }
+  return positions;
+}
+
+export default function SeparateWords({ task, onComplete, review = false }: Props) {
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [separators, setSeparators] = useState<Set<number>>(new Set());
-  const [checked, setChecked] = useState(false);
-  const [correct, setCorrect] = useState<boolean | null>(null);
+  // In review mode pre-place the correct separators for the first item and mark
+  // it checked+correct so the splits render green with the solved sentence.
+  const [separators, setSeparators] = useState<Set<number>>(() =>
+    review ? correctSeparatorsFor(task.items[0]) : new Set()
+  );
+  const [checked, setChecked] = useState(review);
+  const [correct, setCorrect] = useState<boolean | null>(review ? true : null);
   const [erroredItems, setErroredItems] = useState<string[]>([]);
 
   const currentItem = task.items[currentIdx];

@@ -19,6 +19,8 @@ const retryPhrases = [
 interface Props {
   task: FillLettersTask;
   onComplete: (result: TaskResult) => void;
+  /** When true, show the solved state: every blank filled with the correct letter, all green. */
+  review?: boolean;
 }
 
 // Strip accents to get base letter (e.g. "í" → "i", "ü" → "u")
@@ -71,11 +73,28 @@ function generateOptions(correctLetter: string, count: number = 5): string[] {
   return options;
 }
 
-export default function FillLetters({ task, onComplete }: Props) {
-  const [inputs, setInputs] = useState<Record<string, string>>({});
-  const [wordResults, setWordResults] = useState<Record<number, boolean>>({});
-  const [checkedWords, setCheckedWords] = useState<Set<number>>(new Set());
-  const [allDone, setAllDone] = useState(false);
+export default function FillLetters({ task, onComplete, review = false }: Props) {
+  // In review mode every blank is pre-filled with its correct letter and every
+  // word is marked checked+correct (green border, ✅).
+  const [inputs, setInputs] = useState<Record<string, string>>(() => {
+    if (!review) return {};
+    const filled: Record<string, string> = {};
+    task.words.forEach((item, wordIdx) => {
+      (item.hint || "").split("").forEach((char, charIdx) => {
+        if (char === "_") filled[`${wordIdx}-${charIdx}`] = item.word[charIdx];
+      });
+    });
+    return filled;
+  });
+  const [wordResults, setWordResults] = useState<Record<number, boolean>>(() =>
+    review
+      ? Object.fromEntries(task.words.map((_, i) => [i, true]))
+      : {}
+  );
+  const [checkedWords, setCheckedWords] = useState<Set<number>>(() =>
+    review ? new Set(task.words.map((_, i) => i)) : new Set()
+  );
+  const [allDone, setAllDone] = useState(review);
   const [retryWordIdx, setRetryWordIdx] = useState<number | null>(null);
   const [retryMessage, setRetryMessage] = useState<string | null>(null);
   const retryTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -207,6 +226,7 @@ export default function FillLetters({ task, onComplete }: Props) {
 
   // Check if all words are done correctly → complete the task
   useEffect(() => {
+    if (review) return;
     if (allDone) return;
     // Only complete when ALL words are checked AND all correct
     if (checkedWords.size === task.words.length) {
@@ -252,6 +272,7 @@ export default function FillLetters({ task, onComplete }: Props) {
 
   // Keyboard input support
   useEffect(() => {
+    if (review) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (allDone) return;
 
@@ -310,7 +331,7 @@ export default function FillLetters({ task, onComplete }: Props) {
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allDone, activeBlank, inputs, allBlanks, blankOptions, checkedWords]);
+  }, [allDone, activeBlank, inputs, allBlanks, blankOptions, checkedWords, review]);
 
   return (
     <div className="space-y-4">

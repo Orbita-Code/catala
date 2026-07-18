@@ -13,6 +13,8 @@ import { RefreshCcw } from "lucide-react";
 interface Props {
   task: ClassifyColumnsTask;
   onComplete: (result: TaskResult) => void;
+  /** When true, show the solved state: every item placed in its correct column, all green. */
+  review?: boolean;
 }
 
 function shuffleArray<T>(arr: T[]): T[] {
@@ -24,12 +26,22 @@ function shuffleArray<T>(arr: T[]): T[] {
   return a;
 }
 
-export default function ClassifyColumns({ task, onComplete }: Props) {
+export default function ClassifyColumns({ task, onComplete, review = false }: Props) {
   const [items] = useState(() => shuffleArray(task.allItems));
-  const [currentItemIdx, setCurrentItemIdx] = useState(0);
-  const [placed, setPlaced] = useState<Record<string, number>>({});
+  const [currentItemIdx, setCurrentItemIdx] = useState(review ? task.allItems.length : 0);
+  // In review mode place every item into the column that owns it, then jump
+  // straight to the results view where each item renders green with a ✅.
+  const [placed, setPlaced] = useState<Record<string, number>>(() =>
+    review
+      ? Object.fromEntries(
+          task.columns.flatMap((col, colIdx) =>
+            col.items.map((item) => [item, colIdx])
+          )
+        )
+      : {}
+  );
   const [lastPlacedCorrect, setLastPlacedCorrect] = useState<boolean | null>(null);
-  const [showResults, setShowResults] = useState(false);
+  const [showResults, setShowResults] = useState(review);
 
   const allPlaced = currentItemIdx >= items.length;
   const currentItem = allPlaced ? null : items[currentItemIdx];

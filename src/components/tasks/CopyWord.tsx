@@ -18,6 +18,8 @@ import { celebrate, celebrateBig } from "@/lib/confetti";
 interface Props {
   task: CopyWordTask;
   onComplete: (result: TaskResult) => void;
+  /** When true, show the solved state: the word already spelled out, all green. */
+  review?: boolean;
 }
 
 function shuffleArray<T>(arr: T[]): T[] {
@@ -41,16 +43,20 @@ function stripAccents(str: string): string {
     .replace(/\x02/g, "Ç");
 }
 
-export default function CopyWord({ task, onComplete }: Props) {
+export default function CopyWord({ task, onComplete, review = false }: Props) {
   const [currentWordIdx, setCurrentWordIdx] = useState(0);
-  const [slots, setSlots] = useState<(string | null)[]>(
-    Array(task.words[0].catalan.length).fill(null)
+  // In review mode the word is already solved: fill every slot with the correct
+  // (accent-stripped) letter and mark it checked+correct (SlotRow shows green).
+  const [slots, setSlots] = useState<(string | null)[]>(() =>
+    review
+      ? stripAccents(task.words[0].catalan).split("")
+      : Array(task.words[0].catalan.length).fill(null)
   );
   const [bank, setBank] = useState<{ letter: string; used: boolean }[]>(() =>
-    shuffleArray(task.words[0].catalan.split("")).map((l) => ({ letter: stripAccents(l), used: false }))
+    shuffleArray(task.words[0].catalan.split("")).map((l) => ({ letter: stripAccents(l), used: review }))
   );
-  const [checked, setChecked] = useState(false);
-  const [correct, setCorrect] = useState<boolean | null>(null);
+  const [checked, setChecked] = useState(review);
+  const [correct, setCorrect] = useState<boolean | null>(review ? true : null);
   const [completedCount, setCompletedCount] = useState(0);
   const [hintLetterIdx, setHintLetterIdx] = useState<number | null>(null);
   const hints = useHintSystem();
@@ -152,6 +158,7 @@ export default function CopyWord({ task, onComplete }: Props) {
 
   // Auto-advance after 5 wrong attempts
   useEffect(() => {
+    if (review) return;
     if (hints.shouldAutoAdvance(currentWord.catalan) && checked && !correct) {
       hints.addError(currentWord.catalan);
       hints.dismissHint();
@@ -216,9 +223,10 @@ export default function CopyWord({ task, onComplete }: Props) {
   );
 
   useEffect(() => {
+    if (review) return;
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [handleKeyDown]);
+  }, [handleKeyDown, review]);
 
   return (
     <div className="space-y-5">

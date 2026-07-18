@@ -12,6 +12,8 @@ import DragOverlay from "@/components/ui/DragOverlay";
 interface Props {
   task: MatchingTask;
   onComplete: (result: TaskResult) => void;
+  /** When true, show the solved state: every pair pre-matched (connected, colored). */
+  review?: boolean;
 }
 
 // 18 distinct colors for matched pairs
@@ -22,11 +24,16 @@ const PAIR_COLORS = [
   "#81ECEC", "#FAB1A0", "#636E72",
 ];
 
-export default function Matching({ task, onComplete }: Props) {
+export default function Matching({ task, onComplete, review = false }: Props) {
   const illustrationMode = task.illustrationMatch === true;
   const [selected, setSelected] = useState<{ side: "left" | "right"; index: number } | null>(null);
-  const [matched, setMatched] = useState<Set<number>>(new Set());
-  const [matchOrder, setMatchOrder] = useState<number[]>([]);
+  // In review mode every pair is already matched (shown connected + colored).
+  const [matched, setMatched] = useState<Set<number>>(() =>
+    review ? new Set(task.pairs.map((_, i) => i)) : new Set()
+  );
+  const [matchOrder, setMatchOrder] = useState<number[]>(() =>
+    review ? task.pairs.map((_, i) => i) : []
+  );
   const [wrongPair, setWrongPair] = useState<{ left: number; right: number } | null>(null);
   const [lastMatchedIdx, setLastMatchedIdx] = useState<number | null>(null);
   const shuffledRight = useState(() => {
@@ -382,6 +389,7 @@ export default function Matching({ task, onComplete }: Props) {
                 }`}
               >
                 {(() => {
+                  if (task.rightTextOnly) return null;
                   const p = task.pairs[actualIdx];
                   const fullWord = p.left + p.right;
                   const ill = getWordIllustration(p.right) || getWordIllustration(fullWord);

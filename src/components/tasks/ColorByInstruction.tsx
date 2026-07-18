@@ -12,6 +12,8 @@ import { RefreshCcw } from "lucide-react";
 interface Props {
   task: ColorByInstructionTask;
   onComplete: (result: TaskResult) => void;
+  /** When true, show the solved state: every object already colored correctly. */
+  review?: boolean;
 }
 
 const PALETTE = [
@@ -27,11 +29,18 @@ const PALETTE = [
   { name: "rosa", color: "#FDA7DF" },
 ];
 
-export default function ColorByInstruction({ task, onComplete }: Props) {
+export default function ColorByInstruction({ task, onComplete, review = false }: Props) {
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
-  const [coloredItems, setColoredItems] = useState<Record<string, string>>({});
-  const [correctItems, setCorrectItems] = useState<Set<string>>(new Set());
+  // In review mode every object is pre-colored with its correct target color.
+  const [coloredItems, setColoredItems] = useState<Record<string, string>>(() =>
+    review
+      ? Object.fromEntries(task.instructions.map((inst) => [inst.targetItem, inst.targetColor]))
+      : {}
+  );
+  const [correctItems, setCorrectItems] = useState<Set<string>>(() =>
+    review ? new Set(task.instructions.map((inst) => inst.targetItem)) : new Set()
+  );
   const [wrongItem, setWrongItem] = useState<string | null>(null);
   const [wrongColor, setWrongColor] = useState<string | null>(null);
   const [erroredItems, setErroredItems] = useState<Set<string>>(new Set());

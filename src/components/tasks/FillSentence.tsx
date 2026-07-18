@@ -13,12 +13,24 @@ import { useErrorTracking } from "@/contexts/ErrorTrackingContext";
 interface Props {
   task: FillSentenceTask;
   onComplete: (result: TaskResult) => void;
+  /** When true, show the solved state: blanks pre-filled with the correct word, all green. */
+  review?: boolean;
 }
 
-export default function FillSentence({ task, onComplete }: Props) {
-  const [answers, setAnswers] = useState<Record<number, string>>({});
-  const [checked, setChecked] = useState(false);
-  const [results, setResults] = useState<Record<number, boolean>>({});
+export default function FillSentence({ task, onComplete, review = false }: Props) {
+  // In review mode the task is already solved, so pre-fill every blank with its
+  // correct answer and mark it checked+correct (shown green with a ✅).
+  const [answers, setAnswers] = useState<Record<number, string>>(() =>
+    review
+      ? Object.fromEntries(task.sentences.map((s, i) => [i, s.blank]))
+      : {}
+  );
+  const [checked, setChecked] = useState(review);
+  const [results, setResults] = useState<Record<number, boolean>>(() =>
+    review
+      ? Object.fromEntries(task.sentences.map((_, i) => [i, true]))
+      : {}
+  );
   const { trackError } = useErrorTracking();
 
   const handleSelect = (sentenceIdx: number, option: string) => {

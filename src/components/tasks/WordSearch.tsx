@@ -21,13 +21,60 @@ const WORD_COLORS = [
 interface Props {
   task: WordSearchTask;
   onComplete: (result: TaskResult) => void;
+  /** When true, show the solved state: every word found and highlighted in the grid. */
+  review?: boolean;
 }
 
-export default function WordSearch({ task, onComplete }: Props) {
-  const [foundWords, setFoundWords] = useState<Set<string>>(new Set());
+export default function WordSearch({ task, onComplete, review = false }: Props) {
+  const [foundWords, setFoundWords] = useState<Set<string>>(() =>
+    review ? new Set(task.words) : new Set()
+  );
   const [selecting, setSelecting] = useState(false);
   const [selectedCells, setSelectedCells] = useState<[number, number][]>([]);
-  const [foundCells, setFoundCells] = useState<Map<string, number>>(new Map());
+  // In review mode, locate every word in the grid (all 8 directions) and
+  // pre-highlight its cells with the same per-word color used during play.
+  const [foundCells, setFoundCells] = useState<Map<string, number>>(() => {
+    if (!review) return new Map();
+    const norm = (s: string) =>
+      s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+    const grid = task.grid;
+    const dirs: [number, number][] = [
+      [0, 1], [1, 0], [1, 1], [1, -1],
+      [0, -1], [-1, 0], [-1, -1], [-1, 1],
+    ];
+    const map = new Map<string, number>();
+    task.words.forEach((word, wi) => {
+      const target = norm(word);
+      const len = target.length;
+      const colorIndex = wi % WORD_COLORS.length;
+      let done = false;
+      for (let r = 0; r < grid.length && !done; r++) {
+        for (let c = 0; c < grid[r].length && !done; c++) {
+          for (const [dr, dc] of dirs) {
+            const cells: [number, number][] = [];
+            let str = "";
+            let rr = r, cc = c, ok = true;
+            for (let k = 0; k < len; k++) {
+              if (rr < 0 || rr >= grid.length || cc < 0 || cc >= grid[rr].length) {
+                ok = false;
+                break;
+              }
+              cells.push([rr, cc]);
+              str += grid[rr][cc];
+              rr += dr;
+              cc += dc;
+            }
+            if (ok && norm(str) === target) {
+              cells.forEach(([cr, cc2]) => map.set(`${cr}-${cc2}`, colorIndex));
+              done = true;
+              break;
+            }
+          }
+        }
+      }
+    });
+    return map;
+  });
   const gridRef = useRef<HTMLDivElement>(null);
 
   const cellKey = (r: number, c: number) => `${r}-${c}`;

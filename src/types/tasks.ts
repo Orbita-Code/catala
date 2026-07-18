@@ -46,6 +46,8 @@ export interface MatchingTask extends BaseTask {
   type: "matching";
   pairs: { left: string; right: string; leftImage?: string }[];
   illustrationMatch?: boolean;
+  /** When true, the right column shows text only (no auto illustrations) — e.g. abstract categories. */
+  rightTextOnly?: boolean;
 }
 
 export interface ClassifyColumnsTask extends BaseTask {

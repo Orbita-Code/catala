@@ -10,6 +10,8 @@ import { speak } from "@/lib/tts";
 interface Props {
   task: OrderWordsTask;
   onComplete: (result: TaskResult) => void;
+  /** When true, show the solved state: words already in correct order, all green. */
+  review?: boolean;
 }
 
 function shuffleArray<T>(arr: T[]): T[] {
@@ -21,14 +23,20 @@ function shuffleArray<T>(arr: T[]): T[] {
   return a;
 }
 
-export default function OrderWords({ task, onComplete }: Props) {
+export default function OrderWords({ task, onComplete, review = false }: Props) {
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [selectedWords, setSelectedWords] = useState<string[]>([]);
-  const [bank, setBank] = useState<{ word: string; used: boolean }[]>(() =>
-    shuffleArray(task.sentences[0].scrambled).map((w) => ({ word: w, used: false }))
+  // In review mode the sentence is already solved: pre-fill the slots with the
+  // correct word order and mark it checked+correct (slots render green).
+  const [selectedWords, setSelectedWords] = useState<string[]>(() =>
+    review ? [...task.sentences[0].correct] : []
   );
-  const [checked, setChecked] = useState(false);
-  const [correct, setCorrect] = useState<boolean | null>(null);
+  const [bank, setBank] = useState<{ word: string; used: boolean }[]>(() =>
+    review
+      ? task.sentences[0].correct.map((w) => ({ word: w, used: true }))
+      : shuffleArray(task.sentences[0].scrambled).map((w) => ({ word: w, used: false }))
+  );
+  const [checked, setChecked] = useState(review);
+  const [correct, setCorrect] = useState<boolean | null>(review ? true : null);
   const [erroredItems, setErroredItems] = useState<string[]>([]);
 
   const currentSentence = task.sentences[currentIdx];

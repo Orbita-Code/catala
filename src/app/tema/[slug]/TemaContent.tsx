@@ -818,6 +818,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
                     <TaskRenderer
                       task={currentTask}
                       onComplete={handleTaskComplete}
+                      review
                     />
                   </div>
                   <div className="flex items-center justify-center gap-4 mt-4">

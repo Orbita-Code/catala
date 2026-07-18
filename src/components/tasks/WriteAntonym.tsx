@@ -10,12 +10,24 @@ import { RefreshCcw } from "lucide-react";
 interface Props {
   task: WriteAntonymTask;
   onComplete: (result: TaskResult) => void;
+  /** When true, show the solved state: every antonym pre-filled and marked green. */
+  review?: boolean;
 }
 
-export default function WriteAntonym({ task, onComplete }: Props) {
-  const [answers, setAnswers] = useState<Record<number, string>>({});
-  const [checked, setChecked] = useState(false);
-  const [results, setResults] = useState<Record<number, boolean>>({});
+export default function WriteAntonym({ task, onComplete, review = false }: Props) {
+  // In review mode the task is already solved: pre-fill every pair with its correct
+  // antonym and mark it checked+correct (shown green with a ✅).
+  const [answers, setAnswers] = useState<Record<number, string>>(() =>
+    review
+      ? Object.fromEntries(task.pairs.map((p, i) => [i, p.antonym]))
+      : {}
+  );
+  const [checked, setChecked] = useState(review);
+  const [results, setResults] = useState<Record<number, boolean>>(() =>
+    review
+      ? Object.fromEntries(task.pairs.map((_, i) => [i, true]))
+      : {}
+  );
 
   const handleSelect = (pairIdx: number, option: string) => {
     if (checked) return;

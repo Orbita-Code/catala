@@ -10,15 +10,21 @@ import { speak } from "@/lib/tts";
 interface Props {
   task: DecodeGridTask;
   onComplete: (result: TaskResult) => void;
+  /** When true, show the solved state: first word decoded and shown green. */
+  review?: boolean;
 }
 
-export default function DecodeGrid({ task, onComplete }: Props) {
+export default function DecodeGrid({ task, onComplete, review = false }: Props) {
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [inputs, setInputs] = useState<string[]>(
-    Array(task.words[0].codes.length).fill("")
+  // In review mode pre-fill the first word's inputs with its correct answer
+  // (one char per code slot) and mark it checked+correct so it renders green.
+  const [inputs, setInputs] = useState<string[]>(() =>
+    review
+      ? task.words[0].codes.map((_, i) => task.words[0].answer[i] ?? "")
+      : Array(task.words[0].codes.length).fill("")
   );
-  const [checked, setChecked] = useState(false);
-  const [correct, setCorrect] = useState<boolean | null>(null);
+  const [checked, setChecked] = useState(review);
+  const [correct, setCorrect] = useState<boolean | null>(review ? true : null);
   const [erroredItems, setErroredItems] = useState<string[]>([]);
 
   const currentWord = task.words[currentIdx];

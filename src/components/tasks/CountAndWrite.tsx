@@ -11,13 +11,19 @@ import { RefreshCcw } from "lucide-react";
 interface Props {
   task: CountAndWriteTask;
   onComplete: (result: TaskResult) => void;
+  /** When true, show the solved state: the correct count pre-filled and marked green. */
+  review?: boolean;
 }
 
-export default function CountAndWrite({ task, onComplete }: Props) {
+export default function CountAndWrite({ task, onComplete, review = false }: Props) {
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [answer, setAnswer] = useState("");
-  const [checked, setChecked] = useState(false);
-  const [correct, setCorrect] = useState<boolean | null>(null);
+  // In review mode the task is already solved: pre-fill the correct count for the
+  // current (first) item and mark it checked+correct (green input).
+  const [answer, setAnswer] = useState(() =>
+    review ? String(task.items[0].count) : ""
+  );
+  const [checked, setChecked] = useState(review);
+  const [correct, setCorrect] = useState<boolean | null>(() => (review ? true : null));
   const [erroredItems, setErroredItems] = useState<string[]>([]);
 
   const currentItem = task.items[currentIdx];

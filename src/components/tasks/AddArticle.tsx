@@ -11,9 +11,11 @@ import { speak } from "@/lib/tts";
 interface Props {
   task: AddArticleTask;
   onComplete: (result: TaskResult) => void;
+  /** When true, show the solved state: the correct article picked and marked green. */
+  review?: boolean;
 }
 
-export default function AddArticle({ task, onComplete }: Props) {
+export default function AddArticle({ task, onComplete, review = false }: Props) {
   // Derive article options from the task data instead of hardcoding
   const articles = (() => {
     const unique = [...new Set(task.words.map((w) => w.article.toLowerCase()))];
@@ -22,8 +24,12 @@ export default function AddArticle({ task, onComplete }: Props) {
     return unique.sort((a, b) => order.indexOf(a) - order.indexOf(b));
   })();
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [selected, setSelected] = useState<string | null>(null);
-  const [correct, setCorrect] = useState<boolean | null>(null);
+  // In review mode the task is already solved: pre-pick the correct article for the
+  // current (first) word and mark it correct (green).
+  const [selected, setSelected] = useState<string | null>(() =>
+    review ? task.words[0].article : null
+  );
+  const [correct, setCorrect] = useState<boolean | null>(() => (review ? true : null));
   const [erroredItems, setErroredItems] = useState<string[]>([]);
 
   const currentWord = task.words[currentIdx];

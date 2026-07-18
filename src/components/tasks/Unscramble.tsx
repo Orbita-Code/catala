@@ -16,6 +16,8 @@ import SpeakerButton from "@/components/ui/SpeakerButton";
 interface Props {
   task: UnscrambleTask;
   onComplete: (result: TaskResult) => void;
+  /** When true, show the solved state: pieces already in correct order, all green. */
+  review?: boolean;
 }
 
 function isSyllableMode(scrambled: string): boolean {
@@ -26,7 +28,7 @@ function splitPieces(scrambled: string): string[] {
   return isSyllableMode(scrambled) ? scrambled.split("-") : scrambled.split("");
 }
 
-export default function Unscramble({ task, onComplete }: Props) {
+export default function Unscramble({ task, onComplete, review = false }: Props) {
   const [currentIdx, setCurrentIdx] = useState(0);
 
   const currentWord = task.words[currentIdx];
@@ -40,10 +42,25 @@ export default function Unscramble({ task, onComplete }: Props) {
   const initBank = (word: typeof currentWord) =>
     splitPieces(word.scrambled).map((piece) => ({ letter: piece, used: false }));
 
-  const [slots, setSlots] = useState<(string | null)[]>(() => initSlots(task.words[0]));
-  const [bank, setBank] = useState<{ letter: string; used: boolean }[]>(() => initBank(task.words[0]));
-  const [checked, setChecked] = useState(false);
-  const [correct, setCorrect] = useState<boolean | null>(null);
+  // Solved slots: pieces arranged so they spell the correct word (syllable order
+  // resolved via getCorrectSyllableOrder in syllable mode, plain letters otherwise).
+  const solvedSlots = (word: typeof currentWord): (string | null)[] => {
+    const pieces = splitPieces(word.scrambled);
+    return isSyllableMode(word.scrambled)
+      ? getCorrectSyllableOrder(word.correct, pieces)
+      : word.correct.split("");
+  };
+
+  const [slots, setSlots] = useState<(string | null)[]>(() =>
+    review ? solvedSlots(task.words[0]) : initSlots(task.words[0])
+  );
+  const [bank, setBank] = useState<{ letter: string; used: boolean }[]>(() =>
+    review
+      ? initBank(task.words[0]).map((b) => ({ ...b, used: true }))
+      : initBank(task.words[0])
+  );
+  const [checked, setChecked] = useState(review);
+  const [correct, setCorrect] = useState<boolean | null>(review ? true : null);
   const [hintLetterIdx, setHintLetterIdx] = useState<number | null>(null);
   const hints = useHintSystem();
 
@@ -148,6 +165,7 @@ export default function Unscramble({ task, onComplete }: Props) {
 
   // Auto-advance after 5 wrong attempts
   useEffect(() => {
+    if (review) return;
     if (hints.shouldAutoAdvance(currentWord.correct) && checked && !correct) {
       hints.addError(currentWord.correct);
       hints.dismissHint();
@@ -214,11 +232,12 @@ export default function Unscramble({ task, onComplete }: Props) {
   );
 
   useEffect(() => {
+    if (review) return;
     document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [handleKeyDown]);
+  }, [handleKeyDown, review]);
 
   return (
     <div className="space-y-5">

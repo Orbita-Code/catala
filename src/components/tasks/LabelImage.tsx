@@ -13,13 +13,20 @@ import { RefreshCcw } from "lucide-react";
 interface Props {
   task: LabelImageTask;
   onComplete: (result: TaskResult) => void;
+  /** When true, show the solved state: every label placed correctly, all green. */
+  review?: boolean;
 }
 
-export default function LabelImage({ task, onComplete }: Props) {
-  const [placed, setPlaced] = useState<Record<number, string>>({});
+export default function LabelImage({ task, onComplete, review = false }: Props) {
+  // In review mode pre-place every label's correct word and mark it checked+correct.
+  const [placed, setPlaced] = useState<Record<number, string>>(() =>
+    review ? Object.fromEntries(task.labels.map((l, i) => [i, l.text])) : {}
+  );
   const [selectedWord, setSelectedWord] = useState<string | null>(null);
-  const [checked, setChecked] = useState(false);
-  const [results, setResults] = useState<Record<number, boolean>>({});
+  const [checked, setChecked] = useState(review);
+  const [results, setResults] = useState<Record<number, boolean>>(() =>
+    review ? Object.fromEntries(task.labels.map((_, i) => [i, true])) : {}
+  );
 
   const usedWords = new Set(Object.values(placed));
 
