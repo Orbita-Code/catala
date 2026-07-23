@@ -841,6 +841,7 @@ const wordsWithIllustrations = new Set([
   "mestre",
   "metge",
   "bomber",
+  "parc-de-bombers",
   "policia",
   "cuiner",
   "infermer",
