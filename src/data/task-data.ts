@@ -36,3 +36,16 @@ export function getScoringTaskCount(slug: string): number {
   if (!tasks) return 0;
   return tasks.filter(t => !t.bonus).length;
 }
+
+/**
+ * Count how many of the given completed task IDs are real, scoring (non-bonus)
+ * tasks of this theme. Ignores the bonus activity and any stale IDs left in
+ * localStorage from removed/renamed tasks — so the count can never exceed
+ * getScoringTaskCount (prevents e.g. "13/12").
+ */
+export function getCompletedScoringCount(slug: string, completedTaskIds: string[]): number {
+  const tasks = taskData[slug];
+  if (!tasks || !completedTaskIds) return 0;
+  const scoringIds = new Set(tasks.filter(t => !t.bonus).map(t => t.id));
+  return completedTaskIds.filter(id => scoringIds.has(id)).length;
+}

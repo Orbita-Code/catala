@@ -97,6 +97,17 @@ export default function MultipleChoice({ task, onComplete, review = false }: Pro
         animate={{ opacity: 1, x: 0 }}
         className="bg-white rounded-2xl p-5 shadow-sm"
       >
+        {/* Per-question image (e.g. the animal the question is about) */}
+        {question.image && getWordIllustration(question.image) && (
+          <div className="flex justify-center mb-3">
+            <img
+              src={getWordIllustration(question.image)!}
+              alt=""
+              className="w-32 h-32 md:w-40 md:h-40 object-contain"
+            />
+          </div>
+        )}
+
         <div className="flex items-center justify-center gap-1 mb-4">
           <SpeakerButton text={question.question} size={18} />
           <h3 className="text-xl font-bold text-[var(--text)] text-center font-handwriting">

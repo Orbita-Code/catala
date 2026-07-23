@@ -10,7 +10,7 @@ import HamburgerMenu from "@/components/ui/HamburgerMenu";
 import InstallPrompt from "@/components/ui/InstallPrompt";
 import { XPProgressHeader, DailyRewardModal } from "@/components/gamification";
 import { themes } from "@/data/themes";
-import { getScoringTaskCount } from "@/data/task-data";
+import { getScoringTaskCount, getCompletedScoringCount } from "@/data/task-data";
 import { getProgress, shouldShowDailyReward } from "@/lib/progress";
 import { getLevelProgress } from "@/lib/levels";
 import type { Level } from "@/lib/levels";
@@ -135,7 +135,7 @@ export default function HomePage() {
             <ThemeCard
               key={theme.slug}
               theme={theme}
-              progress={progress[theme.slug]?.completedTasks?.length || 0}
+              progress={getCompletedScoringCount(theme.slug, progress[theme.slug]?.completedTasks || [])}
               totalTasks={getScoringTaskCount(theme.slug)}
               index={index}
             />

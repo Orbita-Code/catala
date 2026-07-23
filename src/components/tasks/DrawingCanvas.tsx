@@ -148,6 +148,18 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
   const drawHistory = useRef<ImageData[]>([]);
   const [isReplaying, setIsReplaying] = useState(false);
 
+  // Persist the child's drawing so it isn't lost when leaving the task.
+  const STORAGE_KEY = `catala-drawing-${task.id}`;
+  const saveDrawing = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, canvas.toDataURL("image/jpeg", 0.82));
+    } catch {
+      // localStorage full or unavailable — ignore, drawing just won't persist
+    }
+  }, [STORAGE_KEY]);
+
   // Calculate line width based on tool and brush size
   const getLineWidth = () => {
     if (tool === "eraser") return BRUSH_SIZES[brushSize].px * 2;
@@ -256,6 +268,7 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
       setHasDrawn(true);
       playSound("whoosh");
       saveState();
+      saveDrawing();
       return;
     }
 
@@ -271,6 +284,7 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
       setHasDrawn(true);
       playSound("pop");
       saveState();
+      saveDrawing();
       return;
     }
 
@@ -290,6 +304,7 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
   };
 
   const handleEnd = () => {
+    if (drawing) saveDrawing();
     setDrawing(false);
     lastPos.current = null;
   };
@@ -304,6 +319,11 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
     setHasDrawn(false);
     drawHistory.current = [];
     playSound("whoosh");
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      // ignore
+    }
   };
 
   const handleReplay = async () => {
@@ -358,7 +378,21 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
     if (!ctx) return;
     ctx.fillStyle = "#FFFFFF";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-  }, []);
+    // Restore a previously saved drawing for this task, if any.
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const img = new Image();
+        img.onload = () => {
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          setHasDrawn(true);
+        };
+        img.src = saved;
+      }
+    } catch {
+      // ignore
+    }
+  }, [STORAGE_KEY]);
 
   const currentColors = isNeonMode ? NEON_COLORS : COLORS;
 
@@ -557,7 +591,10 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => onComplete({ allCorrect: true, erroredItems: [] })}
+          onClick={() => {
+            saveDrawing();
+            onComplete({ allCorrect: true, erroredItems: [] });
+          }}
           disabled={!hasDrawn}
           className={`px-8 py-3 font-bold rounded-2xl text-lg disabled:opacity-40 shadow-lg transition-all ${
             isNeonMode

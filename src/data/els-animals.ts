@@ -232,39 +232,57 @@ export const elsAnimalsTasks: Task[] = [
     ],
   },
 
-  // === Workbook Ex. 12: Pinta de color (animals by category) ===
+  // === Workbook Ex. 12: Pinta cada animal d'un color diferent (aprèn tots els colors) ===
   {
     id: "els-animals-12",
     type: "color-by-instruction",
-    prompt: "Pinta els animals del color de la seva categoria:",
+    prompt: "Pinta cada animal del color que et diu:",
     image: "animals",
     instructions: [
-      { text: "Pinta el lleó de color verd (mamífer)", targetColor: "verd", targetItem: "lleó" },
-      { text: "Pinta la gavina de color groc (au)", targetColor: "groc", targetItem: "gavina" },
-      { text: "Pinta el cocodril de color vermell (rèptil)", targetColor: "vermell", targetItem: "cocodril" },
-      { text: "Pinta el ratolí de color verd (mamífer)", targetColor: "verd", targetItem: "ratolí" },
-      { text: "Pinta el tauró de color blau (peix)", targetColor: "blau", targetItem: "tauró" },
-      { text: "Pinta la serp de color vermell (rèptil)", targetColor: "vermell", targetItem: "serp" },
-      { text: "Pinta el conill de color verd (mamífer)", targetColor: "verd", targetItem: "conill" },
-      { text: "Pinta la vaca de color verd (mamífer)", targetColor: "verd", targetItem: "vaca" },
-      { text: "Pinta la tortuga de color vermell (rèptil)", targetColor: "vermell", targetItem: "tortuga" },
+      { text: "Pinta el lleó de color groc", targetColor: "groc", targetItem: "lleó" },
+      { text: "Pinta la gavina de color blau", targetColor: "blau", targetItem: "gavina" },
+      { text: "Pinta el cocodril de color verd", targetColor: "verd", targetItem: "cocodril" },
+      { text: "Pinta el ratolí de color marró", targetColor: "marró", targetItem: "ratolí" },
+      { text: "Pinta el tauró de color negre", targetColor: "negre", targetItem: "tauró" },
+      { text: "Pinta la serp de color taronja", targetColor: "taronja", targetItem: "serp" },
+      { text: "Pinta el conill de color rosa", targetColor: "rosa", targetItem: "conill" },
+      { text: "Pinta la vaca de color vermell", targetColor: "vermell", targetItem: "vaca" },
+      { text: "Pinta la tortuga de color lila", targetColor: "lila", targetItem: "tortuga" },
     ],
   },
 
-  // === Workbook Ex. 13: Escriu les parts (bird + fish) ===
+  // === Workbook Ex. 13: Les parts de l'au (quiz per funció) ===
   {
     id: "els-animals-13",
-    type: "label-image",
-    prompt: "Escriu les parts de l'au:",
-    image: "ocell",
-    labels: [
-      { text: "bec", x: 80, y: 30 },
-      { text: "ales", x: 50, y: 40 },
-      { text: "plomes", x: 50, y: 55 },
-      { text: "cua", x: 15, y: 50 },
-      { text: "potes", x: 55, y: 80 },
+    type: "multiple-choice",
+    prompt: "Les parts de l'au. Tria la resposta correcta:",
+    questions: [
+      {
+        question: "Amb què vola l'au?",
+        options: ["potes", "ales", "bec", "cua"],
+        correct: 1,
+      },
+      {
+        question: "Amb què menja l'au?",
+        options: ["cua", "plomes", "potes", "bec"],
+        correct: 3,
+      },
+      {
+        question: "De què està cobert el cos de l'au?",
+        options: ["escates", "pèl", "plomes", "ales"],
+        correct: 2,
+      },
+      {
+        question: "Amb què camina l'au per terra?",
+        options: ["potes", "ales", "bec", "cua"],
+        correct: 0,
+      },
+      {
+        question: "Què té l'au al darrere per dirigir el vol?",
+        options: ["bec", "plomes", "potes", "cua"],
+        correct: 3,
+      },
     ],
-    options: ["bec", "ales", "plomes", "cua", "potes", "ull", "cap"],
   },
 
   // === Workbook Ex. 14: FEMENÍ / MASCULÍ (gender pairs) ===
@@ -331,6 +349,7 @@ export const elsAnimalsTasks: Task[] = [
     questions: [
       {
         question: "Com és l'ós?",
+        image: "os",
         options: [
           "Gran, mamífer, cobert de pel, viu al bosc",
           "Petit, insecte, té ales, viu a les flors",
@@ -341,6 +360,7 @@ export const elsAnimalsTasks: Task[] = [
       },
       {
         question: "Com és el cavall?",
+        image: "cavall",
         options: [
           "Petit, té escates, neda al mar",
           "Gran, mamífer, cobert de pel, camina",
@@ -351,6 +371,7 @@ export const elsAnimalsTasks: Task[] = [
       },
       {
         question: "Com és la papallona?",
+        image: "papallona",
         options: [
           "Gran, mamífer, camina",
           "Petit, rèptil, s'arrossega",
@@ -361,6 +382,7 @@ export const elsAnimalsTasks: Task[] = [
       },
       {
         question: "Com és el tauró?",
+        image: "tauro",
         options: [
           "Petit, insecte, vola",
           "Gran, au, camina",
@@ -372,56 +394,50 @@ export const elsAnimalsTasks: Task[] = [
     ],
   },
 
-  // === Workbook Ex. 17: Ordena les paraules ===
+  // === Workbook Ex. 17: Completa l'oració (versió fàcil de "ordena les paraules") ===
   {
     id: "els-animals-17",
-    type: "order-words",
-    prompt: "Ordena les paraules i forma oracions:",
+    type: "fill-sentence",
+    prompt: "Completa les oracions sobre els animals:",
     sentences: [
       {
-        scrambled: ["menja", "serp", "conills", "La", "rates", "i"],
-        correct: ["La", "serp", "menja", "rates", "i", "conills"],
+        text: "La serp menja rates i ___.",
+        blank: "conills",
+        options: ["conills", "flors", "arbres"],
       },
       {
-        scrambled: ["gossos", "dos", "negre", "Tinc", "color", "de", "casa", "a"],
-        correct: ["Tinc", "dos", "gossos", "de", "color", "negre", "a", "casa"],
+        text: "Tinc dos gossos de color ___.",
+        blank: "negre",
+        options: ["negre", "blau", "verd"],
       },
       {
-        scrambled: ["animal", "un", "L'elefant", "gran", "és", "molt"],
-        correct: ["L'elefant", "és", "un", "animal", "molt", "gran"],
+        text: "L'elefant és un animal molt ___.",
+        blank: "gran",
+        options: ["gran", "petit", "alt"],
       },
     ],
   },
 
-  // === Workbook Ex. 18: Llegeix el text i contesta (reading comprehension) ===
+  // === Workbook Ex. 18: Mira la serp i respon (versió fàcil i visual) ===
   {
     id: "els-animals-18",
     type: "multiple-choice",
-    prompt: "Llegeix sobre les serps i contesta:",
+    prompt: "Mira la serp i respon:",
+    image: "serp",
     questions: [
       {
-        question: "Les serps tenen orelles?",
-        options: ["Sí", "No", "Algunes", "Només les grans"],
+        question: "La serp té potes?",
+        options: ["Sí", "No"],
         correct: 1,
       },
       {
-        question: "Per què no poden tancar els ulls?",
-        options: [
-          "Perquè no tenen parpelles",
-          "Perquè són molt grans",
-          "Perquè viuen al mar",
-          "Perquè dormen de dia",
-        ],
-        correct: 0,
+        question: "Com es mou la serp?",
+        options: ["vola", "neda", "s'arrossega"],
+        correct: 2,
       },
       {
-        question: "Quina serp del nostre país és perillosa?",
-        options: ["La pitonissa", "L'escurçó", "La cobra", "La boa"],
-        correct: 1,
-      },
-      {
-        question: "Totes les serps del nostre país són perilloses?",
-        options: ["Sí, totes", "No, només l'escurçó", "No, cap", "Sí, la majoria"],
+        question: "La serp és un...",
+        options: ["au", "rèptil", "peix"],
         correct: 1,
       },
     ],
@@ -469,7 +485,7 @@ export const elsAnimalsTasks: Task[] = [
       { word: "elefant", hint: "e_ef_nt", image: "elefant" },
       { word: "hipopòtam", hint: "h_p_p_tam", image: "hipopotam" },
       { word: "tortuga", hint: "t_rt_ga", image: "tortuga" },
-      { word: "sardina", hint: "s_rd_na", image: "sardina" },
+      { word: "peix", hint: "p_ix", image: "peix" },
     ],
   },
 
@@ -485,7 +501,7 @@ export const elsAnimalsTasks: Task[] = [
       { catalan: "serp", translation: "zmija", image: "serp" },
       { catalan: "tortuga", translation: "kornjača", image: "tortuga" },
       { catalan: "papallona", translation: "leptir", image: "papallona" },
-      { catalan: "sardina", translation: "sardina", image: "sardina" },
+      { catalan: "peix", translation: "riba", image: "peix" },
       { catalan: "lleó", translation: "lav", image: "lleo" },
       { catalan: "elefant", translation: "slon", image: "elefant" },
       { catalan: "tigre", translation: "tigar", image: "tigre" },

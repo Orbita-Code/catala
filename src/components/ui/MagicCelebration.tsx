@@ -124,9 +124,9 @@ export default function MagicCelebration({ intensity = "high" }: { intensity?: "
 
       {/* Sparkles */}
       <AnimatePresence>
-        {sparkles.map((sparkle) => (
+        {sparkles.map((sparkle, i) => (
           <motion.div
-            key={sparkle.id}
+            key={`sparkle-${i}`}
             initial={{ opacity: 0, scale: 0 }}
             animate={{
               opacity: [0, 1, 1, 0],
@@ -156,9 +156,9 @@ export default function MagicCelebration({ intensity = "high" }: { intensity?: "
 
       {/* Confetti rain */}
       <AnimatePresence>
-        {confetti.map((piece) => (
+        {confetti.map((piece, i) => (
           <motion.div
-            key={piece.id}
+            key={`confetti-${i}`}
             initial={{
               x: `${piece.x}vw`,
               y: "-5vh",
@@ -207,9 +207,9 @@ export default function MagicCelebration({ intensity = "high" }: { intensity?: "
 
       {/* Magic twinkling stars */}
       <AnimatePresence>
-        {magicStars.map((star) => (
+        {magicStars.map((star, i) => (
           <motion.div
-            key={star.id}
+            key={`star-${i}`}
             initial={{ opacity: 0, scale: 0 }}
             animate={{
               opacity: [0, 1, 0.5, 1, 0],

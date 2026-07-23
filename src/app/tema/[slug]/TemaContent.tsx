@@ -10,7 +10,7 @@ import AnimatedStar from "@/components/star/AnimatedStar";
 import type { StarReaction } from "@/components/star/starTypes";
 import { getStarReaction, getReactionEvent } from "@/lib/starReactions";
 import { themes } from "@/data/themes";
-import { taskData, getScoringTaskCount } from "@/data/task-data";
+import { taskData, getScoringTaskCount, getCompletedScoringCount } from "@/data/task-data";
 import { getThemeProgress, completeTask, isThemeFullyComplete, saveThemeProgress } from "@/lib/progress";
 import { getEncouragement } from "@/lib/encouragement";
 import { addError, getThemeErrors, getThemeErrorCount, getErroredItemsList, removeError, clearThemeErrors } from "@/lib/errors";
@@ -83,12 +83,21 @@ export default function TemaContent({ slug }: TemaContentProps) {
   useEffect(() => {
     if (!mounted) return;
     const progress = getThemeProgress(slug);
-    if (progress.currentTask >= tasks.length && progress.completedTasks.length > 0) {
-      // All tasks were completed before — show celebration
+    const scoringTotal = getScoringTaskCount(slug);
+    const scoringDone = getCompletedScoringCount(slug, progress.completedTasks);
+    if (
+      progress.currentTask >= tasks.length &&
+      scoringTotal > 0 &&
+      scoringDone >= scoringTotal
+    ) {
+      // Every scoring task is genuinely done — show the celebration.
       setShowCelebration(true);
     } else if (progress.currentTask > 0 && progress.currentTask < tasks.length) {
+      // Resume where the child left off.
       setCurrentTaskIndex(progress.currentTask);
     }
+    // Otherwise (reached the end but NOT all scoring tasks done) land on task 1
+    // so the child can browse/finish the remaining tasks instead of a false celebration.
     setStreak(progress.streak);
   }, [slug, tasks.length, mounted]);
 
@@ -495,7 +504,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="min-h-dvh flex flex-col items-center justify-center gap-6 px-4 text-center relative z-10"
+          className="min-h-dvh flex flex-col items-center justify-center gap-6 px-4 text-center relative z-50 pointer-events-none"
         >
           {/* Celebration emoji instead of mascot */}
           <motion.div
@@ -626,7 +635,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
               className="bg-yellow-50 rounded-2xl p-4 max-w-xs border border-yellow-200"
             >
               <p className="text-sm font-semibold text-yellow-800">
-                Algunes tasques tenen errors. Repassa-les per aconseguir la celebració completa! 🌟
+                Encara et queden algunes tasques. Acaba-les per completar el tema! 🌟
               </p>
             </motion.div>
           )}
@@ -634,34 +643,53 @@ export default function TemaContent({ slug }: TemaContentProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.9 }}
-            className="flex flex-col gap-3 w-full max-w-xs mt-4"
+            className="flex flex-col gap-3 w-full max-w-xs mt-4 pointer-events-auto"
           >
             {!fullyComplete && (
               <button
                 onClick={() => {
+                  const progress = getThemeProgress(slug);
                   const themeErrors = getThemeErrors(slug);
                   const erroredTaskIds = Object.keys(themeErrors);
-                  if (erroredTaskIds.length === 0) return;
-                  const firstErroredIdx = tasks.findIndex((t) => erroredTaskIds.includes(t.id));
-                  if (firstErroredIdx < 0) return;
-                  const progress = getThemeProgress(slug);
-                  saveThemeProgress(slug, {
-                    completedTasks: progress.completedTasks.filter(
-                      (id: string) => !erroredTaskIds.includes(id)
-                    ),
-                    currentTask: firstErroredIdx,
-                  });
-                  clearThemeErrors(slug);
+                  let targetIdx = -1;
+                  if (erroredTaskIds.length > 0) {
+                    // There are wrong answers → redo the first errored task.
+                    targetIdx = tasks.findIndex((t) => erroredTaskIds.includes(t.id));
+                    saveThemeProgress(slug, {
+                      completedTasks: progress.completedTasks.filter(
+                        (id: string) => !erroredTaskIds.includes(id)
+                      ),
+                    });
+                    clearThemeErrors(slug);
+                  }
+                  if (targetIdx < 0) {
+                    // No errors — go to the first scoring task that was skipped / not done.
+                    targetIdx = tasks.findIndex(
+                      (t) => !t.bonus && !progress.completedTasks.includes(t.id)
+                    );
+                  }
+                  if (targetIdx < 0) return;
                   setJustCompletedTaskId(null);
                   setHundredPercentJustHit(false);
-                  setCurrentTaskIndex(firstErroredIdx);
+                  setCurrentTaskIndex(targetIdx);
                   setShowCelebration(false);
                 }}
                 className="w-full py-3 bg-orange-500 text-white font-bold rounded-2xl text-lg shadow-md hover:bg-orange-600 transition-colors"
               >
-                Repassa els errors 💪
+                Acaba les tasques 💪
               </button>
             )}
+            <button
+              onClick={() => {
+                // Browse the theme's tasks (review mode) without resetting progress.
+                setJustCompletedTaskId(null);
+                setCurrentTaskIndex(0);
+                setShowCelebration(false);
+              }}
+              className="w-full py-3 bg-white text-[var(--text)] font-bold rounded-2xl text-lg border-2 border-gray-200 hover:bg-gray-50 transition-colors"
+            >
+              Repassa les tasques 👀
+            </button>
             <button
               onClick={() => {
                 saveThemeProgress(slug, {

@@ -21,8 +21,9 @@ export default function ThemeCard({ theme, progress, totalTasks, index }: ThemeC
     setErrorCount(getThemeErrorCount(theme.slug));
   }, [theme.slug]);
 
-  const completedCount = progress;
   const totalCount = totalTasks;
+  // Safety clamp: never show more completed than total (e.g. stale IDs → "13/12").
+  const completedCount = Math.min(progress, totalCount);
   const progressPercent = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
   const isCompleted = completedCount >= totalCount;
 

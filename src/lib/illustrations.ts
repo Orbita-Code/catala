@@ -735,10 +735,17 @@ const wordsWithIllustrations = new Set([
   "truita-de-patates",
   // Els animals
   "conill",
+  "conilla",
   "elefant",
+  "elefanta",
   "gat",
+  "gata",
+  "lleona",
+  "ossa",
+  "tigressa",
   "girafa",
   "gos",
+  "gossa",
   "lleo",
   "ocell",
   "porc",
@@ -924,14 +931,16 @@ function stripAccents(s: string): string {
 const CATALAN_ARTICLES = /^(el |la |l'|els |les |un |una )/;
 
 export function getWordIllustration(word: string): string | null {
-  const key = stripAccents(word.toLowerCase().trim()).replace(/\s+/g, "-");
+  // Normalize spaces AND apostrophes to dashes so "parada d'autobús" → "parada-d-autobus"
+  // (filenames use dashes, e.g. parada-d-autobus.webp, not an apostrophe).
+  const key = stripAccents(word.toLowerCase().trim()).replace(/[\s']+/g, "-");
   if (wordsWithIllustrations.has(key)) {
     return `/illustrations/${key}.webp`;
   }
   // Try stripping article prefix (e.g. "la classe" → "classe", "l'escola" → "escola")
   const stripped = word.toLowerCase().trim().replace(CATALAN_ARTICLES, "");
   if (stripped !== word.toLowerCase().trim()) {
-    const strippedKey = stripAccents(stripped).replace(/\s+/g, "-");
+    const strippedKey = stripAccents(stripped).replace(/[\s']+/g, "-");
     if (wordsWithIllustrations.has(strippedKey)) {
       return `/illustrations/${strippedKey}.webp`;
     }

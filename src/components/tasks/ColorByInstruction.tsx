@@ -180,11 +180,23 @@ export default function ColorByInstruction({ task, onComplete, review = false }:
           const isSelected = selectedItem === inst.targetItem;
 
           return (
-            <motion.button
+            <motion.div
               key={i}
+              role="button"
+              tabIndex={allDone || isCorrect ? -1 : 0}
+              aria-disabled={allDone || isCorrect}
               whileTap={isCorrect ? undefined : { scale: 0.95 }}
-              onClick={() => handleItemTap(inst.targetItem)}
-              disabled={allDone || isCorrect}
+              onClick={() => {
+                if (allDone || isCorrect) return;
+                handleItemTap(inst.targetItem);
+              }}
+              onKeyDown={(e) => {
+                if (allDone || isCorrect) return;
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  handleItemTap(inst.targetItem);
+                }
+              }}
               className={`relative rounded-xl shadow-sm border-2 transition-all flex flex-col items-center p-2 gap-1 ${
                 isCorrect
                   ? "" // Use style for target color background
@@ -268,7 +280,7 @@ export default function ColorByInstruction({ task, onComplete, review = false }:
                   <RefreshCcw className="w-4 h-4 text-orange-500" />
                 </motion.span>
               )}
-            </motion.button>
+            </motion.div>
           );
         })}
       </div>
