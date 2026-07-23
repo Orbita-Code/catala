@@ -232,36 +232,34 @@ export const elsOficisTasks: Task[] = [
   },
   {
     id: "els-oficis-12",
-    type: "classify-columns",
-    prompt: "Classifica: Oficis de salut vs Oficis de seguretat vs Altres",
-    columns: [
+    type: "fill-sentence",
+    prompt: "Endevina quin ofici és:",
+    sentences: [
       {
-        title: "Salut",
-        items: ["metge", "infermer", "dentista", "veterinari", "farmacèutic"],
+        text: "Apaga els incendis i porta un casc: ___.",
+        blank: "bomber",
+        options: ["bomber", "cuiner", "mestre"],
       },
       {
-        title: "Seguretat",
-        items: ["bomber", "policia", "socorrista"],
+        text: "Cura les persones malaltes a l'hospital: ___.",
+        blank: "metge",
+        options: ["pilot", "metge", "jardiner"],
       },
       {
-        title: "Altres",
-        items: ["mestre", "cuiner", "pilot", "jardiner", "pagès"],
+        text: "Ensenya a llegir i escriure a l'escola: ___.",
+        blank: "mestre",
+        options: ["mestre", "policia", "cambrer"],
       },
-    ],
-    allItems: [
-      "metge",
-      "infermer",
-      "dentista",
-      "veterinari",
-      "farmacèutic",
-      "bomber",
-      "policia",
-      "socorrista",
-      "mestre",
-      "cuiner",
-      "pilot",
-      "jardiner",
-      "pagès",
+      {
+        text: "Cuina plats deliciosos al restaurant: ___.",
+        blank: "cuiner",
+        options: ["dentista", "cuiner", "pilot"],
+      },
+      {
+        text: "Condueix l'avió pel cel: ___.",
+        blank: "pilot",
+        options: ["bomber", "metge", "pilot"],
+      },
     ],
   },
   {
