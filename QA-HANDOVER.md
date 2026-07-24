@@ -52,7 +52,7 @@ node e2e/qa/run.mjs la-classe              # 2b) jedna tema (za debug)
 node e2e/qa/run.mjs els-animals el-menjar  # 2c) više tema
 
 # TESTIRANJE PRODUKCIJE (iza basic auth-a):
-BASE=https://catala.orbitacode.com BASIC_AUTH=catala:catala2025 node e2e/qa/run.mjs
+BASE=https://catala.orbitacode.com BASIC_AUTH="$KATALA_AUTH" node e2e/qa/run.mjs  # KATALA_AUTH="korisnik:lozinka" iz Coolify env
 ```
 
 ### Kako čitati izveštaj (konzola / `report.json`)
@@ -135,7 +135,7 @@ cwebp -q 80 public/illustrations/<kljuc>.png -o public/illustrations/<kljuc>.web
 ## 🚀 DEPLOY
 - Repo: `github.com/Orbita-Code/catala`, grana **main**. Coolify auto-deploy sa main-a (Dockerfile).
 - Build traje ~3-5 min (server ima malo RAM-a, zna OOM/rolling). Verifikuj da je gotov:
-  `curl -o /dev/null -w "%{http_code}" -u catala:catala2025 https://catala.orbitacode.com/illustrations/<nova-slika>.webp`
+  `curl -o /dev/null -w "%{http_code}" -u "$KATALA_AUTH" https://catala.orbitacode.com/illustrations/<nova-slika>.webp` (kredencijali iz Coolify env, NE u repo)
   (404=još builduje, 200=gotovo).
 - **Pre deploy-a:** `npx tsc --noEmit` (mora 0) + `npm run build` (mora exit 0).
 - **Push samo uz odobrenje korisnice.** Commit poruke na srpskom/engleskom, opisne.
