@@ -392,6 +392,12 @@ export const wordEmoji: Record<string, string> = {
 // Words that have 3D illustration PNGs in /public/illustrations/
 // As illustrations are generated, add the word here
 const wordsWithIllustrations = new Set([
+  // Zabavne životinje (dodato 24.07.2026) — flamingo, jednorog, žaba, patka, guska
+  "flamenc",
+  "unicorn",
+  "granota",
+  "anec",
+  "oca",
   "llapis",
   "goma",
   "retolador",

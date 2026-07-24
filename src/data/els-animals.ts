@@ -74,12 +74,23 @@ export const elsAnimalsTasks: Task[] = [
     type: "copy-word",
     prompt: "Llegeix i copia els peixos:",
     words: [
-      { catalan: "sardina", image: "sardina" },
+      { catalan: "peix", image: "peix" },
       { catalan: "tauró", image: "tauro" },
-      { catalan: "tonyina", image: "tonyina" },
-      { catalan: "peix espasa", image: "peix-espasa" },
-      { catalan: "salmó", image: "salmo" },
-      { catalan: "bacallà", image: "bacalla" },
+      { catalan: "sardina", image: "sardina" },
+    ],
+  },
+
+  // === Animals divertits (dodato 24.07.2026 — zabavne popularne životinje) ===
+  {
+    id: "els-animals-4b",
+    type: "copy-word",
+    prompt: "Llegeix i copia aquests animals:",
+    words: [
+      { catalan: "flamenc", image: "flamenc" },
+      { catalan: "ànec", image: "anec" },
+      { catalan: "oca", image: "oca" },
+      { catalan: "granota", image: "granota" },
+      { catalan: "unicorn", image: "unicorn" },
     ],
   },
 
@@ -103,7 +114,7 @@ export const elsAnimalsTasks: Task[] = [
     columns: [
       {
         title: "Au",
-        items: ["gallina", "mussol", "oreneta", "gavina"],
+        items: ["gallina", "oreneta", "flamenc", "ànec"],
       },
       {
         title: "Insecte",
@@ -111,30 +122,61 @@ export const elsAnimalsTasks: Task[] = [
       },
       {
         title: "Peix",
-        items: ["sardina", "tauró", "tonyina", "salmó"],
+        items: ["sardina", "tauró", "peix"],
       },
       {
         title: "Rèptil",
-        items: ["serp", "tortuga", "cocodril"],
+        items: ["serp", "tortuga", "granota"],
       },
     ],
     allItems: [
       "gallina",
-      "mussol",
       "oreneta",
-      "gavina",
+      "flamenc",
+      "ànec",
       "mosca",
       "formiga",
       "abella",
       "papallona",
       "sardina",
       "tauró",
-      "tonyina",
-      "salmó",
+      "peix",
       "serp",
       "tortuga",
-      "cocodril",
+      "granota",
     ],
+  },
+
+  // === Domèstics vs Salvatges (dodato 24.07.2026) ===
+  {
+    id: "els-animals-6c",
+    type: "classify-columns",
+    prompt: "Classifica: animal domèstic o salvatge?",
+    columns: [
+      {
+        title: "Domèstic",
+        items: ["gos", "gat", "cavall", "gallina", "ànec", "conill"],
+      },
+      {
+        title: "Salvatge",
+        items: ["lleó", "tigre", "elefant", "girafa", "ós", "mico"],
+      },
+    ],
+    allItems: [
+      "gos",
+      "gat",
+      "cavall",
+      "gallina",
+      "ànec",
+      "conill",
+      "lleó",
+      "tigre",
+      "elefant",
+      "girafa",
+      "ós",
+      "mico",
+    ],
+    circleMode: true,
   },
 
   // === Workbook Ex. 8: Observa ELS MAMÍFERS (18) ===

@@ -230,16 +230,24 @@ export default function LabelImage({ task, onComplete, review = false }: Props) 
                         {getWordIllustration(placed[i]) ? <img src={getWordIllustration(placed[i])!} alt="" className="w-10 h-10 object-contain inline" /> : null}
                         {placed[i]}
                         {checked && (results[i] ? " ✅" : (
-                          <button
+                          <span
+                            role="button"
+                            tabIndex={0}
                             onClick={(e) => {
                               e.stopPropagation();
                               handleRetrySingle(i);
                             }}
-                            className="inline-flex items-center justify-center p-1 ml-1 rounded-full hover:bg-orange-100 transition-colors"
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter" || e.key === " ") {
+                                e.stopPropagation();
+                                handleRetrySingle(i);
+                              }
+                            }}
+                            className="inline-flex items-center justify-center p-1 ml-1 rounded-full hover:bg-orange-100 transition-colors cursor-pointer"
                             aria-label="Torna a provar"
                           >
                             <RefreshCcw className="w-4 h-4 text-orange-500" />
-                          </button>
+                          </span>
                         ))}
                       </>
                     ) : (
@@ -266,16 +274,24 @@ export default function LabelImage({ task, onComplete, review = false }: Props) 
           {task.options.map((word) => {
             const isBeingDragged = dragState.isDragging && dragState.draggedItem === word;
             return (
-              <motion.button
+              <motion.div
                 key={word}
+                role="button"
+                tabIndex={checked ? -1 : 0}
                 whileTap={dragState.isDragging ? undefined : { scale: 0.95 }}
-                onClick={() => handleWordTap(word)}
+                onClick={() => { if (!checked) handleWordTap(word); }}
+                onKeyDown={(e) => {
+                  if (!checked && (e.key === "Enter" || e.key === " ")) {
+                    e.preventDefault();
+                    handleWordTap(word);
+                  }
+                }}
                 onPointerDown={(e) => {
                   if (!checked && !usedWords.has(word)) {
                     handlePointerDown(word, "bank", e);
                   }
                 }}
-                disabled={checked}
+                aria-disabled={checked}
                 className={`px-4 py-3 min-h-[48px] rounded-xl font-bold text-base transition-all select-none ${
                   isBeingDragged
                     ? "opacity-40 bg-gray-100 text-gray-300"
@@ -292,7 +308,7 @@ export default function LabelImage({ task, onComplete, review = false }: Props) 
                 {!checked && !usedWords.has(word) && (
                   <SpeakerButton text={word} size={14} className="ml-1 inline-block" light={selectedWord === word} />
                 )}
-              </motion.button>
+              </motion.div>
             );
           })}
         </div>

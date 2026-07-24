@@ -431,6 +431,38 @@ export const elMenjarTasks: Task[] = [
     ],
   },
 
+  // === Fruita vs Verdura (dodato 24.07.2026) ===
+  {
+    id: "el-menjar-20b",
+    type: "classify-columns",
+    prompt: "Classifica: fruita o verdura?",
+    columns: [
+      {
+        title: "Fruita",
+        items: ["poma", "plàtan", "pera", "taronja", "maduixa", "cirera"],
+      },
+      {
+        title: "Verdura",
+        items: ["ceba", "pastanaga", "enciam", "pebrot", "tomàquet", "patata"],
+      },
+    ],
+    allItems: [
+      "poma",
+      "plàtan",
+      "pera",
+      "taronja",
+      "maduixa",
+      "cirera",
+      "ceba",
+      "pastanaga",
+      "enciam",
+      "pebrot",
+      "tomàquet",
+      "patata",
+    ],
+    circleMode: true,
+  },
+
   // === AUTOAVALUACIÓ ===
   {
     id: "el-menjar-21",

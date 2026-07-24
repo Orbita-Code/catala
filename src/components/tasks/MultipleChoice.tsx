@@ -138,16 +138,24 @@ export default function MultipleChoice({ task, onComplete, review = false }: Pro
               {option}
               {showResult && i === question.correct && " ✅"}
               {showResult && i === selected && !isCorrect && (
-                <button
+                <span
+                  role="button"
+                  tabIndex={0}
                   onClick={(e) => {
                     e.stopPropagation();
                     handleRetry();
                   }}
-                  className="inline-flex items-center justify-center p-1 ml-1 rounded-full hover:bg-orange-100 transition-colors"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.stopPropagation();
+                      handleRetry();
+                    }
+                  }}
+                  className="inline-flex items-center justify-center p-1 ml-1 rounded-full hover:bg-orange-100 transition-colors cursor-pointer"
                   aria-label="Torna a provar"
                 >
                   <RefreshCcw className="w-5 h-5 text-orange-500" />
-                </button>
+                </span>
               )}
             </motion.button>
           ))}
