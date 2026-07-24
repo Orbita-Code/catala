@@ -155,7 +155,7 @@ export const elsAnimalsTasks: Task[] = [
     columns: [
       {
         title: "Domèstic",
-        items: ["gos", "gat", "cavall", "gallina", "ànec", "conill"],
+        items: ["gos", "gat", "cavall", "gallina", "ànec", "vaca"],
       },
       {
         title: "Salvatge",
@@ -168,7 +168,7 @@ export const elsAnimalsTasks: Task[] = [
       "cavall",
       "gallina",
       "ànec",
-      "conill",
+      "vaca",
       "lleó",
       "tigre",
       "elefant",
