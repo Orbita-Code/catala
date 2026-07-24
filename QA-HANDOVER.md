@@ -1,8 +1,9 @@
 # QA HANDOVER & UPUTSTVO ZA TESTIRANJE — Katalonski
 
 > **Sledeća sesija: pročitaj OVO celo pre rada.** Ovo je autoritativni vodič za testiranje i
-> stanje projekta. Poslednje ažuriranje: **24.07.2026** (sesija: slike bez teksta, nove zabavne
-> životinje, hydration fix, QA toolkit, solver popravke, deploy).
+> stanje projekta. Poslednje ažuriranje: **25.07.2026** (slike bez teksta, nove zabavne životinje,
+> hydration fix, QA toolkit + solver popravke, celebration/UX popravke, rotacija lozinke, deploy do SW v15).
+> **Produkcija je iza basic auth-a — lozinka u memoriji `reference_katalonski_credentials` (NE u repo).**
 
 ---
 
@@ -175,16 +176,42 @@ Sva 3 nova zadatka odigrana u browseru uživo — rade.
   `estació` (istaknuta zgrada+peron, bio dominantan voz → mešalo se sa „tren"), `carrer` (dodati
   AUTOMOBILI na kolovoz — ćerka rekla da bez kola liči na hodnik/pasillo).
 
+**Nastavak 24-25.07.2026 (commit-i do `dfe5b22`, SW v15):**
+- **`fanal`** — bila mutna na dnu → zamenjena oštrom (već postojala kao `Ilustracije/fanall.png`).
+- **Celebration ekran (završetak teme) — više popravki:**
+  - „Acaba les tasques" NIJE radilo (gledalo samo `getThemeErrors`, a `fullyComplete` gleda
+    `progress.taskErrors`) → sad koristi OBA + fallback da uvek navigira. Prijavljeno 2 sesije.
+  - Posle rešavanja pogrešnog zadatka → skače na sledeći NEZAVRŠEN (preskače završene; dete ne klikće
+    „Següent" kroz gotove). Kad su svi gotovi → celebration.
+  - Redosled dugmadi: **Acaba** (samo ako ima grešaka) → **Següent: Tema** (uvek) → Repassa → Repeteix → Torna.
+  - „Repeteix tot el tema" (RESET) → prigušeno SIVO + „(comença de nou) 🔄" (bila boja teme → izgledala
+    kao „napred"; rizik od slučajnog reseta).
+  - **Klik na ZAVRŠENU temu → uvek celebration** (ranije vraćao na srednji zadatak 9/12).
+- **QA solveri popravljeni:** word-search drag (centar svake ćelije), fill-sentence/MC/add-article
+  PRAVI `getByRole` klik (koordinatni promašuje zbog framer-motion), **fix drift indeksa** (runner NE sme
+  duplirati „Següent" — neki zadaci se auto-završe → brojač skoči). la-classe: zaglavljeno 2→0, napomene 7→3.
+  `run.mjs` dobio `BASIC_AUTH` env za testiranje produkcije.
+- **🔒 SIGURNOST — lozinka rotirana:** stara basic-auth `catala2025` procurela na GitHub (GitGuardian;
+  repo je JAVAN, bila hardkodovana u `middleware.ts`). Rotirana → nova lozinka u **Coolify env**
+  (`BASIC_AUTH_USER`/`BASIC_AUTH_PASS`), uklonjena iz koda (placeholder „changeme") i iz svih docs.
+  **Nova lozinka je u privatnoj memoriji `reference_katalonski_credentials` — NIKAD u repo.**
+
 ---
 
 ## 📋 ŠTA OSTAJE / IDEJE ZA DALJE
-- (Opciono) Pun re-test svih 12 tema sad kad su solveri popravljeni — očekivano skoro čist izveštaj.
-- (Opciono) Regenerisati postojeće slike prodavnica SA tekstom (cinema/restaurant/mercat/farmacia/
-  peixeteria/verduleria/carnisseria) BEZ teksta radi višejezičnosti (pravilo #2).
+- **Pun re-test svih 12 tema** sad kad su solveri popravljeni — očekivano skoro čist izveštaj
+  (finalna potvrda pred lansiranje). `BASE=https://catala.orbitacode.com BASIC_AUTH=catala:<lozinka> node e2e/qa/run.mjs`
+  (lozinka u memoriji `reference_katalonski_credentials`).
+- **Slike prodavnica SA tekstom → regen BEZ teksta** (pravilo #2, višejezičnost). PREOSTALO:
+  `mercat`, `restaurant`, `farmacia`, `peixeteria`, `verduleria`, `carnisseria`.
+  (VEĆ urađeno bez teksta: fleca, fruiteria, cinema.)
 - (Opciono) Još zabavnih životinja / novih tipova zabavnih zadataka za uzrast 5-7.
-- Dorada solvera: `color-by-instruction` (best-effort), copy-word „poslednja reč" šum.
+- Dorada solvera: `color-by-instruction` (best-effort), copy-word „poslednja reč" šum, fill-sentence
+  višerečeničan (solver ne kompletira uvek — vidi test).
 - Težina za 7-godišnjaka (kandidati za pojednostavljenje — korisnica odlučuje): gramatika rod/broj
   (LA/EL/LES/ELS, un/una), dugački MC opisi, decode-grid, separate-words.
+- **Rimoteka NEMA svoj CLAUDE.md** (drugi projekat, `~/Desktop/Projects/rimoteka/`) — korisnica je pitala;
+  po želji napraviti kompletan projektni CLAUDE.md.
 
 ## 🧹 ČIŠĆENJE FOLDERA (pre finalnog lansiranja, uz potvrdu)
 Gomila zastarelih/duplih `.png` (stare Bing verzije). `public/illustrations/` ima 440+ `.png` koje
@@ -193,5 +220,6 @@ app NE koristi + orphan `.webp` (npr. `a-darrere`, `a-davant`, `gorilla` eng. va
 Findera. Prvo izlistaj, pa potvrda korisnice.
 
 ## Reference (memory)
-`reference_katalonski_qa_toolkit` · `feedback_illustrations_no_text_multilang` ·
-`reference_chatgpt_illustrations_via_chrome` · `feedback_no_shortcuts_be_thorough`
+`reference_katalonski_qa_toolkit` · `reference_katalonski_credentials` (lozinka produkcije) ·
+`feedback_illustrations_no_text_multilang` · `reference_chatgpt_illustrations_via_chrome` ·
+`feedback_no_shortcuts_be_thorough`
