@@ -448,9 +448,9 @@ export const elsAnimalsTasks: Task[] = [
         options: ["conills", "flors", "arbres"],
       },
       {
-        text: "Tinc dos gossos de color ___.",
-        blank: "negre",
-        options: ["negre", "blau", "verd"],
+        text: "La granota és de color ___.",
+        blank: "verd",
+        options: ["verd", "blau", "vermell"],
       },
       {
         text: "L'elefant és un animal molt ___.",

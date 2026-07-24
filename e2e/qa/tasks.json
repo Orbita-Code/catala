@@ -8150,12 +8150,12 @@
           ]
         },
         {
-          "text": "Tinc dos gossos de color ___.",
-          "blank": "negre",
+          "text": "La granota és de color ___.",
+          "blank": "verd",
           "options": [
-            "negre",
+            "verd",
             "blau",
-            "verd"
+            "vermell"
           ]
         },
         {
