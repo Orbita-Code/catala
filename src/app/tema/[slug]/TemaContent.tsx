@@ -226,7 +226,17 @@ export default function TemaContent({ slug }: TemaContentProps) {
         setFeedbackMessage(null);
         setFeedbackReaction(null);
         setJustCompletedTaskId(null);
-        setCurrentTaskIndex(currentTaskIndex + 1);
+        // Skoči na sledeći NEZAVRŠEN zadatak (preskoči već urađene). Bitno u 'Acaba les
+        // tasques' režimu: dete ne mora da klikće 'Següent' kroz gotove do sledeće greške.
+        const prog = getThemeProgress(slug);
+        let nextIdx = tasks.findIndex(
+          (t, i) => i > currentTaskIndex && !t.bonus && !prog.completedTasks.includes(t.id)
+        );
+        if (nextIdx < 0) {
+          // nema napred — potraži bilo koji nezavršen (greška pre trenutnog zadatka)
+          nextIdx = tasks.findIndex((t) => !t.bonus && !prog.completedTasks.includes(t.id));
+        }
+        setCurrentTaskIndex(nextIdx >= 0 ? nextIdx : currentTaskIndex + 1);
       }, 2000);
     } else {
       setTimeout(() => {
