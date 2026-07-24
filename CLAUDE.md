@@ -164,7 +164,7 @@ npm run test:ui  # Playwright UI mode
 - Confetti celebrations on task completion
 - Celebration screen at end of theme
 - Streak/combo tracking
-- Basic HTTP auth middleware (default: catala/catala2025)
+- Basic HTTP auth middleware (kredencijali iz Coolify env: BASIC_AUTH_USER/BASIC_AUTH_PASS; lokalni fallback: catala/changeme)
 - localStorage progress persistence
 - Theme cards show theme number (1-12)
 - Badge/trophy system (19 badges)
@@ -430,7 +430,7 @@ All 18 missing illustrations have been generated via ChatGPT custom GPT:
 - `ILLUSTRATION-PROMPTS.md` contains prompts for generating vocabulary illustrations
 - Design uses Nunito font with purple primary palette
 - Mobile-first responsive design
-- Basic auth middleware: default credentials catala/catala2025 (override via BASIC_AUTH_USER/BASIC_AUTH_PASS env vars)
+- Basic auth middleware: kredencijali postavljeni u Coolify env (BASIC_AUTH_USER/BASIC_AUTH_PASS). Lokalni dev fallback: catala/changeme. NIKAD hardkodovati pravu lozinku u repo (javan je).
 - Cover images are in `public/covers/` (one per theme)
 - **Deployment:** Coolify at `panel.orbitacode.com`, Build Pack: Dockerfile, GitHub repo: `Orbita-Code/catala`
 - **Server:** Hetzner 88.198.218.69, ~3.7GB RAM + 2GB swap (added manually), 38GB disk. `NODE_OPTIONS=--max-old-space-size=1536` in Dockerfile to prevent OOM during build

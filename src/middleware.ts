@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 const USER = process.env.BASIC_AUTH_USER || "catala";
-const PASS = process.env.BASIC_AUTH_PASS || "catala2025";
+const PASS = process.env.BASIC_AUTH_PASS || "changeme";
 const AUTH_COOKIE = "catala_auth";
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 365; // 1 year
 

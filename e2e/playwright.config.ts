@@ -11,7 +11,7 @@ export default defineConfig({
     baseURL: "http://localhost:3000",
     httpCredentials: {
       username: process.env.BASIC_AUTH_USER ?? "catala",
-      password: process.env.BASIC_AUTH_PASS ?? "catala2025",
+      password: process.env.BASIC_AUTH_PASS ?? "changeme",
     },
     trace: "on-first-retry",
     screenshot: "only-on-failure",
