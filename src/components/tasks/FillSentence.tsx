@@ -17,6 +17,19 @@ interface Props {
   review?: boolean;
 }
 
+// Slika rečenice: eksplicitna `s.image` ako postoji, inače IZVEDENA iz SUBJEKTA —
+// imenica ODMAH posle vodećeg člana na POČETKU rečenice (npr. „La serp..." → serp).
+// Namerno gleda SAMO subjekt (ne bilo koju reč) da se ne bi hvatale pogrešne reči usred
+// rečenice („té"→čaj, „cabell"→kosa) niti odavao odgovor u zagonetkama/opisima osoba.
+function sentenceImageKey(s: { text: string; image?: string }): string | null {
+  if (s.image && getWordIllustration(s.image)) return s.image;
+  const m = s.text.match(
+    /^\s*(?:l'|el\s+|la\s+|els\s+|les\s+|un\s+|una\s+|en\s+|na\s+)([a-zà-ÿ·'-]+)/i
+  );
+  if (m && getWordIllustration(m[1])) return m[1];
+  return null;
+}
+
 export default function FillSentence({ task, onComplete, review = false }: Props) {
   // In review mode the task is already solved, so pre-fill every blank with its
   // correct answer and mark it checked+correct (shown green with a ✅).
@@ -85,10 +98,8 @@ export default function FillSentence({ task, onComplete, review = false }: Props
 
   const hasMainImage = task.image && getWordIllustration(task.image);
 
-  // Check if all sentences have individual images (like task 9)
-  const allSentencesHaveImages = task.sentences.every(
-    (s) => s.image && getWordIllustration(s.image)
-  );
+  // Check if all sentences have (or can derive) an individual image
+  const allSentencesHaveImages = task.sentences.every((s) => sentenceImageKey(s));
 
   // Render sentences list
   const renderSentences = () => (
@@ -118,11 +129,11 @@ export default function FillSentence({ task, onComplete, review = false }: Props
           }`}
         >
           {/* Compact layout for image-based sentences */}
-          {allSentencesHaveImages && sentence.image && getWordIllustration(sentence.image) ? (
+          {allSentencesHaveImages && sentenceImageKey(sentence) ? (
             <>
               <div className="flex justify-center">
                 <img
-                  src={getWordIllustration(sentence.image)!}
+                  src={getWordIllustration(sentenceImageKey(sentence)!)!}
                   alt=""
                   className="w-[120px] h-[120px] md:w-[140px] md:h-[140px] object-contain"
                 />
@@ -169,10 +180,10 @@ export default function FillSentence({ task, onComplete, review = false }: Props
             </>
           ) : (
             <>
-              {sentence.image && getWordIllustration(sentence.image) && (
+              {sentenceImageKey(sentence) && (
                 <div className="flex justify-center mb-2">
                   <img
-                    src={getWordIllustration(sentence.image)!}
+                    src={getWordIllustration(sentenceImageKey(sentence)!)!}
                     alt=""
                     className="w-20 h-20 object-contain"
                   />
@@ -304,10 +315,10 @@ export default function FillSentence({ task, onComplete, review = false }: Props
           : ""
       }`}
     >
-      {sentence.image && getWordIllustration(sentence.image) && (
+      {sentenceImageKey(sentence) && (
         <div className="flex justify-center mb-2">
           <img
-            src={getWordIllustration(sentence.image)!}
+            src={getWordIllustration(sentenceImageKey(sentence)!)!}
             alt=""
             className={allSentencesHaveImages ? "w-28 h-28 md:w-32 md:h-32 object-contain" : "w-20 h-20 object-contain"}
           />
