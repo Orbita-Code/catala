@@ -166,6 +166,15 @@ cwebp -q 80 public/illustrations/<kljuc>.png -o public/illustrations/<kljuc>.web
 **Verifikacija produkcije:** svih 12 tema, **0 oštećenih slika, 0 pravih console grešaka**.
 Sva 3 nova zadatka odigrana u browseru uživo — rade.
 
+**Kasnije istog dana (commit-i do `ae7c9b5`, SW v10):**
+- **FEATURE — sličica uz tačan (zeleni) odgovor u `MultipleChoice`**: kad dete izabere tačno,
+  pored zelenog polja se prikaže mala slika pojma (NE odaje odgovor tokom pitanja). Radi za sve MC
+  zadatke. `getWordIllustration` (illustrations.ts) sad skida i predloge (`al`, `a l'`, `a la`...) →
+  „A l'hospital" razrešava „hospital". Fill-sentence je to VEĆ imao.
+- **la-ciutat slike bez teksta / jasnije:** `cinema` (bez „CINEMA" natpisa — kokice/film-rolna/marquee),
+  `estació` (istaknuta zgrada+peron, bio dominantan voz → mešalo se sa „tren"), `carrer` (dodati
+  AUTOMOBILI na kolovoz — ćerka rekla da bez kola liči na hodnik/pasillo).
+
 ---
 
 ## 📋 ŠTA OSTAJE / IDEJE ZA DALJE
