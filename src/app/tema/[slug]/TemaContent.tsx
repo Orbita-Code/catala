@@ -690,6 +690,17 @@ export default function TemaContent({ slug }: TemaContentProps) {
                 Acaba les tasques 💪
               </button>
             )}
+            {/* Sledeća tema — UVEK vidljivo (može se preći i bez ispravke grešaka;
+                tada zadaci ostaju nezavršeni, bez zelene kućice na kartici) */}
+            {nextTheme && (
+              <button
+                onClick={() => router.push(`/tema/${nextTheme.slug}`)}
+                className="w-full py-3 text-white font-bold rounded-2xl text-lg"
+                style={{ backgroundColor: nextTheme.color }}
+              >
+                Següent: Tema {themeIndex + 2} →
+              </button>
+            )}
             <button
               onClick={() => {
                 // Browse the theme's tasks (review mode) without resetting progress.
@@ -720,15 +731,6 @@ export default function TemaContent({ slug }: TemaContentProps) {
             >
               Repeteix tot el tema (comença de nou) 🔄
             </button>
-            {nextTheme && (
-              <button
-                onClick={() => router.push(`/tema/${nextTheme.slug}`)}
-                className="w-full py-3 text-white font-bold rounded-2xl text-lg"
-                style={{ backgroundColor: nextTheme.color }}
-              >
-                Següent: Tema {themeIndex + 2} →
-              </button>
-            )}
             <button
               onClick={() => router.push("/")}
               className="w-full py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg"
