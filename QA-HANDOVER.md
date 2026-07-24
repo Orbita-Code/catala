@@ -191,7 +191,7 @@ Sva 3 nova zadatka odigrana u browseru uživo — rade.
   PRAVI `getByRole` klik (koordinatni promašuje zbog framer-motion), **fix drift indeksa** (runner NE sme
   duplirati „Següent" — neki zadaci se auto-završe → brojač skoči). la-classe: zaglavljeno 2→0, napomene 7→3.
   `run.mjs` dobio `BASIC_AUTH` env za testiranje produkcije.
-- **🔒 SIGURNOST — lozinka rotirana:** stara basic-auth `catala2025` procurela na GitHub (GitGuardian;
+- **🔒 SIGURNOST — lozinka rotirana:** stara basic-auth lozinka (rotirana) procurela na GitHub (GitGuardian;
   repo je JAVAN, bila hardkodovana u `middleware.ts`). Rotirana → nova lozinka u **Coolify env**
   (`BASIC_AUTH_USER`/`BASIC_AUTH_PASS`), uklonjena iz koda (placeholder „changeme") i iz svih docs.
   **Nova lozinka je u privatnoj memoriji `reference_katalonski_credentials` — NIKAD u repo.**
