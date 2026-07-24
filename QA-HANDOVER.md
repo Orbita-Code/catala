@@ -11,7 +11,7 @@
   - **HYDRATION BAG (dugme-u-dugmetu)** u `LabelImage.tsx` (retry + word-bank SpeakerButton) i `MultipleChoice.tsx` (retry) → retry `<button>`→`<span role=button>`, word-bank `<motion.button>`→`<motion.div role=button>`. Okидao se kad dete pogreši/na label-image temama. Verifikovano 0 grešaka.
 - **Predlozi (l-escola z14/15):** al-costat i al-davant vizuelno preslični (korisnica potvrdila); a-sota/a-dins/a-fora imaju pogrešan subjekat+eng.tekst → u REGEN listi.
 - **8 slika za ChatGPT regen — ZAVRŠENO 24.07.2026** (integrisano + SW keš v7→v8): `cola-de-barra`, `sabo`, `fleca`, `fruiteria`, `a-sota`(ISPOD), `al-costat`(mačka DESNO), `a-dins`(mačka u kutiji), `a-fora`(mačka van kućice). SVE BEZ teksta (pravilo višejezičnosti — vidi memory `feedback_illustrations_no_text_multilang`). Generisano preko pravog Chrome-a (AppleScript, [[reference_chatgpt_illustrations_via_chrome]]).
-- **NIJE deployovano** — čeka odobrenje (corbata+cinturo+8 novih slika+hydration fix+SW v8).
+- **DEPLOYOVANO 24.07.2026** (commit `d12acdf`, catala.orbitacode.com, SW v8). Produkcija verifikovana: svih 15 slika 200, corbata ispravna, svih 12 tema 0 oštećenih slika + 0 console grešaka (1 transient net::ERR_FAILED u els-oficis = mrežni blip, ne bag). Dodato: 5 novih zabavnih životinja (flamenc/unicorn/granota/ànec/oca), cocodril crtani, zadaci domaće/divlje + voće/povrće, pojednostavljene ribe.
 - **Preostala dorada SOLVERA (ne bagovi igrice):** word-search drag, fill-sentence klik opcije, self-assessment, copy-word poslednja reč, separate-words/write-antonym/decode-grid. Statički audit ranije potvrdio rešivost svih zadataka.
 
 ---

@@ -233,17 +233,19 @@ async function solveFillSentence(page, task, notes) {
   if (Array.isArray(task.sentences)) for (const s of task.sentences) { if (s.blank) answers.push(strip(s.blank)); if (Array.isArray(s.blanks)) s.blanks.forEach((b) => answers.push(strip(b))); }
   if (Array.isArray(task.blanks)) task.blanks.forEach((b) => answers.push(strip(b)));
   // klikni tačne opcije redom (svaka popuni sledeći prazan blank)
+  await page.waitForSelector('main button', { timeout: 4000 }).catch(() => {});
+  await sleep(page, 300);
   for (let bi = 0; bi < answers.length; bi++) {
     const want = answers[bi];
     if (!want) continue;
+    // PRAVI Playwright lokator-klik sa timeout-om (SAM čeka render/scroll; koordinatni klik promašuje zbog framer-motion transforma)
     let clicked = false;
-    // pouzdan Playwright lokator (sam skroluje/čeka); klikni bi-tu pojavu (za slučaj duplih opcija)
     try {
-      const loc = page.locator('main button', { hasText: new RegExp(`^\\s*${want.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`, 'i') });
+      const loc = page.getByRole('button', { name: want, exact: true });
       const n = await loc.count();
-      if (n > 0) { await loc.nth(Math.min(bi, n - 1)).click({ timeout: 2500 }); clicked = true; }
+      await loc.nth(n > 1 ? Math.min(bi, n - 1) : 0).click({ timeout: 3000 });
+      clicked = true;
     } catch { /* fallthrough */ }
-    if (!clicked) clicked = await clickByText(page, 'main button', want, true) || await clickByText(page, 'main button', want, false);
     if (!clicked) notes.push(`fill-sentence: nije nađena opcija "${want}"`);
     await sleep(page, 450);
   }
@@ -267,7 +269,8 @@ async function solveMultipleChoice(page, task, notes) {
     });
     if (!opts.length) break;
     let clicked = false;
-    if (correct) clicked = await clickByText(page, 'main button', String(correct), false);
+    if (correct) { try { const loc = page.getByRole('button', { name: String(correct), exact: true }); if (await loc.count()) { await loc.first().click({ timeout: 2500 }); clicked = true; } } catch { /* */ } }
+    if (!clicked && correct) clicked = await clickByText(page, 'main button', String(correct), false);
     if (!clicked) { await clickSelectorNth(page, 'main button[class*="rounded-2xl"]', 0); notes.push('MC: pogađan odgovor'); }
     await sleep(page, 800);
     // sledeće pitanje se pojavi automatski; prekini ako nema promene
@@ -294,7 +297,7 @@ async function solveAddArticle(page, task, notes) {
     }
     const w = words.find((x) => strip(x.word) === strip(curWord));
     let clicked = false;
-    if (w && w.article) clicked = await clickByText(page, 'main button[class*="min-w-[70px]"]', w.article, true);
+    if (w && w.article) { try { const loc = page.getByRole('button', { name: w.article, exact: true }); if (await loc.count()) { await loc.first().click({ timeout: 2500 }); clicked = true; } } catch { /* */ } }
     if (!clicked) { notes.push(`add-article: nepoznat član za "${curWord}"`); await clickSelectorNth(page, 'main button[class*="min-w-[70px]"]', 0); }
     lastWord = curWord;
     await sleep(page, 750);
@@ -492,20 +495,25 @@ export async function solveTask(page, task, notes) {
 async function solveWordSearch(page, task, notes) {
   const grid = task.grid; const words = task.words || [];
   if (!grid) { notes.push('word-search: nema grida u data'); return false; }
+  await page.waitForSelector('[data-cell]', { timeout: 5000 }).catch(() => {});
+  await sleep(page, 300);
   const dirs = [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]];
   const S = (s) => strip(s);
   for (const wd of words) {
     const w = S(wd); let placed = false;
     for (let r = 0; r < grid.length && !placed; r++) for (let c = 0; c < grid[r].length && !placed; c++) for (const [dr, dc] of dirs) {
-      let ok = true;
-      for (let i = 0; i < w.length; i++) { const nr = r + dr * i, nc = c + dc * i; if (nr < 0 || nc < 0 || nr >= grid.length || nc >= grid[r].length || S(grid[nr][nc]) !== w[i]) { ok = false; break; } }
+      // izračunaj CELU putanju ćelija (ne samo start/kraj)
+      const path = []; let ok = true;
+      for (let i = 0; i < w.length; i++) { const nr = r + dr * i, nc = c + dc * i; if (nr < 0 || nc < 0 || nr >= grid.length || nc >= grid[r].length || S(grid[nr][nc]) !== w[i]) { ok = false; break; } path.push([nr, nc]); }
       if (!ok) continue;
-      const er = r + dr * (w.length - 1), ec = c + dc * (w.length - 1);
-      const b1 = await cellXY(page, r, c); const b2 = await cellXY(page, er, ec);
-      if (b1 && b2) {
-        await page.mouse.move(b1.x, b1.y); await page.mouse.down();
-        for (let i = 1; i <= w.length; i++) { await page.mouse.move(b1.x + (b2.x - b1.x) * i / w.length, b1.y + (b2.y - b1.y) * i / w.length); await sleep(page, 40); }
-        await page.mouse.up(); await sleep(page, 350); placed = true;
+      // uzmi centar svake ćelije
+      const pts = [];
+      for (const [pr, pc] of path) { const xy = await cellXY(page, pr, pc); if (xy) pts.push(xy); }
+      if (pts.length === path.length) {
+        // prevuci: down na prvoj, pređi kroz centar SVAKE ćelije (okida onMouseEnter), up
+        await page.mouse.move(pts[0].x, pts[0].y); await page.mouse.down();
+        for (let i = 1; i < pts.length; i++) { await page.mouse.move(pts[i].x, pts[i].y); await sleep(page, 90); }
+        await page.mouse.up(); await sleep(page, 400); placed = true;
       }
     }
     if (!placed) notes.push(`word-search: nije nađena reč "${wd}"`);

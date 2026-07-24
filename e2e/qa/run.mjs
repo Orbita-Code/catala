@@ -56,7 +56,11 @@ async function run() {
   const headless = !process.env.HEADED;
   const exe = process.env.PW_EXE || findChromium(headless);
   const browser = await chromium.launch({ headless, executablePath: exe });
-  const ctx = await browser.newContext({ viewport: { width: 1100, height: 1300 } });
+  // BASIC_AUTH="user:pass" za testiranje produkcije (catala.orbitacode.com iza basic auth-a)
+  const httpCredentials = process.env.BASIC_AUTH
+    ? { username: process.env.BASIC_AUTH.split(':')[0], password: process.env.BASIC_AUTH.split(':').slice(1).join(':') }
+    : undefined;
+  const ctx = await browser.newContext({ viewport: { width: 1100, height: 1300 }, httpCredentials });
   const page = await ctx.newPage();
   const report = {};
 
@@ -87,9 +91,12 @@ async function run() {
       try { await solveTask(page, task, notes); }
       catch (e) { solveErr = e.message.slice(0, 160); notes.push('EXCEPTION: ' + solveErr); }
 
-      // pređi na sledeći zadatak
+      // pređi na sledeći zadatak — NE dupliraj: klikni Següent SAMO ako se brojač već nije pomerio
+      // (neki zadaci se auto-završe pri rešavanju → brojač skoči sam → dupli Següent bi napravio drift)
       let advanced = false;
-      for (let a = 0; a < 4; a++) {
+      let cur = await taskCounter(page);
+      if (cur !== before) advanced = true; // već napredovao tokom rešavanja
+      for (let a = 0; a < 4 && !advanced; a++) {
         if (await clickNext(page)) { await page.waitForTimeout(700); }
         const after = await taskCounter(page);
         if (after !== before) { advanced = true; break; }
