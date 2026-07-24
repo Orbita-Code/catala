@@ -10,7 +10,7 @@ export const elsAnimalsTasks: Task[] = [
       { catalan: "gallina", image: "gallina" },
       { catalan: "gall", image: "gall" },
       { catalan: "pollet", image: "pollet" },
-      { catalan: "oreneta", image: "oreneta" },
+      { catalan: "flamenc", image: "flamenc" },
       { catalan: "cigonya", image: "cigonya" },
       { catalan: "gavina", image: "gavina" },
       { catalan: "pingüí", image: "pingui" },
@@ -114,7 +114,7 @@ export const elsAnimalsTasks: Task[] = [
     columns: [
       {
         title: "Au",
-        items: ["gallina", "oreneta", "flamenc", "ànec"],
+        items: ["gallina", "oca", "flamenc", "ànec"],
       },
       {
         title: "Insecte",
@@ -131,7 +131,7 @@ export const elsAnimalsTasks: Task[] = [
     ],
     allItems: [
       "gallina",
-      "oreneta",
+      "oca",
       "flamenc",
       "ànec",
       "mosca",
@@ -215,7 +215,7 @@ export const elsAnimalsTasks: Task[] = [
     pairs: [
       { left: "gat", right: "mamífer" },
       { left: "sardina", right: "peix" },
-      { left: "oreneta", right: "au" },
+      { left: "flamenc", right: "au" },
       { left: "serp", right: "rèptil" },
       { left: "papallona", right: "insecte" },
     ],
@@ -524,7 +524,7 @@ export const elsAnimalsTasks: Task[] = [
     prompt: "Completa les lletres que falten:",
     words: [
       { word: "gallina", hint: "g_ll_na", image: "gallina" },
-      { word: "oreneta", hint: "o_en_ta", image: "oreneta" },
+      { word: "flamenc", hint: "fl_m_nc", image: "flamenc" },
       { word: "papallona", hint: "p_p_ll_na", image: "papallona" },
       { word: "cocodril", hint: "c_c_dr_l", image: "cocodril" },
       { word: "elefant", hint: "e_ef_nt", image: "elefant" },

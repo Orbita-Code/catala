@@ -7305,8 +7305,8 @@
           "image": "pollet"
         },
         {
-          "catalan": "oreneta",
-          "image": "oreneta"
+          "catalan": "flamenc",
+          "image": "flamenc"
         },
         {
           "catalan": "cigonya",
@@ -7487,7 +7487,7 @@
           "title": "Au",
           "items": [
             "gallina",
-            "oreneta",
+            "oca",
             "flamenc",
             "ànec"
           ]
@@ -7520,7 +7520,7 @@
       ],
       "allItems": [
         "gallina",
-        "oreneta",
+        "oca",
         "flamenc",
         "ànec",
         "mosca",
@@ -7673,7 +7673,7 @@
           "right": "peix"
         },
         {
-          "left": "oreneta",
+          "left": "flamenc",
           "right": "au"
         },
         {
@@ -8260,9 +8260,9 @@
           "image": "gallina"
         },
         {
-          "word": "oreneta",
-          "hint": "o_en_ta",
-          "image": "oreneta"
+          "word": "flamenc",
+          "hint": "fl_m_nc",
+          "image": "flamenc"
         },
         {
           "word": "papallona",
