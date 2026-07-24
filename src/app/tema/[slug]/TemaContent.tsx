@@ -649,26 +649,37 @@ export default function TemaContent({ slug }: TemaContentProps) {
               <button
                 onClick={() => {
                   const progress = getThemeProgress(slug);
+                  // Greške dolaze iz DVA sistema — moramo gledati OBA:
+                  //  - progress.taskErrors (koji koristi isThemeFullyComplete)
+                  //  - getThemeErrors (ErrorTracking sistem)
                   const themeErrors = getThemeErrors(slug);
-                  const erroredTaskIds = Object.keys(themeErrors);
+                  const erroredTaskIds = [
+                    ...new Set([
+                      ...Object.keys(themeErrors),
+                      ...Object.keys(progress.taskErrors || {}),
+                    ]),
+                  ];
                   let targetIdx = -1;
                   if (erroredTaskIds.length > 0) {
-                    // There are wrong answers → redo the first errored task.
+                    // Pogrešni odgovori → vrati prvi pogrešan zadatak (skloni ga iz completed + očisti greške).
                     targetIdx = tasks.findIndex((t) => erroredTaskIds.includes(t.id));
                     saveThemeProgress(slug, {
                       completedTasks: progress.completedTasks.filter(
                         (id: string) => !erroredTaskIds.includes(id)
                       ),
+                      taskErrors: {},
                     });
                     clearThemeErrors(slug);
                   }
                   if (targetIdx < 0) {
-                    // No errors — go to the first scoring task that was skipped / not done.
+                    // Nema grešaka — idi na prvi scoring zadatak koji je preskočen / nije urađen.
                     targetIdx = tasks.findIndex(
                       (t) => !t.bonus && !progress.completedTasks.includes(t.id)
                     );
                   }
-                  if (targetIdx < 0) return;
+                  // Fallback: dugme UVEK mora nešto da uradi (tema nije fullyComplete).
+                  if (targetIdx < 0) targetIdx = tasks.findIndex((t) => !t.bonus);
+                  if (targetIdx < 0) targetIdx = 0;
                   setJustCompletedTaskId(null);
                   setHundredPercentJustHit(false);
                   setCurrentTaskIndex(targetIdx);
@@ -705,10 +716,9 @@ export default function TemaContent({ slug }: TemaContentProps) {
                 setCurrentTaskIndex(0);
                 setShowCelebration(false);
               }}
-              className="w-full py-3 text-white font-bold rounded-2xl text-lg"
-              style={{ backgroundColor: theme.color }}
+              className="w-full py-3 bg-gray-100 text-gray-500 font-bold rounded-2xl text-base border-2 border-gray-200 hover:bg-gray-200 transition-colors"
             >
-              Repeteix tot el tema 📖
+              Repeteix tot el tema (comença de nou) 🔄
             </button>
             {nextTheme && (
               <button
