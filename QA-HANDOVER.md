@@ -2,7 +2,8 @@
 
 > **Sledeća sesija: pročitaj OVO celo pre rada.** Ovo je autoritativni vodič za testiranje i
 > stanje projekta. Poslednje ažuriranje: **25.07.2026** (slike bez teksta, nove zabavne životinje,
-> hydration fix, QA toolkit + solver popravke, celebration/UX popravke, rotacija lozinke, deploy do SW v15).
+> hydration fix, QA toolkit + solver popravke, celebration/UX popravke, rotacija lozinke,
+> auto-slike u fill-sentence zadacima, deploy do SW v19).
 > **Produkcija je iza basic auth-a — lozinka u memoriji `reference_katalonski_credentials` (NE u repo).**
 
 ---
@@ -195,6 +196,19 @@ Sva 3 nova zadatka odigrana u browseru uživo — rade.
   repo je JAVAN, bila hardkodovana u `middleware.ts`). Rotirana → nova lozinka u **Coolify env**
   (`BASIC_AUTH_USER`/`BASIC_AUTH_PASS`), uklonjena iz koda (placeholder „changeme") i iz svih docs.
   **Nova lozinka je u privatnoj memoriji `reference_katalonski_credentials` — NIKAD u repo.**
+
+**Nastavak 25.07.2026 (commit-i do `4b6761a`, SW v19):**
+- **FEATURE — auto-slika subjekta u SVIM fill-sentence zadacima** (`FillSentence.tsx` `sentenceImageKey`):
+  ako rečenica nema eksplicitnu `image`, izvuče se slika SUBJEKTA (imenica posle vodećeg člana na
+  POČETKU: „La serp…" → serp). SAMO subjekt (regex na početak) — da se ne hvataju pogrešne reči
+  usred rečenice („té"→čaj, „cabell"→kosa) niti odaje odgovor u zagonetkama/opisima osoba. 49
+  rečenica dobija sliku. **VAŽNA LEKCIJA:** naivni „prva reč sa slikom" pravi pogrešne slike —
+  offline pregled (`/tmp/review_derive.mjs` logika) pre deploy-a je to uhvatio.
+- **els-animals-17** dobio eksplicitne slike (serp/granota/elefant) po rečenici.
+- **Rečenica popravljena:** „Tinc dos gossos de color negre" (pretpostavlja da dete ima psa) →
+  „La granota és de color verd" (opšta činjenica, logična boja).
+- **oreneta (lasta) → flamenc/oca:** oreneta nije prepoznatljiva deci; zamenjena flamingom
+  (copy-word/matching/fill-letters) i guskom (classify Au, jer flamenc već bio tu).
 
 ---
 
