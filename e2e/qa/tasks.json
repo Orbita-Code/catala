@@ -8147,7 +8147,8 @@
             "conills",
             "flors",
             "arbres"
-          ]
+          ],
+          "image": "serp"
         },
         {
           "text": "La granota és de color ___.",
@@ -8156,7 +8157,8 @@
             "verd",
             "blau",
             "vermell"
-          ]
+          ],
+          "image": "granota"
         },
         {
           "text": "L'elefant és un animal molt ___.",
@@ -8165,7 +8167,8 @@
             "gran",
             "petit",
             "alt"
-          ]
+          ],
+          "image": "elefant"
         }
       ]
     },
