@@ -1,92 +1,188 @@
-# QA HANDOVER — Katalonski (pred LIVE lansiranje)
+# QA HANDOVER & UPUTSTVO ZA TESTIRANJE — Katalonski
 
-> Sledeća sesija: pročitaj OVO celo pre rada. Cilj: proveriti SVAKU sliku i SVAKI zadatak da sve radi pre puštanja žive igrice.
-
-## 🆕 SESIJA 24.07.2026 — REZULTATI (VAŽNO)
-- **QA AUTO-SOLVER TOOLKIT napravljen** u `e2e/qa/` (extract-tasks.mjs + run.mjs + solve-lib.mjs + README). NE praviti nove solvere — pokreni `node e2e/qa/run.mjs`. Vidi memory `reference_katalonski_qa_toolkit`.
-- **Odigrano svih 209 zadataka × 12 tema kroz browser.** Rezultat: **0 oštećenih slika u celoj igri**; **0 console grešaka** (posle popravke ispod).
-- **POPRAVLJENO (lokalno, čeka deploy):**
-  - `corbata.webp` — bio oštećen → prekonvertovan iz `Ilustracije/corbata.png` (dobra kravata). ✅
-  - `cinturo.webp` — bila mačka („al costat") → vraćen kaiš iz starog `public/illustrations/cinturo.png`. ✅ (mačka je ispravno sačuvana kao `al-costat`)
-  - **HYDRATION BAG (dugme-u-dugmetu)** u `LabelImage.tsx` (retry + word-bank SpeakerButton) i `MultipleChoice.tsx` (retry) → retry `<button>`→`<span role=button>`, word-bank `<motion.button>`→`<motion.div role=button>`. Okидao se kad dete pogreši/na label-image temama. Verifikovano 0 grešaka.
-- **Predlozi (l-escola z14/15):** al-costat i al-davant vizuelno preslični (korisnica potvrdila); a-sota/a-dins/a-fora imaju pogrešan subjekat+eng.tekst → u REGEN listi.
-- **8 slika za ChatGPT regen — ZAVRŠENO 24.07.2026** (integrisano + SW keš v7→v8): `cola-de-barra`, `sabo`, `fleca`, `fruiteria`, `a-sota`(ISPOD), `al-costat`(mačka DESNO), `a-dins`(mačka u kutiji), `a-fora`(mačka van kućice). SVE BEZ teksta (pravilo višejezičnosti — vidi memory `feedback_illustrations_no_text_multilang`). Generisano preko pravog Chrome-a (AppleScript, [[reference_chatgpt_illustrations_via_chrome]]).
-- **DEPLOYOVANO 24.07.2026** (commit `d12acdf`, catala.orbitacode.com, SW v8). Produkcija verifikovana: svih 15 slika 200, corbata ispravna, svih 12 tema 0 oštećenih slika + 0 console grešaka (1 transient net::ERR_FAILED u els-oficis = mrežni blip, ne bag). Dodato: 5 novih zabavnih životinja (flamenc/unicorn/granota/ànec/oca), cocodril crtani, zadaci domaće/divlje + voće/povrće, pojednostavljene ribe.
-- **Preostala dorada SOLVERA (ne bagovi igrice):** word-search drag, fill-sentence klik opcije, self-assessment, copy-word poslednja reč, separate-words/write-antonym/decode-grid. Statički audit ranije potvrdio rešivost svih zadataka.
+> **Sledeća sesija: pročitaj OVO celo pre rada.** Ovo je autoritativni vodič za testiranje i
+> stanje projekta. Poslednje ažuriranje: **24.07.2026** (sesija: slike bez teksta, nove zabavne
+> životinje, hydration fix, QA toolkit, solver popravke, deploy).
 
 ---
 
-## ⛔ PRAVILO #1 — BEZ PREČICA, BEZ ZBRZAVANJA (OBAVEZNO)
-Korisnica insistira i više puta se (opravdano) naljutila jer sam ubrzavao i gledao samo „najrizičnije" slike / deo zadataka.
-- Kad kaže „sve / temeljno / bez prečica" → radi BUKVALNO svaku stavku (svaku sliku, svaki zadatak, svaku reč), i prijavi svaku.
-- NE uzorkuj. NE preskači „standardne" stavke. Ako je preveliko — reci joj iskreno i pitaj, NE ubrzavaj kriomice.
-- Vidi memory: `feedback_no_shortcuts_be_thorough`.
+## ⛔ PRAVILO #1 — BEZ PREČICA, BEZ ZBRZAVANJA
+Kad korisnica kaže „sve / temeljno / bez prečica" → radi BUKVALNO svaku stavku i prijavi svaku.
+NE uzorkuj. Ako je preveliko — reci iskreno i pitaj, NE ubrzavaj kriomice.
+Vidi memory `feedback_no_shortcuts_be_thorough`.
 
-## 🔑 KRITIČNO — koji fajl je „prava" slika
-- **Aplikacija (kod) koristi ISKLJUČIVO `public/illustrations/*.webp`.** (funkcija `getWordIllustration` u `src/lib/illustrations.ts` vraća `/illustrations/<kljuc>.webp`)
-- **NIKAD ne procenjuj sliku gledajući `.png`** — `.png` fajlovi su ČESTO ZASTARELI (stare verzije koje niko nije obrisao). 
-- **Zašto se Ilustracije folder ne poklapa sa igricom:** `Ilustracije/*.png` je radni/izvorni folder; `public/illustrations/*.png` su usput sačuvane kopije. Kad je slika regenerisana, `.webp` je ažuriran ali stari `.png` NIJE brisan → png pokazuje staru sliku, webp pokazuje pravu. 
-  - PRIMER greške: `infermer.png` = stara ženska; `infermer.webp` (igrica) = MUŠKI (tačan). Ja sam prvo pogrešno prijavio „ženski" jer sam gledao png.
-  - Stare Bing slike nisu brisane kad su kasnije pravljene nove GPT slike → gomila zastarelih/duplih png.
-- **Ključ slike iz reči:** `stripAccents(rec).toLowerCase()` pa `replace(/[\s']+/g,'-')`; `·` se UKLANJA (goril·la → `gorila`). Ç se čuva.
+## 🖼️ PRAVILO #2 — ILUSTRACIJE BEZ TEKSTA (višejezičnost)
+Nijedna ilustracija NE SME imati tekst/naziv (natpis prodavnice, etiketa predmeta). Iste slike
+se dele za engleski/španski/druge jezike. Prodavnicu prikaži robom (pekara→hlebovi, piljarnica→voće),
+NE natpisom. Prompt UVEK sadrži „no text, no letters, blank sign". Vidi memory
+`feedback_illustrations_no_text_multilang`. **Postojeće slike sa tekstom** (cinema, restaurant,
+mercat, farmacia, peixeteria, verduleria, carnisseria) su kandidati za buduću regeneraciju bez teksta.
 
-## 🛠️ ALAT — kontakt-listovi (najbrži TEMELJAN metod)
-`scripts/qa-contact-sheet.py <slug>` napravi montažu SVIH .webp slika te teme sa nazivima → gledaš ceo grid odjednom i vidiš SVAKU sliku + hvataš mismatch/oštećene/bez-slike.
-- Pokretanje: `python3 scripts/qa-contact-sheet.py <slug>` (traži ImageMagick `montage`, ima ga preko homebrew).
-- Izlaz: `<scratch>/_ct_<slug>.png` (promeni putanju u skripti na svoj scratch). Prijavljuje OŠTEĆENE i BEZ-slike.
-- Slugovi: la-classe, l-escola, el-cos, la-roba, la-casa, la-familia, les-botigues, el-menjar, els-animals, la-ciutat, els-vehicles, els-oficis.
+## 🔑 PRAVILO #3 — .webp je istina
+Igrica koristi ISKLJUČIVO `public/illustrations/*.webp` (`getWordIllustration` u `src/lib/illustrations.ts`).
+`.png` fajlovi su ČESTO ZASTARELI — NIKAD ne procenjuj sliku gledajući `.png`, gledaj `.webp`.
+Ključ slike: `stripAccents(rec).toLowerCase()` → `replace(/[\s']+/g,'-')`; `·` se UKLANJA (goril·la→gorila); `ç` se čuva.
 
-## ✅ URAĐENO (ova sesija)
-**Popravke DEPLOYOVANE na produkciju** (commiti do `a1c1d83`, SW keš `catala-v7`, catala.orbitacode.com):
-- escarabat slika; review-mode za svih 16 tipova zadataka; matching kategorije (rightTextOnly); overhaul teme 9 (boje, delovi ptice→MC, sardina→peix, MC slike, order-words→fill-sentence, čitanje→lak kviz); čuvanje dečjih crteža; brojanje 13/12 (getCompletedScoringCount); zaglavljeno slavlje + „Repassa les tasques" + „Acaba les tasques"; confetti key (0 grešaka); apostrof bug (parada d'autobús); 14 novih slika (7 ženki, gat neutralan, escola/museu/estació bez eng. teksta, globus/pagès/metge jasni, pilot sa avionom, parc-de-bombers); els-oficis-12 → zagonetke.
+---
 
-**QA odigrano stvarno (klik po klik):** tema 9 zadaci 1-9 (copy-word, fill-sentence, classify, matching) — svi završeni; + MC zadatak. Verifikovano: XP formula tačna (10+5 baza ×1.1 streak +20 dnevni = 37), level-up (Nivell 2), zvezdice/streak, **0 console grešaka**.
+## 🛠️ QA AUTO-SOLVER TOOLKIT (`e2e/qa/`) — GLAVNI ALAT ZA TESTIRANJE
+> **NE praviti nove solvere od nule** — ovaj toolkit već postoji i RADI. Samo ga pokreni.
+> Odigra SVAKI zadatak SVAKE teme kao dete, tačnim odgovorima iz podataka, i prijavi bagove.
 
-**Statički audit svih 223 zadatka:** 0 bagova rešivosti (unscramble slova se poklapaju, word-search reči u gridu, decode-grid tačan, opcije sadrže tačan odgovor).
+### Fajlovi
+| Fajl | Šta radi |
+|------|----------|
+| `extract-tasks.mjs` | Transpiluje `src/data/*.ts` pravim TS kompajlerom → `tasks.json` (svi zadaci + TAČNI odgovori). Pokreni PRVO i posle svake izmene podataka. |
+| `tasks.json` | Generisano. Izvor istine za odgovore (212 zadataka). |
+| `solve-lib.mjs` | Solveri za svih 18 tipova. `solveTask(page, task, notes)`. |
+| `run.mjs` | Samostalan runner: Chromium, prolazi teme, `report.json` + konzolni sažetak. |
+| `report.json` | Generisano. Rezultat poslednjeg prolaza. |
+| `README.md` | Detaljna dokumentacija toolkita. |
 
-**Vizuelni pregled slika kroz .webp kontakt-listove — ZAVRŠENO:** la-roba (4), la-casa (5), la-familia (6).
-(NAPOMENA: teme 1,2,3,10,11,12 sam ranije gledao kroz ZASTARELE .png — MORA ponovo kroz .webp kontakt-list!)
+### Preduslovi
+1. **Za localhost:** `npm run dev` (na `http://localhost:3000`).
+2. **Chromium:** runner sam nalazi build **1232** u `~/Library/Caches/ms-playwright/`. Ako verzija
+   drugačija → izmeni `findChromium()` u `run.mjs` ili `PW_EXE=/putanja node e2e/qa/run.mjs`.
 
-## 📋 OSTALO — vizuelni pregled slika (kroz .webp kontakt-list, SVAKU!)
-- les-botigues (7) — 47 slika ⬜
-- el-menjar (8) — 37 slika ⬜
-- els-animals (9) — 44 slike ⬜ (proveri kroz webp; deo viđen u igrici)
-- la-classe (1) — 28 ⬜ (bio png — ponovo webp)
-- l-escola (2) — 41 ⬜ (bio png — ponovo webp)
-- el-cos (3) — 23 ⬜ (bio png — ponovo webp)
-- la-ciutat (10) — 12 ⬜ (bio png — ponovo webp)
-- els-vehicles (11) — 12 ⬜ (bio png — ponovo webp)
-- els-oficis (12) — 12 ⬜ (bio png — ponovo webp)
+### Pokretanje
+```bash
+node e2e/qa/extract-tasks.mjs              # 1) osveži tasks.json iz podataka
+node e2e/qa/run.mjs                        # 2a) SVE teme (localhost) — dugo (copy-word ima 20+ reči)
+node e2e/qa/run.mjs la-classe              # 2b) jedna tema (za debug)
+node e2e/qa/run.mjs els-animals el-menjar  # 2c) više tema
 
-## 🔴 POTVRĐENI PROBLEMI SLIKA (kroz .webp) — treba popraviti/regenerisati
-1. **`corbata` (la-roba)** — `corbata.webp` je OŠTEĆEN (ImageMagick: „insufficient image data") → igrica ne prikazuje. Regeneriši.
-2. **`cinturó` (la-roba)** — `cinturo.webp` je POGREŠNA slika: prikazuje mačku pored stolice (to je slika predloga „al costat"), NE kaiš. Regeneriši kaiš.
-3. **`cola de barra` (la-classe)** — piše „GLUE" (engleski). Treba sa „Cola" (katalonski) ili bez teksta.
-4. **`carrer` (la-ciutat)** — nejasno; liči na kuće, ne na ulicu. Regeneriši jasnu ulicu (put/kolovoz). (korisnica se složila)
-5. **`ambulància` (els-vehicles)** — Bing pastelni/drugačiji stil; korisnica ne voli te boje. Regeneriši u JARKOM stilu kao `moto.webp` (šarena, detaljna).
-6. **`sabó` (la-casa)** — piše „SOAP" (engleski). Treba katalonski/bez teksta.
-- 🟡 `rellotge` (la-roba, dodaci) — prikazan ZIDNI sat; u odeći/dodacima treba RUČNI sat.
-- 🟡 `campana` (la-casa) — prikazan zvono; u kući je verovatno mišljen kuhinjski aspirator. (proveri sa korisnicom)
-- 🟡 el-cos z10 (alt/baix/jove/vell) — 4 prideva BEZ slike (copy-word bez ilustracije).
-- Stil: `ambulància` + neke slike (jaqueta, predlozi-mačka) su akvarel/detaljni stil, dok su ostale „clay 3D" — kozmetička nedoslednost.
+# TESTIRANJE PRODUKCIJE (iza basic auth-a):
+BASE=https://catala.orbitacode.com BASIC_AUTH=catala:catala2025 node e2e/qa/run.mjs
+```
 
-**ISPRAVLJENO (bio lažan alarm):** `infermer` je ISPRAVAN (muški u .webp) — samo obriši zastareli ženski `infermer.png`.
+### Kako čitati izveštaj (konzola / `report.json`)
+`■ <tema>: X/Y zadataka | zaglavljeno: N | sa napomenom: M | console-err: K | slike-oštećene: Z`
+- **`✖ SLIKA` / `slike-oštećene`** (`naturalWidth==0`) → **PRAVI BAG** (oštećena/nedostajuća slika).
+- **`✖ CONSOLE` / `console-err`** → JS greška. NAPOMENA: `Failed to load resource: net::ERR_FAILED`
+  je transient MREŽNI blip (nije bag). Prava greška bi imala poruku tipa „hydration"/„button descendant".
+- **`⚠ ZAGLAVLJEN`** → zadatak nije prešao dalje. `drawing-canvas` bonus se UVEK prijavljuje kao
+  zaglavljen (slobodna aktivnost, bez tačnog odgovora) — to je OK, NE bag.
+- **`• #i <tip>: napomena`** → solver je nešto pogađao/nije našao → dopuni taj solver u `solve-lib.mjs`
+  (NIJE bag igrice).
 
-## 🧹 ČIŠĆENJE FOLDERA (obavezno pre live) — mora se PROĆI CEO folder
-Problem: gomila zastarelih/duplih slika (stare Bing verzije nisu brisane kad su pravljene nove GPT).
-- `Ilustracije/` = 480 fajlova (radni/izvorni).
-- `public/illustrations/` = **440 `.png` (app ih NE koristi!)** + 505 `.webp` (app koristi samo ove).
-- Duplikati sa „ 2" u imenu: npr. `public/illustrations/ajuntament 2.png`. Korisnica kaže da je i `corbata` bila 2× png u Ilustracije.
-- **Zadatak:** proći CEO `Ilustracije/` I `public/illustrations/` → naći: (a) duplikate („ 2/3", copy), (b) zastarele Bing verzije, (c) orphan `.webp` (koje nijedna reč ne koristi — uporedi sa `wordsWithIllustrations` u `src/lib/illustrations.ts`), (d) sve `.png` u public/illustrations (nepotrebni app-u).
-- ⚠️ PRAVILO IZ CLAUDE.md: NIKAD trajni `rm` na korisničkim fajlovima — premeštaj u Kantu preko Findera (`osascript ... Finder ... delete POSIX file`). Prvo izlistaj šta se briše, pa potvrda korisnice.
+**Čist izveštaj = 0 slika-oštećenih, 0 console-err, zaglavljeno samo drawing-canvas bonus.**
 
-## 🟡 TEŽINA ZA 7-GODIŠNJAKA (kandidati za pojednostavljenje — korisnica odlučuje)
-- Gramatika rod/broj (apstraktno): `la-casa` z3 (LA/EL/LES/ELS — 4 člana!), `l-escola` z3/z9, `la-roba` z7 (un/una), `la-familia` z5/z6, `els-animals` z9 (UN/UNA), `la-classe` z4/z6.
-- Teško čitanje: `els-animals` z15 (dugački MC opisi), `la-casa` z22 (pasus teksta), `la-familia` z13.
-- `la-casa` z21 (order-words — korisnica je isti tip uklonila u els-oficis), `la-familia` z9 (decode-grid), separate-words (`la-classe` z15, `la-familia` z7, `les-botigues` z3).
+### Poznata ograničenja solvera (stanje 24.07.2026 — NISU bagovi igrice)
+- `color-by-instruction` — best-effort (bojenje se ne verifikuje programski, proveri vizuelno).
+- `copy-word` — poslednja reč zadatka ponekad da „nema slova X" (zadatak se auto-završi pre poslednjeg
+  klika) — kozmetički, zadatak JESTE rešiv.
+- Sve ostalo RADI: copy-word, fill-letters, unscramble, classify, matching, fill-sentence,
+  multiple-choice, add-article, word-search, self-assessment.
+- **Ključna lekcija:** klikaj tekst-dugmad PRAVIM Playwright lokatorom (`page.getByRole('button',{name})`),
+  NE koordinatnim klikom (framer-motion transform pomera koordinatu). Runner NE sme duplirati „Següent"
+  (neki zadaci se auto-završe → brojač skoči → drift indeksa → solver dobija pogrešan DOM).
 
-## ⚙️ Kako regenerisati slike
-Korisnica generiše sama u ChatGPT (Pixar/jarki stil, prolazi filter), sačuva na Desktop pod imenom reči (npr. `cinturo.png`), a Claude integriše: `sips -z 512 512`, u `Ilustracije/` i `public/illustrations/` kao .png + `cwebp -q 80 -> .webp`, registruj ključ u `wordsWithIllustrations` ako je nov, bekapuj staru. Posle: bump SW keš (`public/sw.js` catala-vN → vN+1), commit, push (uz odobrenje), verifikuj na produkciji. Vidi memory `reference_chatgpt_illustrations_via_chrome`.
+---
 
-## Stanje deploy-a
-Sve gorenavedene popravke koda/slika iz prošlih rundi su DEPLOYOVANE. Problemi slika iz ove liste (corbata/cinturo/cola/carrer/ambulancia/sabo) NISU još — treba generisati + deploy.
+## 🎨 VIZUELNI PREGLED SLIKA (odvojen alat)
+```bash
+python3 scripts/qa-contact-sheet.py <slug>   # montaža svih .webp te teme sa nazivima
+# slugovi: la-classe l-escola el-cos la-roba la-casa la-familia les-botigues
+#          el-menjar els-animals la-ciutat els-vehicles els-oficis
+# izlaz: <scratch>/_ct_<slug>.png (promeni scratch putanju u skripti na svoju)
+```
+Gledaš ceo grid odjednom → hvataš mismatch/oštećene/engleski-tekst. Prijavljuje OŠTEĆENE i BEZ-slike.
+
+---
+
+## 🖌️ GENERISANJE SLIKA (ChatGPT preko PRAVOG Chrome-a) — RADI, ISPROBANO
+> ChatGPT je ulogovan SAMO u korisničinom pravom Chrome-u (Apple Sign In, lozinka nepoznata).
+> Playwright Chromium se NE MOŽE ulogovati. Rešenje: upravljaj pravim Chrome-om preko AppleScript-a.
+> Vidi memory `reference_chatgpt_illustrations_via_chrome`.
+
+**Postupak (ispravljen 24.07.2026):**
+1. Pokreni pravi Chrome ako nije: `open -a "Google Chrome"` (NE „Google Chrome for Testing" — to je Playwright).
+   Proveri da je pokrenut baš pravi: `ps aux | grep "Google Chrome.app"`.
+2. Otvori custom GPT: `osascript -e 'tell application "Google Chrome" to ...'` na
+   `https://chatgpt.com/g/g-p-697a9ef9e7fc8191a6f01584dad8ea4d-igrice-katalonski-jezik`.
+3. „Allow JavaScript from Apple Events" mora biti UKLJUČEN (View→Developer). Proveri:
+   `execute t javascript "!!document.querySelector('#prompt-textarea')"`.
+4. **SLANJE PROMPTA (kritično — moraju ODVOJENI pozivi):**
+   - clear: `el.focus();document.execCommand('selectAll');document.execCommand('delete')`
+   - paste: `el.dispatchEvent(new ClipboardEvent('paste',{clipboardData: dt sa text/plain, bubbles:true}))`
+     — **sintetički paste, NE insertText** (React/Lexical editor ne prima insertText pouzdano).
+   - Enter: dispatch KeyboardEvent keydown/keypress/keyup key='Enter'. **NE klik na send-dugme** (nepouzdan).
+5. **NE šalji ponovo prerano!** GPT završi sliku brzo; ako čekaš samo 7s pa re-šalješ → praviš DUPLIKATE.
+   Pošalji JEDNOM, pa strpljivo čekaj NOVU sliku (novi `file_...` id), re-šalji tek ako 40s ništa.
+6. **Preuzimanje BEZ „Save As":** `window.scrollTo(0,9e9)` (najnovija slika na dno), uzmi img sa novim id-em,
+   `fetch(url,{credentials:'include'})→blob→createImageBitmap→canvas 512x512→toDataURL('image/png')`,
+   sačuvaj u `window.__imgdata`, pročitaj zasebnim pozivom, dekoduj base64 (python).
+   ⚠️ ChatGPT lazy-loaduje slike i menja redosled → identifikuj sliku po EKSPLICITNOM `file_...` id-u,
+   ne po „poslednja u DOM-u".
+7. **Content filter:** slatke životinje koje liče na poznate likove (lav/medved→Kralj lavova) GPT BLOKIRA.
+   Objekti/zgrade/ljudi/mačke NE blokiraju. Ako blokira → drugačiji opis (npr. „colorful green lizard").
+8. Radne skripte iz ove sesije (u `/tmp/`, kopiraj ako trebaju): `gen7.sh` (paste+strpljivo čekanje).
+
+**Integracija slike** (posle preuzimanja na `~/Desktop/<kljuc>.png`):
+```bash
+sips -z 512 512 ~/Desktop/<kljuc>.png                      # na 512x512
+cp ~/Desktop/<kljuc>.png Ilustracije/<kljuc>.png
+cp ~/Desktop/<kljuc>.png public/illustrations/<kljuc>.png
+cwebp -q 80 public/illustrations/<kljuc>.png -o public/illustrations/<kljuc>.webp
+# ako je NOVA reč → dodaj kljuc u wordsWithIllustrations Set u src/lib/illustrations.ts
+# posle SVIH slika → bump SW keš: public/sw.js  catala-vN → vN+1
+```
+
+**Promptovi za slike** koje još čekaju: `REGEN-PROMPTS.md` (svi bez teksta).
+
+---
+
+## 🚀 DEPLOY
+- Repo: `github.com/Orbita-Code/catala`, grana **main**. Coolify auto-deploy sa main-a (Dockerfile).
+- Build traje ~3-5 min (server ima malo RAM-a, zna OOM/rolling). Verifikuj da je gotov:
+  `curl -o /dev/null -w "%{http_code}" -u catala:catala2025 https://catala.orbitacode.com/illustrations/<nova-slika>.webp`
+  (404=još builduje, 200=gotovo).
+- **Pre deploy-a:** `npx tsc --noEmit` (mora 0) + `npm run build` (mora exit 0).
+- **Push samo uz odobrenje korisnice.** Commit poruke na srpskom/engleskom, opisne.
+- **NE commitovati nenamerna brisanja** — stage-uj SAMO svoje fajlove eksplicitno (ne `git add -A`);
+  ako `git status` pokaže „D" fajlove koje nisi dirao, vrati ih: `git checkout -- <fajl>`.
+
+---
+
+## ✅ URAĐENO (sesija 24.07.2026) — DEPLOYOVANO (commit `762e558`, SW v8)
+**Slike (16, sve bez teksta):**
+- Popravljene: `corbata` (bila oštećena/crna), `cinturó` (bila mačka→kaiš), `cola-de-barra`
+  (lepi papir, ne balzam), `sabó`, `fleca`, `fruiteria` (blank natpisi), predlozi `a-sota`/`al-costat`
+  (mačka desno)/`a-dins` (mačka u kutiji)/`a-fora` (mačka van kućice).
+- `cocodril` → crtani/clay (bio realističan).
+- **5 novih zabavnih životinja:** `flamenc`, `unicorn`, `granota`, `ànec`, `oca`.
+
+**Sadržaj (podaci):**
+- `els-animals`: pojednostavljene ribe (#4: peix/tauró/sardina), + copy zabavnih životinja (#4b),
+  + klasifikacija domaće/divlje (#6c). Sad 23 zadatka.
+- `el-menjar`: + klasifikacija voće/povrće (#19). Sad 21 zadatak.
+
+**Kod:**
+- **Hydration bag fix** (dugme-u-dugmetu) u `LabelImage.tsx` (retry + word-bank SpeakerButton) i
+  `MultipleChoice.tsx` (retry) → `<span role="button">` / `<motion.div role="button">`. Okидao se kad
+  dete pogreši ili na label-image temama.
+- QA toolkit `e2e/qa/` + solver popravke (word-search drag, native klik, fix drift indeksa).
+
+**Verifikacija produkcije:** svih 12 tema, **0 oštećenih slika, 0 pravih console grešaka**.
+Sva 3 nova zadatka odigrana u browseru uživo — rade.
+
+---
+
+## 📋 ŠTA OSTAJE / IDEJE ZA DALJE
+- (Opciono) Pun re-test svih 12 tema sad kad su solveri popravljeni — očekivano skoro čist izveštaj.
+- (Opciono) Regenerisati postojeće slike prodavnica SA tekstom (cinema/restaurant/mercat/farmacia/
+  peixeteria/verduleria/carnisseria) BEZ teksta radi višejezičnosti (pravilo #2).
+- (Opciono) Još zabavnih životinja / novih tipova zabavnih zadataka za uzrast 5-7.
+- Dorada solvera: `color-by-instruction` (best-effort), copy-word „poslednja reč" šum.
+- Težina za 7-godišnjaka (kandidati za pojednostavljenje — korisnica odlučuje): gramatika rod/broj
+  (LA/EL/LES/ELS, un/una), dugački MC opisi, decode-grid, separate-words.
+
+## 🧹 ČIŠĆENJE FOLDERA (pre finalnog lansiranja, uz potvrdu)
+Gomila zastarelih/duplih `.png` (stare Bing verzije). `public/illustrations/` ima 440+ `.png` koje
+app NE koristi + orphan `.webp` (npr. `a-darrere`, `a-davant`, `gorilla` eng. varijanta). Uporedi sa
+`wordsWithIllustrations`. ⚠️ NIKAD trajni `rm` na korisničkim fajlovima — premeštaj u Kantu preko
+Findera. Prvo izlistaj, pa potvrda korisnice.
+
+## Reference (memory)
+`reference_katalonski_qa_toolkit` · `feedback_illustrations_no_text_multilang` ·
+`reference_chatgpt_illustrations_via_chrome` · `feedback_no_shortcuts_be_thorough`
