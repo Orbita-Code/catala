@@ -85,12 +85,10 @@ export default function TemaContent({ slug }: TemaContentProps) {
     const progress = getThemeProgress(slug);
     const scoringTotal = getScoringTaskCount(slug);
     const scoringDone = getCompletedScoringCount(slug, progress.completedTasks);
-    if (
-      progress.currentTask >= tasks.length &&
-      scoringTotal > 0 &&
-      scoringDone >= scoringTotal
-    ) {
-      // Every scoring task is genuinely done — show the celebration.
+    if (scoringTotal > 0 && scoringDone >= scoringTotal) {
+      // Svi scoring zadaci su gotovi → tema je završena → UVEK pokaži završni ekran
+      // (bez obzira gde je currentTask ostao — inače bi klik na završenu temu vodio
+      //  na neki srednji zadatak umesto na celebration).
       setShowCelebration(true);
     } else if (progress.currentTask > 0 && progress.currentTask < tasks.length) {
       // Resume where the child left off.
