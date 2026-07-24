@@ -934,8 +934,9 @@ function stripAccents(s: string): string {
 }
 
 // Get the illustration image path for a word (returns null if no illustration exists)
-// Common Catalan articles to strip when looking up illustrations
-const CATALAN_ARTICLES = /^(el |la |l'|els |les |un |una )/;
+// Common Catalan articles + prepositional forms to strip when looking up illustrations
+// (npr. "A l'hospital" → hospital, "Al museu" → museu, "Al semàfor" → semàfor)
+const CATALAN_ARTICLES = /^(a l'|a la |a les |als |al |el |la |l'|els |les |un |una |a )/;
 
 export function getWordIllustration(word: string): string | null {
   // Normalize spaces AND apostrophes to dashes so "parada d'autobús" → "parada-d-autobus"

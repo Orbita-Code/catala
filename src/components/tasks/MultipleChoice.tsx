@@ -134,7 +134,10 @@ export default function MultipleChoice({ task, onComplete, review = false }: Pro
                     : "bg-gray-50 border-2 border-gray-200 text-[var(--text)] hover:bg-gray-100"
               }`}
             >
-              {getWordIllustration(option) ? <img src={getWordIllustration(option)!} alt="" className="w-12 h-12 object-contain inline mr-2" /> : null}
+              {/* Sličicu prikazujemo SAMO uz zeleni tačan odgovor (ne odaje odgovor tokom pitanja) */}
+              {showResult && i === question.correct && getWordIllustration(option) ? (
+                <img src={getWordIllustration(option)!} alt="" className="w-12 h-12 object-contain inline mr-2 align-middle" />
+              ) : null}
               {option}
               {showResult && i === question.correct && " ✅"}
               {showResult && i === selected && !isCorrect && (
