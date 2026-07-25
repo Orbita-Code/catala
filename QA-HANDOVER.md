@@ -228,6 +228,10 @@ Sva 3 nova zadatka odigrana u browseru uživo — rade.
     arracades (elegantne minđuše), medusa, boligraf, cigonya (drži umotan zavežljaj u kljunu, BEZ
     bebe da ne zbuni decu), anell (srce-kamen duga boje + cirkoni, prelep za devojčice).
   - **ZADRŽANE STARE (korisnica izabrala):** collaret, pollastre, conilla.
+- **QA POSLE SVEGA (vidi `QA-REPORT-2026-07-25.md`):** ✅ 0 oštećenih slika (statički check svih 503
+  ključa + browser 12 tema), ✅ 0 console grešaka (12 tema + home + stats), ✅ tsc 0, ✅ nove slike LIVE
+  na produkciji (byte-match). 5 mrtvih Set-unosa `persona-a..e` (0 upotrebe — bezopasno). Full task-solver
+  `run.mjs` prespor ovaj put + lažni „stuck" na novim zadacima → za sliku-sesiju statički+browser check merodavan.
 - **`MULTILANG-TEXT-IMAGES.md`** (novo): slike sa tekstom (dani u nedelji dilluns–diumenge) MORAJU
   se regenerisati po jeziku pri lokalizaciji. `classroom-items` je NAMERNO crno-bela skica za
   „color-by-instruction" zadatak — NE dirati.
