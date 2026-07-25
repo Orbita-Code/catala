@@ -61,20 +61,40 @@ async function run() {
     ? { username: process.env.BASIC_AUTH.split(':')[0], password: process.env.BASIC_AUTH.split(':').slice(1).join(':') }
     : undefined;
   const ctx = await browser.newContext({ viewport: { width: 1100, height: 1300 }, httpCredentials });
+  // KRITIČNO: neutrališi TTS. App zove speak() na svaku tačnu reč; na macOS speechSynthesis ide kroz
+  // SISTEMSKI glas i svira na zvučnicima ČAK i iz headless browsera — solver koji juri kroz copy-word
+  // pravi glasnu, neprekidivu kaskadu izgovora. Ovaj init-script stubuje speechSynthesis na SVAKOJ strani.
+  await ctx.addInitScript(() => {
+    try {
+      const noop = () => {};
+      Object.defineProperty(window, 'speechSynthesis', {
+        configurable: true,
+        value: { speak: noop, cancel: noop, pause: noop, resume: noop, getVoices: () => [], addEventListener: noop, removeEventListener: noop },
+      });
+    } catch (e) {}
+  });
   const page = await ctx.newPage();
-  const report = {};
+  const REPORT_PATH = path.join(__dirname, 'report.json');
+  // RESUME=1 → učitaj postojeći report.json i preskoči već odrađene teme (spoljni prekid ne gubi napredak)
+  const report = process.env.RESUME && fs.existsSync(REPORT_PATH)
+    ? JSON.parse(fs.readFileSync(REPORT_PATH, 'utf8')) : {};
 
   for (const slug of SLUGS) {
+    if (process.env.RESUME && report[slug]) { process.stderr.write(`  ⏭  ${slug} već u report.json — preskačem (RESUME)\n`); continue; }
     const themeTasks = tasks[slug];
     const consoleErrors = [];
     page.removeAllListeners('console'); page.removeAllListeners('pageerror');
     page.on('console', (m) => { if (m.type() === 'error') consoleErrors.push(m.text().slice(0, 200)); });
     page.on('pageerror', (e) => consoleErrors.push('PAGEERROR: ' + e.message.slice(0, 200)));
 
-    await page.goto(`${BASE}/tema/${slug}`, { waitUntil: 'networkidle' }).catch(() => {});
-    await page.evaluate(() => localStorage.clear());
-    await page.goto(`${BASE}/tema/${slug}`, { waitUntil: 'networkidle' }).catch(() => {});
-    await page.waitForTimeout(900);
+    // NAPOMENA: NE koristiti 'networkidle' — Next dev drži HMR websocket otvoren pa se
+    // networkidle nikad ne dostigne (30s timeout po goto-u). 'domcontentloaded' + eksplicitan wait.
+    await page.goto(`${BASE}/tema/${slug}`, { waitUntil: 'domcontentloaded' }).catch(() => {});
+    await page.waitForSelector('main', { timeout: 15000 }).catch(() => {});
+    await page.evaluate(() => localStorage.clear()); // TTS je već neutralisan preko addInitScript-a gore
+    await page.goto(`${BASE}/tema/${slug}`, { waitUntil: 'domcontentloaded' }).catch(() => {});
+    await page.waitForSelector('main', { timeout: 15000 }).catch(() => {});
+    await page.waitForTimeout(500);
 
     const themeRep = { played: 0, tasks: [], brokenImages: [], consoleErrors };
     const brokenSet = new Set();
@@ -82,6 +102,7 @@ async function run() {
     for (let t = 0; t < themeTasks.length; t++) {
       const task = themeTasks[t];
       const notes = [];
+      process.stderr.write(`  · ${slug} #${t + 1}/${themeTasks.length} ${task.type} (${task.id})\n`);
       const before = await taskCounter(page);
       // slike pre rešavanja
       const imgs = await imgReport(page);
@@ -97,13 +118,13 @@ async function run() {
       let cur = await taskCounter(page);
       if (cur !== before) advanced = true; // već napredovao tokom rešavanja
       for (let a = 0; a < 4 && !advanced; a++) {
-        if (await clickNext(page)) { await page.waitForTimeout(700); }
+        if (await clickNext(page)) { await page.waitForTimeout(250); }
         const after = await taskCounter(page);
         if (after !== before) { advanced = true; break; }
         // možda je kraj (proslava)
         const done = await page.evaluate(() => /Felicitats|Has completat|Molt bé!|Repassa les tasques|Torna a l'inici/i.test(document.body.textContent));
         if (done) { advanced = true; break; }
-        await page.waitForTimeout(400);
+        await page.waitForTimeout(250);
       }
 
       themeRep.tasks.push({ i: t + 1, id: task.id, type: task.type, before, after: await taskCounter(page), advanced, notes });
@@ -112,6 +133,8 @@ async function run() {
 
     themeRep.brokenImages = [...brokenSet];
     report[slug] = themeRep;
+    // inkrementalni upis — ako spoljni prekid ubije proces, odrađene teme ostaju sačuvane
+    fs.writeFileSync(REPORT_PATH, JSON.stringify(report, null, 2));
 
     // sažetak teme
     const stuck = themeRep.tasks.filter((x) => !x.advanced);

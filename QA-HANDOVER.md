@@ -252,6 +252,30 @@ Sva 3 nova zadatka odigrana u browseru uživo — rade.
        Ako URL padne na `/project` — ta strana IMA composer, radi; ako padne na `chatgpt.com/` root
        (NO_TAB) → renavigiraj na `/g/...-igrice-katalonski-jezik`.
 
+**Nastavak 25.07.2026 — DOPUNA QA SOLVERA (`e2e/qa/run.mjs`, `solve-lib.mjs`):**
+- **⚠️ NAJVAŽNIJA LEKCIJA — QA SOLVER PRAVI ZVUK:** solver rešava copy-word/matching → app zove
+  `speak()` (izgovor reči). Na **macOS `speechSynthesis` ide kroz SISTEMSKI glas i svira na
+  zvučnicima ČAK i iz headless browsera** — solver koji juri kroz zadatke pravi glasnu, NEPREKIDIVU
+  kaskadu izgovora (korisnica je čula kako čita sve životinje jednu po jednu). **NIJE bug u igri.**
+  **FIX:** `run.mjs` sada preko `ctx.addInitScript` stubuje `window.speechSynthesis` na `()=>{}` na
+  SVAKOJ strani → solver je TIH. (Verifikovano: `speak.toString()==='()=>{}'`.) NE dirati taj stub.
+  *(localStorage flag `catala-tts-enabled` NE radi — app nikad ne zove `initTTS()`.)*
+- **`networkidle` → `domcontentloaded`:** Next **dev** drži HMR websocket otvoren → `networkidle` se
+  nikad ne dostigne → 30s timeout po svakom `goto`. Zato je ranije izgledalo da „visi". Sada + `waitForSelector('main')`.
+- **Per-task progres na stderr** (`· slug #i/N type (id)`) — vidiš gde je / da li zaglavljuje.
+- **Inkrementalni `report.json` po temi + `RESUME=1`** — spoljni prekid (sistem gasi duge pozadinske
+  procese ~2-3 min) ne gubi napredak; `RESUME=1 node run.mjs` preskače već odrađene teme.
+- **~40% brže** (smanjeni `sleep`-ovi).
+- **fill-sentence akcenti:** poredi po skinutim akcentima („avió"↔„avio") + čuva original — fallback klik.
+- **Potvrđeno da NOVI zadaci prolaze** (0 „stuck"): `els-animals-4b` (copy-word), `els-animals-6c`
+  (classify **circleMode** — radi jer `data-drop-target="col-0/1"` postoje, naslovi kolona su `text-sm` pa ne smetaju).
+- **PREOSTALE sitne rupe u solveru** (ne blokiraju — zadaci napreduju, samo „napomene"): word-search
+  `els-vehicles-5` ne nalazi reči (grid/drag mismatch), copy-word „barca" ne nalazi slova, MC ponekad
+  pogađa, fill-sentence višestruki blank sa istom opcijom. Doterati po potrebi; NIJE hitno.
+- **Pokretanje:** `pkill next` NIJE potrebno; dev server: `npm run dev`; pa
+  `BASE=http://localhost:3000 BASIC_AUTH=catala:changeme node e2e/qa/run.mjs [teme...]` (localhost je brže i
+  pouzdanije od produkcije). Za produkciju: `BASE=https://catala.orbitacode.com BASIC_AUTH=catala:<lozinka>`.
+
 ---
 
 ## 📋 ŠTA OSTAJE / IDEJE ZA DALJE

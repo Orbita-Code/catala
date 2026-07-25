@@ -81,9 +81,9 @@ async function solveCopyWord(page, task, notes) {
     }
     await sleep(page, 250);
     await clickComprova(page);
-    await sleep(page, 500);
+    await sleep(page, 300);
     // retry ako je nešto pošlo naopako
-    if (await clickByText(page, 'main button', 'Torna a provar', false)) { notes.push(`copy-word: retry na "${cur}"`); await sleep(page, 400); }
+    if (await clickByText(page, 'main button', 'Torna a provar', false)) { notes.push(`copy-word: retry na "${cur}"`); await sleep(page, 250); }
   }
   return true;
 }
@@ -121,7 +121,7 @@ async function solveFillLetters(page, task, notes) {
   }
   await sleep(page, 300);
   await clickComprova(page);
-  await sleep(page, 500);
+  await sleep(page, 300);
   return true;
 }
 
@@ -152,8 +152,8 @@ async function solveUnscramble(page, task, notes) {
     }
     await sleep(page, 200);
     await clickByText(page, 'main button', 'Comprova', false);
-    await sleep(page, 500);
-    if (await clickByText(page, 'main button', 'Torna a provar', false)) { notes.push(`unscramble: retry "${target}"`); await sleep(page, 400); }
+    await sleep(page, 300);
+    if (await clickByText(page, 'main button', 'Torna a provar', false)) { notes.push(`unscramble: retry "${target}"`); await sleep(page, 250); }
   }
   return true;
 }
@@ -174,11 +174,11 @@ async function solveClassifyColumns(page, task, notes) {
     if (ci < 0) { ci = 0; notes.push(`classify: nepoznata kolona za "${cur}" -> col0`); }
     const ok = await clickSelectorTarget(page, `[data-drop-target="col-${ci}"]`);
     if (!ok) { notes.push(`classify: nema drop kolone col-${ci}`); break; }
-    await sleep(page, 550);
+    await sleep(page, 320);
   }
   await sleep(page, 300);
   await clickComprova(page);
-  await sleep(page, 500);
+  await sleep(page, 300);
   return true;
 }
 async function clickSelectorTarget(page, selector) {
@@ -218,20 +218,21 @@ async function solveMatching(page, task, notes) {
     await sleep(page, 250);
     if (right) await page.mouse.click(right.xy.x, right.xy.y);
     else { notes.push(`matching: nema desnog "${want}"`); break; }
-    await sleep(page, 500);
+    await sleep(page, 300);
   }
   await sleep(page, 300);
   await clickComprova(page);
-  await sleep(page, 400);
+  await sleep(page, 250);
   return true;
 }
 
 // ── FILL-SENTENCE ─────────────────────────────────────────────────────
 async function solveFillSentence(page, task, notes) {
-  // tačni odgovori: task.sentences[].blank ili task.blanks
+  // tačni odgovori: task.sentences[].blank ili task.blanks — čuvaj ORIGINAL (sa akcentima),
+  // jer dugme na ekranu ima akcente ("avió", "autobús"); poređenje po skinutim akcentima kao fallback.
   const answers = [];
-  if (Array.isArray(task.sentences)) for (const s of task.sentences) { if (s.blank) answers.push(strip(s.blank)); if (Array.isArray(s.blanks)) s.blanks.forEach((b) => answers.push(strip(b))); }
-  if (Array.isArray(task.blanks)) task.blanks.forEach((b) => answers.push(strip(b)));
+  if (Array.isArray(task.sentences)) for (const s of task.sentences) { if (s.blank) answers.push(s.blank); if (Array.isArray(s.blanks)) s.blanks.forEach((b) => answers.push(b)); }
+  if (Array.isArray(task.blanks)) task.blanks.forEach((b) => answers.push(b));
   // klikni tačne opcije redom (svaka popuni sledeći prazan blank)
   await page.waitForSelector('main button', { timeout: 4000 }).catch(() => {});
   await sleep(page, 300);
@@ -242,17 +243,24 @@ async function solveFillSentence(page, task, notes) {
     let clicked = false;
     try {
       const loc = page.getByRole('button', { name: want, exact: true });
-      const n = await loc.count();
-      await loc.nth(n > 1 ? Math.min(bi, n - 1) : 0).click({ timeout: 3000 });
-      clicked = true;
+      if (await loc.count()) { await loc.first().click({ timeout: 2500 }); clicked = true; }
     } catch { /* fallthrough */ }
+    // fallback: nađi dugme čiji tekst (bez akcenata) == want (bez akcenata) — rešava "avió" vs "avio"
+    if (!clicked) {
+      clicked = await page.evaluate((w) => {
+        const S = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/·/g, '').toLowerCase().trim();
+        const btn = [...document.querySelectorAll('main button')].find((b) => S(b.textContent || '') === S(w) && !b.disabled);
+        if (btn) { btn.click(); return true; }
+        return false;
+      }, want).catch(() => false);
+    }
     if (!clicked) notes.push(`fill-sentence: nije nađena opcija "${want}"`);
     await sleep(page, 450);
   }
   if (!answers.length) notes.push('fill-sentence: nema odgovora u data (proveri oblik)');
   await sleep(page, 200);
   await clickByText(page, 'main button', 'Comprova', false);
-  await sleep(page, 400);
+  await sleep(page, 250);
   return true;
 }
 
@@ -272,7 +280,7 @@ async function solveMultipleChoice(page, task, notes) {
     if (correct) { try { const loc = page.getByRole('button', { name: String(correct), exact: true }); if (await loc.count()) { await loc.first().click({ timeout: 2500 }); clicked = true; } } catch { /* */ } }
     if (!clicked && correct) clicked = await clickByText(page, 'main button', String(correct), false);
     if (!clicked) { await clickSelectorNth(page, 'main button[class*="rounded-2xl"]', 0); notes.push('MC: pogađan odgovor'); }
-    await sleep(page, 800);
+    await sleep(page, 450);
     // sledeće pitanje se pojavi automatski; prekini ako nema promene
     if (qi >= qs.length - 1) break;
   }
@@ -293,14 +301,14 @@ async function solveAddArticle(page, task, notes) {
     });
     if (!curWord) break;
     if (curWord === lastWord) { // nije napredovalo — sačekaj malo pa probaj opet
-      await sleep(page, 400);
+      await sleep(page, 250);
     }
     const w = words.find((x) => strip(x.word) === strip(curWord));
     let clicked = false;
     if (w && w.article) { try { const loc = page.getByRole('button', { name: w.article, exact: true }); if (await loc.count()) { await loc.first().click({ timeout: 2500 }); clicked = true; } } catch { /* */ } }
     if (!clicked) { notes.push(`add-article: nepoznat član za "${curWord}"`); await clickSelectorNth(page, 'main button[class*="min-w-[70px]"]', 0); }
     lastWord = curWord;
-    await sleep(page, 750);
+    await sleep(page, 450);
   }
   return true;
 }
@@ -329,7 +337,7 @@ async function solveSeparateWords(page, task, notes) {
   }
   await sleep(page, 200);
   await clickByText(page, 'main button', 'Comprova', false);
-  await sleep(page, 500);
+  await sleep(page, 300);
   return true;
 }
 
@@ -343,7 +351,7 @@ async function solveCountAndWrite(page, task, notes) {
     await sleep(page, 150);
   }
   await clickByText(page, 'main button', 'Comprova', false);
-  await sleep(page, 500);
+  await sleep(page, 300);
   return true;
 }
 
@@ -357,14 +365,14 @@ async function solveWriteAntonym(page, task, notes) {
       const want = pairs[i] ? (pairs[i].antonym || pairs[i].answer || pairs[i][1]) : null;
       if (!want) break;
       if (!(await clickByText(page, 'main button', want, true))) { notes.push(`antonym: nema opcije "${want}"`); }
-      await sleep(page, 400);
+      await sleep(page, 250);
     }
   } else {
     const inputs = await page.$$('main input');
     for (let i = 0; i < inputs.length; i++) { const want = pairs[i]?.antonym || pairs[i]?.answer || pairs[i]?.[1] || ''; await inputs[i].fill(want); await sleep(page, 150); }
   }
   await clickByText(page, 'main button', 'Comprova', false);
-  await sleep(page, 500);
+  await sleep(page, 300);
   return true;
 }
 
@@ -376,7 +384,7 @@ async function solveOrderWords(page, task, notes) {
     await sleep(page, 250);
   }
   await clickByText(page, 'main button', 'Comprova', false);
-  await sleep(page, 500);
+  await sleep(page, 300);
   return true;
 }
 
@@ -387,7 +395,7 @@ async function solveDecodeGrid(page, task, notes) {
   for (let i = 0; i < inputs.length && i < answer.length; i++) { await inputs[i].fill(answer[i]); await sleep(page, 120); }
   if (!answer) notes.push('decode-grid: nepoznat odgovor u data');
   await clickByText(page, 'main button', 'Comprova', false);
-  await sleep(page, 500);
+  await sleep(page, 300);
   return true;
 }
 
@@ -403,7 +411,7 @@ async function solveLabelImage(page, task, notes) {
     if (!clickedWord) notes.push(`label-image: nema reči "${w}"`);
   }
   await clickByText(page, 'main button', 'Comprova', false);
-  await sleep(page, 500);
+  await sleep(page, 300);
   return true;
 }
 async function solveLabelWrite(page, task, notes) {
@@ -411,7 +419,7 @@ async function solveLabelWrite(page, task, notes) {
   const inputs = await page.$$('main input[type="text"]');
   for (let i = 0; i < inputs.length && i < labels.length; i++) { await inputs[i].fill(labels[i] || ''); await sleep(page, 150); }
   await clickByText(page, 'main button', 'Comprova', false);
-  await sleep(page, 500);
+  await sleep(page, 300);
   return true;
 }
 
@@ -445,7 +453,7 @@ async function solveSelfAssessment(page) {
   // dugme za nastavak/kraj (primary)
   await clickByText(page, 'main button', 'Continua', false);
   await clickByText(page, 'main button', 'Acaba', false);
-  await sleep(page, 400);
+  await sleep(page, 250);
   return true;
 }
 
@@ -461,7 +469,7 @@ async function solveDrawingCanvas(page) {
     await sleep(page, 300);
   }
   await clickByText(page, 'main button', 'He acabat', false);
-  await sleep(page, 400);
+  await sleep(page, 250);
   return true;
 }
 
@@ -513,7 +521,7 @@ async function solveWordSearch(page, task, notes) {
         // prevuci: down na prvoj, pređi kroz centar SVAKE ćelije (okida onMouseEnter), up
         await page.mouse.move(pts[0].x, pts[0].y); await page.mouse.down();
         for (let i = 1; i < pts.length; i++) { await page.mouse.move(pts[i].x, pts[i].y); await sleep(page, 90); }
-        await page.mouse.up(); await sleep(page, 400); placed = true;
+        await page.mouse.up(); await sleep(page, 250); placed = true;
       }
     }
     if (!placed) notes.push(`word-search: nije nađena reč "${wd}"`);
