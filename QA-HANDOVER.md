@@ -3,7 +3,8 @@
 > **Sledeća sesija: pročitaj OVO celo pre rada.** Ovo je autoritativni vodič za testiranje i
 > stanje projekta. Poslednje ažuriranje: **25.07.2026** (slike bez teksta, nove zabavne životinje,
 > hydration fix, QA toolkit + solver popravke, celebration/UX popravke, rotacija lozinke,
-> auto-slike u fill-sentence zadacima, deploy do SW v19).
+> auto-slike u fill-sentence zadacima, **regeneracija 33 Bing/tekst slike u 3D cartoon stilu**,
+> čišćenje foldera, deploy do SW v21).
 > **Produkcija je iza basic auth-a — lozinka u memoriji `reference_katalonski_credentials` (NE u repo).**
 
 ---
@@ -209,6 +210,43 @@ Sva 3 nova zadatka odigrana u browseru uživo — rade.
   „La granota és de color verd" (opšta činjenica, logična boja).
 - **oreneta (lasta) → flamenc/oca:** oreneta nije prepoznatljiva deci; zamenjena flamingom
   (copy-word/matching/fill-letters) i guskom (classify Au, jer flamenc već bio tu).
+
+**Nastavak 25.07.2026 — VELIKA REGENERACIJA SLIKA (commit `fd749e7`, SW v21):**
+- **BUG FIX (živ u igri):** zec (`conill`) je bio u „domèstic" grupi classify zadatka — zec je
+  DIVLJA životinja → zamenjen kravom (`vaca`). `els-animals-6c`. (commit `b7fa0bb`, SW v20)
+- **Čišćenje foldera:** 451 zastarela `.png` iz `public/illustrations/` u Kantu (igra koristi SAMO
+  `.webp`; svaka je imala webp parnjaka; ~29 MB). 20 tih png bilo u gitu → uklonjeno (commit `c02b244`).
+  `Ilustracije/nena-vestida 2.png` (labelirani duplikat) → Kanta.
+- **33 slike regenerisane u „3D cartoon style" (bez teksta):**
+  - **Natpisi prodavnica** (prepoznatljive kroz robu u izlogu + slikovni simbol na krovu, BEZ natpisa,
+    BEZ praznog polja za natpis): carnisseria, farmacia (zeleni krst), joguineria, llibreria,
+    pastisseria, peixateria (+kopija peixeteria), restaurant, sabateria, supermercat, verduleria, ajuntament.
+  - **Predmeti bez natpisa:** sucre (činija šećera), sal (slanik).
+  - **Osvežene (Bing→cartoon):** girafa, bistec, mar, socorrista (na plaži ispred kućice),
+    pernil, paella, terrat, muntanya (plavo nebo da se planina vidi), pizza.
+  - **Isprane pastelne Bing → jarke cartoon:** termometre, fanal(+fanall), estetoscopi (LJUBIČASTI),
+    arracades (elegantne minđuše), medusa, boligraf, cigonya (drži umotan zavežljaj u kljunu, BEZ
+    bebe da ne zbuni decu), anell (srce-kamen duga boje + cirkoni, prelep za devojčice).
+  - **ZADRŽANE STARE (korisnica izabrala):** collaret, pollastre, conilla.
+- **`MULTILANG-TEXT-IMAGES.md`** (novo): slike sa tekstom (dani u nedelji dilluns–diumenge) MORAJU
+  se regenerisati po jeziku pri lokalizaciji. `classroom-items` je NAMERNO crno-bela skica za
+  „color-by-instruction" zadatak — NE dirati.
+- **ALATI ZA GENERACIJU (u scratchpad-u, presnimiti u `e2e/` ako zatreba ponovo):**
+  `gen.sh` (šalje prompt u ChatGPT preko AppleScript-a → čeka → preuzima fetch→canvas→base64),
+  `integrate.sh` (png→512→Ilustracije + cwebp→public/illustrations). Vidi novu memoriju
+  `reference_katalonski_image_regen`.
+  - **KRITIČNE ZAMKE (naučeno ovu sesiju):**
+    1. **Apostrof u promptu LOMI slanje** (`quoted form` u bash escape-uje apostrof → nevalidan JS).
+       „doctor's" → „doctor" / „used by doctors". Držati promptove BEZ apostrofa.
+    2. **Ne nametati stil** — koristi dogovoreno „3D cartoon style illustration", NE „clay". Pusti
+       custom GPT da odredi stil; prompt samo opisuje predmet + „no text" + „bright vibrant, not pale".
+    3. **NE prazan natpis** iznad prodavnice (izgleda nedovršeno) — umesto toga slikovni simbol na krovu.
+    4. **Download misalignment** — ako slika NIJE nova (n ne poraste), gen.sh preuzme POSLEDNJU (staru)
+       → pogrešna slika. UVEK vizuelno proveri svaku preuzetu sliku pre integracije. Radi 1-po-1 kod
+       osetljivih, ne batch, ili proveri montažom.
+    5. **Dugačak chat (~100 slika) baca „Something went wrong"** → otvori NOV chat (base GPT URL).
+       Ako URL padne na `/project` — ta strana IMA composer, radi; ako padne na `chatgpt.com/` root
+       (NO_TAB) → renavigiraj na `/g/...-igrice-katalonski-jezik`.
 
 ---
 
