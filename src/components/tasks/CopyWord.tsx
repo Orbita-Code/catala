@@ -14,6 +14,10 @@ import { speak } from "@/lib/tts";
 
 import { ArrowLeft } from "lucide-react";
 import { celebrate, celebrateBig } from "@/lib/confetti";
+import MiniCelebration from "@/components/gamification/MiniCelebration";
+
+/** After this many words the child gets a short celebration break before continuing. */
+const WORDS_PER_ROUND = 7;
 
 interface Props {
   task: CopyWordTask;
@@ -58,6 +62,7 @@ export default function CopyWord({ task, onComplete, review = false }: Props) {
   const [checked, setChecked] = useState(review);
   const [correct, setCorrect] = useState<boolean | null>(review ? true : null);
   const [completedCount, setCompletedCount] = useState(0);
+  const [roundBreak, setRoundBreak] = useState(false);
   const [hintLetterIdx, setHintLetterIdx] = useState<number | null>(null);
   const hints = useHintSystem();
 
@@ -150,7 +155,16 @@ export default function CopyWord({ task, onComplete, review = false }: Props) {
       celebrate();
       speak(currentWord.catalan);
 
-      setTimeout(() => moveToNext(), 1000);
+      // Every WORDS_PER_ROUND words, pause for a mini celebration instead of
+      // jumping straight to the next word — 21 words in one stretch is too long.
+      const isRoundEnd =
+        newCount % WORDS_PER_ROUND === 0 &&
+        currentWordIdx < task.words.length - 1;
+      if (isRoundEnd) {
+        setTimeout(() => setRoundBreak(true), 1000);
+      } else {
+        setTimeout(() => moveToNext(), 1000);
+      }
     } else {
       hints.recordWrongAttempt(currentWord.catalan);
     }
@@ -347,6 +361,18 @@ export default function CopyWord({ task, onComplete, review = false }: Props) {
           </div>
         )}
       </motion.div>
+
+      {/* Round break celebration every WORDS_PER_ROUND words */}
+      <MiniCelebration
+        show={roundBreak}
+        message={`${completedCount} paraules escrites!`}
+        subMessage="Molt bé! Descansa una mica i seguim."
+        buttonText="Continua!"
+        onDone={() => {
+          setRoundBreak(false);
+          moveToNext();
+        }}
+      />
     </div>
   );
 }

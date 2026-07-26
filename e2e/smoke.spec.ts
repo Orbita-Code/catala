@@ -23,8 +23,8 @@ test.describe("Smoke Tests", () => {
   });
 
   test("Theme page renders a task", async ({ page }) => {
-    await page.goto("/tema/la-classe");
-    await page.waitForLoadState("networkidle");
+    // domcontentloaded umesto networkidle — dev HMR websocket ga nikad ne dostigne
+    await page.goto("/tema/la-classe", { waitUntil: "domcontentloaded" });
 
     // Should show task heading (every task has an h2 prompt)
     const taskHeading = page.locator("main h2").first();

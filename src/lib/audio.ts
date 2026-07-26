@@ -2,10 +2,18 @@
 
 // Synthesized sound effects using Web Audio API - no external files needed
 
+import { getSettings, updateSettings } from "./settings";
+
 let audioCtx: AudioContext | null = null;
 let muted = false;
 
-const STORAGE_KEY = "catala-muted";
+const LEGACY_STORAGE_KEY = "catala-muted";
+
+function soundOff(): boolean {
+  if (typeof window === "undefined") return true;
+  // Respect both the in-memory toggle and the persisted Configuració setting
+  return muted || !getSettings().soundEnabled;
+}
 
 function getCtx(): AudioContext {
   if (!audioCtx) {
@@ -17,8 +25,13 @@ function getCtx(): AudioContext {
 export function initAudio() {
   if (typeof window === "undefined") return;
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    muted = saved === "true";
+    // Migrate the legacy standalone key into catala-settings on first run
+    const legacy = localStorage.getItem(LEGACY_STORAGE_KEY);
+    if (legacy !== null && !localStorage.getItem("catala-settings")) {
+      updateSettings({ soundEnabled: legacy !== "true" });
+      localStorage.removeItem(LEGACY_STORAGE_KEY);
+    }
+    muted = !getSettings().soundEnabled;
   } catch {
     muted = false;
   }
@@ -29,22 +42,19 @@ export function isMuted(): boolean {
 }
 
 export function toggleMute(): boolean {
-  muted = !muted;
-  try {
-    localStorage.setItem(STORAGE_KEY, String(muted));
-  } catch {}
+  setMuted(!muted);
   return muted;
 }
 
 export function setMuted(value: boolean) {
   muted = value;
   try {
-    localStorage.setItem(STORAGE_KEY, String(muted));
+    updateSettings({ soundEnabled: !value });
   } catch {}
 }
 
 function playTone(frequency: number, duration: number, type: OscillatorType = "sine", gain: number = 0.3) {
-  if (muted || typeof window === "undefined") return;
+  if (soundOff()) return;
   try {
     const ctx = getCtx();
     const osc = ctx.createOscillator();
@@ -67,7 +77,7 @@ export function playTap() {
 
 // Correct answer - ascending two-tone
 export function playCorrect() {
-  if (muted || typeof window === "undefined") return;
+  if (soundOff()) return;
   try {
     const ctx = getCtx();
     const now = ctx.currentTime;
@@ -89,7 +99,7 @@ export function playCorrect() {
 
 // Wrong answer - descending tone
 export function playWrong() {
-  if (muted || typeof window === "undefined") return;
+  if (soundOff()) return;
   try {
     const ctx = getCtx();
     const now = ctx.currentTime;
@@ -111,7 +121,7 @@ export function playWrong() {
 
 // Combo/streak - triumphant arpeggio
 export function playCombo() {
-  if (muted || typeof window === "undefined") return;
+  if (soundOff()) return;
   try {
     const ctx = getCtx();
     const now = ctx.currentTime;
@@ -133,7 +143,7 @@ export function playCombo() {
 
 // Task complete - cheerful melody
 export function playTaskComplete() {
-  if (muted || typeof window === "undefined") return;
+  if (soundOff()) return;
   try {
     const ctx = getCtx();
     const now = ctx.currentTime;
@@ -155,7 +165,7 @@ export function playTaskComplete() {
 
 // Theme complete - grand fanfare
 export function playThemeComplete() {
-  if (muted || typeof window === "undefined") return;
+  if (soundOff()) return;
   try {
     const ctx = getCtx();
     const now = ctx.currentTime;
@@ -178,7 +188,7 @@ export function playThemeComplete() {
 
 // Applause and cheering sound - synthesized crowd noise
 export function playApplause(duration: number = 4) {
-  if (muted || typeof window === "undefined") return;
+  if (soundOff()) return;
   try {
     const ctx = getCtx();
     const now = ctx.currentTime;

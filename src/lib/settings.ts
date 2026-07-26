@@ -39,8 +39,10 @@ export function resetSettings(): AppSettings {
 }
 
 export function resetAllProgress() {
-  localStorage.removeItem("catala-progress");
-  localStorage.removeItem("catala-settings");
-  localStorage.removeItem("catala-muted");
-  localStorage.removeItem("catala-tts-enabled");
+  // Remove every catala-* key so a "full reset" really is full
+  // (progress, xp, streaks, errors, drawings, settings, mute flags...).
+  try {
+    const keys = Object.keys(localStorage).filter((k) => k.startsWith("catala-"));
+    for (const k of keys) localStorage.removeItem(k);
+  } catch {}
 }

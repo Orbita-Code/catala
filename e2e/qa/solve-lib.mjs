@@ -84,6 +84,12 @@ async function solveCopyWord(page, task, notes) {
     await sleep(page, 300);
     // retry ako je nešto pošlo naopako
     if (await clickByText(page, 'main button', 'Torna a provar', false)) { notes.push(`copy-word: retry na "${cur}"`); await sleep(page, 250); }
+    // Round-break pauza (svakih 7 reči): overlay sa "Continua!" — klikni da nastaviš
+    for (let k = 0; k < 12; k++) {
+      const cont = await clickByText(page, 'button', 'Continua!', false);
+      if (cont) { await sleep(page, 350); break; }
+      await sleep(page, 200);
+    }
   }
   return true;
 }

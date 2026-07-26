@@ -5128,93 +5128,41 @@
     },
     {
       "id": "la-familia-11",
-      "type": "decode-grid",
-      "prompt": "Desxifra el codi i dibuixa el personatge:",
-      "codeGrid": {
-        "A1": "ELLA",
-        "A2": "I",
-        "A3": "CASTANYS",
-        "A4": "GERMANS",
-        "B1": "TÉ",
-        "B2": "UNA",
-        "B3": "ANNA",
-        "B4": "ES",
-        "C1": "UN",
-        "C2": "CABELLS",
-        "C3": "ANYS",
-        "C4": "BLAUS",
-        "D1": "ELS",
-        "D2": "DOS",
-        "D3": "GORRO",
-        "D4": "DIU",
-        "E1": "PORTA",
-        "E2": "GERMANA",
-        "E3": "VINT",
-        "E4": "ULLS"
-      },
-      "words": [
+      "type": "matching",
+      "prompt": "Relaciona cada membre de la família amb la seva paraula.",
+      "illustrationMatch": true,
+      "pairs": [
         {
-          "codes": [
-            "A1",
-            "B1",
-            "E3",
-            "C3"
-          ],
-          "answer": "ELLA TÉ VINT ANYS"
+          "left": "el pare",
+          "right": "el pare"
         },
         {
-          "codes": [
-            "B1",
-            "D1",
-            "C2",
-            "A3"
-          ],
-          "answer": "TÉ ELS CABELLS CASTANYS"
+          "left": "la mare",
+          "right": "la mare"
         },
         {
-          "codes": [
-            "A2",
-            "D1",
-            "E4",
-            "C4"
-          ],
-          "answer": "I ELS ULLS BLAUS"
+          "left": "el fill",
+          "right": "el fill"
         },
         {
-          "codes": [
-            "B1",
-            "D2",
-            "A4"
-          ],
-          "answer": "TÉ DOS GERMANS"
+          "left": "la filla",
+          "right": "la filla"
         },
         {
-          "codes": [
-            "B2",
-            "E2",
-            "B1",
-            "D1",
-            "C2",
-            "A3"
-          ],
-          "answer": "UNA GERMANA TÉ ELS CABELLS CASTANYS"
+          "left": "l'avi",
+          "right": "l'avi"
         },
         {
-          "codes": [
-            "A1",
-            "B4",
-            "D4",
-            "B3"
-          ],
-          "answer": "ELLA ES DIU ANNA"
+          "left": "l'àvia",
+          "right": "l'àvia"
         },
         {
-          "codes": [
-            "E1",
-            "C1",
-            "D3"
-          ],
-          "answer": "PORTA UN GORRO"
+          "left": "el germà",
+          "right": "el germà"
+        },
+        {
+          "left": "la germana",
+          "right": "la germana"
         }
       ]
     },

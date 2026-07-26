@@ -168,6 +168,9 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
   };
 
   // Save canvas state for replay
+  // Each frame is a full ImageData (~1.8MB at 900x500) — 200 frames could eat
+  // ~360MB on a tablet, so keep the replay buffer small.
+  const MAX_REPLAY_FRAMES = 30;
   const frameCounter = useRef(0);
   const saveState = useCallback(() => {
     const canvas = canvasRef.current;
@@ -177,7 +180,7 @@ export default function DrawingCanvas({ task, onComplete }: Props) {
 
     // Save every 5th frame to balance smoothness and memory
     frameCounter.current++;
-    if (frameCounter.current % 5 === 0 && drawHistory.current.length < 200) {
+    if (frameCounter.current % 5 === 0 && drawHistory.current.length < MAX_REPLAY_FRAMES) {
       drawHistory.current.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
     }
   }, []);

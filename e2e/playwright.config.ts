@@ -6,9 +6,13 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   workers: 1,
+  // Dugi zadaci (copy-word sa 21 reči, word-search sa 10 reči) traju i po ~40s
+  timeout: 120000,
   reporter: [["list"], ["html", { open: "never" }]],
   use: {
     baseURL: "http://localhost:3000",
+    // viši viewport: word-search grid (10 redova) + prompt + čipovi stanu u kadar
+    viewport: { width: 1280, height: 1100 },
     httpCredentials: {
       username: process.env.BASIC_AUTH_USER ?? "catala",
       password: process.env.BASIC_AUTH_PASS ?? "changeme",

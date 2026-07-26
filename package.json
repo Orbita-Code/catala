@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test:unit": "node --test \"tests/unit/**/*.test.*\"",
     "test": "npx playwright test --config=e2e/playwright.config.ts",
     "test:smoke": "npx playwright test --config=e2e/playwright.config.ts smoke",
     "test:theme": "npx playwright test --config=e2e/playwright.config.ts --project",

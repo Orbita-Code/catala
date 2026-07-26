@@ -135,7 +135,7 @@ export default function LabelWrite({ task, onComplete, review = false }: Props) 
   return (
     <div className="space-y-4">
       <p className="text-center text-sm text-[var(--text-light)] mb-2">
-        Escriu el nom de cada part del cap:
+        Escriu el nom de cada part:
       </p>
 
       <div className="relative bg-white rounded-2xl p-4 shadow-sm" ref={containerRef}>

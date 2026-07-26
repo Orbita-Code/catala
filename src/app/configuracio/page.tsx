@@ -62,6 +62,9 @@ export default function ConfiguracioPage() {
             <label className="flex items-center justify-between cursor-pointer">
               <span className="text-[var(--text)]">Efectes de so</span>
               <button
+                role="switch"
+                aria-checked={settings.soundEnabled}
+                aria-label="Efectes de so"
                 onClick={() => toggle("soundEnabled")}
                 className={`w-12 h-7 rounded-full transition-colors ${
                   settings.soundEnabled ? "bg-[var(--primary)]" : "bg-gray-300"
@@ -92,6 +95,9 @@ export default function ConfiguracioPage() {
             <label className="flex items-center justify-between cursor-pointer">
               <span className="text-[var(--text)]">Text a veu</span>
               <button
+                role="switch"
+                aria-checked={settings.ttsEnabled}
+                aria-label="Text a veu"
                 onClick={() => toggle("ttsEnabled")}
                 className={`w-12 h-7 rounded-full transition-colors ${
                   settings.ttsEnabled ? "bg-[var(--primary)]" : "bg-gray-300"
@@ -108,6 +114,9 @@ export default function ConfiguracioPage() {
             <label className="flex items-center justify-between cursor-pointer">
               <span className="text-[var(--text)]">Lectura automàtica</span>
               <button
+                role="switch"
+                aria-checked={settings.autoRead}
+                aria-label="Lectura automàtica"
                 onClick={() => toggle("autoRead")}
                 className={`w-12 h-7 rounded-full transition-colors ${
                   settings.autoRead ? "bg-[var(--primary)]" : "bg-gray-300"

@@ -2,25 +2,33 @@
 
 // Text-to-Speech for Catalan pronunciation using Web Speech API
 
-let ttsEnabled = true;
-const TTS_STORAGE_KEY = "catala-tts-enabled";
+import { getSettings, updateSettings } from "./settings";
 
-export function initTTS() {
-  if (typeof window === "undefined") return;
+const LEGACY_TTS_KEY = "catala-tts-enabled";
+
+function migrateLegacy() {
   try {
-    const saved = localStorage.getItem(TTS_STORAGE_KEY);
-    if (saved !== null) ttsEnabled = saved === "true";
+    const legacy = localStorage.getItem(LEGACY_TTS_KEY);
+    if (legacy !== null && !localStorage.getItem("catala-settings")) {
+      updateSettings({ ttsEnabled: legacy === "true" });
+      localStorage.removeItem(LEGACY_TTS_KEY);
+    }
   } catch {}
 }
 
+export function initTTS() {
+  if (typeof window === "undefined") return;
+  migrateLegacy();
+}
+
 export function isTTSEnabled(): boolean {
-  return ttsEnabled;
+  if (typeof window === "undefined") return true;
+  return getSettings().ttsEnabled;
 }
 
 export function setTTSEnabled(value: boolean) {
-  ttsEnabled = value;
   try {
-    localStorage.setItem(TTS_STORAGE_KEY, String(value));
+    updateSettings({ ttsEnabled: value });
   } catch {}
 }
 
@@ -28,14 +36,17 @@ export function isTTSAvailable(): boolean {
   return typeof window !== "undefined" && "speechSynthesis" in window;
 }
 
-export function speak(text: string, rate: number = 0.8) {
-  if (!ttsEnabled || !isTTSAvailable()) return;
+export function speak(text: string, rate?: number) {
+  if (typeof window === "undefined") return;
+  migrateLegacy();
+  if (!getSettings().ttsEnabled || !isTTSAvailable()) return;
 
   // Stop any ongoing speech
   window.speechSynthesis.cancel();
 
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.rate = rate;
+  // Explicit rate wins; otherwise the speed from Configuració applies
+  utterance.rate = rate ?? getSettings().ttsSpeed;
   utterance.pitch = 1.1; // Slightly higher for child-friendly tone
 
   // Try Catalan, fall back to generic Catalan, then Spanish

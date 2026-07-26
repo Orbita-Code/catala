@@ -15,6 +15,7 @@ import { getThemeProgress, completeTask, isThemeFullyComplete, saveThemeProgress
 import { getEncouragement } from "@/lib/encouragement";
 import { addError, getThemeErrors, getThemeErrorCount, getErroredItemsList, removeError, clearThemeErrors } from "@/lib/errors";
 import { speak } from "@/lib/tts";
+import { getSettings } from "@/lib/settings";
 import { getWordIllustration } from "@/lib/illustrations";
 import { ErrorTrackingProvider } from "@/contexts/ErrorTrackingContext";
 
@@ -30,6 +31,7 @@ import { updateDailyStreak } from "@/lib/progress";
 import { getLevelProgress } from "@/lib/levels";
 import type { Level } from "@/lib/levels";
 import XPGainAnimation from "@/components/gamification/XPGainAnimation";
+import MiniCelebration from "@/components/gamification/MiniCelebration";
 import LevelUpCelebration from "@/components/gamification/LevelUpCelebration";
 
 interface TemaContentProps {
@@ -58,6 +60,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
   const [reviewItems, setReviewItems] = useState<{ taskId: string; item: string }[]>([]);
   const [reviewIndex, setReviewIndex] = useState(0);
   const [justCompletedTaskId, setJustCompletedTaskId] = useState<string | null>(null);
+  const [miniCelebrationCount, setMiniCelebrationCount] = useState<number | null>(null);
   const [retryTick, setRetryTick] = useState(0);
   const [hundredPercentJustHit, setHundredPercentJustHit] = useState(false);
   const [xpData, setXpData] = useState<{
@@ -98,6 +101,15 @@ export default function TemaContent({ slug }: TemaContentProps) {
     // so the child can browse/finish the remaining tasks instead of a false celebration.
     setStreak(progress.streak);
   }, [slug, tasks.length, mounted]);
+
+  // Lectura automàtica: read the task instruction aloud whenever a new task shows
+  useEffect(() => {
+    if (!mounted || tasks.length === 0) return;
+    if (!getSettings().autoRead) return;
+    const task = tasks[currentTaskIndex];
+    if (task?.prompt) speak(task.prompt);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTaskIndex, mounted]);
 
   if (!theme) {
     return (
@@ -148,6 +160,18 @@ export default function TemaContent({ slug }: TemaContentProps) {
     const progressResult = completeTask(slug, currentTask.id, taskResult, currentTaskIndex + 1, isBonus);
     setStreak(progressResult.streak);
     const justHit100 = !wasFullyCompleteBefore && isThemeFullyComplete(slug, scoringCount);
+
+    // Mini celebration milestone: every 5 completed scoring tasks (but not at
+    // the theme end — the big celebration handles that one)
+    const completedNow = getCompletedScoringCount(slug, getThemeProgress(slug).completedTasks);
+    const hitMilestone =
+      taskResult.allCorrect &&
+      !isBonus &&
+      !justHit100 &&
+      completedNow > 0 &&
+      completedNow % 5 === 0 &&
+      completedNow < scoringCount &&
+      currentTaskIndex < tasks.length - 1;
 
     // Update daily streak on first task completion
     updateDailyStreak();
@@ -220,7 +244,13 @@ export default function TemaContent({ slug }: TemaContentProps) {
         celebrateBig();
       }, 2000);
     } else if (currentTaskIndex < tasks.length - 1) {
+      // Milestone: show the mini celebration after the star's first reaction,
+      // and give it room before advancing to the next task.
+      if (hitMilestone) {
+        setTimeout(() => setMiniCelebrationCount(completedNow), 1200);
+      }
       setTimeout(() => {
+        setMiniCelebrationCount(null);
         setFeedbackMessage(null);
         setFeedbackReaction(null);
         setJustCompletedTaskId(null);
@@ -235,7 +265,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
           nextIdx = tasks.findIndex((t) => !t.bonus && !prog.completedTasks.includes(t.id));
         }
         setCurrentTaskIndex(nextIdx >= 0 ? nextIdx : currentTaskIndex + 1);
-      }, 2000);
+      }, hitMilestone ? 4400 : 2000);
     } else {
       setTimeout(() => {
         setFeedbackMessage(null);
@@ -905,8 +935,23 @@ export default function TemaContent({ slug }: TemaContentProps) {
       {/* Sparkle burst on correct answer */}
       <SparkleOverlay trigger={sparkleTrigger} />
 
-      {/* Fixed Star Companion - bottom left, always visible */}
-      <div className="fixed bottom-20 left-4 z-20">
+      {/* Mini celebration every 5 completed tasks */}
+      <MiniCelebration
+        show={miniCelebrationCount !== null}
+        message={`${miniCelebrationCount ?? 0} tasques completades!`}
+        subMessage={
+          (miniCelebrationCount ?? 0) >= 15
+            ? "Quin ritme portes! Increïble!"
+            : (miniCelebrationCount ?? 0) >= 10
+              ? "La teva estrella brilla molt fort!"
+              : "Ets una superestrella!"
+        }
+        duration={3000}
+        onDone={() => setMiniCelebrationCount(null)}
+      />
+
+      {/* Fixed Star Companion - bottom right, always visible */}
+      <div className="fixed bottom-20 right-4 z-20" style={{ filter: "drop-shadow(0 4px 10px rgba(253,203,110,0.55))" }}>
         <AnimatePresence mode="wait">
           {feedbackReaction ? (
             <motion.div
@@ -916,9 +961,10 @@ export default function TemaContent({ slug }: TemaContentProps) {
               exit={{ opacity: 0, y: -10, scale: 0.8 }}
             >
               <AnimatedStar
-                size="md"
+                size={104}
                 reaction={feedbackReaction}
                 message={feedbackMessage}
+                messagePosition="top"
               />
             </motion.div>
           ) : (
@@ -929,7 +975,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
               exit={{ opacity: 0 }}
             >
               <AnimatedStar
-                size="sm"
+                size={72}
                 expression="happy"
                 animation="idle"
               />
