@@ -282,6 +282,8 @@ export const laFamiliaTasks: Task[] = [
     type: "fill-sentence",
     prompt: "Observa l'arbre genealògic i completa:",
     image: "arbre-familiar-complet",
+    sentenceImages: false,
+    columns: 2,
     sentences: [
       {
         text: "El pare de la mare és ___.",

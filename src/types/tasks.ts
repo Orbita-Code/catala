@@ -73,6 +73,9 @@ export interface ColorByInstructionTask extends BaseTask {
 export interface FillSentenceTask extends BaseTask {
   type: "fill-sentence";
   image?: string;
+  /** Set to false to hide the per-sentence illustrations (e.g. when the subject
+   * image would mislead — the answer is a different person than the subject). */
+  sentenceImages?: boolean;
   description?: string[];
   columns?: number;
   sentences: {
