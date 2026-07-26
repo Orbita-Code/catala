@@ -5141,14 +5141,6 @@
           "right": "la mare"
         },
         {
-          "left": "el fill",
-          "right": "el fill"
-        },
-        {
-          "left": "la filla",
-          "right": "la filla"
-        },
-        {
           "left": "l'avi",
           "right": "l'avi"
         },
@@ -5157,22 +5149,19 @@
           "right": "l'àvia"
         },
         {
-          "left": "el germà",
-          "right": "el germà"
-        },
-        {
-          "left": "la germana",
-          "right": "la germana"
+          "left": "el bebè",
+          "right": "el bebè"
         }
       ]
     },
     {
       "id": "la-familia-12",
       "type": "fill-sentence",
-      "prompt": "Observa i completa:",
+      "prompt": "Observa l'arbre genealògic i completa:",
+      "image": "arbre-familiar-complet",
       "sentences": [
         {
-          "text": "Qui és en Manel? És ___.",
+          "text": "El pare de la mare és ___.",
           "blank": "l'avi",
           "options": [
             "el pare",
@@ -5181,7 +5170,7 @@
           ]
         },
         {
-          "text": "Qui és la Júlia? És ___.",
+          "text": "La mare del pare és ___.",
           "blank": "l'àvia",
           "options": [
             "la mare",
@@ -5190,66 +5179,39 @@
           ]
         },
         {
-          "text": "Qui és l'Anna respecte la Júlia? És ___.",
-          "blank": "la filla",
-          "options": [
-            "la germana",
-            "la filla",
-            "la cosina"
-          ]
-        },
-        {
-          "text": "Amb qui està casat en Pol? Amb ___.",
-          "blank": "l'Anna",
-          "options": [
-            "la Sara",
-            "la Júlia",
-            "l'Anna"
-          ]
-        },
-        {
-          "text": "Qui és la filla de l'Anna i d'en Pol? És ___.",
-          "blank": "la Marta",
-          "options": [
-            "la Dafne",
-            "la Marta",
-            "la Sara"
-          ]
-        },
-        {
-          "text": "Qui és la Marta respecte la Sara? És ___.",
-          "blank": "la neboda",
-          "options": [
-            "la cosina",
-            "la germana",
-            "la neboda"
-          ]
-        },
-        {
-          "text": "Qui és la Sara respecte la Dafne i en Tomàs? És ___.",
+          "text": "La filla de l'avi i l'àvia és ___.",
           "blank": "la mare",
           "options": [
-            "la tieta",
-            "la mare",
-            "l'àvia"
-          ]
-        },
-        {
-          "text": "Qui és en Pere? És ___.",
-          "blank": "el pare de la Dafne i en Tomàs",
-          "options": [
-            "l'oncle de la Marta",
-            "el germà d'en Pol",
-            "el pare de la Dafne i en Tomàs"
-          ]
-        },
-        {
-          "text": "Qui és la Marta respecte la Dafne i en Tomàs? És ___.",
-          "blank": "la cosina",
-          "options": [
+            "la filla",
             "la germana",
-            "la neboda",
-            "la cosina"
+            "la mare"
+          ]
+        },
+        {
+          "text": "El fill de l'avi i l'àvia és ___.",
+          "blank": "el pare",
+          "options": [
+            "l'avi",
+            "el fill",
+            "el pare"
+          ]
+        },
+        {
+          "text": "La filla és la ___ del fill.",
+          "blank": "germana",
+          "options": [
+            "cosina",
+            "germana",
+            "filla"
+          ]
+        },
+        {
+          "text": "La mare i el pare són els ___ de la filla.",
+          "blank": "pares",
+          "options": [
+            "avis",
+            "pares",
+            "oncles"
           ]
         }
       ]

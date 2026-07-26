@@ -2725,14 +2725,6 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
           "right": "la mare"
         },
         {
-          "left": "el fill",
-          "right": "el fill"
-        },
-        {
-          "left": "la filla",
-          "right": "la filla"
-        },
-        {
           "left": "l'avi",
           "right": "l'avi"
         },
@@ -2741,12 +2733,8 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
           "right": "l'àvia"
         },
         {
-          "left": "el germà",
-          "right": "el germà"
-        },
-        {
-          "left": "la germana",
-          "right": "la germana"
+          "left": "el bebè",
+          "right": "el bebè"
         }
       ]
     },
@@ -2756,13 +2744,10 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
       "blanks": [
         "l'avi",
         "l'àvia",
-        "la filla",
-        "l'Anna",
-        "la Marta",
-        "la neboda",
         "la mare",
-        "el pare de la Dafne i en Tomàs",
-        "la cosina"
+        "el pare",
+        "germana",
+        "pares"
       ]
     },
     {
