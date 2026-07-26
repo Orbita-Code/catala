@@ -197,7 +197,7 @@ export default function FillSentence({ task, onComplete, review = false }: Props
                 </div>
               )}
               <div className="flex items-start gap-2 mb-2">
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <div className="flex items-start gap-1">
                     <SpeakerButton text={sentence.text.replace(/\s*___\.?/, "")} size={14} />
                     <p className="font-semibold text-[var(--text)] font-handwriting text-sm leading-tight">
@@ -332,7 +332,7 @@ export default function FillSentence({ task, onComplete, review = false }: Props
         </div>
       )}
       <div className="flex items-start gap-2 mb-2">
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           <div className="flex items-start gap-1">
             <SpeakerButton text={sentence.text.replace(/\s*___\.?/, "")} size={14} />
             <p className="font-semibold text-[var(--text)] font-handwriting text-base md:text-lg leading-snug">
