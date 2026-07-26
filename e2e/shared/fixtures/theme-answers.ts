@@ -2746,8 +2746,7 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         "l'àvia",
         "la mare",
         "el pare",
-        "germana",
-        "pares"
+        "germana"
       ]
     },
     {

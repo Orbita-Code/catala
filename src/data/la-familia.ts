@@ -310,11 +310,6 @@ export const laFamiliaTasks: Task[] = [
         blank: "germana",
         options: ["cosina", "germana", "filla"],
       },
-      {
-        text: "La mare i el pare són els ___ de la filla.",
-        blank: "pares",
-        options: ["avis", "pares", "oncles"],
-      },
     ],
   },
 
