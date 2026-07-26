@@ -196,11 +196,10 @@ export default function FillSentence({ task, onComplete, review = false }: Props
                   />
                 </div>
               )}
-              <div className="flex items-start gap-2 mb-2">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-start gap-1">
-                    <SpeakerButton text={sentence.text.replace(/\s*___\.?/, "")} size={14} />
-                    <p className="font-semibold text-[var(--text)] font-handwriting text-sm leading-tight">
+              <div className="mb-2">
+                <div className="flex items-start gap-1">
+                  <SpeakerButton text={sentence.text.replace(/\s*___\.?/, "")} size={14} />
+                  <p className="flex-1 min-w-0 font-semibold text-[var(--text)] font-handwriting text-sm leading-tight">
                       {sentence.text.split("___").map((part, j, arr) => (
                         <span key={j}>
                           {part}
@@ -244,16 +243,16 @@ export default function FillSentence({ task, onComplete, review = false }: Props
                         )}
                       </AnimatePresence>
                     </p>
-                  </div>
                 </div>
-                {/* Show illustration of correct answer when selected correctly */}
+                {/* Show illustration of correct answer when selected correctly — own
+                    row below the text so it never overlaps or spills on narrow cards */}
                 <AnimatePresence>
                   {answers[i] && answers[i].toLowerCase() === sentence.blank.toLowerCase() && getWordIllustration(sentence.blank) && (
                     <motion.div
                       initial={{ scale: 0, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       exit={{ scale: 0, opacity: 0 }}
-                      className="flex-shrink-0"
+                      className="flex justify-end"
                     >
                       <img
                         src={getWordIllustration(sentence.blank)!}
@@ -331,11 +330,10 @@ export default function FillSentence({ task, onComplete, review = false }: Props
           />
         </div>
       )}
-      <div className="flex items-start gap-2 mb-2">
-        <div className="flex-1 min-w-0">
-          <div className="flex items-start gap-1">
-            <SpeakerButton text={sentence.text.replace(/\s*___\.?/, "")} size={14} />
-            <p className="font-semibold text-[var(--text)] font-handwriting text-base md:text-lg leading-snug">
+      <div className="mb-2">
+        <div className="flex items-start gap-1">
+          <SpeakerButton text={sentence.text.replace(/\s*___\.?/, "")} size={14} />
+          <p className="flex-1 min-w-0 font-semibold text-[var(--text)] font-handwriting text-base md:text-lg leading-snug">
               {sentence.text.split("___").map((part, j, arr) => (
                 <span key={j}>
                   {part}
@@ -379,16 +377,16 @@ export default function FillSentence({ task, onComplete, review = false }: Props
                 )}
               </AnimatePresence>
             </p>
-          </div>
         </div>
-        {/* Show illustration of correct answer when selected correctly */}
+        {/* Show illustration of correct answer when selected correctly — own row
+            below the text so it never overlaps or spills on narrow cards */}
         <AnimatePresence>
           {answers[i] && answers[i].toLowerCase() === sentence.blank.toLowerCase() && getWordIllustration(sentence.blank) && (
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0, opacity: 0 }}
-              className="flex-shrink-0"
+              className="flex justify-end"
             >
               <img
                 src={getWordIllustration(sentence.blank)!}
