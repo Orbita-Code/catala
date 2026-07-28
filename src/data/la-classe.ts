@@ -265,6 +265,7 @@ export const laClasseTasks: Task[] = [
         text: "La cola de barra és ___.",
         blank: "lila",
         options: ["lila", "vermella", "verda"],
+        image: "cola-de-barra",
       },
       {
         text: "Les tisores són ___.",
