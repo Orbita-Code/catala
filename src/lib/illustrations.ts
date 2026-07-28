@@ -405,6 +405,7 @@ const wordsWithIllustrations = new Set([
   "tisores",
   "pinzell",
   "cola-de-barra",
+  "clip",
   "llapis-de-colors",
   "llibre",
   "quadern",
