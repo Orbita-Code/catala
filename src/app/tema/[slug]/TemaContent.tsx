@@ -9,6 +9,8 @@ import SpeakerButton from "@/components/ui/SpeakerButton";
 import AnimatedStar from "@/components/star/AnimatedStar";
 import type { StarReaction } from "@/components/star/starTypes";
 import { getStarReaction, getReactionEvent } from "@/lib/starReactions";
+import MascotPair from "@/components/mascot/MascotPair";
+import { getMascotEvent, SILENCE_DELAY_MS, type MascotEvent } from "@/lib/mascot";
 import { themes } from "@/data/themes";
 import { taskData, getScoringTaskCount, getCompletedScoringCount } from "@/data/task-data";
 import { getThemeProgress, completeTask, isThemeFullyComplete, saveThemeProgress } from "@/lib/progress";
@@ -63,6 +65,12 @@ export default function TemaContent({ slug }: TemaContentProps) {
   const [miniCelebrationCount, setMiniCelebrationCount] = useState<number | null>(null);
   const [retryTick, setRetryTick] = useState(0);
   const [hundredPercentJustHit, setHundredPercentJustHit] = useState(false);
+  // Maskote (devojčica levo, dečak desno). `idle` = tiho lebde pored zadatka.
+  const [mascotEvent, setMascotEvent] = useState<MascotEvent>("greeting");
+  // Smenjuje se ko od dva lika govori, da nijedan ne bude „glavni"
+  const [mascotTurn, setMascotTurn] = useState(0);
+  // Poslednji dodir/klik/taster — po tome se meri ćutanje
+  const [lastActivity, setLastActivity] = useState(() => Date.now());
   const [xpData, setXpData] = useState<{
     currentLevel: Level;
     nextLevel: Level | null;
@@ -101,6 +109,39 @@ export default function TemaContent({ slug }: TemaContentProps) {
     // so the child can browse/finish the remaining tasks instead of a false celebration.
     setStreak(progress.streak);
   }, [slug, tasks.length, mounted]);
+
+  // Reakcija na ĆUTANJE: ako dete duže ne dira ekran, lik se tiho pojavi kao duh.
+  // Nije prekid ni požurivanje — dete koje razmišlja treba samo da zna da je neko tu.
+  // Zato NE dira dok se prikazuje povratna informacija (tačno/greška) ni na završnom ekranu.
+  useEffect(() => {
+    if (!mounted) return;
+
+    const markActivity = () => setLastActivity(Date.now());
+    const events: (keyof WindowEventMap)[] = ["pointerdown", "keydown", "touchstart"];
+    events.forEach((e) => window.addEventListener(e, markActivity, { passive: true }));
+
+    const id = window.setInterval(() => {
+      if (feedbackReaction || showCelebration || showReviewDialog || reviewMode) return;
+      if (Date.now() - lastActivity < SILENCE_DELAY_MS) return;
+      setMascotEvent((prev) => (prev === "silence" ? prev : "silence"));
+    }, 2000);
+
+    return () => {
+      events.forEach((e) => window.removeEventListener(e, markActivity));
+      window.clearInterval(id);
+    };
+  }, [mounted, lastActivity, feedbackReaction, showCelebration, showReviewDialog, reviewMode]);
+
+  // Kad dete ponovo dodirne ekran, duh se skloni i likovi se vrate u mirno stanje
+  useEffect(() => {
+    setMascotEvent((prev) => (prev === "silence" ? "idle" : prev));
+  }, [lastActivity]);
+
+  // Nov zadatak → likovi se vrate u mirno stanje i brojač ćutanja se resetuje
+  useEffect(() => {
+    setMascotEvent("idle");
+    setLastActivity(Date.now());
+  }, [currentTaskIndex]);
 
   // Lectura automàtica: read the task instruction aloud whenever a new task shows
   useEffect(() => {
@@ -196,6 +237,8 @@ export default function TemaContent({ slug }: TemaContentProps) {
       setFeedbackMessage(enc.text);
       const reactionEvent = getReactionEvent("correct", progressResult.streak);
       setFeedbackReaction(getStarReaction(reactionEvent));
+      setMascotEvent(getMascotEvent("correct", progressResult.streak));
+      setMascotTurn((t) => t + 1);
 
       celebrate([theme.color, "#FDCB6E", "#00CECE"]);
       setSparkleTrigger((t) => t + 1);
@@ -229,6 +272,8 @@ export default function TemaContent({ slug }: TemaContentProps) {
       const enc = getEncouragement("wrong");
       setFeedbackMessage(enc.text);
       setFeedbackReaction(getStarReaction("wrong"));
+      setMascotEvent("wrong");
+      setMascotTurn((t) => t + 1);
     }
 
     if (justHit100) {
@@ -236,6 +281,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
       setTimeout(() => {
         setFeedbackMessage(null);
         setFeedbackReaction(null);
+        setMascotEvent("idle");
         setJustCompletedTaskId(null);
         setHundredPercentJustHit(true);
         setShowCelebration(true);
@@ -253,6 +299,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
         setMiniCelebrationCount(null);
         setFeedbackMessage(null);
         setFeedbackReaction(null);
+        setMascotEvent("idle");
         setJustCompletedTaskId(null);
         // Skoči na sledeći NEZAVRŠEN zadatak (preskoči već urađene). Bitno u 'Acaba les
         // tasques' režimu: dete ne mora da klikće 'Següent' kroz gotove do sledeće greške.
@@ -270,6 +317,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
       setTimeout(() => {
         setFeedbackMessage(null);
         setFeedbackReaction(null);
+        setMascotEvent("idle");
         setJustCompletedTaskId(null);
 
         // Check for errors to offer review
@@ -950,39 +998,10 @@ export default function TemaContent({ slug }: TemaContentProps) {
         onDone={() => setMiniCelebrationCount(null)}
       />
 
-      {/* Fixed Star Companion - bottom right, always visible */}
-      <div className="fixed bottom-20 right-4 z-20" style={{ filter: "drop-shadow(0 4px 10px rgba(253,203,110,0.55))" }}>
-        <AnimatePresence mode="wait">
-          {feedbackReaction ? (
-            <motion.div
-              key="feedback"
-              initial={{ opacity: 0, y: 20, scale: 0.8 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -10, scale: 0.8 }}
-            >
-              <AnimatedStar
-                size={104}
-                reaction={feedbackReaction}
-                message={feedbackMessage}
-                messagePosition="top"
-              />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="idle"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <AnimatedStar
-                size={72}
-                expression="happy"
-                animation="idle"
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+      {/* Maskote: devojčica u donjem LEVOM uglu, dečak u donjem DESNOM.
+          Zamenile su zvezdu koja je stajala samo desno. Zvezda ostaje u savetima,
+          na početnoj strani i kao slika nivoa. */}
+      <MascotPair event={mascotEvent} message={feedbackMessage} turn={mascotTurn} />
 
       {/* Navigation Footer */}
       <footer className="sticky bottom-0 bg-[var(--background)] px-4 py-3 border-t border-gray-100">

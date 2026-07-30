@@ -382,11 +382,18 @@ export const laClasseTasks: Task[] = [
     ],
   },
 
-  // Exercise 12: Afegeix l'article (workbook: add un/una)
+  // Exercise 12: Afegeix l'article determinat (el / la / l')
+  // NAPOMENA: raniji komentar je glasio „workbook: add un/una" — to je pogrešno.
+  // Vežba sa `un/una` iz sveske (str. „Classifica cada paraula segons el seu gènere")
+  // već postoji kao la-classe-4. Ovaj zadatak uči ODREĐENE članove i dopuna je,
+  // nije prepis iz sveske.
+  // Prompt je ispravljen 30.07.2026: obećavao je „la, les, el o els", a među 8 reči
+  // nema nijedne množine (4× la, 3× el, 1× l'), pa su `les` i `els` tražili nešto
+  // čega nema, a `l'` — koji se stvarno bira — nije bio pomenut.
   {
     id: "la-classe-12",
     type: "add-article",
-    prompt: "Afegeix l'article: la, les, el o els.",
+    prompt: "Afegeix l'article: el, la o l'.",
     words: [
       { word: "maquineta", article: "la" },
       { word: "goma", article: "la" },
