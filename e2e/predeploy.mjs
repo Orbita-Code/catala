@@ -221,6 +221,39 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
          `?tasca=${uAdresi}  F5: ${preF5}→${posleF5}  link ?tasca=7 → ${izLinka}`);
 }
 
+// ─── 10. PLOČICA ZA RAZMAK je označena (nalaz S4, popravljen 31.07.2026) ───
+{
+  const c = await noviKontekst(); const p = await c.newPage();
+  // les-botigues, 13. zadatak: „barra de pa" — reč sa dva razmaka
+  await p.goto(`${BASE}/tema/les-botigues?tasca=13`, { waitUntil: "domcontentloaded", timeout: 90000 });
+  await p.waitForSelector("button", { timeout: 30000 });
+  await p.waitForTimeout(3000);
+  const d = await p.evaluate(() => {
+    const plocice = [...document.querySelectorAll("main button")].filter((b) => /w-12/.test(b.className));
+    const prazne = plocice.filter((b) => (b.textContent || "").trim() === "");
+    const oznacene = prazne.filter((b) => b.getAttribute("aria-label") === "espai" && b.children.length > 0);
+    return { praznih: prazne.length, oznacenih: oznacene.length };
+  });
+  await c.close();
+  const ok = d.praznih === 0 || d.praznih === d.oznacenih;
+  zapisi("BLOK", "Pločica za razmak je označena (nalaz S4)", ok,
+         `praznih pločica ${d.praznih}, označenih ${d.oznacenih}`);
+}
+
+// ─── 11. BEZBEDNOSNA ZAGLAVLJA (nalaz S5, popravljen 31.07.2026) ───
+{
+  const c = await noviKontekst(); const p = await c.newPage();
+  const odgovor = await p.goto(BASE + "/", { waitUntil: "domcontentloaded", timeout: 90000 });
+  const z = odgovor ? odgovor.headers() : {};
+  const trazena = ["content-security-policy", "x-frame-options", "x-content-type-options", "referrer-policy", "permissions-policy"];
+  const fale = trazena.filter((k) => !z[k]);
+  // mikrofon MORA ostati dozvoljen — zadaci samoprocene ga koriste
+  const mikrofonOk = !z["permissions-policy"] || /microphone=\(self\)/.test(z["permissions-policy"]);
+  await c.close();
+  zapisi("BLOK", "Bezbednosna zaglavlja + mikrofon radi (nalaz S5)", fale.length === 0 && mikrofonOk,
+         fale.length ? `fale: ${fale.join(", ")}` : `svih ${trazena.length} prisutno, mikrofon dozvoljen`);
+}
+
 await b.close();
 
 // ─── ZBIR ───

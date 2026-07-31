@@ -4,7 +4,7 @@
 > Popravljeno se briše odavde (ostaje u izveštaju audita tog dana).
 > Nalaz otvoren duže od 3 audita posebno se ističe.
 
-Poslednje ažuriranje: **31.07.2026.** (treća dopuna)
+Poslednje ažuriranje: **31.07.2026.** (četvrta dopuna)
 
 ## Kritično
 
@@ -16,10 +16,7 @@ Poslednje ažuriranje: **31.07.2026.** (treća dopuna)
 
 ## Srednje
 
-| # | Nalaz | Prvi put viđen | Audita otvoren |
-|---|---|---|---|
-| S4 | Pločica za razmak u `copy-word` je prazno dugme bez znaka | 30.07.2026. | 1 |
-| S5 | Nema nijednog bezbednosnog zaglavlja na produkciji | 30.07.2026. | 1 |
+*Nema otvorenih nalaza srednje ozbiljnosti.*
 
 ## Nisko
 
@@ -47,6 +44,23 @@ Preimenovano na 11 mesta u `la-classe.ts`, u oba odgovornika testova, u slikama
 (`esborrador.webp` / `esborrador.png`) i u `illustrations.ts`. U
 `WORKBOOK-VS-ILLUSTRATIONS.md` red „Reči iz sveske" **namerno ostaje `borrador`** —
 to je zapis šta piše u svesci, a ne šta koristi aplikacija.
+
+## Popravljeno 31.07.2026. — četvrta dopuna
+
+- **S4 — pločica za razmak.** U rečima sa dve reči („barra de pa", „pa rodó") razmak je
+  bio **prazno žuto dugme** — dete nije znalo šta je to, a i QA runner se tu zaglavljivao.
+  Sada se crta crtica, uz `aria-label="espai"` za čitač ekrana. Rešeno u `LetterTile`,
+  dakle važi svuda gde se pločice koriste, ne samo u jednom zadatku.
+- **S5 — bezbednosna zaglavlja.** Dodato 6 zaglavlja u `next.config.ts`: CSP,
+  X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, HSTS.
+  **Mikrofon namerno ostaje dozvoljen** (`microphone=(self)`) — zadaci samoprocene
+  ga koriste, a stroga postavka bi ih tiho ubila.
+
+  > **Zamka, uhvaćena kapijom:** prva verzija CSP-a je oborila **fontove na svih 12 tema**
+  > (`ERR_FAILED`). Uzrok: servisni radnik SAM preuzima fontove, a njegov `fetch` potpada
+  > pod `connect-src`, ne pod `font-src`. Rešeno dodavanjem `fonts.googleapis.com` i
+  > `fonts.gstatic.com` u `connect-src`. Bez kapije bi ovo otišlo na produkciju.
+- **Kapija: 9 → 11 provera**, S4 i S5 su u njoj kao **BLOK**. Prolazi 11/11.
 
 ## Popravljeno 31.07.2026. — treća dopuna
 

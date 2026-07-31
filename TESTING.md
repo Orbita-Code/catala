@@ -112,7 +112,7 @@ prekinuti je i pustiti preostale pojedinačno. Zaglavljen prolaz nije obavljen p
 ## 8. Zadaci — po tipu
 
 - [ ] Svih 19 tipova odigrati bar jednom
-- [ ] `copy-word` sa **više reči** (`barra de pa`, `pa rodó`): pločica za razmak vidljiva i označena **[A30-07]**
+- [ ] `copy-word` sa **više reči** (`barra de pa`, `pa rodó`): pločica za razmak ima crticu i `aria-label="espai"` **[A30-07]**
 - [ ] `copy-word` sa akcentima (`pa rodó`, `pastís`) rešiv bez fizičke tastature
 - [ ] Zadatak se ne završava dok sve reči nisu tačne
 - [ ] Provera nije „zadatak odigran" nego **„odgovor tačan po sadržaju"** **[A30-07]**
@@ -120,6 +120,10 @@ prekinuti je i pustiti preostale pojedinačno. Zaglavljen prolaz nije obavljen p
 ## 9. Bezbednost
 
 - [ ] Bezbednosna zaglavlja: CSP, X-Frame-Options, X-Content-Type-Options, HSTS, Referrer-Policy **[A30-07]**
+- [ ] **Mikrofon mora ostati dozvoljen** (`microphone=(self)`) — samoprocena govora **[A31-07]**
+- [ ] Posle svake izmene CSP-a proveriti da fontovi i slike i dalje stižu **[A31-07]**
+  - servisni radnik SAM preuzima fontove; njegov `fetch` potpada pod `connect-src`,
+    ne pod `font-src`. Prva verzija CSP-a je zbog toga oborila fontove na svih 12 tema.
 - [ ] Nijedan `dangerouslySetInnerHTML` ne prima korisnički unos
 - [ ] Prava lozinka nikad u praćenim fajlovima (repo je **javan**)
 
