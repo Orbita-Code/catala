@@ -11,6 +11,10 @@
 ## Kako se pokreće
 
 ```bash
+# PRE-DEPLOY KAPIJA — deploy je dozvoljen SAMO ako prođe (izlazni kod 0)
+npm run predeploy                 # protiv lokalnog builda
+npm run predeploy:prod            # protiv produkcije (posle deploy-a, obavezno)
+
 # QA runner — odigra svaki zadatak kao dete
 node e2e/qa/run.mjs                      # lokalno, traži dev server
 node e2e/qa/run.mjs la-classe            # jedna tema

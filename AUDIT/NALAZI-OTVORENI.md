@@ -4,7 +4,7 @@
 > Popravljeno se briše odavde (ostaje u izveštaju audita tog dana).
 > Nalaz otvoren duže od 3 audita posebno se ističe.
 
-Poslednje ažuriranje: **31.07.2026.**
+Poslednje ažuriranje: **31.07.2026.** (druga dopuna)
 
 ## Kritično
 
@@ -12,9 +12,7 @@ Poslednje ažuriranje: **31.07.2026.**
 
 ## Visoko
 
-| # | Nalaz | Prvi put viđen | Audita otvoren |
-|---|---|---|---|
-| V2 | Sadržaj početne skoči **130 px** u prvih ~0,5 s (CLS **0,167**) — dete klikne pogrešnu temu | 30.07.2026. | 1 |
+*Nema otvorenih nalaza visoke ozbiljnosti.*
 
 ## Srednje
 
@@ -40,14 +38,29 @@ Poslednje ažuriranje: **31.07.2026.**
 |---|---|---|
 | ~~T1~~ | ~~QA runner se zaglavljuje na `les-botigues` → zadaci 13–20 nikad odigrani~~ **REŠENO 31.07.** | 30.07.2026. |
 | T2 | Runner proverava da je zadatak odigran, ne da je odgovor tačan po sadržaju | 30.07.2026. |
-| T3 | Nema provere za: zabranjen `localStorage`, kontrast, fokus, CLS, dodirne mete, URL, osvežavanje | 30.07.2026. |
-| T4 | Nema pre-deploy skripte sa izlaznim kodom (globalno pravilo je traži) | 30.07.2026. |
+| ~~T3~~ | ~~Nema provere za: zabranjen `localStorage`, kontrast, fokus, CLS, dodirne mete, osvežavanje~~ **REŠENO 31.07.** — sve su u `e2e/predeploy.mjs`. Ostaje samo URL kao stanje (nalaz S3). | 30.07.2026. |
+| ~~T4~~ | ~~Nema pre-deploy skripte sa izlaznim kodom~~ **REŠENO 31.07.** — `npm run predeploy` | 30.07.2026. |
 
 ## Čeka odluku vlasnice
 
-| # | Pitanje | Postavljeno |
-|---|---|---|
-| P1 | „borrador" (kako piše sveska) ili „esborrador" (katalonski standard)? 7 mesta u `la-classe` | 30.07.2026. |
+*Nema otvorenih pitanja.*
+
+~~P1 — „borrador" ili „esborrador"?~~ **ODLUČENO 31.07.2026: `esborrador`** (katalonski standard).
+Preimenovano na 11 mesta u `la-classe.ts`, u oba odgovornika testova, u slikama
+(`esborrador.webp` / `esborrador.png`) i u `illustrations.ts`. U
+`WORKBOOK-VS-ILLUSTRATIONS.md` red „Reči iz sveske" **namerno ostaje `borrador`** —
+to je zapis šta piše u svesci, a ne šta koristi aplikacija.
+
+## Popravljeno 31.07.2026. — druga dopuna
+
+- **V2** — blok sa nivoom na početnoj se sada iscrtava UVEK (ranije `{levelData && …}`),
+  a dok podaci ne stignu stoji `invisible`: mesto je zauzeto, a detetu se ne blesne
+  pogrešan nivo. **CLS 0,167 → 0,02**, skok kartice 130 px → 0 px.
+- **PRE-DEPLOY KAPIJA** — `e2e/predeploy.mjs` (`npm run predeploy`,
+  `npm run predeploy:prod`). 8 provera; **BLOK** obara deploy, **UPOZORENJE** samo
+  prijavljuje. Dokazano da radi: pre popravke V2 kapija je **padala** baš na toj
+  proveri, posle popravke prolazi (izlazni kod 0).
+  Otvoreni nalazi S1 i S2 su u njoj kao upozorenja — **kad se poprave, prebaciti ih u BLOK**.
 
 ## Popravljeno 31.07.2026. (ne vraćati se na ovo)
 

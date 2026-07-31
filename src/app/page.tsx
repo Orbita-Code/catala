@@ -79,47 +79,60 @@ export default function HomePage() {
       </header>
 
       <main className="px-4 max-w-5xl mx-auto">
-        {/* Prominent Level Display */}
-        {levelData && (
+        {/* Prominent Level Display
+            Ovaj blok se UVEK iscrtava, i kad podaci o nivou još nisu učitani.
+            Ranije je stajalo `{levelData && (...)}`, pa se blok visok 121 px ubacivao
+            TEK posle čitanja iz localStorage-a i gurao sve kartice tema naniže:
+            izmereno CLS 0,167 i skok kartice 170 → 300 px (nalaz V2, audit 30.07.2026).
+            Dete koje klikne u prvih pola sekunde kliknulo bi POGREŠNU temu.
+            Dok podaci ne stignu blok je `invisible` — mesto je zauzeto, ali se ne
+            blesne pogrešan nivo detetu koje je npr. na 5. nivou. */}
+        {(() => {
+          const ucitano = levelData !== null;
+          const nivo = levelData?.currentLevel;
+          return (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
-            className="mb-5 bg-gradient-to-r from-purple-50 to-amber-50 rounded-2xl p-4 flex items-center gap-4"
+            animate={{ opacity: ucitano ? 1 : 0, y: 0 }}
+            transition={{ delay: ucitano ? 0.15 : 0 }}
+            aria-hidden={!ucitano}
+            className={`mb-5 bg-gradient-to-r from-purple-50 to-amber-50 rounded-2xl p-4 flex items-center gap-4 ${ucitano ? "" : "invisible"}`}
           >
             <img
-              src={levelData.currentLevel.image}
-              alt={levelData.currentLevel.name}
+              src={nivo?.image ?? "/levels/estrella-1.png"}
+              alt={ucitano ? (nivo?.name ?? "") : ""}
               className="w-16 h-16 sm:w-20 sm:h-20 object-contain drop-shadow-md"
             />
             <div className="flex-1 min-w-0">
               <p className="text-sm text-purple-600 font-medium">
-                Nivell {levelData.currentLevel.level}
+                Nivell {nivo?.level ?? 1}
               </p>
               <p className="text-lg sm:text-xl font-black text-[var(--primary)]">
-                {levelData.currentLevel.name}
+                {nivo?.name ?? " "}
               </p>
               <div className="flex items-center gap-2 mt-1.5">
                 <div className="flex-1 h-2.5 bg-purple-100 rounded-full overflow-hidden">
                   <motion.div
                     className="h-full bg-gradient-to-r from-purple-400 to-purple-600 rounded-full"
                     initial={{ width: 0 }}
-                    animate={{ width: `${levelData.progressPercent}%` }}
+                    animate={{ width: `${levelData?.progressPercent ?? 0}%` }}
                     transition={{ duration: 0.6, ease: "easeOut" }}
                   />
                 </div>
                 <span className="text-xs text-purple-600 font-bold whitespace-nowrap">
-                  {levelData.currentXP} XP
+                  {levelData?.currentXP ?? 0} XP
                 </span>
               </div>
-              {levelData.nextLevel && (
-                <p className="text-[11px] text-gray-400 mt-0.5">
-                  {levelData.nextLevel.minXP - levelData.currentXP} XP fins a {levelData.nextLevel.name}
-                </p>
-              )}
+              {/* Red se DRŽI i pre učitavanja (nbsp), da se visina bloka ne promeni */}
+              <p className="text-[11px] text-gray-400 mt-0.5">
+                {levelData?.nextLevel
+                  ? `${levelData.nextLevel.minXP - levelData.currentXP} XP fins a ${levelData.nextLevel.name}`
+                  : " "}
+              </p>
             </div>
           </motion.div>
-        )}
+          );
+        })()}
 
         <motion.h2
           className="text-xl font-bold text-[var(--text)] mb-4"

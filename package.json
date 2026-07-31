@@ -11,7 +11,9 @@
     "test": "npx playwright test --config=e2e/playwright.config.ts",
     "test:smoke": "npx playwright test --config=e2e/playwright.config.ts smoke",
     "test:theme": "npx playwright test --config=e2e/playwright.config.ts --project",
-    "test:ui": "npx playwright test --config=e2e/playwright.config.ts --ui"
+    "test:ui": "npx playwright test --config=e2e/playwright.config.ts --ui",
+    "predeploy": "node e2e/predeploy.mjs",
+    "predeploy:prod": "BASE=https://catala.orbitacode.com node e2e/predeploy.mjs"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.4",

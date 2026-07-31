@@ -62,8 +62,8 @@
           "image": "guix"
         },
         {
-          "catalan": "borrador",
-          "image": "borrador"
+          "catalan": "esborrador",
+          "image": "esborrador"
         },
         {
           "catalan": "paperera",
@@ -307,9 +307,9 @@
           "image": "guix"
         },
         {
-          "word": "borrador",
+          "word": "esborrador",
           "hint": "b_rr_d_r",
-          "image": "borrador"
+          "image": "esborrador"
         },
         {
           "word": "paperera",
@@ -454,8 +454,8 @@
           "right": "motxilla"
         },
         {
-          "left": "borrador",
-          "right": "borrador"
+          "left": "esborrador",
+          "right": "esborrador"
         },
         {
           "left": "retolador",
@@ -749,7 +749,7 @@
             "pissarra",
             "motxilla",
             "taula",
-            "borrador",
+            "esborrador",
             "guix",
             "goma",
             "estoig"
@@ -779,7 +779,7 @@
         "bicicleta",
         "taula",
         "anell",
-        "borrador",
+        "esborrador",
         "collaret",
         "guix",
         "goma",
@@ -871,7 +871,7 @@
           "text": "Jo escric amb el ___.",
           "blank": "llapis",
           "options": [
-            "borrador",
+            "esborrador",
             "estoig",
             "llapis"
           ]
@@ -1021,9 +1021,9 @@
           "image": "guix"
         },
         {
-          "catalan": "borrador",
+          "catalan": "esborrador",
           "translation": "brisač table",
-          "image": "borrador"
+          "image": "esborrador"
         },
         {
           "catalan": "paperera",

@@ -44,7 +44,7 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         "tisores",
         "pissarra",
         "guix",
-        "borrador",
+        "esborrador",
         "paperera",
         "ordinador",
         "taula",
@@ -253,7 +253,7 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
           "hint": "g_i_"
         },
         {
-          "word": "borrador",
+          "word": "esborrador",
           "hint": "b_rr_d_r"
         },
         {
@@ -376,8 +376,8 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
           "right": "motxilla"
         },
         {
-          "left": "borrador",
-          "right": "borrador"
+          "left": "esborrador",
+          "right": "esborrador"
         },
         {
           "left": "retolador",
@@ -534,7 +534,7 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
             "pissarra",
             "motxilla",
             "taula",
-            "borrador",
+            "esborrador",
             "guix",
             "goma",
             "estoig"

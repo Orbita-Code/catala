@@ -31,7 +31,7 @@ Ovo su sve komponente engine-a. Svaka komponenta je reusable i prima podatke iz 
     { "word": "tisores", "image": "tisores.svg" },
     { "word": "pissarra", "image": "pissarra.svg" },
     { "word": "guix", "image": "guix.svg" },
-    { "word": "borrador", "image": "borrador.svg" },
+    { "word": "esborrador", "image": "borrador.svg" },
     { "word": "paperera", "image": "paperera.svg" },
     { "word": "ordinador", "image": "ordinador.svg" },
     { "word": "taula", "image": "taula.svg" }
