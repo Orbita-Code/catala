@@ -47,7 +47,7 @@
 - Ako ilustracija fali, prazno mesto se prikazuje (NE emoji - `getWordEmoji()` je dead code).
 
 ## Project Overview
-Interactive Catalan language learning web app for children (ages 5-8). Engine-based architecture renders 18 task types across 12 themes from TypeScript data files. Star mascot provides encouragement in Catalan. Total: ~226 tasks.
+Interactive Catalan language learning web app for children (ages 5-8). Engine-based architecture renders 19 task types across 12 themes from TypeScript data files. Two superhero mascots (girl bottom-left, boy bottom-right) react in Catalan. Total: **212 tasks** (prebrojano u fajlovima 31.07.2026 — ranije je pisalo ~226, netačno).
 
 ## Tech Stack
 - **Framework:** Next.js 16 (App Router) + React 19 + TypeScript
@@ -154,8 +154,8 @@ npm run test:ui  # Playwright UI mode
 ### Completed
 - Next.js 16 project setup with TypeScript + Tailwind + Framer Motion
 - Home page with 12 theme cards showing dynamic progress
-- Task engine with 12 task type components (all implemented)
-- ~226 tasks total across 12 themes (variable per theme: 15-24)
+- Task engine with 19 task type components (all implemented)
+- **212 tasks** total across 12 themes (variable per theme: 13-24) — prebrojano, ne procenjeno
 - Themes 1-9 rewritten to match physical workbook exercises (exact order, words, structure)
 - Themes 10-12 expanded from 9 to 15 tasks each (no workbook source)
 - Star mascot with speech bubble feedback
@@ -171,11 +171,11 @@ npm run test:ui  # Playwright UI mode
 - PWA support (offline, install prompt)
 - Settings page + Hamburger menu
 - Hint system for all task types
-- StarCounter shows dynamic total (0/226)
+- StarCounter shows dynamic total (računa se iz podataka, nema hardkodovanog broja)
 - ILLUSTRATION-PROMPTS.md with ~281 AI image generation prompts
 - LabelImage: row-flexible checking (same-row labels interchangeable, e.g. family tree)
 - Drag-and-drop for LabelImage, ClassifyColumns, Matching (pointer events for mouse+touch)
-- All ~226 tasks data-validated (no structural errors, all required fields present)
+- All 212 tasks data-validated (no structural errors, all required fields present)
 - Test/ folder with TESTING-GUIDE.md and BUG-REPORT.md for automated and manual testing
 - Data quality fixes: answer bias removed from multiple-choice (la-classe-19) and 6 fill-sentence tasks
 - Word-search grids regenerated with varied directions (5 grids: la-roba-5, la-familia-5, les-botigues-5, la-casa-2, els-vehicles-5)
@@ -255,7 +255,7 @@ npm run test:ui  # Playwright UI mode
   - Created Task #7 to generate 7 cat preposition illustrations via ChatGPT
 
 ### Recently Completed (Feb 3, 2026 - Session 3)
-- **Comprehensive App Testing** - Tested all 12 themes (~226 tasks) as a 7-year-old child
+- **Comprehensive App Testing** - Tested all 12 themes as a 7-year-old child
 - **Identified 18 CRITICAL issues** - Missing illustrations that prevent task completion
 - **Created MISSING-ILLUSTRATIONS-HANDOVER.md** - Detailed guide with 33 illustration prompts + 3 text content updates
 - **Added Speaker Button to ALL task prompts** - Children can hear instructions in Catalan
@@ -401,31 +401,33 @@ All 18 missing illustrations have been generated via ChatGPT custom GPT:
 - All 363+ illustrations generated, converted to WebP, and integrated
 - All 65 illustration regeneration items resolved
 - 12 gamification level illustrations done
-- All 12 themes with ~223 tasks fully functional
+- All 12 themes with 212 tasks fully functional
 
 ## Task Counts Per Theme
 | Theme | Slug | Tasks |
 |-------|------|-------|
-| 1. La classe | la-classe | 20 |
-| 2. L'escola | l-escola | 20 |
-| 3. El cos | el-cos | 20 |
-| 4. La roba | la-roba | 19 |
+| 1. La classe | la-classe | 17 |
+| 2. L'escola | l-escola | 18 |
+| 3. El cos | el-cos | 17 |
+| 4. La roba | la-roba | 14 |
 | 5. La casa | la-casa | 24 |
-| 6. La família | la-familia | 16 |
+| 6. La família | la-familia | 15 |
 | 7. Les botigues | les-botigues | 20 |
 | 8. El menjar | el-menjar | 21 |
-| 9. Els animals | els-animals | 21 |
+| 9. Els animals | els-animals | 23 |
 | 10. La ciutat | la-ciutat | 15 |
-| 11. Els vehicles | els-vehicles | 12 + bonus |
+| 11. Els vehicles | els-vehicles | 13 |
 | 12. Els oficis | els-oficis | 15 |
-| **Total** | | **~223** |
+| **Total** | | **212** |
+
+> Prebrojano u fajlovima 31.07.2026. Ranija tabela je bila netačna za 8 od 12 tema.
 
 ## Important Notes
 - Theme slugs match filenames: `la-classe`, `l-escola`, `el-cos`, etc.
-- Each theme has a variable number of tasks (15-24), derived from data array length
+- Each theme has a variable number of tasks (13-24), derived from data array length
 - Progress is per-theme in localStorage
-- **Mascot is Star.png** (star character) - elephant.png and Bubble.png in root are rejected alternatives, NOT used
-- `Svi zadaci/` folder contains 37+ JPG photos of the physical workbook (source material for tasks)
+- **Maskote su dva superheroja** (`public/mascot/devojcica-*.webp`, `decak-*.webp`) — devojčica dole levo, dečak dole desno. Animirana zvezda (`src/components/star/`) ostaje u savetima, na početnoj i kao slika nivoa. `elephant.png` i `Bubble.png` u korenu su odbačene varijante, NE koriste se.
+- `Svi zadaci/` sadrži **43 fotografije** sveske u korenu + podfoldere po temama (El cos, El menjar, Els animals, La casa, La familia, La roba, L'escola). Folder `Les botigues` je PRAZAN — te stranice su u korenu, kao `IMG_*.JPG`.
 - `star-mascot.png` in `public/` is the mascot asset used in the app
 - `ILLUSTRATION-PROMPTS.md` contains prompts for generating vocabulary illustrations
 - Design uses Nunito font with purple primary palette

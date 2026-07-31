@@ -4,7 +4,7 @@
 > Popravljeno se briše odavde (ostaje u izveštaju audita tog dana).
 > Nalaz otvoren duže od 3 audita posebno se ističe.
 
-Poslednje ažuriranje: **31.07.2026.** (četvrta dopuna)
+Poslednje ažuriranje: **31.07.2026.** (peta dopuna)
 
 ## Kritično
 
@@ -20,11 +20,7 @@ Poslednje ažuriranje: **31.07.2026.** (četvrta dopuna)
 
 ## Nisko
 
-| # | Nalaz | Prvi put viđen | Audita otvoren |
-|---|---|---|---|
-| N1 | `les-botigues-13` ne postoji — ID-jevi skaču 12 → 14 | 30.07.2026. | 1 |
-| N2 | `CLAUDE.md` tvrdi ~226 zadataka i 18 tipova; stvarno 212 i 19. Tabela po temama pogrešna za 8 od 12 | 30.07.2026. | 1 |
-| N3 | `robots.txt` vraća 404 | 30.07.2026. | 1 |
+*Nema otvorenih nalaza.*
 
 ## Rupe u testu
 
@@ -44,6 +40,25 @@ Preimenovano na 11 mesta u `la-classe.ts`, u oba odgovornika testova, u slikama
 (`esborrador.webp` / `esborrador.png`) i u `illustrations.ts`. U
 `WORKBOOK-VS-ILLUSTRATIONS.md` red „Reči iz sveske" **namerno ostaje `borrador`** —
 to je zapis šta piše u svesci, a ne šta koristi aplikacija.
+
+## Popravljeno 31.07.2026. — peta dopuna
+
+- **FONTOVI.** Nunito i Comic Neue jesu pravi besplatni fontovi sa Google Fonts (nisu
+  krpljeni), ALI su se učitavali preko `@import` u CSS-u — najsporiji način: tri odlaska
+  na mrežu pre nego što se tekst pravilno iscrta, uz zavisnost od Google-a.
+  Prebačeno na `next/font/google`: skidaju se u trenutku builda i serviraju sa našeg
+  servera. Izmereno posle: **0 zahteva ka Google-u, 0 palih**. CSP zato stegnut.
+- **N1 — rupa u ID-jevima (`les-botigues-13`).** NIJE prenumerisano, namerno: napredak
+  deteta se pamti po ID-u zadatka, pa bi prenumerisanje svakom detetu poništilo sve
+  urađeno u toj temi. Upisano objašnjenje u fajl, sa upozorenjem da se ne dira.
+- **N2 — netačni brojevi u `CLAUDE.md`.** 212 zadataka (ne ~226), 19 tipova (ne 18),
+  tabela po temama bila netačna za 8 od 12 tema. Ispravljeno i stanje maskota i
+  stvarna struktura foldera `Svi zadaci/`.
+- **N3 — `robots.txt`.** Dodat, zabranjuje indeksiranje (igrica je privatna).
+- **KAPIJA NA GITHUB-U** — `.github/workflows/kapija.yml`: provere se pokreću same na
+  svaki `push` na `main` i na svaki pull request. Coolify i dalje postavlja sajt
+  nezavisno; da bi provera stvarno ZAUSTAVILA loš deploy, u Coolify-ju treba
+  isključiti „auto deploy".
 
 ## Popravljeno 31.07.2026. — četvrta dopuna
 

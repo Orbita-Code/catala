@@ -248,6 +248,13 @@ export const lesBotiguesTasks: Task[] = [
     circleMode: true,
   },
 
+  // NAPOMENA: ID `les-botigues-13` NE POSTOJI — ID-jevi skaču sa 12 na 14.
+  // Zadatak je nekad obrisan, a rupa je NAMERNO ostavljena: napredak deteta se
+  // pamti po ID-u zadatka (`completedTasks` u progress.ts), pa bi prenumerisanje
+  // svakom detetu poništilo sve što je već uradilo u ovoj temi.
+  // Redosled u aplikaciji ne zavisi od ID-a nego od redosleda u nizu, pa dete
+  // rupu ne vidi. Ne „popravljati" ovo. (Nalaz N1, audit 30.07.2026.)
+
   // === Workbook Ex. 12: Observa productes de fleca (6) ===
   {
     id: "les-botigues-14",
