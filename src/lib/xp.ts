@@ -1,5 +1,7 @@
 "use client";
 
+import { safeSetJSON } from "./storage";
+
 // XP rewards configuration
 const BASE_TASK_XP = 10;
 const PERFECT_BONUS = 5;         // No errors on task
@@ -46,7 +48,7 @@ export function getXPState(): XPState {
 
 function saveXPState(state: XPState): void {
   if (typeof window === "undefined") return;
-  localStorage.setItem(XP_STORAGE_KEY, JSON.stringify(state));
+  safeSetJSON(XP_STORAGE_KEY, state);
 }
 
 export function calculateTaskXP(

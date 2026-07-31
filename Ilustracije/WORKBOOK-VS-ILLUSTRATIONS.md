@@ -12,7 +12,7 @@ llapis, goma, bolígraf, retolador, llibreta, llibre, regle, motxilla, tisores, 
 pinzell, clip, cola de barra
 
 ### Imamo ilustracije: ✅
-llapis, goma, boligraf, retolador, llibreta, llibre, regle, motxilla, tisores, pissarra, guix, borrador, carpeta, estoig, maquineta, paperera, ordinador, taula, cadira, porta, finestra
+llapis, goma, boligraf, retolador, llibreta, llibre, regle, motxilla, tisores, pissarra, guix, esborrador, carpeta, estoig, maquineta, paperera, ordinador, taula, cadira, porta, finestra
 
 ### Fale ilustracije iz sveske: ❌
 - pinzell

@@ -69,7 +69,30 @@ async function solveCopyWord(page, task, notes) {
     const target = cur.normalize('NFD').replace(/[̀-ͯ]/g, '').toUpperCase();
     const filled = async () => page.evaluate(() => [...document.querySelectorAll('main button')].filter((b) => /w-11/.test(b.className) && b.textContent.trim() !== '_').length);
     for (const c of target) {
-      if (c === ' ' || c === "'" || c === '’' || c === '·') { await page.keyboard.press('Space').catch(() => {}); await sleep(page, 80); continue; }
+      // RAZMAK I SPOJNICE: aplikacija ih nudi kao PRAZNU pločicu (bez slova),
+      // a ne samo preko tastature. Ranije se ovde pritiskao Space, pa se runner
+      // zaglavljivao na rečima sa razmakom ("barra de pa") i tema les-botigues
+      // nikad nije bila odigrana do kraja (audit 30.07.2026, rupa T1).
+      // Zato: prvo probaj da klikneš praznu pločicu, pa tek onda tastaturu.
+      if (c === ' ' || c === "'" || c === '’' || c === '·') {
+        const before = await filled();
+        const xy = await page.evaluate(() => {
+          const t = [...document.querySelectorAll('main button')].find(
+            (b) => /w-12/.test(b.className) && !b.disabled && b.textContent.trim() === ''
+          );
+          if (!t) return null;
+          const r = t.getBoundingClientRect();
+          return { x: r.x + r.width / 2, y: r.y + r.height / 2 };
+        });
+        if (xy) {
+          await page.mouse.click(xy.x, xy.y);
+          for (let k = 0; k < 16; k++) { await sleep(page, 40); if (await filled() > before) break; }
+        } else {
+          await page.keyboard.press('Space').catch(() => {});
+          await sleep(page, 80);
+        }
+        continue;
+      }
       const before = await filled();
       const xy = await page.evaluate((c) => {
         const t = [...document.querySelectorAll('main button')].find((b) => /w-12/.test(b.className) && !b.disabled && b.textContent.trim().normalize('NFD').replace(/[̀-ͯ]/g, '').toUpperCase() === c);

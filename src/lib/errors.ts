@@ -1,3 +1,4 @@
+import { safeSetJSON } from "./storage";
 /**
  * Error Tracking System
  *
@@ -77,7 +78,7 @@ export function addError(themeSlug: string, taskId: string, item: string): void 
   // Don't add duplicates
   if (!all[themeSlug][taskId].includes(item)) {
     all[themeSlug][taskId].push(item);
-    localStorage.setItem(ERRORS_KEY, JSON.stringify(all));
+    safeSetJSON(ERRORS_KEY, all);
   }
 }
 
@@ -100,7 +101,7 @@ export function removeError(themeSlug: string, taskId: string, item: string): vo
       delete all[themeSlug];
     }
 
-    localStorage.setItem(ERRORS_KEY, JSON.stringify(all));
+    safeSetJSON(ERRORS_KEY, all);
   }
 }
 
@@ -112,7 +113,7 @@ export function clearThemeErrors(themeSlug: string): void {
 
   const all = getAllErrors();
   delete all[themeSlug];
-  localStorage.setItem(ERRORS_KEY, JSON.stringify(all));
+  safeSetJSON(ERRORS_KEY, all);
 }
 
 /**
@@ -127,7 +128,7 @@ export function clearTaskErrors(themeSlug: string, taskId: string): void {
     if (Object.keys(all[themeSlug]).length === 0) {
       delete all[themeSlug];
     }
-    localStorage.setItem(ERRORS_KEY, JSON.stringify(all));
+    safeSetJSON(ERRORS_KEY, all);
   }
 }
 

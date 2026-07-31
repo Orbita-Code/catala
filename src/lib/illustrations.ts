@@ -18,7 +18,7 @@ export const wordEmoji: Record<string, string> = {
   tisores: "✂️",
   pissarra: "",      // chalkboard — no emoji exists
   guix: "",          // chalk — no emoji exists
-  borrador: "",      // board eraser — no emoji exists
+  esborrador: "",    // brisač table (katalonski standard; sveska piše "borrador")
   paperera: "🗑️",
   ordinador: "💻",
   taula: "",         // desk — no emoji exists
@@ -417,7 +417,7 @@ const wordsWithIllustrations = new Set([
   "maquineta",
   "pissarra",
   "guix",
-  "borrador",
+  "esborrador",
   "paperera",
   "ordinador",
   "taula",

@@ -1,5 +1,7 @@
 "use client";
 
+import { safeSetJSON, safeRemove } from "./storage";
+
 export interface AppSettings {
   soundEnabled: boolean;
   ttsEnabled: boolean;
@@ -29,12 +31,12 @@ export function getSettings(): AppSettings {
 export function updateSettings(update: Partial<AppSettings>) {
   const current = getSettings();
   const next = { ...current, ...update };
-  localStorage.setItem(SETTINGS_KEY, JSON.stringify(next));
+  safeSetJSON(SETTINGS_KEY, next);
   return next;
 }
 
 export function resetSettings(): AppSettings {
-  localStorage.removeItem(SETTINGS_KEY);
+  safeRemove(SETTINGS_KEY);
   return defaults;
 }
 

@@ -38,7 +38,7 @@ Total: 231 unique words
 | 31 | bolígraf | La classe |
 | 32 | bolígrafs | La classe |
 | 33 | bomber | Els oficis |
-| 34 | borrador | La classe |
+| 34 | esborrador | La classe |
 | 35 | botes | La roba |
 | 36 | botiga de roba | Les botigues |
 | 37 | braç | El cos |
@@ -299,7 +299,7 @@ Total: **284 unique words** needing 3D illustrations.
 ## By Theme
 
 ### Theme 1: La classe
-llapis, goma, bolígraf, retolador, llibreta, llibre, carpeta, estoig, maquineta, regle, motxilla, tisores, pissarra, guix, borrador, paperera, ordinador, taula, cadira, porta, finestra
+llapis, goma, bolígraf, retolador, llibreta, llibre, carpeta, estoig, maquineta, regle, motxilla, tisores, pissarra, guix, esborrador, paperera, ordinador, taula, cadira, porta, finestra
 
 (Plurals also used: bolígrafs, retoladors, llibretes, carpetes, maquinetes, motxilles)
 

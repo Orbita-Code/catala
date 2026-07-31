@@ -28,7 +28,7 @@ Folder: `public/illustrations/la-classe/`
 | 12 | tisores.png | 3D cartoon illustration, cute Pixar-style, children's safety scissors with colorful handles, children's learning app, white background, PNG 512x512 |
 | 13 | pissarra.png | 3D cartoon illustration, cute Pixar-style, a green chalkboard/blackboard on an easel, children's learning app, white background, PNG 512x512 |
 | 14 | guix.png | 3D cartoon illustration, cute Pixar-style, white and colored chalk sticks, children's learning app, white background, PNG 512x512 |
-| 15 | borrador.png | 3D cartoon illustration, cute Pixar-style, a blackboard eraser/duster, children's learning app, white background, PNG 512x512 |
+| 15 | esborrador.png | 3D cartoon illustration, cute Pixar-style, a blackboard eraser/duster, children's learning app, white background, PNG 512x512 |
 | 16 | paperera.png | 3D cartoon illustration, cute Pixar-style, a classroom trash/waste bin, children's learning app, white background, PNG 512x512 |
 | 17 | ordinador.png | 3D cartoon illustration, cute Pixar-style, a desktop computer with monitor and keyboard, children's learning app, white background, PNG 512x512 |
 | 18 | taula.png | 3D cartoon illustration, cute Pixar-style, a school desk/table, children's learning app, white background, PNG 512x512 |

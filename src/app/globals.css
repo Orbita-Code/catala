@@ -3,7 +3,12 @@
 
 :root {
   --primary: #6c5ce7;
-  --secondary: #00cece;
+  /* Potamnjeno 31.07.2026. sa #00cece (audit, nalaz V1).
+     --secondary nosi BELI tekst na 10+ dugmadi ("Següent", "Comprova!"…).
+     Izmereno pikselima: belo na #00cece = 1,96:1, a WCAG AA traži 4,5:1 za
+     16 px bold. #008080 daje 4,77:1. Svetla tirkizna je zadržana tamo gde
+     NIJE podloga za tekst (konfete, boja teme "botigues"). */
+  --secondary: #008080;
   --accent: #fdcb6e;
   --success: #00b894;
   --error: #ff6b6b;

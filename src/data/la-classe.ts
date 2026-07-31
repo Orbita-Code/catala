@@ -21,7 +21,7 @@ export const laClasseTasks: Task[] = [
       { catalan: "tisores", image: "tisores" },
       { catalan: "pissarra", image: "pissarra" },
       { catalan: "guix", image: "guix" },
-      { catalan: "borrador", image: "borrador" },
+      { catalan: "esborrador", image: "esborrador" },
       { catalan: "paperera", image: "paperera" },
       { catalan: "ordinador", image: "ordinador" },
       { catalan: "taula", image: "taula" },
@@ -83,7 +83,7 @@ export const laClasseTasks: Task[] = [
       { word: "tisores", hint: "t_s_r_s", image: "tisores" },
       { word: "pissarra", hint: "p_ss_r_a", image: "pissarra" },
       { word: "guix", hint: "g_i_", image: "guix" },
-      { word: "borrador", hint: "b_rr_d_r", image: "borrador" },
+      { word: "esborrador", hint: "_sb_rr_d_r", image: "esborrador" },
       { word: "paperera", hint: "p_p_r_ra", image: "paperera" },
       { word: "ordinador", hint: "o_d_n_dor", image: "ordinador" },
       { word: "taula", hint: "t_u_a", image: "taula" },
@@ -161,7 +161,7 @@ export const laClasseTasks: Task[] = [
       { left: "guix", right: "guix" },
       { left: "tisores", right: "tisores" },
       { left: "motxilla", right: "motxilla" },
-      { left: "borrador", right: "borrador" },
+      { left: "esborrador", right: "esborrador" },
       { left: "retolador", right: "retolador" },
       { left: "taula", right: "taula" },
     ],
@@ -343,7 +343,7 @@ export const laClasseTasks: Task[] = [
           "pissarra",
           "motxilla",
           "taula",
-          "borrador",
+          "esborrador",
           "guix",
           "goma",
           "estoig",
@@ -373,7 +373,7 @@ export const laClasseTasks: Task[] = [
       "bicicleta",
       "taula",
       "anell",
-      "borrador",
+      "esborrador",
       "collaret",
       "guix",
       "goma",
@@ -382,11 +382,18 @@ export const laClasseTasks: Task[] = [
     ],
   },
 
-  // Exercise 12: Afegeix l'article (workbook: add un/una)
+  // Exercise 12: Afegeix l'article determinat (el / la / l')
+  // NAPOMENA: raniji komentar je glasio „workbook: add un/una" — to je pogrešno.
+  // Vežba sa `un/una` iz sveske (str. „Classifica cada paraula segons el seu gènere")
+  // već postoji kao la-classe-4. Ovaj zadatak uči ODREĐENE članove i dopuna je,
+  // nije prepis iz sveske.
+  // Prompt je ispravljen 30.07.2026: obećavao je „la, les, el o els", a među 8 reči
+  // nema nijedne množine (4× la, 3× el, 1× l'), pa su `les` i `els` tražili nešto
+  // čega nema, a `l'` — koji se stvarno bira — nije bio pomenut.
   {
     id: "la-classe-12",
     type: "add-article",
-    prompt: "Afegeix l'article: la, les, el o els.",
+    prompt: "Afegeix l'article: el, la o l'.",
     words: [
       { word: "maquineta", article: "la" },
       { word: "goma", article: "la" },
@@ -427,7 +434,7 @@ export const laClasseTasks: Task[] = [
       {
         text: "Jo escric amb el ___.",
         blank: "llapis",
-        options: ["borrador", "estoig", "llapis"],
+        options: ["esborrador", "estoig", "llapis"],
       },
       {
         text: "Jo esborro amb la ___.",
@@ -488,7 +495,7 @@ export const laClasseTasks: Task[] = [
       { catalan: "tisores", translation: "makaze", image: "tisores" },
       { catalan: "pissarra", translation: "tabla", image: "pissarra" },
       { catalan: "guix", translation: "kreda", image: "guix" },
-      { catalan: "borrador", translation: "brisač table", image: "borrador" },
+      { catalan: "esborrador", translation: "brisač table", image: "esborrador" },
       { catalan: "paperera", translation: "korpa za smeće", image: "paperera" },
       { catalan: "ordinador", translation: "kompjuter", image: "ordinador" },
       { catalan: "taula", translation: "sto", image: "taula" },
