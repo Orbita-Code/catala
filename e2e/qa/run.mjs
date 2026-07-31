@@ -109,7 +109,24 @@ async function run() {
       for (const im of imgs) if (im.w === 0) brokenSet.add(`${slug}:${task.id || t}:${im.src}(alt=${im.alt})`);
 
       let solveErr = null;
-      try { await solveTask(page, task, notes); }
+      // VREMENSKO OGRANIČENJE PO ZADATKU (audit 30.07.2026, rupa T1).
+      // Ranije je jedan zadatak koji se ne da rešiti (npr. copy-word sa razmakom)
+      // zaglavljivao CEO prolaz — tema les-botigues nikad nije bila odigrana do
+      // kraja, a 8 zadataka nikad odigrano. Sada se takav zadatak posle
+      // TASK_TIMEOUT_MS zabeleži kao "ISTEKLO VREME", prolaz ide dalje, i na kraju
+      // se tačno vidi šta nije odrađeno. Zaglavljen zadatak ne sme da obori prolaz.
+      const TASK_TIMEOUT_MS = Number(process.env.TASK_TIMEOUT_MS || 45000);
+      try {
+        let isteklo;
+        const budilnik = new Promise((_, rej) => {
+          isteklo = setTimeout(() => rej(new Error(`ISTEKLO VREME (${TASK_TIMEOUT_MS} ms)`)), TASK_TIMEOUT_MS);
+        });
+        try {
+          await Promise.race([solveTask(page, task, notes), budilnik]);
+        } finally {
+          clearTimeout(isteklo);
+        }
+      }
       catch (e) { solveErr = e.message.slice(0, 160); notes.push('EXCEPTION: ' + solveErr); }
 
       // pređi na sledeći zadatak — NE dupliraj: klikni Següent SAMO ako se brojač već nije pomerio

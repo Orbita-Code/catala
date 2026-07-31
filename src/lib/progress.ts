@@ -1,5 +1,7 @@
 "use client";
 
+import { safeSetJSON } from "./storage";
+
 import type { UserProgress, TaskResult } from "@/types/tasks";
 
 const STORAGE_KEY = "catala-progress";
@@ -40,7 +42,7 @@ export function getDailyStreakState(): DailyStreakState {
 
 function saveDailyStreakState(state: DailyStreakState): void {
   if (typeof window === "undefined") return;
-  localStorage.setItem(STREAK_STORAGE_KEY, JSON.stringify(state));
+  safeSetJSON(STREAK_STORAGE_KEY, state);
 }
 
 function getDateDiffDays(date1: string, date2: string): number {
@@ -186,7 +188,7 @@ export function saveThemeProgress(
   const progress = getProgress();
   const current = getThemeProgress(slug);
   progress[slug] = { ...current, ...update };
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+  safeSetJSON(STORAGE_KEY, progress);
 }
 
 export function completeTask(
