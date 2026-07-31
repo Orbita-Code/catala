@@ -36,6 +36,12 @@ export default function LetterTile({
   const classes = wide ? wideSizeClasses[size] : sizeClasses[size];
   const baseClasses = `${classes} flex items-center justify-center rounded-xl font-black select-none transition-all`;
 
+  // RAZMAK (nalaz S4, audit 30.07.2026).
+  // Reči kao „barra de pa" i „pa rodó" traže razmak, a razmak je — prazan.
+  // Dete je videlo prazno žuto dugme i nije znalo šta je to; i QA runner se tu
+  // zaglavljivao. Sada se crta crtica: znak koji dete čita kao „razmak između reči".
+  const jeRazmak = letter.trim() === "";
+
   const stateClasses =
     correct === true
       ? "bg-green-100 text-green-700 border-2 border-green-400"
@@ -53,9 +59,15 @@ export default function LetterTile({
       whileTap={!disabled ? { scale: 0.9 } : undefined}
       onClick={onClick}
       disabled={disabled}
+      aria-label={jeRazmak ? "espai" : letter.toUpperCase()}
+      title={jeRazmak ? "espai" : undefined}
       className={`${baseClasses} ${stateClasses}`}
     >
-      {letter.toUpperCase()}
+      {jeRazmak ? (
+        <span className="block w-5 h-1.5 rounded-full bg-current opacity-70" aria-hidden="true" />
+      ) : (
+        letter.toUpperCase()
+      )}
     </motion.button>
   );
 }
