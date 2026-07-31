@@ -22,7 +22,7 @@ export default function HamburgerMenu() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="p-2 rounded-xl hover:bg-gray-100 transition-colors"
+        className="min-w-[44px] min-h-[44px] flex items-center justify-center p-2 rounded-xl hover:bg-gray-100 transition-colors"
         aria-label="Menú"
       >
         <Menu size={24} className="text-[var(--text)]" />
@@ -52,7 +52,7 @@ export default function HamburgerMenu() {
                 <h2 className="text-lg font-black text-[var(--primary)]">Menú</h2>
                 <button
                   onClick={() => setOpen(false)}
-                  className="p-2 rounded-xl hover:bg-gray-100"
+                  className="min-w-[44px] min-h-[44px] flex items-center justify-center p-2 rounded-xl hover:bg-gray-100"
                 >
                   <X size={20} />
                 </button>

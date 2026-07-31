@@ -151,7 +151,7 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
   zapisi("BLOK", "F5 na zadatku ne obara stranu", d.n > 0 && !d.pao, `posle F5: ${d.n} dugmadi`);
 }
 
-// ─── 6. VIDLJIV FOKUS TASTATURE (nalaz S1 — JOŠ OTVOREN) ───
+// ─── 6. VIDLJIV FOKUS TASTATURE (nalaz S1 — POPRAVLJEN 31.07.2026, sada BLOK) ───
 {
   const c = await noviKontekst(1440, 900); const p = await c.newPage();
   await p.goto(`${BASE}/tema/la-classe`, { waitUntil: "domcontentloaded", timeout: 90000 });
@@ -165,10 +165,10 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
     if (!d) continue; uk++; if (!d.v) bez++;
   }
   await c.close();
-  zapisi("UPOZORENJE", "Svaki element ima vidljiv fokus (nalaz S1)", bez === 0, `${bez} od ${uk} bez vidljivog fokusa`);
+  zapisi("BLOK", "Svaki element ima vidljiv fokus (nalaz S1)", bez === 0, `${bez} od ${uk} bez vidljivog fokusa`);
 }
 
-// ─── 7. DODIRNE METE >= 44px (nalaz S2 — JOŠ OTVOREN) ───
+// ─── 7. DODIRNE METE >= 44px (nalaz S2 — POPRAVLJEN 31.07.2026, sada BLOK) ───
 {
   const c = await noviKontekst(); const p = await c.newPage();
   await p.goto(BASE + "/", { waitUntil: "domcontentloaded", timeout: 90000 });
@@ -178,7 +178,7 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
       if (r.width < 2 || r.height < 2) return; const m = Math.min(r.width, r.height); if (m < 44) { male++; if (m < min) min = Math.round(m); } });
     return { male, min: min === 999 ? "-" : min }; });
   await c.close();
-  zapisi("UPOZORENJE", "Dodirne mete >= 44px (nalaz S2)", d.male === 0, `${d.male} manjih, najmanja ${d.min}px`);
+  zapisi("BLOK", "Dodirne mete >= 44px (nalaz S2)", d.male === 0, `${d.male} manjih, najmanja ${d.min}px`);
 }
 
 // ─── 8. VODORAVNO PRELIVANJE na uskim ekranima ───
@@ -193,6 +193,32 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
     await c.close();
   }
   zapisi("BLOK", "Bez vodoravnog prelivanja (320/360/390)", lose.length === 0, lose.length ? lose.join(" ") : "0px na sve tri širine");
+}
+
+// ─── 9. URL JE STANJE: link, F5 i „Nazad" (nalaz S3, popravljen 31.07.2026) ───
+{
+  const c = await noviKontekst(); const p = await c.newPage();
+  const zadatak = () => p.evaluate(() => (document.body.innerText.match(/(\d+)\/\d+/) || [])[1]);
+  await p.goto(`${BASE}/tema/la-classe`, { waitUntil: "domcontentloaded", timeout: 90000 });
+  await p.waitForSelector("button", { timeout: 30000 });
+  await p.waitForTimeout(2500);
+  for (let i = 0; i < 3; i++) {
+    await p.evaluate(() => { const x = [...document.querySelectorAll("button")].find((e) => /Següent/.test(e.textContent || "")); if (x) x.click(); });
+    await p.waitForTimeout(700);
+  }
+  const uAdresi = new URL(p.url()).searchParams.get("tasca");
+  const preF5 = await zadatak();
+  await p.reload({ waitUntil: "domcontentloaded", timeout: 90000 });
+  await p.waitForTimeout(3000);
+  const posleF5 = await zadatak();
+  // deljiv link
+  await p.goto(`${BASE}/tema/la-classe?tasca=7`, { waitUntil: "domcontentloaded", timeout: 90000 });
+  await p.waitForTimeout(3000);
+  const izLinka = await zadatak();
+  await c.close();
+  const ok = uAdresi === "4" && preF5 === posleF5 && izLinka === "7";
+  zapisi("BLOK", "Zadatak u adresi: link, F5, Nazad (nalaz S3)", ok,
+         `?tasca=${uAdresi}  F5: ${preF5}→${posleF5}  link ?tasca=7 → ${izLinka}`);
 }
 
 await b.close();

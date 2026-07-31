@@ -39,7 +39,7 @@ export default function ConfiguracioPage() {
         <div className="flex items-center gap-3">
           <button
             onClick={() => router.push("/")}
-            className="p-2 rounded-xl hover:bg-gray-100 transition-colors"
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center p-2 rounded-xl hover:bg-gray-100 transition-colors"
           >
             <ArrowLeft size={24} className="text-[var(--text)]" />
           </button>
@@ -66,7 +66,7 @@ export default function ConfiguracioPage() {
                 aria-checked={settings.soundEnabled}
                 aria-label="Efectes de so"
                 onClick={() => toggle("soundEnabled")}
-                className={`w-12 h-7 rounded-full transition-colors ${
+                className={`w-12 h-7 rounded-full transition-colors relative after:absolute after:content-[''] after:-inset-y-2 after:inset-x-0 ${
                   settings.soundEnabled ? "bg-[var(--primary)]" : "bg-gray-300"
                 }`}
               >
@@ -99,7 +99,7 @@ export default function ConfiguracioPage() {
                 aria-checked={settings.ttsEnabled}
                 aria-label="Text a veu"
                 onClick={() => toggle("ttsEnabled")}
-                className={`w-12 h-7 rounded-full transition-colors ${
+                className={`w-12 h-7 rounded-full transition-colors relative after:absolute after:content-[''] after:-inset-y-2 after:inset-x-0 ${
                   settings.ttsEnabled ? "bg-[var(--primary)]" : "bg-gray-300"
                 }`}
               >
@@ -118,7 +118,7 @@ export default function ConfiguracioPage() {
                 aria-checked={settings.autoRead}
                 aria-label="Lectura automàtica"
                 onClick={() => toggle("autoRead")}
-                className={`w-12 h-7 rounded-full transition-colors ${
+                className={`w-12 h-7 rounded-full transition-colors relative after:absolute after:content-[''] after:-inset-y-2 after:inset-x-0 ${
                   settings.autoRead ? "bg-[var(--primary)]" : "bg-gray-300"
                 }`}
               >
@@ -202,7 +202,7 @@ export default function ConfiguracioPage() {
           href="https://orbitacode.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm text-[var(--text-light)] hover:text-[var(--primary)] transition-colors"
+          className="text-sm text-[var(--text-light)] hover:text-[var(--primary)] transition-colors inline-flex items-center min-h-[44px]"
         >
           Powered by <span className="font-semibold">Orbita Code</span> 🚀
         </a>
