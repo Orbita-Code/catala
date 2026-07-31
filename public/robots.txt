@@ -1,0 +1,4 @@
+# Katalonski je privatna dečja igrica iza lozinke — nema šta da se indeksira.
+# Bez ovog fajla pretraživači dobijaju 404 na svaki pokušaj. (Nalaz N3, audit 30.07.2026.)
+User-agent: *
+Disallow: /

@@ -7,7 +7,8 @@ import { resolve } from "path";
  * Pre ovoga aplikacija nije slala nijedno.
  *
  * Namerno NIJE prestrogo — aplikacija mora da nastavi da radi:
- *  - fontovi se učitavaju sa Google-a (`@import` u globals.css)
+ *  - fontovi se od 31.07.2026. serviraju sa našeg servera (`next/font`), pa
+ *    spoljni izvori za fontove NISU dozvoljeni
  *  - registracija servisnog radnika je ugrađena skripta (`dangerouslySetInnerHTML`)
  *  - zadaci samoprocene koriste MIKROFON (prepoznavanje govora), pa mora ostati dozvoljen
  */
@@ -20,14 +21,13 @@ const bezbednosnaZaglavlja = [
       // 'unsafe-inline' je nužan: Next ubacuje ugrađene skripte, a i registracija
       // servisnog radnika je ugrađena. Bez toga bi aplikacija stala.
       "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "font-src 'self' https://fonts.gstatic.com data:",
+      "style-src 'self' 'unsafe-inline'",
+      // Fontovi se od 31.07.2026. serviraju sa NAŠEG servera (next/font), pa Google
+      // više nije dozvoljen — jedan spoljni izvor manje.
+      "font-src 'self' data:",
       "img-src 'self' data: blob:",
       "media-src 'self' data: blob:",
-      // Servisni radnik (skripta koja kešira sajt za rad bez interneta) SAM preuzima
-      // fontove, a njegov `fetch` potpada pod `connect-src`. Bez ova dva izvora
-      // fontovi tiho padnu sa `ERR_FAILED` — uhvaćeno kapijom 31.07.2026.
-      "connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com",
+      "connect-src 'self'",
       // Niko ne sme da uglavi našu stranu u svoj okvir (zaštita od klik-podvale)
       "frame-ancestors 'none'",
       "base-uri 'self'",

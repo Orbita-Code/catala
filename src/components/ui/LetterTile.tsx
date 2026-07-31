@@ -51,7 +51,12 @@ export default function LetterTile({
           ? "bg-[var(--primary)] text-white border-2 border-[var(--primary)] shadow-md"
           : disabled
             ? "bg-gray-100 text-gray-300 border-2 border-gray-200"
-            : "bg-[var(--accent)] text-[var(--text)] border-2 border-amber-300 shadow-sm";
+            : jeRazmak
+              // Razmak dobija SVOJU boju (plava, isprekidan okvir) da se na prvi
+              // pogled razlikuje od slova. Ista žuta pločica sa crticom i dalje je
+              // ličila na slovo, a razmak nije slovo.
+              ? "bg-sky-100 text-sky-700 border-2 border-dashed border-sky-400 shadow-sm"
+              : "bg-[var(--accent)] text-[var(--text)] border-2 border-amber-300 shadow-sm";
 
   return (
     <motion.button
