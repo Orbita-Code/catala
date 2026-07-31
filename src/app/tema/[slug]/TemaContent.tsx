@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, ArrowRight, Volume2, VolumeX, Home } from "lucide-react";
@@ -35,6 +35,20 @@ import type { Level } from "@/lib/levels";
 import XPGainAnimation from "@/components/gamification/XPGainAnimation";
 import MiniCelebration from "@/components/gamification/MiniCelebration";
 import LevelUpCelebration from "@/components/gamification/LevelUpCelebration";
+
+/**
+ * Čita broj zadatka iz adrese (`?tasca=4` → indeks 3).
+ * Vraća `null` ako parametra nema ili je besmislen — tada se koristi sačuvan napredak.
+ * Van komponente je namerno: nema stanja, pa nema razloga da se pravi iznova.
+ */
+function zadatakIzAdrese(ukupno: number): number | null {
+  if (typeof window === "undefined") return null;
+  const sirovo = new URLSearchParams(window.location.search).get("tasca");
+  if (!sirovo) return null;
+  const n = parseInt(sirovo, 10) - 1;
+  if (Number.isNaN(n) || n < 0 || n >= ukupno) return null;
+  return n;
+}
 
 interface TemaContentProps {
   slug: string;
@@ -71,6 +85,8 @@ export default function TemaContent({ slug }: TemaContentProps) {
   const [mascotTurn, setMascotTurn] = useState(0);
   // Poslednji dodir/klik/taster — po tome se meri ćutanje
   const [lastActivity, setLastActivity] = useState(() => Date.now());
+  // Da prvi upis adrese ZAMENI korak umesto da doda nov (v. objašnjenje niže)
+  const adresaPostavljena = useRef(false);
   const [xpData, setXpData] = useState<{
     currentLevel: Level;
     nextLevel: Level | null;
@@ -96,6 +112,17 @@ export default function TemaContent({ slug }: TemaContentProps) {
     const progress = getThemeProgress(slug);
     const scoringTotal = getScoringTaskCount(slug);
     const scoringDone = getCompletedScoringCount(slug, progress.completedTasks);
+
+    // Zadatak iz ADRESE ima prednost nad svim ostalim (nalaz S3).
+    // Bez ovoga se `?tasca=4` ignorisalo, pa deljiv link i „Nazad" nisu radili,
+    // a osvežavanje je vraćalo dete sa zadatka 4 na zadatak 1.
+    const izAdrese = zadatakIzAdrese(tasks.length);
+    if (izAdrese !== null) {
+      setCurrentTaskIndex(izAdrese);
+      setStreak(progress.streak);
+      return;
+    }
+
     if (scoringTotal > 0 && scoringDone >= scoringTotal) {
       // Svi scoring zadaci su gotovi → tema je završena → UVEK pokaži završni ekran
       // (bez obzira gde je currentTask ostao — inače bi klik na završenu temu vodio
@@ -109,6 +136,40 @@ export default function TemaContent({ slug }: TemaContentProps) {
     // so the child can browse/finish the remaining tasks instead of a false celebration.
     setStreak(progress.streak);
   }, [slug, tasks.length, mounted]);
+
+  // ── URL JE STANJE (nalaz S3, audit 30.07.2026) ─────────────────────────────
+  // Izmereno pre popravke: posle 3× „Següent" dete je na zadatku 4, a adresa se
+  // NIJE promenila; `F5` ga je vraćao na zadatak 1, a „Nazad" izbacivao iz teme.
+  // Posledice: nema deljivog linka na zadatak, dugme „Nazad" radi pogrešno, i
+  // slučajno osvežavanje briše gde je dete stalo.
+  //
+  // Broj u adresi je 1-based (`?tasca=4` = četvrti zadatak), jer ga čita čovek.
+  // Ime je na katalonskom, kao i ostatak aplikacije.
+  useEffect(() => {
+    if (!mounted || showCelebration || reviewMode) return;
+    const broj = currentTaskIndex + 1;
+    const url = new URL(window.location.href);
+    if (url.searchParams.get("tasca") === String(broj)) return;
+    url.searchParams.set("tasca", String(broj));
+    // Prvi upis samo ZAMENJUJE adresu — da „Nazad" sa prvog zadatka vodi tamo
+    // odakle je dete došlo (početna strana), a ne u prazan korak.
+    if (adresaPostavljena.current) {
+      window.history.pushState({ tasca: broj }, "", url.toString());
+    } else {
+      window.history.replaceState({ tasca: broj }, "", url.toString());
+      adresaPostavljena.current = true;
+    }
+  }, [currentTaskIndex, mounted, showCelebration, reviewMode]);
+
+  // Dugmad „Nazad"/„Napred" u pregledaču vraćaju dete na taj zadatak
+  useEffect(() => {
+    const naPromenuIstorije = () => {
+      const n = zadatakIzAdrese(tasks.length);
+      if (n !== null) setCurrentTaskIndex(n);
+    };
+    window.addEventListener("popstate", naPromenuIstorije);
+    return () => window.removeEventListener("popstate", naPromenuIstorije);
+  }, [tasks.length]);
 
   // Reakcija na ĆUTANJE: ako dete duže ne dira ekran, lik se tiho pojavi kao duh.
   // Nije prekid ni požurivanje — dete koje razmišlja treba samo da zna da je neko tu.
@@ -400,7 +461,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
                 setReviewMode(false);
                 setShowCelebration(true);
               }}
-              className="p-2 rounded-xl hover:bg-gray-100 transition-colors"
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center p-2 rounded-xl hover:bg-gray-100 transition-colors"
             >
               <Home size={24} className="text-[var(--text)]" />
             </button>
@@ -848,7 +909,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
         <div className="flex items-center gap-3 mb-2">
           <button
             onClick={() => router.push("/")}
-            className="p-2.5 rounded-xl hover:bg-gray-100 transition-colors"
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center p-2.5 rounded-xl hover:bg-gray-100 transition-colors"
             aria-label="Torna a l'inici"
           >
             <Home size={22} className="text-[var(--text)]" />
@@ -904,7 +965,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
           )}
           <button
             onClick={() => setMuted(toggleMute())}
-            className="p-2.5 rounded-xl hover:bg-gray-100 transition-colors"
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center p-2.5 rounded-xl hover:bg-gray-100 transition-colors"
             aria-label={muted ? "Activa so" : "Silencia"}
           >
             {muted ? (

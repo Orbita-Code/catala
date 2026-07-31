@@ -4,7 +4,7 @@
 > Popravljeno se briše odavde (ostaje u izveštaju audita tog dana).
 > Nalaz otvoren duže od 3 audita posebno se ističe.
 
-Poslednje ažuriranje: **31.07.2026.** (druga dopuna)
+Poslednje ažuriranje: **31.07.2026.** (treća dopuna)
 
 ## Kritično
 
@@ -18,9 +18,6 @@ Poslednje ažuriranje: **31.07.2026.** (druga dopuna)
 
 | # | Nalaz | Prvi put viđen | Audita otvoren |
 |---|---|---|---|
-| S1 | 13 od 24 elemenata na strani zadatka bez vidljivog fokusa tastature | 30.07.2026. | 1 |
-| S2 | Dodirne mete do **19 px** (preporuka 44 px) | 30.07.2026. | 1 |
-| S3 | URL nije stanje; `F5` vraća sa zadatka 4 na zadatak 1 | 30.07.2026. | 1 |
 | S4 | Pločica za razmak u `copy-word` je prazno dugme bez znaka | 30.07.2026. | 1 |
 | S5 | Nema nijednog bezbednosnog zaglavlja na produkciji | 30.07.2026. | 1 |
 
@@ -50,6 +47,22 @@ Preimenovano na 11 mesta u `la-classe.ts`, u oba odgovornika testova, u slikama
 (`esborrador.webp` / `esborrador.png`) i u `illustrations.ts`. U
 `WORKBOOK-VS-ILLUSTRATIONS.md` red „Reči iz sveske" **namerno ostaje `borrador`** —
 to je zapis šta piše u svesci, a ne šta koristi aplikacija.
+
+## Popravljeno 31.07.2026. — treća dopuna
+
+- **S1 — vidljiv fokus tastature.** Jedno pravilo u `globals.css` za celu aplikaciju
+  (`:focus-visible`), pa se ne mora dirati svaka komponenta. Poljima koja imaju
+  `outline-none` fokus se vraća prstenom preko `box-shadow`.
+  Izmereno: **13 od 24 bez fokusa → 0 od 23**. Vidi se samo pri kretanju tastaturom,
+  pa detetu koje kucka prstom po tabletu izgled ostaje isti.
+- **S2 — dodirne mete.** Ikonice dobile `min-w/min-h 44px` (8 mesta), prekidači u
+  podešavanjima zadržali izgled 48×28 ali im je dodirna zona proširena pseudoelementom
+  na 44 px, „Powered by" red dobio visinu 44 px. Izmereno: **najmanja 19 px → 0 premalih**.
+- **S3 — zadatak u adresi.** `?tasca=4`, 1-based jer ga čita čovek, ime na katalonskom.
+  Prvi upis `replaceState` (da „Nazad" sa prvog zadatka vodi na početnu), dalje `pushState`.
+  Izmereno: `F5` sa zadatka 4 **ostaje na 4** (ranije vraćao na 1), „Nazad" ide
+  **4 → 3 → 2 → 1** korak po korak, deljiv link `?tasca=7` otvara sedmi zadatak.
+- **Kapija proširena na 9 provera**, S1/S2/S3 su u njoj kao **BLOK**. Prolazi 9/9.
 
 ## Popravljeno 31.07.2026. — druga dopuna
 

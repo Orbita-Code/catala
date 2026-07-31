@@ -174,7 +174,7 @@ export default function HomePage() {
           href="https://orbitacode.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm text-[var(--text-light)] hover:text-[var(--primary)] transition-colors"
+          className="text-sm text-[var(--text-light)] hover:text-[var(--primary)] transition-colors inline-flex items-center min-h-[44px]"
         >
           Powered by <span className="font-semibold">Orbita Code</span> 🚀
         </a>

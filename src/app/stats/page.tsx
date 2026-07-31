@@ -94,7 +94,7 @@ export default function StatsPage() {
         <div className="flex items-center gap-4 max-w-2xl mx-auto">
           <button
             onClick={() => router.push("/")}
-            className="p-2 rounded-xl hover:bg-gray-100 transition-colors"
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center p-2 rounded-xl hover:bg-gray-100 transition-colors"
           >
             <ArrowLeft size={24} className="text-[var(--text)]" />
           </button>
@@ -374,7 +374,7 @@ export default function StatsPage() {
           href="https://orbitacode.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm text-[var(--text-light)] hover:text-[var(--primary)] transition-colors"
+          className="text-sm text-[var(--text-light)] hover:text-[var(--primary)] transition-colors inline-flex items-center min-h-[44px]"
         >
           Powered by <span className="font-semibold">Orbita Code</span> 🚀
         </a>

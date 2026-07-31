@@ -74,8 +74,12 @@ prekinuti je i pustiti preostale pojedinačno. Zaglavljen prolaz nije obavljen p
 - [ ] Kontrast proveriti **pikselima** kad je pozadina sumnjiva (gradijent laže merač) **[A30-07]**
 - [ ] Dugme „Següent" — 30.07. imalo 1,96:1 **[A30-07]**
 - [ ] `Tab` kroz celu stranu: svaki fokusiran element ima **vidljiv** fokus
-  - 30.07.: 13 od 24 na strani zadatka nije imalo **[A30-07]**
+  - 30.07.: 13 od 24 na strani zadatka nije imalo; popravljeno 31.07. globalnim
+    `:focus-visible` pravilom. **Pazi na `outline-none` u klasama** — tamo fokus mora
+    ići preko `box-shadow`, `outline` bi bio pregažen. **[A30-07]**
 - [ ] Dodirne mete ≥ 44 px (30.07. najmanja 19 px) **[A30-07]**
+  - prekidači: izgled se NE menja, dodirna zona se širi pseudoelementom
+    (`after:-inset-y-2`), inače se šarena traka razvuče **[A31-07]**
 
 ## 5. Mobilni i širine
 
@@ -85,8 +89,11 @@ prekinuti je i pustiti preostale pojedinačno. Zaglavljen prolaz nije obavljen p
 
 ## 6. Stanje, URL i osvežavanje
 
-- [ ] Posle promene zadatka proveriti da li se **URL promenio** (30.07. nije) **[A30-07]**
+- [ ] Posle promene zadatka **URL se menja** u `?tasca=N` (1-based) **[A30-07]**
 - [ ] `F5` na zadatku 4 vraća na zadatak 4, ne na 1 **[A30-07]**
+- [ ] Deljiv link `?tasca=7` otvara sedmi zadatak; besmislena vrednost se ignoriše **[A31-07]**
+- [ ] „Nazad" ide korak po korak (4→3→2→1), a sa prvog zadatka na početnu **[A31-07]**
+  - u testu NE osvežavati stranu pre `goBack` — `reload` pomeri istoriju i nalaz bude lažan **[A31-07]**
 - [ ] Dugme „Nazad" vodi na prethodni zadatak, ne iz teme
   - test **mora** da krene sa početne strane, inače nema istorije i nalaz je lažan **[A30-07]**
 - [ ] Napredak preživi osvežavanje, ne samo prelazak na sledeći zadatak

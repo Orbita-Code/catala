@@ -45,6 +45,35 @@
   --font-handwriting: "Comic Neue", cursive;
 }
 
+/* VIDLJIV FOKUS TASTATURE — nalaz S1 iz audita 30.07.2026.
+   Izmereno: 12 od 23 elementa na strani zadatka nije imalo NIKAKVU oznaku fokusa
+   (dugmad zvučnika, polja za slova). Ko ne koristi miš — dete sa motoričkom
+   teškoćom, ili bilo ko na tastaturi — nije mogao da vidi gde se nalazi.
+
+   `:focus-visible` se pojavljuje SAMO pri kretanju tastaturom, ne pri kliku mišem,
+   pa izgled aplikacije ostaje isti za dete koje kucka prstom po tabletu.
+   Dva sloja (tamna pa svetla linija) da se vidi i na tamnoj i na svetloj podlozi. */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+canvas:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+}
+
+/* Neka polja za unos imaju `outline-none` u svojim klasama (Tailwind), pa im
+   prstenom preko `box-shadow` vraćamo vidljiv fokus — `outline` bi bio pregažen. */
+input.outline-none:focus-visible,
+textarea.outline-none:focus-visible {
+  box-shadow: 0 0 0 3px var(--primary), 0 0 0 6px rgba(255, 255, 255, 0.9);
+}
+
 body {
   background: var(--background);
   color: var(--text);

@@ -102,7 +102,7 @@ export default function DailyRewardModal({ onClose }: DailyRewardModalProps) {
           {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center absolute top-4 right-4 p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
           >
             <X size={18} className="text-gray-500" />
           </button>
