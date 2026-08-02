@@ -1,0 +1,78 @@
+# KAPIJA — provera koja se sama pokreće kad se kod promeni.
+#
+# Šta radi: napravi aplikaciju, pokrene je, i pusti `npm run predeploy` — 11 provera
+# koje su nastale iz stvarnih kvarova (audit 30.07.2026). Ako bilo koja padne,
+# provera je crvena i vidi se na GitHub-u uz tu izmenu.
+#
+# Zašto: do sada je te provere trebalo pokrenuti ručno. Sada se pokreću same,
+# svaki put, i ne zavise od toga da li se neko setio.
+#
+# NAPOMENA o deploy-u: Coolify (alat koji drži sajt na serveru) trenutno postavlja
+# sajt čim nešto stigne na `main`, NEZAVISNO od ove provere. Da bi provera stvarno
+# ZAUSTAVILA loš deploy, u Coolify-ju treba isključiti „auto deploy" i pustiti da
+# deploy pokreće ova provera kad prođe. Dok se to ne uradi, provera JAVLJA kvar,
+# ali ga ne zaustavlja.
+
+name: Kapija (pre-deploy provere)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: # da može i ručno, dugmetom na GitHub-u
+
+jobs:
+  provere:
+    name: 11 provera u pravom pregledaču
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Preuzmi kod
+        uses: actions/checkout@v4
+
+      - name: Postavi Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Instaliraj zavisnosti
+        run: npm ci
+
+      - name: Provera tipova
+        run: npx tsc --noEmit
+
+      - name: Instaliraj pregledač za testove
+        run: npx playwright install --with-deps chromium
+
+      - name: Napravi aplikaciju
+        run: npm run build
+        env:
+          NODE_OPTIONS: --max-old-space-size=3072
+
+      - name: Pokreni aplikaciju i sačekaj da odgovori
+        run: |
+          npm run start &
+          for i in $(seq 1 60); do
+            if curl -s -o /dev/null -u catala:changeme http://localhost:3000/; then
+              echo "aplikacija odgovara posle ${i}s"; exit 0
+            fi
+            sleep 1
+          done
+          echo "aplikacija se nije podigla za 60 s"; exit 1
+
+      - name: KAPIJA — 11 provera
+        run: npm run predeploy
+
+      - name: Sačuvaj snimke ako je palo
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: snimci-pada
+          path: |
+            test-results/
+            playwright-report/
+          if-no-files-found: ignore
+          retention-days: 7
