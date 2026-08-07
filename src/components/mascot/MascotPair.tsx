@@ -46,7 +46,11 @@ export default function MascotPair({ event, message = null, turn = 0 }: MascotPa
    * Iz `<body>` ih nijedan takav roditelj ne može zarobiti.
    */
   return createPortal(
-    <div className="pointer-events-none fixed inset-x-0 bottom-16 z-30 flex items-end justify-between px-2 sm:px-4">
+    // `bottom-16` (64 px) je bilo MANJE od visine trake sa dugmadima (69 px),
+    // pa su likovi stajali preko nje i donji deo im se gubio (prijava vlasnice
+    // 03.08.2026, izmereno: donja ivica lika 825 px, vrh trake 824 px).
+    // `bottom-24` (96 px) ostavlja 27 px vazduha iznad trake.
+    <div className="pointer-events-none fixed inset-x-0 bottom-24 z-30 flex items-end justify-between px-3 sm:px-8 lg:px-12">
       <AnimatePresence mode="wait">
         <motion.div
           key={`dev-${event}`}

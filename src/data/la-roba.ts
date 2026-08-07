@@ -1,11 +1,16 @@
 import { Task } from "@/types/tasks";
 
 export const laRobaTasks: Task[] = [
+
   // ── Task 1: Llegeix i copia (21 clothing items) ──
+  // Podeljeno 03.08.2026: u svesci je ovo JEDAN zadatak od 21 reči, a to je
+  // za dete od 5–8 godina predugačko — traka napretka se ne pomeri ni jednom
+  // dok ne uradi svih 21. Nijedna reč nije izbačena, samo su spakovane u 3
+  // koraka, redom kao u svesci.
   {
-    id: "la-roba-1",
+    id: "la-roba-1-1",
     type: "copy-word",
-    prompt: "Llegeix i copia les peces de roba:",
+    prompt: "Llegeix i copia les peces de roba: (1 de 3).",
     words: [
       { catalan: "anorac", image: "anorac" },
       { catalan: "jersei", image: "jersei" },
@@ -14,20 +19,6 @@ export const laRobaTasks: Task[] = [
       { catalan: "samarreta", image: "samarreta" },
       { catalan: "camisa", image: "camisa" },
       { catalan: "jaqueta", image: "jaqueta" },
-      { catalan: "faldilla", image: "faldilla" },
-      { catalan: "vestit", image: "vestit" },
-      { catalan: "xandall", image: "xandall" },
-      { catalan: "americana", image: "americana" },
-      { catalan: "cinturó", image: "cinturo" },
-      { catalan: "corbata", image: "corbata" },
-      { catalan: "gorro", image: "gorro" },
-      { catalan: "gorra", image: "gorra" },
-      { catalan: "mitjons", image: "mitjons" },
-      { catalan: "sabates", image: "sabates" },
-      { catalan: "vambes", image: "vambes" },
-      { catalan: "botes", image: "botes" },
-      { catalan: "guants", image: "guants" },
-      { catalan: "bufanda", image: "bufanda" },
     ],
   },
 
@@ -46,6 +37,20 @@ export const laRobaTasks: Task[] = [
       { text: "botes", x: 60, y: 83 },
     ],
   },
+  {
+    id: "la-roba-1-2",
+    type: "copy-word",
+    prompt: "Llegeix i copia les peces de roba: (2 de 3).",
+    words: [
+      { catalan: "faldilla", image: "faldilla" },
+      { catalan: "vestit", image: "vestit" },
+      { catalan: "xandall", image: "xandall" },
+      { catalan: "americana", image: "americana" },
+      { catalan: "cinturó", image: "cinturo" },
+      { catalan: "corbata", image: "corbata" },
+      { catalan: "gorro", image: "gorro" },
+    ],
+  },
 
   // ── Task 3: Ordena les síl·labes i escriu ──
   {
@@ -62,6 +67,20 @@ export const laRobaTasks: Task[] = [
       { scrambled: "SA-CA-MI", correct: "camisa", image: "camisa" },
       { scrambled: "RAC-NO-A", correct: "anorac", image: "anorac" },
       { scrambled: "XANS-TE", correct: "texans", image: "texans" },
+    ],
+  },
+  {
+    id: "la-roba-1-3",
+    type: "copy-word",
+    prompt: "Llegeix i copia les peces de roba: (3 de 3).",
+    words: [
+      { catalan: "gorra", image: "gorra" },
+      { catalan: "mitjons", image: "mitjons" },
+      { catalan: "sabates", image: "sabates" },
+      { catalan: "vambes", image: "vambes" },
+      { catalan: "botes", image: "botes" },
+      { catalan: "guants", image: "guants" },
+      { catalan: "bufanda", image: "bufanda" },
     ],
   },
 

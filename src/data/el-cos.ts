@@ -1,27 +1,22 @@
 import { Task } from "@/types/tasks";
 
 export const elCosTasks: Task[] = [
+
   // ── Task 1: Llegeix i copia (15 body parts) ──
+  // Podeljeno 03.08.2026: u svesci je ovo JEDAN zadatak od 15 reči, a to je
+  // za dete od 5–8 godina predugačko — traka napretka se ne pomeri ni jednom
+  // dok ne uradi svih 15. Nijedna reč nije izbačena, samo su spakovane u 3
+  // koraka, redom kao u svesci.
   {
-    id: "el-cos-1",
+    id: "el-cos-1-1",
     type: "copy-word",
-    prompt: "Llegeix i copia les parts del cos.",
+    prompt: "Llegeix i copia les parts del cos (1 de 3).",
     words: [
       { catalan: "boca", image: "boca" },
       { catalan: "ull", image: "ull" },
       { catalan: "nas", image: "nas" },
       { catalan: "dents", image: "dents" },
       { catalan: "cabell", image: "cabell" },
-      { catalan: "orella", image: "orella" },
-      { catalan: "braç", image: "brac" },
-      { catalan: "cama", image: "cama" },
-      { catalan: "cap", image: "cap" },
-      { catalan: "colze", image: "colze" },
-      { catalan: "panxa", image: "panxa" },
-      { catalan: "mà", image: "ma" },
-      { catalan: "dit", image: "dit" },
-      { catalan: "peu", image: "peu" },
-      { catalan: "ungla", image: "ungla" },
     ],
   },
 
@@ -41,6 +36,18 @@ export const elCosTasks: Task[] = [
       { text: "boca", x: 50, y: 74 },
     ],
   },
+  {
+    id: "el-cos-1-2",
+    type: "copy-word",
+    prompt: "Llegeix i copia les parts del cos (2 de 3).",
+    words: [
+      { catalan: "orella", image: "orella" },
+      { catalan: "braç", image: "brac" },
+      { catalan: "cama", image: "cama" },
+      { catalan: "cap", image: "cap" },
+      { catalan: "colze", image: "colze" },
+    ],
+  },
 
   // ── Task 3: Ordena les síl·labes ──
   {
@@ -54,6 +61,18 @@ export const elCosTasks: Task[] = [
       { scrambled: "GLA-UN", correct: "ungla", image: "ungla" },
       { scrambled: "BELL-CA", correct: "cabell", image: "cabell" },
       { scrambled: "RE-O-LLA", correct: "orella", image: "orella" },
+    ],
+  },
+  {
+    id: "el-cos-1-3",
+    type: "copy-word",
+    prompt: "Llegeix i copia les parts del cos (3 de 3).",
+    words: [
+      { catalan: "panxa", image: "panxa" },
+      { catalan: "mà", image: "ma" },
+      { catalan: "dit", image: "dit" },
+      { catalan: "peu", image: "peu" },
+      { catalan: "ungla", image: "ungla" },
     ],
   },
 
@@ -192,36 +211,6 @@ export const elCosTasks: Task[] = [
     ],
   },
 
-  // ── Task 12: Fixa-t'hi i completa (NOI → NOIA) ──
-  {
-    id: "el-cos-12",
-    type: "fill-sentence",
-    prompt: "Fixa-t'hi i completa: noi → noia.",
-    image: "noi-noia",
-    sentences: [
-      {
-        text: "Un noi vell → Una noia ___.",
-        blank: "vella",
-        options: ["vell", "jove", "vella"],
-      },
-      {
-        text: "Un noi alt → Una noia ___.",
-        blank: "alta",
-        options: ["alt", "alta", "baixa"],
-      },
-      {
-        text: "Un noi baix → Una noia ___.",
-        blank: "baixa",
-        options: ["baixa", "baix", "alta"],
-      },
-      {
-        text: "Un noi jove → Una noia ___.",
-        blank: "jove",
-        options: ["vella", "alta", "jove"],
-      },
-    ],
-  },
-
   // ── Task 14: Observa i pinta SÍ o NO ──
   {
     id: "el-cos-14",
@@ -273,6 +262,36 @@ export const elCosTasks: Task[] = [
         question: "Es diu Maria?",
         options: ["Sí", "No"],
         correct: 0,
+      },
+    ],
+  },
+
+  // ── Task 12: Fixa-t'hi i completa (NOI → NOIA) ──
+  {
+    id: "el-cos-12",
+    type: "fill-sentence",
+    prompt: "Fixa-t'hi i completa: noi → noia.",
+    image: "noi-noia",
+    sentences: [
+      {
+        text: "Un noi vell → Una noia ___.",
+        blank: "vella",
+        options: ["vell", "jove", "vella"],
+      },
+      {
+        text: "Un noi alt → Una noia ___.",
+        blank: "alta",
+        options: ["alt", "alta", "baixa"],
+      },
+      {
+        text: "Un noi baix → Una noia ___.",
+        blank: "baixa",
+        options: ["baixa", "baix", "alta"],
+      },
+      {
+        text: "Un noi jove → Una noia ___.",
+        blank: "jove",
+        options: ["vella", "alta", "jove"],
       },
     ],
   },

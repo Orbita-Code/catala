@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect, useCallback, useRef } from "react";
+import { useState, useMemo, useEffect, useCallback, useRef, type CSSProperties } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FillLettersTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
@@ -335,7 +335,13 @@ export default function FillLetters({ task, onComplete, review = false }: Props)
 
   return (
     <div className="space-y-4">
-      <div className="space-y-3">
+      {/* Reči su ranije stajale jedna ispod druge — devet reči je značilo
+          devet redova i pola zadatka ispod donje ivice ekrana. Sada ih ide
+          dve-tri u red kad ima mesta, a na telefonu i dalje jedna ispod druge. */}
+      <div
+        className="task-cards-fill"
+        style={{ "--card-min": "340px", "--card-gap": "0.75rem" } as CSSProperties}
+      >
         {task.words.map((item, wordIdx) => {
           const blanks = getBlankPositions(item.hint || "");
           const isChecked = checkedWords.has(wordIdx);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, type CSSProperties } from "react";
 import { motion } from "framer-motion";
 import { MultipleChoiceTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
@@ -95,7 +95,7 @@ export default function MultipleChoice({ task, onComplete, review = false }: Pro
         key={currentQ}
         initial={{ opacity: 0, x: 30 }}
         animate={{ opacity: 1, x: 0 }}
-        className="bg-white rounded-2xl p-5 shadow-sm"
+        className="bg-white rounded-2xl p-5 shadow-sm max-w-4xl mx-auto"
       >
         {/* Per-question image (e.g. the animal the question is about) */}
         {question.image && getWordIllustration(question.image) && (
@@ -115,7 +115,12 @@ export default function MultipleChoice({ task, onComplete, review = false }: Pro
           </h3>
         </div>
 
-        <div className="space-y-2">
+        {/* Ponuđeni odgovori: na širokom ekranu stanu jedan pored drugog,
+            na telefonu se sami slože jedan ispod drugog. */}
+        <div
+          className="task-cards-fill"
+          style={{ "--card-min": "240px", "--card-gap": "0.5rem" } as CSSProperties}
+        >
           {question.options.map((option, i) => (
             <motion.button
               key={i}

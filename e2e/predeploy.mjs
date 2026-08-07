@@ -254,6 +254,48 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
          fale.length ? `fale: ${fale.join(", ")}` : `svih ${trazena.length} prisutno, mikrofon dozvoljen`);
 }
 
+// ─── 12. ZADATAK KORISTI ŠIRINU EKRANA (nalaz S6, popravljen 03.08.2026) ───
+//
+// Šta je bilo: sadržaj zadatka stajao je u okviru od najviše 672 px, dok je
+// traka napretka išla celom širinom. Na ekranu od 1512 px kartice su padale
+// u dva-tri reda, a drugi red ispod donje ivice — dete ne zna da ima još dole.
+//
+// Provera meri DVE stvari, jer jedna bez druge ne znači ništa:
+//   1. okvir zadatka koristi bar 70% širine ekrana (pre popravke: 44%);
+//   2. zadatak sa 4–8 kartica sa slikom drži sve kartice u ISTOM redu.
+//
+// Zadatak se traži PO SADRŽAJU, ne po rednom broju. Prvo izdanje ove provere
+// gledalo je `?tasca=9` i palo je čim su dugački zadaci podeljeni na delove —
+// brojevi su se pomerili, a provera je i dalje gledala u stari broj i javila
+// kvar koga nema. Broj zadatka nije osobina zadatka.
+{
+  const c = await noviKontekst(1512, 900); const p = await c.newPage();
+  let sirina = 0, nadjen = null;
+  for (let n = 1; n <= 24 && !nadjen; n++) {
+    await p.goto(`${BASE}/tema/la-classe?tasca=${n}`, { waitUntil: "domcontentloaded", timeout: 90000 });
+    await p.waitForSelector("main", { timeout: 30000 });
+    await p.waitForTimeout(1200);
+    const d = await p.evaluate(() => {
+      const m = document.querySelector("main");
+      const sirina = m ? Math.round(m.getBoundingClientRect().width) : 0;
+      const mreza = document.querySelector(".task-cards");
+      if (!mreza) return { sirina, kartica: 0, redova: 0 };
+      const kartice = [...mreza.children].filter((e) => e.querySelector("img"));
+      const redovi = new Set(kartice.map((e) => Math.round(e.getBoundingClientRect().top)));
+      return { sirina, kartica: kartice.length, redova: redovi.size };
+    });
+    sirina = d.sirina || sirina;
+    if (d.kartica >= 4 && d.kartica <= 8) nadjen = { ...d, broj: n };
+  }
+  await c.close();
+  const dovoljnoSiroko = sirina >= 1512 * 0.7;
+  const jedanRed = !!nadjen && nadjen.redova === 1;
+  zapisi("BLOK", "Zadatak koristi širinu ekrana (nalaz S6)", dovoljnoSiroko && jedanRed,
+         nadjen
+           ? `okvir ${sirina}px (${Math.round(sirina / 1512 * 100)}% ekrana), zadatak ${nadjen.broj}: ${nadjen.kartica} kartica u ${nadjen.redova} red(a)`
+           : `okvir ${sirina}px — nije nađen nijedan zadatak sa 4–8 kartica`);
+}
+
 await b.close();
 
 // ─── ZBIR ───

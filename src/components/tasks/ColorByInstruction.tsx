@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ColorByInstructionTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
@@ -171,7 +171,10 @@ export default function ColorByInstruction({ task, onComplete, review = false }:
       </div>
 
       {/* Item cards grid */}
-      <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
+      <div
+        className="task-cards"
+        style={{ "--card-min": "130px", "--card-max": "200px", "--card-gap": "0.5rem" } as CSSProperties}
+      >
         {task.instructions.map((inst, i) => {
           const illustration = getWordIllustration(inst.targetItem);
           const appliedColor = coloredItems[inst.targetItem];

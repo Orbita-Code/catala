@@ -89,3 +89,42 @@ rezultat.
 je **stvarno** vraćeno, ponoviti pale delove pojedinačno sa vremenskim ograničenjem, i
 pokrivenost napisati odmah ispod ocene. Ovde je pravilo radilo — zato i ostaje kako je
 napisano.
+
+---
+
+## 03.08.2026. — Raspored merio se po tome „da li radi", ne „da li se vidi"
+
+**Šta je promašeno:** strana zadatka koristila je 672 px od 1512 px ekrana (44%), pa su
+kartice padale u dva-tri reda i drugi red je bio **ispod donje ivice**. Uz to se posle
+20 s mirovanja lik pretvarao u providnog „duha", a likovi su stajali preko trake sa
+dugmadima. Sve troje je našla **vlasnica gledajući aplikaciju**, ne alat.
+
+**Zašto se nije videlo:** svaka postojeća provera pita „radi li" — pada li strana, ima li
+grešaka u konzoli, preliva li se vodoravno. **Nijedna nije pitala da li se sadržaj VIDI
+BEZ POMERANJA.** Test je 12/12 tema prijavljivao kao ispravne dok je pola zadatka bilo
+ispod ivice ekrana. Uz to je merenje išlo samo na uskim širinama (320/360/390), gde je
+`max-w-2xl` bezopasan — na 1512 px, gde je vlasnica radila, niko nije merio.
+
+**Pravilo:**
+1. **Uz svaku proveru „radi li" ide i provera „staje li na ekran".** Meri se
+   `scrollHeight` naspram `innerHeight` i broj redova kartica, na ŠIROKOM ekranu
+   (1512 px), ne samo na uskom. Sadržaj koji dete ne vidi za dete ne postoji.
+2. **Meri se i gornja granica širine, ne samo donja.** Provera prelivanja hvata
+   presko, ali ne i pretesno. Okvir koji koristi manje od 70% ekrana je nalaz.
+3. **Nijedno stanje lika ne sme da bude bledo, providno ni „ledeno".** Dete
+   izbledeli lik čita kao kvar, ne kao raspoloženje. Raspoloženje se pokazuje
+   pokretom i pozom, nikad providnošću.
+
+---
+
+## 03.08.2026. — Provera je gledala u redni broj zadatka
+
+**Šta je promašeno:** nova provera S6 bila je napisana kao „otvori `la-classe?tasca=9`
+i prebroj kartice". Istog dana su dugački zadaci podeljeni na delove, brojevi su se
+pomerili, i provera je javila kvar koga nema — gledala je u sasvim drugi zadatak.
+
+**Pravilo:** provera se vezuje za **sadržaj**, ne za redni broj. Redni broj nije osobina
+zadatka nego njegovog mesta u nizu, a niz se menja. Ispravna provera prolazi kroz temu i
+traži zadatak koji ODGOVARA OPISU (npr. „ima 4–8 kartica sa slikom"), pa nad njim meri.
+Isto važi za svako pravilo koje pominje „treći zadatak", „druga kartica", „poslednji red".
+

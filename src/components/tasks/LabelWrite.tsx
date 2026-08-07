@@ -283,7 +283,7 @@ export default function LabelWrite({ task, onComplete, review = false }: Props) 
 
       {/* Retry button - only shown after wrong answer */}
       {checked && !allCorrect && (
-        <div className="flex justify-center pt-2">
+        <div className="task-action-bar">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

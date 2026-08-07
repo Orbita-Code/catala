@@ -736,6 +736,23 @@ const wordsWithIllustrations = new Set([
   "caramels",
   "gelat",
   "pa-de-pessic",
+  // MNOŽINA (06.08.2026) — složena od slike za jedninu, u tri primerka
+  // (`scripts/napravi-mnozinu.py`). Namerno je ISTI predmet umnožen, a ne nov
+  // crtež: dete tako vidi da množina nije DRUGA stvar nego ISTA stvar u više
+  // komada. Koristi se u „Relaciona el singular amb el plural” (tema 8).
+  "tasses",
+  "ampolles",
+  "gots",
+  "copes",
+  "ganivets",
+  "culleres",
+  "forquilles",
+  "plats",
+  "tovallons",
+  // Stolnjak — napravljen 06.08.2026 jer je falio zadatku „Observa" iz sveske
+  // (Ex. 14, tema 8). Bez njega je dete reč `estovalles` prvi put videlo tek
+  // kao ponuđeni odgovor u sledećem zadatku.
+  "estovalles",
   "pastis-de-xocolata",
   "sal",
   "sucre",

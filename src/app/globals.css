@@ -101,3 +101,125 @@ button, a, [role="button"] {
   animation: hint-pulse 1s ease-in-out infinite;
   border-color: var(--success) !important;
 }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   ŠIRINA STRANE ZADATKA — nalaz 03.08.2026.
+
+   Do sada je sadržaj zadatka stajao u okviru od najviše 672 px (`max-w-2xl`),
+   dok je traka napretka išla celom širinom. Na ekranu od 1999 px to je
+   ostavljalo 1327 px prazno, pa su kartice od 160 px padale u dva-tri reda
+   i deo zadatka je završavao ispod donje ivice ekrana. Dete ne zna da ima
+   još dole — za njega to ne postoji.
+
+   `--task-max` ostavlja po ~120 px sa svake strane za maskote (one stoje
+   fiksirano dole levo i dole desno) i staje na 1440 px, jer preko toga red
+   postaje toliko širok da oko gubi vezu između slike i rečenice ispod nje.
+   ───────────────────────────────────────────────────────────────────────── */
+.task-shell {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 100%;
+}
+/* 12rem (192 px) je rezervisano za maskote sa obe strane. Prvo je bilo 15rem
+   (240 px) i na prozoru od 1400 px je davalo okvir od 1160 px — u koji sedam
+   kartica NE STAJE u jedan red (prijava vlasnice 03.08.2026, izmereno: 6 + 1).
+   Sa 12rem okvir je 1208 px i sedma kartica staje. Maskote stoje pri DNU, gde
+   je sadržaj ionako redak, i propuštaju klik (`pointer-events-none`). */
+@media (min-width: 1024px) {
+  .task-shell {
+    max-width: min(1440px, calc(100vw - 12rem));
+  }
+}
+
+/* KARTICE U JEDAN RED, SAME OD SEBE (obrazac „auto-fit + minmax").
+
+   Broj kolona se ne piše rukom nego se računa iz raspoloživog prostora:
+   koliko kartica stane po `--card-min`, toliko ih bude u redu; kad ekran
+   omrša, poslednja sama pređe u novi red. Bez ijednog medijskog upita.
+   `--card-max` sprečava suprotnu nevolju — da dve kartice na širokom
+   ekranu narastu preko pola metra.
+
+   `min(--card-min, 100%)` je obavezan: bez njega kartica šira od ekrana
+   izgura vodoravni klizač na telefonu.
+
+   ZAMKA (provereno merenjem 03.08.2026): ako se za gornju granicu kolone
+   napiše tačan broj (`minmax(160px, 240px)`), pregledač broji koliko kolona
+   staje po TOM broju — 240 px — pa ih na 950 px napravi samo tri. Zato gornja
+   granica mora biti `1fr` (nije tačan broj), a širina kartice se ograničava
+   na samoj kartici (`max-width`). Tek tako se dobije: koliko ih stane po
+   `--card-min`, toliko ih je u redu. */
+.task-cards {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(var(--card-min, 150px), 100%), 1fr)
+  );
+  gap: var(--card-gap, 0.75rem);
+  justify-content: center;
+  justify-items: center;
+  /* `stretch` da sve kartice u redu budu iste visine — kad su različite,
+     red izgleda kao pokidan i oko ne uhvati da su ravnopravne. */
+  align-items: stretch;
+}
+.task-cards > * {
+  width: 100%;
+  max-width: var(--card-max, 240px);
+}
+
+/* Isto, ali kartice se rastežu do kraja reda (za rečenice, gde je prazan
+   desni rub ružniji nego malo šira kartica). */
+.task-cards-fill {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(var(--card-min, 260px), 100%), 1fr)
+  );
+  gap: var(--card-gap, 0.75rem);
+  align-items: start;
+}
+
+/* DUGME „COMPROVA!" UVEK NA EKRANU.
+   Lepi se za dno prozora dok se sadržaj pomera, pa dete nikad ne mora da
+   pogodi da ispod ima još nešto. `bottom` je iznad trake za navigaciju. */
+.task-action-bar {
+  position: sticky;
+  bottom: 0.25rem;
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  padding-top: 0.75rem;
+  pointer-events: none;
+}
+.task-action-bar > * {
+  pointer-events: auto;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   „POGLEDAJ OVDE" — prsten koji usmerava pogled deteta (03.08.2026)
+
+   Kad dete duže ne dodirne ekran, ne znači da je odustalo — najčešće ne zna
+   GDE da klikne. Maskota koja skače u uglu tu ne pomaže, jer pažnju vuče na
+   sebe, a ne na zadatak. Zato mesto gde treba kliknuti dobija mek prsten koji
+   dvaput „dahne" pa se smiri.
+
+   Prsten je `box-shadow`, ne `border` — border bi pomerio sadržaj za 3 px i
+   ceo red kartica bi poskočio u trenutku kad se pojavi.
+   ───────────────────────────────────────────────────────────────────────── */
+@keyframes pokazi-ovde {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0); }
+  30%      { box-shadow: 0 0 0 6px rgba(108, 92, 231, 0.35), 0 0 18px 6px rgba(108, 92, 231, 0.25); }
+  60%      { box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.22), 0 0 12px 4px rgba(108, 92, 231, 0.15); }
+}
+.pokazi-ovde {
+  animation: pokazi-ovde 1.6s ease-in-out infinite;
+  border-radius: 0.75rem;
+}
+
+/* Dete osetljivo na pokret ne dobija pulsiranje nego miran, stalan prsten —
+   informacija ostaje, treperenja nema. */
+@media (prefers-reduced-motion: reduce) {
+  .pokazi-ovde {
+    animation: none;
+    box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.35);
+  }
+}

@@ -1,9 +1,9 @@
 {
   "la-classe": [
     {
-      "id": "la-classe-1",
+      "id": "la-classe-1-1",
       "type": "copy-word",
-      "prompt": "Llegeix i copia les paraules de la classe.",
+      "prompt": "Llegeix i copia les paraules de la classe (1 de 3).",
       "words": [
         {
           "catalan": "llapis",
@@ -32,62 +32,6 @@
         {
           "catalan": "carpeta",
           "image": "carpeta"
-        },
-        {
-          "catalan": "estoig",
-          "image": "estoig"
-        },
-        {
-          "catalan": "maquineta",
-          "image": "maquineta"
-        },
-        {
-          "catalan": "regle",
-          "image": "regle"
-        },
-        {
-          "catalan": "motxilla",
-          "image": "motxilla"
-        },
-        {
-          "catalan": "tisores",
-          "image": "tisores"
-        },
-        {
-          "catalan": "pissarra",
-          "image": "pissarra"
-        },
-        {
-          "catalan": "guix",
-          "image": "guix"
-        },
-        {
-          "catalan": "esborrador",
-          "image": "esborrador"
-        },
-        {
-          "catalan": "paperera",
-          "image": "paperera"
-        },
-        {
-          "catalan": "ordinador",
-          "image": "ordinador"
-        },
-        {
-          "catalan": "taula",
-          "image": "taula"
-        },
-        {
-          "catalan": "cadira",
-          "image": "cadira"
-        },
-        {
-          "catalan": "porta",
-          "image": "porta"
-        },
-        {
-          "catalan": "finestra",
-          "image": "finestra"
         }
       ]
     },
@@ -232,9 +176,44 @@
       ]
     },
     {
-      "id": "la-classe-3",
+      "id": "la-classe-1-2",
+      "type": "copy-word",
+      "prompt": "Llegeix i copia les paraules de la classe (2 de 3).",
+      "words": [
+        {
+          "catalan": "estoig",
+          "image": "estoig"
+        },
+        {
+          "catalan": "maquineta",
+          "image": "maquineta"
+        },
+        {
+          "catalan": "regle",
+          "image": "regle"
+        },
+        {
+          "catalan": "motxilla",
+          "image": "motxilla"
+        },
+        {
+          "catalan": "tisores",
+          "image": "tisores"
+        },
+        {
+          "catalan": "pissarra",
+          "image": "pissarra"
+        },
+        {
+          "catalan": "guix",
+          "image": "guix"
+        }
+      ]
+    },
+    {
+      "id": "la-classe-3-1",
       "type": "fill-letters",
-      "prompt": "Completa la paraula.",
+      "prompt": "Completa la paraula (1 de 3).",
       "words": [
         {
           "word": "llapis",
@@ -270,7 +249,49 @@
           "word": "carpeta",
           "hint": "c_rp_t_",
           "image": "carpeta"
+        }
+      ]
+    },
+    {
+      "id": "la-classe-1-3",
+      "type": "copy-word",
+      "prompt": "Llegeix i copia les paraules de la classe (3 de 3).",
+      "words": [
+        {
+          "catalan": "esborrador",
+          "image": "esborrador"
         },
+        {
+          "catalan": "paperera",
+          "image": "paperera"
+        },
+        {
+          "catalan": "ordinador",
+          "image": "ordinador"
+        },
+        {
+          "catalan": "taula",
+          "image": "taula"
+        },
+        {
+          "catalan": "cadira",
+          "image": "cadira"
+        },
+        {
+          "catalan": "porta",
+          "image": "porta"
+        },
+        {
+          "catalan": "finestra",
+          "image": "finestra"
+        }
+      ]
+    },
+    {
+      "id": "la-classe-3-2",
+      "type": "fill-letters",
+      "prompt": "Completa la paraula (2 de 3).",
+      "words": [
         {
           "word": "estoig",
           "hint": "e_t_ig",
@@ -305,41 +326,6 @@
           "word": "guix",
           "hint": "g_i_",
           "image": "guix"
-        },
-        {
-          "word": "esborrador",
-          "hint": "b_rr_d_r",
-          "image": "esborrador"
-        },
-        {
-          "word": "paperera",
-          "hint": "p_p_r_ra",
-          "image": "paperera"
-        },
-        {
-          "word": "ordinador",
-          "hint": "o_d_n_dor",
-          "image": "ordinador"
-        },
-        {
-          "word": "taula",
-          "hint": "t_u_a",
-          "image": "taula"
-        },
-        {
-          "word": "cadira",
-          "hint": "c_d_ra",
-          "image": "cadira"
-        },
-        {
-          "word": "porta",
-          "hint": "p_r_a",
-          "image": "porta"
-        },
-        {
-          "word": "finestra",
-          "hint": "f_n_stra",
-          "image": "finestra"
         }
       ]
     },
@@ -385,6 +371,48 @@
         "regle",
         "motxilla",
         "tisores"
+      ]
+    },
+    {
+      "id": "la-classe-3-3",
+      "type": "fill-letters",
+      "prompt": "Completa la paraula (3 de 3).",
+      "words": [
+        {
+          "word": "esborrador",
+          "hint": "_sb_rr_d_r",
+          "image": "esborrador"
+        },
+        {
+          "word": "paperera",
+          "hint": "p_p_r_ra",
+          "image": "paperera"
+        },
+        {
+          "word": "ordinador",
+          "hint": "o_d_n_dor",
+          "image": "ordinador"
+        },
+        {
+          "word": "taula",
+          "hint": "t_u_a",
+          "image": "taula"
+        },
+        {
+          "word": "cadira",
+          "hint": "c_d_ra",
+          "image": "cadira"
+        },
+        {
+          "word": "porta",
+          "hint": "p_r_a",
+          "image": "porta"
+        },
+        {
+          "word": "finestra",
+          "hint": "f_n_stra",
+          "image": "finestra"
+        }
       ]
     },
     {
@@ -652,6 +680,33 @@
       ]
     },
     {
+      "id": "la-classe-10",
+      "type": "matching",
+      "prompt": "Relaciona cada objecte amb la seva funció.",
+      "pairs": [
+        {
+          "left": "tisores",
+          "right": "retallar"
+        },
+        {
+          "left": "llapis",
+          "right": "escriure"
+        },
+        {
+          "left": "cola de barra",
+          "right": "enganxar"
+        },
+        {
+          "left": "llapis de colors",
+          "right": "pintar"
+        },
+        {
+          "left": "goma",
+          "right": "esborrar"
+        }
+      ]
+    },
+    {
       "id": "la-classe-9",
       "type": "fill-sentence",
       "prompt": "Què fan? Completa les frases.",
@@ -710,33 +765,6 @@
       ]
     },
     {
-      "id": "la-classe-10",
-      "type": "matching",
-      "prompt": "Relaciona cada objecte amb la seva funció.",
-      "pairs": [
-        {
-          "left": "tisores",
-          "right": "retallar"
-        },
-        {
-          "left": "llapis",
-          "right": "escriure"
-        },
-        {
-          "left": "cola de barra",
-          "right": "enganxar"
-        },
-        {
-          "left": "llapis de colors",
-          "right": "pintar"
-        },
-        {
-          "left": "goma",
-          "right": "esborrar"
-        }
-      ]
-    },
-    {
       "id": "la-classe-11",
       "type": "classify-columns",
       "prompt": "Classifica: quines paraules són objectes de classe?",
@@ -790,7 +818,7 @@
     {
       "id": "la-classe-12",
       "type": "add-article",
-      "prompt": "Afegeix l'article: la, les, el o els.",
+      "prompt": "Afegeix l'article: el, la o l'.",
       "words": [
         {
           "word": "maquineta",
@@ -1781,6 +1809,73 @@
       ]
     },
     {
+      "id": "l-escola-19",
+      "type": "self-assessment",
+      "prompt": "Saps dir aquestes paraules en català?",
+      "items": [
+        {
+          "catalan": "aula",
+          "translation": "učionica",
+          "image": "aula"
+        },
+        {
+          "catalan": "biblioteca",
+          "translation": "biblioteka",
+          "image": "biblioteca"
+        },
+        {
+          "catalan": "pati",
+          "translation": "dvorište",
+          "image": "pati"
+        },
+        {
+          "catalan": "menjador",
+          "translation": "trpezarija",
+          "image": "menjador"
+        },
+        {
+          "catalan": "gimnàs",
+          "translation": "fiskulturna sala",
+          "image": "gimnas"
+        },
+        {
+          "catalan": "laboratori",
+          "translation": "laboratorija",
+          "image": "laboratori"
+        },
+        {
+          "catalan": "lavabo",
+          "translation": "toalet",
+          "image": "lavabo"
+        },
+        {
+          "catalan": "passadís",
+          "translation": "hodnik",
+          "image": "passadis"
+        },
+        {
+          "catalan": "dimarts",
+          "translation": "utorak",
+          "image": "dimarts"
+        },
+        {
+          "catalan": "divendres",
+          "translation": "petak",
+          "image": "divendres"
+        },
+        {
+          "catalan": "a sobre",
+          "translation": "na/iznad",
+          "image": "a-sobre"
+        },
+        {
+          "catalan": "a sota",
+          "translation": "ispod",
+          "image": "a-sota"
+        }
+      ]
+    },
+    {
       "id": "l-escola-17",
       "type": "fill-sentence",
       "prompt": "Completa les frases amb el verb correcte:",
@@ -1860,73 +1955,6 @@
       ]
     },
     {
-      "id": "l-escola-19",
-      "type": "self-assessment",
-      "prompt": "Saps dir aquestes paraules en català?",
-      "items": [
-        {
-          "catalan": "aula",
-          "translation": "učionica",
-          "image": "aula"
-        },
-        {
-          "catalan": "biblioteca",
-          "translation": "biblioteka",
-          "image": "biblioteca"
-        },
-        {
-          "catalan": "pati",
-          "translation": "dvorište",
-          "image": "pati"
-        },
-        {
-          "catalan": "menjador",
-          "translation": "trpezarija",
-          "image": "menjador"
-        },
-        {
-          "catalan": "gimnàs",
-          "translation": "fiskulturna sala",
-          "image": "gimnas"
-        },
-        {
-          "catalan": "laboratori",
-          "translation": "laboratorija",
-          "image": "laboratori"
-        },
-        {
-          "catalan": "lavabo",
-          "translation": "toalet",
-          "image": "lavabo"
-        },
-        {
-          "catalan": "passadís",
-          "translation": "hodnik",
-          "image": "passadis"
-        },
-        {
-          "catalan": "dimarts",
-          "translation": "utorak",
-          "image": "dimarts"
-        },
-        {
-          "catalan": "divendres",
-          "translation": "petak",
-          "image": "divendres"
-        },
-        {
-          "catalan": "a sobre",
-          "translation": "na/iznad",
-          "image": "a-sobre"
-        },
-        {
-          "catalan": "a sota",
-          "translation": "ispod",
-          "image": "a-sota"
-        }
-      ]
-    },
-    {
       "id": "l-escola-bonus",
       "type": "drawing-canvas",
       "prompt": "Activitat extra! Diverteix-te, activa la creativitat i dibuixa alguna cosa màgica!",
@@ -1935,9 +1963,9 @@
   ],
   "el-cos": [
     {
-      "id": "el-cos-1",
+      "id": "el-cos-1-1",
       "type": "copy-word",
-      "prompt": "Llegeix i copia les parts del cos.",
+      "prompt": "Llegeix i copia les parts del cos (1 de 3).",
       "words": [
         {
           "catalan": "boca",
@@ -1958,46 +1986,6 @@
         {
           "catalan": "cabell",
           "image": "cabell"
-        },
-        {
-          "catalan": "orella",
-          "image": "orella"
-        },
-        {
-          "catalan": "braç",
-          "image": "brac"
-        },
-        {
-          "catalan": "cama",
-          "image": "cama"
-        },
-        {
-          "catalan": "cap",
-          "image": "cap"
-        },
-        {
-          "catalan": "colze",
-          "image": "colze"
-        },
-        {
-          "catalan": "panxa",
-          "image": "panxa"
-        },
-        {
-          "catalan": "mà",
-          "image": "ma"
-        },
-        {
-          "catalan": "dit",
-          "image": "dit"
-        },
-        {
-          "catalan": "peu",
-          "image": "peu"
-        },
-        {
-          "catalan": "ungla",
-          "image": "ungla"
         }
       ]
     },
@@ -2035,6 +2023,33 @@
       ]
     },
     {
+      "id": "el-cos-1-2",
+      "type": "copy-word",
+      "prompt": "Llegeix i copia les parts del cos (2 de 3).",
+      "words": [
+        {
+          "catalan": "orella",
+          "image": "orella"
+        },
+        {
+          "catalan": "braç",
+          "image": "brac"
+        },
+        {
+          "catalan": "cama",
+          "image": "cama"
+        },
+        {
+          "catalan": "cap",
+          "image": "cap"
+        },
+        {
+          "catalan": "colze",
+          "image": "colze"
+        }
+      ]
+    },
+    {
       "id": "el-cos-3",
       "type": "unscramble",
       "prompt": "Ordena les síl·labes per formar paraules.",
@@ -2068,6 +2083,33 @@
           "scrambled": "RE-O-LLA",
           "correct": "orella",
           "image": "orella"
+        }
+      ]
+    },
+    {
+      "id": "el-cos-1-3",
+      "type": "copy-word",
+      "prompt": "Llegeix i copia les parts del cos (3 de 3).",
+      "words": [
+        {
+          "catalan": "panxa",
+          "image": "panxa"
+        },
+        {
+          "catalan": "mà",
+          "image": "ma"
+        },
+        {
+          "catalan": "dit",
+          "image": "dit"
+        },
+        {
+          "catalan": "peu",
+          "image": "peu"
+        },
+        {
+          "catalan": "ungla",
+          "image": "ungla"
         }
       ]
     },
@@ -2471,50 +2513,6 @@
       ]
     },
     {
-      "id": "el-cos-12",
-      "type": "fill-sentence",
-      "prompt": "Fixa-t'hi i completa: noi → noia.",
-      "image": "noi-noia",
-      "sentences": [
-        {
-          "text": "Un noi vell → Una noia ___.",
-          "blank": "vella",
-          "options": [
-            "vell",
-            "jove",
-            "vella"
-          ]
-        },
-        {
-          "text": "Un noi alt → Una noia ___.",
-          "blank": "alta",
-          "options": [
-            "alt",
-            "alta",
-            "baixa"
-          ]
-        },
-        {
-          "text": "Un noi baix → Una noia ___.",
-          "blank": "baixa",
-          "options": [
-            "baixa",
-            "baix",
-            "alta"
-          ]
-        },
-        {
-          "text": "Un noi jove → Una noia ___.",
-          "blank": "jove",
-          "options": [
-            "vella",
-            "alta",
-            "jove"
-          ]
-        }
-      ]
-    },
-    {
       "id": "el-cos-14",
       "type": "multiple-choice",
       "prompt": "Observa la Maria i contesta SÍ o NO.",
@@ -2591,6 +2589,50 @@
             "No"
           ],
           "correct": 0
+        }
+      ]
+    },
+    {
+      "id": "el-cos-12",
+      "type": "fill-sentence",
+      "prompt": "Fixa-t'hi i completa: noi → noia.",
+      "image": "noi-noia",
+      "sentences": [
+        {
+          "text": "Un noi vell → Una noia ___.",
+          "blank": "vella",
+          "options": [
+            "vell",
+            "jove",
+            "vella"
+          ]
+        },
+        {
+          "text": "Un noi alt → Una noia ___.",
+          "blank": "alta",
+          "options": [
+            "alt",
+            "alta",
+            "baixa"
+          ]
+        },
+        {
+          "text": "Un noi baix → Una noia ___.",
+          "blank": "baixa",
+          "options": [
+            "baixa",
+            "baix",
+            "alta"
+          ]
+        },
+        {
+          "text": "Un noi jove → Una noia ___.",
+          "blank": "jove",
+          "options": [
+            "vella",
+            "alta",
+            "jove"
+          ]
         }
       ]
     },
@@ -2749,9 +2791,9 @@
   ],
   "la-roba": [
     {
-      "id": "la-roba-1",
+      "id": "la-roba-1-1",
       "type": "copy-word",
-      "prompt": "Llegeix i copia les peces de roba:",
+      "prompt": "Llegeix i copia les peces de roba: (1 de 3).",
       "words": [
         {
           "catalan": "anorac",
@@ -2780,62 +2822,6 @@
         {
           "catalan": "jaqueta",
           "image": "jaqueta"
-        },
-        {
-          "catalan": "faldilla",
-          "image": "faldilla"
-        },
-        {
-          "catalan": "vestit",
-          "image": "vestit"
-        },
-        {
-          "catalan": "xandall",
-          "image": "xandall"
-        },
-        {
-          "catalan": "americana",
-          "image": "americana"
-        },
-        {
-          "catalan": "cinturó",
-          "image": "cinturo"
-        },
-        {
-          "catalan": "corbata",
-          "image": "corbata"
-        },
-        {
-          "catalan": "gorro",
-          "image": "gorro"
-        },
-        {
-          "catalan": "gorra",
-          "image": "gorra"
-        },
-        {
-          "catalan": "mitjons",
-          "image": "mitjons"
-        },
-        {
-          "catalan": "sabates",
-          "image": "sabates"
-        },
-        {
-          "catalan": "vambes",
-          "image": "vambes"
-        },
-        {
-          "catalan": "botes",
-          "image": "botes"
-        },
-        {
-          "catalan": "guants",
-          "image": "guants"
-        },
-        {
-          "catalan": "bufanda",
-          "image": "bufanda"
         }
       ]
     },
@@ -2874,6 +2860,41 @@
           "text": "botes",
           "x": 60,
           "y": 83
+        }
+      ]
+    },
+    {
+      "id": "la-roba-1-2",
+      "type": "copy-word",
+      "prompt": "Llegeix i copia les peces de roba: (2 de 3).",
+      "words": [
+        {
+          "catalan": "faldilla",
+          "image": "faldilla"
+        },
+        {
+          "catalan": "vestit",
+          "image": "vestit"
+        },
+        {
+          "catalan": "xandall",
+          "image": "xandall"
+        },
+        {
+          "catalan": "americana",
+          "image": "americana"
+        },
+        {
+          "catalan": "cinturó",
+          "image": "cinturo"
+        },
+        {
+          "catalan": "corbata",
+          "image": "corbata"
+        },
+        {
+          "catalan": "gorro",
+          "image": "gorro"
         }
       ]
     },
@@ -2926,6 +2947,41 @@
           "scrambled": "XANS-TE",
           "correct": "texans",
           "image": "texans"
+        }
+      ]
+    },
+    {
+      "id": "la-roba-1-3",
+      "type": "copy-word",
+      "prompt": "Llegeix i copia les peces de roba: (3 de 3).",
+      "words": [
+        {
+          "catalan": "gorra",
+          "image": "gorra"
+        },
+        {
+          "catalan": "mitjons",
+          "image": "mitjons"
+        },
+        {
+          "catalan": "sabates",
+          "image": "sabates"
+        },
+        {
+          "catalan": "vambes",
+          "image": "vambes"
+        },
+        {
+          "catalan": "botes",
+          "image": "botes"
+        },
+        {
+          "catalan": "guants",
+          "image": "guants"
+        },
+        {
+          "catalan": "bufanda",
+          "image": "bufanda"
         }
       ]
     },
@@ -4765,6 +4821,54 @@
       ]
     },
     {
+      "id": "la-familia-3",
+      "type": "label-image",
+      "prompt": "Observa l'arbre genealògic i completa:",
+      "image": "arbre-familiar-complet",
+      "labels": [
+        {
+          "text": "avi",
+          "x": 20,
+          "y": 15
+        },
+        {
+          "text": "àvia",
+          "x": 60,
+          "y": 15
+        },
+        {
+          "text": "pare",
+          "x": 20,
+          "y": 50
+        },
+        {
+          "text": "mare",
+          "x": 60,
+          "y": 50
+        },
+        {
+          "text": "fill",
+          "x": 20,
+          "y": 85
+        },
+        {
+          "text": "filla",
+          "x": 60,
+          "y": 85
+        }
+      ],
+      "options": [
+        "avi",
+        "àvia",
+        "pare",
+        "mare",
+        "fill",
+        "filla",
+        "oncle",
+        "tieta"
+      ]
+    },
+    {
       "id": "la-familia-2",
       "type": "fill-sentence",
       "prompt": "Observa i completa:",
@@ -4821,88 +4925,6 @@
       ]
     },
     {
-      "id": "la-familia-3",
-      "type": "label-image",
-      "prompt": "Observa l'arbre genealògic i completa:",
-      "image": "arbre-familiar-complet",
-      "labels": [
-        {
-          "text": "avi",
-          "x": 20,
-          "y": 15
-        },
-        {
-          "text": "àvia",
-          "x": 60,
-          "y": 15
-        },
-        {
-          "text": "pare",
-          "x": 20,
-          "y": 50
-        },
-        {
-          "text": "mare",
-          "x": 60,
-          "y": 50
-        },
-        {
-          "text": "fill",
-          "x": 20,
-          "y": 85
-        },
-        {
-          "text": "filla",
-          "x": 60,
-          "y": 85
-        }
-      ],
-      "options": [
-        "avi",
-        "àvia",
-        "pare",
-        "mare",
-        "fill",
-        "filla",
-        "oncle",
-        "tieta"
-      ]
-    },
-    {
-      "id": "la-familia-4",
-      "type": "fill-sentence",
-      "prompt": "Observa i respon. Jo soc l'Albert.",
-      "sentences": [
-        {
-          "text": "Ella és la germana de la meva mare. És la meva ___.",
-          "blank": "tieta",
-          "options": [
-            "cosina",
-            "tieta",
-            "àvia"
-          ]
-        },
-        {
-          "text": "Ell és el marit de la meva tieta. És el meu ___.",
-          "blank": "oncle",
-          "options": [
-            "pare",
-            "avi",
-            "oncle"
-          ]
-        },
-        {
-          "text": "Ella és la filla del meu oncle i de la meva tieta. És la meva ___.",
-          "blank": "cosina",
-          "options": [
-            "germana",
-            "cosina",
-            "tieta"
-          ]
-        }
-      ]
-    },
-    {
       "id": "la-familia-6",
       "type": "classify-columns",
       "prompt": "Classifica:",
@@ -4945,6 +4967,40 @@
         "avi"
       ],
       "circleMode": true
+    },
+    {
+      "id": "la-familia-4",
+      "type": "fill-sentence",
+      "prompt": "Observa i respon. Jo soc l'Albert.",
+      "sentences": [
+        {
+          "text": "Ella és la germana de la meva mare. És la meva ___.",
+          "blank": "tieta",
+          "options": [
+            "cosina",
+            "tieta",
+            "àvia"
+          ]
+        },
+        {
+          "text": "Ell és el marit de la meva tieta. És el meu ___.",
+          "blank": "oncle",
+          "options": [
+            "pare",
+            "avi",
+            "oncle"
+          ]
+        },
+        {
+          "text": "Ella és la filla del meu oncle i de la meva tieta. És la meva ___.",
+          "blank": "cosina",
+          "options": [
+            "germana",
+            "cosina",
+            "tieta"
+          ]
+        }
+      ]
     },
     {
       "id": "la-familia-7",
@@ -5674,41 +5730,6 @@
       ]
     },
     {
-      "id": "les-botigues-5",
-      "type": "copy-word",
-      "prompt": "Llegeix i copia les verdures:",
-      "words": [
-        {
-          "catalan": "ceba",
-          "image": "ceba"
-        },
-        {
-          "catalan": "enciam",
-          "image": "enciam"
-        },
-        {
-          "catalan": "pastanaga",
-          "image": "pastanaga"
-        },
-        {
-          "catalan": "patata",
-          "image": "patata"
-        },
-        {
-          "catalan": "pebrot",
-          "image": "pebrot"
-        },
-        {
-          "catalan": "tomàquet",
-          "image": "tomaquet"
-        },
-        {
-          "catalan": "mongetes",
-          "image": "mongetes"
-        }
-      ]
-    },
-    {
       "id": "les-botigues-6",
       "type": "fill-letters",
       "prompt": "Completa les lletres que falten:",
@@ -5757,6 +5778,41 @@
           "word": "maduixa",
           "hint": "m_du_x_",
           "image": "maduixa"
+        }
+      ]
+    },
+    {
+      "id": "les-botigues-5",
+      "type": "copy-word",
+      "prompt": "Llegeix i copia les verdures:",
+      "words": [
+        {
+          "catalan": "ceba",
+          "image": "ceba"
+        },
+        {
+          "catalan": "enciam",
+          "image": "enciam"
+        },
+        {
+          "catalan": "pastanaga",
+          "image": "pastanaga"
+        },
+        {
+          "catalan": "patata",
+          "image": "patata"
+        },
+        {
+          "catalan": "pebrot",
+          "image": "pebrot"
+        },
+        {
+          "catalan": "tomàquet",
+          "image": "tomaquet"
+        },
+        {
+          "catalan": "mongetes",
+          "image": "mongetes"
         }
       ]
     },
@@ -6430,88 +6486,6 @@
       ]
     },
     {
-      "id": "el-menjar-5",
-      "type": "copy-word",
-      "prompt": "Llegeix i copia els aliments del dinar:",
-      "words": [
-        {
-          "catalan": "verdures",
-          "image": "verdures"
-        },
-        {
-          "catalan": "arròs",
-          "image": "arros"
-        },
-        {
-          "catalan": "macarrons",
-          "image": "macarrons"
-        },
-        {
-          "catalan": "amanida",
-          "image": "amanida"
-        },
-        {
-          "catalan": "patates fregides",
-          "image": "patates-fregides"
-        },
-        {
-          "catalan": "pollastre",
-          "image": "pollastre"
-        },
-        {
-          "catalan": "pa",
-          "image": "pa"
-        },
-        {
-          "catalan": "aigua",
-          "image": "aigua"
-        },
-        {
-          "catalan": "refresc",
-          "image": "refresc"
-        }
-      ]
-    },
-    {
-      "id": "el-menjar-6",
-      "type": "copy-word",
-      "prompt": "Llegeix i copia els aliments del berenar i el sopar:",
-      "words": [
-        {
-          "catalan": "sandvitx",
-          "image": "sandvitx"
-        },
-        {
-          "catalan": "iogurt",
-          "image": "iogurt"
-        },
-        {
-          "catalan": "hamburguesa",
-          "image": "hamburguesa"
-        },
-        {
-          "catalan": "truita de patates",
-          "image": "truita-de-patates"
-        },
-        {
-          "catalan": "sopa",
-          "image": "sopa"
-        },
-        {
-          "catalan": "pizza",
-          "image": "pizza"
-        },
-        {
-          "catalan": "formatge",
-          "image": "formatge"
-        },
-        {
-          "catalan": "pernil",
-          "image": "pernil"
-        }
-      ]
-    },
-    {
       "id": "el-menjar-7",
       "type": "fill-sentence",
       "prompt": "Completa les frases sobre els àpats:",
@@ -6551,6 +6525,49 @@
             "cafè",
             "sopa"
           ]
+        }
+      ]
+    },
+    {
+      "id": "el-menjar-5",
+      "type": "copy-word",
+      "prompt": "Llegeix i copia els aliments del dinar:",
+      "words": [
+        {
+          "catalan": "verdures",
+          "image": "verdures"
+        },
+        {
+          "catalan": "arròs",
+          "image": "arros"
+        },
+        {
+          "catalan": "macarrons",
+          "image": "macarrons"
+        },
+        {
+          "catalan": "amanida",
+          "image": "amanida"
+        },
+        {
+          "catalan": "patates fregides",
+          "image": "patates-fregides"
+        },
+        {
+          "catalan": "pollastre",
+          "image": "pollastre"
+        },
+        {
+          "catalan": "pa",
+          "image": "pa"
+        },
+        {
+          "catalan": "aigua",
+          "image": "aigua"
+        },
+        {
+          "catalan": "refresc",
+          "image": "refresc"
         }
       ]
     },
@@ -6598,6 +6615,45 @@
             "Dinar"
           ],
           "correct": 3
+        }
+      ]
+    },
+    {
+      "id": "el-menjar-6",
+      "type": "copy-word",
+      "prompt": "Llegeix i copia els aliments del berenar i el sopar:",
+      "words": [
+        {
+          "catalan": "sandvitx",
+          "image": "sandvitx"
+        },
+        {
+          "catalan": "iogurt",
+          "image": "iogurt"
+        },
+        {
+          "catalan": "hamburguesa",
+          "image": "hamburguesa"
+        },
+        {
+          "catalan": "truita de patates",
+          "image": "truita-de-patates"
+        },
+        {
+          "catalan": "sopa",
+          "image": "sopa"
+        },
+        {
+          "catalan": "pizza",
+          "image": "pizza"
+        },
+        {
+          "catalan": "formatge",
+          "image": "formatge"
+        },
+        {
+          "catalan": "pernil",
+          "image": "pernil"
         }
       ]
     },
@@ -6830,6 +6886,25 @@
       ]
     },
     {
+      "id": "el-menjar-13b",
+      "type": "copy-word",
+      "prompt": "Observa i copia:",
+      "words": [
+        {
+          "catalan": "tovalló",
+          "image": "tovallo"
+        },
+        {
+          "catalan": "nevera",
+          "image": "nevera"
+        },
+        {
+          "catalan": "estovalles",
+          "image": "estovalles"
+        }
+      ]
+    },
+    {
       "id": "el-menjar-14",
       "type": "fill-sentence",
       "prompt": "Completa les frases:",
@@ -6853,55 +6928,12 @@
           ]
         },
         {
-          "text": "M'encanta vestir la taula amb unes boniques ___.",
+          "text": "M'encanta vestir la taula del menjador amb unes boniques ___.",
           "blank": "estovalles",
           "options": [
             "tovalló",
             "estovalles",
             "nevera"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "el-menjar-15",
-      "type": "fill-sentence",
-      "prompt": "Completa amb fred, freda, calent o calenta:",
-      "sentences": [
-        {
-          "text": "El gelat és ___.",
-          "blank": "fred",
-          "options": [
-            "freda",
-            "calent",
-            "fred"
-          ]
-        },
-        {
-          "text": "La pizza és ___.",
-          "blank": "calenta",
-          "options": [
-            "calent",
-            "calenta",
-            "freda"
-          ]
-        },
-        {
-          "text": "El cafè és ___.",
-          "blank": "calent",
-          "options": [
-            "fred",
-            "calent",
-            "calenta"
-          ]
-        },
-        {
-          "text": "La fruita és ___.",
-          "blank": "freda",
-          "options": [
-            "calenta",
-            "fred",
-            "freda"
           ]
         }
       ]
@@ -6953,6 +6985,49 @@
         "sal"
       ],
       "circleMode": true
+    },
+    {
+      "id": "el-menjar-15",
+      "type": "fill-sentence",
+      "prompt": "Completa amb fred, freda, calent o calenta:",
+      "sentences": [
+        {
+          "text": "El gelat és ___.",
+          "blank": "fred",
+          "options": [
+            "freda",
+            "calent",
+            "fred"
+          ]
+        },
+        {
+          "text": "La pizza és ___.",
+          "blank": "calenta",
+          "options": [
+            "calent",
+            "calenta",
+            "freda"
+          ]
+        },
+        {
+          "text": "El cafè és ___.",
+          "blank": "calent",
+          "options": [
+            "fred",
+            "calent",
+            "calenta"
+          ]
+        },
+        {
+          "text": "La fruita és ___.",
+          "blank": "freda",
+          "options": [
+            "calenta",
+            "fred",
+            "freda"
+          ]
+        }
+      ]
     },
     {
       "id": "el-menjar-17",
@@ -7318,71 +7393,6 @@
       ]
     },
     {
-      "id": "els-animals-4",
-      "type": "copy-word",
-      "prompt": "Llegeix i copia els peixos:",
-      "words": [
-        {
-          "catalan": "peix",
-          "image": "peix"
-        },
-        {
-          "catalan": "tauró",
-          "image": "tauro"
-        },
-        {
-          "catalan": "sardina",
-          "image": "sardina"
-        }
-      ]
-    },
-    {
-      "id": "els-animals-4b",
-      "type": "copy-word",
-      "prompt": "Llegeix i copia aquests animals:",
-      "words": [
-        {
-          "catalan": "flamenc",
-          "image": "flamenc"
-        },
-        {
-          "catalan": "ànec",
-          "image": "anec"
-        },
-        {
-          "catalan": "oca",
-          "image": "oca"
-        },
-        {
-          "catalan": "granota",
-          "image": "granota"
-        },
-        {
-          "catalan": "unicorn",
-          "image": "unicorn"
-        }
-      ]
-    },
-    {
-      "id": "els-animals-5",
-      "type": "copy-word",
-      "prompt": "Llegeix i copia els rèptils:",
-      "words": [
-        {
-          "catalan": "serp",
-          "image": "serp"
-        },
-        {
-          "catalan": "tortuga",
-          "image": "tortuga"
-        },
-        {
-          "catalan": "cocodril",
-          "image": "cocodril"
-        }
-      ]
-    },
-    {
       "id": "els-animals-6",
       "type": "classify-columns",
       "prompt": "Classifica cada animal a la seva categoria:",
@@ -7440,6 +7450,25 @@
       ]
     },
     {
+      "id": "els-animals-4",
+      "type": "copy-word",
+      "prompt": "Llegeix i copia els peixos:",
+      "words": [
+        {
+          "catalan": "peix",
+          "image": "peix"
+        },
+        {
+          "catalan": "tauró",
+          "image": "tauro"
+        },
+        {
+          "catalan": "sardina",
+          "image": "sardina"
+        }
+      ]
+    },
+    {
       "id": "els-animals-6c",
       "type": "classify-columns",
       "prompt": "Classifica: animal domèstic o salvatge?",
@@ -7484,81 +7513,29 @@
       "circleMode": true
     },
     {
-      "id": "els-animals-8",
+      "id": "els-animals-4b",
       "type": "copy-word",
-      "prompt": "Llegeix i copia els mamífers:",
+      "prompt": "Llegeix i copia aquests animals:",
       "words": [
         {
-          "catalan": "gos",
-          "image": "gos"
+          "catalan": "flamenc",
+          "image": "flamenc"
         },
         {
-          "catalan": "gat",
-          "image": "gat"
+          "catalan": "ànec",
+          "image": "anec"
         },
         {
-          "catalan": "conill",
-          "image": "conill"
+          "catalan": "oca",
+          "image": "oca"
         },
         {
-          "catalan": "cavall",
-          "image": "cavall"
+          "catalan": "granota",
+          "image": "granota"
         },
         {
-          "catalan": "porc",
-          "image": "porc"
-        },
-        {
-          "catalan": "vaca",
-          "image": "vaca"
-        },
-        {
-          "catalan": "ratolí",
-          "image": "ratoli"
-        },
-        {
-          "catalan": "ovella",
-          "image": "ovella"
-        },
-        {
-          "catalan": "hipopòtam",
-          "image": "hipopotam"
-        },
-        {
-          "catalan": "goril·la",
-          "image": "gorila"
-        },
-        {
-          "catalan": "zebra",
-          "image": "zebra"
-        },
-        {
-          "catalan": "ós",
-          "image": "os"
-        },
-        {
-          "catalan": "lleó",
-          "image": "lleo"
-        },
-        {
-          "catalan": "camell",
-          "image": "camell"
-        },
-        {
-          "catalan": "elefant",
-          "image": "elefant"
-        },
-        {
-          "catalan": "tigre",
-          "image": "tigre"
-        },
-        {
-          "catalan": "llop",
-          "image": "llop"
-        },
-        {
-          "catalan": "guineu",
-          "image": "guineu"
+          "catalan": "unicorn",
+          "image": "unicorn"
         }
       ]
     },
@@ -7587,6 +7564,25 @@
         {
           "left": "papallona",
           "right": "insecte"
+        }
+      ]
+    },
+    {
+      "id": "els-animals-5",
+      "type": "copy-word",
+      "prompt": "Llegeix i copia els rèptils:",
+      "words": [
+        {
+          "catalan": "serp",
+          "image": "serp"
+        },
+        {
+          "catalan": "tortuga",
+          "image": "tortuga"
+        },
+        {
+          "catalan": "cocodril",
+          "image": "cocodril"
         }
       ]
     },
@@ -7633,6 +7629,37 @@
         "tortuga"
       ],
       "circleMode": true
+    },
+    {
+      "id": "els-animals-8-1",
+      "type": "copy-word",
+      "prompt": "Llegeix i copia els mamífers: (1 de 3).",
+      "words": [
+        {
+          "catalan": "gos",
+          "image": "gos"
+        },
+        {
+          "catalan": "gat",
+          "image": "gat"
+        },
+        {
+          "catalan": "conill",
+          "image": "conill"
+        },
+        {
+          "catalan": "cavall",
+          "image": "cavall"
+        },
+        {
+          "catalan": "porc",
+          "image": "porc"
+        },
+        {
+          "catalan": "vaca",
+          "image": "vaca"
+        }
+      ]
     },
     {
       "id": "els-animals-11",
@@ -7773,6 +7800,37 @@
       ]
     },
     {
+      "id": "els-animals-8-2",
+      "type": "copy-word",
+      "prompt": "Llegeix i copia els mamífers: (2 de 3).",
+      "words": [
+        {
+          "catalan": "ratolí",
+          "image": "ratoli"
+        },
+        {
+          "catalan": "ovella",
+          "image": "ovella"
+        },
+        {
+          "catalan": "hipopòtam",
+          "image": "hipopotam"
+        },
+        {
+          "catalan": "goril·la",
+          "image": "gorila"
+        },
+        {
+          "catalan": "zebra",
+          "image": "zebra"
+        },
+        {
+          "catalan": "ós",
+          "image": "os"
+        }
+      ]
+    },
+    {
       "id": "els-animals-12",
       "type": "color-by-instruction",
       "prompt": "Pinta cada animal del color que et diu:",
@@ -7822,6 +7880,37 @@
           "text": "Pinta la tortuga de color lila",
           "targetColor": "lila",
           "targetItem": "tortuga"
+        }
+      ]
+    },
+    {
+      "id": "els-animals-8-3",
+      "type": "copy-word",
+      "prompt": "Llegeix i copia els mamífers: (3 de 3).",
+      "words": [
+        {
+          "catalan": "lleó",
+          "image": "lleo"
+        },
+        {
+          "catalan": "camell",
+          "image": "camell"
+        },
+        {
+          "catalan": "elefant",
+          "image": "elefant"
+        },
+        {
+          "catalan": "tigre",
+          "image": "tigre"
+        },
+        {
+          "catalan": "llop",
+          "image": "llop"
+        },
+        {
+          "catalan": "guineu",
+          "image": "guineu"
         }
       ]
     },
@@ -10151,6 +10240,37 @@
       ]
     },
     {
+      "id": "els-oficis-13",
+      "type": "matching",
+      "prompt": "Relaciona cada eina amb el seu ofici:",
+      "pairs": [
+        {
+          "left": "estetoscopi",
+          "right": "metge"
+        },
+        {
+          "left": "extintor",
+          "right": "bomber"
+        },
+        {
+          "left": "xeringa",
+          "right": "infermer"
+        },
+        {
+          "left": "paella",
+          "right": "cuiner"
+        },
+        {
+          "left": "pissarra",
+          "right": "mestre"
+        },
+        {
+          "left": "tisores",
+          "right": "jardiner"
+        }
+      ]
+    },
+    {
       "id": "els-oficis-12",
       "type": "fill-sentence",
       "prompt": "Endevina quin ofici és:",
@@ -10199,37 +10319,6 @@
             "metge",
             "pilot"
           ]
-        }
-      ]
-    },
-    {
-      "id": "els-oficis-13",
-      "type": "matching",
-      "prompt": "Relaciona cada eina amb el seu ofici:",
-      "pairs": [
-        {
-          "left": "estetoscopi",
-          "right": "metge"
-        },
-        {
-          "left": "extintor",
-          "right": "bomber"
-        },
-        {
-          "left": "xeringa",
-          "right": "infermer"
-        },
-        {
-          "left": "paella",
-          "right": "cuiner"
-        },
-        {
-          "left": "pissarra",
-          "right": "mestre"
-        },
-        {
-          "left": "tisores",
-          "right": "jardiner"
         }
       ]
     },

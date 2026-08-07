@@ -70,7 +70,12 @@ const STATES: Record<MascotEvent, MascotState> = {
   wrong: { variant: "stit", motion: "sway", duration: 1600, scale: 1.05 },
   matchFail: { variant: "led", motion: "wiggle", duration: 1400 },
   hintOffer: { variant: "carobnjak", motion: "appear", duration: 2000, scale: 1.15 },
-  silence: { variant: "duh", motion: "appear", duration: 3200, scale: 1.05 },
+  // ĆUTANJE — bilo je `duh` (providan lik) i vlasnica ga je 03.08.2026. pročitala
+  // kao kvar: „posle par sekundi se pretvore u providne, to jest ledene".
+  // I s pravom — dete koje razmišlja nad zadatkom vidi kako mu heroji blede, a
+  // to liči na grešku, ne na pitanje „jesi li tu". Sada lik ostaje pun i samo
+  // mahne rukom u pozi. Providnost se više ne koristi ni u jednom stanju.
+  silence: { variant: "poza", motion: "wiggle", duration: 1600, scale: 1.08 },
 };
 
 export function getMascotState(event: MascotEvent): MascotState {
@@ -91,6 +96,57 @@ export function getMascotEvent(
 
 export function mascotImage(character: MascotCharacter, variant: MascotVariant): string {
   return `/mascot/${character}-${variant}.webp`;
+}
+
+/**
+ * TREPTAJ (03.08.2026) — postoji za mirno stanje, gde lik i provede najviše vremena.
+ *
+ * Slika sa zatvorenim očima nije nova generacija nego je napravljena IZ ISTE SLIKE
+ * (`scripts/napravi-treptaj.py`): kapak se nacrta preko oka, a boja kože se uzme sa
+ * te slike. Zato se dva kadra poklapaju u piksel i smena se ne primeti. Nova
+ * generacija bi dala lik koji je sličan ali ne isti, pa bi treptaj izgledao kao
+ * poskakivanje glave.
+ *
+ * Vraća `null` za varijante za koje kadar nije napravljen — tada lik prosto ne trepće.
+ */
+const IMA_TREPTAJ: MascotVariant[] = ["let-oblaci", "poza"];
+
+export function mascotBlinkImage(
+  character: MascotCharacter,
+  variant: MascotVariant
+): string | null {
+  return IMA_TREPTAJ.includes(variant)
+    ? `/mascot/${character}-${variant}-oci.webp`
+    : null;
+}
+
+/**
+ * POZA ZA CRTANI LIK (`SuperheroSvg`) — 03.08.2026.
+ *
+ * Gotove slike su ostale u `public/mascot/` i i dalje se koriste na početnoj
+ * strani i u proslavama, ali lik koji stoji uz zadatak sada je crtež u
+ * slojevima, pa mu treba POZA, ne ime slike. Ovde je jedino mesto koje
+ * prevodi „šta se desilo u igri" u „kako lik stoji".
+ */
+export type MascotPoza = "mirno" | "navija" | "stit" | "maha" | "pita";
+
+const POZE: Record<MascotEvent, MascotPoza> = {
+  idle: "mirno",
+  greeting: "maha",
+  correct: "navija",
+  streak2: "navija",
+  streak3: "navija",
+  streak5: "navija",
+  themeComplete: "navija",
+  themePerfect: "navija",
+  wrong: "stit",
+  matchFail: "stit",
+  hintOffer: "pita",
+  silence: "maha",
+};
+
+export function getMascotPoza(event: MascotEvent): MascotPoza {
+  return POZE[event] ?? "mirno";
 }
 
 /**

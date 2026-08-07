@@ -1,6 +1,7 @@
 import { Task } from "@/types/tasks";
 
 export const elsOficisTasks: Task[] = [
+
   {
     id: "els-oficis-1",
     type: "copy-word",
@@ -231,6 +232,19 @@ export const elsOficisTasks: Task[] = [
     ],
   },
   {
+    id: "els-oficis-13",
+    type: "matching",
+    prompt: "Relaciona cada eina amb el seu ofici:",
+    pairs: [
+      { left: "estetoscopi", right: "metge" },
+      { left: "extintor", right: "bomber" },
+      { left: "xeringa", right: "infermer" },
+      { left: "paella", right: "cuiner" },
+      { left: "pissarra", right: "mestre" },
+      { left: "tisores", right: "jardiner" },
+    ],
+  },
+  {
     id: "els-oficis-12",
     type: "fill-sentence",
     prompt: "Endevina quin ofici és:",
@@ -260,19 +274,6 @@ export const elsOficisTasks: Task[] = [
         blank: "pilot",
         options: ["bomber", "metge", "pilot"],
       },
-    ],
-  },
-  {
-    id: "els-oficis-13",
-    type: "matching",
-    prompt: "Relaciona cada eina amb el seu ofici:",
-    pairs: [
-      { left: "estetoscopi", right: "metge" },
-      { left: "extintor", right: "bomber" },
-      { left: "xeringa", right: "infermer" },
-      { left: "paella", right: "cuiner" },
-      { left: "pissarra", right: "mestre" },
-      { left: "tisores", right: "jardiner" },
     ],
   },
   {

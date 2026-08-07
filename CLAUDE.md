@@ -1,6 +1,14 @@
 # CLAUDE.md - Katalonski Project Context
 
 ## OBAVEZNO PRAVILO #1 - SVESKA JE IZVOR ISTINE (HIGHEST PRIORITY)
+
+> **POJAŠNJENJE VLASNICE 06.08.2026 — pročitati pre bilo kakve izmene sadržaja:**
+> Sveska se prati zato što su je pisali **profesori katalonskog** — dakle
+> obavezan je SADRŽAJ: sve reči, sve rečenice, svi zadaci, ništa se ne izbacuje.
+> **Redosled zadataka i same slike NE moraju biti isti kao u svesci.** Aplikacija
+> sme da presloži zadatke i da ima svoje ilustracije. Ranije je ovde stajalo
+> „tačan redosled", pa je jedna sesija oklevala da razbije nizove istog tipa
+> zadatka iako je to očigledno bilo bolje za dete.
 **Fizicka radna sveska (folder `Svi zadaci/`) je JEDINI izvor istine za sadrzaj aplikacije.** Sve reci, recenice, zadaci i ilustracije MORAJU da se poklapaju sa sveskom. NE SME da fali nijedna rec, recenica ni ilustracija iz sveske.
 - **Pre bilo kakvog rada na sadrzaju:** Uporedi podatke u `src/data/` sa odgovarajucim slikama iz `Svi zadaci/`
 - **Prioritet ilustracija:** PRVO se rade SVE ilustracije za reci koje se pojavljuju u svesci. TEK NAKON toga se rade ilustracije za dodatne reci iz zadataka koji nisu u svesci.
@@ -47,7 +55,7 @@
 - Ako ilustracija fali, prazno mesto se prikazuje (NE emoji - `getWordEmoji()` je dead code).
 
 ## Project Overview
-Interactive Catalan language learning web app for children (ages 5-8). Engine-based architecture renders 19 task types across 12 themes from TypeScript data files. Two superhero mascots (girl bottom-left, boy bottom-right) react in Catalan. Total: **212 tasks** (prebrojano u fajlovima 31.07.2026 — ranije je pisalo ~226, netačno).
+Interactive Catalan language learning web app for children (ages 5-8). Engine-based architecture renders 19 task types across 12 themes from TypeScript data files. Two superhero mascots (girl bottom-left, boy bottom-right) react in Catalan. Total: **222 tasks** (prebrojano u fajlovima 31.07.2026 — ranije je pisalo ~226, netačno).
 
 ## Tech Stack
 - **Framework:** Next.js 16 (App Router) + React 19 + TypeScript
@@ -186,6 +194,102 @@ npm run test:ui  # Playwright UI mode
 
 ### In Progress
 - Nothing in progress
+
+### Recently Completed (Aug 7, 2026) — ujednačen stil ilustracija
+- **7 slika ponovo napravljeno** (ChatGPT, GPT-4o): `iogurt`, `sopa`, `cafe`, `te`,
+  `macarrons`, `entrepa`, `cereals`. Sve su bile u ravnom „Bing" stilu sa debelom
+  crnom konturom, među mekim 3D slikama — u JEDNOM zadatku (tema 8, „Fred o calent")
+  dete je videlo tri različita rukopisa.
+- **`iogurt` je krišom kršio pravilo #0**: na čaši je pisalo „Yogurt" — tekst na
+  ilustraciji, i to engleskim oblikom, dok dete uči katalonsko „iogurt". Nova nema
+  nikakav natpis. Pokušaj da se natpis obriše iz same slike NIJE uspeo (podloga je
+  šarena traka, boja se razlila) — takve stvari idu na ponovno generisanje.
+- **`estovalles`** napravljena jer je falila zadatku „Observa" iz sveske.
+- Alat: `scripts/`… postupak je u ovom fajlu, odeljak „Illustration Workflow".
+  Skidanje iz ChatGPT-a bez ručnog klikanja: `fetch(src) → blob → <a download>`.
+- Keš servisnog radnika podignut na `catala-v33`. **Bez toga stare slike ostaju
+  kod deteta na tabletu** — provereno: vlasnica je pola dana gledala staru verziju
+  aplikacije iako je server imao novu.
+
+### Recently Completed (Aug 6, 2026)
+- **Zadaci se više ne ponavljaju po tipu.** Bilo je 24 mesta gde isti tip stoji
+  jedan za drugim (kod pet tema baš na početku: 3 prepisivanja zaredom) — sada **2**.
+  Alat: `scripts/presloziti-tipove.py` (probni prolaz bez `--upisi`). Pomera
+  najmanje moguće: kad se tip ponovi, dovede NAJBLIŽI sledeći zadatak drugog tipa.
+  Bonus zadaci ostaju na kraju. Nijedan zadatak nije obrisan ni izmenjen — provereno
+  poređenjem skupa ID-jeva pre i posle.
+  **Zamka pri pisanju alata:** prva `[` posle `export const` je ona u TIPU (`Task[]`),
+  ne početak niza — tražiti `= [`. Prva verzija je pojela `] = [` u svih 12 fajlova.
+- **Slike množine za temu 8** (`tasses`, `gots`, `plats`…): složene od slike za
+  jedninu u tri primerka (`scripts/napravi-mnozinu.py`), namerno ISTI predmet
+  umnožen — dete tako vidi da množina nije druga stvar nego ista u više komada.
+  U zadatku spajanja slika iskoči **tek kad je par tačno spojen**, da dete mora
+  da pročita reč umesto da spaja sliku sa slikom.
+- **Proslava usred teme prikazuje HEROJE, ne zvezdu** (`MiniCelebration`).
+  Zvezda po dogovoru ostaje samo u savetima, na početnoj i kao slika nivoa.
+- **Traka sa dugmadima je `fixed`, ne `sticky`** — `sticky` se drži za dno STRANICE,
+  pa je na nižem prozoru „Següent" padalo ispod vidljivog dela. Izmereno kod
+  vlasnice: vidljivo 812 px, strana misli 900 px.
+- **„Pogledaj ovde"**: posle 12 s bez dodira prva neodgovorena kartica dobije mek
+  prsten (`.pokazi-ovde`). Prsten je `box-shadow`, ne `border` — border bi pomerio
+  sadržaj za 3 px i red kartica bi poskočio.
+
+### Recently Completed (Aug 3, 2026) — širina zadataka i maskote
+- **Zadaci koriste širinu ekrana (nalaz S6).** `main` je bio `max-w-2xl` (672 px);
+  sada `.task-shell` = `min(1440px, 100vw - 15rem)` → 1272 px na ekranu od 1512 px.
+  Nove pomoćne klase u `globals.css`: `.task-shell`, `.task-cards`, `.task-cards-fill`,
+  `.task-action-bar`. Broj kolona se više nigde ne piše rukom nego se računa iz širine
+  („auto-fit + minmax"); gornja granica kolone MORA biti `1fr`, inače pregledač broji
+  kolone po najvećoj širini i napravi ih premalo.
+- Izmenjeno 12 komponenti zadataka + `WordSearch` (spisak reči pored mreže, polja 56 px),
+  `FillSentence` (kartice se rastežu, ponuđene reči jedna ispod druge, iste visine),
+  `FillLetters`/`WriteAntonym` (reči u više kolona umesto jedna ispod druge).
+  Rezultat: `la-classe` 8. zadatak 1575 px → **900 px** (bez pomeranja), 3. zadatak
+  3599 px → 1519 px.
+- **MASKOTE TREPĆU (03.08.2026)** — bez ijedne nove generacije u ChatGPT-u.
+  Kadar sa zatvorenim očima pravi `scripts/napravi-treptaj.py`: kapak se DOCRTA preko
+  originalne slike, a boja kože se uzme sa te iste slike (medijana pojasa ispod oka).
+  Zato se dva kadra poklapaju u piksel i u ton, pa se smena ne primeti.
+  **Zašto ne ChatGPT:** na zahtev „ista slika, zatvorene oči" dobija se lik koji je
+  SLIČAN ali ne isti — glava pomerena par piksela, obraz drugačiji za pola tona. Kad se
+  takva dva kadra smene za 0,14 s, oko to vidi kao poskakivanje glave, ne kao treptaj.
+  Postoji za `let-oblaci` i `poza` (`IMA_TREPTAJ` u `src/lib/mascot.ts`); za ostale
+  varijante lik ne trepće. Izmereno: dečak trepnuo na 1,8 / 5,4 / 10,3 s, devojčica na
+  2,8 / 7,0 / 10,6 s — svaki svojim ritmom, nikad istovremeno.
+- **ODLUKA O MASKOTAMA (03.08.2026): ostaju GOTOVE 3D ILUSTRACIJE.**
+  Probano je da lik bude crtež u slojevima (SVG) da bi mogao da trepće, priča i diže
+  ruke — sve je radilo, ali ravan vektor pored 363 mekane 3D ilustracije izgleda kao da
+  su iz dve različite aplikacije. Vlasnica je to odbila i ujednačen izgled je pretegao.
+  Crtež NIJE obrisan: stoji u `src/components/mascot/SuperheroSvg.tsx` sa svom logikom
+  pokreta (treptaj 3–6 s, usta koja prate govor preko `pretplatiSeNaGovor` iz `lib/tts.ts`,
+  uglovi ruku po pozi). Sledeći korak je da se ISTI 3D lik izvuče iz ChatGPT-a u
+  varijantama (zatvorene oči, otvorena usta, ruke u vis) za JEDAN par likova
+  (`devojcica-let-oblaci`, `decak-let-oblaci` — oba sa plaštom), pa da se u tom fajlu
+  `<path>` zameni sa `<image>`. Tada je lik i lep i živ.
+  **Zamka za taj posao:** Framer Motion upisuje `transform-box: fill-box`, pa se uporište
+  rotacije meri od ivice SAMOG elementa — ruke odlete sa tela. Grupe koje se okreću oko
+  tačke u koordinatama crteža moraju imati `transformBox: "view-box"` PLUS Framerove
+  `originX`/`originY` (obično CSS `transformOrigin` Framer pregazi svojim „50% 50%").
+- ~~Maskote su prestale da budu slike i postale crtež u slojevima~~ (povučeno istog dana)
+  (`src/components/mascot/SuperheroSvg.tsx`). Gotova slika je jedan komad, pa je kod mogao
+  samo da je zameni drugom — otud utisak „pomera se slika, a ne oni". Sada svaki deo ima
+  svoj pokret: kapci (treptaj svakih 3–6 s), usta (prate izgovaranje reči preko
+  `pretplatiSeNaGovor` u `lib/tts.ts`), obe ruke (dižu se u vis kad dete pogodi), plašt.
+  Poza se dobija iz događaja u igri (`getMascotPoza`). Slike u `public/mascot/` ostaju
+  za početnu stranu i nivoe.
+  **Zamka:** Framer Motion upisuje `transform-box: fill-box`, pa se uporište rotacije meri
+  od ivice SAMOG elementa — ruke su odletele sa tela. Grupe koje se okreću oko tačke u
+  koordinatama crteža moraju imati `transformBox: "view-box"` PLUS Framerove `originX`/
+  `originY` (obično CSS `transformOrigin` Framer pregazi svojim „50% 50%").
+- **Maskote više nisu providne ni u jednom stanju** (stanje `silence` bilo je „duh",
+  vlasnica ga je čitala kao kvar) i ne stoje preko trake sa dugmadima (`bottom-24`).
+- **Pet predugačkih zadataka podeljeno na po tri** (`la-classe-1`, `la-classe-3`,
+  `la-roba-1`, `els-animals-8`, `el-cos-1`): 21/21/21/18/15 reči → po 3 koraka.
+  Nijedna reč nije izbačena. Ukupno 212 → **222 zadatka**. Odgovori za Playwright
+  regenerisani: `node e2e/qa/extract-tasks.mjs` pa
+  `node e2e/shared/fixtures/generate-theme-answers.mjs`.
+- **Pre-deploy test:** dodata provera 12 „Zadatak koristi širinu ekrana"; pada na starom
+  kodu, prolazi na novom. Pun test: **12/12**. Keš servisnog radnika `catala-v31` → `v32`.
 
 ### Recently Completed (Feb 9, 2026)
 - **Word-search grid fixes:** el-cos-7 (6x9→9x9, "hombro"→"espatlla"), la-casa-2 (7x9→9x9), la-familia-14 (7x9→8x8)
@@ -406,21 +510,22 @@ All 18 missing illustrations have been generated via ChatGPT custom GPT:
 ## Task Counts Per Theme
 | Theme | Slug | Tasks |
 |-------|------|-------|
-| 1. La classe | la-classe | 17 |
+| 1. La classe | la-classe | 21 |
 | 2. L'escola | l-escola | 18 |
-| 3. El cos | el-cos | 17 |
-| 4. La roba | la-roba | 14 |
+| 3. El cos | el-cos | 19 |
+| 4. La roba | la-roba | 16 |
 | 5. La casa | la-casa | 24 |
 | 6. La família | la-familia | 15 |
 | 7. Les botigues | les-botigues | 20 |
 | 8. El menjar | el-menjar | 21 |
-| 9. Els animals | els-animals | 23 |
+| 9. Els animals | els-animals | 25 |
 | 10. La ciutat | la-ciutat | 15 |
 | 11. Els vehicles | els-vehicles | 13 |
 | 12. Els oficis | els-oficis | 15 |
-| **Total** | | **212** |
+| **Total** | | **222** |
 
-> Prebrojano u fajlovima 31.07.2026. Ranija tabela je bila netačna za 8 od 12 tema.
+> Prebrojano u fajlovima 03.08.2026. Porast sa 212 na 222 je od deljenja pet predugačkih
+> zadataka (21/21/21/18/15 reči) na po tri manja — nijedna reč nije izbačena.
 
 ## Important Notes
 - Theme slugs match filenames: `la-classe`, `l-escola`, `el-cos`, etc.

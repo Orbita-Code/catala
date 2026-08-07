@@ -4,7 +4,7 @@
 > Popravljeno se briše odavde (ostaje u izveštaju audita tog dana).
 > Nalaz otvoren duže od 3 audita posebno se ističe.
 
-Poslednje ažuriranje: **31.07.2026.** (peta dopuna)
+Poslednje ažuriranje: **03.08.2026.** (šesta dopuna)
 
 ## Kritično
 
@@ -103,6 +103,34 @@ to je zapis šta piše u svesci, a ne šta koristi aplikacija.
   prijavljuje. Dokazano da radi: pre popravke V2 kapija je **padala** baš na toj
   proveri, posle popravke prolazi (izlazni kod 0).
   Otvoreni nalazi S1 i S2 su u njoj kao upozorenja — **kad se poprave, prebaciti ih u BLOK**.
+
+## Popravljeno 03.08.2026. (ne vraćati se na ovo)
+
+- **S6 — zadatak koristio 44% širine ekrana.** Prijavila vlasnica.
+  Sadržaj zadatka stajao je u okviru od najviše **672 px** (`max-w-2xl` u
+  `TemaContent.tsx`), dok je traka napretka išla celom širinom. Na ekranu od
+  1512 px to je ostavljalo **840 px prazno**, pa su kartice padale u dva-tri
+  reda i drugi red je završavao **ispod donje ivice** — dete ne zna da ima još
+  dole, pa ne vidi ni mrežu slova ni dugme „Comprova!".
+
+  | Šta je bilo | Šta je sada |
+  |---|---|
+  | okvir zadatka 672 px (44% ekrana) | 1272 px (84%), po 120 px sa strane za maskote |
+  | `la-classe` 8. zadatak: 7 kartica u 3 reda, visina strane 1575 px | 7 kartica u **1 redu**, visina 900 px — **bez pomeranja** |
+  | `la-classe` 9. zadatak: 5 kartica u 2 reda | 5 kartica u **1 redu** |
+  | `la-classe` 3. zadatak: 21 reč u 21 redu, visina 3599 px | 3 u redu, visina 1519 px |
+  | slika uz rečenicu 120 px, tvrdo upisana | prati širinu kartice, do 200 px |
+  | „Sopa de lletres": spisak reči **iznad** mreže, mreža ispod ivice | spisak **pored** mreže, polja 56 px umesto 48 |
+  | „Comprova!" na kraju dugačkog sadržaja | lepi se za dno ekrana (`task-action-bar`) |
+
+  Uzrok u kodu bio je na dva mesta i oba su morala da se poprave: (1) okvir
+  `max-w-2xl`, (2) tvrdo upisane širine kartica (`w-[140px] md:w-[160px]`) i
+  ručno napisan broj kolona (`md:grid-cols-6`). Popravak je zajednički —
+  `.task-shell` i `.task-cards` u `globals.css`, pa ih koristi 12 komponenti.
+
+  **Čuva ga provera S6** u `e2e/predeploy.mjs`: meri širinu okvira i broji
+  redove kartica. Puštena protiv **starog koda** (zaseban build, port 3300):
+  **pada** — „okvir 672px (44% ekrana)". Na novom: **prolazi**, 12/12 provera.
 
 ## Popravljeno 31.07.2026. (ne vraćati se na ovo)
 

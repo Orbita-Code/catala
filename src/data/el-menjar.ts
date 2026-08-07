@@ -1,6 +1,7 @@
 import { Task } from "@/types/tasks";
 
 export const elMenjarTasks: Task[] = [
+
   // === Workbook Ex. 1: Llegeix i copia (tableware 9) ===
   {
     id: "el-menjar-1",
@@ -55,41 +56,6 @@ export const elMenjarTasks: Task[] = [
     ],
   },
 
-  // === Workbook Ex. 5: Observa aliments dinar (9) ===
-  {
-    id: "el-menjar-5",
-    type: "copy-word",
-    prompt: "Llegeix i copia els aliments del dinar:",
-    words: [
-      { catalan: "verdures", image: "verdures" },
-      { catalan: "arròs", image: "arros" },
-      { catalan: "macarrons", image: "macarrons" },
-      { catalan: "amanida", image: "amanida" },
-      { catalan: "patates fregides", image: "patates-fregides" },
-      { catalan: "pollastre", image: "pollastre" },
-      { catalan: "pa", image: "pa" },
-      { catalan: "aigua", image: "aigua" },
-      { catalan: "refresc", image: "refresc" },
-    ],
-  },
-
-  // === Workbook Ex. 6+7: Observa berenar (3) + sopar (6) ===
-  {
-    id: "el-menjar-6",
-    type: "copy-word",
-    prompt: "Llegeix i copia els aliments del berenar i el sopar:",
-    words: [
-      { catalan: "sandvitx", image: "sandvitx" },
-      { catalan: "iogurt", image: "iogurt" },
-      { catalan: "hamburguesa", image: "hamburguesa" },
-      { catalan: "truita de patates", image: "truita-de-patates" },
-      { catalan: "sopa", image: "sopa" },
-      { catalan: "pizza", image: "pizza" },
-      { catalan: "formatge", image: "formatge" },
-      { catalan: "pernil", image: "pernil" },
-    ],
-  },
-
   // === Workbook Ex. 8: I tu, què menges? ===
   {
     id: "el-menjar-7",
@@ -119,6 +85,24 @@ export const elMenjarTasks: Task[] = [
     ],
   },
 
+  // === Workbook Ex. 5: Observa aliments dinar (9) ===
+  {
+    id: "el-menjar-5",
+    type: "copy-word",
+    prompt: "Llegeix i copia els aliments del dinar:",
+    words: [
+      { catalan: "verdures", image: "verdures" },
+      { catalan: "arròs", image: "arros" },
+      { catalan: "macarrons", image: "macarrons" },
+      { catalan: "amanida", image: "amanida" },
+      { catalan: "patates fregides", image: "patates-fregides" },
+      { catalan: "pollastre", image: "pollastre" },
+      { catalan: "pa", image: "pa" },
+      { catalan: "aigua", image: "aigua" },
+      { catalan: "refresc", image: "refresc" },
+    ],
+  },
+
   // === Workbook Ex. 9: interactive version ===
   {
     id: "el-menjar-8",
@@ -145,6 +129,23 @@ export const elMenjarTasks: Task[] = [
         options: ["Esmorzar", "Berenar", "Sopar", "Dinar"],
         correct: 3,
       },
+    ],
+  },
+
+  // === Workbook Ex. 6+7: Observa berenar (3) + sopar (6) ===
+  {
+    id: "el-menjar-6",
+    type: "copy-word",
+    prompt: "Llegeix i copia els aliments del berenar i el sopar:",
+    words: [
+      { catalan: "sandvitx", image: "sandvitx" },
+      { catalan: "iogurt", image: "iogurt" },
+      { catalan: "hamburguesa", image: "hamburguesa" },
+      { catalan: "truita de patates", image: "truita-de-patates" },
+      { catalan: "sopa", image: "sopa" },
+      { catalan: "pizza", image: "pizza" },
+      { catalan: "formatge", image: "formatge" },
+      { catalan: "pernil", image: "pernil" },
     ],
   },
 
@@ -274,6 +275,23 @@ export const elMenjarTasks: Task[] = [
     ],
   },
 
+  // === Workbook Ex. 14: „Observa" — tovalló / nevera / estovalles ===
+  // FALIO JE DO 06.08.2026. U aplikaciji je postojao samo Ex. 15 („Completa"),
+  // pa je dete prvi put u životu videlo reč `estovalles` tek kao ponuđeni
+  // odgovor — bez slike, bez ijednog ranijeg pominjanja. Vlasnica je to
+  // prijavila kao „poslednja rečenica nema tačan odgovor"; odgovor je postojao,
+  // ali ga dete nije imalo odakle znati. Sveska te tri reči PRVO pokaže.
+  {
+    id: "el-menjar-13b",
+    type: "copy-word",
+    prompt: "Observa i copia:",
+    words: [
+      { catalan: "tovalló", image: "tovallo" },
+      { catalan: "nevera", image: "nevera" },
+      { catalan: "estovalles", image: "estovalles" },
+    ],
+  },
+
   // === Workbook Ex. 14+15: Observa tovalló/nevera/estovalles + Completa ===
   {
     id: "el-menjar-14",
@@ -291,38 +309,9 @@ export const elMenjarTasks: Task[] = [
         options: ["nevera", "estovalles", "tovalló"],
       },
       {
-        text: "M'encanta vestir la taula amb unes boniques ___.",
+        text: "M'encanta vestir la taula del menjador amb unes boniques ___.",
         blank: "estovalles",
         options: ["tovalló", "estovalles", "nevera"],
-      },
-    ],
-  },
-
-  // === Workbook Ex. 16: MASCULÍ / FEMENÍ ===
-  {
-    id: "el-menjar-15",
-    type: "fill-sentence",
-    prompt: "Completa amb fred, freda, calent o calenta:",
-    sentences: [
-      {
-        text: "El gelat és ___.",
-        blank: "fred",
-        options: ["freda", "calent", "fred"],
-      },
-      {
-        text: "La pizza és ___.",
-        blank: "calenta",
-        options: ["calent", "calenta", "freda"],
-      },
-      {
-        text: "El cafè és ___.",
-        blank: "calent",
-        options: ["fred", "calent", "calenta"],
-      },
-      {
-        text: "La fruita és ___.",
-        blank: "freda",
-        options: ["calenta", "fred", "freda"],
       },
     ],
   },
@@ -359,6 +348,35 @@ export const elMenjarTasks: Task[] = [
       "sal",
     ],
     circleMode: true,
+  },
+
+  // === Workbook Ex. 16: MASCULÍ / FEMENÍ ===
+  {
+    id: "el-menjar-15",
+    type: "fill-sentence",
+    prompt: "Completa amb fred, freda, calent o calenta:",
+    sentences: [
+      {
+        text: "El gelat és ___.",
+        blank: "fred",
+        options: ["freda", "calent", "fred"],
+      },
+      {
+        text: "La pizza és ___.",
+        blank: "calenta",
+        options: ["calent", "calenta", "freda"],
+      },
+      {
+        text: "El cafè és ___.",
+        blank: "calent",
+        options: ["fred", "calent", "calenta"],
+      },
+      {
+        text: "La fruita és ___.",
+        blank: "freda",
+        options: ["calenta", "fred", "freda"],
+      },
+    ],
   },
 
   // === Workbook Ex. 19-20: Menú del restaurant ===

@@ -60,6 +60,8 @@ export default function TemaContent({ slug }: TemaContentProps) {
   const themeIndex = themes.findIndex((t) => t.slug === slug);
   const tasks = taskData[slug] || [];
   const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
+  /** Da li je otvoren spisak svih zadataka (skok na bilo koji) */
+  const [spisakOtvoren, setSpisakOtvoren] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
   const [streak, setStreak] = useState(0);
   const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
@@ -254,6 +256,18 @@ export default function TemaContent({ slug }: TemaContentProps) {
   const scoringIndex = isBonus ? scoringCount : currentTaskIndex + 1;
   const progress = Math.min(((currentTaskIndex + 1) / tasks.length) * 100, 100);
   void retryTick;
+
+  /**
+   * ID-jevi završenih zadataka — za zelene oznake u spisku zadataka.
+   *
+   * NAMERNO NIJE `useMemo`: iznad ove linije komponenta ume da izađe ranije
+   * (nema teme / nije montirano / nema zadataka), a kuka posle ranog izlaza
+   * je zabranjena — React tada javi „Rendered more hooks than during the
+   * previous render" i strana ostane prazna. Ovo je obično računanje i radi
+   * se SAMO dok je spisak otvoren, pa se `localStorage` ne dira bez potrebe.
+   */
+  const zavrseniIds =
+    spisakOtvoren && mounted ? getThemeProgress(slug).completedTasks : [];
   const isTaskCompleted = justCompletedTaskId !== currentTask.id && getThemeProgress(slug).completedTasks.includes(currentTask.id);
 
   const handleTaskComplete = (taskResult: TaskResult) => {
@@ -454,7 +468,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
     return (
       <div className="min-h-dvh flex flex-col">
         {/* Header */}
-        <header className="sticky top-0 z-10 bg-[var(--background)] px-4 pt-3 pb-2">
+        <header className="sticky top-0 z-10 bg-[var(--background)] px-4 sm:px-6 pt-3 pb-2">
           <div className="flex items-center gap-3 mb-2">
             <button
               onClick={() => {
@@ -922,9 +936,17 @@ export default function TemaContent({ slug }: TemaContentProps) {
               >
                 Tema {themeIndex + 1}: {theme.name}
               </span>
-              <span className="text-sm text-[var(--text-light)]">
+              {/* Brojač je i DUGME: otvara spisak svih zadataka teme, pa se
+                  skače pravo na bilo koji. Bez toga se do 20. zadatka stiže
+                  samo klikanjem „Següent" devetnaest puta. */}
+              <button
+                onClick={() => setSpisakOtvoren((v) => !v)}
+                className="text-sm text-[var(--text-light)] hover:text-[var(--primary)] underline decoration-dotted underline-offset-4 min-h-[32px] px-1"
+                aria-expanded={spisakOtvoren}
+                aria-label="Mostra totes les tasques"
+              >
                 {isBonus ? `${scoringCount}/${scoringCount} + bonus` : `${currentTaskIndex + 1}/${scoringCount}`}
-              </span>
+              </button>
             </div>
             <div className="w-full h-2.5 bg-gray-200 rounded-full overflow-hidden">
               <motion.div
@@ -934,6 +956,40 @@ export default function TemaContent({ slug }: TemaContentProps) {
                 transition={{ duration: 0.4 }}
               />
             </div>
+            {/* SPISAK SVIH ZADATAKA — otvara se klikom na brojač.
+                `retryTick` je u zavisnostima da se zelene oznake osveže kad se
+                zadatak reši ili poništi, a `mounted` da se na serveru ne čita
+                `localStorage` (tamo ga nema). */}
+            {spisakOtvoren && (
+              <div className="mt-2 p-2 bg-white rounded-xl shadow-md border border-gray-100">
+                <div className="flex flex-wrap gap-1.5">
+                  {tasks.map((t, i) => {
+                    const gotov = zavrseniIds.includes(t.id);
+                    const tekuci = i === currentTaskIndex;
+                    return (
+                      <button
+                        key={t.id}
+                        onClick={() => {
+                          setCurrentTaskIndex(i);
+                          setSpisakOtvoren(false);
+                        }}
+                        className={`min-w-[36px] h-9 px-2 rounded-lg text-sm font-bold transition-colors ${
+                          tekuci
+                            ? "bg-[var(--primary)] text-white"
+                            : gotov
+                              ? "bg-green-100 text-green-700 hover:bg-green-200"
+                              : "bg-gray-100 text-[var(--text)] hover:bg-gray-200"
+                        }`}
+                        aria-current={tekuci ? "true" : undefined}
+                      >
+                        {t.bonus ? "🎨" : i + 1}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
             {/* XP mini-bar */}
             {xpData && (
               <div className="flex items-center gap-1.5 mt-1">
@@ -978,7 +1034,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
       </header>
 
       {/* Task Content */}
-      <main className="flex-1 px-4 pb-24 max-w-2xl mx-auto w-full">
+      <main className="task-shell flex-1 px-4 sm:px-6 pb-24">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentTask.id}
@@ -1065,8 +1121,16 @@ export default function TemaContent({ slug }: TemaContentProps) {
       <MascotPair event={mascotEvent} message={feedbackMessage} turn={mascotTurn} />
 
       {/* Navigation Footer */}
-      <footer className="sticky bottom-0 bg-[var(--background)] px-4 py-3 border-t border-gray-100">
-        <div className="flex justify-between max-w-2xl mx-auto">
+      {/* TRAKA SA DUGMADIMA — `fixed`, ne `sticky` (04.08.2026, prijava vlasnice:
+          „nemam dugme Sledeći ni na jednoj temi").
+          `sticky bottom-0` se drži za dno STRANICE. Kad pregledač prijavi da je
+          prozor viši nego što se stvarno vidi — a to se dešava sa zumiranjem
+          ispod 100% i sa trakom alatki — dno stranice padne ISPOD vidljivog
+          dela i dugmad se izgube. Izmereno kod vlasnice: vidljivo 812 px,
+          strana misli 900 px, razlika 47 px — tačno toliko trake je nedostajalo.
+          `fixed` se drži za dno PROZORA i ne može da promaši. */}
+      <footer className="fixed bottom-0 inset-x-0 z-40 bg-[var(--background)] px-4 py-3 border-t border-gray-100">
+        <div className="task-shell flex justify-between">
           <button
             onClick={() =>
               setCurrentTaskIndex(Math.max(0, currentTaskIndex - 1))
@@ -1086,8 +1150,12 @@ export default function TemaContent({ slug }: TemaContentProps) {
                 );
               }
             }}
-            disabled={currentTaskIndex === tasks.length - 1 && !isTaskCompleted}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-white bg-[var(--secondary)] disabled:opacity-30 hover:brightness-110 active:scale-95 transition-all shadow-md"
+            /* „Següent" se NIKAD ne isključuje (03.08.2026, prijava vlasnice:
+               „nemam dugme sledeći da mogu da šetam po zadacima"). Ranije je na
+               POSLEDNJEM zadatku bilo mrtvo dok se zadatak ne reši — dete (i
+               odrasli) su ostajali zarobljeni na jednom zadatku bez izlaza.
+               Sada poslednji „Següent" vodi na završni ekran teme. */
+            className="flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-white bg-[var(--secondary)] hover:brightness-110 active:scale-95 transition-all shadow-md"
           >
             Següent <ArrowRight size={18} />
           </button>

@@ -36,6 +36,33 @@ export function isTTSAvailable(): boolean {
   return typeof window !== "undefined" && "speechSynthesis" in window;
 }
 
+/* ─────────────────────────────────────────────────────────────────────────
+   KO GOVORI, TOME SE POMERAJU USTA
+
+   Maskote treba da otvaraju usta dok aplikacija izgovara reč. Da bi to znale,
+   `speak()` javlja kad govor počne i kad se završi. Pretplata je namerno
+   ovakva (uzmi vrednost / pretplati se) jer je to oblik koji React očekuje u
+   `useSyncExternalStore` — bez dodatnog `useEffect`-a i bez treperenja.
+   ───────────────────────────────────────────────────────────────────────── */
+let govoriSada = false;
+const pretplatnici = new Set<() => void>();
+
+function postaviGovor(vrednost: boolean) {
+  if (govoriSada === vrednost) return;
+  govoriSada = vrednost;
+  pretplatnici.forEach((f) => f());
+}
+
+/** Da li se u ovom trenutku nešto izgovara (za pokret usta na maskoti) */
+export function daLiGovori(): boolean {
+  return govoriSada;
+}
+
+export function pretplatiSeNaGovor(naPromenu: () => void): () => void {
+  pretplatnici.add(naPromenu);
+  return () => pretplatnici.delete(naPromenu);
+}
+
 export function speak(text: string, rate?: number) {
   if (typeof window === "undefined") return;
   migrateLegacy();
@@ -63,6 +90,13 @@ export function speak(text: string, rate?: number) {
     utterance.lang = "ca-ES";
   }
 
+  // Maskote slušaju ova tri događaja i po njima pomeraju usta.
+  // `onerror` je obavezan: bez njega bi usta ostala otvorena zauvek ako se
+  // govor prekine (dete pređe na drugi zadatak usred izgovaranja).
+  utterance.onstart = () => postaviGovor(true);
+  utterance.onend = () => postaviGovor(false);
+  utterance.onerror = () => postaviGovor(false);
+
   window.speechSynthesis.speak(utterance);
 }
 
@@ -70,4 +104,5 @@ export function stopSpeaking() {
   if (isTTSAvailable()) {
     window.speechSynthesis.cancel();
   }
+  postaviGovor(false);
 }

@@ -129,7 +129,7 @@ export default function SeparateWords({ task, onComplete, review = false }: Prop
         key={currentIdx}
         initial={{ opacity: 0, x: 30 }}
         animate={{ opacity: 1, x: 0 }}
-        className="bg-white rounded-2xl px-2 py-4 shadow-sm"
+        className="bg-white rounded-2xl px-2 py-4 shadow-sm max-w-5xl mx-auto"
       >
         <p className="text-center text-sm text-[var(--text-light)] mb-4">
           Toca les línies per separar les paraules

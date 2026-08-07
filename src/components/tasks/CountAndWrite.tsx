@@ -84,7 +84,7 @@ export default function CountAndWrite({ task, onComplete, review = false }: Prop
         key={currentIdx}
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="bg-white rounded-2xl p-5 shadow-sm"
+        className="bg-white rounded-2xl p-5 shadow-sm max-w-4xl mx-auto"
       >
         {/* Instruction */}
         <p className="text-center text-sm text-[var(--text-light)] mb-4">
@@ -170,7 +170,7 @@ export default function CountAndWrite({ task, onComplete, review = false }: Prop
 
         {/* Comprova button */}
         {answer.trim() && !checked && (
-          <div className="flex justify-center pt-3">
+          <div className="task-action-bar">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -184,7 +184,7 @@ export default function CountAndWrite({ task, onComplete, review = false }: Prop
 
         {/* Retry button - only shown after wrong answer */}
         {checked && !correct && (
-          <div className="flex justify-center pt-4">
+          <div className="task-action-bar">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

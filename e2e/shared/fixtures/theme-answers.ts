@@ -27,7 +27,7 @@ export type TaskAnswer =
 export const themeAnswers: Record<string, TaskAnswer[]> = {
   "la-classe": [
     {
-      "id": "la-classe-1",
+      "id": "la-classe-1-1",
       "type": "copy-word",
       "words": [
         "llapis",
@@ -36,21 +36,7 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         "retolador",
         "llibreta",
         "llibre",
-        "carpeta",
-        "estoig",
-        "maquineta",
-        "regle",
-        "motxilla",
-        "tisores",
-        "pissarra",
-        "guix",
-        "esborrador",
-        "paperera",
-        "ordinador",
-        "taula",
-        "cadira",
-        "porta",
-        "finestra"
+        "carpeta"
       ]
     },
     {
@@ -193,7 +179,20 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
       ]
     },
     {
-      "id": "la-classe-3",
+      "id": "la-classe-1-2",
+      "type": "copy-word",
+      "words": [
+        "estoig",
+        "maquineta",
+        "regle",
+        "motxilla",
+        "tisores",
+        "pissarra",
+        "guix"
+      ]
+    },
+    {
+      "id": "la-classe-3-1",
       "type": "fill-letters",
       "words": [
         {
@@ -223,7 +222,26 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         {
           "word": "carpeta",
           "hint": "c_rp_t_"
-        },
+        }
+      ]
+    },
+    {
+      "id": "la-classe-1-3",
+      "type": "copy-word",
+      "words": [
+        "esborrador",
+        "paperera",
+        "ordinador",
+        "taula",
+        "cadira",
+        "porta",
+        "finestra"
+      ]
+    },
+    {
+      "id": "la-classe-3-2",
+      "type": "fill-letters",
+      "words": [
         {
           "word": "estoig",
           "hint": "e_t_ig"
@@ -251,34 +269,6 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         {
           "word": "guix",
           "hint": "g_i_"
-        },
-        {
-          "word": "esborrador",
-          "hint": "b_rr_d_r"
-        },
-        {
-          "word": "paperera",
-          "hint": "p_p_r_ra"
-        },
-        {
-          "word": "ordinador",
-          "hint": "o_d_n_dor"
-        },
-        {
-          "word": "taula",
-          "hint": "t_u_a"
-        },
-        {
-          "word": "cadira",
-          "hint": "c_d_ra"
-        },
-        {
-          "word": "porta",
-          "hint": "p_r_a"
-        },
-        {
-          "word": "finestra",
-          "hint": "f_n_stra"
         }
       ]
     },
@@ -307,6 +297,40 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
             "estoig",
             "regle"
           ]
+        }
+      ]
+    },
+    {
+      "id": "la-classe-3-3",
+      "type": "fill-letters",
+      "words": [
+        {
+          "word": "esborrador",
+          "hint": "_sb_rr_d_r"
+        },
+        {
+          "word": "paperera",
+          "hint": "p_p_r_ra"
+        },
+        {
+          "word": "ordinador",
+          "hint": "o_d_n_dor"
+        },
+        {
+          "word": "taula",
+          "hint": "t_u_a"
+        },
+        {
+          "word": "cadira",
+          "hint": "c_d_ra"
+        },
+        {
+          "word": "porta",
+          "hint": "p_r_a"
+        },
+        {
+          "word": "finestra",
+          "hint": "f_n_stra"
         }
       ]
     },
@@ -485,17 +509,6 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
       ]
     },
     {
-      "id": "la-classe-9",
-      "type": "fill-sentence",
-      "blanks": [
-        "dibuixa",
-        "pinta",
-        "canta",
-        "escriu",
-        "retalla"
-      ]
-    },
-    {
       "id": "la-classe-10",
       "type": "matching",
       "illustrationMatch": false,
@@ -520,6 +533,17 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
           "left": "goma",
           "right": "esborrar"
         }
+      ]
+    },
+    {
+      "id": "la-classe-9",
+      "type": "fill-sentence",
+      "blanks": [
+        "dibuixa",
+        "pinta",
+        "canta",
+        "escriu",
+        "retalla"
       ]
     },
     {
@@ -1017,6 +1041,10 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
       ]
     },
     {
+      "id": "l-escola-19",
+      "type": "self-assessment"
+    },
+    {
       "id": "l-escola-17",
       "type": "fill-sentence",
       "blanks": [
@@ -1031,34 +1059,20 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
       ]
     },
     {
-      "id": "l-escola-19",
-      "type": "self-assessment"
-    },
-    {
       "id": "l-escola-bonus",
       "type": "drawing-canvas"
     }
   ],
   "el-cos": [
     {
-      "id": "el-cos-1",
+      "id": "el-cos-1-1",
       "type": "copy-word",
       "words": [
         "boca",
         "ull",
         "nas",
         "dents",
-        "cabell",
-        "orella",
-        "braç",
-        "cama",
-        "cap",
-        "colze",
-        "panxa",
-        "mà",
-        "dit",
-        "peu",
-        "ungla"
+        "cabell"
       ]
     },
     {
@@ -1085,6 +1099,17 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
           "text": "boca",
           "x": 50
         }
+      ]
+    },
+    {
+      "id": "el-cos-1-2",
+      "type": "copy-word",
+      "words": [
+        "orella",
+        "braç",
+        "cama",
+        "cap",
+        "colze"
       ]
     },
     {
@@ -1115,6 +1140,17 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
           "scrambled": "RE-O-LLA",
           "correct": "orella"
         }
+      ]
+    },
+    {
+      "id": "el-cos-1-3",
+      "type": "copy-word",
+      "words": [
+        "panxa",
+        "mà",
+        "dit",
+        "peu",
+        "ungla"
       ]
     },
     {
@@ -1456,16 +1492,6 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
       ]
     },
     {
-      "id": "el-cos-12",
-      "type": "fill-sentence",
-      "blanks": [
-        "vella",
-        "alta",
-        "baixa",
-        "jove"
-      ]
-    },
-    {
       "id": "el-cos-14",
       "type": "multiple-choice",
       "answers": [
@@ -1478,6 +1504,16 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         "No",
         "Sí",
         "Sí"
+      ]
+    },
+    {
+      "id": "el-cos-12",
+      "type": "fill-sentence",
+      "blanks": [
+        "vella",
+        "alta",
+        "baixa",
+        "jove"
       ]
     },
     {
@@ -1511,7 +1547,7 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
   ],
   "la-roba": [
     {
-      "id": "la-roba-1",
+      "id": "la-roba-1-1",
       "type": "copy-word",
       "words": [
         "anorac",
@@ -1520,21 +1556,7 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         "pantalons",
         "samarreta",
         "camisa",
-        "jaqueta",
-        "faldilla",
-        "vestit",
-        "xandall",
-        "americana",
-        "cinturó",
-        "corbata",
-        "gorro",
-        "gorra",
-        "mitjons",
-        "sabates",
-        "vambes",
-        "botes",
-        "guants",
-        "bufanda"
+        "jaqueta"
       ]
     },
     {
@@ -1565,6 +1587,19 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
           "text": "botes",
           "x": 60
         }
+      ]
+    },
+    {
+      "id": "la-roba-1-2",
+      "type": "copy-word",
+      "words": [
+        "faldilla",
+        "vestit",
+        "xandall",
+        "americana",
+        "cinturó",
+        "corbata",
+        "gorro"
       ]
     },
     {
@@ -1607,6 +1642,19 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
           "scrambled": "XANS-TE",
           "correct": "texans"
         }
+      ]
+    },
+    {
+      "id": "la-roba-1-3",
+      "type": "copy-word",
+      "words": [
+        "gorra",
+        "mitjons",
+        "sabates",
+        "vambes",
+        "botes",
+        "guants",
+        "bufanda"
       ]
     },
     {
@@ -2524,17 +2572,6 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
       ]
     },
     {
-      "id": "la-familia-2",
-      "type": "fill-sentence",
-      "blanks": [
-        "l'avi",
-        "l'àvia",
-        "el pare",
-        "la mare",
-        "la germana"
-      ]
-    },
-    {
       "id": "la-familia-3",
       "type": "label-image",
       "labels": [
@@ -2547,12 +2584,14 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
       ]
     },
     {
-      "id": "la-familia-4",
+      "id": "la-familia-2",
       "type": "fill-sentence",
       "blanks": [
-        "tieta",
-        "oncle",
-        "cosina"
+        "l'avi",
+        "l'àvia",
+        "el pare",
+        "la mare",
+        "la germana"
       ]
     },
     {
@@ -2581,6 +2620,15 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
             "dona"
           ]
         }
+      ]
+    },
+    {
+      "id": "la-familia-4",
+      "type": "fill-sentence",
+      "blanks": [
+        "tieta",
+        "oncle",
+        "cosina"
       ]
     },
     {
@@ -2971,19 +3019,6 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
       ]
     },
     {
-      "id": "les-botigues-5",
-      "type": "copy-word",
-      "words": [
-        "ceba",
-        "enciam",
-        "pastanaga",
-        "patata",
-        "pebrot",
-        "tomàquet",
-        "mongetes"
-      ]
-    },
-    {
       "id": "les-botigues-6",
       "type": "fill-letters",
       "words": [
@@ -3023,6 +3058,19 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
           "word": "maduixa",
           "hint": "m_du_x_"
         }
+      ]
+    },
+    {
+      "id": "les-botigues-5",
+      "type": "copy-word",
+      "words": [
+        "ceba",
+        "enciam",
+        "pastanaga",
+        "patata",
+        "pebrot",
+        "tomàquet",
+        "mongetes"
       ]
     },
     {
@@ -3386,6 +3434,16 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
       ]
     },
     {
+      "id": "el-menjar-7",
+      "type": "fill-sentence",
+      "blanks": [
+        "cereals",
+        "arròs",
+        "sandvitx",
+        "sopa"
+      ]
+    },
+    {
       "id": "el-menjar-5",
       "type": "copy-word",
       "words": [
@@ -3401,6 +3459,16 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
       ]
     },
     {
+      "id": "el-menjar-8",
+      "type": "multiple-choice",
+      "answers": [
+        "Cereals amb llet",
+        "Ganivet",
+        "Al plat",
+        "Dinar"
+      ]
+    },
+    {
       "id": "el-menjar-6",
       "type": "copy-word",
       "words": [
@@ -3412,26 +3480,6 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
         "pizza",
         "formatge",
         "pernil"
-      ]
-    },
-    {
-      "id": "el-menjar-7",
-      "type": "fill-sentence",
-      "blanks": [
-        "cereals",
-        "arròs",
-        "sandvitx",
-        "sopa"
-      ]
-    },
-    {
-      "id": "el-menjar-8",
-      "type": "multiple-choice",
-      "answers": [
-        "Cereals amb llet",
-        "Ganivet",
-        "Al plat",
-        "Dinar"
       ]
     },
     {
@@ -3620,22 +3668,21 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
       ]
     },
     {
+      "id": "el-menjar-13b",
+      "type": "copy-word",
+      "words": [
+        "tovalló",
+        "nevera",
+        "estovalles"
+      ]
+    },
+    {
       "id": "el-menjar-14",
       "type": "fill-sentence",
       "blanks": [
         "nevera",
         "tovalló",
         "estovalles"
-      ]
-    },
-    {
-      "id": "el-menjar-15",
-      "type": "fill-sentence",
-      "blanks": [
-        "fred",
-        "calenta",
-        "calent",
-        "freda"
       ]
     },
     {
@@ -3666,6 +3713,16 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
             "sal"
           ]
         }
+      ]
+    },
+    {
+      "id": "el-menjar-15",
+      "type": "fill-sentence",
+      "blanks": [
+        "fred",
+        "calenta",
+        "calent",
+        "freda"
       ]
     },
     {
@@ -3802,35 +3859,6 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
       ]
     },
     {
-      "id": "els-animals-4",
-      "type": "copy-word",
-      "words": [
-        "peix",
-        "tauró",
-        "sardina"
-      ]
-    },
-    {
-      "id": "els-animals-4b",
-      "type": "copy-word",
-      "words": [
-        "flamenc",
-        "ànec",
-        "oca",
-        "granota",
-        "unicorn"
-      ]
-    },
-    {
-      "id": "els-animals-5",
-      "type": "copy-word",
-      "words": [
-        "serp",
-        "tortuga",
-        "cocodril"
-      ]
-    },
-    {
       "id": "els-animals-6",
       "type": "classify-columns",
       "columns": [
@@ -3871,6 +3899,15 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
       ]
     },
     {
+      "id": "els-animals-4",
+      "type": "copy-word",
+      "words": [
+        "peix",
+        "tauró",
+        "sardina"
+      ]
+    },
+    {
       "id": "els-animals-6c",
       "type": "classify-columns",
       "columns": [
@@ -3899,27 +3936,14 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
       ]
     },
     {
-      "id": "els-animals-8",
+      "id": "els-animals-4b",
       "type": "copy-word",
       "words": [
-        "gos",
-        "gat",
-        "conill",
-        "cavall",
-        "porc",
-        "vaca",
-        "ratolí",
-        "ovella",
-        "hipopòtam",
-        "goril·la",
-        "zebra",
-        "ós",
-        "lleó",
-        "camell",
-        "elefant",
-        "tigre",
-        "llop",
-        "guineu"
+        "flamenc",
+        "ànec",
+        "oca",
+        "granota",
+        "unicorn"
       ]
     },
     {
@@ -3950,6 +3974,15 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
       ]
     },
     {
+      "id": "els-animals-5",
+      "type": "copy-word",
+      "words": [
+        "serp",
+        "tortuga",
+        "cocodril"
+      ]
+    },
+    {
       "id": "els-animals-10",
       "type": "classify-columns",
       "columns": [
@@ -3975,6 +4008,18 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
             "tortuga"
           ]
         }
+      ]
+    },
+    {
+      "id": "els-animals-8-1",
+      "type": "copy-word",
+      "words": [
+        "gos",
+        "gat",
+        "conill",
+        "cavall",
+        "porc",
+        "vaca"
       ]
     },
     {
@@ -4115,6 +4160,18 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
       ]
     },
     {
+      "id": "els-animals-8-2",
+      "type": "copy-word",
+      "words": [
+        "ratolí",
+        "ovella",
+        "hipopòtam",
+        "goril·la",
+        "zebra",
+        "ós"
+      ]
+    },
+    {
       "id": "els-animals-12",
       "type": "color-by-instruction",
       "instructions": [
@@ -4154,6 +4211,18 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
           "targetItem": "tortuga",
           "targetColor": "lila"
         }
+      ]
+    },
+    {
+      "id": "els-animals-8-3",
+      "type": "copy-word",
+      "words": [
+        "lleó",
+        "camell",
+        "elefant",
+        "tigre",
+        "llop",
+        "guineu"
       ]
     },
     {
@@ -5405,17 +5474,6 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
       ]
     },
     {
-      "id": "els-oficis-12",
-      "type": "fill-sentence",
-      "blanks": [
-        "bomber",
-        "metge",
-        "mestre",
-        "cuiner",
-        "pilot"
-      ]
-    },
-    {
       "id": "els-oficis-13",
       "type": "matching",
       "illustrationMatch": false,
@@ -5444,6 +5502,17 @@ export const themeAnswers: Record<string, TaskAnswer[]> = {
           "left": "tisores",
           "right": "jardiner"
         }
+      ]
+    },
+    {
+      "id": "els-oficis-12",
+      "type": "fill-sentence",
+      "blanks": [
+        "bomber",
+        "metge",
+        "mestre",
+        "cuiner",
+        "pilot"
       ]
     },
     {

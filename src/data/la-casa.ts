@@ -1,6 +1,7 @@
 import { Task } from "@/types/tasks";
 
 export const laCasaTasks: Task[] = [
+
   // ── Task 1: Llegeix i copia (9 parts de la casa) ──
   {
     id: "la-casa-1",

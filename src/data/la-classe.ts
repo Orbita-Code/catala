@@ -1,11 +1,16 @@
 import { Task } from "@/types/tasks";
 
 export const laClasseTasks: Task[] = [
+
   // Exercise 1: Llegeix i copia
+  // Podeljeno 03.08.2026: u svesci je ovo JEDAN zadatak od 21 reči, a to je
+  // za dete od 5–8 godina predugačko — traka napretka se ne pomeri ni jednom
+  // dok ne uradi svih 21. Nijedna reč nije izbačena, samo su spakovane u 3
+  // koraka, redom kao u svesci.
   {
-    id: "la-classe-1",
+    id: "la-classe-1-1",
     type: "copy-word",
-    prompt: "Llegeix i copia les paraules de la classe.",
+    prompt: "Llegeix i copia les paraules de la classe (1 de 3).",
     words: [
       { catalan: "llapis", image: "llapis" },
       { catalan: "goma", image: "goma" },
@@ -14,20 +19,6 @@ export const laClasseTasks: Task[] = [
       { catalan: "llibreta", image: "llibreta" },
       { catalan: "llibre", image: "llibre" },
       { catalan: "carpeta", image: "carpeta" },
-      { catalan: "estoig", image: "estoig" },
-      { catalan: "maquineta", image: "maquineta" },
-      { catalan: "regle", image: "regle" },
-      { catalan: "motxilla", image: "motxilla" },
-      { catalan: "tisores", image: "tisores" },
-      { catalan: "pissarra", image: "pissarra" },
-      { catalan: "guix", image: "guix" },
-      { catalan: "esborrador", image: "esborrador" },
-      { catalan: "paperera", image: "paperera" },
-      { catalan: "ordinador", image: "ordinador" },
-      { catalan: "taula", image: "taula" },
-      { catalan: "cadira", image: "cadira" },
-      { catalan: "porta", image: "porta" },
-      { catalan: "finestra", image: "finestra" },
     ],
   },
 
@@ -62,12 +53,30 @@ export const laClasseTasks: Task[] = [
       ["p", "i", "s", "s", "a", "r", "r", "a", "z", "u"],
     ],
   },
+  {
+    id: "la-classe-1-2",
+    type: "copy-word",
+    prompt: "Llegeix i copia les paraules de la classe (2 de 3).",
+    words: [
+      { catalan: "estoig", image: "estoig" },
+      { catalan: "maquineta", image: "maquineta" },
+      { catalan: "regle", image: "regle" },
+      { catalan: "motxilla", image: "motxilla" },
+      { catalan: "tisores", image: "tisores" },
+      { catalan: "pissarra", image: "pissarra" },
+      { catalan: "guix", image: "guix" },
+    ],
+  },
 
   // Exercise 3: Completa la paraula (all classroom items)
+  // Podeljeno 03.08.2026: u svesci je ovo JEDAN zadatak od 21 reči, a to je
+  // za dete od 5–8 godina predugačko — traka napretka se ne pomeri ni jednom
+  // dok ne uradi svih 21. Nijedna reč nije izbačena, samo su spakovane u 3
+  // koraka, redom kao u svesci.
   {
-    id: "la-classe-3",
+    id: "la-classe-3-1",
     type: "fill-letters",
-    prompt: "Completa la paraula.",
+    prompt: "Completa la paraula (1 de 3).",
     words: [
       { word: "llapis", hint: "l_a_i_", image: "llapis" },
       { word: "goma", hint: "g_m_", image: "goma" },
@@ -76,6 +85,27 @@ export const laClasseTasks: Task[] = [
       { word: "llibreta", hint: "ll_br_t_", image: "llibreta" },
       { word: "retolador", hint: "r_tol_d_r", image: "retolador" },
       { word: "carpeta", hint: "c_rp_t_", image: "carpeta" },
+    ],
+  },
+  {
+    id: "la-classe-1-3",
+    type: "copy-word",
+    prompt: "Llegeix i copia les paraules de la classe (3 de 3).",
+    words: [
+      { catalan: "esborrador", image: "esborrador" },
+      { catalan: "paperera", image: "paperera" },
+      { catalan: "ordinador", image: "ordinador" },
+      { catalan: "taula", image: "taula" },
+      { catalan: "cadira", image: "cadira" },
+      { catalan: "porta", image: "porta" },
+      { catalan: "finestra", image: "finestra" },
+    ],
+  },
+  {
+    id: "la-classe-3-2",
+    type: "fill-letters",
+    prompt: "Completa la paraula (2 de 3).",
+    words: [
       { word: "estoig", hint: "e_t_ig", image: "estoig" },
       { word: "maquineta", hint: "m_qu_n_ta", image: "maquineta" },
       { word: "regle", hint: "r_g_e", image: "regle" },
@@ -83,13 +113,6 @@ export const laClasseTasks: Task[] = [
       { word: "tisores", hint: "t_s_r_s", image: "tisores" },
       { word: "pissarra", hint: "p_ss_r_a", image: "pissarra" },
       { word: "guix", hint: "g_i_", image: "guix" },
-      { word: "esborrador", hint: "_sb_rr_d_r", image: "esborrador" },
-      { word: "paperera", hint: "p_p_r_ra", image: "paperera" },
-      { word: "ordinador", hint: "o_d_n_dor", image: "ordinador" },
-      { word: "taula", hint: "t_u_a", image: "taula" },
-      { word: "cadira", hint: "c_d_ra", image: "cadira" },
-      { word: "porta", hint: "p_r_a", image: "porta" },
-      { word: "finestra", hint: "f_n_stra", image: "finestra" },
     ],
   },
 
@@ -136,6 +159,20 @@ export const laClasseTasks: Task[] = [
       "regle",
       "motxilla",
       "tisores",
+    ],
+  },
+  {
+    id: "la-classe-3-3",
+    type: "fill-letters",
+    prompt: "Completa la paraula (3 de 3).",
+    words: [
+      { word: "esborrador", hint: "_sb_rr_d_r", image: "esborrador" },
+      { word: "paperera", hint: "p_p_r_ra", image: "paperera" },
+      { word: "ordinador", hint: "o_d_n_dor", image: "ordinador" },
+      { word: "taula", hint: "t_u_a", image: "taula" },
+      { word: "cadira", hint: "c_d_ra", image: "cadira" },
+      { word: "porta", hint: "p_r_a", image: "porta" },
+      { word: "finestra", hint: "f_n_stra", image: "finestra" },
     ],
   },
 
@@ -275,6 +312,20 @@ export const laClasseTasks: Task[] = [
     ],
   },
 
+  // Exercise 10: Relaciona (workbook: match item to function)
+  {
+    id: "la-classe-10",
+    type: "matching",
+    prompt: "Relaciona cada objecte amb la seva funció.",
+    pairs: [
+      { left: "tisores", right: "retallar" },
+      { left: "llapis", right: "escriure" },
+      { left: "cola de barra", right: "enganxar" },
+      { left: "llapis de colors", right: "pintar" },
+      { left: "goma", right: "esborrar" },
+    ],
+  },
+
   // Exercise 9: Què fan? Completa (workbook: kids doing activities)
   {
     id: "la-classe-9",
@@ -312,20 +363,6 @@ export const laClasseTasks: Task[] = [
         options: ["dibuixa", "retalla", "escriu"],
         image: "nena-retalla",
       },
-    ],
-  },
-
-  // Exercise 10: Relaciona (workbook: match item to function)
-  {
-    id: "la-classe-10",
-    type: "matching",
-    prompt: "Relaciona cada objecte amb la seva funció.",
-    pairs: [
-      { left: "tisores", right: "retallar" },
-      { left: "llapis", right: "escriure" },
-      { left: "cola de barra", right: "enganxar" },
-      { left: "llapis de colors", right: "pintar" },
-      { left: "goma", right: "esborrar" },
     ],
   },
 

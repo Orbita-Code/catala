@@ -1,6 +1,7 @@
 import { Task } from "@/types/tasks";
 
 export const elsVehiclesTasks: Task[] = [
+
   {
     id: "els-vehicles-1",
     type: "copy-word",

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, type CSSProperties } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { WriteAntonymTask, TaskResult } from "@/types/tasks";
 import { celebrate, celebrateBig } from "@/lib/confetti";
@@ -89,6 +89,11 @@ export default function WriteAntonym({ task, onComplete, review = false }: Props
 
   return (
     <div className="space-y-4">
+      {/* Parovi idu dva-tri u red kad ima mesta umesto jedan ispod drugog. */}
+      <div
+        className="task-cards-fill"
+        style={{ "--card-min": "320px", "--card-gap": "1rem" } as CSSProperties}
+      >
       {task.pairs.map((pair, i) => (
         <motion.div
           key={i}
@@ -182,10 +187,11 @@ export default function WriteAntonym({ task, onComplete, review = false }: Props
           )}
         </motion.div>
       ))}
+      </div>
 
       {/* Comprova button */}
       {allAnswered && !checked && (
-        <div className="flex justify-center pt-3">
+        <div className="task-action-bar">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -199,7 +205,7 @@ export default function WriteAntonym({ task, onComplete, review = false }: Props
 
       {/* Retry button - only shown after wrong answer */}
       {checked && !allCorrect && (
-        <div className="flex justify-center pt-2">
+        <div className="task-action-bar">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

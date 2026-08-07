@@ -96,7 +96,7 @@ export default function AddArticle({ task, onComplete, review = false }: Props) 
         key={currentIdx}
         initial={{ opacity: 0, x: 30 }}
         animate={{ opacity: 1, x: 0 }}
-        className="bg-white rounded-2xl p-6 shadow-sm text-center"
+        className="bg-white rounded-2xl p-6 shadow-sm text-center max-w-3xl mx-auto"
       >
         {getWordIllustration(currentWord.word) ? (
           <div className="mb-3 flex justify-center"><img src={getWordIllustration(currentWord.word)!} alt="" className="w-44 h-44 object-contain" /></div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, type CSSProperties } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MatchingTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
@@ -152,8 +152,13 @@ export default function Matching({ task, onComplete, review = false }: Props) {
           {matched.size} / {task.pairs.length} ✨
         </p>
 
-        {/* Illustrations grid */}
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
+        {/* Illustrations grid — broj kolona se računa iz širine, ne piše rukom.
+            Tvrdo upisanih „6 kolona" značilo je da 8 parova uvek ide u dva reda
+            i da slike ostaju sitne bez obzira koliko mesta ima. */}
+        <div
+          className="task-cards"
+          style={{ "--card-min": "88px", "--card-max": "150px", "--card-gap": "0.5rem" } as CSSProperties}
+        >
           {task.pairs.map((pair, i) => {
             const isMatched = matched.has(i);
             const isSelected = selected?.side === "left" && selected.index === i;
@@ -219,7 +224,10 @@ export default function Matching({ task, onComplete, review = false }: Props) {
         </div>
 
         {/* Text labels grid */}
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
+        <div
+          className="task-cards"
+          style={{ "--card-min": "88px", "--card-max": "150px", "--card-gap": "0.5rem" } as CSSProperties}
+        >
           {shuffledRight.map((actualIdx, displayIdx) => {
             const isMatched = matched.has(actualIdx);
             const isSelected = selected?.side === "right" && selected.index === displayIdx;
@@ -393,7 +401,27 @@ export default function Matching({ task, onComplete, review = false }: Props) {
                   const p = task.pairs[actualIdx];
                   const fullWord = p.left + p.right;
                   const ill = getWordIllustration(p.right) || getWordIllustration(fullWord);
-                  return ill ? <img src={ill} alt="" className="w-10 h-10 object-contain mr-1" /> : null;
+                  if (!ill) return null;
+                  // Slika desne reči se pojavljuje TEK KAD je par tačno spojen
+                  // (06.08.2026, zahtev vlasnice). Da stoji od početka, dete bi
+                  // spajalo sliku sa slikom i ne bi moralo da pročita reč — a
+                  // baš čitanje je ovde poenta. Ovako je slika NAGRADA i ujedno
+                  // objašnjenje: uz „tasses" iskoči TRI šolje, pa dete vidi šta
+                  // množina znači, ne samo koji je nastavak.
+                  return (
+                    <AnimatePresence>
+                      {isMatched && (
+                        <motion.img
+                          src={ill}
+                          alt=""
+                          initial={{ scale: 0, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          transition={{ type: "spring", damping: 11, stiffness: 220 }}
+                          className="w-10 h-10 object-contain mr-1"
+                        />
+                      )}
+                    </AnimatePresence>
+                  );
                 })()}
                 <span className="font-handwriting text-xl md:text-2xl">{task.pairs[actualIdx].right}</span>
               </motion.button>

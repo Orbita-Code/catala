@@ -1,6 +1,7 @@
 import { Task } from "@/types/tasks";
 
 export const elsAnimalsTasks: Task[] = [
+
   // === Workbook Ex. 1: Llegeix i copia LES AUS (9 birds) ===
   {
     id: "els-animals-1",
@@ -68,44 +69,6 @@ export const elsAnimalsTasks: Task[] = [
     ],
   },
 
-  // === Workbook Ex. 4: Llegeix i copia ELS PEIXOS (6) ===
-  {
-    id: "els-animals-4",
-    type: "copy-word",
-    prompt: "Llegeix i copia els peixos:",
-    words: [
-      { catalan: "peix", image: "peix" },
-      { catalan: "tauró", image: "tauro" },
-      { catalan: "sardina", image: "sardina" },
-    ],
-  },
-
-  // === Animals divertits (dodato 24.07.2026 — zabavne popularne životinje) ===
-  {
-    id: "els-animals-4b",
-    type: "copy-word",
-    prompt: "Llegeix i copia aquests animals:",
-    words: [
-      { catalan: "flamenc", image: "flamenc" },
-      { catalan: "ànec", image: "anec" },
-      { catalan: "oca", image: "oca" },
-      { catalan: "granota", image: "granota" },
-      { catalan: "unicorn", image: "unicorn" },
-    ],
-  },
-
-  // === Workbook Ex. 5: Llegeix i copia ELS REPTILS (3) ===
-  {
-    id: "els-animals-5",
-    type: "copy-word",
-    prompt: "Llegeix i copia els rèptils:",
-    words: [
-      { catalan: "serp", image: "serp" },
-      { catalan: "tortuga", image: "tortuga" },
-      { catalan: "cocodril", image: "cocodril" },
-    ],
-  },
-
   // === Workbook Ex. 6: Escriu dos exemples de cada ===
   {
     id: "els-animals-6",
@@ -147,6 +110,18 @@ export const elsAnimalsTasks: Task[] = [
     ],
   },
 
+  // === Workbook Ex. 4: Llegeix i copia ELS PEIXOS (6) ===
+  {
+    id: "els-animals-4",
+    type: "copy-word",
+    prompt: "Llegeix i copia els peixos:",
+    words: [
+      { catalan: "peix", image: "peix" },
+      { catalan: "tauró", image: "tauro" },
+      { catalan: "sardina", image: "sardina" },
+    ],
+  },
+
   // === Domèstics vs Salvatges (dodato 24.07.2026) ===
   {
     id: "els-animals-6c",
@@ -179,30 +154,17 @@ export const elsAnimalsTasks: Task[] = [
     circleMode: true,
   },
 
-  // === Workbook Ex. 8: Observa ELS MAMÍFERS (18) ===
+  // === Animals divertits (dodato 24.07.2026 — zabavne popularne životinje) ===
   {
-    id: "els-animals-8",
+    id: "els-animals-4b",
     type: "copy-word",
-    prompt: "Llegeix i copia els mamífers:",
+    prompt: "Llegeix i copia aquests animals:",
     words: [
-      { catalan: "gos", image: "gos" },
-      { catalan: "gat", image: "gat" },
-      { catalan: "conill", image: "conill" },
-      { catalan: "cavall", image: "cavall" },
-      { catalan: "porc", image: "porc" },
-      { catalan: "vaca", image: "vaca" },
-      { catalan: "ratolí", image: "ratoli" },
-      { catalan: "ovella", image: "ovella" },
-      { catalan: "hipopòtam", image: "hipopotam" },
-      { catalan: "goril·la", image: "gorila" },
-      { catalan: "zebra", image: "zebra" },
-      { catalan: "ós", image: "os" },
-      { catalan: "lleó", image: "lleo" },
-      { catalan: "camell", image: "camell" },
-      { catalan: "elefant", image: "elefant" },
-      { catalan: "tigre", image: "tigre" },
-      { catalan: "llop", image: "llop" },
-      { catalan: "guineu", image: "guineu" },
+      { catalan: "flamenc", image: "flamenc" },
+      { catalan: "ànec", image: "anec" },
+      { catalan: "oca", image: "oca" },
+      { catalan: "granota", image: "granota" },
+      { catalan: "unicorn", image: "unicorn" },
     ],
   },
 
@@ -218,6 +180,18 @@ export const elsAnimalsTasks: Task[] = [
       { left: "flamenc", right: "au" },
       { left: "serp", right: "rèptil" },
       { left: "papallona", right: "insecte" },
+    ],
+  },
+
+  // === Workbook Ex. 5: Llegeix i copia ELS REPTILS (3) ===
+  {
+    id: "els-animals-5",
+    type: "copy-word",
+    prompt: "Llegeix i copia els rèptils:",
+    words: [
+      { catalan: "serp", image: "serp" },
+      { catalan: "tortuga", image: "tortuga" },
+      { catalan: "cocodril", image: "cocodril" },
     ],
   },
 
@@ -253,6 +227,25 @@ export const elsAnimalsTasks: Task[] = [
     circleMode: true,
   },
 
+  // === Workbook Ex. 8: Observa ELS MAMÍFERS (18) ===
+  // Podeljeno 03.08.2026: u svesci je ovo JEDAN zadatak od 18 reči, a to je
+  // za dete od 5–8 godina predugačko — traka napretka se ne pomeri ni jednom
+  // dok ne uradi svih 18. Nijedna reč nije izbačena, samo su spakovane u 3
+  // koraka, redom kao u svesci.
+  {
+    id: "els-animals-8-1",
+    type: "copy-word",
+    prompt: "Llegeix i copia els mamífers: (1 de 3).",
+    words: [
+      { catalan: "gos", image: "gos" },
+      { catalan: "gat", image: "gat" },
+      { catalan: "conill", image: "conill" },
+      { catalan: "cavall", image: "cavall" },
+      { catalan: "porc", image: "porc" },
+      { catalan: "vaca", image: "vaca" },
+    ],
+  },
+
   // === Workbook Ex. 11: Sopa de lletres (8 mamífers) ===
   {
     id: "els-animals-11",
@@ -273,6 +266,19 @@ export const elsAnimalsTasks: Task[] = [
       ["z", "m", "a", "f", "n", "x", "p", "r", "s", "c"],
     ],
   },
+  {
+    id: "els-animals-8-2",
+    type: "copy-word",
+    prompt: "Llegeix i copia els mamífers: (2 de 3).",
+    words: [
+      { catalan: "ratolí", image: "ratoli" },
+      { catalan: "ovella", image: "ovella" },
+      { catalan: "hipopòtam", image: "hipopotam" },
+      { catalan: "goril·la", image: "gorila" },
+      { catalan: "zebra", image: "zebra" },
+      { catalan: "ós", image: "os" },
+    ],
+  },
 
   // === Workbook Ex. 12: Pinta cada animal d'un color diferent (aprèn tots els colors) ===
   {
@@ -290,6 +296,19 @@ export const elsAnimalsTasks: Task[] = [
       { text: "Pinta el conill de color rosa", targetColor: "rosa", targetItem: "conill" },
       { text: "Pinta la vaca de color vermell", targetColor: "vermell", targetItem: "vaca" },
       { text: "Pinta la tortuga de color lila", targetColor: "lila", targetItem: "tortuga" },
+    ],
+  },
+  {
+    id: "els-animals-8-3",
+    type: "copy-word",
+    prompt: "Llegeix i copia els mamífers: (3 de 3).",
+    words: [
+      { catalan: "lleó", image: "lleo" },
+      { catalan: "camell", image: "camell" },
+      { catalan: "elefant", image: "elefant" },
+      { catalan: "tigre", image: "tigre" },
+      { catalan: "llop", image: "llop" },
+      { catalan: "guineu", image: "guineu" },
     ],
   },
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, type CSSProperties } from "react";
 import { motion } from "framer-motion";
 import { SelfAssessmentTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
@@ -100,7 +100,10 @@ export default function SelfAssessment({ task, onComplete }: Props) {
       </div>
 
       {/* Grid of cards - full width */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+      <div
+        className="task-cards"
+        style={{ "--card-min": "150px", "--card-max": "230px", "--card-gap": "0.75rem" } as CSSProperties}
+      >
         {task.items.map((item, idx) => {
           const status = results[idx];
           const isRecording = activeIdx === idx && isListening;
@@ -213,7 +216,7 @@ export default function SelfAssessment({ task, onComplete }: Props) {
 
       {/* Complete button when all done */}
       {allDone && (
-        <div className="flex justify-center pt-2">
+        <div className="task-action-bar">
           <motion.button
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -272,7 +275,10 @@ function FallbackSelfAssessment({
       </div>
 
       {/* Grid of cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+      <div
+        className="task-cards"
+        style={{ "--card-min": "150px", "--card-max": "230px", "--card-gap": "0.75rem" } as CSSProperties}
+      >
         {task.items.map((item, idx) => {
           const rating = ratings[idx];
           const illustration = getWordIllustration(item.catalan);
@@ -337,7 +343,7 @@ function FallbackSelfAssessment({
 
       {/* Complete button */}
       {allRated && (
-        <div className="flex justify-center pt-2">
+        <div className="task-action-bar">
           <motion.button
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

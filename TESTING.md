@@ -133,3 +133,31 @@ prekinuti je i pustiti preostale pojedinačno. Zaglavljen prolaz nije obavljen p
 - [ ] Konzola prazna
 - [ ] 0 pokvarenih slika
 - [ ] Nova provera za svaki popravljen bag — **puštena protiv starog koda da se vidi da pada** **[A30-07]**
+
+## Širina i vidljivost na ekranu (dodato 03.08.2026, nalaz S6)
+
+- [ ] Na 1512 px okvir zadatka (`main.task-shell`) koristi **bar 70% širine ekrana**.
+- [ ] `la-classe?tasca=9`: svih 5 kartica u **jednom redu** (isto rastojanje od vrha).
+- [ ] `la-classe?tasca=8`: cela strana staje bez pomeranja (`scrollHeight` = `innerHeight`).
+- [ ] „Sopa de lletres" na 1512 px: mreža slova vidljiva **bez pomeranja**, spisak reči pored nje.
+- [ ] Dugme „Comprova!" vidljivo bez pomeranja u svakom zadatku (lepi se za dno).
+- [ ] Na 390 px kartice se same slažu u novi red, bez vodoravnog klizača.
+- [ ] Maskote **ne prekrivaju** traku sa dugmadima (donja ivica lika iznad vrha trake).
+- [ ] Nijedna maskota nije providna ni u jednom stanju (`opacity` slike = 1), ni posle
+      20 s mirovanja.
+
+**Automatski:** `BASE=http://localhost:3000 node e2e/predeploy.mjs` → provera 12 („Zadatak
+koristi širinu ekrana"). Puštena protiv starog koda: **pada** (672 px, 44%).
+
+## Maskote — treptaj (dodato 03.08.2026)
+
+- [ ] U mirnom stanju oba lika **trepću**, svaki u svom ritmu (3–6 s), ne istovremeno.
+- [ ] Treptaj traje oko 0,14 s — dovoljno da se primeti, prekratko da smeta.
+- [ ] Pri smeni kadra glava se **ne pomera** ni za piksel (kadar je nastao iz iste slike).
+- [ ] Sa uključenom sistemskom postavkom „manje pokreta" lik **ne trepće** uopšte.
+- [ ] Kadar sa zatvorenim očima postoji samo za `let-oblaci` i `poza`; za ostale
+      varijante lik prosto ne trepće i to nije greška.
+
+**Kako se pravi novi kadar:** `python3 scripts/napravi-treptaj.py` (u fajlu je tabela
+`SARENICE` sa izmerenim granicama šarenice po slici).
+

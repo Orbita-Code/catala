@@ -1,6 +1,7 @@
 import { Task } from "@/types/tasks";
 
 export const lEscolaTasks: Task[] = [
+
   // ── Task 1: Llegeix i copia (rooms) ──
   {
     id: "l-escola-1",
@@ -371,6 +372,27 @@ export const lEscolaTasks: Task[] = [
     ],
   },
 
+  // ── Task 19: Autoavaluació ──
+  {
+    id: "l-escola-19",
+    type: "self-assessment",
+    prompt: "Saps dir aquestes paraules en català?",
+    items: [
+      { catalan: "aula", translation: "učionica", image: "aula" },
+      { catalan: "biblioteca", translation: "biblioteka", image: "biblioteca" },
+      { catalan: "pati", translation: "dvorište", image: "pati" },
+      { catalan: "menjador", translation: "trpezarija", image: "menjador" },
+      { catalan: "gimnàs", translation: "fiskulturna sala", image: "gimnas" },
+      { catalan: "laboratori", translation: "laboratorija", image: "laboratori" },
+      { catalan: "lavabo", translation: "toalet", image: "lavabo" },
+      { catalan: "passadís", translation: "hodnik", image: "passadis" },
+      { catalan: "dimarts", translation: "utorak", image: "dimarts" },
+      { catalan: "divendres", translation: "petak", image: "divendres" },
+      { catalan: "a sobre", translation: "na/iznad", image: "a-sobre" },
+      { catalan: "a sota", translation: "ispod", image: "a-sota" },
+    ],
+  },
+
   // ── Task 17: Completa - Conjugation (entrar, sortir) ──
   {
     id: "l-escola-17",
@@ -417,27 +439,6 @@ export const lEscolaTasks: Task[] = [
         blank: "surten",
         options: ["surten", "sortim", "surt"],
       },
-    ],
-  },
-
-  // ── Task 19: Autoavaluació ──
-  {
-    id: "l-escola-19",
-    type: "self-assessment",
-    prompt: "Saps dir aquestes paraules en català?",
-    items: [
-      { catalan: "aula", translation: "učionica", image: "aula" },
-      { catalan: "biblioteca", translation: "biblioteka", image: "biblioteca" },
-      { catalan: "pati", translation: "dvorište", image: "pati" },
-      { catalan: "menjador", translation: "trpezarija", image: "menjador" },
-      { catalan: "gimnàs", translation: "fiskulturna sala", image: "gimnas" },
-      { catalan: "laboratori", translation: "laboratorija", image: "laboratori" },
-      { catalan: "lavabo", translation: "toalet", image: "lavabo" },
-      { catalan: "passadís", translation: "hodnik", image: "passadis" },
-      { catalan: "dimarts", translation: "utorak", image: "dimarts" },
-      { catalan: "divendres", translation: "petak", image: "divendres" },
-      { catalan: "a sobre", translation: "na/iznad", image: "a-sobre" },
-      { catalan: "a sota", translation: "ispod", image: "a-sota" },
     ],
   },
 

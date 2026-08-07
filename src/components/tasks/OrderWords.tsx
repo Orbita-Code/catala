@@ -151,7 +151,7 @@ export default function OrderWords({ task, onComplete, review = false }: Props) 
         key={currentIdx}
         initial={{ opacity: 0, x: 30 }}
         animate={{ opacity: 1, x: 0 }}
-        className="bg-white rounded-2xl p-5 shadow-sm"
+        className="bg-white rounded-2xl p-5 shadow-sm max-w-4xl mx-auto"
       >
         <p className="text-center text-sm text-[var(--text-light)] mb-4">
           Ordena les paraules per formar la frase
@@ -218,7 +218,7 @@ export default function OrderWords({ task, onComplete, review = false }: Props) 
 
         {/* Comprova button */}
         {allFilled && !checked && (
-          <div className="flex justify-center pt-3">
+          <div className="task-action-bar">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

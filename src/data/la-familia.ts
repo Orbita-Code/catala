@@ -1,6 +1,7 @@
 import { Task } from "@/types/tasks";
 
 export const laFamiliaTasks: Task[] = [
+
   // ── Task 1: Observa i completa els noms de la família ──
   {
     id: "la-familia-1",
@@ -49,6 +50,23 @@ export const laFamiliaTasks: Task[] = [
     ],
   },
 
+  // ── Task 3: Observa (family tree vocabulary) ──
+  {
+    id: "la-familia-3",
+    type: "label-image",
+    prompt: "Observa l'arbre genealògic i completa:",
+    image: "arbre-familiar-complet",
+    labels: [
+      { text: "avi", x: 20, y: 15 },
+      { text: "àvia", x: 60, y: 15 },
+      { text: "pare", x: 20, y: 50 },
+      { text: "mare", x: 60, y: 50 },
+      { text: "fill", x: 20, y: 85 },
+      { text: "filla", x: 60, y: 85 },
+    ],
+    options: ["avi", "àvia", "pare", "mare", "fill", "filla", "oncle", "tieta"],
+  },
+
   // ── Task 2: Observa i completa (Albert's family) ──
   {
     id: "la-familia-2",
@@ -90,47 +108,6 @@ export const laFamiliaTasks: Task[] = [
     ],
   },
 
-  // ── Task 3: Observa (family tree vocabulary) ──
-  {
-    id: "la-familia-3",
-    type: "label-image",
-    prompt: "Observa l'arbre genealògic i completa:",
-    image: "arbre-familiar-complet",
-    labels: [
-      { text: "avi", x: 20, y: 15 },
-      { text: "àvia", x: 60, y: 15 },
-      { text: "pare", x: 20, y: 50 },
-      { text: "mare", x: 60, y: 50 },
-      { text: "fill", x: 20, y: 85 },
-      { text: "filla", x: 60, y: 85 },
-    ],
-    options: ["avi", "àvia", "pare", "mare", "fill", "filla", "oncle", "tieta"],
-  },
-
-  // ── Task 4: Observa i respon (tieta, oncle, cosina) ──
-  {
-    id: "la-familia-4",
-    type: "fill-sentence",
-    prompt: "Observa i respon. Jo soc l'Albert.",
-    sentences: [
-      {
-        text: "Ella és la germana de la meva mare. És la meva ___.",
-        blank: "tieta",
-        options: ["cosina", "tieta", "àvia"],
-      },
-      {
-        text: "Ell és el marit de la meva tieta. És el meu ___.",
-        blank: "oncle",
-        options: ["pare", "avi", "oncle"],
-      },
-      {
-        text: "Ella és la filla del meu oncle i de la meva tieta. És la meva ___.",
-        blank: "cosina",
-        options: ["germana", "cosina", "tieta"],
-      },
-    ],
-  },
-
   // ── Task 6: Classifica (EL vs LA) ──
   {
     id: "la-familia-6",
@@ -161,6 +138,30 @@ export const laFamiliaTasks: Task[] = [
       "avi",
     ],
     circleMode: true,
+  },
+
+  // ── Task 4: Observa i respon (tieta, oncle, cosina) ──
+  {
+    id: "la-familia-4",
+    type: "fill-sentence",
+    prompt: "Observa i respon. Jo soc l'Albert.",
+    sentences: [
+      {
+        text: "Ella és la germana de la meva mare. És la meva ___.",
+        blank: "tieta",
+        options: ["cosina", "tieta", "àvia"],
+      },
+      {
+        text: "Ell és el marit de la meva tieta. És el meu ___.",
+        blank: "oncle",
+        options: ["pare", "avi", "oncle"],
+      },
+      {
+        text: "Ella és la filla del meu oncle i de la meva tieta. És la meva ___.",
+        blank: "cosina",
+        options: ["germana", "cosina", "tieta"],
+      },
+    ],
   },
 
   // ── Task 7: Completa amb (articles) ──

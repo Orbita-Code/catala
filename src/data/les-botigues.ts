@@ -1,6 +1,7 @@
 import { Task } from "@/types/tasks";
 
 export const lesBotiguesTasks: Task[] = [
+
   // === Workbook Ex. 1: Llegeix i copia les botigues ===
   {
     id: "les-botigues-1",
@@ -97,22 +98,6 @@ export const lesBotiguesTasks: Task[] = [
     ],
   },
 
-  // === Workbook Ex. 4b: Observa les verdures (9) ===
-  {
-    id: "les-botigues-5",
-    type: "copy-word",
-    prompt: "Llegeix i copia les verdures:",
-    words: [
-      { catalan: "ceba", image: "ceba" },
-      { catalan: "enciam", image: "enciam" },
-      { catalan: "pastanaga", image: "pastanaga" },
-      { catalan: "patata", image: "patata" },
-      { catalan: "pebrot", image: "pebrot" },
-      { catalan: "tomàquet", image: "tomaquet" },
-      { catalan: "mongetes", image: "mongetes" },
-    ],
-  },
-
   // === Workbook Ex. 5: Completa (fill-letters for fruits) ===
   {
     id: "les-botigues-6",
@@ -128,6 +113,22 @@ export const lesBotiguesTasks: Task[] = [
       { word: "cirera", hint: "c_r_ra", image: "cirera" },
       { word: "pera", hint: "p_r_", image: "pera" },
       { word: "maduixa", hint: "m_du_x_", image: "maduixa" },
+    ],
+  },
+
+  // === Workbook Ex. 4b: Observa les verdures (9) ===
+  {
+    id: "les-botigues-5",
+    type: "copy-word",
+    prompt: "Llegeix i copia les verdures:",
+    words: [
+      { catalan: "ceba", image: "ceba" },
+      { catalan: "enciam", image: "enciam" },
+      { catalan: "pastanaga", image: "pastanaga" },
+      { catalan: "patata", image: "patata" },
+      { catalan: "pebrot", image: "pebrot" },
+      { catalan: "tomàquet", image: "tomaquet" },
+      { catalan: "mongetes", image: "mongetes" },
     ],
   },
 

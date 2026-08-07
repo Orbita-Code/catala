@@ -190,9 +190,13 @@ export default function WordSearch({ task, onComplete, review = false }: Props) 
   };
 
   return (
-    <div className="space-y-4">
+    // RASPORED: spisak reči je ranije stajao IZNAD mreže, pa je mreža slova
+    // padala ispod donje ivice ekrana — dete nije ni znalo da je ima.
+    // Od 1024 px naviše spisak ide DESNO od mreže, u koloni; ispod te širine
+    // ostaje stari raspored (spisak gore), jer nema mesta za dve kolone.
+    <div className="flex flex-col gap-4 lg:grid lg:grid-cols-[auto_minmax(200px,280px)] lg:gap-8 lg:justify-center lg:items-start">
       {/* Word list with illustrations */}
-      <div className="flex flex-wrap gap-2 justify-center mb-3">
+      <div className="flex flex-wrap gap-2 justify-center lg:order-2 lg:content-start">
         {task.words.map((word, i) => {
           const isFound = foundWords.has(word);
           const color = WORD_COLORS[i % WORD_COLORS.length];
@@ -235,7 +239,7 @@ export default function WordSearch({ task, onComplete, review = false }: Props) 
 
       <div
         ref={gridRef}
-        className="bg-white rounded-2xl p-2 sm:p-3 shadow-sm inline-block select-none touch-none max-w-full"
+        className="bg-white rounded-2xl p-2 sm:p-3 shadow-sm select-none touch-none max-w-full w-fit mx-auto lg:order-1 lg:mx-0"
         onMouseUp={handleCellUp}
         onMouseLeave={handleCellUp}
         onTouchMove={handleTouchMove}
@@ -257,7 +261,7 @@ export default function WordSearch({ task, onComplete, review = false }: Props) 
                 onMouseDown={() => handleCellDown(r, c)}
                 onMouseEnter={() => handleCellEnter(r, c)}
                 onTouchStart={() => handleCellDown(r, c)}
-                className={`w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 flex items-center justify-center text-base sm:text-lg font-bold rounded-md cursor-pointer select-none transition-colors ${getCellClass(r, c)}`}
+                className={`w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-14 lg:h-14 flex items-center justify-center text-base sm:text-lg lg:text-xl font-bold rounded-md cursor-pointer select-none transition-colors ${getCellClass(r, c)}`}
               >
                 {letter.toUpperCase()}
               </motion.div>
@@ -266,7 +270,7 @@ export default function WordSearch({ task, onComplete, review = false }: Props) 
         </div>
       </div>
 
-      <div className="text-center text-sm text-[var(--text-light)]">
+      <div className="text-center text-sm text-[var(--text-light)] lg:order-3 lg:col-span-2">
         {foundWords.size}/{task.words.length} paraules trobades
       </div>
     </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, type CSSProperties } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FillSentenceTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
@@ -96,6 +96,26 @@ export default function FillSentence({ task, onComplete, review = false }: Props
   const allAnswered = task.sentences.every((_, i) => answers[i]);
   const allCorrect = checked && Object.values(results).every(Boolean);
 
+  /**
+   * „POGLEDAJ OVDE" (03.08.2026)
+   *
+   * Kad dete 12 s ne dodirne ništa, prva NEODGOVORENA kartica dobije mek
+   * prsten. Ne bira se nasumična kartica nego prva prazna — to je tačno ono
+   * mesto na koje dete treba da klikne, pa savet ne odaje odgovor, samo
+   * usmerava pogled.
+   *
+   * Tajmer se poništava na svaki odgovor: čim dete radi, pomoć nestaje.
+   */
+  const prvaPrazna = task.sentences.findIndex((_, i) => !answers[i]);
+  const [pokaziPrstenu, setPokaziPrstenu] = useState(false);
+
+  useEffect(() => {
+    setPokaziPrstenu(false);
+    if (checked || prvaPrazna === -1) return;
+    const t = setTimeout(() => setPokaziPrstenu(true), 12000);
+    return () => clearTimeout(t);
+  }, [prvaPrazna, checked]);
+
   const hasMainImage = task.image && getWordIllustration(task.image);
 
   // Check if all sentences have (or can derive) an individual image.
@@ -109,14 +129,30 @@ export default function FillSentence({ task, onComplete, review = false }: Props
     task.sentenceImages !== false && task.sentences.every((s) => sentenceImageKey(s));
 
   // Render sentences list
+  //
+  // ŠIRINA: kartice se ranije nisu rastezale (`w-[140px] md:w-[160px]`), pa je
+  // na širokom ekranu pet kartica padalo u dva reda i drugi red je završavao
+  // ispod donje ivice. Sada broj kolona računa sam raspored („auto-fit"):
+  // koliko kartica stane po 140 px, toliko ih je u redu.
+  // Donja granica je spuštena sa 160 na 140 px 03.08.2026: na prozoru od
+  // 1400 px (a to je stvarna širina na kojoj se radi) sa 160 px je sedma
+  // kartica padala u drugi red. Sa 132 px staje svih sedam i na 1280 px, a pošto se kolone
+  // rastežu do 240 px, na širem ekranu kartice i dalje budu velike.
   const renderSentences = () => (
     <div
       className={
         allSentencesHaveImages
-          ? "flex flex-wrap justify-center gap-3" // Compact cards, centered
-          : task.columns === 2
-            ? "grid grid-cols-1 md:grid-cols-2 gap-2"
-            : "space-y-2"
+          ? "task-cards"
+          : "task-cards-fill"
+      }
+      style={
+        allSentencesHaveImages
+          ? ({ "--card-min": "132px", "--card-max": "240px", "--card-gap": "0.75rem" } as CSSProperties)
+          // Rečenice bez slике stajale su u redovima preko CELE širine ekrana,
+          // pa je polje bilo dugačko pola metra, a slika tačnog odgovora sitna
+          // (prijava vlasnice 06.08.2026). Sada idu u kolone od najmanje 360 px:
+          // red je kraći, oko ga obuhvati odjednom, a slika dobija mesta.
+          : ({ "--card-min": "360px", "--card-gap": "0.6rem" } as CSSProperties)
       }
     >
       {task.sentences.map((sentence, i) => (
@@ -126,8 +162,8 @@ export default function FillSentence({ task, onComplete, review = false }: Props
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: i * 0.05 }}
           className={`bg-white rounded-xl p-2 shadow-sm ${
-            allSentencesHaveImages ? "w-[140px] md:w-[160px]" : ""
-          } ${
+            allSentencesHaveImages ? "w-full flex flex-col" : ""
+          } ${pokaziPrstenu && i === prvaPrazna ? "pokazi-ovde" : ""} ${
             checked
               ? results[i]
                 ? "ring-2 ring-[var(--success)]"
@@ -139,20 +175,22 @@ export default function FillSentence({ task, onComplete, review = false }: Props
           {allSentencesHaveImages && sentenceImg(sentence) ? (
             <>
               <div className="flex justify-center">
+                {/* Slika prati širinu kartice umesto da stoji na 120 px —
+                    na širokom ekranu naraste do 200 px, na telefonu se skupi. */}
                 <img
                   src={getWordIllustration(sentenceImg(sentence)!)!}
                   alt=""
-                  className="w-[120px] h-[120px] md:w-[140px] md:h-[140px] object-contain"
+                  className="w-full max-w-[200px] aspect-square object-contain"
                 />
               </div>
               {/* Sentence text with name */}
-              <p className="text-center text-sm font-semibold text-[var(--text)] font-handwriting my-1">
+              <p className="text-center text-base font-semibold text-[var(--text)] font-handwriting my-1">
                 {sentence.text.split("___").map((part, j, arr) => (
                   <span key={j}>
                     {part}
                     {j < arr.length - 1 && (
                       <span
-                        className={`inline-block px-2 py-0.5 mx-0.5 rounded-lg font-bold text-sm ${
+                        className={`inline-block px-2 py-0.5 mx-0.5 rounded-lg font-bold text-base ${
                           answers[i]
                             ? checked
                               ? results[i]
@@ -252,12 +290,15 @@ export default function FillSentence({ task, onComplete, review = false }: Props
                       initial={{ scale: 0, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       exit={{ scale: 0, opacity: 0 }}
-                      className="flex justify-end"
+                      className="flex justify-center mt-1"
                     >
+                      {/* Slika tačnog odgovora je NAGRADA i potvrda — sa 64 px
+                          je bila sitnija od samog teksta. Sada 112 px i po
+                          sredini kartice, da je dete odmah vidi. */}
                       <img
                         src={getWordIllustration(sentence.blank)!}
                         alt={sentence.blank}
-                        className="w-16 h-16 object-contain"
+                        className="w-28 h-28 object-contain"
                       />
                     </motion.div>
                   )}
@@ -265,7 +306,10 @@ export default function FillSentence({ task, onComplete, review = false }: Props
               </div>
             </>
           )}
-          <div className="flex flex-wrap gap-1.5 justify-center">
+          {/* U uskoj kartici se ponuđene reči lome nepravilno (2+1, pa 1+2),
+              pa red izgleda razbijeno. Zato u karticama sa slikom stoje jedna
+              ispod druge — uredno je i dugme je šire, lakše se pogodi prstom. */}
+          <div className={allSentencesHaveImages ? "flex flex-col gap-1.5 mt-auto" : "flex flex-wrap gap-1.5 justify-center"}>
             {sentence.options?.map((option) => (
               <motion.button
                 key={option}
@@ -314,6 +358,8 @@ export default function FillSentence({ task, onComplete, review = false }: Props
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: i * 0.05 }}
       className={`bg-white rounded-xl p-3 shadow-sm ${
+        pokaziPrstenu && i === prvaPrazna ? "pokazi-ovde" : ""
+      } ${
         checked
           ? results[i]
             ? "ring-2 ring-[var(--success)]"
@@ -386,12 +432,12 @@ export default function FillSentence({ task, onComplete, review = false }: Props
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0, opacity: 0 }}
-              className="flex justify-end"
+              className="flex justify-center mt-1"
             >
               <img
                 src={getWordIllustration(sentence.blank)!}
                 alt={sentence.blank}
-                className="w-14 h-14 object-contain"
+                className="w-28 h-28 object-contain"
               />
             </motion.div>
           )}
@@ -476,13 +522,18 @@ export default function FillSentence({ task, onComplete, review = false }: Props
           </div>
         </>
       ) : hasMainImage && allSentencesHaveImages ? (
-        // Main image + per-sentence images: show main image header above compact cards
+        // Glavna slika + slika uz svaku rečenicu.
+        // Glavna slika stoji IZNAD, ali manja nego pre (160 px umesto 192 px),
+        // a kartice dobijaju punu širinu strane. Probano je i da slika ide
+        // levo, pored kartica: tada joj 250 px otme toliko prostora da sedam
+        // kartica više ne stane u jedan red. Puna širina je bolja razmena —
+        // slika se i onako gleda samo jednom, kartice se diraju sve vreme.
         <>
-          <div className="flex flex-col items-center mb-4">
+          <div className="flex flex-col items-center mb-3">
             <img
               src={getWordIllustration(task.image!)!}
               alt=""
-              className="w-40 h-40 md:w-48 md:h-48 object-contain rounded-xl bg-white p-3 shadow-md"
+              className="w-36 h-36 md:w-44 md:h-44 lg:w-52 lg:h-52 object-contain rounded-xl bg-white p-2 shadow-md"
             />
             {task.description && (
               <div className="bg-amber-50 rounded-xl px-4 py-2 mt-3 text-base md:text-lg space-y-1">
@@ -499,9 +550,10 @@ export default function FillSentence({ task, onComplete, review = false }: Props
         renderSentences()
       )}
 
-      {/* Comprova button */}
+      {/* Comprova button — lepi se za dno ekrana (`task-action-bar`) da dete
+          ne mora da pogodi da ispod ima još nešto. */}
       {allAnswered && !checked && (
-        <div className="flex justify-center pt-3">
+        <div className="task-action-bar">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -515,7 +567,7 @@ export default function FillSentence({ task, onComplete, review = false }: Props
 
       {/* Retry button - only show after wrong answer */}
       {!allSentencesHaveImages && checked && !allCorrect && (
-        <div className="flex justify-center pt-2">
+        <div className="task-action-bar">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import AnimatedStar from "@/components/star/AnimatedStar";
+import { mascotImage } from "@/lib/mascot";
 import { celebrate } from "@/lib/confetti";
 import { playCombo } from "@/lib/audio";
 
@@ -20,8 +20,14 @@ interface MiniCelebrationProps {
 }
 
 /**
- * Small mid-theme celebration: dancing star + confetti + encouraging message.
- * Used every 5 completed tasks (theme level) and between copy-word rounds.
+ * Mala proslava usred teme: OBA SUPERHEROJA + konfete + čestitka.
+ * Pojavljuje se na svakih 5 rešenih zadataka i između rundi prepisivanja reči.
+ *
+ * Ovde je do 06.08.2026. stajala animirana ZVEZDA, i vlasnica je s pravom
+ * prijavila da to nije u redu: maskote aplikacije su dva superheroja, a zvezda
+ * po dogovoru ostaje samo u savetima, na početnoj strani i kao slika nivoa.
+ * Dete koje ceo zadatak gleda heroje ne sme da za pohvalu dobije drugog lika —
+ * pohvala tada deluje kao da dolazi od nekog trećeg.
  */
 export default function MiniCelebration({
   show,
@@ -58,12 +64,22 @@ export default function MiniCelebration({
             className="bg-white rounded-3xl shadow-2xl px-8 py-7 flex flex-col items-center max-w-sm w-full"
             onClick={(e) => e.stopPropagation()}
           >
-            <AnimatedStar
-              size="lg"
-              expression="celebrating"
-              animation="dance"
-              showSparkles
-            />
+            {/* Oba lika skaču, svaki svojim ritmom (drugi kreće 0,15 s kasnije)
+                — kad skaču u istom trenutku, izgledaju kao jedna slika. */}
+            <div className="flex items-end justify-center gap-2">
+              {(["devojcica", "decak"] as const).map((lik, i) => (
+                <motion.img
+                  key={lik}
+                  src={mascotImage(lik, "poza")}
+                  alt=""
+                  aria-hidden="true"
+                  className="w-24 h-24 sm:w-28 sm:h-28 object-contain select-none"
+                  style={{ transform: lik === "devojcica" ? "scaleX(-1)" : undefined }}
+                  animate={{ y: [0, -14, 0, -8, 0], rotate: [0, -4, 3, -2, 0] }}
+                  transition={{ duration: 1.1, repeat: Infinity, delay: i * 0.15, ease: "easeInOut" }}
+                />
+              ))}
+            </div>
             <p className="mt-4 text-2xl font-black text-[var(--primary)] font-handwriting text-center">
               {message}
             </p>

@@ -267,7 +267,7 @@ export default function Unscramble({ task, onComplete, review = false }: Props) 
         key={currentIdx}
         initial={{ opacity: 0, x: 30 }}
         animate={{ opacity: 1, x: 0 }}
-        className="bg-white rounded-2xl p-5 shadow-sm"
+        className="bg-white rounded-2xl p-5 shadow-sm max-w-3xl mx-auto"
       >
         <div className="flex items-center justify-center gap-2 mb-3">
           {getWordIllustration(currentWord.correct) ? (
@@ -324,7 +324,7 @@ export default function Unscramble({ task, onComplete, review = false }: Props) 
 
         {/* Comprova button */}
         {allFilled && !checked && (
-          <div className="flex justify-center pt-3">
+          <div className="task-action-bar">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
