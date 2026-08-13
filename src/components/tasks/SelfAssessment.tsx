@@ -18,13 +18,16 @@ export default function SelfAssessment({ task, onComplete }: Props) {
   const [results, setResults] = useState<Record<number, "correct" | "wrong" | "retry">>({});
   const [activeIdx, setActiveIdx] = useState<number | null>(null);
   const [forceFallback, setForceFallback] = useState(false);
+  /** Kod greške koji je javio pregledač — jedini trag zašto mikrofon ne radi. */
+  const [razlog, setRazlog] = useState<string | null>(null);
   const micEverStartedRef = useRef(false);
   /** Tajmer koji hvata "kliknuo sam, a ništa se ne dešava" (v. handleMicClick). */
   const cekanjeRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const { isListening, isSupported, startListening } = useSpeechRecognition({
     lang: "ca-ES",
-    onError: () => {
+    onError: (kod) => {
+      setRazlog(kod || null);
       setActiveIdx(null);
       // Only auto-fallback if mic NEVER started (broken API / iPad Safari).
       // If mic started before (laptop), just reset — user can tap mic again.
@@ -91,7 +94,7 @@ export default function SelfAssessment({ task, onComplete }: Props) {
 
   // Fallback for browsers without speech recognition or when mic doesn't work
   if (!isSupported || forceFallback) {
-    return <FallbackSelfAssessment task={task} onComplete={onComplete} showWarning={!isSupported} />;
+    return <FallbackSelfAssessment task={task} onComplete={onComplete} showWarning={!isSupported} razlog={razlog} />;
   }
 
   return (
@@ -252,14 +255,48 @@ export default function SelfAssessment({ task, onComplete }: Props) {
 }
 
 // Fallback when speech recognition not supported or mic failed
+/**
+ * ZAŠTO MIKROFON NE RADI — prevod koda greške u rečenicu koja kaže ŠTA URADITI.
+ *
+ * Pregledač uvek javi razlog, ali je do 14.08.2026. završavao samo u skrivenoj
+ * konzoli. Zato se nije znalo zašto mikrofon ne radi na detetovom laptopu, pa se
+ * umesto popravke nudio zaobilazni put (samoprocena), gde dete može i da slaže
+ * da zna reč. Sada razlog piše na ekranu.
+ */
+const RAZLOZI: Record<string, { sta: string; kako: string }> = {
+  "not-allowed": {
+    sta: "El navegador no té permís per fer servir el micròfon.",
+    kako: "Clica el cadenat a la barra d'adreces → Micròfon → Permet. Al Mac també: Configuració del sistema → Privadesa i seguretat → Micròfon → activa el navegador.",
+  },
+  "service-not-allowed": {
+    sta: "Aquest navegador no permet el reconeixement de veu.",
+    kako: "Obre el joc amb Google Chrome. El Safari sovint no ho permet.",
+  },
+  "audio-capture": {
+    sta: "No s'ha trobat cap micròfon.",
+    kako: "Comprova que l'ordinador té micròfon i que cap altra aplicació l'està fent servir.",
+  },
+  "language-not-supported": {
+    sta: "Aquest navegador no reconeix el català.",
+    kako: "Obre el joc amb Google Chrome.",
+  },
+  network: {
+    sta: "El reconeixement de veu necessita internet.",
+    kako: "Comprova la connexió i torna-ho a provar.",
+  },
+};
+
 function FallbackSelfAssessment({
   task,
   onComplete,
   showWarning = true,
+  razlog = null,
 }: {
   task: SelfAssessmentTask;
   onComplete: (result: TaskResult) => void;
   showWarning?: boolean;
+  /** Kod greške iz pregledača (`not-allowed`, `network`…) — zašto mikrofon ne radi. */
+  razlog?: string | null;
 }) {
   const [ratings, setRatings] = useState<Record<number, "yes" | "no">>({});
 
@@ -276,13 +313,28 @@ function FallbackSelfAssessment({
 
   return (
     <div className="space-y-4">
-      {/* Warning — only show for hardware-level unsupported, not for auto-fallback */}
-      {showWarning && (
-        <div className="flex items-center justify-center gap-2 p-3 bg-amber-50 rounded-xl">
-          <MicOff className="w-5 h-5 text-amber-600" />
+      {/* ZAŠTO MIKROFON NE RADI — vidljivo, sa uputstvom.
+          Ovaj režim je SAMOPROCENA: dete samo kaže „znam", pa može i da slaže.
+          Zato ovde ne stoji samo „nije dostupan" nego i tačan razlog i šta se
+          radi, da se mikrofon vrati u igru umesto da se zaobiđe. */}
+      {(showWarning || razlog) && (
+        <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl space-y-1">
+          <div className="flex items-center gap-2">
+            <MicOff className="w-5 h-5 text-amber-600 shrink-0" />
+            <p className="text-sm font-bold text-amber-800">
+              {razlog && RAZLOZI[razlog]
+                ? RAZLOZI[razlog].sta
+                : "El micròfon no està disponible."}
+            </p>
+          </div>
           <p className="text-sm text-amber-700">
-            El micròfon no està disponible. Demana a un adult!
+            {razlog && RAZLOZI[razlog]
+              ? RAZLOZI[razlog].kako
+              : "Demana ajuda a un adult."}
           </p>
+          {razlog && !RAZLOZI[razlog] && (
+            <p className="text-xs text-amber-600">Codi: {razlog}</p>
+          )}
         </div>
       )}
 

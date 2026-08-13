@@ -170,12 +170,52 @@ export function useSpeechRecognition(
     };
   }, []);
 
+  /**
+   * IZRIČITO TRAŽENJE DOZVOLE ZA MIKROFON (14.08.2026)
+   *
+   * Prijava: na detetovom laptopu mikrofon „uopšte ne radi", bez ijedne poruke.
+   * Uzrok je gotovo uvek isti: prepoznavanje govora se oslanja na to da će
+   * pregledač SAM zatražiti dozvolu — a Safari to često ne uradi, pa se ništa
+   * ne desi i dugme deluje mrtvo.
+   *
+   * `getUserMedia` traži dozvolu OTVORENO: prozorčić iskoči, i kad se jednom
+   * dozvoli, radi i prepoznavanje govora. Zvuk se odmah gasi (`stop()`) — ovo
+   * ne snima ništa, samo pita.
+   *
+   * Uz to razdvaja dva sasvim različita kvara koja su dosad izgledala isto:
+   * „nema dozvole / nema mikrofona" naspram „pregledač ne ume da prepozna govor".
+   */
+  const traziDozvolu = useCallback(async (): Promise<string | null> => {
+    if (typeof navigator === "undefined" || !navigator.mediaDevices?.getUserMedia) {
+      return null; // stariji pregledač — ne prekidamo, neka proba prepoznavanje
+    }
+    try {
+      const tok = await navigator.mediaDevices.getUserMedia({ audio: true });
+      tok.getTracks().forEach((t) => t.stop());
+      return null;
+    } catch (e) {
+      const ime = (e as Error)?.name || "";
+      if (ime === "NotAllowedError" || ime === "SecurityError") return "not-allowed";
+      if (ime === "NotFoundError" || ime === "DevicesNotFoundError") return "audio-capture";
+      return "audio-capture";
+    }
+  }, []);
+
   const startListening = useCallback(() => {
     const SpeechRecognition = getSpeechRecognitionClass();
     if (!SpeechRecognition) {
       console.log("[Speech] Not supported");
       return;
     }
+
+    // Prvo dozvola, pa tek onda prepoznavanje — v. objašnjenje iznad.
+    void traziDozvolu().then((greska) => {
+      if (greska) {
+        setError(greska);
+        setIsListening(false);
+        onErrorRef.current?.(greska);
+      }
+    });
 
     // Abort any existing instance first
     if (recognitionRef.current) {

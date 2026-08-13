@@ -51,7 +51,16 @@ const SAMO_SPISAK = arg.includes("--spisak");
  *
  * Zadaje se i ručno: `--tempo 0.8` postavlja SVE na tu vrednost.
  */
-const TEMPO_PO_VRSTI = { rec: 0.85, recenica: 0.72, naslov: 0.72 };
+const TEMPO_PO_VRSTI = { rec: 0.85, recenica: 0.73, naslov: 0.73 };
+
+/**
+ * `--samo recenica,naslov` presnima SAMO te vrste. Bez toga bi promena tempa
+ * za rečenice tražila presnimavanje i svih 555 reči bez potrebe (20 minuta).
+ */
+const SAMO_VRSTE = (() => {
+  const i = arg.indexOf("--samo");
+  return i >= 0 && arg[i + 1] ? new Set(arg[i + 1].split(",")) : null;
+})();
 const TEMPO_RUCNO = (() => {
   const i = arg.indexOf("--tempo");
   return i >= 0 && arg[i + 1] ? parseFloat(arg[i + 1]) : null;
@@ -152,7 +161,8 @@ const sumnjivi = [];
 
 for (const { tekst, kljuc: k, vrsta } of mapa.values()) {
   const cilj = path.join(IZLAZ, `${k}.m4a`);
-  if (fs.existsSync(cilj) && !SVE) { preskoceno++; continue; }
+  const trazenaVrsta = !SAMO_VRSTE || SAMO_VRSTE.has(vrsta);
+  if (fs.existsSync(cilj) && (!SVE || !trazenaVrsta)) { preskoceno++; continue; }
   const aiff = path.join(TMP, `${k}.aiff`);
   try {
     execFileSync("say", ["-v", GLAS, "-o", aiff, tekst]);
