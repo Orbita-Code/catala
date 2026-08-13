@@ -130,9 +130,19 @@ export function imaKatalonskiGlas(): boolean {
    pusti `node scripts/snimi-izgovor.mjs`.
    ───────────────────────────────────────────────────────────────────────── */
 
-/** Isto pravilo kao u skripti: crta za prazninu se ne izgovara. */
+/**
+ * MORA da se poklapa sa `zaIzgovor()` u `scripts/snimi-izgovor.mjs`, inače se
+ * snimak ne pronađe i tiho se pređe na računarov glas.
+ * Strelice (→ ← ↓ ↑ ↗) su uputstvo za oko, ne za uvo, pa se izbacuju; isto i
+ * crta za prazninu. `\s` u JavaScriptu obuhvata i tvrdi razmak.
+ */
 function kljucTeksta(t: string): string {
-  return t.replace(/_{2,}/g, " ").replace(/\s+/g, " ").trim().toLowerCase();
+  return t
+    .replace(/[→←↓↑↗↘↙↖⇒⇐]/g, " ")
+    .replace(/_{2,}/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
 }
 
 let tekuciSnimak: HTMLAudioElement | null = null;

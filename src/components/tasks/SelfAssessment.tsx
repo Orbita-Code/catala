@@ -19,6 +19,8 @@ export default function SelfAssessment({ task, onComplete }: Props) {
   const [activeIdx, setActiveIdx] = useState<number | null>(null);
   const [forceFallback, setForceFallback] = useState(false);
   const micEverStartedRef = useRef(false);
+  /** Tajmer koji hvata "kliknuo sam, a ništa se ne dešava" (v. handleMicClick). */
+  const cekanjeRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const { isListening, isSupported, startListening } = useSpeechRecognition({
     lang: "ca-ES",
@@ -67,6 +69,16 @@ export default function SelfAssessment({ task, onComplete }: Props) {
     if (results[idx] === "correct") return; // Already done
     setActiveIdx(idx);
     startListening();
+
+    // AKO POSLE KLIKA NIŠTA NE KRENE — prebaci se sam.
+    // Kad je dozvola za mikrofon odbijena ili ga drži drugi program, pregledač
+    // ume da ne javi ni grešku ni početak slušanja: dugme izgleda mrtvo i dete
+    // ne zna šta da radi. Zato se posle 4 s bez ijednog znaka života prelazi u
+    // režim bez mikrofona. Tajmer poništava svaki znak da mikrofon radi.
+    if (cekanjeRef.current) clearTimeout(cekanjeRef.current);
+    cekanjeRef.current = setTimeout(() => {
+      if (!micEverStartedRef.current) setForceFallback(true);
+    }, 4000);
   };
 
   const handleSkip = (idx: number) => {
@@ -84,13 +96,18 @@ export default function SelfAssessment({ task, onComplete }: Props) {
 
   return (
     <div className="space-y-4">
-      {/* Manual fallback link — always visible, easy to find */}
-      <div className="text-center">
+      {/* IZLAZ KAD MIKROFON NE RADI (14.08.2026, prijava vlasnice: „na njenom
+          laptopu ne radi mikrofon, uopšte nije klikabilan").
+          Ovaj izlaz je POSTOJAO i ranije, ali kao siva podvučena rečenica koju
+          ni odrasla osoba nije primetila — a kamoli dete. Zato je sada dugme sa
+          okvirom, ikonicom precrtanog mikrofona i punom dodirnom metom od 44 px. */}
+      <div className="flex justify-center">
         <button
           onClick={() => setForceFallback(true)}
-          className="text-sm text-[var(--text-light)] hover:text-[var(--primary)] underline"
+          className="flex items-center gap-2 px-4 min-h-[44px] rounded-full border-2 border-gray-200 bg-white text-sm font-bold text-[var(--text)] hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors"
         >
-          Sense micròfon? Prem aquí
+          <MicOff className="w-4 h-4" />
+          El micròfon no funciona
         </button>
       </div>
 

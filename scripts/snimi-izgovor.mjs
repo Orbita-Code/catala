@@ -40,10 +40,23 @@ const TEME = ["la-classe", "l-escola", "el-cos", "la-roba", "la-casa", "la-famil
 const arg = process.argv.slice(2);
 const SVE = arg.includes("--sve");
 const SAMO_SPISAK = arg.includes("--spisak");
-const TEMPO = (() => {
+/**
+ * TEMPO PO VRSTI (14.08.2026, prijava vlasnice).
+ *
+ * Reči su na 0,85 bile taman („čitanje reči je dobro"), ali rečenice zadatka i
+ * naslovi — ono što detetu OBJAŠNJAVA šta treba da uradi — bili su prebrzi.
+ * I ima smisla: jedna reč se sluša kao celina, a rečenicu dete mora da isprati
+ * do kraja i razume. Zato rečenice i naslovi idu na 0,72 (28% sporije od
+ * Montseinog govora), a reči ostaju na 0,85.
+ *
+ * Zadaje se i ručno: `--tempo 0.8` postavlja SVE na tu vrednost.
+ */
+const TEMPO_PO_VRSTI = { rec: 0.85, recenica: 0.72, naslov: 0.72 };
+const TEMPO_RUCNO = (() => {
   const i = arg.indexOf("--tempo");
-  return i >= 0 && arg[i + 1] ? parseFloat(arg[i + 1]) : 0.85;
+  return i >= 0 && arg[i + 1] ? parseFloat(arg[i + 1]) : null;
 })();
+const tempoZa = (vrsta) => TEMPO_RUCNO ?? TEMPO_PO_VRSTI[vrsta] ?? 0.85;
 
 /** Kratke reči dobijaju čitljivo ime; duže rečenice kratak otisak, da ime ne bude beskrajno. */
 function kljuc(tekst) {
@@ -56,9 +69,26 @@ function kljuc(tekst) {
   return osnova.slice(0, 28) + "-" + otisak;
 }
 
-/** Tekst koji se stvarno izgovara: iz rečenice se izbacuje crta za prazninu. */
+/**
+ * Tekst koji se STVARNO izgovara.
+ *
+ * Tri stvari koje se moraju očistiti (nađeno 14.08.2026 merenjem trajanja —
+ * dva naslova su trajala 12 s umesto očekivanih 7):
+ *
+ * 1. `\uXXXX` — podaci se čitaju kao OBIČAN TEKST, ne izvršavaju, pa u nizu
+ *    stoji doslovno „ ". Bez ovoga Montse naglas izgovara „beksleš u nula
+ *    nula a nula". Zato se te oznake pretvaraju u pravi znak.
+ * 2. Strelice (→ ← ↓ ↑ ↗) su uputstvo ZA OKO, ne za uvo — čitanje „strelica
+ *    desno, strelica levo…" samo zbunjuje dete.
+ * 3. Crta za prazninu (`___`) se ne izgovara.
+ */
 function zaIzgovor(t) {
-  return t.replace(/_{2,}/g, " ").replace(/\s+/g, " ").trim();
+  return t
+    .replace(/\\u([0-9a-fA-F]{4})/g, (_, h) => String.fromCharCode(parseInt(h, 16)))
+    .replace(/[→←↓↑↗↘↙↖⇒⇐]/g, " ")
+    .replace(/_{2,}/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function sveStavke() {
@@ -107,7 +137,7 @@ function trajanje(f) {
 const { mapa, sudari } = sveStavke();
 const po = (v) => [...mapa.values()].filter((x) => x.vrsta === v).length;
 console.log(`reči: ${po("rec")}   rečenica: ${po("recenica")}   naslova: ${po("naslov")}   ukupno: ${mapa.size}`);
-console.log(`tempo: ${TEMPO} (1.0 = kako Montse čita sama)`);
+console.log(`tempo — reči: ${tempoZa("rec")}, rečenice i naslovi: ${tempoZa("recenica")}   (1.0 = kako Montse čita sama)`);
 if (sudari.length) {
   console.log(`⚠ sudari imena (${sudari.length}), preskočeno:`);
   for (const [k, a, b] of sudari.slice(0, 8)) console.log(`   ${k}: „${a}" vs „${b}"`);
@@ -126,7 +156,7 @@ for (const { tekst, kljuc: k, vrsta } of mapa.values()) {
   const aiff = path.join(TMP, `${k}.aiff`);
   try {
     execFileSync("say", ["-v", GLAS, "-o", aiff, tekst]);
-    execFileSync("ffmpeg", ["-y", "-i", aiff, "-filter:a", `atempo=${TEMPO}`,
+    execFileSync("ffmpeg", ["-y", "-i", aiff, "-filter:a", `atempo=${tempoZa(vrsta)}`,
       "-c:a", "aac", "-b:a", "32k", cilj], { stdio: "ignore" });
   } catch (e) {
     sumnjivi.push([tekst, k, "snimanje palo: " + String(e).slice(0, 50)]);
@@ -145,6 +175,16 @@ for (const { tekst, kljuc: k, vrsta } of mapa.values()) {
 
 try { fs.rmSync(TMP, { recursive: true, force: true }); } catch {}
 
+// SIROČIĆI: kad se tekst promeni (npr. izbačene strelice), menja se i ime
+// fajla, pa stari snimak ostane da leži i nikad se ne pusti. Briše se ovde da
+// se ne vuče u repo i u keš na detetovom uređaju.
+const trazeni = new Set([...mapa.values()].map((v) => `${v.kljuc}.m4a`));
+let obrisano = 0;
+for (const f of fs.readdirSync(IZLAZ)) {
+  if (f.endsWith(".m4a") && !trazeni.has(f)) { fs.unlinkSync(path.join(IZLAZ, f)); obrisano++; }
+}
+if (obrisano) console.log(`obrisano siročića (stari nazivi): ${obrisano}`);
+
 const fajlovi = fs.readdirSync(IZLAZ).filter((f) => f.endsWith(".m4a"));
 const ukupno = fajlovi.reduce((a, f) => a + fs.statSync(path.join(IZLAZ, f)).size, 0);
 console.log(`\nnovih: ${novih}   |   već postojalo: ${preskoceno}`);
@@ -158,7 +198,7 @@ const parovi = [...mapa.entries()].filter(([, v]) => fs.existsSync(path.join(IZL
 fs.writeFileSync(path.join(PROJ, "src", "lib", "audio-reci.ts"),
 `// GENERISANO — ne menjati rukom. Pravi ga \`node scripts/snimi-izgovor.mjs\`.
 //
-// Šta ima snimljen izgovor (glas Montse, katalonski, tempo ${TEMPO}).
+// Šta ima snimljen izgovor (glas Montse, katalonski).
 // Aplikacija prvo traži snimak; ako ga nema, čita glasom uređaja kao i pre —
 // zato dodavanje nove reči ništa ne kvari, samo joj fali snimak dok se skripta
 // ne pusti ponovo.
