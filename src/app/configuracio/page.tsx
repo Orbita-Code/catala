@@ -5,14 +5,28 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Volume2, Mic, RefreshCw } from "lucide-react";
 import { getSettings, updateSettings, resetAllProgress, AppSettings } from "@/lib/settings";
+import { imaKatalonskiGlas } from "@/lib/tts";
 
 export default function ConfiguracioPage() {
   const router = useRouter();
   const [settings, setSettings] = useState<AppSettings | null>(null);
   const [showReset, setShowReset] = useState(false);
+  /**
+   * Da li uređaj uopšte ima katalonski glas.
+   * Ako nema, čitanje pada na španski i dete čuje pogrešan izgovor — a to se
+   * dosad nigde nije videlo, pa se mislilo da je aplikacija pokvarena.
+   * `null` = još se ne zna (glasovi stižu tek posle `voiceschanged`).
+   */
+  const [imaGlas, setImaGlas] = useState<boolean | null>(null);
 
   useEffect(() => {
     setSettings(getSettings());
+    const proveri = () => setImaGlas(imaKatalonskiGlas());
+    proveri();
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      window.speechSynthesis.addEventListener("voiceschanged", proveri);
+      return () => window.speechSynthesis.removeEventListener("voiceschanged", proveri);
+    }
   }, []);
 
   if (!settings) return null;
@@ -91,6 +105,21 @@ export default function ConfiguracioPage() {
             <Mic size={20} className="text-[var(--primary)]" />
             <span className="font-bold text-[var(--text)]">Veu</span>
           </div>
+
+          {/* Upozorenje kad uređaj nema katalonski glas — tada čitanje pada na
+              španski i dete čuje pogrešan izgovor. Bez ove poruke se ne vidi
+              zašto glas zvuči čudno; mislilo se da je aplikacija pokvarena. */}
+          {imaGlas === false && (
+            <div className="mt-2 bg-amber-50 border border-amber-200 rounded-xl p-3 text-sm text-[var(--text)]">
+              <p className="font-bold mb-1">Aquest ordinador no té veu catalana</p>
+              <p>
+                Les paraules es llegiran en castellà, i la pronúncia no serà correcta.
+                Per instal·lar-la: <span className="font-semibold">Configuració del sistema → Accessibilitat →
+                Contingut parlat → Veu del sistema → Gestiona les veus → Català</span>.
+              </p>
+            </div>
+          )}
+
           <div className="space-y-3 mt-3">
             <label className="flex items-center justify-between cursor-pointer">
               <span className="text-[var(--text)]">Text a veu</span>

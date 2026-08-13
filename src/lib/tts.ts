@@ -63,6 +63,59 @@ export function pretplatiSeNaGovor(naPromenu: () => void): () => void {
   return () => pretplatnici.delete(naPromenu);
 }
 
+/* ─────────────────────────────────────────────────────────────────────────
+   KOJI GLAS ČITA REČI (13.08.2026)
+
+   Prijava vlasnice: „zašto se čuje mašinski muški glas".
+   Uzrok: kad na uređaju NEMA katalonskog glasa, uzimao se PRVI španski sa
+   spiska. Na Mac-u je to „Eddy" — muški i namerno izobličen „izražajni" glas.
+   Dete uči izgovor po tome što čuje, pa glas nije ukras nego deo gradiva.
+
+   Redosled biranja:
+     1. katalonski (`ca`) — jedini koji izgovara ispravno; na Mac-u je Montse
+     2. španski, ali BEZ šaljivih glasova i uz prednost ženskom
+     3. bilo koji španski
+
+   Šaljivi glasovi se prepoznaju po IMENU jer ih Web Speech nikako drugačije
+   ne označava — nema ni oznaku pola ni oznaku kvaliteta.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/** Glasovi koje macOS nudi kao „izražajne", a zvuče izobličeno — nikad se ne biraju. */
+const SALJIVI = [
+  "eddy", "flo", "grandma", "grandpa", "rocko", "sandy", "shelley", "reed",
+  "bells", "boing", "bubbles", "jester", "organ", "superstar", "trinoids",
+  "whisper", "wobble", "zarvox", "albert", "bad news", "good news", "cellos",
+];
+
+/** Pitomi ženski španski glasovi — koriste se kad katalonskog nema. */
+const ZENSKI_SPANSKI = ["mónica", "monica", "paulina", "marisol", "esperanza", "sabina"];
+
+function saljiv(v: SpeechSynthesisVoice): boolean {
+  const ime = v.name.toLowerCase();
+  return SALJIVI.some((s) => ime.includes(s));
+}
+
+function izaberiGlas(): SpeechSynthesisVoice | undefined {
+  const svi = window.speechSynthesis.getVoices();
+  if (!svi.length) return undefined;
+  const pitomi = svi.filter((v) => !saljiv(v));
+
+  const katalonski = pitomi.filter((v) => v.lang.toLowerCase().startsWith("ca"));
+  if (katalonski.length) return katalonski[0];
+
+  const spanski = pitomi.filter((v) => v.lang.toLowerCase().startsWith("es"));
+  const zenski = spanski.find((v) =>
+    ZENSKI_SPANSKI.some((z) => v.name.toLowerCase().includes(z))
+  );
+  return zenski || spanski[0] || svi.find((v) => v.lang.toLowerCase().startsWith("es"));
+}
+
+/** Da li uređaj uopšte ima katalonski glas — za poruku u Configuració. */
+export function imaKatalonskiGlas(): boolean {
+  if (!isTTSAvailable()) return false;
+  return window.speechSynthesis.getVoices().some((v) => v.lang.toLowerCase().startsWith("ca"));
+}
+
 export function speak(text: string, rate?: number) {
   if (typeof window === "undefined") return;
   migrateLegacy();
@@ -77,11 +130,7 @@ export function speak(text: string, rate?: number) {
   utterance.pitch = 1.1; // Slightly higher for child-friendly tone
 
   // Try Catalan, fall back to generic Catalan, then Spanish
-  const voices = window.speechSynthesis.getVoices();
-  const catalanVoice = voices.find((v) => v.lang === "ca-ES")
-    || voices.find((v) => v.lang.startsWith("ca"))
-    || voices.find((v) => v.lang === "es-ES")
-    || voices.find((v) => v.lang.startsWith("es"));
+  const catalanVoice = izaberiGlas();
 
   if (catalanVoice) {
     utterance.voice = catalanVoice;
