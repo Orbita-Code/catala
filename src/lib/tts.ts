@@ -3,6 +3,7 @@
 // Text-to-Speech for Catalan pronunciation using Web Speech API
 
 import { getSettings, updateSettings } from "./settings";
+import { SNIMLJENO } from "./audio-reci";
 
 const LEGACY_TTS_KEY = "catala-tts-enabled";
 
@@ -116,10 +117,69 @@ export function imaKatalonskiGlas(): boolean {
   return window.speechSynthesis.getVoices().some((v) => v.lang.toLowerCase().startsWith("ca"));
 }
 
+/* ─────────────────────────────────────────────────────────────────────────
+   SNIMLJEN IZGOVOR — glas pripada IGRICI, ne uređaju (13.08.2026)
+
+   Do sada je aplikacija molila RAČUNAR da izgovori reč, pa je glas zavisio od
+   toga koje glasove uređaj ima: kod vlasnice katalonska Montse, kod deteta
+   nijedan katalonski — pa španski, koji „estoig" čita slovo po slovo.
+
+   Sada se prvo traži SNIMAK (glas Montse, napravljen jednom, putuje sa
+   igricom). Ako ga za taj tekst nema — čita se glasom uređaja, kao i pre.
+   Zato dodavanje nove reči ništa ne kvari; samo joj fali snimak dok se ne
+   pusti `node scripts/snimi-izgovor.mjs`.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/** Isto pravilo kao u skripti: crta za prazninu se ne izgovara. */
+function kljucTeksta(t: string): string {
+  return t.replace(/_{2,}/g, " ").replace(/\s+/g, " ").trim().toLowerCase();
+}
+
+let tekuciSnimak: HTMLAudioElement | null = null;
+
+/**
+ * Podrazumevana brzina u postavkama je 0,8 i namenjena je RAČUNAROVOM glasu.
+ * Snimci su već usporeni pri snimanju (tempo 0,85), pa bi im 0,8 oduzelo još
+ * jednom. Zato se 0,8 preslikava u 1,0 — a klizač u Configuració i dalje radi:
+ * pomeranje naviše ubrza snimak, naniže ga uspori.
+ */
+function brzinaSnimka(postavka: number): number {
+  return Math.min(2, Math.max(0.5, postavka / 0.8));
+}
+
+/** Vraća `true` ako je tekst pušten iz snimka. */
+function pustiSnimak(text: string): boolean {
+  const kljuc = SNIMLJENO[kljucTeksta(text)];
+  if (!kljuc) return false;
+  try {
+    if (tekuciSnimak) {
+      tekuciSnimak.pause();
+      tekuciSnimak = null;
+    }
+    const a = new Audio(`/audio/${kljuc}.m4a`);
+    a.playbackRate = brzinaSnimka(getSettings().ttsSpeed);
+    // Maskote pomeraju usta po istim događajima kao i kod računarovog glasa.
+    a.onplay = () => postaviGovor(true);
+    a.onended = () => postaviGovor(false);
+    a.onerror = () => postaviGovor(false);
+    tekuciSnimak = a;
+    void a.play().catch(() => postaviGovor(false));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export function speak(text: string, rate?: number) {
   if (typeof window === "undefined") return;
   migrateLegacy();
-  if (!getSettings().ttsEnabled || !isTTSAvailable()) return;
+  if (!getSettings().ttsEnabled) return;
+
+  // Prvo snimak — on zvuči isto na svakom uređaju.
+  window.speechSynthesis?.cancel();
+  if (pustiSnimak(text)) return;
+
+  if (!isTTSAvailable()) return;
 
   // Stop any ongoing speech
   window.speechSynthesis.cancel();
@@ -152,6 +212,12 @@ export function speak(text: string, rate?: number) {
 export function stopSpeaking() {
   if (isTTSAvailable()) {
     window.speechSynthesis.cancel();
+  }
+  // I snimak se mora zaustaviti — inače dete pređe na sledeći zadatak, a
+  // prethodna reč nastavi da se izgovara preko nove.
+  if (tekuciSnimak) {
+    tekuciSnimak.pause();
+    tekuciSnimak = null;
   }
   postaviGovor(false);
 }
