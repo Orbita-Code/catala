@@ -163,9 +163,10 @@ export default function SelfAssessment({ task, onComplete }: Props) {
                     className="w-28 h-28 sm:w-32 sm:h-32 object-contain"
                   />
                 ) : (
-                  <div className="w-28 h-28 sm:w-32 sm:h-32 bg-gray-100 rounded-lg flex items-center justify-center text-3xl">
-                    ❓
-                  </div>
+                  /* Reč bez ilustracije: prazan okvir, BEZ znaka pitanja.
+                     Znak pitanja je detetu govorio da je nešto pokvareno, a fali
+                     samo slika — reč se i dalje uči normalno. */
+                  <div className="w-28 h-28 sm:w-32 sm:h-32 bg-gray-100 rounded-lg" />
                 )}
               </div>
 
@@ -384,9 +385,10 @@ function FallbackSelfAssessment({
                     className="w-28 h-28 sm:w-32 sm:h-32 object-contain"
                   />
                 ) : (
-                  <div className="w-28 h-28 sm:w-32 sm:h-32 bg-gray-100 rounded-lg flex items-center justify-center text-3xl">
-                    ❓
-                  </div>
+                  /* Reč bez ilustracije: prazan okvir, BEZ znaka pitanja.
+                     Znak pitanja je detetu govorio da je nešto pokvareno, a fali
+                     samo slika — reč se i dalje uči normalno. */
+                  <div className="w-28 h-28 sm:w-32 sm:h-32 bg-gray-100 rounded-lg" />
                 )}
               </div>
 

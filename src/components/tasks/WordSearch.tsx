@@ -218,9 +218,9 @@ export default function WordSearch({ task, onComplete, review = false }: Props) 
                   transition={{ type: "spring", damping: 8, stiffness: 200 }}
                 />
               ) : illustration ? (
-                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gray-100 rounded-lg flex items-center justify-center text-lg">
-                  ❓
-                </div>
+                /* Slika je sakrivena dok se reč ne nađe — prazan okvir, BEZ znaka
+                   pitanja. Znak pitanja je delovao kao da slika fali. */
+                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gray-100 rounded-lg" />
               ) : null}
               <span
                 className={`px-3 py-1 rounded-full text-sm font-bold font-handwriting ${

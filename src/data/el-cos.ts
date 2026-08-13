@@ -30,10 +30,10 @@ export const elCosTasks: Task[] = [
       // Left side (x<=50): cabell, ull, nas
       { text: "cabell", x: 50, y: 18 },
       { text: "ull", x: 38, y: 50 },
-      { text: "nas", x: 50, y: 62 },
+      { text: "nas", x: 50, y: 56 },
       // Right side (x>50): orella, boca
       { text: "orella", x: 80, y: 55 },
-      { text: "boca", x: 50, y: 74 },
+      { text: "boca", x: 50, y: 65 },
     ],
   },
   {
@@ -303,10 +303,10 @@ export const elCosTasks: Task[] = [
     prompt: "Observa el vocabulari nou i completa les parts que falten.",
     image: "cara-detall",
     labels: [
-      { text: "bigoti", x: 50, y: 55 },
-      { text: "barba", x: 50, y: 80 },
-      { text: "ulleres", x: 50, y: 40 },
-      { text: "arrugues", x: 70, y: 30 },
+      { text: "bigoti", x: 18, y: 57 },
+      { text: "barba", x: 48, y: 62 },
+      { text: "ulleres", x: 77, y: 46 },
+      { text: "arrugues", x: 18, y: 36 },
     ],
     options: ["bigoti", "barba", "ulleres", "arrugues", "cella", "nas"],
   },

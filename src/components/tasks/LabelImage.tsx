@@ -251,7 +251,11 @@ export default function LabelImage({ task, onComplete, review = false }: Props) 
                         ))}
                       </>
                     ) : (
-                      <span className="text-2xl">{dragState.isDragging ? "⬇️" : "❓"}</span>
+                      /* PRAZNO MESTO — bez znaka pitanja (14.08.2026, zahtev vlasnice).
+                           Znak pitanja je izgledao kao da slika nedostaje ili da je
+                           aplikacija pokvarena. Sada je prazan isprekidan krug: „ovde
+                           nešto ide", bez poruke da nešto fali. */
+                      <span className="block w-6 h-6 rounded-full border-2 border-dashed border-current opacity-60">{dragState.isDragging ? "" : ""}</span>
                     )}
                   </motion.button>
                 ))}
