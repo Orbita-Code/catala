@@ -182,23 +182,80 @@ export default function LabelImage({ task, onComplete, review = false }: Props) 
 
   const hasMultipleRows = rowGroups.length > 1;
 
+  /** Slika na koju se kače oznake; ako je nema, ide zamenski raspored u redovima. */
+  const slikaNaSlici = task.image ? getWordIllustration(task.image) : null;
+
   return (
     <div
       className="space-y-4"
       style={{ touchAction: dragState.isDragging ? "none" : "auto" }}
     >
-      {/* Reference image when provided */}
-      {task.image && getWordIllustration(task.image) && (
-        <div className="flex justify-center mb-3">
-          <img
-            src={getWordIllustration(task.image)!}
-            alt=""
-            className="w-48 h-48 sm:w-56 sm:h-56 object-contain rounded-2xl bg-white shadow-sm p-2"
-          />
-        </div>
-      )}
+      {/* OZNAKE STOJE NA SLICI, NE ISPOD NJE (14.08.2026)
+          ==================================================================
+          Prijava vlasnice: „objasni kako je moguće da je ovo rešivo" — i bila
+          je u pravu, nije bilo.
 
-      {/* Hotspots - drop targets */}
+          Podaci za svaku etiketu odvajkada nose `x` i `y` u procentima, dakle
+          MESTO NA SLICI. Komponenta ih je koristila samo da grupiše redove, pa
+          je crtala prazna polja ISPOD slike. Kad red ima jedno polje — a to je
+          bio slučaj u ČETIRI od pet ovakvih zadataka — detetu ništa ne govori
+          koja reč u koje polje ide. Zadatak je bio nerešiv po konstrukciji.
+
+          Sada oznaka stoji tačno na mestu koje opisuje: na brkovima, na
+          naočarima, na kapi. Dete vidi GDE se pita i zato zna ŠTA da stavi.
+          Slika je i povećana — na 192 px se šest oznaka nije moglo razdvojiti.
+
+          Provera ostaje popustljiva kao i pre (reči iz istog reda su međusobno
+          zamenljive), pa porodično stablo radi kako je i radilo. */}
+      {slikaNaSlici ? (
+        <div className="flex justify-center">
+          <div className="relative w-full max-w-[440px]">
+            <img src={slikaNaSlici} alt="" className="w-full rounded-2xl bg-white shadow-sm p-2" />
+            {task.labels.map((label, i) => (
+              <motion.button
+                key={i}
+                data-drop-target={`slot-${i}`}
+                whileTap={dragState.isDragging ? undefined : { scale: 0.95 }}
+                onClick={() => handleHotspotTap(i)}
+                style={{ left: `${label.x}%`, top: `${label.y}%`, transform: "translate(-50%, -50%)" }}
+                className={`absolute z-10 min-h-[30px] px-1.5 rounded-full border-2 text-xs sm:text-sm font-bold shadow-sm whitespace-nowrap transition-all ${
+                  dragState.isDragging && !placed[i]
+                    ? "border-[var(--primary)] bg-purple-100 border-dashed animate-pulse"
+                    : checked
+                      ? results[i]
+                        ? "border-green-500 bg-green-50 text-green-700"
+                        : "border-red-400 bg-red-50 text-red-700"
+                      : placed[i]
+                        ? "border-[var(--primary)] bg-white text-[var(--primary)]"
+                        : "border-dashed border-[var(--primary)] bg-white/90 w-9"
+                }`}
+                aria-label={placed[i] || "Lloc buit"}
+              >
+                {placed[i] ? (
+                  <span className="flex items-center gap-1">
+                    {placed[i]}
+                    {checked && (results[i] ? " ✅" : (
+                      <span
+                        role="button"
+                        tabIndex={0}
+                        onClick={(e) => { e.stopPropagation(); handleRetrySingle(i); }}
+                        className="inline-flex items-center justify-center rounded-full hover:bg-orange-100"
+                        aria-label="Torna a provar"
+                      >
+                        <RefreshCcw className="w-4 h-4 text-orange-500" />
+                      </span>
+                    ))}
+                  </span>
+                ) : (
+                  <span className="block w-3 h-3 mx-auto rounded-full bg-[var(--primary)]" />
+                )}
+              </motion.button>
+            ))}
+          </div>
+        </div>
+      ) : (
+
+      /* Bez slike nema gde da se stane — ostaje stari raspored u redovima. */
       <div className="relative bg-white rounded-2xl p-4 shadow-sm min-h-[200px]">
         <div className="space-y-3">
           {rowGroups.map((row, rowIdx) => (
@@ -264,6 +321,7 @@ export default function LabelImage({ task, onComplete, review = false }: Props) 
           ))}
         </div>
       </div>
+      )}
 
       {/* Word bank - drag sources */}
       <div>
