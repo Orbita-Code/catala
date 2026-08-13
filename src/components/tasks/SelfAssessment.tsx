@@ -20,20 +20,23 @@ export default function SelfAssessment({ task, onComplete }: Props) {
   const [forceFallback, setForceFallback] = useState(false);
   /** Kod greške koji je javio pregledač — jedini trag zašto mikrofon ne radi. */
   const [razlog, setRazlog] = useState<string | null>(null);
-  const micEverStartedRef = useRef(false);
-  /** Tajmer koji hvata "kliknuo sam, a ništa se ne dešava" (v. handleMicClick). */
-  const cekanjeRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const { isListening, isSupported, startListening } = useSpeechRecognition({
     lang: "ca-ES",
     onError: (kod) => {
+      // ZADATAK SE VIŠE NIKAD NE RUŠI SAM U SAMOPROCENU (14.08.2026).
+      //
+      // Ranije je jedna greška mikrofona prebacivala CEO zadatak u režim gde
+      // dete klikne „ho sé" i time reč važi kao naučena — dakle moglo je da
+      // slaže i preskoči sve. A greška je stizala i kad ničeg nije bilo: dok
+      // prozorčić „Dozvoli mikrofon?" stoji otvoren, prepoznavanje se ugasi i
+      // to je čitano kao kvar. Zato je klik na PRVU reč rušio ceo zadatak.
+      //
+      // Sada se greška samo zapamti (prikazuje se šta je i šta da se uradi), a
+      // dete odmah može da pokuša ponovo na istoj reči. U režim bez mikrofona
+      // prelazi se JEDINO ručno, dugmetom „El micròfon no funciona".
       setRazlog(kod || null);
       setActiveIdx(null);
-      // Only auto-fallback if mic NEVER started (broken API / iPad Safari).
-      // If mic started before (laptop), just reset — user can tap mic again.
-      if (!micEverStartedRef.current) {
-        setForceFallback(true);
-      }
     },
     onResult: (transcript, alternatives) => {
       if (activeIdx === null) return;
@@ -63,25 +66,11 @@ export default function SelfAssessment({ task, onComplete }: Props) {
     },
   });
 
-  // Track if the mic ever successfully started (onstart fired → isListening became true)
-  useEffect(() => {
-    if (isListening) micEverStartedRef.current = true;
-  }, [isListening]);
-
   const handleMicClick = (idx: number) => {
     if (results[idx] === "correct") return; // Already done
     setActiveIdx(idx);
-    startListening();
-
-    // AKO POSLE KLIKA NIŠTA NE KRENE — prebaci se sam.
-    // Kad je dozvola za mikrofon odbijena ili ga drži drugi program, pregledač
-    // ume da ne javi ni grešku ni početak slušanja: dugme izgleda mrtvo i dete
-    // ne zna šta da radi. Zato se posle 4 s bez ijednog znaka života prelazi u
-    // režim bez mikrofona. Tajmer poništava svaki znak da mikrofon radi.
-    if (cekanjeRef.current) clearTimeout(cekanjeRef.current);
-    cekanjeRef.current = setTimeout(() => {
-      if (!micEverStartedRef.current) setForceFallback(true);
-    }, 4000);
+    setRazlog(null);
+    void startListening();
   };
 
   const handleSkip = (idx: number) => {
@@ -113,6 +102,26 @@ export default function SelfAssessment({ task, onComplete }: Props) {
           El micròfon no funciona
         </button>
       </div>
+
+      {/* RAZLOG KVARA PIŠE OVDE, U SAMOM ZADATKU — a zadatak OSTAJE na
+          mikrofonu. Ranije se pri grešci ceo ekran rušio u samoprocenu, pa se
+          razlog nikad nije video, a dete je moglo da klikne „znam" i preskoči. */}
+      {razlog && (
+        <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl space-y-1">
+          <div className="flex items-center gap-2">
+            <MicOff className="w-5 h-5 text-amber-600 shrink-0" />
+            <p className="text-sm font-bold text-amber-800">
+              {RAZLOZI[razlog]?.sta ?? "El micròfon no ha funcionat. Torna-ho a provar!"}
+            </p>
+          </div>
+          {RAZLOZI[razlog] && (
+            <p className="text-sm text-amber-700">{RAZLOZI[razlog].kako}</p>
+          )}
+          {!RAZLOZI[razlog] && (
+            <p className="text-xs text-amber-600">Codi: {razlog}</p>
+          )}
+        </div>
+      )}
 
       {/* Progress */}
       <div className="text-sm text-[var(--text-light)] text-center">

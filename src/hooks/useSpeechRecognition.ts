@@ -201,21 +201,29 @@ export function useSpeechRecognition(
     }
   }, []);
 
-  const startListening = useCallback(() => {
+  /**
+   * DOZVOLA SE ČEKA, PA SE TEK ONDA SLUŠA (14.08.2026).
+   *
+   * Prva verzija je tražila dozvolu i U ISTOM DAHU pokretala prepoznavanje.
+   * Dok prozorčić „Dozvoli mikrofon?" stoji na ekranu, prepoznavanje se ugasi
+   * samo od sebe (`onend` bez `onstart`) — a to je kod tumačio kao „pregledač
+   * ne ume" i TRAJNO gasio mikrofon. Zato je klik na prvu reč rušio ceo zadatak
+   * u samoprocenu. Sada se dozvola SAČEKA (`await`), pa se sluša.
+   */
+  const startListening = useCallback(async () => {
     const SpeechRecognition = getSpeechRecognitionClass();
     if (!SpeechRecognition) {
       console.log("[Speech] Not supported");
       return;
     }
 
-    // Prvo dozvola, pa tek onda prepoznavanje — v. objašnjenje iznad.
-    void traziDozvolu().then((greska) => {
-      if (greska) {
-        setError(greska);
-        setIsListening(false);
-        onErrorRef.current?.(greska);
-      }
-    });
+    const greskaDozvole = await traziDozvolu();
+    if (greskaDozvole) {
+      setError(greskaDozvole);
+      setIsListening(false);
+      onErrorRef.current?.(greskaDozvole);
+      return;
+    }
 
     // Abort any existing instance first
     if (recognitionRef.current) {
@@ -303,12 +311,16 @@ export function useSpeechRecognition(
       }
       console.log("[Speech] Error:", event.error);
 
-      // Permanent errors: mic not available or permission denied — switch to fallback immediately
+      // MIKROFON SE VIŠE NIKAD NE GASI SAM (14.08.2026).
+      // Ranije je jedna greška postavljala `isSupported = false`, pa je ceo
+      // zadatak padao u samoprocenu — gde dete klikne „znam" i preskoči reč.
+      // Greška se sada samo PRIJAVI; dete odmah može da pokuša ponovo, a u
+      // režim bez mikrofona prelazi jedino ručno, svojim dugmetom.
       if (event.error === "not-allowed" || event.error === "audio-capture") {
-        console.log("[Speech] Permanent error, switching to fallback");
         setIsListening(false);
-        setIsSupported(false);
         recognitionRef.current = null;
+        setError(event.error);
+        onErrorRef.current?.(event.error);
         return;
       }
 
@@ -344,12 +356,14 @@ export function useSpeechRecognition(
         clearTimeout(timeoutRef.current);
         timeoutRef.current = null;
       }
-      // If onend fires but onstart never did, the API is broken (iPad Safari)
+      // `onend` bez `onstart` NIJE dokaz da pregledač ne ume — najčešće znači da
+      // je prozorčić za dozvolu bio otvoren dok se instanca gasila. Ranije je
+      // ovo TRAJNO gasilo mikrofon i rušilo ceo zadatak u samoprocenu. Sada se
+      // samo javi i pusti dete da pokuša ponovo.
       if (!didStartRef.current) {
-        console.log("[Speech] API broken — onend fired without onstart, switching to fallback");
         setIsListening(false);
-        setIsSupported(false);
         recognitionRef.current = null;
+        onErrorRef.current?.("no-start");
         return;
       }
       // If ended without a result or error, show feedback
