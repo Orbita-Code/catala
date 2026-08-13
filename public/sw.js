@@ -1,4 +1,4 @@
-const CACHE_NAME = "catala-v42";
+const CACHE_NAME = "catala-v43";
 const STATIC_ASSETS = [
   "/",
   "/manifest.json",

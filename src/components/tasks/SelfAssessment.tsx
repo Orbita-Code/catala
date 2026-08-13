@@ -8,6 +8,7 @@ import { speak } from "@/lib/tts";
 import { Mic, MicOff, RefreshCcw } from "lucide-react";
 import { useSpeechRecognition, wordsMatch } from "@/hooks/useSpeechRecognition";
 import { celebrate, celebrateBig } from "@/lib/confetti";
+import { javiKvarMikrofona } from "@/lib/dijagnostika";
 
 interface Props {
   task: SelfAssessmentTask;
@@ -37,6 +38,9 @@ export default function SelfAssessment({ task, onComplete }: Props) {
       // prelazi se JEDINO ručno, dugmetom „El micròfon no funciona".
       setRazlog(kod || null);
       setActiveIdx(null);
+      // Uređaj sam javi zašto je zatajio — inače se uzrok saznaje samo ako ga
+      // neko prepiše sa ekrana, a to je i sporo i nije posao roditelja.
+      void javiKvarMikrofona("samoprocena", kod || "nepoznato");
     },
     onResult: (transcript, alternatives) => {
       if (activeIdx === null) return;

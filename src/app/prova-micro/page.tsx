@@ -15,6 +15,7 @@
 import { useEffect, useState } from "react";
 import { Mic, ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { javiKvarMikrofona } from "@/lib/dijagnostika";
 
 type Red = { sta: string; vrednost: string; dobro: boolean | null };
 
@@ -57,6 +58,10 @@ export default function ProvaMicro() {
         setRedovi((r) => [...r, { sta: "Micròfons trobats", vrednost: String(n), dobro: n > 0 }]);
       })
       .catch(() => {});
+
+    // Sam dolazak na ovu stranu šalje izveštaj — tako je dovoljno da je
+    // roditelj samo OTVORI, bez prepisivanja ijedne reči.
+    void javiKvarMikrofona("prova-micro:otvaranje", "");
   }, []);
 
   const probajDozvolu = async () => {
@@ -68,6 +73,7 @@ export default function ProvaMicro() {
     } catch (e) {
       const err = e as Error;
       setIshodDozvole(`❌ ${err.name}: ${err.message}`);
+      void javiKvarMikrofona("prova-micro:dozvola", err.name);
     }
   };
 
@@ -85,8 +91,17 @@ export default function ProvaMicro() {
       r.lang = "ca-ES";
       let stiglo = false;
       r.onresult = (e) => { stiglo = true; setIshodGovora(`✅ ha entès: «${e.results[0][0].transcript}»`); };
-      r.onerror = (e) => { stiglo = true; setIshodGovora(`❌ error: ${e.error}`); };
-      r.onend = () => { if (!stiglo) setIshodGovora("❌ s'ha aturat sense dir res (sovint: falta permís)"); };
+      r.onerror = (e) => {
+        stiglo = true;
+        setIshodGovora(`❌ error: ${e.error}`);
+        void javiKvarMikrofona("prova-micro:govor", e.error);
+      };
+      r.onend = () => {
+        if (!stiglo) {
+          setIshodGovora("❌ s'ha aturat sense dir res (sovint: falta permís)");
+          void javiKvarMikrofona("prova-micro:govor", "prekid-bez-rezultata");
+        }
+      };
       r.start();
     } catch (e) {
       setIshodGovora(`❌ no s'ha pogut iniciar: ${(e as Error).name}`);
