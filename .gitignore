@@ -50,3 +50,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Kontakt liste ilustracija — 23 MB slika koje se prave za 30 s komandom
+# `node scripts/kontakt-liste.mjs`. Nema razloga da opterećuju istoriju.
+AUDIT/kontakt-liste/
