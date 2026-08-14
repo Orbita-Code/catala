@@ -161,3 +161,23 @@ koristi širinu ekrana"). Puštena protiv starog koda: **pada** (672 px, 44%).
 **Kako se pravi novi kadar:** `python3 scripts/napravi-treptaj.py` (u fajlu je tabela
 `SARENICE` sa izmerenim granicama šarenice po slici).
 
+
+## Tačke na slici (`label-image`) — položaj mora da stoji (dodato 14.08.2026)
+
+- [ ] Pritisni **svaku** tačku po dva-tri puta pa izmeri gde je. Pomak sme biti **0 px**.
+      Provera u kodu: `document.querySelectorAll("[data-drop-target^='slot-']")` →
+      `getBoundingClientRect()` pre i posle klikova.
+- [ ] Sama slika se **ne da odvući** (nema providne senke kad se povuče mišem).
+- [ ] Svaka tačka stoji tačno na onome što imenuje — **pogledati u ekran**, ne verovati
+      koordinatama u podacima.
+
+> **Zamka koja je ovo izazvala:** ako je tačka jedno dugme koje i stoji na mestu
+> (`transform: translate(-50%,-50%)`) i animira se na dodir (Framer `whileTap`),
+> animacija piše u to isto polje `transform` i **obriše položaj** — tačka odskoči i
+> „šeta" po slici. Položaj i animacija moraju biti na **dva odvojena elementa**.
+
+## Reči u zadatku — sve iz sveske (dodato 14.08.2026)
+
+- [ ] Svaka reč koja se traži od deteta postoji u svesci (`Svi zadaci/<tema>/`).
+      Dodata reč koju sveska ne pominje je greška, i kad je tačna — deca uče
+      redosledom kojim su profesori pisali.
