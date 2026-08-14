@@ -4,7 +4,7 @@
 > Popravljeno se briše odavde (ostaje u izveštaju audita tog dana).
 > Nalaz otvoren duže od 3 audita posebno se ističe.
 
-Poslednje ažuriranje: **03.08.2026.** (šesta dopuna)
+Poslednje ažuriranje: **14.08.2026.** (sedma dopuna)
 
 ## Kritično
 
@@ -16,7 +16,16 @@ Poslednje ažuriranje: **03.08.2026.** (šesta dopuna)
 
 ## Srednje
 
-*Nema otvorenih nalaza srednje ozbiljnosti.*
+### N-14.1 — slike `cara` i `cabell` ne prikazuju ono što imenuju (14.08.2026)
+
+| | |
+|---|---|
+| **Gde** | `public/illustrations/cara.webp`, `cabell.webp`; koriste se u temi 3 (zadaci 1, 3 i samoprocena) |
+| **Šta je** | `cara` je **prazan oval bez očiju, nosa i usta** — dete ne može da pogodi da je to lice. `cabell` je **devojčica sa dugom duginom kosom** — dete vidi devojčicu, ne kosu; uz to je dugina kosa izmišljotina, a ostale ilustracije su verne. |
+| **Prijavila** | vlasnica |
+| **Dogovoreno rešenje** | `cabell`: **kosa otpozadi** (potiljak), bez lica, tako da je kosa jedini predmet. `cara`: **samo lice izbliza** — oči, nos, usta, obrve — bez kose u kadru. |
+| **Zašto stoji** | ChatGPT je 14.08. **dva puta primio zahtev i oba puta vratio prazno** (počeo da odgovara pa poništio, bez ijedne poruke o grešci ili ograničenju). Nije rešivo sastavljanjem od postojećih slika kao poređenja `alt/baix` — traži pravu novu generaciju. |
+| **Sledeći korak** | ponoviti kad ChatGPT proradi; promptovi su spremni u ovom nalazu |
 
 ## Nisko
 
