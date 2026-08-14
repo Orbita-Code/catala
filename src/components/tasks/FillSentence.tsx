@@ -123,8 +123,17 @@ export default function FillSentence({ task, onComplete, review = false }: Props
   // would mislead the child — e.g. relationship questions where the answer
   // is a different person than the sentence's subject.
   // Per-sentence illustrations can be disabled per task (sentenceImages: false)
-  const sentenceImg = (s: { text: string; image?: string }) =>
-    task.sentenceImages === false ? null : sentenceImageKey(s);
+  // `i` je redni broj rečenice: kad je odgovor tačan i rečenica ima `imageAfter`,
+  // slika se ZAMENI. Tako u „noi → noia" dete prvo vidi dečaka koji je viši od
+  // drugog, pa kad napiše „alta" na tom mestu iskoči devojčica koja je viša —
+  // reč i slika se poklope u istom trenutku, što je i cela poenta tog zadatka.
+  const sentenceImg = (s: { text: string; image?: string; imageAfter?: string }, i?: number) => {
+    if (task.sentenceImages === false) return null;
+    if (i !== undefined && checked && results[i] && s.imageAfter && getWordIllustration(s.imageAfter)) {
+      return s.imageAfter;
+    }
+    return sentenceImageKey(s);
+  };
   const allSentencesHaveImages =
     task.sentenceImages !== false && task.sentences.every((s) => sentenceImageKey(s));
 
@@ -172,13 +181,13 @@ export default function FillSentence({ task, onComplete, review = false }: Props
           }`}
         >
           {/* Compact layout for image-based sentences */}
-          {allSentencesHaveImages && sentenceImg(sentence) ? (
+          {allSentencesHaveImages && sentenceImg(sentence, i) ? (
             <>
               <div className="flex justify-center">
                 {/* Slika prati širinu kartice umesto da stoji na 120 px —
                     na širokom ekranu naraste do 200 px, na telefonu se skupi. */}
                 <img
-                  src={getWordIllustration(sentenceImg(sentence)!)!}
+                  src={getWordIllustration(sentenceImg(sentence, i)!)!}
                   alt=""
                   className="w-full max-w-[200px] aspect-square object-contain"
                 />
@@ -225,10 +234,10 @@ export default function FillSentence({ task, onComplete, review = false }: Props
             </>
           ) : (
             <>
-              {sentenceImg(sentence) && (
+              {sentenceImg(sentence, i) && (
                 <div className="flex justify-center mb-2">
                   <img
-                    src={getWordIllustration(sentenceImg(sentence)!)!}
+                    src={getWordIllustration(sentenceImg(sentence, i)!)!}
                     alt=""
                     className="w-20 h-20 object-contain"
                   />
@@ -367,10 +376,10 @@ export default function FillSentence({ task, onComplete, review = false }: Props
           : ""
       }`}
     >
-      {sentenceImg(sentence) && (
+      {sentenceImg(sentence, i) && (
         <div className="flex justify-center mb-2">
           <img
-            src={getWordIllustration(sentenceImg(sentence)!)!}
+            src={getWordIllustration(sentenceImg(sentence, i)!)!}
             alt=""
             className={allSentencesHaveImages ? "w-28 h-28 md:w-32 md:h-32 object-contain" : "w-20 h-20 object-contain"}
           />
@@ -465,6 +474,29 @@ export default function FillSentence({ task, onComplete, review = false }: Props
 
   return (
     <div className="space-y-3">
+      {/* SPISAK LIKOVA (14.08.2026)
+          Zadatak „Qui és qui?" bez ovoga nije bio rešiv nego se pogađao: dete
+          čita „ima dugu crnu kosu i naočare", a nigde nema nijedne slike da vidi
+          KO to jeste. Sada četiri lika stoje na vrhu, kao u svesci gde su
+          nacrtani jedan pored drugog. Dete gleda opis pa traži lik koji mu
+          odgovara. */}
+      {task.referenceImages && task.referenceImages.length > 0 && (
+        <div
+          className="task-cards mb-1"
+          style={{ "--card-min": "120px", "--card-max": "190px", "--card-gap": "0.5rem" } as CSSProperties}
+        >
+          {task.referenceImages.map((kljuc) => {
+            const src = getWordIllustration(kljuc);
+            if (!src) return null;
+            return (
+              <div key={kljuc} className="bg-white rounded-xl p-2 shadow-sm">
+                <img src={src} alt="" draggable={false} className="w-full aspect-square object-contain select-none" />
+              </div>
+            );
+          })}
+        </div>
+      )}
+
       {/* Layout with main reference image */}
       {hasMainImage && !allSentencesHaveImages ? (
         <>

@@ -1,0 +1,182 @@
+{
+  "la-classe": {
+    "played": 17,
+    "tasks": [
+      {
+        "i": 1,
+        "id": "la-classe-1",
+        "type": "copy-word",
+        "before": "1/160",
+        "after": "2/1637",
+        "advanced": true,
+        "notes": [
+          "copy-word: nema slova F za \"finestra\"",
+          "copy-word: nema slova I za \"finestra\"",
+          "copy-word: nema slova N za \"finestra\"",
+          "copy-word: nema slova E za \"finestra\"",
+          "copy-word: nema slova S za \"finestra\"",
+          "copy-word: nema slova T za \"finestra\"",
+          "copy-word: nema slova R za \"finestra\"",
+          "copy-word: nema slova A za \"finestra\""
+        ]
+      },
+      {
+        "i": 2,
+        "id": "la-classe-2",
+        "type": "word-search",
+        "before": "2/1637",
+        "after": "3/1655",
+        "advanced": true,
+        "notes": []
+      },
+      {
+        "i": 3,
+        "id": "la-classe-3",
+        "type": "fill-letters",
+        "before": "3/1655",
+        "after": "4/1675",
+        "advanced": true,
+        "notes": []
+      },
+      {
+        "i": 4,
+        "id": "la-classe-4",
+        "type": "classify-columns",
+        "before": "4/1675",
+        "after": "5/1675",
+        "advanced": true,
+        "notes": []
+      },
+      {
+        "i": 5,
+        "id": "la-classe-5",
+        "type": "matching",
+        "before": "5/1675",
+        "after": "6/1675",
+        "advanced": true,
+        "notes": []
+      },
+      {
+        "i": 6,
+        "id": "la-classe-6",
+        "type": "classify-columns",
+        "before": "6/1675",
+        "after": "7/1675",
+        "advanced": true,
+        "notes": []
+      },
+      {
+        "i": 7,
+        "id": "la-classe-7",
+        "type": "color-by-instruction",
+        "before": "7/1675",
+        "after": "8/1675",
+        "advanced": true,
+        "notes": [
+          "color-by-instruction: best-effort (vizuelno proveriti)"
+        ]
+      },
+      {
+        "i": 8,
+        "id": "la-classe-8",
+        "type": "fill-sentence",
+        "before": "8/1675",
+        "after": "9/1675",
+        "advanced": true,
+        "notes": []
+      },
+      {
+        "i": 9,
+        "id": "la-classe-9",
+        "type": "fill-sentence",
+        "before": "9/1675",
+        "after": "10/1675",
+        "advanced": true,
+        "notes": []
+      },
+      {
+        "i": 10,
+        "id": "la-classe-10",
+        "type": "matching",
+        "before": "10/1675",
+        "after": "11/1675",
+        "advanced": true,
+        "notes": []
+      },
+      {
+        "i": 11,
+        "id": "la-classe-11",
+        "type": "classify-columns",
+        "before": "11/1675",
+        "after": "12/1675",
+        "advanced": true,
+        "notes": []
+      },
+      {
+        "i": 12,
+        "id": "la-classe-12",
+        "type": "add-article",
+        "before": "12/1675",
+        "after": "13/1675",
+        "advanced": true,
+        "notes": []
+      },
+      {
+        "i": 13,
+        "id": "la-classe-13",
+        "type": "copy-word",
+        "before": "13/1675",
+        "after": "14/1692",
+        "advanced": true,
+        "notes": [
+          "copy-word: nema slova P za \"pissarra\"",
+          "copy-word: nema slova I za \"pissarra\"",
+          "copy-word: nema slova S za \"pissarra\"",
+          "copy-word: nema slova S za \"pissarra\"",
+          "copy-word: nema slova A za \"pissarra\"",
+          "copy-word: nema slova R za \"pissarra\"",
+          "copy-word: nema slova R za \"pissarra\"",
+          "copy-word: nema slova A za \"pissarra\""
+        ]
+      },
+      {
+        "i": 14,
+        "id": "la-classe-14",
+        "type": "fill-sentence",
+        "before": "14/1692",
+        "after": "15/1692",
+        "advanced": true,
+        "notes": []
+      },
+      {
+        "i": 15,
+        "id": "la-classe-15",
+        "type": "separate-words",
+        "before": "15/1692",
+        "after": "15/16110",
+        "advanced": true,
+        "notes": []
+      },
+      {
+        "i": 16,
+        "id": "la-classe-18",
+        "type": "self-assessment",
+        "before": "15/16110",
+        "after": "16/16110",
+        "advanced": true,
+        "notes": []
+      },
+      {
+        "i": 17,
+        "id": "la-classe-bonus",
+        "type": "drawing-canvas",
+        "before": "16/16110",
+        "after": "15/16110",
+        "advanced": true,
+        "notes": []
+      }
+    ],
+    "brokenImages": [],
+    "consoleErrors": []
+  }
+}

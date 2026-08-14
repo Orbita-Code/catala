@@ -502,6 +502,17 @@ const wordsWithIllustrations = new Set([
   "caminar",
   "alt-baix",
   "noi-noia",
+  // Poređenja za zadatak „noi → noia" (sastavljene 14.08.2026 od postojećih
+  // likova — `scripts/napravi-poredjenje.mjs`). Onaj o kome je reč stoji LEVO
+  // i ima meki krug iza sebe.
+  "noi-alt",
+  "noi-baix",
+  "noi-vell",
+  "noi-jove",
+  "noia-alta",
+  "noia-baixa",
+  "noia-vella",
+  "noia-jove",
   // La roba
   "anorac",
   "jersei",

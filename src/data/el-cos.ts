@@ -271,26 +271,40 @@ export const elCosTasks: Task[] = [
     id: "el-cos-12",
     type: "fill-sentence",
     prompt: "Fixa-t'hi i completa: noi → noia.",
-    image: "noi-noia",
+    // ZAŠTO SVAKA REČENICA IMA SVOJU SLIKU (14.08.2026, zahtev vlasnice):
+    // ranije je stajala JEDNA slika („noi-noia") za sve četiri rečenice, pa
+    // dete nije imalo odakle da vidi šta znači „alt" a šta „baix". Sada svaka
+    // rečenica pokazuje DEČAKA U ODNOSU NA DRUGOG (viši od, niži od, stariji
+    // od, mlađi od), a kad dete napiše žensku reč — na tom istom mestu se
+    // pojavi DEVOJČICA. Reč i slika se poklope u istom trenutku.
+    // Dogovor za slike: onaj o kome je reč stoji LEVO.
     sentences: [
       {
         text: "Un noi vell → Una noia ___.",
         blank: "vella",
+        image: "noi-vell",
+        imageAfter: "noia-vella",
         options: ["vell", "jove", "vella"],
       },
       {
         text: "Un noi alt → Una noia ___.",
         blank: "alta",
+        image: "noi-alt",
+        imageAfter: "noia-alta",
         options: ["alt", "alta", "baixa"],
       },
       {
         text: "Un noi baix → Una noia ___.",
         blank: "baixa",
+        image: "noi-baix",
+        imageAfter: "noia-baixa",
         options: ["baixa", "baix", "alta"],
       },
       {
         text: "Un noi jove → Una noia ___.",
         blank: "jove",
+        image: "noi-jove",
+        imageAfter: "noia-jove",
         options: ["vella", "alta", "jove"],
       },
     ],
@@ -324,6 +338,14 @@ export const elCosTasks: Task[] = [
     id: "el-cos-16",
     type: "fill-sentence",
     prompt: "Qui és qui? Llegeix i escriu el nom correcte.",
+    // ZADATAK BEZ OVOGA NIJE BIO REŠIV (prijava vlasnice 14.08.2026):
+    // dete čita „ima dugu crnu kosu i naočare", a nigde nema slike da vidi ko
+    // je ko — moglo je samo da pogađa. U svesci (vežba 16) svi likovi su
+    // nacrtani na jednoj slici, sa strelicama na prazna polja.
+    // Slike već postoje od ranije, samo se nikad nisu prikazivale.
+    // Imena OSTAJU napisana na slikama: dete mora da razume opis da bi znalo
+    // KOJI je lik u pitanju, pa tek onda pročita njegovo ime.
+    referenceImages: ["carolina", "sergi", "sara", "xavier"],
     sentences: [
       {
         text: "La ___ és jove, té el cabell llarg i negre. També porta ulleres.",

@@ -296,6 +296,71 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
            : `okvir ${sirina}px — nije nađen nijedan zadatak sa 4–8 kartica`);
 }
 
+// ─── 13. ZADATAK MORA BITI REŠIV, NE POGODIV (nalazi vlasnice 14.08.2026) ───
+//
+// Tri odvojena kvara iz istog dana, sva tri „prošla" sva dotadašnja testiranja
+// jer je test gledao da li se zadatak MOŽE završiti, a ne da li dete IMA
+// ODAKLE da zna odgovor:
+//
+//   a) „Qui és qui?" — dete čita „ima dugu crnu kosu i naočare", a nigde
+//      nijedne slike. Moglo je samo da pogađa. Sada četiri lika stoje na vrhu.
+//   b) „noi → noia" — jedna ista slika za sve četiri rečenice, pa se nije
+//      videlo šta znači „alt" a šta „baix". Sada svaka rečenica ima svoju.
+//   c) tačke na slici su se POMERALE na dodir, jer su položaj i animacija
+//      pisali u isto polje. Tačka bi odšetala sa brka na obraz.
+//
+// Provera se ne oslanja na redne brojeve zadataka — traži ih po sadržaju.
+{
+  const c = await noviKontekst(1440, 900); const p = await c.newPage();
+  let quiEsQui = null, noiNoia = null, tacke = null;
+
+  for (let n = 1; n <= 20 && !(quiEsQui && noiNoia && tacke); n++) {
+    await p.goto(`${BASE}/tema/el-cos?tasca=${n}`, { waitUntil: "domcontentloaded", timeout: 90000 });
+    await p.waitForSelector("main", { timeout: 30000 });
+    await p.waitForTimeout(900);
+    const d = await p.evaluate(() => {
+      const tekst = document.querySelector("main")?.innerText || "";
+      const slike = [...document.querySelectorAll("img")]
+        .map((i) => (i.getAttribute("src") || "").split("/").pop())
+        .filter((s) => s && s.endsWith(".webp"));
+      return { tekst, slike, tacaka: document.querySelectorAll("[data-drop-target^='slot-']").length };
+    });
+    if (/Qui és qui/i.test(d.tekst)) quiEsQui = d;
+    if (/noi\s*→\s*noia/i.test(d.tekst)) noiNoia = d;
+
+    if (d.tacaka >= 3 && !tacke) {
+      // Pritisni svaku tačku dvaput pa izmeri da li je ostala gde je bila.
+      const pre = await p.$$eval("[data-drop-target^='slot-']", (e) =>
+        e.map((x) => { const r = x.getBoundingClientRect(); return [Math.round(r.x + r.width / 2), Math.round(r.y + r.height / 2)]; }));
+      for (const el of await p.$$("[data-drop-target^='slot-']")) {
+        await el.click({ force: true }); await p.waitForTimeout(90);
+        await el.click({ force: true }); await p.waitForTimeout(90);
+      }
+      const posle = await p.$$eval("[data-drop-target^='slot-']", (e) =>
+        e.map((x) => { const r = x.getBoundingClientRect(); return [Math.round(r.x + r.width / 2), Math.round(r.y + r.height / 2)]; }));
+      const najveciPomak = Math.max(...pre.map((a, i) => Math.hypot(a[0] - posle[i][0], a[1] - posle[i][1])));
+      // Sličice uz ponuđene reči odaju odgovor i stoje samo uz neke reči —
+      // u spisku ponuđenih reči ne sme biti nijedne slike.
+      const slikaUzRec = await p.evaluate(() => {
+        const naslov = [...document.querySelectorAll("p")].find((x) => /Tria o arrossega/i.test(x.textContent || ""));
+        return naslov?.nextElementSibling?.querySelectorAll("img").length ?? 0;
+      });
+      tacke = { pomak: najveciPomak, slikaUzRec, broj: n };
+    }
+  }
+  await c.close();
+
+  const raznihSlika = noiNoia ? new Set(noiNoia.slike).size : 0;
+  zapisi("BLOK", "„Qui és qui?“ pokazuje likove (a)", !!quiEsQui && quiEsQui.slike.length >= 4,
+         quiEsQui ? `${quiEsQui.slike.length} slika na strani` : "zadatak nije nađen");
+  zapisi("BLOK", "„noi → noia“: svaka rečenica svoju sliku (b)", raznihSlika >= 4,
+         noiNoia ? `${raznihSlika} različitih slika` : "zadatak nije nađen");
+  zapisi("BLOK", "Tačke na slici se ne pomeraju na dodir (c)", !!tacke && tacke.pomak < 2,
+         tacke ? `najveći pomak ${tacke.pomak.toFixed(1)} px (zadatak ${tacke.broj})` : "zadatak nije nađen");
+  zapisi("BLOK", "Ponuđene reči bez sličica (ne odaju odgovor)", !!tacke && tacke.slikaUzRec === 0,
+         tacke ? `${tacke.slikaUzRec} slika uz ponuđene reči` : "zadatak nije nađen");
+}
+
 await b.close();
 
 // ─── ZBIR ───

@@ -381,7 +381,13 @@ export default function LabelImage({ task, onComplete, review = false }: Props) 
                 }`}
                 style={{ cursor: checked || usedWords.has(word) ? "default" : "grab" }}
               >
-                {getWordIllustration(word) ? <img src={getWordIllustration(word)!} alt="" className="w-12 h-12 object-contain inline mr-1" /> : null}
+                {/* BEZ SLIČICA UZ PONUĐENE REČI (14.08.2026, prijava vlasnice)
+                    Sličica se prikazivala samo uz reči koje slučajno imaju svoju
+                    ilustraciju — u zadatku 16 teme 3 uz `cabell`, `ulleres` i
+                    `nas`, a uz `bigoti`, `barba` i `cella` ne. To je bilo dvojako
+                    loše: nepravedno (neke reči lakše od drugih u istom zadatku) i
+                    odavalo je odgovor, jer dete slici uz reč nađe par na velikoj
+                    slici bez ijednog pročitanog slova. Ovde se reč ČITA. */}
                 {word}
                 {!checked && !usedWords.has(word) && (
                   <SpeakerButton text={word} size={14} className="ml-1 inline-block" light={selectedWord === word} />

@@ -1,0 +1,186 @@
+{
+  "la-classe": {
+    "played": 17,
+    "tasks": [
+      {
+        "i": 1,
+        "id": "la-classe-1",
+        "type": "copy-word",
+        "before": "1/160",
+        "after": "2/160",
+        "advanced": true,
+        "notes": [
+          "EXCEPTION: ISTEKLO VREME (20000 ms)"
+        ]
+      },
+      {
+        "i": 2,
+        "id": "la-classe-2",
+        "type": "word-search",
+        "before": "2/160",
+        "after": "3/160",
+        "advanced": true,
+        "notes": []
+      },
+      {
+        "i": 3,
+        "id": "la-classe-3",
+        "type": "fill-letters",
+        "before": "3/160",
+        "after": "4/1637",
+        "advanced": true,
+        "notes": []
+      },
+      {
+        "i": 4,
+        "id": "la-classe-4",
+        "type": "classify-columns",
+        "before": "4/1637",
+        "after": "5/1637",
+        "advanced": true,
+        "notes": []
+      },
+      {
+        "i": 5,
+        "id": "la-classe-5",
+        "type": "matching",
+        "before": "5/1637",
+        "after": "3/1637",
+        "advanced": true,
+        "notes": []
+      },
+      {
+        "i": 6,
+        "id": "la-classe-6",
+        "type": "classify-columns",
+        "before": "3/1637",
+        "after": "4/1637",
+        "advanced": true,
+        "notes": []
+      },
+      {
+        "i": 7,
+        "id": "la-classe-7",
+        "type": "color-by-instruction",
+        "before": "4/1637",
+        "after": "5/1637",
+        "advanced": true,
+        "notes": [
+          "color-by-instruction: best-effort (vizuelno proveriti)"
+        ]
+      },
+      {
+        "i": 8,
+        "id": "la-classe-8",
+        "type": "fill-sentence",
+        "before": "5/1637",
+        "after": "6/1637",
+        "advanced": true,
+        "notes": [
+          "fill-sentence: nije nađena opcija \"blava\"",
+          "fill-sentence: nije nađena opcija \"groc\"",
+          "fill-sentence: nije nađena opcija \"vermell\"",
+          "fill-sentence: nije nađena opcija \"taronja\"",
+          "fill-sentence: nije nađena opcija \"gris\"",
+          "fill-sentence: nije nađena opcija \"lila\"",
+          "fill-sentence: nije nađena opcija \"negres\""
+        ]
+      },
+      {
+        "i": 9,
+        "id": "la-classe-9",
+        "type": "fill-sentence",
+        "before": "6/1637",
+        "after": "7/1637",
+        "advanced": true,
+        "notes": [
+          "fill-sentence: nije nađena opcija \"dibuixa\"",
+          "fill-sentence: nije nađena opcija \"pinta\"",
+          "fill-sentence: nije nađena opcija \"canta\"",
+          "fill-sentence: nije nađena opcija \"escriu\"",
+          "fill-sentence: nije nađena opcija \"retalla\""
+        ]
+      },
+      {
+        "i": 10,
+        "id": "la-classe-10",
+        "type": "matching",
+        "before": "7/1637",
+        "after": "8/1637",
+        "advanced": true,
+        "notes": []
+      },
+      {
+        "i": 11,
+        "id": "la-classe-11",
+        "type": "classify-columns",
+        "before": "8/1637",
+        "after": "9/1637",
+        "advanced": true,
+        "notes": []
+      },
+      {
+        "i": 12,
+        "id": "la-classe-12",
+        "type": "add-article",
+        "before": "9/1637",
+        "after": "10/1637",
+        "advanced": true,
+        "notes": []
+      },
+      {
+        "i": 13,
+        "id": "la-classe-13",
+        "type": "copy-word",
+        "before": "10/1637",
+        "after": "11/1637",
+        "advanced": true,
+        "notes": []
+      },
+      {
+        "i": 14,
+        "id": "la-classe-14",
+        "type": "fill-sentence",
+        "before": "11/1637",
+        "after": "12/1637",
+        "advanced": true,
+        "notes": [
+          "fill-sentence: nije nađena opcija \"tisores\"",
+          "fill-sentence: nije nađena opcija \"llapis\"",
+          "fill-sentence: nije nađena opcija \"goma\"",
+          "fill-sentence: nije nađena opcija \"retoladors\"",
+          "fill-sentence: nije nađena opcija \"llibreta\""
+        ]
+      },
+      {
+        "i": 15,
+        "id": "la-classe-15",
+        "type": "separate-words",
+        "before": "12/1637",
+        "after": "13/1637",
+        "advanced": true,
+        "notes": []
+      },
+      {
+        "i": 16,
+        "id": "la-classe-18",
+        "type": "self-assessment",
+        "before": "13/1637",
+        "after": "14/1637",
+        "advanced": true,
+        "notes": []
+      },
+      {
+        "i": 17,
+        "id": "la-classe-bonus",
+        "type": "drawing-canvas",
+        "before": "14/1637",
+        "after": "15/1637",
+        "advanced": true,
+        "notes": []
+      }
+    ],
+    "brokenImages": [],
+    "consoleErrors": []
+  }
+}

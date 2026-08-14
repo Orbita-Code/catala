@@ -78,11 +78,19 @@ export interface FillSentenceTask extends BaseTask {
   sentenceImages?: boolean;
   description?: string[];
   columns?: number;
+  /** Slike koje stoje IZNAD rečenica kao spisak likova — dete ih gleda da bi
+   *  odgovorilo (npr. „Qui és qui?": četiri lica sa imenima). Bez njih takav
+   *  zadatak nije rešiv, nego se pogađa. */
+  referenceImages?: string[];
   sentences: {
     text: string;
     blank: string;
     options?: string[];
     image?: string;
+    /** Slika koja ZAMENI `image` kad dete odgovori tačno. Za „noi → noia":
+     *  prvo se vidi dečak koji je viši od drugog, a kad dete napiše „alta",
+     *  na tom istom mestu se pojavi devojčica koja je viša od druge. */
+    imageAfter?: string;
   }[];
 }
 
