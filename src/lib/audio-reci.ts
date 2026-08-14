@@ -265,7 +265,6 @@ export const SNIMLJENO: Record<string, string> = {
   "bigoti": "bigoti",
   "barba": "barba",
   "ulleres": "ulleres",
-  "arrugues": "arrugues",
   "la és jove, té el cabell llarg i negre. també porta ulleres.": "la-es-jove-te-el-cabell-llar-0111afbe",
   "en és un nen baix, amb el cabell curt i negre.": "en-es-un-nen-baix-amb-el-cab-76e151e1",
   "la és molt jove, amb el cabell marró recollit en una cua.": "la-es-molt-jove-amb-el-cabel-2f9b1fb5",

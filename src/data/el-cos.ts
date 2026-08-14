@@ -302,13 +302,21 @@ export const elCosTasks: Task[] = [
     type: "label-image",
     prompt: "Observa el vocabulari nou i completa les parts que falten.",
     image: "cara-detall",
+    // Tačke su namerno na TRI različita lica: brk na prvom, brada na drugom,
+    // naočare na trećem, kosa na prvom (najviša tačka, u samoj kosi).
+    //
+    // ZAŠTO NEMA `arrugues` (14.08.2026): u svesci, vežba 15, strelice pokazuju
+    // na cabell, front, cella, ull, nas, bigoti i boca — bore se NE pominju
+    // nigde u temi. Bila je moja dodatna reč, a uz to je tačka stajala na šiški,
+    // ne na borama. Zamenjena je rečju `cabell`, koja u svesci i jeste prva
+    // strelica na tom licu.
     labels: [
+      { text: "cabell", x: 18, y: 30 },
       { text: "bigoti", x: 18, y: 57 },
-      { text: "barba", x: 48, y: 62 },
+      { text: "barba", x: 48, y: 66 },
       { text: "ulleres", x: 77, y: 46 },
-      { text: "arrugues", x: 18, y: 36 },
     ],
-    options: ["bigoti", "barba", "ulleres", "arrugues", "cella", "nas"],
+    options: ["cabell", "bigoti", "barba", "ulleres", "cella", "nas"],
   },
 
   // ── Task 16: Qui és qui? ──

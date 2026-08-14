@@ -210,15 +210,30 @@ export default function LabelImage({ task, onComplete, review = false }: Props) 
       {slikaNaSlici ? (
         <div className="flex justify-center">
           <div className="relative w-full max-w-[440px]">
-            <img src={slikaNaSlici} alt="" className="w-full rounded-2xl bg-white shadow-sm p-2" />
+            {/* `draggable={false}`: bez toga pregledač dozvoli da se sama slika
+                odvuče (i pojavi se njena providna senka), pa detetu izgleda kao
+                da je nešto pokvarilo. */}
+            <img src={slikaNaSlici} alt="" draggable={false} className="w-full rounded-2xl bg-white shadow-sm p-2 select-none" />
             {task.labels.map((label, i) => (
-              <motion.button
+              /* ZAMKA KOJA JE POMERALA TAČKE (14.08.2026)
+                 Tačka je ranije bila jedno dugme koje je i STAJALO na mestu
+                 (`transform: translate(-50%,-50%)`) i ANIMIRALO se na dodir
+                 (`whileTap` = smanji na 0,95). Animacija piše u to isto polje
+                 `transform` — pa čim se tačka pritisne, njeno `translate` se
+                 obriše i tačka odskoči za pola svoje širine. Više dodira =
+                 tačka „šeta" po licu.
+                 Zato su sada DVA elementa: spoljni drži položaj i njega niko ne
+                 animira, unutrašnji se smanjuje na dodir. Položaj se ne miče. */
+              <div
                 key={i}
+                className="absolute z-10"
+                style={{ left: `${label.x}%`, top: `${label.y}%`, transform: "translate(-50%, -50%)" }}
+              >
+              <motion.button
                 data-drop-target={`slot-${i}`}
                 whileTap={dragState.isDragging ? undefined : { scale: 0.95 }}
                 onClick={() => handleHotspotTap(i)}
-                style={{ left: `${label.x}%`, top: `${label.y}%`, transform: "translate(-50%, -50%)" }}
-                className={`absolute z-10 min-h-[30px] px-1.5 rounded-full border-2 text-xs sm:text-sm font-bold shadow-sm whitespace-nowrap transition-all ${
+                className={`min-h-[30px] px-1.5 rounded-full border-2 text-xs sm:text-sm font-bold shadow-sm whitespace-nowrap transition-all ${
                   dragState.isDragging && !placed[i]
                     ? "border-[var(--primary)] bg-purple-100 border-dashed animate-pulse"
                     : checked
@@ -250,6 +265,7 @@ export default function LabelImage({ task, onComplete, review = false }: Props) 
                   <span className="block w-3 h-3 mx-auto rounded-full bg-[var(--primary)]" />
                 )}
               </motion.button>
+              </div>
             ))}
           </div>
         </div>
