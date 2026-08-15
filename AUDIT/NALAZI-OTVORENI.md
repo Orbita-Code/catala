@@ -4,7 +4,7 @@
 > Popravljeno se briše odavde (ostaje u izveštaju audita tog dana).
 > Nalaz otvoren duže od 3 audita posebno se ističe.
 
-Poslednje ažuriranje: **14.08.2026.** (sedma dopuna)
+Poslednje ažuriranje: **14.08.2026.** (osma dopuna — N-14.1 zatvoren istog dana)
 
 ## Kritično
 
@@ -16,7 +16,9 @@ Poslednje ažuriranje: **14.08.2026.** (sedma dopuna)
 
 ## Srednje
 
-### N-14.1 — slike `cara` i `cabell` ne prikazuju ono što imenuju (14.08.2026)
+*Nema otvorenih nalaza srednje ozbiljnosti.*
+
+## N-14.1 — slike `cara` i `cabell` ne prikazuju ono što imenuju (14.08.2026)
 
 | | |
 |---|---|
