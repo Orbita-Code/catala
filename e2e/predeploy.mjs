@@ -361,6 +361,60 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
          tacke ? `${tacke.slikaUzRec} slika uz ponuđene reči` : "zadatak nije nađen");
 }
 
+// ─── 14. IME U ZADATKU, A SLIKA STOJI NEISKORIŠĆENA (nalaz 14.08.2026) ───
+//
+// Klasa greške koja se ponovila DVA puta u istoj temi: ilustracija je bila
+// napravljena, uredno stoji u `public/illustrations/`, i nikad se ne prikaže.
+//   • „Qui és qui?" — postoje `carolina`, `sara`, `sergi`, `xavier`, zadatak
+//     ih ne pokazuje, pa dete pogađa ko ima naočare.
+//   • „La Laura és més ___ que en Carles" — postoji `laura-carles` sa
+//     napisanim imenima, a zadatak je prikazivao `alt-baix`, gde su devojčica
+//     i dečak BEZ imena. Nije se moglo znati ko je Laura.
+//
+// Provera je nad PODACIMA (ne otvara pregledač): za svaki zadatak koji pominje
+// lično ime traži da se u njemu koristi ilustracija čije ime sadrži to ime —
+// ali samo ako takva ilustracija uopšte postoji. Zadaci gde ime nije bitno za
+// rešavanje (slaganje reči, razdvajanje spojenih reči) se preskaču, jer tamo
+// dete ne mora da zna ko je ko.
+{
+  const fs = require("fs");
+  const IMENA = /\b(Carolina|Sara|Sergi|Xavier|Maria|Laura|Carles|Anna|Joan|Marc|Marta|Jordi|Núria|Pau|Laia|Pere|Jaume|Berta|Clara|Ona|Bruno|Albert|Júlia|Mireia)\b/g;
+  const TIPOVI_BEZ_SLIKE = ["order-words", "separate-words", "decode-grid", "word-search"];
+  const slike = new Set(fs.readdirSync("public/illustrations").filter((f) => f.endsWith(".webp")).map((f) => f.replace(".webp", "").toLowerCase()));
+  const lose = [];
+
+  for (const f of fs.readdirSync("src/data").filter((x) => x.endsWith(".ts") && !["themes.ts", "task-data.ts"].includes(x))) {
+    const s = fs.readFileSync("src/data/" + f, "utf8");
+    // Komentari se sklanjaju PRE traženja imena: red `// ── Task 2 (Albert's
+    // family) ──` stoji ispred SLEDEĆEG zadatka, pa je bez ovoga ime upadalo
+    // u prethodni i pravilo lažan nalaz.
+    for (const d of s.replace(/^\s*\/\/.*$/gm, "").split(/\n  \{\n/).slice(1)) {
+      const id = (d.match(/id: "([^"]+)"/) || [])[1];
+      const tip = (d.match(/type: "([^"]+)"/) || [])[1];
+      if (!id || TIPOVI_BEZ_SLIKE.includes(tip)) continue;
+      const imena = [...new Set(d.match(IMENA) || [])].map((x) => x.toLowerCase());
+      if (!imena.length) continue;
+      const koriscene = (d.match(/(?:image|imageAfter):\s*"([^"]+)"/g) || []).join(" ").toLowerCase()
+                      + " " + (d.match(/referenceImages:\s*\[[^\]]*\]/) || [""])[0].toLowerCase();
+      // Slika se traži SAMO ako je napravljena baš za te likove — to jest ako
+      // se ceo naziv fajla sastoji od ličnih imena (`laura-carles`, `carolina`).
+      // `albert-dibuix-3` NE ulazi: to je crtež uz jedan drugi zadatak, a ne
+      // slika Alberta. Bez ovog sužavanja provera je javljala dva lažna nalaza
+      // — svaki zadatak koji samo kaže „Jo soc l'Albert" tražio je te crteže.
+      const svePoznateReci = new Set(IMENA.source.replace(/\\b|[()]/g, "").split("|").map((x) => x.toLowerCase()));
+      const moguce = [...slike].filter((s2) => {
+        const delovi = s2.split(/[-_]/);
+        return delovi.every((d) => svePoznateReci.has(d)) && delovi.some((d) => imena.includes(d));
+      });
+      if (!moguce.length) continue;                       // nema šta da se prikaže — nije nalaz
+      if (moguce.some((s2) => koriscene.includes(s2))) continue;  // koristi se — u redu
+      lose.push(`${id} (imena: ${imena.join("/")}, stoji neiskorišćeno: ${moguce.slice(0, 3).join(", ")})`);
+    }
+  }
+  zapisi("BLOK", "Ime u zadatku → slika sa tim imenom se koristi", lose.length === 0,
+         lose.length ? lose.slice(0, 3).join("  |  ") : "svi zadaci sa imenima pokazuju prave likove");
+}
+
 await b.close();
 
 // ─── ZBIR ───

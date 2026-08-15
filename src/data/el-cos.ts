@@ -196,7 +196,13 @@ export const elCosTasks: Task[] = [
     id: "el-cos-11",
     type: "fill-sentence",
     prompt: "Observa i completa les frases.",
-    image: "alt-baix",
+    // ZADATAK SE PRE OVOGA POGADJAO (14.08.2026, prijava vlasnice)
+    // Stajala je slika `alt-baix` — devojčica i dečak BEZ IMENA. Rečenica pita
+    // „La Laura és més ___ que en Carles", a dete nije imalo odakle da zna ko
+    // je od njih dvoje Laura. Slika `laura-carles` (sa napisanim imenima, kao
+    // u svesci, vežba 11) postojala je od ranije i nikad se nije koristila.
+    // Ista greška kao u „Qui és qui?": ilustracija napravljena pa zaboravljena.
+    image: "laura-carles",
     sentences: [
       {
         text: "La Laura és més ___ que en Carles.",

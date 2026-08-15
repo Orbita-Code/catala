@@ -145,6 +145,10 @@ export const laFamiliaTasks: Task[] = [
     id: "la-familia-4",
     type: "fill-sentence",
     prompt: "Observa i respon. Jo soc l'Albert.",
+    // Zadatak je govorio „Observa" (pogledaj), a NIJE bilo šta da se gleda —
+    // slika `albert` je postojala i koristila se samo u prethodnom zadatku.
+    // Nadjeno 14.08.2026 novom proverom „ime u zadatku → slika sa tim imenom".
+    image: "albert",
     sentences: [
       {
         text: "Ella és la germana de la meva mare. És la meva ___.",
