@@ -128,3 +128,24 @@ zadatka nego njegovog mesta u nizu, a niz se menja. Ispravna provera prolazi kro
 traži zadatak koji ODGOVARA OPISU (npr. „ima 4–8 kartica sa slikom"), pa nad njim meri.
 Isto važi za svako pravilo koje pominje „treći zadatak", „druga kartica", „poslednji red".
 
+
+## 14.08.2026 — prijavio sam „ChatGPT nije vratio ništa", a bio je vratio dve slike
+
+**Šta se desilo:** tražio sam sliku kose, dva puta. Oba puta sam javio vlasnici da
+ChatGPT „primi zahtev i vrati prazno". Ona je gledala isti ekran i videla **dve lepe
+slike kose**. Bile su tu — samo sam prestao da čekam pre nego što su se pojavile.
+
+**Zašto sam to promašio:** provera je gledala **tekst poslednje poruke** i njen status
+„generiše li se". Slika u ChatGPT-u stiže **posle** teksta i u međuvremenu poruka
+nakratko izgleda kao da je nestala. Merio sam pogrešnu stvar, pa sam iz pogrešnog
+merenja izveo pouzdan zaključak — i još ga zapisao kao nalaz u `NALAZI-OTVORENI.md`.
+
+**Pravilo (važi za svaku klasu ovakvih grešaka):**
+Kad se čeka **ishod koji je slika, fajl ili prilog**, čeka se **taj ishod**, ne tekst
+oko njega. Konkretno: prebroji priloge pre slanja i čekaj dok se broj ne poveća.
+Šire: **pre nego što prijaviš da nešto NIJE stiglo, proveri da si uopšte merio to
+što čekaš.** „Nema odgovora" i „ne vidim odgovor tamo gde gledam" nisu ista tvrdnja,
+a druga se prijavljuje kao prva.
+
+**I još jednom potvrđeno pravilo D8:** vlasnica je gledala isti ekran i bila u pravu,
+a ja sam imao merenje. Njena prijava ima prednost nad merenjem alata.
