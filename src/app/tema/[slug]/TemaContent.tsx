@@ -15,7 +15,7 @@ import { themes } from "@/data/themes";
 import { taskData, getScoringTaskCount, getCompletedScoringCount } from "@/data/task-data";
 import { getThemeProgress, completeTask, isThemeFullyComplete, saveThemeProgress } from "@/lib/progress";
 import { getEncouragement } from "@/lib/encouragement";
-import { addError, getThemeErrors, getThemeErrorCount, getErroredItemsList, removeError, clearThemeErrors } from "@/lib/errors";
+import { addError, getThemeErrors, getThemeErrorCount, getErroredItemsList, removeError, clearThemeErrors, clearTaskErrors } from "@/lib/errors";
 import { speak } from "@/lib/tts";
 import { getSettings } from "@/lib/settings";
 import { getWordIllustration } from "@/lib/illustrations";
@@ -292,8 +292,19 @@ export default function TemaContent({ slug }: TemaContentProps) {
     // Update daily streak on first task completion
     updateDailyStreak();
 
-    // Track errors silently for later review
-    if (taskResult.erroredItems && taskResult.erroredItems.length > 0) {
+    // BELEŽENJE GREŠAKA — samo ono što je na KRAJU zadatka ostalo pogrešno.
+    //
+    // Prijava vlasnice 16.08.2026: dete je celu temu 2 uradilo tačno, a na
+    // kraju je pisalo „imaš još 9 reči za vežbanje" i vratilo je na zadatke
+    // koji su na ekranu zeleni. Uzrok: greška zapisana usput nije se brisala
+    // kad dete odmah zatim odgovori tačno. Za dete tog uzrasta je vraćanje na
+    // već rešene zadatke najgore što aplikacija može da uradi.
+    //
+    // Zato ovde stoji i sigurnosna mreža: zadatak završen sa svime tačnim
+    // BRIŠE sve svoje ranije zapisane greške, ma odakle da su došle.
+    if (taskResult.allCorrect) {
+      clearTaskErrors(slug, currentTask.id);
+    } else if (taskResult.erroredItems && taskResult.erroredItems.length > 0) {
       for (const item of taskResult.erroredItems) {
         addError(slug, currentTask.id, item);
       }

@@ -166,6 +166,22 @@ export default function FillLetters({ task, onComplete, review = false }: Props)
       // Speak the word aloud when correct
       if (wordCorrect) {
         speak(item.word);
+      // GREŠKA SE PONIŠTAVA ČIM DETE POPRAVI (16.08.2026, prijava vlasnice).
+      //
+      // Ranije je zapisana greška ostajala zauvek, i kad dete odmah zatim
+      // odgovori tačno. Dete koje je celu temu uradilo tačno dobijalo je na
+      // kraju „imaš još 9 reči za vežbanje" i bilo VRAĆENO na zadatke koji su
+      // na ekranu zeleni. Za dete tog uzrasta to je najgore što aplikacija
+      // može da uradi — oduzima smisao tome što se trudilo.
+      //
+      // Pravilo: greška je ono što je na KRAJU zadatka još pogrešno, a ne ono
+      // što je nekad usput bilo pogrešno.
+        setErroredWordIndices((prev) => {
+          if (!prev.has(wordIdx)) return prev;
+          const n = new Set(prev);
+          n.delete(wordIdx);
+          return n;
+        });
       }
 
       // Wrong word → show star encouragement, then auto-reset

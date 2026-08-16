@@ -516,6 +516,93 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
          (sve.match(/svih \d+ izgovora ima snimak|BEZ SNIMKA: \d+/) || ["nije se pokrenulo"])[0]);
 }
 
+// ─── 17. POPRAVLJENA GREŠKA NIJE GREŠKA (nalaz 16.08.2026) ───
+//
+// Najgori nalaz za dete do sada. Ćerka je celu temu 2 uradila TAČNO, a na kraju
+// je pisalo „imaš još 9 reči za vežbanje" i vratilo je na zadatke koji su na
+// ekranu zeleni. Vraćati dete na već rešene zadatke oduzima smisao trudu i
+// najbrži je način da prestane da igra.
+//
+// Uzrok: greška zapisana usput nije se brisala kad dete odmah zatim odgovori
+// tačno. Provera to i reprodukuje: namerno pogreši, popravi, pa gleda da li je
+// u pamćenju ostala ijedna greška.
+{
+  const c = await noviKontekst(1280, 900); const p = await c.newPage();
+  let ostalo = -1, nasao = false;
+  try {
+    // Marijin zadatak u temi 3 je višestruki izbor sa Sí/No — najlakše je
+    // tamo namerno pogrešiti pa popraviti.
+    for (let n = 1; n <= 22 && !nasao; n++) {
+      await p.goto(`${BASE}/tema/el-cos?tasca=${n}`, { waitUntil: "domcontentloaded", timeout: 90000 });
+      await p.waitForTimeout(700);
+      if (!(await p.locator("main").innerText()).includes("contesta SÍ o NO")) continue;
+      nasao = true;
+      await p.evaluate(() => localStorage.removeItem("catala-errors"));
+
+      // Zadatak ima 8 pitanja sa Sí/No. Greška se u pamćenje upisuje TEK kad se
+      // ceo zadatak završi, pa se mora proći do kraja — inače provera ništa ne
+      // meri (prva verzija je baš zato prolazila i na pokvarenom kodu).
+      //
+      // Odgovori se ne prepisuju iz podataka nego se nalaze u hodu: klikni
+      // „Sí"; ako iskoči ikonica za ponovni pokušaj, odgovor je bio pogrešan —
+      // klikni je pa izaberi „No". Tako provera radi i kad se pitanja promene.
+      //
+      // NA PRVOM PITANJU SE NAMERNO GREŠI PA POPRAVLJA — to je ceo smisao.
+      // ZAMKA: ikonica „pokušaj ponovo" NIJE <button> nego <span role="button">,
+      // pa je prvo izdanje ove provere nikad nije našlo — klikala je pored,
+      // pogrešni odgovori su ostajali, i provera je merila nešto sasvim drugo.
+      // Traži se po `aria-label`, koji je i namenjen tome.
+      const ponoviIkonicu = async () => {
+        const ikonica = p.locator('[aria-label="Torna a provar"]');
+        if (await ikonica.count()) { await ikonica.first().click({ force: true }); return true; }
+        return false;
+      };
+
+      for (let q = 0; q < 12; q++) {
+        // ZAMKA: kad se zadatak završi, dugmadi „Sí"/„No" nestanu, a Playwright
+        // na klik po imenu čeka 30 s pre nego što odustane — provera je zato
+        // visila preko deset minuta. Zato se prvo PROVERI da dugme postoji, i
+        // svaki klik ima kratko vreme čekanja.
+        if (await p.getByRole("button", { name: "Sí", exact: true }).count() === 0) break;
+        const prvi = q === 0 ? "No" : "Sí";
+        const drugi = q === 0 ? "Sí" : "No";
+        await p.getByRole("button", { name: prvi, exact: true }).first().click({ force: true, timeout: 2000 }).catch(() => {});
+        await p.waitForTimeout(350);
+        if (await ponoviIkonicu()) {
+          await p.waitForTimeout(250);
+          await p.getByRole("button", { name: drugi, exact: true }).first().click({ force: true, timeout: 2000 }).catch(() => {});
+          await p.waitForTimeout(350);
+          // ako je i drugi pogrešan, popravi natrag na prvi
+          if (await ponoviIkonicu()) {
+            await p.waitForTimeout(250);
+            await p.getByRole("button", { name: prvi, exact: true }).first().click({ force: true, timeout: 2000 }).catch(() => {});
+          }
+        }
+        await p.waitForTimeout(1500);
+      }
+      await p.waitForTimeout(1500);
+
+      ostalo = await p.evaluate(() => {
+        try {
+          const s = localStorage.getItem("catala-errors");
+          if (!s) return 0;
+          const o = JSON.parse(s);
+          let n = 0;
+          for (const t of Object.values(o)) for (const a of Object.values(t)) n += a.length;
+          return n;
+        } catch { return -1; }
+      });
+    }
+  } catch { /* ostaje -1 */ }
+  await c.close();
+  // Provera je namerno blaga u broju: bitno je da promašaj koji je dete
+  // ispravilo NE ostavlja trag. Ako je zadatak završen tačno, mora biti 0.
+  // Ako zadatak za probu NIJE nađen, provera PADA — provera koja se nije
+  // izvršila ne sme da se prijavi kao prošla. Lažno zeleno je gore od crvenog.
+  zapisi("BLOK", "Popravljena greska ne ostaje za vezbanje", nasao && ostalo === 0,
+         nasao ? `u pamćenju ostalo ${ostalo} grešaka (traži se 0)` : "zadatak za probu NIJE NAĐEN");
+}
+
 await b.close();
 
 // ─── ZBIR ───

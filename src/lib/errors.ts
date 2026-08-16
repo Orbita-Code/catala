@@ -117,7 +117,12 @@ export function clearThemeErrors(themeSlug: string): void {
 }
 
 /**
- * Clear errors for a specific task
+ * Obriši sve greške JEDNOG zadatka.
+ *
+ * POSTOJALA JE OD RANIJE I NIJE SE ZVALA NIOTKUD (16.08.2026). Zato je greška
+ * zapisana usput ostajala zauvek: dete koje je zadatak završilo tačno i dalje
+ * je nosilo tu reč u spisku „za vežbanje". Sada je zove `TemaContent` čim se
+ * zadatak završi sa svime tačnim.
  */
 export function clearTaskErrors(themeSlug: string, taskId: string): void {
   if (typeof window === "undefined") return;

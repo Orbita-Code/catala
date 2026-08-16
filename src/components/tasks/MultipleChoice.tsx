@@ -24,7 +24,22 @@ export default function MultipleChoice({ task, onComplete, review = false }: Pro
     review ? task.questions[0].correct : null
   );
   const [showResult, setShowResult] = useState(review);
-  const [wrongQuestions, setWrongQuestions] = useState<string[]>([]);
+  /**
+   * ISHOD PO PITANJU, PO REDNOM BROJU — ne spisak koji raste (16.08.2026).
+   *
+   * Prijava vlasnice: ćerka je celu temu uradila tačno, a na kraju je pisalo
+   * „imaš još 9 reči za vežbanje" i vratilo je na zelene zadatke. Za dete tog
+   * uzrasta je to najgore što aplikacija može da uradi.
+   *
+   * Prva popravka je iz spiska izbacivala pitanje kad ga dete ispravi, ali je
+   * spisak i dalje bio jedan niz koji se prepisuje iz zatvorenog opsega —
+   * zavisilo je od redosleda osvežavanja stanja, i izmereno je da ispravljeno
+   * pitanje ipak ostane zapisano. Zato se sada pamti ISHOD SVAKOG PITANJA
+   * posebno: poslednji odgovor prosto pregazi prethodni.
+   * Greška je ono što je na KRAJU pogrešno — ništa drugo.
+   */
+  const [ishodi, setIshodi] = useState<Record<number, boolean>>({});
+  const ishodiRef = useRef<Record<number, boolean>>({});
   const autoAdvanceTimer = useRef<NodeJS.Timeout | null>(null);
 
   const question = task.questions[currentQ];
@@ -36,8 +51,23 @@ export default function MultipleChoice({ task, onComplete, review = false }: Pro
     setShowResult(true);
 
     const isRight = optionIdx === question.correct;
-    const newWrong = isRight ? wrongQuestions : [...wrongQuestions, question.question];
-    if (!isRight) setWrongQuestions(newWrong);
+      // GREŠKA SE PONIŠTAVA ČIM DETE POPRAVI (16.08.2026, prijava vlasnice).
+      //
+      // Ranije je zapisana greška ostajala zauvek, i kad dete odmah zatim
+      // odgovori tačno. Dete koje je celu temu uradilo tačno dobijalo je na
+      // kraju „imaš još 9 reči za vežbanje" i bilo VRAĆENO na zadatke koji su
+      // na ekranu zeleni. Za dete tog uzrasta to je najgore što aplikacija
+      // može da uradi — oduzima smisao tome što se trudilo.
+      //
+      // Pravilo: greška je ono što je na KRAJU zadatka još pogrešno, a ne ono
+      // što je nekad usput bilo pogrešno.
+    // Ref se koristi zato što se završetak zadatka dešava u tajmeru — tamo
+    // stanje iz zatvorenog opsega ume da bude zastarelo, a ref je uvek tekući.
+    ishodiRef.current = { ...ishodiRef.current, [currentQ]: isRight };
+    setIshodi(ishodiRef.current);
+    const newWrong = task.questions
+      .map((q, i) => (ishodiRef.current[i] === false ? q.question : null))
+      .filter((x): x is string => x !== null);
 
     // Speak whichever option the kid picked, right or wrong
     speak(question.options[optionIdx]);
@@ -49,6 +79,22 @@ export default function MultipleChoice({ task, onComplete, review = false }: Pro
     if (autoAdvanceTimer.current) {
       clearTimeout(autoAdvanceTimer.current);
     }
+
+    /**
+     * POSLE POGREŠNOG ODGOVORA SE VIŠE NE IDE DALJE SAMO OD SEBE (16.08.2026).
+     *
+     * Ranije se prelazilo na sledeće pitanje 1,2 s posle SVAKOG odgovora, i kad
+     * je pogrešan. Iz toga su izlazile dve stvari koje je vlasnica i prijavila:
+     *   • dete klikne „pokušaj ponovo" i odgovori tačno, ali stari tajmer u
+     *     međuvremenu okine — pa se JEDNO PITANJE PRESKOČI (izmereno: brojač
+     *     skoči sa 5/8 na 7/8), a ispravljeni odgovor ostane zapisan kao greška;
+     *   • dete nema vremena ni da vidi šta je tačno pre nego što ekran ode dalje.
+     *
+     * Sada se dalje ide SAMO kad je odgovor tačan. Na pogrešan se čeka dete —
+     * ono klikne ikonicu i pokuša ponovo. Pitanja su „da/ne", pa se uvek može
+     * doći do tačnog; nema zaglavljivanja.
+     */
+    if (!isRight) return;
 
     autoAdvanceTimer.current = setTimeout(() => {
       if (currentQ < task.questions.length - 1) {

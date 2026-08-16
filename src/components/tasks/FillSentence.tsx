@@ -61,8 +61,13 @@ export default function FillSentence({ task, onComplete, review = false }: Props
       newResults[i] = correct;
       if (!correct) {
         allCorrect = false;
-        // Track error silently for later review
-        trackError(s.blank);
+        // GREŠKA SE OVDE VIŠE NE ZAPISUJE (16.08.2026, prijava vlasnice).
+        //
+        // Ovaj zadatak se završava SAMO kad je sve tačno — dete dotle popravlja.
+        // A zapis je nastajao na svaku medjuproveru, pa je jedan promašen klik
+        // koji je dete odmah ispravilo zauvek ostajao u spisku „za vežbanje".
+        // Tako je dete koje je temu uradilo tačno bilo vraćeno na zelene
+        // zadatke. Greška je ono što je na KRAJU pogrešno, a ovde toga nema.
       }
     });
     setResults(newResults);

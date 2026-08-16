@@ -94,6 +94,26 @@ export function useHintSystem() {
     }));
   }, []);
 
+  /**
+   * GREŠKA SE PONIŠTAVA KAD DETE POPRAVI (16.08.2026, prijava vlasnice).
+   *
+   * Bez ovoga je spisak „za vežbanje" rastao i nikad se nije smanjivao: reč
+   * koju je dete prvi put pogrešilo pa odmah zatim napisalo tačno ostajala je
+   * zauvek zapisana kao greška. Dete koje je celu temu završilo tačno na kraju
+   * je dobilo „imaš još 9 reči za vežbanje" i bilo vraćeno na zadatke koji su
+   * na ekranu zeleni. Za dete tog uzrasta to je najgore što aplikacija može da
+   * uradi — oduzima smisao tome što se trudilo.
+   *
+   * Pravilo je od sada: GREŠKA JE ONO ŠTO JE NA KRAJU ZADATKA JOŠ POGREŠNO,
+   * a ne ono što je nekad bilo pogrešno.
+   */
+  const clearError = useCallback((itemId: string) => {
+    setState((prev) => ({
+      ...prev,
+      erroredItems: prev.erroredItems.filter((x) => x !== itemId),
+    }));
+  }, []);
+
   const addError = useCallback((itemId: string) => {
     setState((prev) => ({
       ...prev,
@@ -113,5 +133,6 @@ export function useHintSystem() {
     canSkip,
     skipItem,
     addError,
+    clearError,
   };
 }
