@@ -463,6 +463,37 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
   zapisi("BLOK", "Mikrofon: dete može da čuje sebe", ponudaSluhu, ponudaSluhu ? "ponudjeno Jo i Model" : "posle snimanja nema poredjenja");
 }
 
+// ─── 16. JEDAN GLAS KROZ CELU IGRU (nalaz 16.08.2026) ───
+//
+// Prijava vlasnice: „el laboratori" i „el gimnàs" govori DRUGI ženski glas.
+// Uzrok: ti zadaci ne izgovaraju go podatak nego SASTAVE tekst u kodu
+// (`speak(`${article} ${word}`)`). Snimak je postojao za „laboratori", ali ne
+// i za „el laboratori" — pa je aplikacija tiho pala na glas uređaja, koji je
+// drugi. Dete usred iste igre čuje dva različita glasa i to zvuči pokvareno.
+//
+// Provera je nad podacima: svaki SASTAVLJENI izgovor mora imati svoj snimak.
+{
+  const fs = require("fs");
+  const spisak = fs.readFileSync("src/lib/audio-reci.ts", "utf8");
+  const kljuc = (t) => t.replace(/[→←↓↑↗↘↙↖⇒⇐]/g, " ").replace(/_{2,}/g, " ")
+                        .replace(/\s+/g, " ").trim().toLowerCase();
+  const imaSnimak = (t) => spisak.includes(`"${kljuc(t)}"`);
+  const fale = [];
+
+  for (const f of fs.readdirSync("src/data").filter((x) => x.endsWith(".ts") && !["themes.ts", "task-data.ts"].includes(x))) {
+    const s = fs.readFileSync("src/data/" + f, "utf8");
+    for (const m of s.matchAll(/\{[^{}]*?word:\s*"([^"]+)"[^{}]*?article:\s*"([^"]+)"[^{}]*?\}/g))
+      if (!imaSnimak(`${m[2]} ${m[1]}`)) fale.push(`${m[2]} ${m[1]}`);
+    for (const m of s.matchAll(/\{[^{}]*?article:\s*"([^"]+)"[^{}]*?word:\s*"([^"]+)"[^{}]*?\}/g))
+      if (!imaSnimak(`${m[1]} ${m[2]}`)) fale.push(`${m[1]} ${m[2]}`);
+    for (const m of s.matchAll(/\{[^{}]*?count:\s*(\d+)[^{}]*?description:\s*"([^"]+)"[^{}]*?\}/g))
+      if (!imaSnimak(`${m[1]} ${m[2]}`)) fale.push(`${m[1]} ${m[2]}`);
+  }
+  const jedinstveni = [...new Set(fale)];
+  zapisi("BLOK", "Jedan glas: svaki sastavljeni izgovor ima snimak", jedinstveni.length === 0,
+         jedinstveni.length ? `bez snimka: ${jedinstveni.slice(0, 4).join(", ")}` : "svi sastavljeni izgovori snimljeni");
+}
+
 await b.close();
 
 // ─── ZBIR ───

@@ -44,7 +44,13 @@ export const elCosTasks: Task[] = [
       { catalan: "orella", image: "orella" },
       { catalan: "braç", image: "brac" },
       { catalan: "cama", image: "cama" },
-      { catalan: "cap", image: "cap" },
+      // `cap` (glava) je odavde IZBAČENA 16.08.2026, prijava vlasnice:
+      // slika je dečakova glava, pa dete gleda i kaže „noi" ili „germà" —
+      // reč koju traži zadatak („glava") nikad neće pogoditi sa te slike.
+      // Umesto nje ide `cara` (lice), koja se ne može pročitati drugačije.
+      // `cap` OSTAJE u temi tamo gde se ČITA i PIŠE, a ne pogađa sa slike:
+      // u zadatku označavanja delova glave i u slagalici reči.
+      { catalan: "cara", image: "cara" },
       { catalan: "colze", image: "colze" },
     ],
   },
@@ -262,11 +268,11 @@ export const elCosTasks: Task[] = [
         options: ["Sí", "No"],
         correct: 1,
       },
-      {
-        question: "No té celles?",
-        options: ["Sí", "No"],
-        correct: 1,
-      },
+      // PITANJE „No té celles?" JE UKLONJENO 16.08.2026 (odluka vlasnice).
+      // Reč `cella` (obrva) nije za ovaj uzrast: dete uči katalonski tri godine
+      // i ne zna je. Uz to je pitanje bilo u dvostrukoj negaciji („NEMA obrve?"
+      // → tačan odgovor je NE), što muči i odraslog.
+      // Reč je izbačena iz cele teme, i iz ponuđenih reči u zadatku sa licima.
       {
         question: "El cabell li tapa una orella?",
         options: ["Sí", "No"],
@@ -334,7 +340,7 @@ export const elCosTasks: Task[] = [
     // naočare na trećem, kosa na prvom (najviša tačka, u samoj kosi).
     //
     // ZAŠTO NEMA `arrugues` (14.08.2026): u svesci, vežba 15, strelice pokazuju
-    // na cabell, front, cella, ull, nas, bigoti i boca — bore se NE pominju
+    // na kosu, čelo, obrvu, oko, nos, brk i usta — bore se NE pominju
     // nigde u temi. Bila je moja dodatna reč, a uz to je tačka stajala na šiški,
     // ne na borama. Zamenjena je rečju `cabell`, koja u svesci i jeste prva
     // strelica na tom licu.
@@ -344,7 +350,13 @@ export const elCosTasks: Task[] = [
       { text: "barba", x: 48, y: 66 },
       { text: "ulleres", x: 77, y: 46 },
     ],
-    options: ["cabell", "bigoti", "barba", "ulleres", "cella", "nas"],
+    // `cella` (obrva) je IZBAČENA i odavde 16.08.2026.
+    // Vlasnica: dete uči katalonski tri godine i ne zna tu reč — nije za taj
+    // uzrast. Ja sam je bio dodao pogrešno: u svesci na tom mestu stoji SAMO
+    // STRELICA i prazna crta, a reč nije napisana. Zaključio sam je iz crteža,
+    // a to nije sveska nego moja pretpostavka.
+    // Ponuđene reči su sada samo one koje dete već zna iz ove teme.
+    options: ["cabell", "bigoti", "barba", "ulleres", "nas", "orella"],
   },
 
   // ── Task 16: Qui és qui? ──
@@ -390,7 +402,7 @@ export const elCosTasks: Task[] = [
     type: "self-assessment",
     prompt: "Autoavaluació: Les parts del cos.",
     items: [
-      { catalan: "cap", translation: "glava", image: "cap" },
+      { catalan: "cara", translation: "lice", image: "cara" },
       { catalan: "ull", translation: "oko", image: "ull" },
       { catalan: "nas", translation: "nos", image: "nas" },
       { catalan: "boca", translation: "usta", image: "boca" },

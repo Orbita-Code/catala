@@ -131,6 +131,30 @@ function sveStavke() {
     }
     for (const m of s.matchAll(/(?:text|question):\s*"([^"]+)"/g)) dodaj(m[1], "recenica");
     for (const m of s.matchAll(/prompt:\s*"([^"]+)"/g)) dodaj(m[1], "naslov");
+
+    // SASTAVLJENI IZGOVORI (16.08.2026, prijava vlasnice: „el laboratori i
+    // el gimnàs govori drugi ženski glas").
+    //
+    // Uzrok: neki zadaci ne izgovaraju go podatak nego SASTAVE rečenicu u kodu —
+    // `speak(`${article} ${word}`)` u „Posa l'article" i `speak(`${count}
+    // ${description}`)` u „Compta i escriu". Snimak je postojao za „laboratori",
+    // ali ne i za „el laboratori", pa je aplikacija tiho padala na glas uređaja
+    // i dete je usred iste igre čulo dva različita glasa.
+    //
+    // Pravilo koje ovo pamti: snima se ono što se IZGOVARA, ne ono što piše u
+    // podacima. Svaki nov `speak(` sa sastavljenim tekstom mora doći i ovde.
+    for (const m of s.matchAll(/\{[^{}]*?word:\s*"([^"]+)"[^{}]*?article:\s*"([^"]+)"[^{}]*?\}/g)) {
+      dodaj(`${m[2]} ${m[1]}`, "rec");
+    }
+    for (const m of s.matchAll(/\{[^{}]*?article:\s*"([^"]+)"[^{}]*?word:\s*"([^"]+)"[^{}]*?\}/g)) {
+      dodaj(`${m[1]} ${m[2]}`, "rec");
+    }
+    for (const m of s.matchAll(/\{[^{}]*?count:\s*(\d+)[^{}]*?description:\s*"([^"]+)"[^{}]*?\}/g)) {
+      dodaj(`${m[1]} ${m[2]}`, "rec");
+    }
+    for (const m of s.matchAll(/\{[^{}]*?description:\s*"([^"]+)"[^{}]*?count:\s*(\d+)[^{}]*?\}/g)) {
+      dodaj(`${m[2]} ${m[1]}`, "rec");
+    }
   }
   return { mapa, sudari };
 }
