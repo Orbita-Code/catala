@@ -415,6 +415,54 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
          lose.length ? lose.slice(0, 3).join("  |  ") : "svi zadaci sa imenima pokazuju prave likove");
 }
 
+// ─── 15. MIKROFON STVARNO SNIMA (nalaz 16.08.2026) ───
+//
+// Najskuplji nalaz do sada: mikrofon je radio kod vlasnice, a kod deteta se
+// palio zeleno i nije čuo ništa. Uzrok je bio to što je CEO zadatak zavisio od
+// `SpeechRecognition` — usluge koja zvuk šalje tuđem serveru. Kad ta usluga
+// ćuti, ništa se ne desi i ne javi se greška.
+//
+// Sada je osnova SNIMANJE (`getUserMedia` + merač jačine + `MediaRecorder`),
+// a prepoznavanje je samo dodatak. Ova provera to i dokazuje, sa LAŽNIM
+// mikrofonom koji Chrome ume da pusti (`--use-fake-device-for-media-stream`),
+// pa ne treba nikakav pravi uređaj:
+//   1. dugmad za snimanje postoje;
+//   2. traka jačine se POMERI dok „zvuk" stiže  → merač radi;
+//   3. posle snimanja se ponudi da dete ČUJE sebe i uporedi sa modelom.
+// Ako ijedno od toga zataji, mikrofon je opet nem — i deploy pada.
+{
+  const bb = await chromium.launch({ headless: true, args: ["--use-fake-ui-for-media-stream", "--use-fake-device-for-media-stream"] });
+  const c = await bb.newContext({ httpCredentials: CRED, viewport: { width: 1440, height: 900 }, permissions: ["microphone"] });
+  const p = await c.newPage();
+  let dugmadi = 0, najveciNivo = 0, ponudaSluhu = false;
+  try {
+    let nadjen = 0;
+    for (let n = 1; n <= 22 && !nadjen; n++) {
+      await p.goto(`${BASE}/tema/el-cos?tasca=${n}`, { waitUntil: "domcontentloaded", timeout: 90000 });
+      await p.waitForTimeout(700);
+      if ((await p.locator("main").innerText()).includes("Autoavaluació")) nadjen = n;
+    }
+    await p.waitForTimeout(1200);
+    dugmadi = await p.locator('button[aria-label^="Digues"]').count();
+    if (dugmadi) {
+      await p.locator('button[aria-label^="Digues"]').first().click();
+      for (let i = 0; i < 28; i++) {
+        const w = await p.evaluate(`(() => { const t=document.querySelector(".bg-green-500"); return t ? (parseFloat(t.style.width)||0) : 0; })()`);
+        if (w > najveciNivo) najveciNivo = w;
+        await p.waitForTimeout(200);
+      }
+      await p.waitForTimeout(2500);
+      const tekst = await p.locator("main").innerText();
+      ponudaSluhu = /Igual/.test(tekst) && /Model/.test(tekst);
+    }
+  } catch { /* ostaje na nuli i pada dole */ }
+  await c.close(); await bb.close();
+
+  zapisi("BLOK", "Mikrofon: dugmad za snimanje postoje", dugmadi > 0, `${dugmadi} dugmadi`);
+  zapisi("BLOK", "Mikrofon: merač jačine se pomera", najveciNivo > 0, `najveći nivo ${Math.round(najveciNivo)}%`);
+  zapisi("BLOK", "Mikrofon: dete može da čuje sebe", ponudaSluhu, ponudaSluhu ? "ponudjeno Jo i Model" : "posle snimanja nema poredjenja");
+}
+
 await b.close();
 
 // ─── ZBIR ───

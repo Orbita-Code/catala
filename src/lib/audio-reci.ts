@@ -253,7 +253,7 @@ export const SNIMLJENO: Record<string, string> = {
   "els seus ulls són verds?": "els-seus-ulls-son-verds",
   "té un nas petit?": "te-un-nas-petit",
   "és una persona jove?": "es-una-persona-jove",
-  "té el cabell vermell?": "te-el-cabell-vermell",
+  "té el cabell negre?": "te-el-cabell-negre",
   "se li veuen les dents?": "se-li-veuen-les-dents",
   "no té celles?": "no-te-celles",
   "el cabell li tapa una orella?": "el-cabell-li-tapa-una-orella",

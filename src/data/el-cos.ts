@@ -245,7 +245,15 @@ export const elCosTasks: Task[] = [
         correct: 0,
       },
       {
-        question: "Té el cabell vermell?",
+        // SVESKA PITA „vermell" (crvena), MI PITAMO „negre" (crna) — 16.08.2026.
+        //
+        // Jedino mesto gde svesno odstupamo od sveske u ovoj temi, i to zbog
+        // NAŠE slike: naša Maria je bakarno-riđa. Za riđokose se i kaže da imaju
+        // crvenu kosu, pa je tačan odgovor „NO" bio dvosmislen — dete koje dobro
+        // gleda sliku odgovori „SÍ" i bude proglašeno netačnim.
+        // U svesci je Maria plava, pa tamo dvosmislice nema.
+        // „negre" rešava bez dirania slike: njena kosa očigledno nije crna.
+        question: "Té el cabell negre?",
         options: ["Sí", "No"],
         correct: 1,
       },

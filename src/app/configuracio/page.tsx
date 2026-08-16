@@ -3,9 +3,10 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Volume2, Mic, RefreshCw } from "lucide-react";
+import { ArrowLeft, Volume2, Mic, RefreshCw, MicVocal } from "lucide-react";
 import { getSettings, updateSettings, resetAllProgress, AppSettings } from "@/lib/settings";
 import { imaKatalonskiGlas } from "@/lib/tts";
+import { nadjiMikrofone, izabraniMikrofon, zapamtiMikrofon, usloviZvuka, type Mikrofon } from "@/lib/mikrofon";
 
 export default function ConfiguracioPage() {
   const router = useRouter();
@@ -18,6 +19,67 @@ export default function ConfiguracioPage() {
    * `null` = još se ne zna (glasovi stižu tek posle `voiceschanged`).
    */
   const [imaGlas, setImaGlas] = useState<boolean | null>(null);
+
+  /**
+   * IZBOR MIKROFONA (16.08.2026)
+   *
+   * Zašto ovo mora da postoji: na detetovom laptopu mikrofon se palio, a nije
+   * čuo ništa. Najčešći uzrok je da pregledač uzme POGREŠAN ulazni uređaj
+   * (monitor, kamera, virtuelni uređaj neke druge aplikacije) i to nikad ne
+   * kaže. Iz aplikacije se to ne može popraviti drugačije nego izborom.
+   *
+   * Uz izbor ide i PROBA: traka se pomera dok se govori. To je jedini način
+   * da roditelj za pet sekundi vidi da li zvuk uopšte stiže do pregledača.
+   */
+  const [mikrofoni, setMikrofoni] = useState<Mikrofon[]>([]);
+  const [izabran, setIzabran] = useState<string | null>(null);
+  const [proba, setProba] = useState<{ radi: boolean; nivo: number; ishod: string | null }>({ radi: false, nivo: 0, ishod: null });
+
+  useEffect(() => {
+    setIzabran(izabraniMikrofon());
+  }, []);
+
+  const ucitajMikrofone = async () => setMikrofoni(await nadjiMikrofone());
+
+  const probajMikrofon = async () => {
+    setProba({ radi: true, nivo: 0, ishod: null });
+    try {
+      const tok = await navigator.mediaDevices.getUserMedia(usloviZvuka());
+      const AC = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      const ctx = new AC!();
+      if (ctx.state === "suspended") await ctx.resume();
+      const an = ctx.createAnalyser();
+      an.fftSize = 512;
+      ctx.createMediaStreamSource(tok).connect(an);
+      const buf = new Uint8Array(an.frequencyBinCount);
+      let najvise = 0;
+      const kraj = Date.now() + 6000;
+      const meri = () => {
+        an.getByteTimeDomainData(buf);
+        let vrh = 0;
+        for (const v of buf) { const d = Math.abs(v - 128); if (d > vrh) vrh = d; }
+        if (vrh > najvise) najvise = vrh;
+        setProba((p) => ({ ...p, nivo: Math.min(100, Math.round((vrh / 45) * 100)) }));
+        if (Date.now() < kraj) requestAnimationFrame(meri);
+        else {
+          tok.getTracks().forEach((t) => t.stop());
+          void ctx.close();
+          setProba({
+            radi: false,
+            nivo: 0,
+            ishod: najvise < 6
+              ? "❌ No arriba cap so. Tria un altre micròfon de la llista."
+              : najvise < 12
+                ? "⚠️ El so és molt fluix. Parla més a prop."
+                : "✅ El micròfon funciona!",
+          });
+        }
+      };
+      requestAnimationFrame(meri);
+    } catch (e) {
+      setProba({ radi: false, nivo: 0, ishod: `❌ ${(e as Error).name}` });
+    }
+  };
 
   useEffect(() => {
     setSettings(getSettings());
@@ -178,6 +240,62 @@ export default function ConfiguracioPage() {
               </div>
             </div>
           </div>
+        </motion.div>
+
+        {/* MIKROFON — izbor uređaja i proba (16.08.2026) */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="bg-white rounded-2xl p-4 shadow-sm"
+        >
+          <div className="flex items-center gap-3 mb-1">
+            <MicVocal size={20} className="text-[var(--primary)]" />
+            <span className="font-bold text-[var(--text)]">Micròfon</span>
+          </div>
+          <p className="text-sm text-[var(--text-light)]">
+            Si el micròfon no sent res, prova un altre aparell d&apos;aquesta llista.
+          </p>
+
+          <button
+            onClick={ucitajMikrofone}
+            className="mt-3 w-full min-h-[48px] rounded-xl bg-gray-100 font-bold text-sm"
+          >
+            Mostra els micròfons
+          </button>
+
+          {mikrofoni.length > 0 && (
+            <div className="mt-3 space-y-2">
+              {[{ id: "", ime: "Automàtic (el que triï el navegador)" }, ...mikrofoni].map((m) => (
+                <button
+                  key={m.id || "auto"}
+                  onClick={() => { zapamtiMikrofon(m.id || null); setIzabran(m.id || null); setProba({ radi: false, nivo: 0, ishod: null }); }}
+                  className={`w-full text-left px-3 min-h-[48px] py-2 rounded-xl text-sm font-bold transition-all ${
+                    (izabran ?? "") === m.id ? "bg-[var(--primary)] text-white" : "bg-gray-100 text-[var(--text)]"
+                  }`}
+                >
+                  {m.ime}
+                </button>
+              ))}
+            </div>
+          )}
+
+          <button
+            onClick={probajMikrofon}
+            disabled={proba.radi}
+            className="mt-3 w-full min-h-[48px] rounded-xl bg-[var(--accent)] text-[var(--text)] font-bold text-sm disabled:opacity-60"
+          >
+            {proba.radi ? "Parla ara… 🎤" : "Prova el micròfon (6 segons)"}
+          </button>
+
+          {/* Traka koja se pomera dok se govori — jedini brz način da se vidi
+              STIŽE li zvuk do pregledača. Ako stoji na nuli, kvar nije u igrici. */}
+          {(proba.radi || proba.nivo > 0) && (
+            <div className="mt-2 h-4 rounded-full bg-gray-200 overflow-hidden">
+              <div className="h-full bg-green-500 transition-[width] duration-75" style={{ width: `${proba.nivo}%` }} />
+            </div>
+          )}
+          {proba.ishod && <p className="mt-2 text-sm font-bold">{proba.ishod}</p>}
         </motion.div>
 
         {/* Reset */}
