@@ -122,6 +122,12 @@ function levenshteinDistance(a: string, b: string): number {
   return matrix[b.length][a.length];
 }
 
+/**
+ * Redosled jezika. Prvo pravi katalonski, pa kratka oznaka, pa španski kao
+ * poslednja odbrana — bolje blizak izgovor nego nem mikrofon.
+ */
+const REZERVNI_JEZICI = ["ca-ES", "ca", "es-ES"];
+
 function getSpeechRecognitionClass(): (new () => SpeechRecognitionInterface) | null {
   if (typeof window === "undefined") return null;
   return (
@@ -145,6 +151,10 @@ export function useSpeechRecognition(
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const startTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const gotResultRef = useRef(false);
+  /** Koji jezik po redu se trenutno proba (v. REZERVNI_JEZICI). */
+  const pokusajJezikaRef = useRef(0);
+  /** Da bi greška mogla da pozove ponovni pokušaj, a da nastane pre nje. */
+  const startListeningRef = useRef<(() => Promise<void>) | null>(null);
   const didStartRef = useRef(false);
   // Use refs for callbacks to avoid stale closures
   const onResultRef = useRef(onResult);
@@ -250,7 +260,21 @@ export function useSpeechRecognition(
     const recognition = new SpeechRecognition() as SpeechRecognitionInterface;
     recognition.continuous = false;
     recognition.interimResults = false;
-    recognition.lang = langRef.current;
+    /**
+     * JEZIK SE MENJA AKO GA UREĐAJ NE PODRŽAVA (16.08.2026).
+     *
+     * Ovo je najverovatniji odgovor na pitanje „zašto radi na mom Mac-u a ne na
+     * ćerkinom, ako je isti sajt": prepoznavanje govora NIJE deo sajta nego
+     * usluga pregledača, i katalonski nije svuda instaliran. Kad ga nema,
+     * pregledač vrati `language-not-supported` ili prosto ćuti tridesetak
+     * sekundi — tačno kako je prijavljeno.
+     *
+     * Zato se sada redom probaju `ca-ES`, pa `ca`, pa `es-ES`. Španski nije
+     * savršen za katalonske reči, ali izgovor je blizak, a provera je popustljiva
+     * (dozvoljeno je 1–2 slova razlike), pa dete dobije zeleno kad kaže tačno —
+     * umesto da mu se ništa ne desi.
+     */
+    recognition.lang = REZERVNI_JEZICI[pokusajJezikaRef.current] || langRef.current;
     recognition.maxAlternatives = 5;
 
     (recognition as any).onstart = () => {
@@ -324,6 +348,17 @@ export function useSpeechRecognition(
         return;
       }
 
+      // Nepodržan jezik ili nem odgovor → probaj sledeći jezik sa spiska.
+      // Bez ovoga se na uređaju bez katalonskog nikad ništa ne desi.
+      if ((event.error === "language-not-supported" || event.error === "no-speech" || event.error === "network")
+          && pokusajJezikaRef.current < REZERVNI_JEZICI.length - 1) {
+        pokusajJezikaRef.current += 1;
+        setIsListening(false);
+        recognitionRef.current = null;
+        void startListeningRef.current?.();
+        return;
+      }
+
       let errorMsg: string;
       switch (event.error) {
         case "no-speech":
@@ -366,8 +401,17 @@ export function useSpeechRecognition(
         onErrorRef.current?.("no-start");
         return;
       }
-      // If ended without a result or error, show feedback
+      // KRAJ BEZ IJEDNOG REZULTATA — tačno prijavljeni simptom: „upali se
+      // zeleno, stoji, pa se ugasi". Najčešće znači da uređaj nema taj jezik.
+      // Zato se prvo probaju ostali jezici sa spiska, pa tek onda javlja greška.
       if (!gotResultRef.current && recognitionRef.current) {
+        if (pokusajJezikaRef.current < REZERVNI_JEZICI.length - 1) {
+          pokusajJezikaRef.current += 1;
+          recognitionRef.current = null;
+          setIsListening(false);
+          void startListeningRef.current?.();
+          return;
+        }
         const msg = "No s'ha detectat cap veu. Torna a provar!";
         setError(msg);
         onErrorRef.current?.(msg);
@@ -418,6 +462,8 @@ export function useSpeechRecognition(
     try { recognitionRef.current.stop(); } catch {}
     setIsListening(false);
   }, []);
+
+  startListeningRef.current = startListening;
 
   return {
     isListening,

@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { SelfAssessmentTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
 import { speak } from "@/lib/tts";
-import { Mic, MicOff, RefreshCcw, Play, Volume2 } from "lucide-react";
+import { Mic, MicOff, RefreshCcw } from "lucide-react";
 import { useSpeechRecognition, wordsMatch } from "@/hooks/useSpeechRecognition";
 import { useSnimanjeGlasa, type IshodSnimka, type GreskaMikrofona } from "@/hooks/useSnimanjeGlasa";
 import { celebrate, celebrateBig } from "@/lib/confetti";
@@ -50,16 +50,11 @@ export default function SelfAssessment({ task, onComplete }: Props) {
   const [forceFallback, setForceFallback] = useState(false);
   /** Kod greške koji je javio pregledač — jedini trag zašto mikrofon ne radi. */
   const [razlog, setRazlog] = useState<string | null>(null);
-  /** Snimak deteta po reči: dete može da se čuje i uporedi sa tačnim izgovorom. */
-  const [snimci, setSnimci] = useState<Record<number, string>>({});
-  /** Reč koja čeka da je dete samo oceni, jer prepoznavanje govora nije odgovorilo. */
-  const [naOceni, setNaOceni] = useState<number | null>(null);
   /** Snimak je bio tih — piše se detetu umesto da ćutke ne radi ništa. */
   const [tiho, setTiho] = useState<number | null>(null);
 
   /** Da li je prepoznavanje već presudilo za tekući pokušaj. */
   const presudjenoRef = useRef(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const zavrsiAko = (novi: Record<number, "correct" | "wrong" | "retry">) => {
     const tacnih = Object.values(novi).filter((r) => r === "correct").length;
@@ -84,8 +79,7 @@ export default function SelfAssessment({ task, onComplete }: Props) {
       const novi = { ...results, [activeIdx]: (tacno ? "correct" : "retry") as "correct" | "retry" };
       setResults(novi);
       if (tacno) { celebrate(); zavrsiAko(novi); }
-      setNaOceni(null);
-      setActiveIdx(null);
+        setActiveIdx(null);
     },
   });
 
@@ -93,23 +87,27 @@ export default function SelfAssessment({ task, onComplete }: Props) {
     onGotovo: (ishod: IshodSnimka) => {
       const idx = activeIdx;
       if (idx === null) return;
-      if (ishod.snimak) setSnimci((p) => ({ ...p, [idx]: ishod.snimak! }));
 
       // Prepoznavanju se ostavlja još trenutak — ono ume da odgovori tek pošto
-      // se snimanje zaustavi. Bez ove pauze bi dete dobilo samoprocenu i za reč
-      // koju je prepoznavanje upravo priznalo kao tačnu.
+      // se snimanje zaustavi. Bez ove pauze bi se reč koju je prepoznavanje
+      // upravo priznalo kao tačnu vodila kao promašena.
+      //
+      // ŠTA SE DEŠAVA KAD PREPOZNAVANJE ĆUTI (16.08.2026, zahtev vlasnice):
+      // NIŠTA se ne prikazuje. Nema poređenja snimka, nema pitanja detetu da
+      // samo oceni — to dete tog uzrasta ne razume i nije mu potrebno.
+      // U zadatku sme da stoji samo zeleno ✅ kad je reč pogođena. Ako nije,
+      // dete prosto ponovo pritisne mikrofon.
       setTimeout(() => {
         if (presudjenoRef.current) return;
         try { stopListening(); } catch {}
         if (!ishod.imaGlasa) {
           setTiho(idx);
-          setActiveIdx(null);
           void javiKvarMikrofona("samoprocena:tisina", `vrh=${ishod.vrhunac} ureaj=${ishod.uredjaj}`);
-          return;
+        } else {
+          // Zvuk je stigao, ali prepoznavanje nije odgovorilo. To je kvar
+          // USLUGE pregledača, ne deteta — zato se ništa ne beleži kao greška.
+          void javiKvarMikrofona("samoprocena:bez-odgovora", `vrh=${ishod.vrhunac} ureaj=${ishod.uredjaj}`);
         }
-        // Zvuk je stigao, a prepoznavanje nije odgovorilo → dete sluša sebe i
-        // ocenjuje. Ovo NIJE zaobilaženje: reč je morala biti izgovorena.
-        setNaOceni(idx);
         setActiveIdx(null);
       }, 900);
     },
@@ -125,32 +123,14 @@ export default function SelfAssessment({ task, onComplete }: Props) {
     setActiveIdx(idx);
     setRazlog(null);
     setTiho(null);
-    setNaOceni(null);
     presudjenoRef.current = false;
     void pocni();
     // Prepoznavanje se pušta uporedo, ali njegov neuspeh nikoga ne zanima.
     if (prepoznavanjePostoji) { try { void startListening(); } catch {} }
   };
 
-  const pustiSnimak = (idx: number) => {
-    const url = snimci[idx];
-    if (!url) return;
-    try { window.speechSynthesis?.cancel(); } catch {}
-    if (!audioRef.current) audioRef.current = new Audio();
-    audioRef.current.src = url;
-    void audioRef.current.play().catch(() => {});
-  };
-
-  const oceni = (idx: number, dobro: boolean) => {
-    const novi = { ...results, [idx]: (dobro ? "correct" : "retry") as "correct" | "retry" };
-    setResults(novi);
-    setNaOceni(null);
-    if (dobro) { celebrate(); zavrsiAko(novi); }
-  };
-
   const handleSkip = (idx: number) => {
     setResults((prev) => ({ ...prev, [idx]: "wrong" }));
-    setNaOceni(null);
     speak(task.items[idx].catalan);
   };
 
@@ -212,7 +192,6 @@ export default function SelfAssessment({ task, onComplete }: Props) {
         {task.items.map((item, idx) => {
           const status = results[idx];
           const snimaOvu = activeIdx === idx && snima;
-          const ocenjujeOvu = naOceni === idx;
           const illustration = getWordIllustration(item.catalan);
 
           return (
@@ -228,9 +207,7 @@ export default function SelfAssessment({ task, onComplete }: Props) {
                     ? "border-orange-400 bg-orange-50"
                     : status === "wrong"
                       ? "border-red-400 bg-red-50"
-                      : ocenjujeOvu
-                        ? "border-[var(--primary)]"
-                        : "border-gray-200"
+                      : "border-gray-200"
               }`}
             >
               <div className="mb-2">
@@ -247,33 +224,6 @@ export default function SelfAssessment({ task, onComplete }: Props) {
                   <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-2xl">✅</motion.div>
                 ) : status === "wrong" ? (
                   <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="text-xl text-red-500 font-bold">✗</motion.div>
-                ) : ocenjujeOvu ? (
-                  /* SAM SEBE SLUŠA PA OCENJUJE — samo kad je zvuk stvarno stigao.
-                     Ovo je i najbolji način učenja izgovora: dete čuje sebe
-                     odmah pored tačnog izgovora i samo čuje razliku. */
-                  <div className="w-full flex flex-col items-center gap-1.5">
-                    <p className="text-sm font-bold font-handwriting text-[var(--primary)]">{item.catalan}</p>
-                    <div className="flex gap-1.5">
-                      <button onClick={() => pustiSnimak(idx)}
-                              className="flex items-center gap-1 px-2 min-h-[40px] rounded-lg bg-gray-100 text-xs font-bold">
-                        <Play className="w-4 h-4" /> Jo
-                      </button>
-                      <button onClick={() => speak(item.catalan)}
-                              className="flex items-center gap-1 px-2 min-h-[40px] rounded-lg bg-gray-100 text-xs font-bold">
-                        <Volume2 className="w-4 h-4" /> Model
-                      </button>
-                    </div>
-                    <div className="flex gap-1.5">
-                      <button onClick={() => oceni(idx, true)}
-                              className="px-2 py-1.5 min-h-[40px] bg-green-100 hover:bg-green-200 rounded-lg text-xs font-bold">
-                        Igual ✅
-                      </button>
-                      <button onClick={() => oceni(idx, false)}
-                              className="px-2 py-1.5 min-h-[40px] bg-orange-100 hover:bg-orange-200 rounded-lg text-xs font-bold">
-                        Un altre cop
-                      </button>
-                    </div>
-                  </div>
                 ) : (
                   <>
                     <motion.button

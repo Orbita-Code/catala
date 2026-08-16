@@ -73,8 +73,19 @@ function kljuc(tekst) {
     .replace(/·/g, "-").toLowerCase()
     .replace(/['’]/g, "-").replace(/\s+/g, "-")
     .replace(/[^a-z0-9-]/g, "").replace(/-+/g, "-").replace(/^-|-$/g, "");
-  if (osnova.length <= 28) return osnova;
-  const otisak = crypto.createHash("sha1").update(tekst).digest("hex").slice(0, 8);
+  // AKCENAT MENJA REČ, PA MORA I IME FAJLA (16.08.2026).
+  //
+  // Ime fajla skida akcente, pa su „és" i „es", „ós" i „os", „lleó" i „lleo",
+  // „pèl" i „pel" padali na ISTO ime. Skripta je drugu po redu preskakala kao
+  // sudar — a preskočena reč nema snimak, pa je aplikacija za nju tiho prelazila
+  // na glas uređaja. To je isti kvar zbog kog je vlasnica čula dva glasa, samo
+  // skriven u četiri reči.
+  // Zato reč koja ima akcent (ili razmak/apostrof koji ime pojede) dobija kratak
+  // otisak na kraju — ime ostaje čitljivo, a sudara više nema.
+  const bezAkcenata = tekst.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  const razlicito = bezAkcenata !== tekst.normalize("NFC") && bezAkcenata !== tekst;
+  if (osnova.length <= 28 && !razlicito) return osnova;
+  const otisak = crypto.createHash("sha1").update(tekst).digest("hex").slice(0, 6);
   return osnova.slice(0, 28) + "-" + otisak;
 }
 
@@ -100,7 +111,7 @@ function zaIzgovor(t) {
     .trim();
 }
 
-function sveStavke() {
+export function sveStavke() {
   const mapa = new Map();   // tekst (mala slova) → {tekst, kljuc, vrsta}
   const sudari = [];
   const dodaj = (sirovo, vrsta) => {
@@ -131,6 +142,25 @@ function sveStavke() {
     }
     for (const m of s.matchAll(/(?:text|question):\s*"([^"]+)"/g)) dodaj(m[1], "recenica");
     for (const m of s.matchAll(/prompt:\s*"([^"]+)"/g)) dodaj(m[1], "naslov");
+
+    // SPISKOVI REČI (16.08.2026, prijava vlasnice: „bosc, muntanya, platja i
+    // sve množine govori drugi glas").
+    //
+    // Ovde je bila najveća rupa. Skripta je hvatala samo pojedinačna polja
+    // (`catalan:`, `word:`, `blank:`…), a NIJE gledala spiskove — `options`
+    // (ponuđene reči, koje se izgovaraju čim ih dete izabere), `items` i
+    // `allItems` (razvrstavanje po kolonama), `words` u slagalici slova.
+    // Tamo živi većina reči i gotovo sve množine. Bez snimka aplikacija tiho
+    // pređe na glas uređaja, pa dete usred igre čuje dva različita glasa.
+    //
+    // Uzimaju se SAMO spiskovi golih reči (bez `{`) — spiskovi objekata su već
+    // pokriveni gornjim pravilima, a iz njih bi ovde ušla i imena slika.
+    for (const m of s.matchAll(/(?:options|items|allItems|words|description|instructions):\s*\[([^\]]*)\]/g)) {
+      if (m[1].includes("{")) continue;
+      for (const r of m[1].matchAll(/"([^"]+)"/g)) {
+        if (r[1].trim().length <= 24) dodaj(r[1], "rec");
+      }
+    }
 
     // SASTAVLJENI IZGOVORI (16.08.2026, prijava vlasnice: „el laboratori i
     // el gimnàs govori drugi ženski glas").
@@ -176,6 +206,27 @@ if (sudari.length) {
   for (const [k, a, b] of sudari.slice(0, 8)) console.log(`   ${k}: „${a}" vs „${b}"`);
 }
 if (SAMO_SPISAK) process.exit(0);
+
+/**
+ * `--proveri` — SAMO PROVERI, NE SNIMAJ (16.08.2026).
+ *
+ * Postoji da bi pre-deploy test mogao da koristi OVU skriptu umesto da svoju
+ * kopiju istog pravila drži pored. Dve kopije pravila se pre ili kasnije
+ * raziđu, a tada provera prestane da proverava ono što se stvarno dešava.
+ *
+ * Izlazni kod 0 = sve što aplikacija izgovara ima svoj snimak.
+ * Izlazni kod 1 = nešto se izgovara glasom uređaja, dakle drugim glasom.
+ */
+if (process.argv.includes("--proveri")) {
+  const fale = [...mapa.values()].filter((x) => !fs.existsSync(path.join(IZLAZ, `${x.kljuc}.m4a`)));
+  if (fale.length) {
+    console.log(`BEZ SNIMKA: ${fale.length}`);
+    for (const f of fale.slice(0, 12)) console.log(`   „${f.tekst}" → ${f.kljuc}.m4a`);
+    process.exit(1);
+  }
+  console.log(`svih ${mapa.size} izgovora ima snimak`);
+  process.exit(0);
+}
 
 fs.mkdirSync(IZLAZ, { recursive: true });
 fs.mkdirSync(TMP, { recursive: true });

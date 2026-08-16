@@ -372,17 +372,13 @@ export const elCosTasks: Task[] = [
     // Imena OSTAJU napisana na slikama: dete mora da razume opis da bi znalo
     // KOJI je lik u pitanju, pa tek onda pročita njegovo ime.
     referenceImages: ["carolina", "sergi", "sara", "xavier"],
+    // REČENICE SU NAMERNO DRUGIM REDOM OD SLIKA (16.08.2026, prijava vlasnice).
+    // Ranije su išle istim redom kao likovi gore, pa je prva rečenica bila prvi
+    // lik, druga drugi i tako redom — dete može da reši ceo zadatak po položaju,
+    // bez ijedne pročitane reči. Nijedna rečenica sada ne stoji naspram svog
+    // lika: slike su Carolina, Sergi, Sara, Xavier — rečenice idu Sara, Xavier,
+    // Carolina, Sergi.
     sentences: [
-      {
-        text: "La ___ és jove, té el cabell llarg i negre. També porta ulleres.",
-        blank: "Carolina",
-        options: ["Sara", "Carolina", "Xavier"],
-      },
-      {
-        text: "En ___ és un nen baix, amb el cabell curt i negre.",
-        blank: "Sergi",
-        options: ["Xavier", "Carolina", "Sergi"],
-      },
       {
         text: "La ___ és molt jove, amb el cabell marró recollit en una cua.",
         blank: "Sara",
@@ -392,6 +388,16 @@ export const elCosTasks: Task[] = [
         text: "En ___ és jove i alt, té bigoti i el cabell curt.",
         blank: "Xavier",
         options: ["Sergi", "Sara", "Xavier"],
+      },
+      {
+        text: "La ___ és jove, té el cabell llarg i negre. També porta ulleres.",
+        blank: "Carolina",
+        options: ["Sara", "Carolina", "Xavier"],
+      },
+      {
+        text: "En ___ és un nen baix, amb el cabell curt i negre.",
+        blank: "Sergi",
+        options: ["Xavier", "Carolina", "Sergi"],
       },
     ],
   },

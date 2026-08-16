@@ -34,6 +34,56 @@ export default function ConfiguracioPage() {
   const [mikrofoni, setMikrofoni] = useState<Mikrofon[]>([]);
   const [izabran, setIzabran] = useState<string | null>(null);
   const [proba, setProba] = useState<{ radi: boolean; nivo: number; ishod: string | null }>({ radi: false, nivo: 0, ishod: null });
+  /** Zasebna proba PREPOZNAVANJA govora — to je druga stvar od mikrofona. */
+  const [probaGovora, setProbaGovora] = useState<string | null>(null);
+
+  /**
+   * ZAŠTO OVA PROBA POSTOJI (16.08.2026)
+   *
+   * Vlasnica: „na mom Mac-u radi, na ćerkinom ne, a isti je sajt". Odgovor je
+   * da prepoznavanje govora NIJE deo sajta nego usluga PREGLEDAČA — i zavisi od
+   * toga koji je pregledač i koje jezike uređaj ima. Ova proba to i pokaže:
+   * redom probava katalonski, pa španski, i javi šta je prošlo.
+   * Stoji u podešavanjima, a ne u zadatku: dete ovo ne treba da vidi.
+   */
+  const probajGovor = () => {
+    const K = ((window as unknown as Record<string, unknown>).SpeechRecognition
+      || (window as unknown as Record<string, unknown>).webkitSpeechRecognition) as (new () => {
+        lang: string;
+        onresult: ((e: { results: { [i: number]: { [j: number]: { transcript: string } } } }) => void) | null;
+        onerror: ((e: { error: string }) => void) | null;
+        onend: (() => void) | null;
+        start: () => void;
+      }) | undefined;
+    const ua = navigator.userAgent;
+    const pregledac = /Edg\//.test(ua) ? "Edge" : /Chrome\//.test(ua) ? "Chrome"
+      : /Firefox\//.test(ua) ? "Firefox" : /Safari\//.test(ua) ? "Safari" : "?";
+    if (!K) {
+      setProbaGovora(`❌ Aquest navegador (${pregledac}) no té reconeixement de veu. Obre el joc amb Google Chrome.`);
+      return;
+    }
+    const jezici = ["ca-ES", "es-ES"];
+    let i = 0;
+    const probaj = () => {
+      setProbaGovora(`Digues «llapis»… (${jezici[i]})`);
+      const r = new K();
+      r.lang = jezici[i];
+      let stiglo = false;
+      r.onresult = (e) => { stiglo = true; setProbaGovora(`✅ Funciona amb ${jezici[i]} — ha entès «${e.results[0][0].transcript}»`); };
+      r.onerror = (e) => {
+        stiglo = true;
+        if (i < jezici.length - 1) { i += 1; probaj(); return; }
+        setProbaGovora(`❌ ${pregledac}: ${e.error}. Prova amb Google Chrome i activa el Dictat: Configuració del sistema → Teclat → Dictat.`);
+      };
+      r.onend = () => {
+        if (stiglo) return;
+        if (i < jezici.length - 1) { i += 1; probaj(); return; }
+        setProbaGovora(`❌ ${pregledac}: s'atura sense resposta. Obre el joc amb Google Chrome i activa el Dictat: Configuració del sistema → Teclat → Dictat.`);
+      };
+      try { r.start(); } catch { setProbaGovora("❌ no s'ha pogut iniciar"); }
+    };
+    probaj();
+  };
 
   useEffect(() => {
     setIzabran(izabraniMikrofon());
@@ -296,6 +346,17 @@ export default function ConfiguracioPage() {
             </div>
           )}
           {proba.ishod && <p className="mt-2 text-sm font-bold">{proba.ishod}</p>}
+
+          {/* PREPOZNAVANJE GOVORA je DRUGA stvar od mikrofona: mikrofon je
+              uređaj, prepoznavanje je usluga pregledača. Dosad su izgledali
+              isto, pa se nije znalo šta je otkazalo. */}
+          <button
+            onClick={probajGovor}
+            className="mt-3 w-full min-h-[48px] rounded-xl bg-gray-100 font-bold text-sm"
+          >
+            Prova el reconeixement de veu
+          </button>
+          {probaGovora && <p className="mt-2 text-sm font-bold break-words">{probaGovora}</p>}
         </motion.div>
 
         {/* Reset */}

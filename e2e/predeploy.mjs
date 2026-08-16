@@ -453,14 +453,18 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
       }
       await p.waitForTimeout(2500);
       const tekst = await p.locator("main").innerText();
-      ponudaSluhu = /Igual/.test(tekst) && /Model/.test(tekst);
+      // OBRNUTO OD RANIJEG (16.08.2026, zahtev vlasnice): posle snimanja u
+      // zadatku NE SME da se pojavi ništa osim zelene kvačice kad je reč
+      // pogođena. Ranije su tu iskakala dugmad „Jo" i „Model" (poslušaj sebe /
+      // poslušaj model) — dete tog uzrasta to ne razume i nije mu potrebno.
+      ponudaSluhu = !/Igual|Model|\bJo\b|Un altre cop/.test(tekst);
     }
   } catch { /* ostaje na nuli i pada dole */ }
   await c.close(); await bb.close();
 
   zapisi("BLOK", "Mikrofon: dugmad za snimanje postoje", dugmadi > 0, `${dugmadi} dugmadi`);
   zapisi("BLOK", "Mikrofon: merač jačine se pomera", najveciNivo > 0, `najveći nivo ${Math.round(najveciNivo)}%`);
-  zapisi("BLOK", "Mikrofon: dete može da čuje sebe", ponudaSluhu, ponudaSluhu ? "ponudjeno Jo i Model" : "posle snimanja nema poredjenja");
+  zapisi("BLOK", "Mikrofon: posle snimanja nema suvisnih dugmadi", ponudaSluhu, ponudaSluhu ? "cisto — samo kvacica kad je tacno" : "iskacu dugmad koja dete ne razume");
 }
 
 // ─── 16. JEDAN GLAS KROZ CELU IGRU (nalaz 16.08.2026) ───
@@ -492,6 +496,24 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
   const jedinstveni = [...new Set(fale)];
   zapisi("BLOK", "Jedan glas: svaki sastavljeni izgovor ima snimak", jedinstveni.length === 0,
          jedinstveni.length ? `bez snimka: ${jedinstveni.slice(0, 4).join(", ")}` : "svi sastavljeni izgovori snimljeni");
+
+  // ŠIROKA PROVERA — pušta se ISTA skripta koja i snima (`--proveri`), da se
+  // pravilo ne drži na dva mesta. Dve kopije istog pravila se pre ili kasnije
+  // raziđu, a tada provera prestane da proverava ono što se stvarno dešava.
+  //
+  // Nalaz koji je ovo iznudio (16.08.2026): skripta je hvatala samo pojedinačna
+  // polja, a ne SPISKOVE reči (`options`, `items`, `allItems`). Tamo živi
+  // većina reči i gotovo sve množine — 153 reči je bez snimka prelazilo na glas
+  // uređaja, pa je dete usred igre čulo dva različita glasa.
+  let sve = "", ok = false;
+  try {
+    sve = require("child_process").execFileSync("node", ["scripts/snimi-izgovor.mjs", "--proveri"], { encoding: "utf8" });
+    ok = /ima snimak/.test(sve);
+  } catch (e) {
+    sve = String(e.stdout || e).slice(0, 200);
+  }
+  zapisi("BLOK", "Jedan glas: SVAKA izgovorena reč ima snimak", ok,
+         (sve.match(/svih \d+ izgovora ima snimak|BEZ SNIMKA: \d+/) || ["nije se pokrenulo"])[0]);
 }
 
 await b.close();
