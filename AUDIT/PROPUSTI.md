@@ -149,3 +149,31 @@ a druga se prijavljuje kao prva.
 
 **I još jednom potvrđeno pravilo D8:** vlasnica je gledala isti ekran i bila u pravu,
 a ja sam imao merenje. Njena prijava ima prednost nad merenjem alata.
+
+## 16.08.2026 — funkcija za brisanje grešaka postojala, a nije se zvala niotkud
+
+**Šta se desilo:** dete je celu temu uradilo tačno, a aplikacija ga je na kraju
+vratila na već rešene zadatke sa porukom „imaš još 9 reči za vežbanje".
+
+**Zašto to nijedan test nije uhvatio:** svi dotadašnji testovi su rešavali zadatke
+**tačno iz prve**. Nijedan nije radio ono što dete radi stalno — **pogrešio pa
+popravio**. A greška se javljala samo na tom putu.
+
+**Šta je bio pravi propust:** funkcija `clearTaskErrors` je **postojala u kodu od
+ranije i nije se zvala ni sa jednog mesta**. Dakle rešenje je bilo napisano, pa
+zaboravljeno — isto kao ilustracije `laura-carles` i `carolina`, koje su bile
+napravljene pa se nisu prikazivale. To je već **treći put** da je gotovo rešenje
+stajalo neupotrebljeno.
+
+**Pravila (važe za celu klasu, ne za ovaj jedan bag):**
+
+1. **Test mora da GREŠI.** Za svaki tip zadatka bar jedan prolaz ide putem
+   „pogrešan odgovor → ispravka → tačno". Put kojim dete stvarno ide.
+2. **Šta je „greška" mora biti zapisano kao pravilo, ne izvedeno iz koda.**
+   Ovde glasi: *greška je ono što je na KRAJU zadatka još pogrešno.*
+   Bez zapisanog pravila svaka komponenta izmisli svoje, a razlike se ne vide.
+3. **Izvezena funkcija koju niko ne zove je nalaz, ne uredna sitnica.** Provera:
+   `grep -c "imeFunkcije" src/` — ako je rezultat 1, poziva je samo definicija.
+4. **Dete se NIKAD ne vraća na zadatak koji je uradilo tačno.** Ovo je pravilo o
+   proizvodu, ne o kodu: vraćanje na zeleno oduzima smisao trudu i najbrži je
+   način da dete prestane da igra.
