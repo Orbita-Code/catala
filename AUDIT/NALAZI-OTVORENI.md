@@ -4,11 +4,21 @@
 > Popravljeno se briše odavde (ostaje u izveštaju audita tog dana).
 > Nalaz otvoren duže od 3 audita posebno se ističe.
 
-Poslednje ažuriranje: **14.08.2026.** (osma dopuna — N-14.1 zatvoren istog dana)
+Poslednje ažuriranje: **17.08.2026.** (deveta dopuna)
 
 ## Kritično
 
-*Nema otvorenih kritičnih nalaza.*
+### N-17.1 — zadatak samoprocene se NE MOŽE ZAVRŠITI u Safariju (17.08.2026)
+
+| | |
+|---|---|
+| **Gde** | svaki zadatak tipa `self-assessment` (po jedan u svakoj temi) |
+| **Šta je** | dete pritisne mikrofon, traka se pomera, kaže reč tačno — **kvačica se nikad ne pojavi**. Zadatak ostaje nezavršen koliko god puta pokušalo. |
+| **Prijavila** | vlasnica, sa detetovog laptopa |
+| **Uzrok (dokazan)** | **Safari 17 najavi prepoznavanje govora pa nikad ne vrati odgovor.** Pet izveštaja zaredom sa tog uređaja: `dozvola: granted`, `mikrofona: 1 (Built-in)`, `vrh=8–18` (zvuk STIŽE), `imaPrepoznavanje: true`, ishod `bez-odgovora`. Mikrofon, dozvola i zvuk rade besprekorno — otkazuje samo usluga pregledača. |
+| **Zašto radi kod majke** | ona koristi Chrome, dete Safari. Prepoznavanje govora nije deo sajta nego usluga pregledača. |
+| **Sledeći korak** | `TODO.md`, tačka 1 — razrađeno u `HANDOVER-2026-08-17.md`, odeljak 1.5 |
+| **Ne ponavljati** | dozvole, tajmeri, rezervni jezici, drugi mikrofon, samoprocena „Jo/Model" (vlasnica odbila) |
 
 ## Visoko
 
