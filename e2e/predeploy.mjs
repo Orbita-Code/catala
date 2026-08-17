@@ -603,6 +603,42 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
          nasao ? `u pamćenju ostalo ${ostalo} grešaka (traži se 0)` : "zadatak za probu NIJE NAĐEN");
 }
 
+// ─── 18. DETE SME DA KUCA, BRIŠE I POPRAVLJA (nalaz 17.08.2026) ───
+//
+// Prijava vlasnice: dete je umesto „orella" počelo da piše „urella" i ČIM je
+// otkucalo prvo slovo u poslednjem praznom polju sve je bilo precrtano i
+// moralo se ispočetka. Desilo se tri puta.
+//
+// Uzrok: provera je kretala 300 ms pošto SVA polja imaju bilo kakav tekst —
+// dakle na prvo slovo poslednjeg polja. Kod zadatka gde se kuca to je pogrešno
+// po sebi: dete piše, briše, popravlja, i samo kaže kad je gotovo.
+//
+// Provera upiše po jedno slovo u svako polje i traži da NIŠTA nije presuđeno,
+// nego da se pojavi dugme „Comprova!".
+{
+  const c = await noviKontekst(1200, 900); const p = await c.newPage();
+  let cekaDugme = false, presudio = true, nadjen = false;
+  try {
+    for (let n = 1; n <= 20 && !nadjen; n++) {
+      await p.goto(`${BASE}/tema/el-cos?tasca=${n}`, { waitUntil: "domcontentloaded", timeout: 90000 });
+      await p.waitForTimeout(700);
+      if (!(await p.locator("main").innerText()).includes("parts del cap")) continue;
+      nadjen = true;
+      await p.waitForTimeout(900);
+      const polja = p.locator("main input");
+      const koliko = await polja.count();
+      for (let i = 0; i < koliko; i++) await polja.nth(i).fill("u");
+      await p.waitForTimeout(1500);
+      cekaDugme = /Comprova/.test(await p.locator("main").innerText());
+      presudio = (await p.locator("main input[disabled]").count()) > 0;
+    }
+  } catch { /* ostaje kako jeste */ }
+  await c.close();
+  zapisi("BLOK", "Kucanje: ne presuđuje se dok dete piše", nadjen && cekaDugme && !presudio,
+         nadjen ? `dugme Comprova: ${cekaDugme ? "ima" : "NEMA"}, polja zaključana: ${presudio ? "DA" : "ne"}`
+                : "zadatak za probu NIJE NAĐEN");
+}
+
 await b.close();
 
 // ─── ZBIR ───

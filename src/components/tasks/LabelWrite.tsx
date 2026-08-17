@@ -110,16 +110,23 @@ export default function LabelWrite({ task, onComplete, review = false }: Props) 
   const allAnswered = task.labels.every((_, i) => answers[i]?.trim());
   const allCorrect = checked && Object.values(results).every(Boolean);
 
-  // Auto-check when all answers are filled
-  useEffect(() => {
-    if (review) return; // In review mode the task is already solved; never auto-check/complete.
-    if (allAnswered && !checked) {
-      const timer = setTimeout(() => {
-        handleCheck();
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [allAnswered, checked, handleCheck, review]);
+  /**
+   * SAMA PROVERA JE UKLONJENA — VRAĆENO DUGME „Comprova!" (17.08.2026)
+   *
+   * Prijava vlasnice: dete je umesto „orella" počelo da piše „urella", i ČIM
+   * je otkucalo prvo slovo u poslednjem praznom polju sve je bilo precrtano i
+   * moralo se ispočetka. Desilo se tri puta.
+   *
+   * Uzrok: provera je kretala 300 ms pošto SVA polja imaju bilo kakav tekst.
+   * Poslednje polje dobije jedno slovo → uslov ispunjen → provera → sve
+   * pogrešno → `disabled` zaključa polja. Dete nije stiglo ni da dopiše reč,
+   * a kamoli da se ispravi.
+   *
+   * Kod zadatka gde se KUCA to je pogrešno po sebi: dete piše, briše, popravlja
+   * — i mora samo da kaže kad je gotovo. Zato ovde stoji dugme, kao i u ostalim
+   * zadacima sa kucanjem (`WriteAntonym`, `FillSentence`). Uz to dugme čini
+   * zadatak jasnijim: vidi se da postoji trenutak „sad proveri".
+   */
 
   // Separate labels into left and right sides
   const leftLabels: number[] = [];
@@ -291,6 +298,20 @@ export default function LabelWrite({ task, onComplete, review = false }: Props) 
           ))}
         </svg>
       </div>
+
+      {/* Dete samo kaže kad je gotovo — v. objašnjenje gore. */}
+      {allAnswered && !checked && (
+        <div className="task-action-bar">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleCheck}
+            className="px-8 py-3 bg-[var(--primary)] text-white font-bold rounded-2xl text-lg shadow-md"
+          >
+            Comprova!
+          </motion.button>
+        </div>
+      )}
 
       {/* Retry button - only shown after wrong answer */}
       {checked && !allCorrect && (

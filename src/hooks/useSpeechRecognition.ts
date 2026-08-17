@@ -77,6 +77,27 @@ export function wordsMatch(spoken: string, expected: string): boolean {
   // Exact match
   if (normalSpoken === normalExpected) return true;
 
+  /**
+   * MNOŽINA SE PRIZNAJE (17.08.2026, prijava vlasnice).
+   *
+   * Dete je u zadatku sa mikrofonom deset puta reklo „cames" umesto „cama",
+   * jer na slici VIDI dve noge — i zadatak nije prolazio. Reč je znalo; falila
+   * je samo jedna gramatička sitnica koju slika sama sugeriše.
+   *
+   * Zato se sada priznaje i množina tražene reči, i obrnuto. Ovo važi SAMO za
+   * izgovor: tamo se proverava da li dete zna reč, a ne da li ume da je
+   * napiše. U pisanim zadacima ostaje strogo.
+   *
+   * (Slika za `cama` je istog dana promenjena na JEDNU nogu — ovo je pojas i
+   * tregeri: isto se dešava sa `ull`/`ulls`, `mà`/`mans`, `orella`/`orelles`.)
+   */
+  // Katalonska množina nije samo „+s": `cama`→`cames`, `orella`→`orelles`,
+  // `mà`→`mans`, `ull`→`ulls`. Zato se skida završno „s", pa završno „n"
+  // (zbog `mans`), pa se završno „e" vrati na „a" (`came`→`cama`).
+  const osnova = (t: string) =>
+    t.replace(/s$/, "").replace(/(.{2,})n$/, "$1").replace(/e$/, "a");
+  if (osnova(normalSpoken) === osnova(normalExpected) && osnova(normalExpected).length >= 2) return true;
+
   // Check if spoken contains expected (child might say extra words)
   if (normalSpoken.includes(normalExpected)) return true;
 
