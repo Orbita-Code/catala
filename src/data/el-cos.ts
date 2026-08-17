@@ -26,14 +26,22 @@ export const elCosTasks: Task[] = [
     type: "label-write",
     prompt: "Escriu les parts del cap.",
     image: "cap",
+    // KOORDINATE PREMERENE NA SAMOJ SLICI 17.08.2026 (prijava vlasnice).
+    // Bile su postavljene „na oko" i dve su promašile:
+    //   • `orella` je stajala na 80% — to je BELA POZADINA desno od glave, uvo
+    //     je na 75%. Dete je pisalo ime dela tela koji tamo ne postoji.
+    //   • `boca` je na 65% padala na VRAT, pa je vlasnica i pomislila da tražimo
+    //     „garganta" (vrat). Reč `coll` se u temi nigde ne uči, pa taj zadatak
+    //     dete nikad ne bi prešlo. Usta su na 63%.
+    // Mereno preko mreže postavljene na `cap.webp`, ne procenom.
     labels: [
-      // Left side (x<=50): cabell, ull, nas
-      { text: "cabell", x: 50, y: 18 },
-      { text: "ull", x: 38, y: 50 },
-      { text: "nas", x: 50, y: 56 },
-      // Right side (x>50): orella, boca
-      { text: "orella", x: 80, y: 55 },
-      { text: "boca", x: 50, y: 65 },
+      // Leva strana (x<=50): cabell, ull, nas
+      { text: "cabell", x: 45, y: 22 },
+      { text: "ull", x: 40, y: 50 },
+      { text: "nas", x: 52, y: 54 },
+      // Desna strana (x>50): orella, boca
+      { text: "orella", x: 75, y: 55 },
+      { text: "boca", x: 52, y: 63 },
     ],
   },
   {
@@ -189,11 +197,17 @@ export const elCosTasks: Task[] = [
     id: "el-cos-10",
     type: "copy-word",
     prompt: "Observa i copia les paraules noves:",
+    // SLIKE SU FALILE SVE ČETIRI (17.08.2026, prijava vlasnice).
+    // Dete je prepisivalo „jove", „vell", „alt", „baix" bez ijedne slike — a
+    // to su reči koje se BEZ slike i ne mogu razumeti: mlad u odnosu na koga,
+    // visok u odnosu na koga.
+    // Slike već postoje od 14.08. (`scripts/napravi-poredjenje.mjs`) i stajale
+    // su neiskorišćene. Onaj o kome je reč stoji levo, sa mekim krugom iza.
     words: [
-      { catalan: "jove" },
-      { catalan: "vell" },
-      { catalan: "alt" },
-      { catalan: "baix" },
+      { catalan: "jove", image: "noi-jove" },
+      { catalan: "vell", image: "noi-vell" },
+      { catalan: "alt", image: "noi-alt" },
+      { catalan: "baix", image: "noi-baix" },
     ],
   },
 

@@ -183,8 +183,19 @@ export default function LabelWrite({ task, onComplete, review = false }: Props) 
             ))}
           </div>
 
+          {/* ZAŠTO `aspect-square` A NE ZADATA VISINA (17.08.2026, prijava vlasnice)
+              Okvir je bio `w-48 h-72` — USPRAVAN pravougaonik 192×288 px, a sve
+              ilustracije su KVADRATNE (512×512). Slika se zato uklapala po
+              širini i centrirala po visini, pa je iznad i ispod nje ostajalo po
+              48 px praznog. Tačke se postavljaju u procentima OKVIRA, pa je
+              svaka po visini bila pomerena za tih 48 px: `orella` je završila
+              u belom pored glave, a `boca` na vratu — zbog čega je vlasnica i
+              pomislila da tražimo „garganta" (vrat).
+              Sada okvir ima ISTI oblik kao slika, pa procenat u podacima znači
+              tačno ono mesto na slici. Isti kvar je 14.08. popravljen na
+              zadatku sa licima; ovde je ostao neprimećen. */}
           {/* Center image with hotspot dots */}
-          <div className="relative w-48 h-72 sm:w-56 sm:h-80 flex-shrink-0 mx-2">
+          <div className="relative w-48 sm:w-56 aspect-square flex-shrink-0 mx-2">
             <img
               src={`/illustrations/${task.image}.webp`}
               alt={task.image}

@@ -270,9 +270,12 @@ export default function Unscramble({ task, onComplete, review = false }: Props) 
         className="bg-white rounded-2xl p-5 shadow-sm max-w-3xl mx-auto"
       >
         <div className="flex items-center justify-center gap-2 mb-3">
-          {getWordIllustration(currentWord.correct) ? (
+          {/* Isti propust kao u prepisivanju reči: polje `image` se ignorisalo,
+              pa je slika izlazila samo kad se ime fajla slučajno poklopi sa
+              rečju. Sad se prvo gleda `image`. */}
+          {((currentWord.image && getWordIllustration(currentWord.image)) || getWordIllustration(currentWord.correct)) ? (
             <img
-              src={getWordIllustration(currentWord.correct)!}
+              src={((currentWord.image && getWordIllustration(currentWord.image)) || getWordIllustration(currentWord.correct))!}
               alt={currentWord.correct}
               className="w-44 h-44 object-contain"
             />

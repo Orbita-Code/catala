@@ -362,7 +362,9 @@ export default function FillLetters({ task, onComplete, review = false }: Props)
           const blanks = getBlankPositions(item.hint || "");
           const isChecked = checkedWords.has(wordIdx);
           const isCorrect = wordResults[wordIdx];
-          const illustration = getWordIllustration(item.word);
+          // Polje `image` ima prednost nad samom rečju (v. CopyWord, 17.08.2026).
+          const illustration =
+            (item.image && getWordIllustration(item.image)) || getWordIllustration(item.word);
           return (
             <motion.div
               key={wordIdx}

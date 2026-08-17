@@ -24,6 +24,11 @@ const PAIR_COLORS = [
   "#81ECEC", "#FAB1A0", "#636E72",
 ];
 
+/** Slika leve kartice: prvo `leftImage` iz podataka, pa tek onda sama reč. */
+function slikaLeve(pair: { left: string; leftImage?: string }): string | null {
+  return (pair.leftImage && getWordIllustration(pair.leftImage)) || getWordIllustration(pair.left);
+}
+
 export default function Matching({ task, onComplete, review = false }: Props) {
   const illustrationMode = task.illustrationMatch === true;
   const [selected, setSelected] = useState<{ side: "left" | "right"; index: number } | null>(null);
@@ -202,9 +207,16 @@ export default function Matching({ task, onComplete, review = false }: Props) {
                   cursor: isMatched ? "default" : "grab",
                 }}
               >
-                {getWordIllustration(pair.left) ? (
+                {/* `leftImage` IMA PREDNOST (17.08.2026, prijava vlasnice).
+                    Polje `leftImage` stoji u tipovima i u podacima od ranije, a
+                    komponenta ga NIJE koristila — tražila je sliku po samoj reči.
+                    Zato u zadatku „Relaciona cada acció" nije bilo nijedne slike:
+                    reči su glagolski oblici (`mirem`, `escoltem`), a slike se
+                    zovu po infinitivu (`mirar`, `escoltar`). Slike su postojale
+                    sve vreme. Četvrti put da gotova stvar stoji nepovezana. */}
+                {slikaLeve(pair) ? (
                   <img
-                    src={getWordIllustration(pair.left)!}
+                    src={slikaLeve(pair)!}
                     alt=""
                     className="w-full h-full object-contain pointer-events-none"
                   />
@@ -359,7 +371,7 @@ export default function Matching({ task, onComplete, review = false }: Props) {
               >
                 {(() => {
                   const fullWord = pair.left + pair.right;
-                  const ill = getWordIllustration(pair.left) || getWordIllustration(fullWord);
+                  const ill = slikaLeve(pair) || getWordIllustration(fullWord);
                   return ill ? <img src={ill} alt="" className="w-10 h-10 object-contain mr-1" /> : null;
                 })()}
                 <span className="font-handwriting text-xl md:text-2xl">{pair.left}</span>

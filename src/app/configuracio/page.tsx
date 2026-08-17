@@ -3,10 +3,11 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Volume2, Mic, RefreshCw, MicVocal } from "lucide-react";
+import { ArrowLeft, Volume2, Mic, RefreshCw, MicVocal, ArrowLeftRight } from "lucide-react";
 import { getSettings, updateSettings, resetAllProgress, AppSettings } from "@/lib/settings";
 import { imaKatalonskiGlas } from "@/lib/tts";
 import { nadjiMikrofone, izabraniMikrofon, zapamtiMikrofon, usloviZvuka, type Mikrofon } from "@/lib/mikrofon";
+import { napraviKod, primeniKod } from "@/lib/prenos";
 
 export default function ConfiguracioPage() {
   const router = useRouter();
@@ -36,6 +37,17 @@ export default function ConfiguracioPage() {
   const [proba, setProba] = useState<{ radi: boolean; nivo: number; ishod: string | null }>({ radi: false, nivo: 0, ishod: null });
   /** Zasebna proba PREPOZNAVANJA govora — to je druga stvar od mikrofona. */
   const [probaGovora, setProbaGovora] = useState<string | null>(null);
+
+  /**
+   * PRENOS NAPRETKA (17.08.2026)
+   *
+   * Dete je završilo dve teme u Safariju, prešlo na Chrome zbog mikrofona i
+   * zateklo prazno. Pregledači ne smeju da čitaju podatke jedan drugom, pa se
+   * napredak prenosi kodom: u starom pregledaču se napravi, u novom nalepi.
+   */
+  const [kod, setKod] = useState<string | null>(null);
+  const [nalepljen, setNalepljen] = useState("");
+  const [ishodPrenosa, setIshodPrenosa] = useState<string | null>(null);
 
   /**
    * ZAŠTO OVA PROBA POSTOJI (16.08.2026)
@@ -357,6 +369,71 @@ export default function ConfiguracioPage() {
             Prova el reconeixement de veu
           </button>
           {probaGovora && <p className="mt-2 text-sm font-bold break-words">{probaGovora}</p>}
+        </motion.div>
+
+        {/* PRENOS NAPRETKA U DRUGI PREGLEDAČ ILI NA DRUGI UREĐAJ */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.18 }}
+          className="bg-white rounded-2xl p-4 shadow-sm"
+        >
+          <div className="flex items-center gap-3 mb-1">
+            <ArrowLeftRight size={20} className="text-[var(--primary)]" />
+            <span className="font-bold text-[var(--text)]">Passa el progrés</span>
+          </div>
+          <p className="text-sm text-[var(--text-light)]">
+            Canvies de navegador o d&apos;ordinador? Fes el codi aquí i enganxa&apos;l a l&apos;altre.
+          </p>
+
+          <button
+            onClick={() => {
+              const k = napraviKod();
+              setKod(k ?? "");
+              if (k) navigator.clipboard?.writeText(k).catch(() => {});
+            }}
+            className="mt-3 w-full min-h-[48px] rounded-xl bg-[var(--accent)] text-[var(--text)] font-bold text-sm"
+          >
+            1. Fes el codi d&apos;aquest navegador
+          </button>
+          {kod !== null && (
+            kod
+              ? <>
+                  <p className="mt-2 text-sm font-bold text-green-700">Codi copiat! Enganxa&apos;l a l&apos;altre navegador.</p>
+                  <textarea
+                    readOnly
+                    value={kod}
+                    onFocus={(e) => e.currentTarget.select()}
+                    className="mt-2 w-full h-24 p-2 rounded-xl border-2 border-gray-200 text-xs font-mono break-all"
+                  />
+                </>
+              : <p className="mt-2 text-sm font-bold text-amber-700">Encara no hi ha cap progrés per passar.</p>
+          )}
+
+          <textarea
+            value={nalepljen}
+            onChange={(e) => setNalepljen(e.target.value)}
+            placeholder="Enganxa aquí el codi de l&apos;altre navegador"
+            className="mt-4 w-full h-24 p-2 rounded-xl border-2 border-gray-200 text-xs font-mono"
+          />
+          <button
+            onClick={() => {
+              const r = primeniKod(nalepljen);
+              setIshodPrenosa(
+                r.ok
+                  ? `✅ Fet! S'han recuperat ${r.teme} temes. Torna a l'inici per veure-ho.`
+                  : r.razlog === "prazno"
+                    ? "Enganxa primer el codi."
+                    : r.razlog === "nema-mesta"
+                      ? "No s'ha pogut desar en aquest navegador."
+                      : "Aquest codi no és correcte. Copia'l sencer, sense tallar-lo."
+              );
+            }}
+            className="mt-2 w-full min-h-[48px] rounded-xl bg-[var(--primary)] text-white font-bold text-sm"
+          >
+            2. Recupera el progrés d&apos;aquest codi
+          </button>
+          {ishodPrenosa && <p className="mt-2 text-sm font-bold break-words">{ishodPrenosa}</p>}
         </motion.div>
 
         {/* Reset */}

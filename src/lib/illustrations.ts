@@ -505,6 +505,12 @@ const wordsWithIllustrations = new Set([
   // Poređenja za zadatak „noi → noia" (sastavljene 14.08.2026 od postojećih
   // likova — `scripts/napravi-poredjenje.mjs`). Onaj o kome je reč stoji LEVO
   // i ima meki krug iza sebe.
+  // Množina parnih delova tela — složena od jednine 17.08.2026
+  // (`scripts/napravi-par.mjs`), jer je u zadatku spajanja pola reči bilo bez
+  // slike: `ulls` i `boca` su imale, `orelles`, `mans` i `cames` nisu.
+  "orelles",
+  "mans",
+  "cames",
   "noi-alt",
   "noi-baix",
   "noi-vell",

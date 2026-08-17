@@ -67,6 +67,10 @@ export default function CopyWord({ task, onComplete, review = false }: Props) {
   const hints = useHintSystem();
 
   const currentWord = task.words[currentWordIdx];
+  /** Prvo `image` iz podataka, pa tek onda sama reč — v. objašnjenje niže. */
+  const slikaReci =
+    (currentWord.image && getWordIllustration(currentWord.image)) ||
+    getWordIllustration(currentWord.catalan);
   const activeSlotIdx = slots.findIndex((s) => s === null);
 
   // When hint is accepted, find the correct letter in the bank and highlight it
@@ -275,10 +279,18 @@ export default function CopyWord({ task, onComplete, review = false }: Props) {
       >
         {/* Word display with illustration or emoji */}
         <div className="text-center mb-4">
-          {getWordIllustration(currentWord.catalan) ? (
+{/* POLJE `image` SE POŠTUJE (17.08.2026, prijava vlasnice: „zadatak 12
+              nema slike za vell, baix, alt").
+              Slika se tražila po SAMOJ REČI i polje `image` iz podataka se
+              potpuno ignorisalo. Radilo je slučajno — samo kad se ime fajla i
+              reč poklope (`boca` → `boca.webp`). Zato reči kao `jove`, `vell`,
+              `alt`, `baix` nikad nisu imale sliku, iako su slike postojale i
+              iako je `image` bio uredno upisan u podacima.
+              Sad se prvo gleda `image`, pa tek onda sama reč. */}
+          {slikaReci ? (
             <div className="mb-2 flex justify-center">
               <img
-                src={getWordIllustration(currentWord.catalan)!}
+                src={slikaReci}
                 alt={currentWord.catalan}
                 className="w-44 h-44 object-contain"
               />
