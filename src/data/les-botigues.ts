@@ -14,6 +14,9 @@ export const lesBotiguesTasks: Task[] = [
       { catalan: "carnisseria", image: "carnisseria" },
       { catalan: "fleca", image: "fleca" },
       { catalan: "farmàcia", image: "farmacia" },
+      // DODATO 17.08.2026 — reč JE u svesci, slika je postojala, a reči nije bilo
+      // u nijednom zadatku. Nađeno unakrsnim poređenjem sveska ↔ igrica ↔ slike.
+      { catalan: "supermercat", image: "supermercat" },
     ],
   },
 

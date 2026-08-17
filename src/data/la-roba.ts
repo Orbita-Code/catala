@@ -49,6 +49,11 @@ export const laRobaTasks: Task[] = [
       { catalan: "cinturó", image: "cinturo" },
       { catalan: "corbata", image: "corbata" },
       { catalan: "gorro", image: "gorro" },
+      // DODATO 17.08.2026 — reč JE u svesci, slika je postojala od ranije, a
+      // reči nije bilo ni u jednom zadatku. Nađeno unakrsnim poređenjem
+      // sveska ↔ igrica ↔ slike (`Ilustracije/WORKBOOK-VS-ILLUSTRATIONS.md`).
+      { catalan: "caputxa", image: "caputxa" },
+      { catalan: "pantalons curts", image: "pantalons-curts" },
     ],
   },
 
@@ -81,6 +86,12 @@ export const laRobaTasks: Task[] = [
       { catalan: "botes", image: "botes" },
       { catalan: "guants", image: "guants" },
       { catalan: "bufanda", image: "bufanda" },
+      // DODATO 17.08.2026 — reč JE u svesci, slika je postojala od ranije, a
+      // reči nije bilo ni u jednom zadatku. Nađeno unakrsnim poređenjem
+      // sveska ↔ igrica ↔ slike (`Ilustracije/WORKBOOK-VS-ILLUSTRATIONS.md`).
+      { catalan: "mitges", image: "mitges" },
+      { catalan: "sabatilles", image: "sabatilles" },
+      { catalan: "barret", image: "barret" },
     ],
   },
 

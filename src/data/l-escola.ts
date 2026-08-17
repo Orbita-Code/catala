@@ -16,6 +16,9 @@ export const lEscolaTasks: Task[] = [
       { catalan: "menjador", image: "menjador" },
       { catalan: "gimnàs", image: "gimnas" },
       { catalan: "pati", image: "pati" },
+      // DODATO 17.08.2026 — reč JE u svesci, slika je postojala, a reči nije bilo
+      // u nijednom zadatku. Nađeno unakrsnim poređenjem sveska ↔ igrica ↔ slike.
+      { catalan: "despatx", image: "despatx" },
     ],
   },
 

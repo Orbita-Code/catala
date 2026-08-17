@@ -17,6 +17,9 @@ export const elsAnimalsTasks: Task[] = [
       { catalan: "pingüí", image: "pingui" },
       { catalan: "estruç", image: "estruc" },
       { catalan: "mussol", image: "mussol" },
+      // DODATO 17.08.2026 — reč JE u svesci, slika je postojala, a reči nije bilo
+      // u nijednom zadatku. Nađeno unakrsnim poređenjem sveska ↔ igrica ↔ slike.
+      { catalan: "oreneta", image: "oreneta" },
     ],
   },
 

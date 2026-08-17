@@ -87,6 +87,10 @@ export const elCosTasks: Task[] = [
       { catalan: "dit", image: "dit" },
       { catalan: "peu", image: "peu" },
       { catalan: "ungla", image: "ungla" },
+      // DODATO 17.08.2026 — reč JE u svesci, slika je postojala od ranije, a
+      // reči nije bilo ni u jednom zadatku. Nađeno unakrsnim poređenjem
+      // sveska ↔ igrica ↔ slike (`Ilustracije/WORKBOOK-VS-ILLUSTRATIONS.md`).
+      { catalan: "genoll", image: "genoll" },
     ],
   },
 
