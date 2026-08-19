@@ -46,6 +46,13 @@ export const laRobaTasks: Task[] = [
       { catalan: "vestit", image: "vestit" },
       { catalan: "xandall", image: "xandall" },
       { catalan: "americana", image: "americana" },
+      // `abric` (kaput) JE U SVESCI, u istom prvom spisku odeće, ali je ISPAO
+      // kad je taj spisak podeljen na tri dela (17.08.2026, prijava vlasnice:
+      // „posle botes a pre texans ima jedan kaputić kog nema u prethodnim
+      // zadacima, probala je anorac, jersei, jaqueta").
+      // Dete ga je prvi put sretalo tek u zadatku sa mikrofonom — dakle
+      // tražilo se da izgovori reč koju mu niko nije pokazao.
+      { catalan: "abric", image: "abric" },
       { catalan: "cinturó", image: "cinturo" },
       { catalan: "corbata", image: "corbata" },
       { catalan: "gorro", image: "gorro" },

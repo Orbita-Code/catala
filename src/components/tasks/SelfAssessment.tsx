@@ -6,7 +6,7 @@ import { SelfAssessmentTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
 import { speak } from "@/lib/tts";
 import { Mic, MicOff } from "lucide-react";
-import { useSpeechRecognition, wordsMatch } from "@/hooks/useSpeechRecognition";
+import { useSpeechRecognition, wordsMatch, najblizaRec } from "@/hooks/useSpeechRecognition";
 import { useSnimanjeGlasa, type IshodSnimka, type GreskaMikrofona } from "@/hooks/useSnimanjeGlasa";
 import { celebrate, celebrateBig } from "@/lib/confetti";
 import { javiKvarMikrofona } from "@/lib/dijagnostika";
@@ -75,7 +75,22 @@ export default function SelfAssessment({ task, onComplete }: Props) {
       presudjenoRef.current = true;
       const item = task.items[activeIdx];
       const sve = alternatives || [transcript];
-      const tacno = sve.some((t) => wordsMatch(t, item.catalan));
+      // Prvo obično poređenje. Ako ne prođe, pita se drugačije: od SVIH reči u
+      // ovom zadatku, kojoj je izgovoreno najbliže? Ako je to tražena reč,
+      // priznaje se. Tako „mitjón" ili „michones" prolaze za „mitjons", a
+      // druga reč iz istog zadatka ne može da se provuče.
+      const sveReci = task.items.map((x) => x.catalan);
+      const tacno =
+        sve.some((t) => wordsMatch(t, item.catalan)) ||
+        sve.some((t) => najblizaRec(t, sveReci) === item.catalan);
+      // KAD NE PRIZNA — ZAPIŠI ŠTA JE ČULO (17.08.2026).
+      // Bez ovoga se ne može znati zašto `mitjons` ne prolazi: da li dete nije
+      // reklo, ili je usluga vratila nešto treće. Šalje se SAMO katalonska reč
+      // koju je usluga razumela i reč koja se traži — ništa lično.
+      if (!tacno) {
+        void javiKvarMikrofona("samoprocena:ne-priznaje",
+          `trazi=${item.catalan} culo=${sve.slice(0, 3).join("|").slice(0, 60)}`);
+      }
       const novi = { ...results, [activeIdx]: (tacno ? "correct" : "retry") as "correct" | "retry" };
       setResults(novi);
       if (tacno) { celebrate(); zavrsiAko(novi); }

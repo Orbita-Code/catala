@@ -101,6 +101,19 @@ export function wordsMatch(spoken: string, expected: string): boolean {
   // Check if spoken contains expected (child might say extra words)
   if (normalSpoken.includes(normalExpected)) return true;
 
+  /**
+   * PREPOZNAVANJE UME DA RASECE REČ NA DVA DELA (17.08.2026, prijava vlasnice:
+   * „sto puta je rekla `mitjons` i ne prihvata").
+   *
+   * Usluga za prepoznavanje često vrati „mit jons" ili „mi tjons" — čula je
+   * tačno, samo je razmak stavila gde mu nije mesto. Za dete je to isto,
+   * a zadatak je padao. Zato se poređenje radi i BEZ IJEDNOG RAZMAKA.
+   */
+  const bezRazmaka = (t: string) => t.replace(/\s+/g, "");
+  if (bezRazmaka(normalSpoken) === bezRazmaka(normalExpected)) return true;
+  if (bezRazmaka(normalSpoken).includes(bezRazmaka(normalExpected))
+      && bezRazmaka(normalExpected).length >= 4) return true;
+
   // Check if expected contains spoken (partial match)
   if (normalExpected.includes(normalSpoken) && normalSpoken.length > 2) return true;
 
@@ -113,6 +126,38 @@ export function wordsMatch(spoken: string, expected: string): boolean {
 }
 
 // Simple Levenshtein distance implementation
+/**
+ * NAJBLIŽA REČ IZ SAMOG ZADATKA (17.08.2026, prijava vlasnice: „sto puta je
+ * rekla `mitjons` i ne prihvata").
+ *
+ * ZAŠTO OVAKO: usluga za prepoznavanje retko vrati baš „mitjons". Vrati
+ * „mitjón", „michones", „mit jons" — čula je dete, ali je zapisala po svome.
+ * Dosadašnja provera je dozvoljavala najviše ČETVRTINU reči razlike, što je za
+ * reč od sedam slova jedno jedino slovo. Zato je dete govorilo tačno, a
+ * zadatak padao.
+ *
+ * Popuštanje te granice za sve bilo bi opasno — počelo bi da prima i pogrešne
+ * reči. Zato se ne popušta nego se pita drugačije: od SVIH reči u tom zadatku,
+ * kojoj je izgovoreno najbliže? Ako je to tražena reč, i ako nije očigledno
+ * daleko, priznaje se. Time se ne može proći sa drugom reči iz istog zadatka —
+ * ona bi bila bliža sama sebi.
+ */
+export function najblizaRec(izgovoreno: string, sveReci: string[]): string | null {
+  const g = normalizeForComparison(izgovoreno).replace(/\s+/g, "");
+  if (!g) return null;
+  let najbolja: string | null = null;
+  let najmanja = Infinity;
+  for (const r of sveReci) {
+    const d = levenshteinDistance(g, normalizeForComparison(r).replace(/\s+/g, ""));
+    if (d < najmanja) { najmanja = d; najbolja = r; }
+  }
+  if (najbolja === null) return null;
+  // Granica: pola dužine reči. Dalje od toga nije „malo pogrešno zapisano"
+  // nego druga reč, i ne priznaje se ni ako je najbliža.
+  const granica = Math.max(2, Math.floor(normalizeForComparison(najbolja).length / 2));
+  return najmanja <= granica ? najbolja : null;
+}
+
 function levenshteinDistance(a: string, b: string): number {
   if (a.length === 0) return b.length;
   if (b.length === 0) return a.length;

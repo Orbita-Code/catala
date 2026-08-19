@@ -1142,17 +1142,26 @@ export default function TemaContent({ slug }: TemaContentProps) {
           `fixed` se drži za dno PROZORA i ne može da promaši. */}
       <footer className="fixed bottom-0 inset-x-0 z-40 bg-[var(--background)] px-4 py-3 border-t border-gray-100">
         <div className="task-shell flex justify-between">
+          {/* ŽIŽA SE SKIDA SA DUGMETA POSLE KLIKA (17.08.2026, prijava vlasnice)
+              Bez ovoga žiža (fokus) ostane na „Següent"/„Anterior", pa Enter u
+              zadatku pregledač shvati kao ponovni klik na to dugme i PRESKOČI
+              ceo zadatak. Vlasnica je to i prijavila: otkuca reč, pritisne
+              Enter, i umesto sledeće REČI dobije sledeći ZADATAK.
+              Sam Enter je zaustavljen i u zadatku (`CopyWord`); ovo je druga
+              brava, da isto ne iskrsne u nekom drugom tipu zadatka. */}
           <button
-            onClick={() =>
-              setCurrentTaskIndex(Math.max(0, currentTaskIndex - 1))
-            }
+            onClick={(e) => {
+              e.currentTarget.blur();
+              setCurrentTaskIndex(Math.max(0, currentTaskIndex - 1));
+            }}
             disabled={currentTaskIndex === 0}
             className="flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-white bg-[var(--primary)] disabled:opacity-30 hover:brightness-110 active:scale-95 transition-all shadow-md"
           >
             <ArrowLeft size={18} /> Anterior
           </button>
           <button
-            onClick={() => {
+            onClick={(e) => {
+              e.currentTarget.blur();   // v. objašnjenje kod dugmeta „Anterior"
               if (currentTaskIndex === tasks.length - 1 && isTaskCompleted) {
                 setShowCelebration(true);
               } else {

@@ -196,6 +196,21 @@ export default function CopyWord({ task, onComplete, review = false }: Props) {
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === "Enter") {
+        /**
+         * ENTER JE PRESKAKAO CEO ZADATAK (17.08.2026, prijava vlasnice:
+         * „otkucam banyador i kliknem enter, a on ode na sledeći zadatak
+         * umesto na sledeću reč").
+         *
+         * Uzrok: dete dođe na zadatak klikom na „Següent", pa žiža (fokus)
+         * ostane na tom dugmetu. Zadatak nema polje za unos — slova se hvataju
+         * sa cele strane — pa se žiža nikad ne pomeri. Kad dete otkuca reč i
+         * pritisne Enter, pregledač Enter shvati kao ponovni klik na „Següent"
+         * i preskoči ceo zadatak.
+         *
+         * `preventDefault` to zaustavlja: Enter ovde znači „proveri reč", i
+         * ništa drugo.
+         */
+        e.preventDefault();
         if (checked && !correct) {
           handleRetry();
         } else if (!checked && allFilled) {
