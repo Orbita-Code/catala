@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { UnscrambleTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
+import { sacuvajNapredak, ucitajNapredak, obrisiNapredak } from "@/lib/napredak-zadatka";
 import LetterTile from "@/components/ui/LetterTile";
 import SlotRow from "@/components/ui/SlotRow";
 import InlineHintMascot from "@/components/ui/InlineHintMascot";
@@ -29,7 +30,32 @@ function splitPieces(scrambled: string): string[] {
 }
 
 export default function Unscramble({ task, onComplete, review = false }: Props) {
-  const [currentIdx, setCurrentIdx] = useState(0);
+    /**
+   * NASTAVAK TAMO GDE JE DETE STALO (17.08.2026, prijava vlasnice).
+   *
+   * Dete je stiglo do pete reči od šest, slučajno prešlo prstima preko dodirne
+   * ploče i otišlo na prethodni zadatak. Vratilo se odmah — i zateklo 1/6.
+   * Pet rešenih reči je nestalo.
+   *
+   * Ne pita se „hoćeš li izaći?" — dete od sedam godina to ne pročita nego
+   * klikne bilo šta. A i ne dešava se samo klikom: poklopi se laptop, crkne
+   * baterija, zvoni školsko zvono. Zato aplikacija pamti sama, tiho.
+   * Zapis se briše čim se zadatak završi.
+   */
+  const [currentIdx, setCurrentIdx] = useState(() => {
+    if (review) return 0;
+    const z = ucitajNapredak(task.id);
+    return z && z.idx > 0 && z.idx < task.words.length ? z.idx : 0;
+  });
+
+  // Pamti se dokle je dete stiglo — v. objašnjenje gore. Zapis se briše čim
+  // se zadatak završi, pa se sledeći put kreće ispočetka.
+  useEffect(() => {
+    if (review) return;
+    if (currentIdx >= task.words.length - 1) return;
+    sacuvajNapredak(task.id, { idx: currentIdx });
+  }, [currentIdx, task.id, review]);
+
 
   const currentWord = task.words[currentIdx];
   const syllable = isSyllableMode(currentWord.scrambled);
@@ -137,6 +163,7 @@ export default function Unscramble({ task, onComplete, review = false }: Props) 
       setCorrect(null);
       setHintLetterIdx(null);
     } else {
+      obrisiNapredak(task.id);
       onComplete({
         allCorrect: hints.erroredItems.length === 0,
         erroredItems: hints.erroredItems,

@@ -685,6 +685,42 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
          (izlaz.match(/provereno \d+ reči u mrežama, nedostaje: \d+/) || ["nije se pokrenulo"])[0]);
 }
 
+// ─── 21. NAPREDAK U ZADATKU SE NE GUBI (nalaz 17.08.2026) ───
+//
+// Prijava vlasnice: dete je stiglo do pete reči od šest, slučajno prešlo
+// prstima preko dodirne ploče i otišlo na prethodni zadatak. Vratilo se odmah
+// — i zateklo 1/6. Pet rešenih reči je nestalo.
+//
+// Ne pita se „hoćeš li izaći?" — dete od sedam godina to ne pročita nego klikne
+// bilo šta. A ni ne dešava se samo klikom: poklopi se laptop, crkne baterija,
+// zvoni školsko zvono. Zato aplikacija pamti sama, tiho, i vraća dete tamo gde
+// je stalo.
+{
+  const c = await noviKontekst(1200, 900); const p = await c.newPage();
+  let bez = "", sa = "", star = "";
+  try {
+    const brojac = async () => ((await p.locator("main").innerText()).match(/\d+ \/ \d+/) || ["?"])[0];
+    await p.goto(`${BASE}/tema/la-casa?tasca=7`, { waitUntil: "domcontentloaded", timeout: 90000 });
+    await p.waitForTimeout(1200);
+    bez = await brojac();
+    await p.evaluate(() => localStorage.setItem("catala-napredak-zadatka",
+      JSON.stringify({ "la-casa-7": { idx: 4, kada: Date.now() } })));
+    await p.goto(`${BASE}/tema/la-casa?tasca=7`, { waitUntil: "domcontentloaded", timeout: 90000 });
+    await p.waitForTimeout(1600);
+    sa = await brojac();
+    // zapis stariji od nedelju dana se ne koristi — to više nije „nastavi"
+    await p.evaluate(() => localStorage.setItem("catala-napredak-zadatka",
+      JSON.stringify({ "la-casa-7": { idx: 4, kada: Date.now() - 9 * 24 * 60 * 60 * 1000 } })));
+    await p.goto(`${BASE}/tema/la-casa?tasca=7`, { waitUntil: "domcontentloaded", timeout: 90000 });
+    await p.waitForTimeout(1400);
+    star = await brojac();
+  } catch { /* ostaje prazno i pada */ }
+  await c.close();
+  const ok = bez.startsWith("1 /") && sa.startsWith("5 /") && star.startsWith("1 /");
+  zapisi("BLOK", "Napredak u zadatku se ne gubi", ok,
+         `bez pamćenja ${bez || "?"}, posle povratka ${sa || "?"}, star zapis ${star || "?"}`);
+}
+
 await b.close();
 
 // ─── ZBIR ───

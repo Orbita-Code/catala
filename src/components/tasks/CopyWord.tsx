@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { CopyWordTask } from "@/types/tasks";
 import type { TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
+import { sacuvajNapredak, ucitajNapredak, obrisiNapredak } from "@/lib/napredak-zadatka";
 import LetterTile from "@/components/ui/LetterTile";
 import SlotRow from "@/components/ui/SlotRow";
 import SpeakerButton from "@/components/ui/SpeakerButton";
@@ -48,7 +49,32 @@ function stripAccents(str: string): string {
 }
 
 export default function CopyWord({ task, onComplete, review = false }: Props) {
-  const [currentWordIdx, setCurrentWordIdx] = useState(0);
+    /**
+   * NASTAVAK TAMO GDE JE DETE STALO (17.08.2026, prijava vlasnice).
+   *
+   * Dete je stiglo do pete reči od šest, slučajno prešlo prstima preko dodirne
+   * ploče i otišlo na prethodni zadatak. Vratilo se odmah — i zateklo 1/6.
+   * Pet rešenih reči je nestalo.
+   *
+   * Ne pita se „hoćeš li izaći?" — dete od sedam godina to ne pročita nego
+   * klikne bilo šta. A i ne dešava se samo klikom: poklopi se laptop, crkne
+   * baterija, zvoni školsko zvono. Zato aplikacija pamti sama, tiho.
+   * Zapis se briše čim se zadatak završi.
+   */
+  const [currentWordIdx, setCurrentWordIdx] = useState(() => {
+    if (review) return 0;
+    const z = ucitajNapredak(task.id);
+    return z && z.idx > 0 && z.idx < task.words.length ? z.idx : 0;
+  });
+
+  // Pamti se dokle je dete stiglo — v. objašnjenje gore. Zapis se briše čim
+  // se zadatak završi, pa se sledeći put kreće ispočetka.
+  useEffect(() => {
+    if (review) return;
+    if (currentWordIdx >= task.words.length - 1) return;
+    sacuvajNapredak(task.id, { idx: currentWordIdx });
+  }, [currentWordIdx, task.id, review]);
+
   // In review mode the word is already solved: fill every slot with the correct
   // (accent-stripped) letter and mark it checked+correct (SlotRow shows green).
   const [slots, setSlots] = useState<(string | null)[]>(() =>
@@ -138,6 +164,7 @@ export default function CopyWord({ task, onComplete, review = false }: Props) {
       setCorrect(null);
       setHintLetterIdx(null);
     } else {
+      obrisiNapredak(task.id);
       onComplete({
         allCorrect: hints.erroredItems.length === 0,
         erroredItems: hints.erroredItems,

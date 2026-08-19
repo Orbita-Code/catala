@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AddArticleTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
+import { sacuvajNapredak, ucitajNapredak, obrisiNapredak } from "@/lib/napredak-zadatka";
 import { ArrowLeft } from "lucide-react";
 import { celebrate, celebrateBig } from "@/lib/confetti";
 import { speak } from "@/lib/tts";
@@ -23,7 +24,32 @@ export default function AddArticle({ task, onComplete, review = false }: Props) 
     const order = ["el", "la", "l'", "els", "les", "un", "una"];
     return unique.sort((a, b) => order.indexOf(a) - order.indexOf(b));
   })();
-  const [currentIdx, setCurrentIdx] = useState(0);
+    /**
+   * NASTAVAK TAMO GDE JE DETE STALO (17.08.2026, prijava vlasnice).
+   *
+   * Dete je stiglo do pete reči od šest, slučajno prešlo prstima preko dodirne
+   * ploče i otišlo na prethodni zadatak. Vratilo se odmah — i zateklo 1/6.
+   * Pet rešenih reči je nestalo.
+   *
+   * Ne pita se „hoćeš li izaći?" — dete od sedam godina to ne pročita nego
+   * klikne bilo šta. A i ne dešava se samo klikom: poklopi se laptop, crkne
+   * baterija, zvoni školsko zvono. Zato aplikacija pamti sama, tiho.
+   * Zapis se briše čim se zadatak završi.
+   */
+  const [currentIdx, setCurrentIdx] = useState(() => {
+    if (review) return 0;
+    const z = ucitajNapredak(task.id);
+    return z && z.idx > 0 && z.idx < task.words.length ? z.idx : 0;
+  });
+
+  // Pamti se dokle je dete stiglo — v. objašnjenje gore. Zapis se briše čim
+  // se zadatak završi, pa se sledeći put kreće ispočetka.
+  useEffect(() => {
+    if (review) return;
+    if (currentIdx >= task.words.length - 1) return;
+    sacuvajNapredak(task.id, { idx: currentIdx });
+  }, [currentIdx, task.id, review]);
+
   // In review mode the task is already solved: pre-pick the correct article for the
   // current (first) word and mark it correct (green).
   const [selected, setSelected] = useState<string | null>(() =>
@@ -40,6 +66,7 @@ export default function AddArticle({ task, onComplete, review = false }: Props) 
       setSelected(null);
       setCorrect(null);
     } else {
+      obrisiNapredak(task.id);
       onComplete({
         allCorrect: erroredItems.length === 0,
         erroredItems,
