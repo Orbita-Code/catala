@@ -64,8 +64,21 @@ export default function ClassifyColumns({ task, onComplete, review = false }: Pr
       const titleLower = title.toLowerCase().trim();
       const isArticleTitle = shortArticles.includes(titleLower);
       const article = articleMatch ? articleMatch[1] : (isArticleTitle ? title.toLowerCase() : "");
-      // Speak the placed word every time, right or wrong
-      speak(article ? `${article} ${item}` : item);
+      /**
+       * ČLAN SE IZGOVARA SAMO KAD JE RAZVRSTANO TAČNO (17.08.2026).
+       *
+       * Prijava vlasnice: „u tom zadatku se menja ženski glas". Merenjem se
+       * pokazalo da aplikacija izgovara „la cortina" i „les xemeneia" — član i
+       * reč sastavljene u kodu. Takvih snimaka nema, pa je prelazila na glas
+       * uređaja.
+       *
+       * Ali „les xemeneia" nije ni ispravan katalonski — to je pogrešan par
+       * koji je dete upravo napravilo, i aplikacija mu ga je naglas potvrdila.
+       * Zato se sada član izgovara SAMO uz tačno razvrstanu reč: dete tačan
+       * oblik čuje, a pogrešan ne. Uz to je skup mogućih izgovora time
+       * ograničen na po jedan po reči, pa svi mogu da se snime.
+       */
+      speak(article && correct ? `${article} ${item}` : item);
 
       if (correct) {
         celebrate();

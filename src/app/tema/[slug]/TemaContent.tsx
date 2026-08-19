@@ -397,10 +397,34 @@ export default function TemaContent({ slug }: TemaContentProps) {
           // nema napred — potraži bilo koji nezavršen (greška pre trenutnog zadatka)
           nextIdx = tasks.findIndex((t) => !t.bonus && !prog.completedTasks.includes(t.id));
         }
-        setCurrentTaskIndex(nextIdx >= 0 ? nextIdx : currentTaskIndex + 1);
+        // Nema više nerešenih → tema je gotova. Ranije se ovde išlo na
+        // `currentTaskIndex + 1`, dakle na VEĆ REŠEN zadatak, pa je dete
+        // moralo samo da klikće „Següent" do kraja.
+        if (nextIdx >= 0) setCurrentTaskIndex(nextIdx);
+        else zavrsiTemu();
       }, hitMilestone ? 4400 : 2000);
     } else {
       setTimeout(() => {
+        zavrsiTemu();
+      }, 2000);
+    }
+  };
+
+  /**
+   * KRAJ TEME — proslava ili ponuda vežbanja.
+   *
+   * IZDVOJENO U FUNKCIJU 17.08.2026 (prijava vlasnice: „kad joj se igrica vrati
+   * na zadatke koje nije rešila, neće automatski da ode na kraj teme nego mora
+   * da klikće na Següent").
+   *
+   * Uzrok: kad se traži sledeći NEREŠEN zadatak a takvog više nema, kod je
+   * prelazio na „sledeći po redu" — dakle na već rešen zadatak. Dete tako
+   * ostane da luta kroz zelene zadatke umesto da dobije završni ekran.
+   * Sada se u tom slučaju zove ista ova funkcija kao i na kraju teme.
+   */
+  const zavrsiTemu = () => {
+    {
+      {
         setFeedbackMessage(null);
         setFeedbackReaction(null);
         setMascotEvent("idle");
@@ -438,7 +462,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
             celebrate([theme.color, "#FDCB6E"]);
           }
         }
-      }, 2000);
+      }
     }
   };
 
@@ -615,28 +639,28 @@ export default function TemaContent({ slug }: TemaContentProps) {
         >
           <button
             onClick={() => {
-              // Find the first task that has errors and navigate to it
-              const themeErrors = getThemeErrors(slug);
-              const erroredTaskIds = Object.keys(themeErrors);
-              if (erroredTaskIds.length > 0) {
-                // Find the index of the first errored task
-                const firstErroredIdx = tasks.findIndex(t => erroredTaskIds.includes(t.id));
-                if (firstErroredIdx >= 0) {
-                  // Reset completed status for errored tasks so user can redo them
-                  const progress = getThemeProgress(slug);
-                  saveThemeProgress(slug, {
-                    completedTasks: progress.completedTasks.filter(
-                      (id: string) => !erroredTaskIds.includes(id)
-                    ),
-                  });
-                  // Clear errors since user is redoing the tasks
-                  clearThemeErrors(slug);
-                  setShowReviewDialog(false);
-                  setCurrentTaskIndex(firstErroredIdx);
-                  return;
-                }
+              /**
+               * VEŽBAJU SE SAMO TE REČI — NE PONAVLJA SE CEO ZADATAK
+               * (17.08.2026, prijava vlasnice).
+               *
+               * Bilo je ovako: dete završi celu temu, piše mu „2 reči za
+               * vežbanje", klikne — i aplikacija mu PONIŠTI ceo zadatak 9 i
+               * vrati ga da ga radi iz početka. Zbog dve reči. Za dete koje je
+               * upravo završilo temu to je kazna, ne vežba.
+               *
+               * A režim sa karticama (reč + slika + „Escolta") POSTOJI u ovom
+               * fajlu od ranije i NIJE SE PALIO NIOTKUD — šesti put da gotova
+               * stvar stoji nepovezana. Sada ga pali ovo dugme: dete prođe
+               * samo te dve reči i vrati se na proslavu.
+               */
+              const stavke = getErroredItemsList(slug);
+              if (stavke.length > 0) {
+                setReviewItems(stavke);
+                setReviewIndex(0);
+                setReviewMode(true);
+                setShowReviewDialog(false);
+                return;
               }
-              // Fallback: go to celebration
               setShowReviewDialog(false);
               setShowCelebration(true);
             }}

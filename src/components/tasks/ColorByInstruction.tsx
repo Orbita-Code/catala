@@ -65,6 +65,12 @@ export default function ColorByInstruction({ task, onComplete, review = false }:
       setSelectedColor(null);
       celebrate();
 
+      // GREŠKA SE BRIŠE ČIM DETE POPRAVI (17.08.2026, prijava vlasnice).
+      // Greška je ono što je na KRAJU pogrešno, ne ono što je usput bilo.
+      const preostale = new Set(erroredItems);
+      preostale.delete(item);
+      setErroredItems(preostale);
+
       // Check if all done
       const newCorrectCount = correctItems.size + 1;
       if (newCorrectCount === task.instructions.length) {
@@ -72,8 +78,8 @@ export default function ColorByInstruction({ task, onComplete, review = false }:
         setTimeout(
           () =>
             onComplete({
-              allCorrect: erroredItems.size === 0,
-              erroredItems: Array.from(erroredItems),
+              allCorrect: preostale.size === 0,
+              erroredItems: Array.from(preostale),
             }),
           1400
         );

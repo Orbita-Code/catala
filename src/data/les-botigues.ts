@@ -442,6 +442,26 @@ export const lesBotiguesTasks: Task[] = [
     ],
   },
 
+
+  // ── Slaganje reči iz dva dela (dodato 17.08.2026) ──
+  // Vlasnica: „taj tip zadatka joj se svideo, stavi ga i u ostale teme."
+  // Postojao je samo u temi 4. Sve reči su iz vokabulara OVE teme — ništa se
+  // ne izmišlja, samo se već naučena reč seče na dva dela, po slogu.
+  {
+    id: "les-botigues-slaganje",
+    type: "matching",
+    prompt: "Relaciona les dues parts per formar paraules:",
+    rightTextOnly: true,
+    pairs: [
+      { left: "FLE", right: "CA" },
+      { left: "FRUI", right: "TERIA" },
+      { left: "CAR", right: "NISSERIA" },
+      { left: "FAR", right: "MÀCIA" },
+      { left: "PEI", right: "XETERIA" },
+      { left: "VERDU", right: "LERIA" },
+    ],
+  },
+
   // Bonus activity: Fun drawing
   {
     id: "les-botigues-bonus",

@@ -445,6 +445,26 @@ export const lEscolaTasks: Task[] = [
     ],
   },
 
+
+  // ── Slaganje reči iz dva dela (dodato 17.08.2026) ──
+  // Vlasnica: „taj tip zadatka joj se svideo, stavi ga i u ostale teme."
+  // Postojao je samo u temi 4. Sve reči su iz vokabulara OVE teme — ništa se
+  // ne izmišlja, samo se već naučena reč seče na dva dela, po slogu.
+  {
+    id: "l-escola-slaganje",
+    type: "matching",
+    prompt: "Relaciona les dues parts per formar paraules:",
+    rightTextOnly: true,
+    pairs: [
+      { left: "PA", right: "TI" },
+      { left: "GIM", right: "NÀS" },
+      { left: "LA", right: "VABO" },
+      { left: "MEN", right: "JADOR" },
+      { left: "BI", right: "BLIOTECA" },
+      { left: "LABO", right: "RATORI" },
+    ],
+  },
+
   // Bonus activity: Fun drawing
   {
     id: "l-escola-bonus",

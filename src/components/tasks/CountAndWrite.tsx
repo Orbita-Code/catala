@@ -40,6 +40,11 @@ export default function CountAndWrite({ task, onComplete, review = false }: Prop
     setCorrect(isCorrect);
 
     if (isCorrect) {
+      // GREŠKA SE BRIŠE ČIM DETE POPRAVI (17.08.2026, prijava vlasnice:
+      // „kad ima grešku u zadatku, ona istog momenta može da je ispravi, a on
+      // to i dalje računa kao da nije savladala zadatak").
+      // Greška je ono što je na KRAJU pogrešno, ne ono što je usput bilo.
+      setErroredItems((prev) => prev.filter((x) => x !== currentItem.description));
       celebrate();
       speak(`${currentItem.count} ${currentItem.description}`);
       setTimeout(() => {

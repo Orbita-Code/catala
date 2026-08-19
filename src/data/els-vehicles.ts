@@ -65,18 +65,18 @@ export const elsVehiclesTasks: Task[] = [
     type: "word-search",
     prompt: "Troba les paraules a la sopa de lletres. Poden anar →\u00A0←\u00A0↓\u00A0↑\u00A0↗",
     gridSize: 10,
-    words: ["cotxe", "tren", "moto", "taxi", "avió", "barca", "camió", "vaixell"],
+    words: ["cotxe", "tren", "moto", "taxi", "avió", "barca", "camió", "vaixell", "metro", "patinet", "helicopter"],
     grid: [
-      ["c", "o", "t", "x", "e", "p", "t", "r", "e", "n"],
-      ["a", "h", "k", "l", "f", "g", "j", "d", "s", "q"],
-      ["m", "r", "v", "a", "i", "x", "e", "l", "l", "p"],
-      ["i", "t", "a", "x", "i", "k", "n", "h", "f", "r"],
-      ["ó", "s", "d", "g", "j", "l", "p", "q", "k", "s"],
-      ["b", "a", "r", "c", "a", "f", "h", "d", "g", "l"],
-      ["n", "k", "p", "l", "s", "r", "j", "f", "h", "k"],
-      ["m", "o", "t", "o", "q", "g", "d", "n", "p", "r"],
-      ["f", "j", "h", "k", "a", "v", "i", "ó", "s", "l"],
-      ["d", "g", "r", "s", "l", "p", "k", "f", "h", "j"],
+      ["v", "k", "b", "l", "i", "x", "a", "t", "k", "z"],
+      ["a", "l", "l", "e", "x", "i", "a", "v", "y", "m"],
+      ["p", "a", "t", "i", "n", "e", "t", "m", "i", "e"],
+      ["b", "f", "p", "n", "e", "r", "t", "v", "w", "o"],
+      ["i", "t", "j", "x", "c", "o", "t", "x", "e", "p"],
+      ["o", "t", "o", "m", "a", "p", "o", "b", "q", "i"],
+      ["r", "e", "t", "p", "o", "c", "i", "l", "e", "h"],
+      ["h", "k", "p", "o", "r", "t", "e", "m", "k", "e"],
+      ["e", "f", "f", "a", "c", "r", "a", "b", "g", "f"],
+      ["o", "i", "m", "a", "c", "u", "a", "k", "l", "x"],
     ],
   },
   {
@@ -252,6 +252,26 @@ export const elsVehiclesTasks: Task[] = [
       { scrambled: "ta-cle-ci-bi", correct: "bicicleta", image: "bicicleta" },
     ],
   },
+
+  // ── Slaganje reči iz dva dela (dodato 17.08.2026) ──
+  // Vlasnica: „taj tip zadatka joj se svideo, stavi ga i u ostale teme."
+  // Postojao je samo u temi 4. Sve reči su iz vokabulara OVE teme — ništa se
+  // ne izmišlja, samo se već naučena reč seče na dva dela, po slogu.
+  {
+    id: "els-vehicles-slaganje",
+    type: "matching",
+    prompt: "Relaciona les dues parts per formar paraules:",
+    rightTextOnly: true,
+    pairs: [
+      { left: "CO", right: "TXE" },
+      { left: "AUTO", right: "BÚS" },
+      { left: "BICI", right: "CLETA" },
+      { left: "CA", right: "MIÓ" },
+      { left: "A", right: "VIÓ" },
+      { left: "VAI", right: "XELL" },
+    ],
+  },
+
   // Bonus activity: Fun drawing
   {
     id: "els-vehicles-bonus",

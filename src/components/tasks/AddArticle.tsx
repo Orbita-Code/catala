@@ -58,6 +58,11 @@ export default function AddArticle({ task, onComplete, review = false }: Props) 
 
     if (isCorrect) {
       celebrate();
+      // GREŠKA SE BRIŠE ČIM DETE POPRAVI (17.08.2026, prijava vlasnice:
+      // „kad ima grešku u zadatku, ona istog momenta može da je ispravi, a on
+      // to i dalje računa kao da nije savladala zadatak").
+      // Greška je ono što je na KRAJU pogrešno, ne ono što je usput bilo.
+      setErroredItems((prev) => prev.filter((x) => x !== currentWord.word));
       setTimeout(() => moveToNext(), 1000);
     } else {
       setErroredItems((prev) =>

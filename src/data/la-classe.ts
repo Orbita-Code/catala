@@ -28,29 +28,18 @@ export const laClasseTasks: Task[] = [
     type: "word-search",
     prompt: "Busca 10 paraules a la sopa de lletres. Poden anar →\u00A0←\u00A0↓\u00A0↑\u00A0↗",
     gridSize: 10,
-    words: [
-      "tisores",
-      "estoig",
-      "llapis",
-      "regle",
-      "retolador",
-      "goma",
-      "motxilla",
-      "bolígraf",
-      "llibreta",
-      "pissarra",
-    ],
+    words: ["tisores", "estoig", "llapis", "regle", "retolador", "goma", "motxilla", "bolígraf", "llibreta", "pissarra", "cadira", "porta", "finestra"],
     grid: [
-      ["b", "b", "t", "i", "s", "o", "r", "e", "s", "n"],
-      ["o", "e", "s", "t", "o", "i", "g", "o", "l", "v"],
-      ["l", "l", "a", "p", "i", "s", "m", "v", "l", "h"],
-      ["i", "i", "h", "v", "a", "i", "o", "p", "i", "d"],
-      ["g", "e", "r", "e", "g", "l", "e", "n", "b", "k"],
-      ["r", "e", "t", "o", "l", "a", "d", "o", "r", "w"],
-      ["a", "a", "g", "o", "m", "a", "i", "l", "e", "q"],
-      ["f", "e", "r", "b", "i", "l", "l", "a", "t", "j"],
-      ["m", "o", "t", "x", "i", "l", "l", "a", "a", "c"],
-      ["p", "i", "s", "s", "a", "r", "r", "a", "z", "u"],
+      ["a", "r", "t", "s", "e", "n", "i", "f", "f", "r"],
+      ["m", "r", "s", "p", "o", "r", "t", "a", "a", "k"],
+      ["a", "t", "e", "r", "b", "i", "l", "l", "r", "l"],
+      ["g", "i", "o", "t", "s", "e", "g", "e", "g", "l"],
+      ["k", "f", "v", "o", "o", "p", "g", "o", "i", "a"],
+      ["n", "p", "r", "u", "w", "l", "m", "r", "l", "p"],
+      ["k", "e", "b", "i", "e", "a", "a", "c", "o", "i"],
+      ["s", "a", "r", "i", "d", "a", "c", "d", "b", "s"],
+      ["a", "l", "l", "i", "x", "t", "o", "m", "o", "m"],
+      ["f", "p", "i", "s", "s", "a", "r", "r", "a", "r"],
     ],
   },
   {
@@ -539,6 +528,26 @@ export const laClasseTasks: Task[] = [
       { catalan: "cadira", translation: "stolica", image: "cadira" },
       { catalan: "porta", translation: "vrata", image: "porta" },
       { catalan: "finestra", translation: "prozor", image: "finestra" },
+    ],
+  },
+
+
+  // ── Slaganje reči iz dva dela (dodato 17.08.2026) ──
+  // Vlasnica: „taj tip zadatka joj se svideo, stavi ga i u ostale teme."
+  // Postojao je samo u temi 4. Sve reči su iz vokabulara OVE teme — ništa se
+  // ne izmišlja, samo se već naučena reč seče na dva dela, po slogu.
+  {
+    id: "la-classe-slaganje",
+    type: "matching",
+    prompt: "Relaciona les dues parts per formar paraules:",
+    rightTextOnly: true,
+    pairs: [
+      { left: "LLA", right: "PIS" },
+      { left: "TI", right: "SORES" },
+      { left: "CA", right: "DIRA" },
+      { left: "MOT", right: "XILLA" },
+      { left: "FI", right: "NESTRA" },
+      { left: "LLI", right: "BRE" },
     ],
   },
 

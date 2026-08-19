@@ -346,17 +346,19 @@ export const laFamiliaTasks: Task[] = [
     id: "la-familia-14",
     type: "word-search",
     prompt: "Cerca i copia 6 animals. Poden anar →\u00A0←\u00A0↓\u00A0↑\u00A0↗",
-    gridSize: 8,
-    words: ["conill", "serp", "tortuga", "gos", "gat", "ocell"],
+    gridSize: 10,
+    words: ["conill", "serp", "tortuga", "gos", "gat", "ocell", "hamster", "cavall", "peix"],
     grid: [
-      ["c", "d", "f", "r", "m", "b", "h", "u"],
-      ["o", "p", "t", "v", "n", "g", "o", "s"],
-      ["n", "m", "j", "o", "c", "e", "l", "l"],
-      ["i", "r", "d", "h", "f", "b", "v", "m"],
-      ["l", "g", "n", "t", "s", "e", "r", "p"],
-      ["l", "d", "f", "r", "m", "b", "u", "g"],
-      ["t", "o", "r", "t", "u", "g", "a", "a"],
-      ["h", "j", "n", "d", "p", "f", "r", "t"],
+      ["c", "w", "y", "h", "j", "s", "z", "c", "u", "m"],
+      ["l", "t", "s", "s", "a", "g", "z", "s", "n", "r"],
+      ["m", "l", "o", "o", "t", "m", "g", "a", "t", "l"],
+      ["l", "b", "e", "r", "g", "q", "s", "o", "o", "h"],
+      ["u", "l", "u", "c", "t", "t", "s", "t", "p", "c"],
+      ["o", "t", "i", "p", "o", "u", "a", "e", "e", "d"],
+      ["c", "n", "e", "n", "e", "j", "g", "e", "r", "r"],
+      ["s", "t", "c", "k", "o", "i", "o", "a", "d", "p"],
+      ["l", "i", "y", "r", "e", "c", "x", "f", "z", "b"],
+      ["u", "w", "c", "a", "v", "a", "l", "l", "i", "l"],
     ],
   },
 
@@ -414,6 +416,26 @@ export const laFamiliaTasks: Task[] = [
       { catalan: "gat", translation: "mačka", image: "gat" },
       { catalan: "conill", translation: "zec", image: "conill" },
       { catalan: "tortuga", translation: "kornjača", image: "tortuga" },
+    ],
+  },
+
+
+  // ── Slaganje reči iz dva dela (dodato 17.08.2026) ──
+  // Vlasnica: „taj tip zadatka joj se svideo, stavi ga i u ostale teme."
+  // Postojao je samo u temi 4. Sve reči su iz vokabulara OVE teme — ništa se
+  // ne izmišlja, samo se već naučena reč seče na dva dela, po slogu.
+  {
+    id: "la-familia-slaganje",
+    type: "matching",
+    prompt: "Relaciona les dues parts per formar paraules:",
+    rightTextOnly: true,
+    pairs: [
+      { left: "GER", right: "MÀ" },
+      { left: "CO", right: "SÍ" },
+      { left: "NE", right: "BOT" },
+      { left: "À", right: "VIA" },
+      { left: "FI", right: "LLA" },
+      { left: "ON", right: "CLE" },
     ],
   },
 

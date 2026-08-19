@@ -222,8 +222,14 @@ export default function WordSearch({ task, onComplete, review = false }: Props) 
                    pitanja. Znak pitanja je delovao kao da slika fali. */
                 <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gray-100 rounded-lg" />
               ) : null}
+              {/* SLOVA U SPISKU TRAŽENIH REČI SU POVEĆANA (17.08.2026).
+                  Prijava dolazi od samog deteta: „previše su sitne".
+                  Bilo je `text-sm` (14 px) — a to je spisak koji dete ČITA
+                  najviše puta u zadatku, jer se stalno vraća da vidi šta još
+                  traži. Sada `text-lg` (18 px), na širem ekranu `text-xl`
+                  (20 px), sa malo više prostora oko slova. */}
               <span
-                className={`px-3 py-1 rounded-full text-sm font-bold font-handwriting ${
+                className={`px-3.5 py-1.5 rounded-full text-lg sm:text-xl font-bold font-handwriting ${
                   isFound
                     ? `${color.bg} ${color.text} line-through`
                     : "bg-purple-100 text-[var(--primary)]"

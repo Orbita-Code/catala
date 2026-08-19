@@ -67,18 +67,18 @@ export const laCiutatTasks: Task[] = [
     type: "word-search",
     prompt: "Troba les paraules a la sopa de lletres. Poden anar →\u00A0←\u00A0↓\u00A0↑\u00A0↗",
     gridSize: 10,
-    words: ["parc", "museu", "plaça", "mercat", "cinema"],
+    words: ["parc", "museu", "plaça", "mercat", "cinema", "carrer", "hospital", "teatre", "estacio"],
     grid: [
-      ["p", "a", "r", "c", "t", "l", "q", "b", "d", "k"],
-      ["g", "h", "j", "n", "s", "r", "e", "f", "v", "t"],
-      ["p", "d", "q", "e", "l", "m", "u", "s", "e", "u"],
-      ["l", "t", "r", "g", "h", "j", "n", "s", "k", "b"],
-      ["a", "f", "d", "g", "m", "e", "r", "c", "a", "t"],
-      ["ç", "r", "h", "j", "k", "s", "b", "d", "e", "g"],
-      ["a", "l", "f", "q", "n", "t", "r", "d", "h", "j"],
-      ["k", "d", "g", "s", "t", "r", "l", "f", "q", "b"],
-      ["n", "h", "c", "i", "n", "e", "m", "a", "g", "k"],
-      ["t", "r", "l", "f", "q", "s", "n", "h", "j", "d"],
+      ["i", "f", "g", "e", "s", "p", "l", "a", "c", "a"],
+      ["p", "h", "p", "b", "s", "d", "z", "n", "g", "l"],
+      ["q", "t", "o", "a", "q", "t", "o", "q", "c", "x"],
+      ["t", "e", "x", "s", "r", "m", "a", "h", "b", "r"],
+      ["v", "a", "k", "b", "p", "c", "u", "c", "l", "k"],
+      ["z", "t", "c", "a", "y", "i", "i", "s", "i", "m"],
+      ["m", "r", "e", "r", "b", "n", "t", "f", "e", "o"],
+      ["p", "e", "v", "w", "e", "i", "t", "a", "j", "u"],
+      ["x", "p", "a", "m", "p", "m", "o", "b", "l", "q"],
+      ["i", "h", "a", "k", "c", "a", "r", "r", "e", "r"],
     ],
   },
   {
@@ -302,6 +302,26 @@ export const laCiutatTasks: Task[] = [
       },
     ],
   },
+
+  // ── Slaganje reči iz dva dela (dodato 17.08.2026) ──
+  // Vlasnica: „taj tip zadatka joj se svideo, stavi ga i u ostale teme."
+  // Postojao je samo u temi 4. Sve reči su iz vokabulara OVE teme — ništa se
+  // ne izmišlja, samo se već naučena reč seče na dva dela, po slogu.
+  {
+    id: "la-ciutat-slaganje",
+    type: "matching",
+    prompt: "Relaciona les dues parts per formar paraules:",
+    rightTextOnly: true,
+    pairs: [
+      { left: "CAR", right: "RER" },
+      { left: "PLA", right: "ÇA" },
+      { left: "HOS", right: "PITAL" },
+      { left: "MU", right: "SEU" },
+      { left: "CI", right: "NEMA" },
+      { left: "TEA", right: "TRE" },
+    ],
+  },
+
   // Bonus activity: Fun drawing
   {
     id: "la-ciutat-bonus",

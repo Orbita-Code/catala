@@ -22,7 +22,12 @@
 import sharp from "sharp";
 import { writeFileSync } from "fs";
 
-const PAROVI = { orella: "orelles", ma: "mans" };
+const PAROVI = {
+  orella: "orelles", ma: "mans",
+  // Množine iz teme 5 (17.08.2026, prijava vlasnice: „zadatak 3 tema 5 nema
+  // sliku za persianes i antenes, verovatno zato što su množina").
+  persiana: "persianes", antena: "antenes", garatge: "garatges",
+};
 
 /**
  * `cama` SE NE UDVAJA — njena slika VEĆ prikazuje obe noge.

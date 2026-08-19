@@ -29,18 +29,19 @@ export const laCasaTasks: Task[] = [
     id: "la-casa-2",
     type: "word-search",
     prompt: "Busca 6 paraules relacionades amb la casa. Poden anar →\u00A0←\u00A0↓\u00A0↑\u00A0↗",
-    gridSize: 9,
-    words: ["persiana", "antena", "escala", "cortina", "jardí", "balcó"],
+    gridSize: 10,
+    words: ["persiana", "antena", "escala", "cortina", "jardí", "balcó", "garatge", "teulada", "xemeneia"],
     grid: [
-      ["p", "e", "r", "s", "i", "a", "n", "a", "b"],
-      ["g", "a", "d", "r", "f", "m", "t", "u", "a"],
-      ["h", "n", "v", "p", "d", "s", "r", "j", "l"],
-      ["f", "t", "m", "g", "u", "b", "d", "r", "c"],
-      ["s", "e", "e", "s", "c", "a", "l", "a", "ó"],
-      ["d", "n", "r", "t", "g", "h", "p", "m", "v"],
-      ["u", "a", "c", "o", "r", "t", "i", "n", "a"],
-      ["r", "f", "g", "h", "b", "s", "d", "p", "t"],
-      ["j", "a", "r", "d", "í", "m", "n", "u", "v"],
+      ["u", "t", "a", "p", "c", "o", "t", "a", "d", "c"],
+      ["n", "p", "i", "e", "j", "e", "s", "t", "e", "c"],
+      ["t", "e", "e", "o", "c", "l", "a", "b", "g", "k"],
+      ["e", "s", "n", "r", "o", "d", "l", "a", "t", "j"],
+      ["u", "c", "e", "i", "s", "y", "n", "r", "a", "a"],
+      ["l", "a", "m", "e", "f", "i", "z", "b", "r", "r"],
+      ["a", "l", "e", "u", "t", "w", "a", "i", "a", "d"],
+      ["d", "a", "x", "r", "l", "q", "l", "n", "g", "i"],
+      ["a", "e", "o", "u", "t", "h", "y", "g", "a", "e"],
+      ["r", "c", "a", "n", "t", "e", "n", "a", "h", "c"],
     ],
   },
 
@@ -86,14 +87,22 @@ export const laCasaTasks: Task[] = [
     type: "label-image",
     prompt: "Escriu les parts de la casa:",
     image: "casa-exterior",
+    // KOORDINATE PREMERENE NA SLICI 17.08.2026 (prijava vlasnice: „sve tačke su
+    // otišle tamo gde ne treba, dimnjak i krov su otišli na nebo kao i antena").
+    // Bile su postavljene na oko: krov na 10% visine, dimnjak i antena na 5% —
+    // a to je čisto nebo iznad kuće. Mereno preko mreže postavljene na sliku.
     labels: [
-      { text: "teulada", x: 50, y: 10 },
-      { text: "xemeneia", x: 30, y: 5 },
-      { text: "antena", x: 80, y: 5 },
-      { text: "balcó", x: 20, y: 45 },
-      { text: "jardí", x: 70, y: 85 },
-      { text: "garatge", x: 85, y: 60 },
+      { text: "teulada", x: 35, y: 27 },
+      { text: "xemeneia", x: 33, y: 15 },
+      { text: "antena", x: 78, y: 16 },
+      { text: "balcó", x: 30, y: 49 },
+      { text: "jardí", x: 14, y: 72 },
+      { text: "garatge", x: 68, y: 63 },
     ],
+    // `persiana` JE IZBAČENA IZ PONUĐENIH REČI (ista prijava).
+    // Kuća je puna prozorskih kapaka, pa je uz tačku za balkon i „persiana"
+    // sasvim razuman odgovor — dete koje dobro gleda sliku bilo bi kažnjeno.
+    // Pogrešna ponuda mora biti očigledno pogrešna, ne razumna.
     options: [
       "teulada",
       "xemeneia",
@@ -102,7 +111,7 @@ export const laCasaTasks: Task[] = [
       "jardí",
       "garatge",
       "escala",
-      "persiana",
+      "cuina",
     ],
   },
 
@@ -562,6 +571,26 @@ export const laCasaTasks: Task[] = [
       { catalan: "sala d'estar", translation: "dnevna soba", image: "sala-d-estar" },
       { catalan: "terrassa", translation: "terasa", image: "terrassa" },
       { catalan: "lavabo", translation: "kupatilo", image: "lavabo" },
+    ],
+  },
+
+
+  // ── Slaganje reči iz dva dela (dodato 17.08.2026) ──
+  // Vlasnica: „taj tip zadatka joj se svideo, stavi ga i u ostale teme."
+  // Postojao je samo u temi 4. Sve reči su iz vokabulara OVE teme — ništa se
+  // ne izmišlja, samo se već naučena reč seče na dva dela, po slogu.
+  {
+    id: "la-casa-slaganje",
+    type: "matching",
+    prompt: "Relaciona les dues parts per formar paraules:",
+    rightTextOnly: true,
+    pairs: [
+      { left: "CUI", right: "NA" },
+      { left: "BAL", right: "CÓ" },
+      { left: "COR", right: "TINA" },
+      { left: "NE", right: "VERA" },
+      { left: "MI", right: "RALL" },
+      { left: "PER", right: "SIANA" },
     ],
   },
 

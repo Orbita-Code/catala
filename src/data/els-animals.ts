@@ -255,18 +255,18 @@ export const elsAnimalsTasks: Task[] = [
     type: "word-search",
     prompt: "Busca 8 mamífers a la sopa de lletres. Poden anar →\u00A0←\u00A0↓\u00A0↑\u00A0↗",
     gridSize: 10,
-    words: ["gos", "gat", "lleo", "vaca", "ovella", "porc", "os", "tigre"],
+    words: ["gos", "gat", "lleo", "vaca", "ovella", "porc", "os", "tigre", "conill", "girafa", "mussol"],
     grid: [
-      ["t", "i", "g", "r", "e", "v", "a", "c", "a", "n"],
-      ["j", "r", "h", "m", "e", "w", "z", "f", "j", "y"],
-      ["g", "a", "t", "l", "l", "e", "o", "h", "c", "b"],
-      ["i", "s", "u", "r", "z", "m", "t", "e", "n", "d"],
-      ["k", "w", "o", "v", "e", "l", "l", "a", "e", "g"],
-      ["a", "l", "v", "h", "f", "p", "k", "g", "j", "s"],
-      ["p", "o", "r", "c", "a", "r", "i", "a", "o", "a"],
-      ["g", "o", "s", "b", "h", "k", "s", "c", "e", "e"],
-      ["e", "n", "b", "e", "q", "d", "a", "u", "o", "w"],
-      ["z", "m", "a", "f", "n", "x", "p", "r", "s", "c"],
+      ["r", "f", "r", "g", "z", "r", "k", "b", "l", "h"],
+      ["x", "o", "l", "l", "i", "n", "o", "c", "f", "y"],
+      ["p", "n", "v", "s", "o", "y", "l", "f", "c", "x"],
+      ["o", "l", "t", "e", "s", "o", "g", "e", "h", "d"],
+      ["r", "v", "l", "a", "l", "w", "e", "m", "v", "l"],
+      ["c", "l", "q", "h", "g", "l", "i", "u", "a", "m"],
+      ["g", "i", "r", "a", "f", "a", "a", "s", "c", "q"],
+      ["n", "z", "p", "x", "t", "s", "g", "s", "a", "d"],
+      ["i", "x", "j", "o", "o", "h", "v", "o", "b", "y"],
+      ["e", "r", "g", "i", "t", "q", "j", "l", "k", "y"],
     ],
   },
   {
@@ -572,6 +572,26 @@ export const elsAnimalsTasks: Task[] = [
       { catalan: "lleó", translation: "lav", image: "lleo" },
       { catalan: "elefant", translation: "slon", image: "elefant" },
       { catalan: "tigre", translation: "tigar", image: "tigre" },
+    ],
+  },
+
+
+  // ── Slaganje reči iz dva dela (dodato 17.08.2026) ──
+  // Vlasnica: „taj tip zadatka joj se svideo, stavi ga i u ostale teme."
+  // Postojao je samo u temi 4. Sve reči su iz vokabulara OVE teme — ništa se
+  // ne izmišlja, samo se već naučena reč seče na dva dela, po slogu.
+  {
+    id: "els-animals-slaganje",
+    type: "matching",
+    prompt: "Relaciona les dues parts per formar paraules:",
+    rightTextOnly: true,
+    pairs: [
+      { left: "GA", right: "LLINA" },
+      { left: "CO", right: "NILL" },
+      { left: "TOR", right: "TUGA" },
+      { left: "GI", right: "RAFA" },
+      { left: "MUS", right: "SOL" },
+      { left: "PAPA", right: "LLONA" },
     ],
   },
 

@@ -188,6 +188,19 @@ export function sveStavke() {
     for (const m of s.matchAll(/\{[^{}]*?description:\s*"([^"]+)"[^{}]*?count:\s*(\d+)[^{}]*?\}/g)) {
       dodaj(`${m[2]} ${m[1]}`, "rec");
     }
+
+    // RAZVRSTAVANJE PO KOLONAMA izgovara „član + reč" za TAČNO razvrstanu reč
+    // (`ClassifyColumns`). Naslov kolone je član („LA", „ELS", ili „Femení (una)").
+    // Bez ovoga je aplikacija govorila „la cortina" glasom uređaja — prijava
+    // vlasnice 17.08.2026.
+    for (const m of s.matchAll(/title:\s*"([^"]+)",\s*items:\s*\[([^\]]*)\]/g)) {
+      const uZagradi = m[1].match(/\(([^)]+)\)/);
+      const kratki = ["el", "la", "un", "una", "els", "les", "l'"];
+      const clan = uZagradi ? uZagradi[1]
+        : (kratki.includes(m[1].toLowerCase().trim()) ? m[1].toLowerCase().trim() : "");
+      if (!clan) continue;
+      for (const r of m[2].matchAll(/"([^"]+)"/g)) dodaj(`${clan} ${r[1]}`, "rec");
+    }
   }
   return { mapa, sudari };
 }

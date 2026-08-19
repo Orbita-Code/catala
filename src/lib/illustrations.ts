@@ -509,6 +509,11 @@ const wordsWithIllustrations = new Set([
   // (`scripts/napravi-par.mjs`), jer je u zadatku spajanja pola reči bilo bez
   // slike: `ulls` i `boca` su imale, `orelles`, `mans` i `cames` nisu.
   "orelles",
+  // Množine iz teme 5 — složene od jednine 17.08.2026 (`scripts/napravi-par.mjs`),
+  // jer su u zadatku razvrstavanja stajale bez ijedne slike.
+  "persianes",
+  "antenes",
+  "garatges",
   "mans",
   "cames",
   "noi-alt",

@@ -67,18 +67,18 @@ export const elsOficisTasks: Task[] = [
     type: "word-search",
     prompt: "Troba les paraules a la sopa de lletres. Poden anar →\u00A0←\u00A0↓\u00A0↑\u00A0↗",
     gridSize: 10,
-    words: ["metge", "pilot", "bomber", "pagès", "cuiner", "mestre", "policia"],
+    words: ["metge", "pilot", "bomber", "pagès", "cuiner", "mestre", "policia", "dentista", "pintor", "granger"],
     grid: [
-      ["m", "e", "t", "g", "e", "l", "r", "k", "w", "p"],
-      ["m", "e", "s", "t", "r", "e", "r", "w", "j", "o"],
-      ["k", "d", "p", "i", "l", "o", "t", "h", "n", "l"],
-      ["w", "t", "r", "l", "k", "v", "d", "f", "t", "i"],
-      ["b", "o", "m", "b", "e", "r", "h", "n", "q", "c"],
-      ["p", "v", "d", "f", "k", "t", "r", "w", "j", "i"],
-      ["a", "q", "c", "u", "i", "n", "e", "r", "d", "a"],
-      ["g", "t", "r", "l", "k", "v", "d", "f", "m", "h"],
-      ["è", "w", "d", "f", "n", "q", "t", "r", "l", "k"],
-      ["s", "v", "h", "g", "m", "d", "f", "n", "q", "w"],
+      ["a", "l", "o", "p", "p", "f", "e", "l", "v", "f"],
+      ["x", "d", "r", "n", "o", "x", "e", "j", "l", "p"],
+      ["m", "m", "e", "d", "m", "l", "e", "k", "t", "e"],
+      ["e", "e", "g", "n", "s", "p", "i", "x", "p", "u"],
+      ["s", "t", "n", "s", "t", "x", "a", "c", "u", "m"],
+      ["t", "g", "a", "p", "n", "i", "u", "g", "i", "m"],
+      ["r", "e", "r", "l", "i", "i", "s", "c", "e", "a"],
+      ["e", "r", "g", "z", "n", "l", "h", "t", "q", "s"],
+      ["i", "g", "r", "e", "b", "m", "o", "b", "a", "u"],
+      ["y", "o", "r", "l", "p", "i", "n", "t", "o", "r"],
     ],
   },
   {
@@ -303,6 +303,26 @@ export const elsOficisTasks: Task[] = [
       },
     ],
   },
+
+  // ── Slaganje reči iz dva dela (dodato 17.08.2026) ──
+  // Vlasnica: „taj tip zadatka joj se svideo, stavi ga i u ostale teme."
+  // Postojao je samo u temi 4. Sve reči su iz vokabulara OVE teme — ništa se
+  // ne izmišlja, samo se već naučena reč seče na dva dela, po slogu.
+  {
+    id: "els-oficis-slaganje",
+    type: "matching",
+    prompt: "Relaciona les dues parts per formar paraules:",
+    rightTextOnly: true,
+    pairs: [
+      { left: "MES", right: "TRE" },
+      { left: "MET", right: "GE" },
+      { left: "BOM", right: "BER" },
+      { left: "PO", right: "LICIA" },
+      { left: "CUI", right: "NER" },
+      { left: "DEN", right: "TISTA" },
+    ],
+  },
+
   // Bonus activity: Fun drawing
   {
     id: "els-oficis-bonus",
