@@ -139,7 +139,19 @@ export function imaKatalonskiGlas(): boolean {
 function kljucTeksta(t: string): string {
   return t
     .replace(/[→←↓↑↗↘↙↖⇒⇐]/g, " ")
-    .replace(/_{2,}/g, " ")
+    // PRAZNINA SE UKLANJA ZAJEDNO SA TAČKOM IZA NJE (17.08.2026).
+    //
+    // Prijava vlasnice: „14. zadatak tekst zadatka čita neki čudan glas".
+    // Merenjem se pokazalo da to nije bio naslov nego SVE REČENICE — i to u
+    // celoj igrici, u svakom zadatku sa dopunjavanjem.
+    //
+    // Uzrok: u podacima rečenica glasi „Les portem als peus: ___.", a zvučnik
+    // izgovara „Les portem als peus:" (praznina i tačka se sklone pre čitanja).
+    // Ključ snimka se pravio od PRVOG oblika, pa je ispadao „les portem als
+    // peus: ." — sa razmakom i tačkom na kraju. Traženje po drugom obliku ga
+    // nije nalazilo i aplikacija je tiho prelazila na glas uređaja.
+    // Jedan znak razlike, a čulo se kroz celu igru.
+    .replace(/_{2,}\s*[.!?]?/g, " ")
     .replace(/\s+/g, " ")
     .trim()
     .toLowerCase();

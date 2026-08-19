@@ -192,7 +192,13 @@ export const laRobaTasks: Task[] = [
       { word: "jersei", article: "un" },
       { word: "gorra", article: "una" },
       { word: "faldilla", article: "una" },
-      { word: "calçotet", article: "un" },
+      // `calçotet` (jednina) NIJE POSTOJALA KAO SLIKA (prijava vlasnice).
+      // Slika se zove `calcotets` — i to je ispravno: u katalonskom se za
+      // dečje gaćice kaže MNOŽINA `calçotets`, kao i `calces` za devojčice.
+      // Sveska ima oba oblika i oba su u temi (zadatak „donje rublje").
+      // Ovde je trebala reč u JEDNINI zbog članova `un`/`una`, pa je uzet
+      // `banyador` — takođe iz sveske i sa gotovom slikom.
+      { word: "banyador", article: "un" },
       { word: "jaqueta", article: "una" },
       { word: "corbata", article: "una" },
       { word: "pijama", article: "un" },
@@ -205,25 +211,41 @@ export const laRobaTasks: Task[] = [
     id: "la-roba-8",
     type: "fill-sentence",
     prompt: "Observa i completa les frases:",
+    // ZADATAK SE NIJE MOGAO RESITI (17.08.2026, prijava vlasnice: „deseti
+    // zadatak je katastrofa, ništa nije dobro").
+    //
+    // Rečenica pita jesu li pantalone prljave, a prikazivala se OBIČNA slika
+    // pantalona — čiste. Dete gleda čiste pantalone i treba da odgovori
+    // „bruts". Nije se moglo znati, moglo se samo pogađati.
+    // Slika se izvodila iz subjekta rečenice („Els pantalons…" → `pantalons`),
+    // pa je uvek ispadala neutralna verzija.
+    //
+    // Slike `pantalons-bruts`, `jersei-nou`, `sabates-velles` i `mitjons-nets`
+    // POSTOJE od ranije i nikad se nisu koristile — napravljene su baš za ovaj
+    // zadatak. Sada dete VIDI prljave pantalone i zato zna odgovor.
     sentences: [
       {
         text: "Els pantalons estan ___.",
         blank: "bruts",
+        image: "pantalons-bruts",
         options: ["nets", "bruts", "nous"],
       },
       {
         text: "El jersei és ___.",
         blank: "nou",
+        image: "jersei-nou",
         options: ["vell", "brut", "nou"],
       },
       {
         text: "Les sabates són ___.",
         blank: "velles",
+        image: "sabates-velles",
         options: ["velles", "noves", "netes"],
       },
       {
         text: "Els mitjons estan ___.",
         blank: "nets",
+        image: "mitjons-nets",
         options: ["bruts", "nets", "vells"],
       },
     ],

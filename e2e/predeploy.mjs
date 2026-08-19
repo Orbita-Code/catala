@@ -639,6 +639,55 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
                 : "zadatak za probu NIJE NAĐEN");
 }
 
+// ─── 19. NIŠTA SE NE ČITA GLASOM UREĐAJA (nalaz 17.08.2026) ───
+//
+// Prijava vlasnice: „tekst zadatka čita neki čudan glas". Merenjem se pokazalo
+// da to nisu bili naslovi nego SVE REČENICE u zadacima sa dopunjavanjem — u
+// celoj igrici.
+//
+// Uzrok, jedan jedini znak: u podacima rečenica glasi „Les portem als peus: ___.",
+// a zvučnik izgovara „Les portem als peus:" (praznina i tačka se sklone pre
+// čitanja). Ključ snimka se pravio od prvog oblika i ispadao je „…peus: ." —
+// sa tačkom na kraju. Traženje po drugom obliku ga nije nalazilo, pa je
+// aplikacija tiho prelazila na glas uređaja.
+//
+// Ranije provere ovo NISU mogle da uhvate: gledale su da svaki tekst IZ
+// PODATAKA ima snimak — a imao ga je. Promašaj je bio u tome ŠTO SE TRAŽI.
+// Zato ova provera pritiska zvučnike u pregledaču i sluša da li je išta otišlo
+// na `speechSynthesis`. Meri se ono što dete stvarno čuje.
+{
+  const c = await noviKontekst(1300, 950); const p = await c.newPage();
+  let naGlas = 0, izSnimka = 0, primer = "";
+  try {
+    await p.addInitScript(() => {
+      window.__govor = [];
+      const o = window.speechSynthesis?.speak?.bind(window.speechSynthesis);
+      if (o) window.speechSynthesis.speak = (u) => { window.__govor.push(u.text.slice(0, 40)); return o(u); };
+    });
+    p.on("request", (r) => { if (/\/audio\//.test(r.url())) izSnimka++; });
+    for (const tema of ["la-roba", "el-cos", "la-casa", "els-animals"]) {
+      for (const n of [1, 5, 8, 10, 12, 14]) {
+        await p.goto(`${BASE}/tema/${tema}?tasca=${n}`, { waitUntil: "domcontentloaded", timeout: 90000 });
+        await p.waitForTimeout(900);
+        await p.evaluate(() => { window.__govor = []; });
+        const dugmad = p.locator("main button").filter({ has: p.locator("svg") });
+        const k = Math.min(await dugmad.count(), 8);
+        for (let i = 0; i < k; i++) {
+          await dugmad.nth(i).click({ force: true, timeout: 1200 }).catch(() => {});
+          await p.waitForTimeout(250);
+        }
+        await p.waitForTimeout(600);
+        const g = await p.evaluate(() => window.__govor || []);
+        if (g.length && !primer) primer = g[0];
+        naGlas += g.length;
+      }
+    }
+  } catch { /* ostaje izmereno */ }
+  await c.close();
+  zapisi("BLOK", "Ništa se ne čita glasom uređaja", izSnimka > 0 && naGlas === 0,
+         `snimaka ${izSnimka}, glasom uređaja ${naGlas}${primer ? ` (npr. „${primer}")` : ""}`);
+}
+
 await b.close();
 
 // ─── ZBIR ───

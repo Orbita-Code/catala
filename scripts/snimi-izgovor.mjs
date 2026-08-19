@@ -106,7 +106,10 @@ function zaIzgovor(t) {
   return t
     .replace(/\\u([0-9a-fA-F]{4})/g, (_, h) => String.fromCharCode(parseInt(h, 16)))
     .replace(/[→←↓↑↗↘↙↖⇒⇐]/g, " ")
-    .replace(/_{2,}/g, " ")
+    // Praznina se uklanja ZAJEDNO sa tačkom iza nje — mora se poklopiti sa
+    // `kljucTeksta` u `src/lib/tts.ts`, inače snimak postoji a ne nalazi se.
+    // v. objašnjenje tamo (17.08.2026).
+    .replace(/_{2,}\s*[.!?]?/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 }

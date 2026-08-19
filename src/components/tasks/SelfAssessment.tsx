@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { SelfAssessmentTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
 import { speak } from "@/lib/tts";
-import { Mic, MicOff, RefreshCcw } from "lucide-react";
+import { Mic, MicOff } from "lucide-react";
 import { useSpeechRecognition, wordsMatch } from "@/hooks/useSpeechRecognition";
 import { useSnimanjeGlasa, type IshodSnimka, type GreskaMikrofona } from "@/hooks/useSnimanjeGlasa";
 import { celebrate, celebrateBig } from "@/lib/confetti";
@@ -253,14 +253,13 @@ export default function SelfAssessment({ task, onComplete }: Props) {
                       </div>
                     )}
 
-                    {status === "retry" && !snimaOvu && (
-                      <div className="flex items-center gap-1">
-                        <RefreshCcw className="w-4 h-4 text-orange-500" />
-                        <button onClick={() => handleSkip(idx)} className="text-xs text-gray-500 underline">
-                          Passa
-                        </button>
-                      </div>
-                    )}
+                    {/* KAD DETE POGREŠI — NE PRIKAZUJE SE NIŠTA (17.08.2026,
+                        zahtev vlasnice: „kad ćerka pogreši na mikrofonu, ne
+                        daj joj one strelice da ponovi, nego neka ponovo kaže").
+                        Ranije su tu iskakale strelica i „Passa". Dugme za
+                        mikrofon i dalje stoji, pa dete prosto pritisne i kaže
+                        ponovo. U zadatku sme da stoji samo zelena kvačica kad
+                        je pogodilo — ništa drugo. */}
                   </>
                 )}
               </div>
