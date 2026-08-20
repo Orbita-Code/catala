@@ -199,13 +199,14 @@ export const laRobaTasks: Task[] = [
       { word: "jersei", article: "un" },
       { word: "gorra", article: "una" },
       { word: "faldilla", article: "una" },
-      // `calçotet` (jednina) NIJE POSTOJALA KAO SLIKA (prijava vlasnice).
-      // Slika se zove `calcotets` — i to je ispravno: u katalonskom se za
-      // dečje gaćice kaže MNOŽINA `calçotets`, kao i `calces` za devojčice.
-      // Sveska ima oba oblika i oba su u temi (zadatak „donje rublje").
-      // Ovde je trebala reč u JEDNINI zbog članova `un`/`una`, pa je uzet
-      // `banyador` — takođe iz sveske i sa gotovom slikom.
-      { word: "banyador", article: "un" },
+      // `calçotet` VRAĆEN 17.08.2026 — MOJA GREŠKA istog dana.
+      // Izbacio sam ga jer nije imao sliku, i zamenio sa `banyador`. Onda sam
+      // otvorio svesku (`Svi zadaci/La roba/IMG_0977.JPG`, vežba 7) i video da
+      // sveska ima TAČNO `calçotet`, u jednini, u tom istom spisku sa članovima.
+      // Nije falila reč nego SLIKA: postojala je samo `calcotets` (dva para).
+      // Sada postoji `calcotet` — jedan par.
+      // Pouka: kad reč nema sliku, pravi se slika. Reč iz sveske se ne menja.
+      { word: "calçotet", article: "un" },
       { word: "jaqueta", article: "una" },
       { word: "corbata", article: "una" },
       { word: "pijama", article: "un" },
