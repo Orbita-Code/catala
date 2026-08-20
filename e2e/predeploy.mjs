@@ -721,6 +721,32 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
          `bez pamćenja ${bez || "?"}, posle povratka ${sa || "?"}, star zapis ${star || "?"}`);
 }
 
+// ─── 22. NIJEDNA REČ BEZ SLIKE (nalaz 17.08.2026) ───
+//
+// Vlasnica: „llençols u zadatku 17 nema sliku!!! zašto i dalje imamo zadatke
+// bez slike????"
+//
+// Bila je u pravu što je pitala tako. Do sada se to otkrivalo samo tako što
+// ona naiđe na takav zadatak — nije postojala nijedna provera koja bi to
+// našla unapred. Ova prolazi sve teme i sve zadatke i traži svaku reč koju
+// dete vidi, a koja nema svoju sliku.
+//
+// Poštuje polje `image` iz podataka (ono ima prednost nad samom rečju, kao i
+// u aplikaciji) i preskače zadatke gde slika i ne treba — antonimi u frazama,
+// slaganje reči iz dva dela, slagalica slova.
+{
+  const { execFileSync } = require("child_process");
+  let izlaz = "", broj = -1;
+  try {
+    izlaz = execFileSync("node", ["scripts/proveri-slike.mjs"], { encoding: "utf8" });
+  } catch (e) { izlaz = String(e.stdout || e); }
+  const m = izlaz.match(/BEZ SLIKE: (\d+)/);
+  if (m) broj = Number(m[1]);
+  const prve = izlaz.split("\n").filter((r) => r.startsWith("  ")).slice(0, 3).map((r) => r.trim());
+  zapisi("BLOK", "Nijedna reč se ne prikazuje bez slike", broj === 0,
+         broj < 0 ? "provera se nije pokrenula" : `bez slike: ${broj}${prve.length ? " — " + prve.join(", ") : ""}`);
+}
+
 await b.close();
 
 // ─── ZBIR ───

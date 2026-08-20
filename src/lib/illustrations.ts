@@ -511,6 +511,16 @@ const wordsWithIllustrations = new Set([
   // `calcotet` (jedan par) — sveska u vežbi 7 traži JEDNINU; `calcotets`
   // prikazuje dva para i ostaje za spisak donjeg rublja.
   "calcotet",
+  //  (čaršavi, množina) — složeno od jednine 17.08.2026, jer je u
+  // zadatku razvrstavanja po sobama stajala reč bez ijedne slike.
+  // Množine i  iz teme 6 — složene od jednine 17.08.2026, jer su u
+  // zadatku stajale bez ijedne slike (prijava vlasnice).
+  "tietes",
+  "germanes",
+  "cosins",
+  "germans",
+  "net",
+  "llencols",
   "orelles",
   // Množine iz teme 5 — složene od jednine 17.08.2026 (`scripts/napravi-par.mjs`),
   // jer su u zadatku razvrstavanja stajale bez ijedne slike.

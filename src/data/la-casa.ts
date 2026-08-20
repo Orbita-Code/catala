@@ -191,7 +191,16 @@ export const laCasaTasks: Task[] = [
       { catalan: "prestatge", image: "prestatge" },
       { catalan: "sofà", image: "sofa" },
       { catalan: "llàmpada", image: "llampada" },
-      { catalan: "xemeneia", image: "xemeneia" },
+      // U DNEVNOJ SOBI `xemeneia` ZNAČI KAMIN, NE DIMNJAK (17.08.2026,
+      // prijava vlasnice: „u našoj svesci je xemeneia dimnjak na krovu").
+      //
+      // Katalonska reč `xemeneia` znači OBOJE — i dimnjak na krovu i kamin u
+      // sobi — i sveska je tako i koristi: u vežbi 1 (spolja) to je dimnjak, a
+      // u vežbi 9 (SALA D'ESTAR) kamin. Ali SLIKA mora da prati mesto.
+      // Ovde je stajala slika dimnjaka sa krova, usred spiska nameštaja —
+      // dete je učilo pogrešnu stvar. Slika kamina (`xemeneia2`) postoji od
+      // ranije i nije se koristila.
+      { catalan: "xemeneia", image: "xemeneia2" },
       { catalan: "butaca", image: "butaca" },
       { catalan: "catifa", image: "catifa" },
       { catalan: "planta", image: "planta" },
@@ -205,24 +214,38 @@ export const laCasaTasks: Task[] = [
     prompt: "Completa:",
     sentences: [
       {
+        // REČENICE VODE KROZ CELU KUĆU, NE SAMO KROZ DNEVNU SOBU
+        // (17.08.2026, zahtev vlasnice: „taj zadatak je dosadan, sve se
+        // dešava u sala d'estar; neka bude i kuhinja, i kupatilo, i spavaća —
+        // tako se prolazi cela tema o kući, a ne samo jedna soba").
+        //
+        // Sve reči su iz sveske, iz vežbi 7, 9, 11 i 12 (sobe i njihove
+        // stvari). Menja se samo raspored: svaka rečenica je druga soba, pa
+        // dete mora da se seti gde šta stoji, umesto da četiri puta bira
+        // predmet iz iste sobe.
+        text: "A la sala d'estar hi ha un ___.",
+        blank: "sofà",
+        options: ["llit", "sofà", "forn"],
+      },
+      {
+        text: "A la cuina hi ha una ___.",
+        blank: "nevera",
+        options: ["nevera", "catifa", "banyera"],
+      },
+      {
+        text: "Al lavabo hi ha una ___.",
+        blank: "banyera",
+        options: ["banyera", "televisió", "taula"],
+      },
+      {
+        text: "Al dormitori hi ha un ___.",
+        blank: "llit",
+        options: ["mirall", "llit", "sofà"],
+      },
+      {
         text: "A la sala d'estar hi ha una ___.",
         blank: "televisió",
-        options: ["nevera", "televisió", "banyera"],
-      },
-      {
-        text: "A la sala d'estar hi ha ___.",
-        blank: "un sofà",
-        options: ["un llit", "una nevera", "un sofà"],
-      },
-      {
-        text: "A la sala d'estar hi ha ___.",
-        blank: "un rellotge",
-        options: ["un rellotge", "un forn", "una dutxa"],
-      },
-      {
-        text: "A la sala d'estar hi ha ___.",
-        blank: "una catifa",
-        options: ["una banyera", "una catifa", "un llit"],
+        options: ["nevera", "televisió", "dutxa"],
       },
     ],
   },
@@ -334,42 +357,30 @@ export const laCasaTasks: Task[] = [
     ],
   },
 
-  // ── Task 13: Completa (verb rentar-se conjugation) ──
+  // ── Zagonetke o kući (vežba 15 iz sveske) ──
+  //
+  // ZAMENIO ZADATAK KOJI SE NIJE MOGAO REŠITI (17.08.2026, prijava vlasnice:
+  // „16. zadatak je užasan, ništa se ne razume, zameni ga zanimljivim").
+  //
+  // Ovde je stajalo menjanje glagola `rentar-se` („Jo em rento les ___",
+  // „Tu et rentes les ___"…), gde je odgovor bio DEO TELA. Ali oprati se može
+  // bilo šta — ruke, lice, zubi — pa dete nije imalo kako da zna šta se traži.
+  // Dva puta je čak tačan odgovor bio ista reč. To je bilo čisto pogađanje.
+  //
+  // Sveska na toj strani ima vežbu 15 — ZAGONETKE o kući, koje mi nismo imali:
+  // gde je antena, od čega je sto, koliko ima prozora, čime peremo ruke, gde
+  // sadimo cveće. Dete odgovara razmišljanjem, a uči i stvari o kući.
   {
     id: "la-casa-16",
-    type: "fill-sentence",
-    prompt: "Completa:",
-    sentences: [
-      {
-        text: "Jo em rento les ___.",
-        blank: "mans",
-        options: ["cames", "mans", "orelles"],
-      },
-      {
-        text: "Tu et rentes les ___.",
-        blank: "mans",
-        options: ["dents", "cames", "mans"],
-      },
-      {
-        text: "Ell es renta ___.",
-        blank: "la cara",
-        options: ["el braç", "la cara", "el peu"],
-      },
-      {
-        text: "Nosaltres ens rentem ___.",
-        blank: "les mans",
-        options: ["els peus", "el cap", "les mans"],
-      },
-      {
-        text: "Vosaltres us renteu ___.",
-        blank: "les dents",
-        options: ["els ulls", "les dents", "el nas"],
-      },
-      {
-        text: "Ells es renten ___.",
-        blank: "la cara",
-        options: ["el braç", "les cames", "la cara"],
-      },
+    type: "matching",
+    prompt: "Relaciona la pregunta amb la resposta:",
+    rightTextOnly: true,
+    pairs: [
+      { left: "On és l'antena?", right: "És a la teulada" },
+      { left: "De què està feta la taula?", right: "De fusta" },
+      { left: "Amb què ens rentem les mans?", right: "Amb sabó" },
+      { left: "On plantem flors?", right: "Al jardí" },
+      { left: "On guardem el cotxe?", right: "Al garatge" },
     ],
   },
 
@@ -377,8 +388,24 @@ export const laCasaTasks: Task[] = [
   {
     id: "la-casa-17",
     type: "classify-columns",
-    prompt:
-      "Classifica: vermell = dormitori, verd = sala d'estar, blau = lavabo, groc = cuina.",
+    // ZADATAK PREPRAVLJEN IZ OSNOVA 17.08.2026 — vlasnica je igrajući sa
+    // detetom našla ŠEST odvojenih grešaka u njemu:
+    //
+    // 1. `xemeneia` je stajala u KUHINJI. Kamin nije u kuhinji. Sada je u
+    //    dnevnoj sobi, gde je i sveska stavlja (vežba 9).
+    // 2. `armari` je stajao u KUHINJI, pa je dete koje ga je stavilo u spavaću
+    //    sobu dobilo grešku. Orman je i jedno i drugo — IZBAČEN.
+    // 3. `lavabo` je stajao kao stvar koju treba svrstati u sobu `Lavabo`.
+    //    Kupatilo se ne stavlja u kupatilo. Izbačen.
+    // 4. `mirall` i `cortina` stoje i u dnevnoj i u spavaćoj sobi — dete bi
+    //    moralo da nagađa i rizikuje. Izbačeni.
+    // 5. `llençols` nije imao sliku; sada ima (složena od jednine).
+    // 6. Naslov je pominjao boje („vermell = dormitori…"). To je iz sveske,
+    //    gde se BOJI. Kod nas se prevlači u kolone, pa boje ništa ne znače.
+    //
+    // Ostaju SAMO stvari nedvosmisleno vezane za jednu sobu, po četiri na
+    // sobu. Sve su iz sveske (vežbe 9, 11, 12 i 14).
+    prompt: "Classifica: on trobem cada cosa?",
     columns: [
       {
         title: "Dormitori",
@@ -386,38 +413,36 @@ export const laCasaTasks: Task[] = [
       },
       {
         title: "Sala d'estar",
-        items: ["televisió", "sofà", "catifa", "cortina"],
+        items: ["televisió", "sofà", "catifa", "xemeneia"],
       },
       {
         title: "Lavabo",
-        items: ["banyera", "mirall", "dutxa", "lavabo", "tovallola"],
+        items: ["banyera", "dutxa", "tovallola", "rentamans"],
       },
       {
         title: "Cuina",
-        items: ["aiguera", "forn", "nevera", "microones", "xemeneia", "armari"],
+        items: ["aiguera", "forn", "nevera", "microones"],
       },
     ],
     allItems: [
       "llit",
-      "aiguera",
-      "catifa",
-      "dutxa",
       "televisió",
       "banyera",
-      "mirall",
+      "aiguera",
       "llençols",
-      "forn",
       "sofà",
-      "armari",
-      "lavabo",
-      "cortina",
+      "dutxa",
+      "forn",
+      "despertador",
+      "catifa",
+      "tovallola",
       "nevera",
       "tauleta de nit",
-      "despertador",
-      "tovallola",
-      "microones",
       "xemeneia",
+      "rentamans",
+      "microones",
     ],
+    circleMode: true,
   },
 
   // ── Task 14 (cont): Completa (on fem cada cosa) ──
