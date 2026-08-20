@@ -630,6 +630,9 @@ const wordsWithIllustrations = new Set([
   "banyera",
   "vater",
   "tovallola",
+  //  — jedina reč iz sveske koju uopšte nismo imali
+  // (vežbe 1 i 3 teme 7). Slika napravljena 17.08.2026, bez natpisa.
+  "botiga-d-esports",
   "rentamans",
   "prestatge",
   "escombraries",

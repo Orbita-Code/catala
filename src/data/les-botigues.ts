@@ -19,9 +19,12 @@ export const lesBotiguesTasks: Task[] = [
       // Vlasnica ga ipak želi: „to je prosto prodavnica u koju deca idu svaki
       // dan". Ostaje kao dodatna reč, uz sve iz sveske.
       //
-      // I dalje nam fali `botiga d'esports` — nju sveska IMA (vežbe 1 i 3), a
-      // mi je nemamo ni kao reč ni kao sliku. Zapisano u `TODO.md`.
       { catalan: "supermercat", image: "supermercat" },
+      // `botiga d'esports` DODATA 17.08.2026 — jedina reč iz sveske koje
+      // uopšte nismo imali. Sveska je ima u vežbi 1 (spisak prodavnica) i u
+      // vežbi 3 („A la botiga d'esports venen bambes"). Nova ilustracija,
+      // bez ijednog slova na izlogu, po pravilu iz `CLAUDE.md`.
+      { catalan: "botiga d'esports", image: "botiga-d-esports" },
     ],
   },
 
@@ -84,6 +87,11 @@ export const lesBotiguesTasks: Task[] = [
       {
         joined: "Lacarnisseriavencarn.",
         words: ["La", "carnisseria", "ven", "carn."],
+      },
+      // Rečenica iz sveske, vežba 3 — falila je zajedno sa rečju.
+      {
+        joined: "Alabotigadesportsvenenbambes.",
+        words: ["A", "la", "botiga", "d'esports", "venen", "bambes."],
       },
     ],
   },

@@ -50,17 +50,6 @@ popravke dozvola i tajmera, rezervni jezici, drugi mikrofon, samoprocena
 
 ## Sledeće po redu
 
-### 1a. `botiga d'esports` — reč iz sveske koje NEMA u igrici
-
-Sveska, tema 7, vežba 1 ima **šest** prodavnica: fruiteria/verduleria,
-peixeteria, carnisseria, fleca, farmàcia i **botiga d'esports**. Poslednje
-nemamo — ni kao reč, ni kao sliku. Pojavljuje se i u vežbi 3
-(„A la botiga d'esports venen bambes").
-
-Traži novu ilustraciju: sportska radnja **bez natpisa** (lopte, patike, reketi
-u izlogu), po pravilu iz `CLAUDE.md` da na slikama nema teksta.
-
-
 ### 2. Gotovo, a stoji neupotrebljeno — 95 ilustracija
 
 Danas su **tri puta** uzrok bage bile stvari koje su bile napravljene pa
