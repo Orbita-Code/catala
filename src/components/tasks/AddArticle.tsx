@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AddArticleTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
+import NavigacijaStavki from "@/components/ui/NavigacijaStavki";
 import { sacuvajNapredak, ucitajNapredak, obrisiNapredak } from "@/lib/napredak-zadatka";
 import { ArrowLeft } from "lucide-react";
 import { celebrate, celebrateBig } from "@/lib/confetti";
@@ -105,24 +106,10 @@ export default function AddArticle({ task, onComplete, review = false }: Props) 
 
   return (
     <div className="space-y-5">
-      <div className="flex items-center justify-center gap-3 text-sm text-[var(--text-light)]">
-        {currentIdx > 0 && (
-          <button
-            onClick={() => {
-              setCurrentIdx(currentIdx - 1);
-              setSelected(null);
-              setCorrect(null);
-            }}
-            className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
-            aria-label="Anterior"
-          >
-            <ArrowLeft size={18} />
-          </button>
-        )}
-        <span>
-          {currentIdx + 1} / {task.words.length}
-        </span>
-      </div>
+      {/* Strelice napred i nazad kroz stavke (17.08.2026, zahtev vlasnice).
+          Ranije je postojala samo strelica UNAZAD, i to skrivena dok se ne
+          pređe prva stavka. Dete koje hoće da pogleda sledeću nije imalo kako. */}
+      <NavigacijaStavki idx={currentIdx} ukupno={task.words.length} naIdx={setCurrentIdx} />
 
       <motion.div
         key={currentIdx}

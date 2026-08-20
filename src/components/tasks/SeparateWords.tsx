@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import NavigacijaStavki from "@/components/ui/NavigacijaStavki";
 import { motion, AnimatePresence } from "framer-motion";
 import { SeparateWordsTask, TaskResult } from "@/types/tasks";
 import { ArrowLeft } from "lucide-react";
@@ -110,25 +111,10 @@ export default function SeparateWords({ task, onComplete, review = false }: Prop
 
   return (
     <div className="space-y-5">
-      <div className="flex items-center justify-center gap-3 text-sm text-[var(--text-light)]">
-        {currentIdx > 0 && (
-          <button
-            onClick={() => {
-              setCurrentIdx(currentIdx - 1);
-              setSeparators(new Set());
-              setChecked(false);
-              setCorrect(null);
-            }}
-            className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
-            aria-label="Anterior"
-          >
-            <ArrowLeft size={18} />
-          </button>
-        )}
-        <span>
-          {currentIdx + 1} / {task.items.length}
-        </span>
-      </div>
+      {/* Strelice napred i nazad kroz stavke (17.08.2026, zahtev vlasnice).
+          Ranije je postojala samo strelica UNAZAD, i to skrivena dok se ne
+          pređe prva stavka. Dete koje hoće da pogleda sledeću nije imalo kako. */}
+      <NavigacijaStavki idx={currentIdx} ukupno={task.items.length} naIdx={setCurrentIdx} />
 
       <motion.div
         key={currentIdx}

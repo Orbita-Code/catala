@@ -4,6 +4,7 @@ import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CountAndWriteTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
+import NavigacijaStavki from "@/components/ui/NavigacijaStavki";
 import { celebrate, celebrateBig } from "@/lib/confetti";
 import { speak } from "@/lib/tts";
 import { RefreshCcw } from "lucide-react";
@@ -81,9 +82,10 @@ export default function CountAndWrite({ task, onComplete, review = false }: Prop
   return (
     <div className="space-y-5">
       {/* Progress */}
-      <div className="text-sm text-[var(--text-light)] text-center">
-        {currentIdx + 1} / {task.items.length}
-      </div>
+      {/* Strelice napred i nazad kroz stavke (17.08.2026, zahtev vlasnice).
+          Ranije je postojala samo strelica UNAZAD, i to skrivena dok se ne
+          pređe prva stavka. Dete koje hoće da pogleda sledeću nije imalo kako. */}
+      <NavigacijaStavki idx={currentIdx} ukupno={task.items.length} naIdx={setCurrentIdx} />
 
       <motion.div
         key={currentIdx}

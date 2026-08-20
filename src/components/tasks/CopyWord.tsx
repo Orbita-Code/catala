@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { CopyWordTask } from "@/types/tasks";
 import type { TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
+import NavigacijaStavki from "@/components/ui/NavigacijaStavki";
 import { sacuvajNapredak, ucitajNapredak, obrisiNapredak } from "@/lib/napredak-zadatka";
 import LetterTile from "@/components/ui/LetterTile";
 import SlotRow from "@/components/ui/SlotRow";
@@ -172,6 +173,18 @@ export default function CopyWord({ task, onComplete, review = false }: Props) {
     }
   }, [currentWordIdx, task.words, onComplete, hints.erroredItems]);
 
+  /** Skok na bilo koju reč — koristi ga i strelica napred i strelica nazad. */
+  const naStavku = useCallback((novi: number) => {
+    const rec = task.words[novi];
+    if (!rec) return;
+    setCurrentWordIdx(novi);
+    setSlots(Array(rec.catalan.length).fill(null));
+    setBank(shuffleArray(rec.catalan.split("")).map((l) => ({ letter: stripAccents(l), used: false })));
+    setChecked(false);
+    setCorrect(null);
+    setHintLetterIdx(null);
+  }, [task.words]);
+
   const handleCheck = useCallback(() => {
     const answer = slots.join("").toLowerCase();
     const isCorrect = answer === stripAccents(currentWord.catalan).toLowerCase();
@@ -290,28 +303,16 @@ export default function CopyWord({ task, onComplete, review = false }: Props) {
 
   return (
     <div className="space-y-5">
-      {/* Progress with back arrow */}
-      <div className="flex items-center justify-center gap-3 text-sm text-[var(--text-light)]">
-        {currentWordIdx > 0 && (
-          <button
-            onClick={() => {
-              const prevIdx = currentWordIdx - 1;
-              const prevWord = task.words[prevIdx];
-              setCurrentWordIdx(prevIdx);
-              setSlots(Array(prevWord.catalan.length).fill(null));
-              setBank(shuffleArray(prevWord.catalan.split("")).map((l) => ({ letter: stripAccents(l), used: false })));
-              setChecked(false);
-              setCorrect(null);
-              setHintLetterIdx(null);
-            }}
-            className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
-            aria-label="Anterior"
-          >
-            <ArrowLeft size={18} />
-          </button>
-        )}
-        <span>{currentWordIdx + 1} / {task.words.length}</span>
-      </div>
+      {/* STRELICE NAPRED I NAZAD KROZ REČI (17.08.2026, zahtev vlasnice).
+          Ranije je postojala samo strelica UNAZAD, i to skrivena dok se ne
+          predje prva reč. Dete koje hoće da pogleda sledeću reč nije imalo
+          kako. Sada su obe strelice uvek tu; na krajevima posive umesto da
+          nestanu, da dete vidi da dalje nema. */}
+      <NavigacijaStavki
+        idx={currentWordIdx}
+        ukupno={task.words.length}
+        naIdx={naStavku}
+      />
 
       <motion.div
         key={currentWordIdx}
