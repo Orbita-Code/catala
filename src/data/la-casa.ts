@@ -17,10 +17,12 @@ export const laCasaTasks: Task[] = [
       { catalan: "escala", image: "escala" },
       { catalan: "jardí", image: "jardi" },
       { catalan: "garatge", image: "garatge" },
-      // DODATO 17.08.2026 — reč JE u svesci, slika je postojala od ranije, a
-      // reči nije bilo ni u jednom zadatku. Nađeno unakrsnim poređenjem
-      // sveska ↔ igrica ↔ slike (`Ilustracije/WORKBOOK-VS-ILLUSTRATIONS.md`).
-      { catalan: "façana", image: "facana" },
+      // NAPOMENA 17.08.2026: ovde su nakratko stajale reči `façana`, `llar de
+      // foc`, `quadre` i `rentaplats`. Dodao sam ih iz dokumenta koji je pisala
+      // ranija sesija, pa sam otvorio same fotografije sveske — nijedne od njih
+      // nema. Sveska za kamin koristi `xemeneia` (vežba 9), a u kuhinji (vežba
+      // 11) stoje escombraries, nevera, foc, armari, forn, aixeta, aigüera,
+      // microones, campana. Sve četiri su uklonjene.
     ],
   },
 
@@ -193,11 +195,6 @@ export const laCasaTasks: Task[] = [
       { catalan: "butaca", image: "butaca" },
       { catalan: "catifa", image: "catifa" },
       { catalan: "planta", image: "planta" },
-      // DODATO 17.08.2026 — reč JE u svesci, slika je postojala od ranije, a
-      // reči nije bilo ni u jednom zadatku. Nađeno unakrsnim poređenjem
-      // sveska ↔ igrica ↔ slike (`Ilustracije/WORKBOOK-VS-ILLUSTRATIONS.md`).
-      { catalan: "llar de foc", image: "llar-de-foc" },
-      { catalan: "quadre", image: "quadre" },
     ],
   },
 
@@ -245,10 +242,6 @@ export const laCasaTasks: Task[] = [
       { catalan: "aiguera", image: "aiguera" },
       { catalan: "microones", image: "microones" },
       { catalan: "campana", image: "campana" },
-      // DODATO 17.08.2026 — reč JE u svesci, slika je postojala od ranije, a
-      // reči nije bilo ni u jednom zadatku. Nađeno unakrsnim poređenjem
-      // sveska ↔ igrica ↔ slike (`Ilustracije/WORKBOOK-VS-ILLUSTRATIONS.md`).
-      { catalan: "rentaplats", image: "rentaplats" },
     ],
   },
 

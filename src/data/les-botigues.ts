@@ -14,9 +14,11 @@ export const lesBotiguesTasks: Task[] = [
       { catalan: "carnisseria", image: "carnisseria" },
       { catalan: "fleca", image: "fleca" },
       { catalan: "farmàcia", image: "farmacia" },
-      // DODATO 17.08.2026 — reč JE u svesci, slika je postojala, a reči nije bilo
-      // u nijednom zadatku. Nađeno unakrsnim poređenjem sveska ↔ igrica ↔ slike.
-      { catalan: "supermercat", image: "supermercat" },
+      // NAPOMENA 17.08.2026: ovde je nakratko stajao `supermercat`. Dodao sam
+      // ga iz dokumenta koji je pisala ranija sesija. Sveska (vežba 1) ima
+      // TAČNO ovih šest prodavnica i supermarketa nema.
+      // Fali nam, međutim, `botiga d'esports` — nju sveska ima, a mi je nemamo
+      // ni kao reč ni kao sliku. Zapisano u `TODO.md`.
     ],
   },
 

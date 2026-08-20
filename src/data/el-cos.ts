@@ -87,10 +87,10 @@ export const elCosTasks: Task[] = [
       { catalan: "dit", image: "dit" },
       { catalan: "peu", image: "peu" },
       { catalan: "ungla", image: "ungla" },
-      // DODATO 17.08.2026 — reč JE u svesci, slika je postojala od ranije, a
-      // reči nije bilo ni u jednom zadatku. Nađeno unakrsnim poređenjem
-      // sveska ↔ igrica ↔ slike (`Ilustracije/WORKBOOK-VS-ILLUSTRATIONS.md`).
-      { catalan: "genoll", image: "genoll" },
+      // NAPOMENA 17.08.2026: ovde je nakratko stajao `genoll` (koleno).
+      // Dodao sam ga iz dokumenta koji je pisala ranija sesija. Otvorio sam
+      // svih šest stranica teme 3 — nema ga ni u jednoj vežbi. Vežba 1 ima
+      // tačno 15 delova tela i koleno nije među njima. Uklonjen.
     ],
   },
 
@@ -289,10 +289,15 @@ export const elCosTasks: Task[] = [
         correct: 1,
       },
       // PITANJE „No té celles?" JE UKLONJENO 16.08.2026 (odluka vlasnice).
-      // Reč `cella` (obrva) nije za ovaj uzrast: dete uči katalonski tri godine
-      // i ne zna je. Uz to je pitanje bilo u dvostrukoj negaciji („NEMA obrve?"
-      // → tačan odgovor je NE), što muči i odraslog.
-      // Reč je izbačena iz cele teme, i iz ponuđenih reči u zadatku sa licima.
+      //
+      // ISPRAVKA 17.08.2026: tada sam joj rekao da reči `cella` NEMA u svesci.
+      // To NIJE tačno — vežba 7 iste teme (`Svi zadaci/El cos/IMG_0970.JPG`)
+      // je ispisuje uz crtež, zajedno sa `front`, `llavi`, `hombro`, `esquena`.
+      // Odluka da se izbaci ostaje i dalje njena i stoji: dete uči katalonski
+      // tri godine i ne zna tu reč, a pitanje je uz to bilo u dvostrukoj
+      // negaciji („NEMA obrve?" → tačan odgovor je NE), što muči i odraslog.
+      // Menja se samo obrazloženje: izbačena je zbog UZRASTA, ne zato što je
+      // nema u svesci.
       {
         question: "El cabell li tapa una orella?",
         options: ["Sí", "No"],

@@ -114,16 +114,17 @@ export const laFamiliaTasks: Task[] = [
     type: "classify-columns",
     prompt: "Classifica:",
     columns: [
-      // `nebot` i `neboda` DODATI 17.08.2026 — obe reči su u svesci, obe imaju
-      // sliku od ranije, a nisu se pojavljivale ni u jednom zadatku. Ovde im je
-      // i pravo mesto: uz član se odmah vidi razlika muškog i ženskog roda.
+      // NAPOMENA 17.08.2026: ovde su nakratko stajali `nebot` i `neboda`.
+      // Dodao sam ih iz dokumenta koji je pisala ranija sesija. Otvorio sam
+      // fotografije sveske (`La familia/IMG_0992.JPG`, vežba 6) — tamo stoji
+      // TAČNO ovih dvanaest reči i nijedna više. Vraćeno kako je bilo.
       {
         title: "EL",
-        items: ["fill", "cosí", "pare", "germà", "marit", "avi", "nebot"],
+        items: ["fill", "cosí", "pare", "germà", "marit", "avi"],
       },
       {
         title: "LA",
-        items: ["germana", "mare", "àvia", "filla", "cosina", "dona", "neboda"],
+        items: ["germana", "mare", "àvia", "filla", "cosina", "dona"],
       },
     ],
     allItems: [
@@ -139,8 +140,6 @@ export const laFamiliaTasks: Task[] = [
       "marit",
       "dona",
       "avi",
-      "nebot",
-      "neboda",
     ],
     circleMode: true,
   },
