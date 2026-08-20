@@ -114,17 +114,21 @@ export const laFamiliaTasks: Task[] = [
     type: "classify-columns",
     prompt: "Classifica:",
     columns: [
-      // NAPOMENA 17.08.2026: ovde su nakratko stajali `nebot` i `neboda`.
-      // Dodao sam ih iz dokumenta koji je pisala ranija sesija. Otvorio sam
-      // fotografije sveske (`La familia/IMG_0992.JPG`, vežba 6) — tamo stoji
-      // TAČNO ovih dvanaest reči i nijedna više. Vraćeno kako je bilo.
+      // `nebot` i `neboda` — ODLUKA VLASNICE 17.08.2026, posle provere.
+      //
+      // Reči NISU ispisane ni u jednoj vežbi sveske. Ali vežba 12 pita
+      // „Qui és la Marta respecte la Sara?" — a odgovor na to je `neboda`.
+      // Dakle sveska ih OČEKUJE, a ne uči. Vlasnica je odlučila da ih ostavimo,
+      // pa dete reč i nauči umesto da se od njega traži da je zna.
+      // Ovde im je i pravo mesto: uz član se odmah vidi razlika muškog i
+      // ženskog roda, a slike postoje od ranije.
       {
         title: "EL",
-        items: ["fill", "cosí", "pare", "germà", "marit", "avi"],
+        items: ["fill", "cosí", "pare", "germà", "marit", "avi", "nebot"],
       },
       {
         title: "LA",
-        items: ["germana", "mare", "àvia", "filla", "cosina", "dona"],
+        items: ["germana", "mare", "àvia", "filla", "cosina", "dona", "neboda"],
       },
     ],
     allItems: [
@@ -140,6 +144,8 @@ export const laFamiliaTasks: Task[] = [
       "marit",
       "dona",
       "avi",
+      "nebot",
+      "neboda",
     ],
     circleMode: true,
   },

@@ -94,10 +94,15 @@ export const laRobaTasks: Task[] = [
       { catalan: "guants", image: "guants" },
       { catalan: "bufanda", image: "bufanda" },
       // `barret` — POTVRĐENO u svesci, vežba 12 („Barret groc").
-      // `mitges` i `sabatilles` su 17.08. UKLONJENE: dodao sam ih iz
-      // nepouzdanog dokumenta, a nema ih ni na jednoj stranici teme 4.
-      // Sveska za patike koristi `vambes`, a za čarape `mitjons` — oboje već
-      // u temi.
+      //
+      // `mitges` i `sabatilles` OSTAJU IZBAČENE (odluka vlasnice 17.08.2026,
+      // posle provere u svesci):
+      //   • čarape su `mitjons` i tako ih sveska i uči (vežba 1 i vežba 12);
+      //     `mitges` znači HULAHOPKE, druga stvar, i nema je ni na jednoj
+      //     stranici teme 4;
+      //   • patike su `vambes` i tako ih sveska uči; `sabatilles` samo znači
+      //     PAPUČE (patike bi bile `sabatilles esportives`). Vlasnica: „vambes
+      //     ostavi, sabatilles izbaci" — ne mogu obe za istu stvar.
       { catalan: "barret", image: "barret" },
     ],
   },
