@@ -1,6 +1,6 @@
 # TODO — Katalonski
 
-> Stanje na dan **17.08.2026.**
+> Stanje na dan **20.08.2026.** — v. `HANDOVER-2026-08-20.md`
 >
 > Pravilo: **rešeno se BRIŠE odavde, ne štriklira.** Zadatak sa kvačicom i
 > dalje mora da se pročita da bi se videlo da je gotov, pa spisak obaveza
@@ -70,6 +70,15 @@ tekstom se ne mogu deliti ako igrica ikad dobije drugi jezik.
 Pravilo i način rešavanja: `CLAUDE.md`, „Illustration Design Rules", tačka 0.
 
 Uz njih još oko 3 slike sa licima na predmetima i ~35 sa neujednačenim stilom.
+
+### 5. Teme 10–12 nisu proverene sa sveskom
+
+Index sveske ih jasno navodi (1. LA CLASSE … 12. ELS OFICIS), a mi smo ih
+pisali kao da izvora nema. Treba uporediti sa fotografijama, isto kao što je
+20.08. urađeno za teme 2–7 i 9.
+
+**Oprez:** `Ilustracije/WORKBOOK-VS-ILLUSTRATIONS.md` tvrdi da te teme „ne
+postoje u svesci" — to je jedna od dokazanih netačnosti tog dokumenta.
 
 ### 4. Redovan audit
 
