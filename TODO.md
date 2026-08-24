@@ -1,6 +1,6 @@
 # TODO — Katalonski
 
-> Stanje na dan **20.08.2026.** — v. `HANDOVER-2026-08-20.md`
+> Stanje na dan **24.08.2026.** — v. `HANDOVER-2026-08-24.md`
 >
 > Pravilo: **rešeno se BRIŠE odavde, ne štriklira.** Zadatak sa kvačicom i
 > dalje mora da se pročita da bi se videlo da je gotov, pa spisak obaveza
@@ -82,12 +82,15 @@ postoje u svesci" — to je jedna od dokazanih netačnosti tog dokumenta.
 
 ### 4. Redovan audit
 
-Poslednji pun audit: **30.07.2026.** Pravilo je na svaka 3 dana.
+Poslednji pun audit: **30.07.2026.** — prošlo je 25 dana, a pravilo je na svaka 3.
 Kad se mikrofon reši, uraditi pun audit po `~/.claude/AUDIT-PROTOKOL.md`.
 
 ---
 
 ## Čeka odluku vlasnice
 
+- **14 mesta gde slika postoji, a zadatak je ne prikazuje.** Spisak daje
+  `node scripts/proveri-parove-bez-slike.mjs`. Negde je odgovor apstraktan pa
+  slika i ne treba — zato provera zasad samo upozorava, ne obara deploy.
 - **Prepoznavanje govora na serveru** (tačka 1.3 gore) — cena i privatnost.
 - Da li `cara` (lice) treba i u još neku temu osim teme 3.

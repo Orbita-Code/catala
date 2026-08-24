@@ -181,3 +181,60 @@ koristi širinu ekrana"). Puštena protiv starog koda: **pada** (672 px, 44%).
 - [ ] Svaka reč koja se traži od deteta postoji u svesci (`Svi zadaci/<tema>/`).
       Dodata reč koju sveska ne pominje je greška, i kad je tačna — deca uče
       redosledom kojim su profesori pisali.
+
+---
+
+## Zadatak mora biti REŠIV, ne samo „odigran" (dodato 24.08.2026)
+
+> Nastalo iz prijave vlasnice: tema 5, zadatak 17 — dete dobije `banyera`, a na
+> ekranu stoje samo `Dormitori` i `Sala d'estar`. Tačan odgovor nije postojao.
+> Podaci su bili ispravni; kolone se prosto nisu iscrtavale.
+
+**Automatski (u pre-deploy testu, BLOK):**
+```bash
+node scripts/proveri-razvrstavanje.mjs     # NEREŠIVO: 0
+```
+Traži: reč koja ne pripada nijednoj koloni · reč čija se kolona **ne iscrtava**
+(`circleMode` crta samo prve dve!) · reč u dve kolone · stavka u koloni koje
+nema u `allItems`.
+
+**Ručno, za SVAKI tip zadatka — ne samo za razvrstavanje:**
+
+- [ ] **Prebroj izbore na ekranu i uporedi ih sa podacima.** Kad komponenta ima
+      režim prikaza koji uzima samo deo (prve dve kolone, prvih šest slika,
+      prvi red) — mora se poklopiti sa onim što je u podacima.
+- [ ] **Odigraj zadatak TAČNO do kraja**, ne samo „klikni nešto". Zadatak koji
+      se odigra a ne može da se reši tačno test propušta kao ispravan.
+- [ ] Posle poslednjeg tačnog odgovora: **da li se prelazi na sledeći zadatak**
+      i da li se adresa (`?tasca=N`) promenila.
+
+## Slika postoji, a dete je ne vidi (dodato 24.08.2026)
+
+> Nastalo iz prijave: „zadatak 16 nema nijednu sličicu, a mislim da imamo svaku
+> reč". Imali smo četiri od pet — samo se nisu prikazivale.
+
+**Automatski (UPOZORENJE):**
+```bash
+node scripts/proveri-parove-bez-slike.mjs  # SAKRIVENIH SLIKA: 0
+```
+
+- [ ] Postojeća provera `proveri-slike.mjs` traži reči **BEZ** slike i preskače
+      tip `matching` u celini. **Svaku proveru pusti i iz suprotnog smera** —
+      „šta imamo a ne koristimo", ne samo „šta nam fali".
+- [ ] Kad je odgovor **rečenica** („És a la teulada"), slika se ne nalazi sama —
+      mora se imenovati poljem `rightImage` u paru.
+- [ ] `rightTextOnly` ne sme da pregazi ručno imenovanu sliku.
+
+## Nova ilustracija — šta se gleda pre ugradnje (dodato 24.08.2026)
+
+- [ ] **Nijedno slovo na slici.** (Stara `escala` je imala natpis „ESCALA" —
+      takva slika se ne može deliti za druge jezike.)
+- [ ] **Ne liči na drugu reč iz iste teme.** Stara `teulada` je imala dimnjak,
+      pa je bila skoro ista kao `xemeneia`. Provera: otvori obe slike jednu do
+      druge, ne sudi po imenu fajla.
+- [ ] **Samo traženi predmet.** Bicikl, alat i saksije u garaži su reči koje
+      dete zna iz drugih tema — zbunjuju.
+- [ ] **Opiši šta vidiš, ne šta liči.** Dva okrugla svetla na autu su farovi,
+      ne oči. (Moja greška 24.08.)
+- [ ] Posle ugradnje **podigni `catala-vN` u `public/sw.js`** — inače dete na
+      tabletu i dalje gleda staru sliku.

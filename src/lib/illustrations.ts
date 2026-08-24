@@ -134,7 +134,6 @@ export const wordEmoji: Record<string, string> = {
   garatge: "🅿️",
   "sala d'estar": "🛋️",
   casa: "🏠",
-  taulada: "🏠",
   "llar de foc": "🔥",
   butaca: "🛋️",
   planta: "🪴",
@@ -592,7 +591,6 @@ const wordsWithIllustrations = new Set([
   "garatge",
   "sala-d-estar",
   "casa",
-  "taulada",
   "llar-de-foc",
   "butaca",
   "planta",
@@ -642,6 +640,7 @@ const wordsWithIllustrations = new Set([
   "escriptori",
   "paper-de-vater",
   "sabo",
+  "fusta",
   "hamster",
   // La família
   "familia-sofa",

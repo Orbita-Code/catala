@@ -55,7 +55,7 @@
 - Ako ilustracija fali, prazno mesto se prikazuje (NE emoji - `getWordEmoji()` je dead code).
 
 ## Project Overview
-Interactive Catalan language learning web app for children (ages 5-8). Engine-based architecture renders 19 task types across 12 themes from TypeScript data files. Two superhero mascots (girl bottom-left, boy bottom-right) react in Catalan. Total: **222 tasks** (prebrojano u fajlovima 31.07.2026 — ranije je pisalo ~226, netačno).
+Interactive Catalan language learning web app for children (ages 5-8). Engine-based architecture renders 19 task types across 12 themes from TypeScript data files. Two superhero mascots (girl bottom-left, boy bottom-right) react in Catalan. Total: **233 tasks** (prebrojano u fajlovima 24.08.2026; v. tabelu „Task Counts Per Theme”).
 
 ## Tech Stack
 - **Framework:** Next.js 16 (App Router) + React 19 + TypeScript
@@ -106,7 +106,7 @@ src/
 │   ├── l-escola.ts             # Theme 2: School (20 tasks)
 │   ├── el-cos.ts               # Theme 3: Body (20 tasks)
 │   ├── la-roba.ts              # Theme 4: Clothing (19 tasks)
-│   ├── la-casa.ts              # Theme 5: House (28 tasks)
+│   ├── la-casa.ts              # Theme 5: House (24 tasks)
 │   ├── la-familia.ts           # Theme 6: Family (14 tasks)
 │   ├── les-botigues.ts         # Theme 7: Shops (20 tasks)
 │   ├── el-menjar.ts            # Theme 8: Food (21 tasks)
@@ -194,6 +194,33 @@ npm run test:ui  # Playwright UI mode
 
 ### In Progress
 - Nothing in progress
+
+### Recently Completed (Aug 24, 2026) — dva zadatka u temi 5 + pet ilustracija
+- **Zadatak 17 („razvrstaj po sobama") bio je NEREŠIV.** Ima četiri sobe, a
+  `circleMode` u `ClassifyColumns.tsx` crta tačno DVA izbora (`columns[0]` i
+  `columns[1]` upisani rukom) — `Lavabo` i `Cuina` se nisu iscrtavale, pa osam
+  od šesnaest reči (`banyera`, `nevera`, `dutxa`, `forn`…) nije imalo nijedan
+  tačan odgovor. **Podaci su bili ispravni; kvar je bio u crtanju.**
+  Popravka: `circleLayout` = krugovi SAMO uz dve kolone, inače mreža dugmadi
+  gde se iscrtava svaka kolona. Provereno igranjem svih 16 reči u pregledaču.
+- **Zadatak 16 nije prikazivao nijednu sliku**, a četiri od pet postoje.
+  Razlog dvostruk: odgovor je REČENICA („És a la teulada"), pa traženje slike po
+  celom tekstu ne nađe ništa, i zadatak je bio `rightTextOnly`. Uvedeno polje
+  **`rightImage`** u paru — imenuje sliku ručno i vredi i uz „samo tekst".
+  Slika se i dalje pojavljuje tek kad je par tačno spojen (dogovor od 06.08.).
+- **Dve nove provere, obe padaju na starom kodu** (bez toga provera ne vredi):
+  `scripts/proveri-razvrstavanje.mjs` (BLOK — svaka reč ima tačan odgovor NA
+  EKRANU) i `scripts/proveri-parove-bez-slike.mjs` (UPOZORENJE — slika postoji,
+  a zadatak je ne prikazuje; nalazi još 14 mesta koja čekaju odluku vlasnice).
+- **Pet novih ilustracija:** `teulada` (stara je imala dimnjak pa je ličila na
+  `xemeneia`), `balcó`, `antena` (sad bez krova — treći krov u temi otpada),
+  `escala` (stara je imala natpis „ESCALA" — tekst na slici je zabranjen zbog
+  višejezičnosti), `garatge`. Keš `catala-v84` → **`catala-v85`**.
+- **Alat za slike vraćen u projekat** (ranije je živeo u privremenom folderu
+  sesije i izgubio se): `scripts/gen-sliku.py` + `scripts/ugradi-sliku.sh`.
+  Zamka: `execute javascript` iz AppleScript-a NE ČEKA `Promise` — preuzimanje
+  se pokrene, ostavi u `window.__slika`, pa čita u parčadima.
+- Puni zapis: `HANDOVER-2026-08-24.md`.
 
 ### Recently Completed (Aug 7, 2026) — ujednačen stil ilustracija
 - **7 slika ponovo napravljeno** (ChatGPT, GPT-4o): `iogurt`, `sopa`, `cafe`, `te`,
@@ -510,22 +537,25 @@ All 18 missing illustrations have been generated via ChatGPT custom GPT:
 ## Task Counts Per Theme
 | Theme | Slug | Tasks |
 |-------|------|-------|
-| 1. La classe | la-classe | 21 |
-| 2. L'escola | l-escola | 18 |
-| 3. El cos | el-cos | 19 |
+| 1. La classe | la-classe | 22 |
+| 2. L'escola | l-escola | 19 |
+| 3. El cos | el-cos | 20 |
 | 4. La roba | la-roba | 16 |
 | 5. La casa | la-casa | 24 |
-| 6. La família | la-familia | 15 |
-| 7. Les botigues | les-botigues | 20 |
-| 8. El menjar | el-menjar | 21 |
-| 9. Els animals | els-animals | 25 |
-| 10. La ciutat | la-ciutat | 15 |
-| 11. Els vehicles | els-vehicles | 13 |
-| 12. Els oficis | els-oficis | 15 |
-| **Total** | | **222** |
+| 6. La família | la-familia | 16 |
+| 7. Les botigues | les-botigues | 21 |
+| 8. El menjar | el-menjar | 23 |
+| 9. Els animals | els-animals | 26 |
+| 10. La ciutat | la-ciutat | 16 |
+| 11. Els vehicles | els-vehicles | 14 |
+| 12. Els oficis | els-oficis | 16 |
+| **Total** | | **233** |
 
-> Prebrojano u fajlovima 03.08.2026. Porast sa 212 na 222 je od deljenja pet predugačkih
-> zadataka (21/21/21/18/15 reči) na po tri manja — nijedna reč nije izbačena.
+> **Prebrojano u fajlovima 24.08.2026.** (`python3` prolaz kroz `src/data/*.ts`, ne „iz glave").
+> Tabela je do tada tvrdila 222 — zaostala je za izmenama iz sesija 07–20.08., koje su
+> dodavale zadatke po temama, a broj nije ažuriran. Tema 5 je istog dana pala sa 25 na 24,
+> jer su zadaci 16 i 19 spojeni (četiri od pet pitanja bila su ista); nijedna rečenica iz
+> sveske nije izgubljena — jedini drugačiji par prešao je u zadatak 16.
 
 ## Important Notes
 - Theme slugs match filenames: `la-classe`, `l-escola`, `el-cos`, etc.

@@ -46,6 +46,29 @@ export default function ClassifyColumns({ task, onComplete, review = false }: Pr
   const allPlaced = currentItemIdx >= items.length;
   const currentItem = allPlaced ? null : items[currentItemIdx];
 
+  /**
+   * REŽIM KRUGOVA RADI SAMO SA DVE KOLONE (24.08.2026).
+   *
+   * Raspored „krug — reč — krug" je nacrtan za tačno dva izbora i u kodu ispod
+   * su `task.columns[0]` i `task.columns[1]` upisani rukom. Kad je zadatak imao
+   * ČETIRI kolone, druge dve se nisu ni iscrtale — dete je dobijalo `banyera`
+   * i `nevera`, a na ekranu su stajali samo `Dormitori` i `Sala d'estar`.
+   * Osam od šesnaest reči nije imalo nijedan tačan odgovor, pa se zadatak
+   * (tema 5, zadatak 17) NIJE MOGAO ZAVRŠITI. Prijavila vlasnica.
+   *
+   * Zato se sada broj kolona proverava: dve → krugovi, više → obična mreža
+   * dugmadi, gde se iscrtava SVAKA kolona. Zadatak sa više kolona ne može
+   * više tiho da izgubi izbore.
+   */
+  const circleLayout = task.circleMode === true && task.columns.length === 2;
+
+  /** Duži nazivi (`Sala d'estar`) ne staju u veliko slovo — smanjuju se. */
+  const dugackiNazivi = task.columns.some((c) => c.title.length > 6);
+  const naslovKolone =
+    task.columns.length >= 3 || dugackiNazivi
+      ? "text-base md:text-lg"
+      : "text-2xl md:text-3xl";
+
   const placeItem = useCallback(
     (item: string, colIdx: number) => {
       if (showResults || !item) return;
@@ -147,7 +170,7 @@ export default function ClassifyColumns({ task, onComplete, review = false }: Pr
       </div>
 
       {/* Circle mode: horizontal layout - left circle | item | right circle */}
-      {task.circleMode && !allPlaced && currentItem && !showResults ? (
+      {circleLayout && !allPlaced && currentItem && !showResults ? (
         <div className="flex items-center gap-2 justify-center">
           {/* Left column circle */}
           <motion.button
@@ -280,7 +303,7 @@ export default function ClassifyColumns({ task, onComplete, review = false }: Pr
           )}
 
           {/* Column buttons below (non-circle mode) */}
-          {!allPlaced && !showResults && !task.circleMode && (
+          {!allPlaced && !showResults && !circleLayout && (
             <div className={`grid gap-2 ${task.columns.length === 3 ? "grid-cols-3" : "grid-cols-2"}`}>
               {task.columns.map((col, colIdx) => (
                 <motion.button
@@ -295,7 +318,7 @@ export default function ClassifyColumns({ task, onComplete, review = false }: Pr
                       : "border-gray-200 hover:border-[var(--primary)]"
                   }`}
                 >
-                  <h4 className={`font-black text-[var(--primary)] ${task.columns.length === 3 ? "text-base md:text-lg" : "text-2xl md:text-3xl"}`}>
+                  <h4 className={`font-black text-[var(--primary)] ${naslovKolone}`}>
                     {col.title}
                   </h4>
                   <div className="text-xs text-[var(--text-light)]">
@@ -319,8 +342,8 @@ export default function ClassifyColumns({ task, onComplete, review = false }: Pr
               .filter(([, idx]) => idx === colIdx)
               .map(([item]) => item);
             return (
-              <div key={colIdx} className={`bg-white ${task.circleMode ? "rounded-full aspect-square flex flex-col justify-center" : "rounded-2xl"} p-3 shadow-sm border-2 border-gray-100`}>
-                <h4 className={`text-center font-black text-[var(--primary)] mb-2 ${task.columns.length === 3 ? "text-base" : "text-xl md:text-2xl"}`}>
+              <div key={colIdx} className={`bg-white ${circleLayout ? "rounded-full aspect-square flex flex-col justify-center" : "rounded-2xl"} p-3 shadow-sm border-2 border-gray-100`}>
+                <h4 className={`text-center font-black text-[var(--primary)] mb-2 ${task.columns.length >= 3 || dugackiNazivi ? "text-base" : "text-xl md:text-2xl"}`}>
                   {col.title}
                 </h4>
                 <div className="space-y-1">

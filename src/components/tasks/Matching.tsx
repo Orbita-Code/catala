@@ -409,10 +409,17 @@ export default function Matching({ task, onComplete, review = false }: Props) {
                 }`}
               >
                 {(() => {
-                  if (task.rightTextOnly) return null;
                   const p = task.pairs[actualIdx];
+                  // Slika imenovana u podacima (`rightImage`) vredi UVEK — i kad
+                  // je zadatak inače „samo tekst". Bez toga su zadaci sa
+                  // rečenicom kao odgovorom („És a la teulada") ostajali bez
+                  // ijedne slike iako slike postoje (24.08.2026, prijava
+                  // vlasnice za temu 5, zadatak 16).
+                  if (task.rightTextOnly && !p.rightImage) return null;
                   const fullWord = p.left + p.right;
-                  const ill = getWordIllustration(p.right) || getWordIllustration(fullWord);
+                  const ill = p.rightImage
+                    ? getWordIllustration(p.rightImage)
+                    : getWordIllustration(p.right) || getWordIllustration(fullWord);
                   if (!ill) return null;
                   // Slika desne reči se pojavljuje TEK KAD je par tačno spojen
                   // (06.08.2026, zahtev vlasnice). Da stoji od početka, dete bi

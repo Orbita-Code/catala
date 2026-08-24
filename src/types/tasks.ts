@@ -44,7 +44,13 @@ export interface UnscrambleTask extends BaseTask {
 
 export interface MatchingTask extends BaseTask {
   type: "matching";
-  pairs: { left: string; right: string; leftImage?: string }[];
+  /**
+   * `rightImage` — slika za desnu stranu kad se ona NE MOŽE pogoditi iz teksta.
+   * Odgovor „És a la teulada" je rečenica, pa traženje slike po celom tekstu ne
+   * nalazi ništa iako `teulada.webp` postoji. Ovim se slika imenuje ručno.
+   * Ima prednost i nad `rightTextOnly` (24.08.2026 — v. `la-casa-16`).
+   */
+  pairs: { left: string; right: string; leftImage?: string; rightImage?: string }[];
   illustrationMatch?: boolean;
   /** When true, the right column shows text only (no auto illustrations) — e.g. abstract categories. */
   rightTextOnly?: boolean;

@@ -747,6 +747,52 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
          broj < 0 ? "provera se nije pokrenula" : `bez slike: ${broj}${prve.length ? " — " + prve.join(", ") : ""}`);
 }
 
+// ─── 23. RAZVRSTAVANJE MORA BITI REŠIVO (nalaz 24.08.2026) ───
+//
+// Vlasnica: „tema 5 zadatak 17 je nerešiv… treba da se stavi banyera ili u
+// sobu ili u dnevnu sobu; takođe nevera mora da se stavi, to nije normalno".
+//
+// Zadatak je imao ČETIRI sobe, a bio je označen kao `circleMode` — raspored
+// koji crta tačno DVA izbora. `Lavabo` i `Cuina` se nisu ni iscrtavale, pa
+// osam od šesnaest reči nije imalo nijedan tačan odgovor.
+//
+// Provera prolazi SVE teme i traži svaku reč kojoj tačan odgovor nije na
+// ekranu, reč koja ne pripada nijednoj koloni, i reč koja stoji u dve.
+{
+  const { execFileSync } = require("child_process");
+  let izlaz = "", broj = -1;
+  try {
+    izlaz = execFileSync("node", ["scripts/proveri-razvrstavanje.mjs"], { encoding: "utf8" });
+  } catch (e) { izlaz = String(e.stdout || e); }
+  const m = izlaz.match(/NEREŠIVO: (\d+)/);
+  if (m) broj = Number(m[1]);
+  const prve = izlaz.split("\n").filter((r) => r.startsWith("  ")).slice(0, 2).map((r) => r.trim());
+  zapisi("BLOK", "Svako razvrstavanje je rešivo", broj === 0,
+         broj < 0 ? "provera se nije pokrenula" : `nerešivo: ${broj}${prve.length ? " — " + prve.join(" | ") : ""}`);
+}
+
+// ─── 24. SLIKU IMAMO, A ZADATAK JE NE PRIKAZUJE (nalaz 24.08.2026) ───
+//
+// Vlasnica: „zadatak 16 nema nijednu sličicu, a mislim da imamo svaku reč".
+// Imali smo četiri od pet — samo se nisu prikazivale, jer je odgovor rečenica
+// („És a la teulada"), a zadatak označen kao „samo tekst".
+//
+// UPOZORENJE, ne BLOK: negde je odgovor zaista apstraktan pa slika ne treba.
+// Spisak čeka odluku vlasnice koja mesta da dobiju sliku.
+{
+  const { execFileSync } = require("child_process");
+  let izlaz = "", broj = -1;
+  try {
+    izlaz = execFileSync("node", ["scripts/proveri-parove-bez-slike.mjs"], { encoding: "utf8" });
+  } catch (e) { izlaz = String(e.stdout || e); }
+  const m = izlaz.match(/SAKRIVENIH SLIKA: (\d+)/);
+  if (m) broj = Number(m[1]);
+  // Zadaci 16 i 19 teme „la casa" su rešeni 24.08. — ako se vrate, broj raste
+  const prve = izlaz.split("\n").filter((r) => r.startsWith("  ")).slice(0, 2).map((r) => r.trim());
+  zapisi("UPOZORENJE", "Nijedna postojeća slika nije sakrivena", broj === 0,
+         broj < 0 ? "provera se nije pokrenula" : `sakriveno: ${broj}${prve.length ? " — " + prve.join(" | ") : ""}`);
+}
+
 await b.close();
 
 // ─── ZBIR ───

@@ -374,13 +374,31 @@ export const laCasaTasks: Task[] = [
     id: "la-casa-16",
     type: "matching",
     prompt: "Relaciona la pregunta amb la resposta:",
+    // SLIKE SE IMENUJU RUČNO (24.08.2026, prijava vlasnice: „zadatak 16 nema
+    // nijednu sličicu, a mislim da imamo svaku reč").
+    // Bila je u pravu: `teulada`, `sabo`, `jardi` i `garatge` postoje odavno.
+    // Nisu se prikazivale iz dva razloga odjednom — odgovor je REČENICA
+    // („És a la teulada"), pa traženje slike po celom tekstu ne nađe ništa, a
+    // uz to je zadatak bio označen kao `rightTextOnly` (samo tekst).
+    // `fusta` (drvo) je dobila sliku 24.08. — naslagane daske sa godovima.
+    // Slika stola ne bi valjala: pitanje glasi OD ČEGA je sto napravljen.
+    // Slika i dalje iskače TEK KAD je par tačno spojen — nagrada, ne pomoć.
+    //
+    // SPOJENO SA NEKADAŠNJIM ZADATKOM 19 (24.08.2026, odluka vlasnice).
+    // Ta dva zadatka su imala ČETIRI OD PET istih pitanja — dete je u istoj
+    // temi dva puta radilo isti zadatak. Zadatak 19 je uklonjen, a njegov
+    // jedini drugačiji par („Quantes finestres hi ha?") preuzet je ovde, pa
+    // nijedna rečenica iz sveske nije izgubljena.
     rightTextOnly: true,
     pairs: [
-      { left: "On és l'antena?", right: "És a la teulada" },
-      { left: "De què està feta la taula?", right: "De fusta" },
-      { left: "Amb què ens rentem les mans?", right: "Amb sabó" },
-      { left: "On plantem flors?", right: "Al jardí" },
-      { left: "On guardem el cotxe?", right: "Al garatge" },
+      { left: "On és l'antena?", right: "És a la teulada", rightImage: "teulada" },
+      { left: "De què està feta la taula?", right: "De fusta", rightImage: "fusta" },
+      { left: "Amb què ens rentem les mans?", right: "Amb sabó", rightImage: "sabó" },
+      { left: "On plantem flors?", right: "Al jardí", rightImage: "jardí" },
+      { left: "On guardem el cotxe?", right: "Al garatge", rightImage: "garatge" },
+      // Preuzeto iz nekadašnjeg zadatka 19 (v. napomenu iznad) — jedini par
+      // koji ovaj zadatak nije već imao. Ništa iz sveske nije izgubljeno.
+      { left: "Quantes finestres hi ha?", right: "Hi ha tres finestres", rightImage: "finestra" },
     ],
   },
 
@@ -442,7 +460,10 @@ export const laCasaTasks: Task[] = [
       "rentamans",
       "microones",
     ],
-    circleMode: true,
+    // BEZ `circleMode` (24.08.2026). Režim krugova crta tačno dva izbora, a
+    // ovaj zadatak ima četiri sobe — `Lavabo` i `Cuina` se nisu ni pojavljivale,
+    // pa `banyera`, `dutxa`, `nevera`, `forn` i još četiri reči nisu imale
+    // nijedan tačan odgovor. Sada se sve četiri sobe iscrtavaju kao dugmad.
   },
 
   // ── Task 14 (cont): Completa (on fem cada cosa) ──
@@ -491,20 +512,6 @@ export const laCasaTasks: Task[] = [
         blank: "la nevera",
         options: ["la nevera", "l'armari", "el garatge"],
       },
-    ],
-  },
-
-  // ── Task 15: Relaciona ──
-  {
-    id: "la-casa-19",
-    type: "matching",
-    prompt: "Relaciona:",
-    pairs: [
-      { left: "On és l'antena de la televisió?", right: "És a la teulada." },
-      { left: "De què està feta la taula?", right: "De fusta." },
-      { left: "Quantes finestres hi ha?", right: "Hi ha tres finestres." },
-      { left: "Amb què ens rentem les mans?", right: "Amb sabó." },
-      { left: "On plantem flors?", right: "Al jardí." },
     ],
   },
 

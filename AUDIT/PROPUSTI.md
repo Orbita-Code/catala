@@ -177,3 +177,44 @@ stajalo neupotrebljeno.
 4. **Dete se NIKAD ne vraća na zadatak koji je uradilo tačno.** Ovo je pravilo o
    proizvodu, ne o kodu: vraćanje na zeleno oduzima smisao trudu i najbrži je
    način da dete prestane da igra.
+
+---
+
+## 24.08.2026. — Provera je gledala PODATKE, a kvar je bio u CRTANJU
+
+**Šta je promašeno:** tema 5, zadatak 17 („razvrstaj po sobama") bio je **nerešiv**.
+Ima četiri sobe, a na ekranu su se iscrtavale samo dve — `Lavabo` i `Cuina` nisu
+postojale. Osam od šesnaest reči (`banyera`, `dutxa`, `nevera`, `forn`…) nije imalo
+nijedan tačan odgovor. Vlasnica je to našla igrajući, jednim potezom.
+
+**Zašto se desilo.** Zadatak je 17.08. prepravljen iz osnova — tada je pažljivo
+provereno da svaka reč pripada tačno jednoj sobi, i to je bilo tačno. **U podacima
+nije bilo nijedne greške.** Kvar je bio u komponenti: režim `circleMode` crta raspored
+„krug — reč — krug", u kom su `columns[0]` i `columns[1]` upisani rukom. Sa dve kolone
+radi savršeno — a `la-casa-17` je bio jedini zadatak sa četiri, i jedini u kom su
+kolone tiho nestajale.
+
+**Zašto ga nijedna provera nije uhvatila.** Test je prolazio zadatke i gledao da se
+odigraju, a ne da se mogu **rešiti tačno**. Zadatak se i mogao „odigrati" do kraja —
+samo su odgovori bili netačni, a to test nije proveravao (rupa T2, zapisana 30.07. i
+otvorena od tada).
+
+**Pravilo (važi za svaki tip zadatka, ne samo za razvrstavanje):**
+**Podatak koji je tačan nije isto što i podatak koji je VIDLJIV.** Kad komponenta ima
+režim prikaza koji uzima samo deo podataka (prve dve kolone, prvih šest slika, prvi red),
+mora postojati provera koja poredi **koliko je dato** sa **koliko se iscrtava** — i ta
+provera pada kad se ne poklapaju. Nije dovoljno proveriti da su podaci ispravni.
+Provera od 24.08. to radi za sve teme: `scripts/proveri-razvrstavanje.mjs`.
+
+**Drugo pravilo, iz istog dana i istog razgovora.** Vlasnica je prijavila i da zadatak 16
+nema nijednu sliku „a mislim da imamo svaku reč". Imali smo četiri od pet. Slika se nije
+prikazivala jer je odgovor **rečenica** („És a la teulada"), pa traženje slike po celom
+tekstu ne nađe ništa. Postojeća provera `proveri-slike.mjs` to nije mogla da vidi jer
+traži reči **BEZ** slike, a ovde je reč sliku **imala**.
+**Svaku proveru pustiti i iz suprotnog smera:** ako postoji „šta nam fali", mora
+postojati i „šta imamo a ne koristimo". `scripts/proveri-parove-bez-slike.mjs`.
+
+**Treće, sitno, ali vredi zapisati.** U istom razgovoru sam za sliku `garatge` tvrdila
+da auto ima „oči i usta". Nije — to su farovi i rešetka hladnjaka. Vlasnica je ispravila.
+**Kad se sudi o slici, opisati šta se vidi, ne šta liči.** Dva okrugla svetla na autu su
+farovi dok se ne dokaže suprotno.

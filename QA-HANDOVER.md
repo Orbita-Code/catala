@@ -290,7 +290,7 @@ Sva 3 nova zadatka odigrana u browseru uživo — rade.
   višerečeničan (solver ne kompletira uvek — vidi test).
 - Težina za 7-godišnjaka (kandidati za pojednostavljenje — korisnica odlučuje): gramatika rod/broj
   (LA/EL/LES/ELS, un/una), dugački MC opisi, decode-grid, separate-words.
-- **Rimoteka NEMA svoj CLAUDE.md** (drugi projekat, `~/Desktop/Projects/rimoteka/`) — korisnica je pitala;
+- **Rimoteka NEMA svoj CLAUDE.md** (drugi projekat, `~/Projects/rimoteka/`) — korisnica je pitala;
   po želji napraviti kompletan projektni CLAUDE.md.
 
 ## 🧹 ČIŠĆENJE FOLDERA (pre finalnog lansiranja, uz potvrdu)

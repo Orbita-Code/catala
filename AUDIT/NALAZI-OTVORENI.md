@@ -4,7 +4,7 @@
 > Popravljeno se briše odavde (ostaje u izveštaju audita tog dana).
 > Nalaz otvoren duže od 3 audita posebno se ističe.
 
-Poslednje ažuriranje: **17.08.2026.** (deveta dopuna)
+Poslednje ažuriranje: **24.08.2026.** (deseta dopuna)
 
 ## Kritično
 
@@ -49,12 +49,17 @@ Poslednje ažuriranje: **17.08.2026.** (deveta dopuna)
 |---|---|---|
 | ~~T1~~ | ~~QA runner se zaglavljuje na `les-botigues` → zadaci 13–20 nikad odigrani~~ **REŠENO 31.07.** | 30.07.2026. |
 | T2 | Runner proverava da je zadatak odigran, ne da je odgovor tačan po sadržaju | 30.07.2026. |
+| ~~T5~~ | ~~Ništa nije proveravalo da je zadatak razvrstavanja REŠIV~~ **REŠENO 24.08.** — `scripts/proveri-razvrstavanje.mjs`, provera 23 u pre-deploy testu (BLOK) | 24.08.2026. |
+| ~~T6~~ | ~~Ništa nije proveravalo da postojeća slika nije SAKRIVENA od deteta~~ **REŠENO 24.08.** — `scripts/proveri-parove-bez-slike.mjs`, provera 24 (UPOZORENJE) | 24.08.2026. |
 | ~~T3~~ | ~~Nema provere za: zabranjen `localStorage`, kontrast, fokus, CLS, dodirne mete, osvežavanje~~ **REŠENO 31.07.** — sve su u `e2e/predeploy.mjs`. Ostaje samo URL kao stanje (nalaz S3). | 30.07.2026. |
 | ~~T4~~ | ~~Nema pre-deploy skripte sa izlaznim kodom~~ **REŠENO 31.07.** — `npm run predeploy` | 30.07.2026. |
 
 ## Čeka odluku vlasnice
 
-*Nema otvorenih pitanja.*
+- **14 mesta gde slika postoji, a zadatak je ne prikazuje** (ispisuje ih
+  `node scripts/proveri-parove-bez-slike.mjs`). Nigde nije kvar — negde je
+  odgovor apstraktan pa slika i ne treba. Zato je provera zasad UPOZORENJE.
+  Kad vlasnica kaže koja mesta dobijaju sliku, može da postane blokirajuća.
 
 ~~P1 — „borrador" ili „esborrador"?~~ **ODLUČENO 31.07.2026: `esborrador`** (katalonski standard).
 Preimenovano na 11 mesta u `la-classe.ts`, u oba odgovornika testova, u slikama
