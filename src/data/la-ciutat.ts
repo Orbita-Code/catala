@@ -224,6 +224,19 @@ export const laCiutatTasks: Task[] = [
         blank: "parc",
         options: ["mercat", "museu", "parc"],
       },
+      // JÚLIA I EMMA (26.08.2026, zahtev vlasnice). Tema 10 nema izvor u
+      // svesci — rečenice je pisala aplikacija — pa je ovde dodavanje potpuno
+      // bezbedno. Ništa nije zamenjeno, samo dodato.
+      {
+        text: "La Júlia va al ___ per veure una pel·lícula.",
+        blank: "cinema",
+        options: ["cinema", "mercat", "hospital"],
+      },
+      {
+        text: "L'Ema va a l'___ per aprendre.",
+        blank: "escola",
+        options: ["estació", "escola", "museu"],
+      },
     ],
   },
   {

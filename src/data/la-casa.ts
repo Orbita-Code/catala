@@ -559,6 +559,20 @@ export const laCasaTasks: Task[] = [
         scrambled: ["cinc", "Mireia", "casa", "té", "La", "finestres", "a"],
         correct: ["La", "Mireia", "té", "cinc", "finestres", "a", "casa"],
       },
+      // JÚLIA I EMMA (26.08.2026, zahtev vlasnice: „ja ovo radim za njih, a one
+      // će biti posebno ponosne što se nalaze u igrici").
+      // Rečenice su DODATE, nijedna iz sveske nije dirnuta. Imena su u
+      // katalonskom obliku — `Júlia` i `Ema` — a `Ema` se pise
+      // kao i u temi 1 (zadatak 9), gde devojcice vec postoje — igra mora da
+      // ih zove isto na svim mestima.
+      {
+        scrambled: ["puja", "escales", "La", "les", "Júlia"],
+        correct: ["La", "Júlia", "puja", "les", "escales"],
+      },
+      {
+        scrambled: ["jardí", "L'Ema", "flors", "al", "planta"],
+        correct: ["L'Ema", "planta", "flors", "al", "jardí"],
+      },
     ],
   },
 

@@ -1335,6 +1335,8 @@ export const SNIMLJENO: Record<string, string> = {
   "per llegir llibres vaig a la": "per-llegir-llibres-vaig-a-la",
   "per viatjar en tren vaig a l'": "per-viatjar-en-tren-vaig-a-l",
   "per passejar vaig al": "per-passejar-vaig-al",
+  "la júlia va al per veure una pel·lícula.": "la-julia-va-al-per-veure-una-f15aca",
+  "l'ema va a l' per aprendre.": "l-ema-va-a-l-per-aprendre",
   "a la meva ciutat hi ha un molt gran.": "a-la-meva-ciutat-hi-ha-un-mo-f5e1aa",
   "el és al centre de la ciutat.": "el-es-al-centre-de-la-ciutat-637c4a",
   "l' és molt moderna.": "l-es-molt-moderna-5f4018",
