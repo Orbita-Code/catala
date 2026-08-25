@@ -4,7 +4,10 @@
  *
  * Dva uslova:
  *   1. reč mora stvarno da stoji u mreži (inače je zadatak nerešiv);
- *   2. reč sme da stoji SAMO vodoravno ili uspravno — nikad ukoso.
+ *   2. reč sme da stoji SAMO sleva nadesno ili odozgo nadole — nikad unazad,
+ *      nikad ukoso. (26.08.2026: prvo je izbačena dijagonala, pa je vlasnica
+ *      prijavila i reči unazad. Sveska ih nema — `CONILL` ide nadole,
+ *      `TORTUGA` i `SERP` sleva nadesno.)
  *
  * Drugi uslov je iz prijave vlasnice 25.08.2026: „u svakoj prethodnoj temi reči
  * su bile levo ili desno, gore ili dole, a odjednom su sve dijagonalno — deca se
@@ -16,8 +19,8 @@
  */
 import fs from "fs";
 
-const PRAVO = [[0,1],[1,0],[0,-1],[-1,0]];
-const UKOSO = [[1,1],[1,-1],[-1,-1],[-1,1]];
+const NAPRED = [[0,1],[1,0]];                                  // sleva nadesno, odozgo nadole
+const ZABRANJENO = [[0,-1],[-1,0],[1,1],[1,-1],[-1,-1],[-1,1]];  // unazad i ukoso
 const osn = (r) => r.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z]/g,"");
 
 function nadji(m, rec, pravci){
@@ -41,10 +44,15 @@ for (const f of fs.readdirSync("src/data").filter(x=>x.endsWith(".ts")&&!["theme
     if (!mreza.length) continue;
     for (const r of reci) {
       ukupno++;
-      if (!nadji(mreza, r, PRAVO)) { fali++; console.log(`  ✗ ${f}: „${r}" NIJE u mreži pravo`); }
-      if (nadji(mreza, r, UKOSO))  { ukoso++; console.log(`  ✗ ${f}: „${r}" stoji UKOSO`); }
+      if (!nadji(mreza, r, NAPRED)) { fali++; console.log(`  ✗ ${f}: „${r}" NIJE u mreži unapred`); }
+      // Slučajne pojave kratkih reči (2–3 slova) se ne broje — v. objašnjenje
+      // u `napravi-sopu.mjs`: u mreži od sto polja one su neizbežne, a dete
+      // reč i dalje nalazi onako kako je napisana.
+      if (osn(r).length >= 4 && nadji(mreza, r, ZABRANJENO)) {
+        ukoso++; console.log(`  ✗ ${f}: „${r}" stoji UNAZAD ili UKOSO`);
+      }
     }
   }
 }
-console.log(`provereno ${ukupno} reči u mrežama, nedostaje: ${fali}, ukoso: ${ukoso}`);
+console.log(`provereno ${ukupno} reči u mrežama, nedostaje: ${fali}, unazad/ukoso: ${ukoso}`);
 process.exit(fali || ukoso ? 1 : 0);

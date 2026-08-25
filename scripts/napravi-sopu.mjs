@@ -7,8 +7,8 @@
  * postoji u mreži, inače je zadatak nerešiv. Zato mreža i spisak nastaju
  * ZAJEDNO, i na kraju se svaka reč traži nazad u gotovoj mreži.
  *
- * Pravci: SAMO vodoravno i uspravno, unapred i unazad (→ ← ↓ ↑).
- * BEZ DIJAGONALA (25.08.2026, prijava vlasnice).
+ * Pravci: SAMO SLEVA NADESNO (→) i ODOZGO NADOLE (↓).
+ * Bez dijagonala i BEZ REČI UNAZAD (26.08.2026, dve prijave vlasnice).
  *
  * Zašto: „u svakoj prethodnoj temi reči su bile levo ili desno, gore ili dole,
  * a odjednom su sve dijagonalno — deca se zbune i ne znaju da može dijagonalno."
@@ -16,8 +16,15 @@
  * devet, u temama 3 i 12 po pet od deset. Dete koje je naučilo da traži pravo
  * nema kako da pogodi da odjednom sme i ukoso — a nigde mu se to ne kaže.
  *
- * Traži se i da se reč ne pojavi SLUČAJNO po dijagonali kad se mreža dopuni
- * nasumičnim slovima — inače bi dete opet naišlo na ukoso rešenje.
+ * Prvo je (25.08.) izbačena samo dijagonala, a reči unazad su ostale. Vlasnica
+ * je odmah prijavila i to: „stavio si dosta reči koje su unazad, to nije ok."
+ * Bila je u pravu — dete koje tek uči da čita ne traži reč unatraške; ono zna
+ * kako reč izgleda, i traži je onako kako je napisana.
+ * Sveska to potvrđuje: u njenoj mreži `CONILL` ide nadole, a `TORTUGA` i `SERP`
+ * sleva nadesno — nijedna reč nije okrenuta.
+ *
+ * Traži se i da se reč ne pojavi SLUČAJNO unazad ili ukoso kad se mreža dopuni
+ * nasumičnim slovima — dete ne zna razliku između namernog i slučajnog.
  * Reči se namerno UKRŠTAJU gde mogu; tako mreža izgleda kao prava slagalica,
  * a ne kao spisak u redovima.
  *
@@ -25,10 +32,10 @@
  */
 import fs from "fs";
 
-/** Pravci u kojima se reč SME naći: desno, dole, levo, gore. */
-const PRAVCI = [[0, 1], [1, 0], [0, -1], [-1, 0]];
-/** Pravci u kojima reč NE SME da se nađe — ni namerno ni slučajno. */
-const DIJAGONALE = [[1, 1], [1, -1], [-1, -1], [-1, 1]];
+/** Jedina dva pravca u kojima reč SME da stoji: sleva nadesno i odozgo nadole. */
+const PRAVCI = [[0, 1], [1, 0]];
+/** Sve ostalo — unazad i ukoso — reč NE SME da pogodi ni slučajno. */
+const ZABRANJENI = [[0, -1], [-1, 0], [1, 1], [1, -1], [-1, -1], [-1, 1]];
 const AZBUKA = "abcdefghijklmnopqrstuvwxyz";
 
 /** Slova bez kvačica i bez razmaka — u mreži stoji samo osnovno slovo. */
@@ -40,6 +47,20 @@ function nasumicno(seme) {
   // u `git diff` i može da se ponovi. `Math.random` bi svaki put pravio drugu.
   let x = seme;
   return () => (x = (x * 1103515245 + 12345) % 2147483648) / 2147483648;
+}
+
+/** Traži reč u mreži u zadatim pravcima; prazna polja se ne broje. */
+function nadji(mreza, rec, pravci = PRAVCI) {
+  const w = osnovno(rec), n = mreza.length;
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++)
+    for (const [dr, dc] of pravci) {
+      const r1 = r + dr * (w.length - 1), c1 = c + dc * (w.length - 1);
+      if (r1 < 0 || r1 >= n || c1 < 0 || c1 >= n) continue;
+      let ok = true;
+      for (let i = 0; i < w.length; i++) if (mreza[r + dr * i][c + dc * i] !== w[i]) { ok = false; break; }
+      if (ok) return true;
+    }
+  return false;
 }
 
 function napraviMrezu(reci, velicina, seme) {
@@ -68,24 +89,41 @@ function napraviMrezu(reci, velicina, seme) {
     }
     if (!smesteno) return null;   // ne staje — pozivalac neka poveća mrežu
   }
+  /**
+   * DOPUNA NASUMIČNIM SLOVIMA — ALI PAŽLJIVO (26.08.2026).
+   *
+   * Ranije se svako prazno polje popunjavalo bilo kojim slovom. Kod kratkih
+   * reči (`os`, `mà`, `ull`, `peu`) to je stalno stvaralo SLUČAJNE pojave —
+   * reč iskrsne unazad ili ukoso iako je niko nije tamo stavio. Zbog toga dve
+   * teme uopšte nisu mogle da dobiju ispravnu mrežu.
+   *
+   * Sada se za svako polje isprobavaju slova redom (nasumičnim redosledom) i
+   * uzima se prvo koje NE stvara zabranjenu pojavu nijedne tražene reči.
+   */
+  const dopuna = [...AZBUKA];
+  /**
+   * SLUČAJNE POJAVE SE SPREČAVAJU SAMO ZA REČI OD 4+ SLOVA.
+   *
+   * Kod reči od dva-tri slova (`os`, `mà`, `ull`, `peu`) to je NEMOGUĆE:
+   * u mreži od sto polja par slova `a`-`m` jedno do drugog javi se sam od
+   * sebe, i nijedno popunjavanje ne može to da izbegne. Bitno je ono što dete
+   * traži: **svaka reč iz spiska MORA da postoji unapred**. Ako se kratka reč
+   * negde slučajno pojavi i unazad, dete je i dalje nalazi onako kako je
+   * napisana, a slučajni par slova u šumi slova niko ne čita kao reč.
+   */
+  const duge = reci.filter((r) => osnovno(r).length >= 4);
   for (let r = 0; r < velicina; r++)
-    for (let c = 0; c < velicina; c++)
-      if (mreza[r][c] === null) mreza[r][c] = AZBUKA[Math.floor(rnd() * 26)];
-  return mreza;
-}
-
-/** Traži reč u gotovoj mreži — provera da zadatak NIJE nerešiv. */
-function nadji(mreza, rec, pravci = PRAVCI) {
-  const w = osnovno(rec), n = mreza.length;
-  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++)
-    for (const [dr, dc] of pravci) {
-      const r1 = r + dr * (w.length - 1), c1 = c + dc * (w.length - 1);
-      if (r1 < 0 || r1 >= n || c1 < 0 || c1 >= n) continue;
-      let ok = true;
-      for (let i = 0; i < w.length; i++) if (mreza[r + dr * i][c + dc * i] !== w[i]) { ok = false; break; }
-      if (ok) return true;
+    for (let c = 0; c < velicina; c++) {
+      if (mreza[r][c] !== null) continue;
+      const redosled = [...dopuna].sort(() => rnd() - 0.5);
+      let stavljeno = false;
+      for (const slovo of redosled) {
+        mreza[r][c] = slovo;
+        if (!duge.some((x) => nadji(mreza, x, ZABRANJENI))) { stavljeno = true; break; }
+      }
+      if (!stavljeno) mreza[r][c] = redosled[0];
     }
-  return false;
+  return mreza;
 }
 
 export function sopa(reci, velicinaOd = 10) {
@@ -96,7 +134,9 @@ export function sopa(reci, velicinaOd = 10) {
       // svaka reč mora da postoji PRAVO...
       if (!reci.every((r) => nadji(m, r))) continue;
       // ...i nijedna ne sme da se nađe UKOSO, ni slučajno
-      if (reci.some((r) => nadji(m, r, DIJAGONALE))) continue;
+      // ...i nijedna DUŽA reč (4+ slova) ne sme da se nađe unazad ni ukoso.
+      // Kratke (`os`, `mà`) se ne broje — v. objašnjenje u `napraviMrezu`.
+      if (reci.filter((r) => osnovno(r).length >= 4).some((r) => nadji(m, r, ZABRANJENI))) continue;
       return { velicina: v, mreza: m };
     }
   return null;
