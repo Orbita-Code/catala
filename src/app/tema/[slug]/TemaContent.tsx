@@ -130,9 +130,30 @@ export default function TemaContent({ slug }: TemaContentProps) {
       // (bez obzira gde je currentTask ostao — inače bi klik na završenu temu vodio
       //  na neki srednji zadatak umesto na celebration).
       setShowCelebration(true);
-    } else if (progress.currentTask > 0 && progress.currentTask < tasks.length) {
-      // Resume where the child left off.
-      setCurrentTaskIndex(progress.currentTask);
+    } else {
+      /**
+       * TEMA SE OTVARA NA PRVOM NEODRAĐENOM ZADATKU (26.08.2026).
+       *
+       * Prijava vlasnice: „u trećoj temi piše 18 od 19, a kad kliknem, odvede
+       * me pravo na zadatak 4 gde lepo piše da je sve završeno i zeleno je.
+       * Kako ona uopšte može da zna ili da dođe do zadatka koji je ostao?"
+       *
+       * Ranije se vraćalo na `currentTask` — mesto gde je dete POSLEDNJI PUT
+       * bilo. To je isto kao prvi neodrađen zadatak samo dok se ide redom; čim
+       * dete preskoči zadatak ili se vrati unazad, `currentTask` pokazuje na
+       * nešto već urađeno, i dete nema kako da nađe ono što mu je ostalo.
+       *
+       * Sada se traži prvi zadatak koji NIJE završen. Ako su svi završeni
+       * (a tema još nije „gotova"), vraća se na poslednje mesto, kao i pre.
+       */
+      const prviNeodradjen = tasks.findIndex(
+        (t) => !t.bonus && !progress.completedTasks.includes(t.id)
+      );
+      if (prviNeodradjen >= 0) {
+        setCurrentTaskIndex(prviNeodradjen);
+      } else if (progress.currentTask > 0 && progress.currentTask < tasks.length) {
+        setCurrentTaskIndex(progress.currentTask);
+      }
     }
     // Otherwise (reached the end but NOT all scoring tasks done) land on task 1
     // so the child can browse/finish the remaining tasks instead of a false celebration.

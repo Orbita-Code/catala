@@ -57,10 +57,18 @@ export default function ThemeCard({ theme, progress, totalTasks, index }: ThemeC
             {isCompleted && (
               <div className="absolute bottom-2 right-2 text-2xl">✅</div>
             )}
-            {/* Error review badge */}
+            {/**
+              * BROJ REČI ZA VEŽBANJE — NE BROJ ZADATAKA (26.08.2026).
+              *
+              * Prijava vlasnice: „piše 21 od 23 je rešeno, a iznad piše `un per
+              * practicar`, što znači jedan zadatak je ostao." Nije značilo to.
+              * `getThemeErrorCount` broji REČI koje su ostale za vežbanje, a
+              * odmah pored stoji broj ZADATAKA — dva broja, dve različite
+              * mere, nijedna označena. Zato se sada piše i JEDINICA.
+              */}
             {errorCount > 0 && (
               <div className="absolute bottom-2 left-2 bg-orange-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-md">
-                {errorCount} per practicar
+                {errorCount === 1 ? "1 paraula per practicar" : `${errorCount} paraules per practicar`}
               </div>
             )}
           </div>
