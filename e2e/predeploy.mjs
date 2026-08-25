@@ -703,10 +703,16 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
   let izlaz = "", ok = false;
   try {
     izlaz = execFileSync("node", ["scripts/proveri-sopu.mjs"], { encoding: "utf8" });
-    ok = /nedostaje: 0/.test(izlaz);
-  } catch (e) { izlaz = String(e.stdout || e).slice(0, 200); }
-  zapisi("BLOK", "Svaka reč postoji u slagalici slova", ok,
-         (izlaz.match(/provereno \d+ reči u mrežama, nedostaje: \d+/) || ["nije se pokrenulo"])[0]);
+    ok = /nedostaje: 0, ukoso: 0/.test(izlaz);
+  } catch (e) { izlaz = String(e.stdout || e).slice(0, 300); }
+  /**
+   * OD 25.08.2026 SE TRAŽI I „ukoso: 0" (prijava vlasnice).
+   * Reč sme da stoji samo pravo — vodoravno ili uspravno. Dete koje je naučilo
+   * da traži pravo nema kako da pogodi da odjednom sme i ukoso, a nigde mu se
+   * to ne kaže. Vidi napomenu u `scripts/proveri-sopu.mjs`.
+   */
+  zapisi("BLOK", "Slagalica slova: sve reči postoje i stoje PRAVO", ok,
+         (izlaz.match(/provereno \d+ reči u mrežama, nedostaje: \d+, ukoso: \d+/) || ["nije se pokrenulo"])[0]);
 }
 
 // ─── 21. NAPREDAK U ZADATKU SE NE GUBI (nalaz 17.08.2026) ───
@@ -811,9 +817,18 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
   } catch (e) { izlaz = String(e.stdout || e); }
   const m = izlaz.match(/SAKRIVENIH SLIKA: (\d+)/);
   if (m) broj = Number(m[1]);
-  // Zadaci 16 i 19 teme „la casa" su rešeni 24.08. — ako se vrate, broj raste
+  /**
+   * OD 25.08.2026 OVO JE BLOK, NE UPOZORENJE.
+   *
+   * Svih 14 prijavljenih mesta je presuđeno: četiri su dobila sliku, tri su
+   * izričito označena da je ne treba (`rightNoImage` — slika bi bila pogrešna),
+   * a sedam se više i ne prijavljuje jer su strukturno pogrešna prijava
+   * (delovi reči i zadaci gde slika već stoji sa leve strane).
+   * Pošto je spisak sveden na nulu, svako novo sakrivanje slike je greška —
+   * a upozorenje koje se nikad ne rešava prestaje da se čita.
+   */
   const prve = izlaz.split("\n").filter((r) => r.startsWith("  ")).slice(0, 2).map((r) => r.trim());
-  zapisi("UPOZORENJE", "Nijedna postojeća slika nije sakrivena", broj === 0,
+  zapisi("BLOK", "Nijedna postojeća slika nije sakrivena", broj === 0,
          broj < 0 ? "provera se nije pokrenula" : `sakriveno: ${broj}${prve.length ? " — " + prve.join(" | ") : ""}`);
 }
 

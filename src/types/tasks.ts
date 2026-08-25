@@ -49,8 +49,13 @@ export interface MatchingTask extends BaseTask {
    * Odgovor „És a la teulada" je rečenica, pa traženje slike po celom tekstu ne
    * nalazi ništa iako `teulada.webp` postoji. Ovim se slika imenuje ručno.
    * Ima prednost i nad `rightTextOnly` (24.08.2026 — v. `la-casa-16`).
+   *
+   * `rightNoImage` — IZRIČITO nema slike, iako u biblioteci postoji nešto tog
+   * imena. Piše se kad je slika koja bi se našla POGREŠNA za taj odgovor.
+   * Bez toga provera `proveri-parove-bez-slike.mjs` doveka javlja upozorenje,
+   * a upozorenje koje se nikad ne rešava prestaje da se čita.
    */
-  pairs: { left: string; right: string; leftImage?: string; rightImage?: string }[];
+  pairs: { left: string; right: string; leftImage?: string; rightImage?: string; rightNoImage?: boolean }[];
   illustrationMatch?: boolean;
   /** When true, the right column shows text only (no auto illustrations) — e.g. abstract categories. */
   rightTextOnly?: boolean;

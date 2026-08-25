@@ -16,6 +16,46 @@
 - **Ako se rec pojavljuje u kodu ali NE u svesci:** Proveri sa korisnikom pre brisanja (mozda je namerno dodata)
 - **Svaka nova sesija:** Uvek proveri poklapanje sveska <-> kod pre nastavka rada
 
+## OBAVEZNO PRAVILO #1a — ZADATAK SE REŠAVA OD POČETKA DO KRAJA, KAO DETE
+### (25.08.2026, zahtev vlasnice — NAJVAŽNIJE PRAVILO O PROVERI)
+
+> „Zašto nemamo pravilo da kad se ubaci nov zadatak, izmeni reč u zadatku, doda
+> ili izmeni rečenica — da se taj zadatak mora od početka do kraja rešiti kao da
+> ga dete radi, slovo po slovo i reč po reč? Da ga je neko testirao kad je
+> napravio osmosmerku, shvatio bi da je nemoguće rešiti."
+
+**Svaki zadatak koji je NOV ili IZMENJEN mora se ODIGRATI DO KRAJA pre commita.**
+Ne „otvoriti i pogledati". Ne „proveriti da se učitava". **Rešiti ga** — svako
+slovo, svaka reč, svaki par, do poruke da je zadatak gotov.
+
+To važi i za najmanju izmenu: jedna reč u spisku, jedna rečenica, jedna slika,
+jedna mreža slova. Ako je zadatak dodirnut, igra se ceo.
+
+**Zašto ovo pravilo postoji.** U temi 6 je slagalica slova imala reč `hamster`
+koja je stajala **dijagonalno nadole-desno, počev od prvog reda** — a sedam od
+devet reči je bilo ukoso. Vlasnica je zaključila da te reči **uopšte nema u
+mreži**, i bila je u pravu u svemu što je bitno: dete koje traži pravo tu reč
+NIKAD ne nađe. Zadatak je bio nerešiv u praksi, a nijedna provera to nije
+videla — jer se gledalo da reč POSTOJI, ne da se može NAĆI.
+
+**Šta „odigrati do kraja" znači po tipu zadatka:**
+
+| Tip | Šta se mora uraditi |
+|---|---|
+| slagalica slova | naći SVAKU reč u mreži i kliknuti je; ako se traži pravo a stoji ukoso — zadatak je pao |
+| prepisivanje reči | otkucati svaku reč, slovo po slovo |
+| razvrstavanje | postaviti SVAKU reč u kolonu i završiti bez ijedne greške |
+| spajanje parova | spojiti sve parove |
+| dopunjavanje | popuniti svaku prazninu i pustiti da se proveri |
+| biranje odgovora | odgovoriti na SVAKO pitanje, i namerno pogrešiti pa ispraviti |
+| samoprocena | izgovoriti reč i dobiti kvačicu |
+
+**Uz to:** posle poslednjeg tačnog odgovora mora se videti da zadatak **stvarno
+prelazi na sledeći** i da se adresa (`?tasca=N`) promenila.
+
+**Zabranjeno:** prijaviti zadatak kao gotov ako nije odigran do kraja. Ako se
+ne stigne da se odigra — kaže se da nije odigran, ne prijavljuje se kao urađen.
+
 ## OBAVEZNO PRAVILO #2 - AZURIRANJE DOKUMENTACIJE
 **Posle svakog zavrsenog zadatka, taska, kartice ili bilo kog koraka razvoja - OBAVEZNO azuriraj ovaj CLAUDE.md fajl (sekciju "Current Status") i ROADMAP.md checkboxove.** Ovo je kriticno da sledeca sesija zna dokle smo stigli. Nikad ne zavrsavaj rad bez azuriranja dokumentacije.
 

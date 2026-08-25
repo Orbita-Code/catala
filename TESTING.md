@@ -276,3 +276,44 @@ node scripts/snimi-izgovor.mjs --spisak # koliko izgovora ukupno
 - [ ] **Kad nešto nema snimak, prvo pitaj treba li uopšte tako da se izgovori.**
       „un camisa" nije katalonski, „CUI, NA" nije reč. Aplikacija ne sme naglas
       da potvrdi detetu pogrešan oblik; pogrešan izbor se ne izgovara.
+
+## Pitanja sa slike i ugnežđena dugmad (dodato 25.08.2026)
+
+- [ ] **Pitanje sa slike sme da traži samo ono što se VIDI NEDVOSMISLENO.**
+      Duga/kratka kosa, boja majice, ko je viši — da. Nijansa boje, „sličan",
+      „otprilike isto" — ne. Otvori sliku i odgovori bez oklevanja; ako oklevaš,
+      pitanje se menja. (Bilo: „ima li sin istu boju kose kao mama" — mama
+      crna, sin braon; dete odgovorilo tačno i dobilo grešku.)
+- [ ] **Nijedan interaktivni element ne stoji unutar drugog.** Dugme u dugmetu
+      nije ispravan HTML: klik pada na pogrešan element, a ako je spoljno dugme
+      `disabled`, unutrašnje ne prima ništa.
+- [ ] **Zaključavanje se radi u rukovaocu, ne atributom `disabled`**, kad u
+      dugmetu treba da ostane išta živo.
+- [ ] **Svaka strelica „pokušaj ponovo" se stvarno klikne u testu**, ne samo
+      proveri da postoji. I izmeri joj se veličina — traži se 44×44 px.
+- [ ] Pre nego što prijaviš „izmena nije stigla", proveri da li je predmet
+      merenja **u tom trenutku na ekranu** — zadaci prikazuju jedno pitanje ili
+      jednu reč u isto vreme.
+
+---
+
+## ZADATAK SE ODIGRA DO KRAJA, KAO DETE (dodato 25.08.2026 — pravilo vlasnice)
+
+> Slagalica slova u temi 6 imala je `hamster` **dijagonalno, od prvog reda**, i
+> sedam od devet reči ukoso. Vlasnica je zaključila da te reči nema u mreži.
+> Bila je u pravu u svemu što je bitno: dete koje traži pravo je nikad ne nađe.
+> Provera je gledala da reč POSTOJI, ne da se može NAĆI.
+
+**Svaki NOV ili IZMENJEN zadatak se igra do kraja pre commita — slovo po slovo,
+reč po reč.** Važi i za izmenu jedne reči, jedne rečenice, jedne slike.
+
+- [ ] Odigrati zadatak **do poruke da je gotov**, ne samo otvoriti ga.
+- [ ] Namerno **pogrešiti pa ispraviti** — proveriti da ispravka radi i da se
+      greška ne pamti.
+- [ ] Posle poslednjeg tačnog odgovora: **prelazi li stvarno na sledeći zadatak**
+      i menja li se adresa (`?tasca=N`).
+- [ ] Za slagalicu slova: naći **svaku** reč u mreži, ne samo proveriti da su
+      slova tu. Reč sme da stoji samo **pravo** (`node scripts/proveri-sopu.mjs`
+      → `nedostaje: 0, ukoso: 0`).
+- [ ] Ako se ne stigne da se odigra — **reći da nije odigrano**, nikad prijaviti
+      kao urađeno.

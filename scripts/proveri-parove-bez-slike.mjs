@@ -45,6 +45,20 @@ for (const f of fs.readdirSync("src/data").filter((x) => x.endsWith(".ts") && !i
   zadaci.forEach((d, i) => {
     if (!/type: "matching"/.test(d)) return;
     const id = (d.match(/id: "([^"]+)"/) || [])[1] || "?";
+
+    /**
+     * DVA TIPA ZADATKA SE NE PRIJAVLJUJU (25.08.2026, posle presude vlasnice).
+     *
+     * `joinParts` — zadatak spaja DELOVE reči („GIM" + „NÀS" = gimnàs).
+     * Delovi nisu reči. Provera je javljala da „NÀS" ima sliku — a to je slika
+     * NOSA (`nas`), koja uz „GIM|NÀS" nema nikakve veze i samo bi zbunila dete.
+     * Isto „MÀ" u „GER|MÀ" (germà = brat) → slika ŠAKE.
+     *
+     * `illustrationMatch` — dete spaja SLIKU sa rečju, pa slika već stoji sa
+     * leve strane. Dodati je i desno znači pokazati istu sliku dvaput.
+     */
+    if (/joinParts: true/.test(d) || /illustrationMatch: true/.test(d)) return;
+
     const samoTekst = /rightTextOnly: true/.test(d);
     const gde = `${tema} · ${id} · zadatak ${i + 1}`;
 
@@ -52,6 +66,8 @@ for (const f of fs.readdirSync("src/data").filter((x) => x.endsWith(".ts") && !i
       const desno = m[2];
       const rep = m[3];
       const imenovana = (rep.match(/rightImage: "((?:[^"\\]|\\.)*)"/) || [])[1];
+      // Izričita odluka „ovde slika ne ide" — v. `rightNoImage` u types/tasks.ts
+      if (/rightNoImage: true/.test(rep)) continue;
 
       // Da li dete VIDI sliku?
       const vidi = imenovana ? ima(imenovana) : (!samoTekst && ima(desno));

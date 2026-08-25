@@ -168,11 +168,38 @@ export default function MultipleChoice({ task, onComplete, review = false }: Pro
           style={{ "--card-min": "240px", "--card-gap": "0.5rem" } as CSSProperties}
         >
           {question.options.map((option, i) => (
+            /**
+             * STRELICA „POKUŠAJ PONOVO" STOJI PORED DUGMETA, NE U NJEMU
+             * (25.08.2026, prijava vlasnice: „strelice uopšte ne rade kad
+             * klikne na njih").
+             *
+             * Ranije je bila UNUTAR dugmeta. To je dvostruko loše:
+             *   • dugme je u tom trenutku bilo `disabled`, a pregledač guta
+             *     klik na sve što je u onemogućenom dugmetu — strelica nije
+             *     mogla ni da primi klik;
+             *   • dugme u dugmetu nije ispravan HTML, pa se i posle skidanja
+             *     `disabled` ponašalo nepredvidivo (pogađanje cilja je padalo
+             *     na ikonicu umesto na dugme).
+             * Sada je zaseban element pored dugmeta i radi svuda.
+             */
+            <div key={i} className="flex items-center gap-1 w-full">
             <motion.button
-              key={i}
               whileTap={{ scale: 0.98 }}
               onClick={() => handleSelect(i)}
-              disabled={showResult}
+              /**
+               * NE KORISTI SE `disabled` (25.08.2026, prijava vlasnice:
+               * „strelice uopšte ne rade kad klikne na njih").
+               *
+               * Strelica za ponovni pokušaj stoji UNUTAR ovog dugmeta. Kad je
+               * dugme `disabled`, pregledač guta klik na SVE što je u njemu —
+               * pa strelica nije mogla ni da primi klik. Dete odgovori
+               * pogrešno, vidi narandžastu strelicu, klikne je, i ništa.
+               *
+               * Zaključavanje se sada radi u `handleSelect` (`if (showResult)
+               * return;`), pa dugme ostaje „živo" i strelica u njemu radi.
+               * `aria-disabled` čuva poruku za čitače ekrana.
+               */
+              aria-disabled={showResult}
               className={`w-full p-4 rounded-2xl text-left text-lg font-semibold font-handwriting transition-all ${
                 showResult
                   ? i === question.correct
@@ -191,27 +218,22 @@ export default function MultipleChoice({ task, onComplete, review = false }: Pro
               ) : null}
               {option}
               {showResult && i === question.correct && " ✅"}
-              {showResult && i === selected && !isCorrect && (
-                <span
-                  role="button"
-                  tabIndex={0}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleRetry();
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.stopPropagation();
-                      handleRetry();
-                    }
-                  }}
-                  className="inline-flex items-center justify-center p-1 ml-1 rounded-full hover:bg-orange-100 transition-colors cursor-pointer"
-                  aria-label="Torna a provar"
-                >
-                  <RefreshCcw className="w-5 h-5 text-orange-500" />
-                </span>
-              )}
             </motion.button>
+            {showResult && i === selected && !isCorrect && (
+              <button
+                type="button"
+                onClick={handleRetry}
+                /* 44×44 px — dodirna meta za dete, po pravilu projekta.
+                   Ranije je bila 28 px, a prst od sedam godina je promaši. */
+                className="flex-shrink-0 inline-flex items-center justify-center w-11 h-11 rounded-full hover:bg-orange-100 transition-colors"
+                aria-label="Torna a provar"
+              >
+                {/* `pointer-events-none` — klik pripada dugmetu, ne ikonici;
+                    inače pogađanje cilja padne na `svg` i klik se izgubi. */}
+                <RefreshCcw className="w-6 h-6 text-orange-500 pointer-events-none" />
+              </button>
+            )}
+            </div>
           ))}
         </div>
       </motion.div>

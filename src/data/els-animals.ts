@@ -179,7 +179,10 @@ export const elsAnimalsTasks: Task[] = [
     rightTextOnly: true,
     pairs: [
       { left: "gat", right: "mamífer" },
-      { left: "sardina", right: "peix" },
+      // BEZ SLIKE namerno: „peix" je ovde KATEGORIJA, a levo već stoji
+      // `sardina` — koja i sama jeste riba. Slika ribe uz kategoriju „riba"
+      // ne uči ništa, a dete može da pomisli da je to druga životinja.
+      { left: "sardina", right: "peix", rightNoImage: true },
       { left: "flamenc", right: "au" },
       { left: "serp", right: "rèptil" },
       { left: "papallona", right: "insecte" },
@@ -253,20 +256,20 @@ export const elsAnimalsTasks: Task[] = [
   {
     id: "els-animals-11",
     type: "word-search",
-    prompt: "Busca 8 mamífers a la sopa de lletres. Poden anar →\u00A0←\u00A0↓\u00A0↑\u00A0↗",
+    prompt: "Busca 8 mamífers a la sopa de lletres. Poden anar →\u00A0←\u00A0↓\u00A0↑",
     gridSize: 10,
     words: ["gos", "gat", "lleo", "vaca", "ovella", "porc", "os", "tigre", "conill", "girafa", "mussol"],
     grid: [
-      ["r", "f", "r", "g", "z", "r", "k", "b", "l", "h"],
-      ["x", "o", "l", "l", "i", "n", "o", "c", "f", "y"],
-      ["p", "n", "v", "s", "o", "y", "l", "f", "c", "x"],
-      ["o", "l", "t", "e", "s", "o", "g", "e", "h", "d"],
-      ["r", "v", "l", "a", "l", "w", "e", "m", "v", "l"],
-      ["c", "l", "q", "h", "g", "l", "i", "u", "a", "m"],
-      ["g", "i", "r", "a", "f", "a", "a", "s", "c", "q"],
-      ["n", "z", "p", "x", "t", "s", "g", "s", "a", "d"],
-      ["i", "x", "j", "o", "o", "h", "v", "o", "b", "y"],
-      ["e", "r", "g", "i", "t", "q", "j", "l", "k", "y"],
+      ["j", "i", "n", "a", "e", "g", "c", "r", "o", "p"],
+      ["k", "g", "o", "s", "g", "a", "k", "c", "v", "y"],
+      ["b", "w", "n", "g", "i", "t", "s", "t", "e", "o"],
+      ["a", "e", "s", "t", "r", "z", "o", "i", "l", "p"],
+      ["o", "c", "a", "d", "a", "k", "l", "g", "l", "q"],
+      ["b", "o", "c", "h", "f", "j", "o", "r", "a", "k"],
+      ["g", "n", "a", "x", "a", "l", "s", "e", "w", "q"],
+      ["s", "i", "v", "z", "o", "l", "s", "a", "y", "o"],
+      ["t", "l", "j", "u", "g", "e", "u", "p", "v", "l"],
+      ["i", "l", "i", "n", "i", "o", "m", "p", "f", "g"],
     ],
   },
   {

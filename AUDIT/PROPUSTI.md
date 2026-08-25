@@ -285,3 +285,114 @@ PRESLIKANA — i u obe se upiše odakle je.** Ovde je izvor
 `FillSentence.tsx`. Ako se tamo promeni jedan znak, mora se promeniti i u
 `tts.ts` i u `snimi-izgovor.mjs`. Ko piše „mora da se poklapa sa…", a ne
 otvori taj fajl, nije se poklopio.
+
+---
+
+## 25.08.2026. — Dugme u dugmetu, i pitanje na koje se ne može odgovoriti
+
+**Prijava vlasnice, tema 6, zadatak 8.** Dve stvari odjednom.
+
+### 1. Pitanje je bilo neodgovorivo, a dete je bilo u pravu
+
+„El fill té els cabells del mateix color que la mare." — tačan odgovor upisan
+kao **„Sí"**. Na slici mama ima dugu tamnu (skoro crnu) kosu, a sin tamnobraon.
+Ćerka je odgovorila **„No"** i aplikacija joj je to obeležila kao grešku.
+
+**Propust nije u tome što je odgovor pogrešno upisan, nego što se pitanje
+uopšte OSLANJA NA NIJANSU.** Boja kose na ilustraciji nije merljiva, pa je svaki
+odgovor branjiv — a dete od sedam godina crno i braon vidi kao dve boje, i teško
+da je iko drugačije vidi.
+
+**Pravilo: pitanje sa slike sme da traži samo ono što se sa slike VIDI
+NEDVOSMISLENO.** Duga/kratka kosa, boja majice, ko je viši — da. Nijansa boje,
+„sličan", „otprilike isto" — ne. Kad se pitanje piše, otvori se slika i proveri
+može li se odgovoriti bez oklevanja; ako se okleva, pitanje se menja.
+Ovde je zamenjeno poređenjem sa **tatom** (odluka vlasnice): otac i sin na slici
+imaju istu tamnobraon kosu, pa je „Sí" nedvosmisleno.
+
+### 2. Strelica „pokušaj ponovo" nije radila
+
+Dete pogreši, pojavi se narandžasta strelica, klikne je — i ništa.
+
+Uzrok: strelica je bila **unutar dugmeta koje je u tom trenutku `disabled`**.
+Pregledač guta klik na sve što je u onemogućenom dugmetu, pa strelica nije mogla
+ni da primi događaj. Kad se `disabled` skinuo, ostala je druga mana: **dugme u
+dugmetu nije ispravan HTML**, pa je pogađanje cilja padalo na ikonicu i klik se
+gubio.
+
+**Pravilo: interaktivni element se NIKAD ne stavlja unutar drugog interaktivnog
+elementa.** Ako uz dugme treba još jedna radnja, ona ide PORED njega, kao zaseban
+element. I: zaključavanje se radi u rukovaocu (`if (showResult) return;`), ne
+atributom `disabled`, kad u dugmetu postoji išta što treba da ostane živo.
+
+Uz to je strelica bila **28 px**, a pravilo projekta traži **44 px** — prst od
+sedam godina je promaši. Sada je 44×44.
+
+### 3. Kako sam sama sebe zavarala pri merenju
+
+Prvo merenje je reklo „pitanje se nije promenilo" — a jeste. Gledala sam ceo
+tekst strane, a zadatak prikazuje **jedno pitanje u isto vreme**; ono o kosi je
+sedmo i u tom trenutku ga u strani nije ni bilo.
+**Pravilo: pre nego što se prijavi da izmena nije stigla, proveri da li je
+predmet merenja uopšte NA EKRANU u tom trenutku.** Isto važi za korake u
+zadatku, kartice koje se otkrivaju i sve što se prikazuje jedno po jedno.
+
+---
+
+## 25.08.2026. — Spisak otvorenih nalaza je deset dana lagao
+
+**Šta je promašeno:** nalaz **N-14.1** (slike `cara` i `cabell` ne prikazuju to
+što imenuju) stajao je na spisku otvorenih do 25.08. — a bio je popravljen
+**15.08.**, i commit tog dana izričito kaže „nalaz N-14.1 zatvoren".
+
+Deset dana je `AUDIT/NALAZI-OTVORENI.md` tvrdio kvar kojeg nema. Vlasnica je na
+osnovu tog spiska pitala „da li smo završili sve iz audita" i dobila bi pogrešan
+odgovor da slike nisu otvorene i pogledane.
+
+**Zašto se desilo:** popravka i zatvaranje nalaza su dva odvojena posla, a
+drugi se radi u drugom fajlu. Sesija koja je popravila sliku napisala je to u
+commit poruci — i tu stala.
+
+**Pravilo: nalaz se zatvara U ISTOM POTEZU sa popravkom, pre commita.**
+Commit poruka nije mesto gde se zatvara nalaz; `AUDIT/NALAZI-OTVORENI.md` jeste.
+Ako commit kaže „nalaz zatvoren", a spisak ga i dalje ima — spisak je taj koji
+se čita, pa je posao nedovršen.
+
+**Provera koja to hvata, uz mali trošak:** pre svakog audita proći svaki otvoreni
+nalaz i **stvarno otvoriti predmet** (sliku, zadatak, stranu). Nalaz koji se ne
+može reprodukovati NE ostaje na spisku „za svaki slučaj" — briše se, uz zapis
+kada je i čime provereno. Spisak koji sadrži i nepostojeće nalaze prestaje da
+bude spisak.
+
+---
+
+## 25.08.2026. — Reč je BILA u mreži, a dete je nikad ne bi našlo
+
+**Prijava vlasnice:** „zašto osmosmerka ima reč `hamster` a nema je nigde, ne
+postoji, kako je ovo moguće?"
+
+**Izmereno:** reč jeste u mreži — **dijagonalno nadole-desno, od prvog reda,
+četvrte kolone**. Sedam od devet reči u toj temi stajalo je ukoso. U temi 10
+šest od devet, u temama 3 i 12 po pet od deset.
+
+**Vlasnica je u pravu u svemu što je bitno.** Zadatak je bio nerešiv u praksi:
+dete je u svim prethodnim temama naučilo da traži pravo, nigde mu se ne kaže da
+odjednom sme i ukoso, i ta reč za njega ne postoji.
+
+**Zašto provera nije videla:** `proveri-sopu.mjs` je tražila da reč POSTOJI u
+mreži — u bilo kom od osam pravaca. Postojala je. Provera je bila tačna i
+beskorisna istovremeno.
+
+**Pravilo (i vlasnica ga je tražila izričito):**
+**Zadatak koji je nov ili izmenjen ODIGRA SE DO KRAJA, kao dete — slovo po
+slovo, reč po reč.** „Otvoriti i pogledati" nije provera. Da je iko odigrao tu
+mrežu, video bi za dvadesetak sekundi da se reč ne može naći.
+Upisano kao **OBAVEZNO PRAVILO #1a** u `CLAUDE.md` projekta i u `TESTING.md`.
+
+**Uže pravilo za mreže:** reč sme da stoji **samo vodoravno ili uspravno**, i ne
+sme se pojaviti ukoso ni slučajno. Provera sada traži `nedostaje: 0, ukoso: 0`.
+
+**Šire pravilo, isto iz ovog slučaja:** kad provera meri POSTOJANJE, pitati se
+da li meri i **DOSTUPNOST**. Reč koja postoji ali se ne može naći, slika koja
+postoji ali se ne prikazuje, kolona koja postoji ali se ne iscrtava — sve troje
+su ista greška, i sve tri su nađene u poslednja dva dana.

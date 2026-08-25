@@ -277,7 +277,17 @@ export const laFamiliaTasks: Task[] = [
         correct: 0,
       },
       {
-        question: "El fill té els cabells del mateix color que la mare.",
+        // BILO: „…del mateix color que la MARE" sa tačnim odgovorom „Sí".
+        //
+        // Prijava vlasnice 25.08.2026: ćerka je odgovorila „No" i bila je u
+        // pravu. Na slici mama ima dugu tamnu (skoro crnu) kosu, a sin
+        // tamnobraon — dete od sedam godina to vidi kao dve različite boje, i
+        // teško da je iko drugačije vidi. Pitanje je bilo neodgovorivo, a
+        // aplikacija je tačan odgovor deteta obeležila kao grešku.
+        //
+        // SADA se poredi sa TATOM (odluka vlasnice): otac i sin na slici imaju
+        // istu tamnobraon kosu, pa je „Sí" nedvosmisleno tačno.
+        question: "El fill té els cabells del mateix color que el pare.",
         options: ["Sí", "No"],
         correct: 0,
       },
@@ -361,20 +371,20 @@ export const laFamiliaTasks: Task[] = [
   {
     id: "la-familia-14",
     type: "word-search",
-    prompt: "Cerca i copia 6 animals. Poden anar →\u00A0←\u00A0↓\u00A0↑\u00A0↗",
+    prompt: "Cerca i copia 6 animals. Poden anar →\u00A0←\u00A0↓\u00A0↑",
     gridSize: 10,
     words: ["conill", "serp", "tortuga", "gos", "gat", "ocell", "hamster", "cavall", "peix"],
     grid: [
-      ["c", "w", "y", "h", "j", "s", "z", "c", "u", "m"],
-      ["l", "t", "s", "s", "a", "g", "z", "s", "n", "r"],
-      ["m", "l", "o", "o", "t", "m", "g", "a", "t", "l"],
-      ["l", "b", "e", "r", "g", "q", "s", "o", "o", "h"],
-      ["u", "l", "u", "c", "t", "t", "s", "t", "p", "c"],
-      ["o", "t", "i", "p", "o", "u", "a", "e", "e", "d"],
-      ["c", "n", "e", "n", "e", "j", "g", "e", "r", "r"],
-      ["s", "t", "c", "k", "o", "i", "o", "a", "d", "p"],
-      ["l", "i", "y", "r", "e", "c", "x", "f", "z", "b"],
-      ["u", "w", "c", "a", "v", "a", "l", "l", "i", "l"],
+      ["j", "p", "r", "e", "t", "s", "m", "a", "h", "v"],
+      ["y", "t", "l", "l", "a", "v", "a", "c", "z", "d"],
+      ["g", "o", "s", "j", "v", "v", "k", "p", "z", "l"],
+      ["v", "r", "w", "k", "b", "q", "p", "e", "i", "x"],
+      ["j", "t", "q", "n", "l", "h", "f", "b", "n", "y"],
+      ["c", "u", "k", "m", "d", "p", "g", "j", "i", "t"],
+      ["a", "g", "v", "v", "l", "l", "i", "n", "o", "c"],
+      ["t", "a", "g", "l", "l", "e", "c", "o", "e", "s"],
+      ["k", "x", "b", "j", "z", "y", "e", "d", "z", "x"],
+      ["x", "u", "u", "s", "e", "r", "p", "l", "q", "h"],
     ],
   },
 

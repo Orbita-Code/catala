@@ -7,7 +7,17 @@
  * postoji u mreži, inače je zadatak nerešiv. Zato mreža i spisak nastaju
  * ZAJEDNO, i na kraju se svaka reč traži nazad u gotovoj mreži.
  *
- * Pravci: vodoravno, uspravno, dijagonalno — i unapred i unazad, kao u svesci.
+ * Pravci: SAMO vodoravno i uspravno, unapred i unazad (→ ← ↓ ↑).
+ * BEZ DIJAGONALA (25.08.2026, prijava vlasnice).
+ *
+ * Zašto: „u svakoj prethodnoj temi reči su bile levo ili desno, gore ili dole,
+ * a odjednom su sve dijagonalno — deca se zbune i ne znaju da može dijagonalno."
+ * Izmereno: u temi 6 je 7 od 9 reči stajalo SAMO dijagonalno, u temi 10 šest od
+ * devet, u temama 3 i 12 po pet od deset. Dete koje je naučilo da traži pravo
+ * nema kako da pogodi da odjednom sme i ukoso — a nigde mu se to ne kaže.
+ *
+ * Traži se i da se reč ne pojavi SLUČAJNO po dijagonali kad se mreža dopuni
+ * nasumičnim slovima — inače bi dete opet naišlo na ukoso rešenje.
  * Reči se namerno UKRŠTAJU gde mogu; tako mreža izgleda kao prava slagalica,
  * a ne kao spisak u redovima.
  *
@@ -15,10 +25,10 @@
  */
 import fs from "fs";
 
-const PRAVCI = [
-  [0, 1], [1, 0], [1, 1], [1, -1],
-  [0, -1], [-1, 0], [-1, -1], [-1, 1],
-];
+/** Pravci u kojima se reč SME naći: desno, dole, levo, gore. */
+const PRAVCI = [[0, 1], [1, 0], [0, -1], [-1, 0]];
+/** Pravci u kojima reč NE SME da se nađe — ni namerno ni slučajno. */
+const DIJAGONALE = [[1, 1], [1, -1], [-1, -1], [-1, 1]];
 const AZBUKA = "abcdefghijklmnopqrstuvwxyz";
 
 /** Slova bez kvačica i bez razmaka — u mreži stoji samo osnovno slovo. */
@@ -65,10 +75,10 @@ function napraviMrezu(reci, velicina, seme) {
 }
 
 /** Traži reč u gotovoj mreži — provera da zadatak NIJE nerešiv. */
-function nadji(mreza, rec) {
+function nadji(mreza, rec, pravci = PRAVCI) {
   const w = osnovno(rec), n = mreza.length;
   for (let r = 0; r < n; r++) for (let c = 0; c < n; c++)
-    for (const [dr, dc] of PRAVCI) {
+    for (const [dr, dc] of pravci) {
       const r1 = r + dr * (w.length - 1), c1 = c + dc * (w.length - 1);
       if (r1 < 0 || r1 >= n || c1 < 0 || c1 >= n) continue;
       let ok = true;
@@ -82,7 +92,12 @@ export function sopa(reci, velicinaOd = 10) {
   for (let v = velicinaOd; v <= velicinaOd + 4; v++)
     for (let seme = 1; seme <= 300; seme++) {
       const m = napraviMrezu(reci, v, seme * 7919);
-      if (m && reci.every((r) => nadji(m, r))) return { velicina: v, mreza: m };
+      if (!m) continue;
+      // svaka reč mora da postoji PRAVO...
+      if (!reci.every((r) => nadji(m, r))) continue;
+      // ...i nijedna ne sme da se nađe UKOSO, ni slučajno
+      if (reci.some((r) => nadji(m, r, DIJAGONALE))) continue;
+      return { velicina: v, mreza: m };
     }
   return null;
 }

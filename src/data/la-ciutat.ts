@@ -57,7 +57,10 @@ export const laCiutatTasks: Task[] = [
     pairs: [
       { left: "hospital", right: "curar-se" },
       { left: "escola", right: "estudiar" },
-      { left: "cinema", right: "veure pel·lícules" },
+      // BEZ SLIKE namerno: jedina slika koja se nađe je `veure` — dečak sa
+      // LUPOM. Za „gledati film" to je pogrešna slika; dete bi razumelo
+      // „tražiti", ne „gledati". Bolje bez slike nego sa pogrešnom.
+      { left: "cinema", right: "veure pel·lícules", rightNoImage: true },
       { left: "parc", right: "jugar" },
       { left: "restaurant", right: "menjar" },
     ],
@@ -65,20 +68,20 @@ export const laCiutatTasks: Task[] = [
   {
     id: "la-ciutat-5",
     type: "word-search",
-    prompt: "Troba les paraules a la sopa de lletres. Poden anar →\u00A0←\u00A0↓\u00A0↑\u00A0↗",
+    prompt: "Troba les paraules a la sopa de lletres. Poden anar →\u00A0←\u00A0↓\u00A0↑",
     gridSize: 10,
     words: ["parc", "museu", "plaça", "mercat", "cinema", "carrer", "hospital", "teatre", "estacio"],
     grid: [
-      ["i", "f", "g", "e", "s", "p", "l", "a", "c", "a"],
-      ["p", "h", "p", "b", "s", "d", "z", "n", "g", "l"],
-      ["q", "t", "o", "a", "q", "t", "o", "q", "c", "x"],
-      ["t", "e", "x", "s", "r", "m", "a", "h", "b", "r"],
-      ["v", "a", "k", "b", "p", "c", "u", "c", "l", "k"],
-      ["z", "t", "c", "a", "y", "i", "i", "s", "i", "m"],
-      ["m", "r", "e", "r", "b", "n", "t", "f", "e", "o"],
-      ["p", "e", "v", "w", "e", "i", "t", "a", "j", "u"],
-      ["x", "p", "a", "m", "p", "m", "o", "b", "l", "q"],
-      ["i", "h", "a", "k", "c", "a", "r", "r", "e", "r"],
+      ["l", "m", "o", "i", "c", "a", "t", "s", "e", "u"],
+      ["u", "h", "a", "m", "e", "n", "i", "c", "z", "c"],
+      ["k", "o", "m", "m", "f", "n", "z", "l", "m", "h"],
+      ["p", "s", "u", "z", "n", "e", "a", "s", "t", "p"],
+      ["l", "p", "s", "r", "p", "l", "a", "c", "a", "o"],
+      ["e", "i", "e", "i", "j", "x", "j", "c", "q", "t"],
+      ["m", "t", "u", "r", "t", "a", "c", "r", "e", "m"],
+      ["p", "a", "r", "e", "r", "r", "a", "c", "d", "m"],
+      ["x", "l", "t", "a", "c", "r", "a", "p", "q", "b"],
+      ["s", "w", "l", "t", "e", "a", "t", "r", "e", "j"],
     ],
   },
   {
@@ -190,7 +193,10 @@ export const laCiutatTasks: Task[] = [
       { left: "parc", right: "passejar" },
       { left: "mercat", right: "comprar" },
       { left: "estació", right: "viatjar" },
-      { left: "cinema", right: "veure pel·lícules" },
+      // BEZ SLIKE namerno: jedina slika koja se nađe je `veure` — dečak sa
+      // LUPOM. Za „gledati film" to je pogrešna slika; dete bi razumelo
+      // „tražiti", ne „gledati". Bolje bez slike nego sa pogrešnom.
+      { left: "cinema", right: "veure pel·lícules", rightNoImage: true },
     ],
   },
   {

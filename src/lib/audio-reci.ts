@@ -753,7 +753,7 @@ export const SNIMLJENO: Record<string, string> = {
   "la mare té els cabells llargs.": "la-mare-te-els-cabells-llarg-3f1ea8",
   "el fill té la samarreta vermella.": "el-fill-te-la-samarreta-verm-50fadf",
   "el pare té la samarreta lila.": "el-pare-te-la-samarreta-lila-8d342b",
-  "el fill té els cabells del mateix color que la mare.": "el-fill-te-els-cabells-del-m-337c00",
+  "el fill té els cabells del mateix color que el pare.": "el-fill-te-els-cabells-del-m-43bd8a",
   "el pare de la mare és": "el-pare-de-la-mare-es-182dd8",
   "la mare del pare és": "la-mare-del-pare-es-f84cac",
   "la filla de l'avi i l'àvia és": "la-filla-de-l-avi-i-l-avia-e-ecd23d",
