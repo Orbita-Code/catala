@@ -394,6 +394,47 @@ export const laFamiliaTasks: Task[] = [
     type: "multiple-choice",
     prompt:
       "Llegeix el que han contestat la Carlota i en Cesc a la pregunta: Quines mascotes tens?",
+    /**
+     * TEKST KOJI SE ČITA — VRAĆEN 25.08.2026.
+     *
+     * Zadatak je od deteta tražio da pročita šta su Carlota i Cesc odgovorili,
+     * a **odgovora nigde nije bilo** — ni teksta, ni slike. Dete je moglo samo
+     * da pogađa, a pogrešna pogodba mu je upisivana kao greška.
+     *
+     * Rečenice su prepisane sa fotografije sveske (`Svi zadaci/La familia/
+     * IMG_0996.JPG`, vežba 15) — iz oblačića iznad Carlote i Cesca.
+     */
+    speakers: [
+      {
+        name: "CARLOTA",
+        image: "carlota",
+        text: "Tinc un gos, un conill i tres gats.",
+        pets: [
+          { image: "gos", count: 1 },
+          { image: "conill", count: 1 },
+          { image: "gat", count: 3 },
+        ],
+      },
+      {
+        name: "CESC",
+        image: "cesc",
+        text: "Tinc dos ocells, tres peixos i una tortuga.",
+        pets: [
+          { image: "ocell", count: 2 },
+          { image: "peix", count: 3 },
+          { image: "tortuga", count: 1 },
+        ],
+      },
+    ],
+    /**
+     * TRI OD ČETIRI TAČNA ODGOVORA BILA SU POGREŠNA (ispravljeno 25.08.2026).
+     *
+     * Provereno prema svesci, reč po reč:
+     *   • Carlota ima psa („Tinc un gos") — stajalo je „No"  → sada „Sí"
+     *   • Cesc NEMA mačku (ptice, ribe, kornjača) — stajalo „Sí" → sada „No"
+     *   • Carlota NEMA hrčka (pas, zec, mačke) — stajalo „Sí" → sada „No"
+     * Samo prvo pitanje (Cesc ima pticu) bilo je tačno.
+     */
     questions: [
       {
         question: "En Cesc té un ocell?",
@@ -403,17 +444,17 @@ export const laFamiliaTasks: Task[] = [
       {
         question: "La Carlota té un gos?",
         options: ["Sí", "No"],
-        correct: 1,
+        correct: 0,
       },
       {
         question: "En Cesc té un gat?",
         options: ["Sí", "No"],
-        correct: 0,
+        correct: 1,
       },
       {
         question: "La Carlota té un hàmster?",
         options: ["Sí", "No"],
-        correct: 0,
+        correct: 1,
       },
     ],
   },

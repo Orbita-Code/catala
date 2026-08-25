@@ -154,6 +154,49 @@ export default function MultipleChoice({ task, onComplete, review = false }: Pro
           </div>
         )}
 
+        {/* KO ŠTA IMA — vidi se, ne samo piše.
+            Svaka životinja stoji onoliko puta koliko ih ta osoba ima, pa dete
+            na pitanje odgovara gledanjem. Rečenica je uz sliku, sa zvučnikom,
+            da se uz nju i čita. */}
+        {task.speakers && task.speakers.length > 0 && (
+          <div className="grid gap-3 mb-4 sm:grid-cols-2">
+            {task.speakers.map((s, i) => (
+              <div key={i} className="bg-amber-50 rounded-2xl p-3 flex flex-col items-center gap-2">
+                {s.image && getWordIllustration(s.image) && (
+                  <img
+                    src={getWordIllustration(s.image)!}
+                    alt=""
+                    className="w-24 h-24 md:w-28 md:h-28 object-contain"
+                  />
+                )}
+                <p className="font-black text-[var(--primary)] tracking-wide">{s.name}</p>
+                <div className="flex items-start gap-2">
+                  <SpeakerButton text={s.text} size={16} />
+                  <p className="text-base md:text-lg font-handwriting font-semibold text-[var(--text)]">
+                    {s.text}
+                  </p>
+                </div>
+                {s.pets && (
+                  <div className="flex flex-wrap justify-center gap-1 pt-1">
+                    {s.pets.flatMap((p, j) =>
+                      Array.from({ length: p.count }, (_, k) =>
+                        getWordIllustration(p.image) ? (
+                          <img
+                            key={`${j}-${k}`}
+                            src={getWordIllustration(p.image)!}
+                            alt=""
+                            className="w-12 h-12 md:w-14 md:h-14 object-contain"
+                          />
+                        ) : null
+                      )
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
         <div className="flex items-center justify-center gap-1 mb-4">
           <SpeakerButton text={question.question} size={18} />
           <h3 className="text-xl font-bold text-[var(--text)] text-center font-handwriting">

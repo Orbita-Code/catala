@@ -128,6 +128,27 @@ export interface LabelImageTask extends BaseTask {
 export interface MultipleChoiceTask extends BaseTask {
   type: "multiple-choice";
   image?: string;
+  /**
+   * `speakers` — ljudi čije odgovore dete čita, i ŠTA IMAJU, u slikama.
+   *
+   * Uvedeno 25.08.2026 (prijava vlasnice). Zadatak „Llegeix el que han
+   * contestat la Carlota i en Cesc" tražio je od deteta da pročita odgovore —
+   * a **na ekranu nije bilo ničega**: ni teksta, ni Carlote, ni Cesca, ni
+   * ijedne životinje. Dete je moglo samo da pogađa.
+   *
+   * Vraćanje samog teksta nije dovoljno: dete od sedam godina tek uči da čita
+   * katalonski. Zato se uz svaku rečenicu prikazuje i **ko** je izgovara i
+   * **koje životinje ima** — svaka onoliko puta koliko ih ima. Tako se na
+   * pitanje odgovara GLEDANJEM, a rečenica služi da se uz sliku i pročita.
+   * Sveska to i traži: uz „sí o no" ide i „quantitat".
+   */
+  speakers?: {
+    name: string;
+    image?: string;
+    text: string;
+    /** Šta ima — slika se ponavlja `count` puta, da se broj VIDI. */
+    pets?: { image: string; count: number }[];
+  }[];
   questions: {
     question: string;
     options: string[];

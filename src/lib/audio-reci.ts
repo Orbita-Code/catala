@@ -759,6 +759,8 @@ export const SNIMLJENO: Record<string, string> = {
   "la filla de l'avi i l'àvia és": "la-filla-de-l-avi-i-l-avia-e-ecd23d",
   "el fill de l'avi i l'àvia és": "el-fill-de-l-avi-i-l-avia-es-114c74",
   "la filla és la del fill.": "la-filla-es-la-del-fill-e23e5f",
+  "tinc un gos, un conill i tres gats.": "tinc-un-gos-un-conill-i-tres-013419",
+  "tinc dos ocells, tres peixos i una tortuga.": "tinc-dos-ocells-tres-peixos--f6c071",
   "en cesc té un ocell?": "en-cesc-te-un-ocell-b3ddc8",
   "la carlota té un gos?": "la-carlota-te-un-gos-6e21ac",
   "en cesc té un gat?": "en-cesc-te-un-gat-e45ba7",

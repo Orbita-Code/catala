@@ -640,6 +640,9 @@ const wordsWithIllustrations = new Set([
   "escriptori",
   "paper-de-vater",
   "sabo",
+  // deca iz zadatka „Quines mascotes tens?" (tema 6) — v. sveska, vežba 15
+  "carlota",
+  "cesc",
   "fusta",
   "hamster",
   // La família

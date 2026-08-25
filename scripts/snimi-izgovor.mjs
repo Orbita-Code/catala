@@ -188,7 +188,9 @@ export function sveStavke() {
        * Zato se ponuđeni odgovori uzimaju BEZ ograničenja dužine, a duži se
        * vode kao rečenica (snima se sporijim tempom, kao i ostale rečenice).
        */
-      const poljeSaOdgovorima = m[1] === "options";
+      // `description` je TEKST KOJI SE ČITA (npr. šta su rekli Carlota i Cesc) —
+      // rečenice, ne reči, pa ni za njega ne važi ograničenje od 24 znaka.
+      const poljeSaOdgovorima = m[1] === "options" || m[1] === "description";
       for (const r of m[2].matchAll(/"([^"]+)"/g)) {
         const duzina = r[1].trim().length;
         if (duzina <= 24) dodaj(r[1], "rec");
