@@ -540,6 +540,7 @@ export const laClasseTasks: Task[] = [
     id: "la-classe-slaganje",
     type: "matching",
     prompt: "Relaciona les dues parts per formar paraules:",
+    joinParts: true,   // spaja delove jedne reči — izgovara se SPOJENA reč
     rightTextOnly: true,
     pairs: [
       { left: "LLA", right: "PIS" },

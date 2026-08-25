@@ -81,8 +81,16 @@ export default function AddArticle({ task, onComplete, review = false }: Props) 
     const isCorrect = article.toLowerCase() === currentWord.article.toLowerCase();
     setCorrect(isCorrect);
 
-    // Speak the article + word the kid picked, right or wrong
-    speak(`${article} ${currentWord.word}`);
+    /**
+     * ČLAN SE IZGOVARA SAMO KAD JE TAČAN (24.08.2026).
+     *
+     * Ranije se čitalo ono što je dete izabralo, tačno ili ne — pa je
+     * aplikacija naglas potvrđivala „un camisa", što nije katalonski. Uz to
+     * takav spoj nema snimak, pa je dete usred igre čulo glas uređaja.
+     * Isto pravilo već važi u razvrstavanju po kolonama (17.08.2026):
+     * tačan oblik dete čuje, pogrešan ne.
+     */
+    speak(isCorrect ? `${article} ${currentWord.word}` : currentWord.word);
 
     if (isCorrect) {
       celebrate();

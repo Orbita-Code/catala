@@ -514,6 +514,12 @@ export default function FillSentence({ task, onComplete, review = false }: Props
                 className="w-64 h-64 object-contain rounded-xl bg-white p-3 shadow-lg"
               />
             </div>
+            {task.imageLabel && (
+              <p className="text-center font-handwriting font-black text-2xl text-[var(--primary)] mt-2">
+                {task.imageLabel}
+              </p>
+            )}
+
             {task.description && (
               <div className="bg-amber-50 rounded-xl p-3 mb-4 text-sm space-y-1">
                 {task.description.map((line, i) => (
@@ -540,6 +546,11 @@ export default function FillSentence({ task, onComplete, review = false }: Props
                 alt=""
                 className="w-64 h-auto max-h-[400px] object-contain rounded-xl bg-white p-3 shadow-sm"
               />
+              {task.imageLabel && (
+                <p className="font-handwriting font-black text-2xl text-[var(--primary)] mt-2">
+                  {task.imageLabel}
+                </p>
+              )}
               <p className="text-xs text-center text-[var(--text-light)] mt-2">
                 👆 Mira la imatge!
               </p>
@@ -572,6 +583,11 @@ export default function FillSentence({ task, onComplete, review = false }: Props
               alt=""
               className="w-36 h-36 md:w-44 md:h-44 lg:w-52 lg:h-52 object-contain rounded-xl bg-white p-2 shadow-md"
             />
+            {task.imageLabel && (
+              <p className="font-handwriting font-black text-2xl md:text-3xl text-[var(--primary)] mt-2">
+                {task.imageLabel}
+              </p>
+            )}
             {task.description && (
               <div className="bg-amber-50 rounded-xl px-4 py-2 mt-3 text-base md:text-lg space-y-1">
                 {task.description.map((line, i) => (

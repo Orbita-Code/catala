@@ -584,6 +584,7 @@ export const elsAnimalsTasks: Task[] = [
     id: "els-animals-slaganje",
     type: "matching",
     prompt: "Relaciona les dues parts per formar paraules:",
+    joinParts: true,   // spaja delove jedne reči — izgovara se SPOJENA reč
     rightTextOnly: true,
     pairs: [
       { left: "GA", right: "LLINA" },

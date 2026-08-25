@@ -261,6 +261,7 @@ export const elsVehiclesTasks: Task[] = [
     id: "els-vehicles-slaganje",
     type: "matching",
     prompt: "Relaciona les dues parts per formar paraules:",
+    joinParts: true,   // spaja delove jedne reči — izgovara se SPOJENA reč
     rightTextOnly: true,
     pairs: [
       { left: "CO", right: "TXE" },

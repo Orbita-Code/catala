@@ -25,11 +25,21 @@ const { chromium } = require("playwright");
 import fs from "fs";
 
 const BASE = process.env.BASE || "http://localhost:3200";
+/**
+ * LOZINKA SE ČITA IZ OKOLINE, NE UPISUJE SE (24.08.2026).
+ *
+ * Ranije je ovde stajalo `changeme` — lokalna rezervna lozinka. Protiv
+ * PRODUKCIJE to znači 401 na svakoj strani: skripta ne vidi nijedan zadatak,
+ * prekine posle prve, i prijavi „tuđim glasom: 0". Pre-deploy test je to
+ * čitao kao „sve u redu", a vlasnica je u isto vreme slušala tuđe glasove u
+ * temama 4 i 5. **Provera koja se nije izvršila prijavljivala se kao prošla.**
+ */
+const [KOR, LOZ] = (process.env.BASIC_AUTH || "catala:changeme").split(":");
 const TEME = ["la-classe","l-escola","el-cos","la-roba","la-casa","la-familia",
               "les-botigues","el-menjar","els-animals","la-ciutat","els-vehicles","els-oficis"];
 
 const b = await chromium.launch({ headless: true });
-const c = await b.newContext({ httpCredentials: { username: "catala", password: "changeme" }, viewport: { width: 1300, height: 950 } });
+const c = await b.newContext({ httpCredentials: { username: KOR, password: LOZ }, viewport: { width: 1300, height: 950 } });
 const p = await c.newPage();
 await p.addInitScript(() => {
   window.__g = [];
@@ -38,18 +48,32 @@ await p.addInitScript(() => {
 });
 
 const nadjeno = new Map();   // tekst → gde je viđen
+let obidjeno = 0;            // koliko je zadataka STVARNO otvoreno
 for (const tema of TEME) {
   for (let n = 1; n <= 30; n++) {
     await p.goto(`${BASE}/tema/${tema}?tasca=${n}`, { waitUntil: "domcontentloaded", timeout: 60000 });
-    await p.waitForTimeout(500);
+    await p.waitForTimeout(600);
     const naslov = (await p.locator("main").innerText().catch(() => "")).split("\n")[0] || "";
     if (!naslov || !/^\d+\./.test(naslov)) break;   // nema više zadataka u temi
+    obidjeno++;
     await p.evaluate(() => { window.__g = []; });
-    const d = p.locator("main button, main [role=button]");
-    const k = Math.min(await d.count(), 26);
-    for (let i = 0; i < k; i++) {
-      await d.nth(i).click({ force: true, timeout: 900 }).catch(() => {});
-      await p.waitForTimeout(140);
+    /**
+     * VIŠE KRUGOVA DIRANJA (24.08.2026).
+     *
+     * Ranije se dugmad hvatala JEDNOM, najviše 26 komada. Ali posle svakog
+     * klika se strana promeni i nikne nova dugmad — ponuđene reči, sledeća
+     * reč, prikaz rezultata. Tako su ostajali neprobani baš oni izgovori koji
+     * se SASTAVLJAJU tek kad je odgovor tačan („A l'aiguera, hi ha els plats
+     * bruts.", „un camisa", „CUI, NA"). Vlasnica ih je čula, test nije.
+     */
+    for (let krug = 0; krug < 4; krug++) {
+      const d = p.locator("main button, main [role=button]");
+      const k = Math.min(await d.count(), 40);
+      for (let i = 0; i < k; i++) {
+        await d.nth(i).click({ force: true, timeout: 700 }).catch(() => {});
+        await p.waitForTimeout(120);
+      }
+      await p.waitForTimeout(300);
     }
     await p.waitForTimeout(500);
     for (const t of await p.evaluate(() => window.__g || [])) {
@@ -61,4 +85,10 @@ for (const tema of TEME) {
 await b.close();
 
 if (nadjeno.size) console.log(JSON.stringify([...nadjeno.entries()], null, 1));
-process.stderr.write(`\nTUĐIM GLASOM SE IZGOVARA: ${nadjeno.size} različitih tekstova\n`);
+/**
+ * OBIĐENIH ZADATAKA SE ISPISUJE UVEK — po tome se vidi da li je provera
+ * uopšte radila. Nula obiđenih uz nula nalaza NIJE dobra vest nego kvar
+ * (najčešće pogrešna lozinka ili ugašen server).
+ */
+process.stderr.write(`\nOBIĐENO ZADATAKA: ${obidjeno}\n`);
+process.stderr.write(`TUĐIM GLASOM SE IZGOVARA: ${nadjeno.size} različitih tekstova\n`);

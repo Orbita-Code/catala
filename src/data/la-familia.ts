@@ -73,34 +73,45 @@ export const laFamiliaTasks: Task[] = [
     type: "fill-sentence",
     prompt: "Observa i completa:",
     image: "albert",
+    // Ime stoji ISPOD slike, upisano u kodu — ne na samoj slici.
+    // Tekst na ilustraciji je zabranjen: iste slike se dele za sve jezike.
+    imageLabel: "Albert",
     description: ["Jo soc l'Albert."],
+    // BEZ „Dibuix 1, 2, 3…" (24.08.2026, zahtev vlasnice). Ti brojevi su iz
+    // sveske, gde su crteži poređani na stranici i broj kaže na koji se misli.
+    // U igrici svaka rečenica ima SVOJU sliku tik uz sebe, pa broj ništa ne
+    // znači — samo je jedna reč više za dete koje tek uči da čita.
+    //
+    // Uz to je ispravljena gramatika: uz drugu mogućnost je falio član
+    // („o àvia" → „o l'àvia", „o pare" → „o el pare", „o germana" → „o la
+    // germana"). Pitanje sada nudi dva puna oblika, kao što i odgovor traži.
     sentences: [
       {
-        text: "Dibuix 1. És l'avi o àvia de l'Albert? És ___.",
+        text: "És l'avi o l'àvia de l'Albert? És ___.",
         blank: "l'avi",
         options: ["l'àvia", "l'avi"],
         image: "albert-dibuix-1",
       },
       {
-        text: "Dibuix 2. És l'àvia o la mare de l'Albert? És ___.",
+        text: "És l'àvia o la mare de l'Albert? És ___.",
         blank: "l'àvia",
         options: ["la mare", "l'àvia"],
         image: "albert-dibuix-2",
       },
       {
-        text: "Dibuix 3. És l'avi o pare de l'Albert? És ___.",
+        text: "És l'avi o el pare de l'Albert? És ___.",
         blank: "el pare",
         options: ["el pare", "l'avi"],
         image: "albert-dibuix-3",
       },
       {
-        text: "Dibuix 4. És la mare o germana de l'Albert? És ___.",
+        text: "És la mare o la germana de l'Albert? És ___.",
         blank: "la mare",
         options: ["la germana", "la mare"],
         image: "albert-dibuix-4",
       },
       {
-        text: "Dibuix 5. És la mare o germana de l'Albert? És ___.",
+        text: "És la mare o la germana de l'Albert? És ___.",
         blank: "la germana",
         options: ["la germana", "la mare"],
         image: "albert-dibuix-5",
@@ -433,6 +444,7 @@ export const laFamiliaTasks: Task[] = [
     id: "la-familia-slaganje",
     type: "matching",
     prompt: "Relaciona les dues parts per formar paraules:",
+    joinParts: true,   // spaja delove jedne reči — izgovara se SPOJENA reč
     rightTextOnly: true,
     pairs: [
       { left: "GER", right: "MÀ" },

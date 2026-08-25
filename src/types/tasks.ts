@@ -54,6 +54,13 @@ export interface MatchingTask extends BaseTask {
   illustrationMatch?: boolean;
   /** When true, the right column shows text only (no auto illustrations) — e.g. abstract categories. */
   rightTextOnly?: boolean;
+  /**
+   * `joinParts` — zadatak spaja DELOVE JEDNE REČI („CUI" + „NA" = „cuina").
+   * Bez ovoga je aplikacija naglas čitala „CUI, NA" — što nije reč, nema
+   * snimak, pa je išlo glasom uređaja. Sada se izgovara spojena reč.
+   * (24.08.2026, prijava vlasnice o tuđim glasovima.)
+   */
+  joinParts?: boolean;
 }
 
 export interface ClassifyColumnsTask extends BaseTask {
@@ -79,6 +86,12 @@ export interface ColorByInstructionTask extends BaseTask {
 export interface FillSentenceTask extends BaseTask {
   type: "fill-sentence";
   image?: string;
+  /**
+   * `imageLabel` — ime ispod glavne slike („Albert").
+   * Piše se u KODU, ne na samoj slici: tekst na ilustraciji je zabranjen jer
+   * se iste slike dele za sve jezike. (24.08.2026, zahtev vlasnice.)
+   */
+  imageLabel?: string;
   /** Set to false to hide the per-sentence illustrations (e.g. when the subject
    * image would mislead — the answer is a different person than the subject). */
   sentenceImages?: boolean;

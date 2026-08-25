@@ -218,3 +218,70 @@ postojati i „šta imamo a ne koristimo". `scripts/proveri-parove-bez-slike.mjs
 da auto ima „oči i usta". Nije — to su farovi i rešetka hladnjaka. Vlasnica je ispravila.
 **Kad se sudi o slici, opisati šta se vidi, ne šta liči.** Dva okrugla svetla na autu su
 farovi dok se ne dokaže suprotno.
+
+---
+
+## 24.08.2026. — Provera je javljala „nula" zato što NIJE MOGLA DA UĐE
+
+**Šta je promašeno:** vlasnica: „i dalje imam i u temi 4 i u temi 5 glasove koji
+nisu Montse. i muški čak glas se umešao i neki ženski što ne zna katalonski."
+
+Bila je u pravu. A u pre-deploy testu je stajala provera koja tačno to traži —
+„Ništa se ne čita glasom uređaja (sve teme)" — i **prolazila je svaki put.**
+
+**Zašto je prolazila.** Skripta `nadji-tudji-glas.mjs` pravi svoj pregledač i u
+njemu je bila **upisana lokalna rezervna lozinka `changeme`**. Protiv produkcije
+to znači `401` na svakoj strani. Skripta ne nađe nijedan zadatak, prekine posle
+prve strane, i ispiše „TUĐIM GLASOM SE IZGOVARA: 0". Test to pročita kao čisto.
+
+**Nula nalaza nije značila da je čisto — značila je da provera nije ni ušla.**
+
+**Pravilo (opšte, važi za svaku proveru):**
+**Provera mora da ispiše KOLIKO JE OBIŠLA, i da padne kad je obišla ništa.**
+Nula nalaza uz nula pregledanih jedinica je kvar, ne prolaz. Sada se traži
+`OBIĐENO ZADATAKA > 100`; da je ovo stajalo, kvar bi bio prijavljen prvog dana.
+
+Isto važi za svaku tajnu koja se koristi u proveri: **lozinka se čita iz okoline
+(`BASIC_AUTH`), nikad se ne upisuje u skriptu.** Upisana lozinka ne samo da
+procuri — ona tiho pretvara proveru u ukras.
+
+**Drugi propust, u istoj skripti.** I kad je ušla, dirala je stranu PLITKO:
+jednom pokupi dugmad, najviše 26 komada. Ali posle svakog klika strana se
+promeni i nikne nova dugmad. Baš tako se propuštaju izgovori koji se SASTAVE
+tek kad je odgovor tačan — „A l'aiguera, hi ha els plats bruts.", „un camisa",
+„CUI, NA". Sada su četiri kruga po 40 dugmadi.
+**Pravilo: ko proverava stranu koja se menja na dodir, mora da je dira više
+puta i da svaki put IZNOVA potraži šta se pojavilo.**
+
+**Treći, u skripti za snimanje.** Snimalo se ono što piše u podacima. Ali
+`Matching` izgovara OBE STRANE ODJEDNOM („levo, desno"), a boje uopšte ne stoje
+u podacima nego u `ColorByInstruction.tsx`. Zato `rosa` i `marró` nikad nisu
+snimljene. **Pravilo koje je već stajalo zapisano — „snima se ono što se
+IZGOVARA, ne ono što piše u podacima" — nije bilo sprovedeno do kraja:**
+svaki `speak()` sa sastavljenim tekstom i svaki tekst koji živi u komponenti
+mora biti naveden u `snimi-izgovor.mjs`. Posle dopune: 1383 → **1490** izgovora.
+
+**Četvrto, sadržajno.** Dva od četiri slučaja nisu tražila snimak nego popravku:
+aplikacija je naglas potvrđivala „un camisa" (nije katalonski) i čitala „CUI, NA"
+(nije reč). **Kad nešto nema snimak, prvo se pita TREBA LI to uopšte da se
+izgovori tako** — pa tek onda snima.
+
+**Peto, iz istog dana — pravilo prepisano napamet umesto preslikano iz koda.**
+Osmi slučaj tuđeg glasa bio je najsuptilniji. Aplikacija u zadatku sa
+dopunjavanjem daje zvučniku `text.replace(/\s*___\.?/, "")` — briše prazninu i
+**samo tačku** iza nje. Upitnik OSTAJE. Zato se „Què ___? — Per dinar…"
+izgovara kao „Què? — Per dinar…".
+
+Skripta za snimanje je brisala `[.!?]?` — dakle i upitnik — pa je snimila
+„Què — Per dinar…". Jedan znak razlike: snimak postoji, ne nalazi se, dete čuje
+glas uređaja. Tri takve rečenice u temi 8.
+
+Najgore je što je to **ista zamka kao 17.08., samo obrnuta**: tada se brisalo
+PREMALO, sada PREVIŠE. Pravilo je bilo zapisano na oba mesta i na oba mesta
+prepisano **napamet**, umesto preslikano iz komponente koja jedina odlučuje.
+
+**Pravilo: kad dve strane moraju da se poklope, jedna je IZVOR, druga je
+PRESLIKANA — i u obe se upiše odakle je.** Ovde je izvor
+`FillSentence.tsx`. Ako se tamo promeni jedan znak, mora se promeniti i u
+`tts.ts` i u `snimi-izgovor.mjs`. Ko piše „mora da se poklapa sa…", a ne
+otvori taj fajl, nije se poklopio.

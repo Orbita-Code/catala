@@ -151,7 +151,11 @@ function kljucTeksta(t: string): string {
     // peus: ." — sa razmakom i tačkom na kraju. Traženje po drugom obliku ga
     // nije nalazilo i aplikacija je tiho prelazila na glas uređaja.
     // Jedan znak razlike, a čulo se kroz celu igru.
-    .replace(/_{2,}\s*[.!?]?/g, " ")
+    // OD 24.08.2026: briše se praznina i SAMO TAČKA iza nje — tačno kako to
+    // radi `FillSentence` (`text.replace(/\s*___\.?/, "")`). Upitnik ostaje.
+    // Ranije se brisao i upitnik, pa „Què ___? — Per dinar…" nije nalazilo
+    // svoj snimak i čitalo se glasom uređaja.
+    .replace(/\s*_{2,}\.?/g, "")
     .replace(/\s+/g, " ")
     .trim()
     .toLowerCase();

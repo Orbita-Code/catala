@@ -238,3 +238,41 @@ node scripts/proveri-parove-bez-slike.mjs  # SAKRIVENIH SLIKA: 0
       ne oči. (Moja greška 24.08.)
 - [ ] Posle ugradnje **podigni `catala-vN` u `public/sw.js`** — inače dete na
       tabletu i dalje gleda staru sliku.
+
+---
+
+## Provera mora da kaže KOLIKO JE OBIŠLA (dodato 24.08.2026)
+
+> Nastalo iz najskupljeg propusta do sada: provera „ništa se ne čita glasom
+> uređaja" prolazila je svaki put, a vlasnica je u isto vreme slušala tuđe
+> glasove. Skripta je imala upisanu lokalnu lozinku, protiv produkcije dobijala
+> 401 na svakoj strani, i javljala „0 nalaza". Nula je značila da nije ni ušla.
+
+- [ ] **Svaka provera ispisuje broj pregledanih jedinica** (zadataka, strana,
+      reči) i **pada kad je taj broj nula.** Nula nalaza uz nula pregledanog je
+      kvar, ne prolaz.
+- [ ] **Nijedna lozinka se ne upisuje u skriptu** — čita se iz okoline
+      (`BASIC_AUTH`). Upisana lozinka tiho pretvara proveru u ukras.
+- [ ] **Strana koja se menja na dodir dira se VIŠE PUTA**, i svaki put se
+      iznova traži šta se pojavilo. Jedan prolaz kroz dugmad promašuje sve što
+      nikne posle prvog klika.
+
+## Glas: šta se snima i šta se NE izgovara (dodato 24.08.2026)
+
+**Automatski:**
+```bash
+BASE=https://catala.orbitacode.com BASIC_AUTH=catala:<lozinka> \
+  node scripts/nadji-tudji-glas.mjs     # OBIĐENO > 100, TUĐIM GLASOM: 0
+node scripts/snimi-izgovor.mjs --spisak # koliko izgovora ukupno
+```
+
+- [ ] **Snima se ono što se IZGOVARA, ne ono što piše u podacima.** Svaki
+      `speak()` sa sastavljenim tekstom mora biti naveden u `snimi-izgovor.mjs`:
+      „član + reč", „broj + opis", **„levo, desno" iz spajanja parova**, i
+      **spojena reč** iz zadataka koji spajaju delove (`joinParts`).
+- [ ] **Tekst koji živi u KOMPONENTI se lako promaši.** Imena boja stoje u
+      `ColorByInstruction.tsx`, ne u `src/data/` — zato `rosa` i `marró` nikad
+      nisu bile snimljene.
+- [ ] **Kad nešto nema snimak, prvo pitaj treba li uopšte tako da se izgovori.**
+      „un camisa" nije katalonski, „CUI, NA" nije reč. Aplikacija ne sme naglas
+      da potvrdi detetu pogrešan oblik; pogrešan izbor se ne izgovara.

@@ -653,19 +653,43 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
 // SVIH 12 tema, pritisne sve što se da pritisnuti, i broji koliko je puta nešto
 // otišlo na glas uređaja. Traži se nula.
 {
-  const { execFileSync } = require("child_process");
-  let izlaz = "", broj = -1;
-  try {
-    izlaz = execFileSync("node", ["scripts/nadji-tudji-glas.mjs"],
-                         { encoding: "utf8", env: { ...process.env, BASE }, stdio: ["ignore", "pipe", "pipe"] });
-    broj = 0;
-  } catch (e) {
-    izlaz = String(e.stdout || "") + String(e.stderr || "");
+  const { spawnSync } = require("child_process");
+  let izlaz = "", broj = -1, obidjeno = -1;
+  /**
+   * ČITAJU SE OBA IZLAZA, I KAD PROĐE I KAD PADNE (24.08.2026).
+   *
+   * Skripta svoje brojeve piše na `stderr` (`process.stderr.write`). Ranije je
+   * ovde stajao `execFileSync`, koji kad komanda PROĐE vraća samo `stdout` —
+   * pa se nijedan broj nije ni pročitao, nego se naslepo upisivalo `broj = 0`.
+   * Zato je provera prolazila i onda kad nije obišla nijedan zadatak.
+   * `spawnSync` vraća oba izlaza, uvek.
+   *
+   * Skripta pravi svoj pregledač, pa mora da dobije I ADRESU I LOZINKU —
+   * bez lozinke protiv produkcije vidi samo 401.
+   */
+  {
+    const r = spawnSync("node", ["scripts/nadji-tudji-glas.mjs"],
+                        { encoding: "utf8",
+                          env: { ...process.env, BASE, BASIC_AUTH: process.env.BASIC_AUTH || "" },
+                          maxBuffer: 32 * 1024 * 1024 });
+    izlaz = String(r.stdout || "") + String(r.stderr || "");
   }
   const m = (izlaz + "").match(/TUĐIM GLASOM SE IZGOVARA: (\d+)/);
   if (m) broj = Number(m[1]);
-  zapisi("BLOK", "Ništa se ne čita glasom uređaja (sve teme)", broj === 0,
-         broj < 0 ? "provera se nije pokrenula" : `tuđim glasom: ${broj} tekstova`);
+  const mo = (izlaz + "").match(/OBIĐENO ZADATAKA: (\d+)/);
+  if (mo) obidjeno = Number(mo[1]);
+  /**
+   * NULA NALAZA UZ NULA OBIĐENIH ZADATAKA NIJE PROLAZ (24.08.2026).
+   *
+   * Do danas je ovde stajalo samo `broj === 0`. Skripta je imala UPISANU
+   * lokalnu lozinku `changeme`, pa je protiv produkcije dobijala 401 na svakoj
+   * strani, prekidala posle prve i javljala „0 tekstova". Test je to čitao kao
+   * čisto, a vlasnica je u isto vreme slušala tuđe glasove u temama 4 i 5.
+   * Zato se sada traži i da je provera STVARNO nešto obišla.
+   */
+  zapisi("BLOK", "Ništa se ne čita glasom uređaja (sve teme)", broj === 0 && obidjeno > 100,
+         obidjeno < 1 ? "PROVERA NIJE NIŠTA OBIŠLA (lozinka? server?)"
+                      : `tuđim glasom: ${broj} tekstova, obiđeno ${obidjeno} zadataka`);
 }
 
 // ─── 20. SVAKA REČ POSTOJI U SLAGALICI SLOVA (nalaz 17.08.2026) ───

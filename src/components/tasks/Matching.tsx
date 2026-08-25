@@ -70,9 +70,22 @@ export default function Matching({ task, onComplete, review = false }: Props) {
         setWrongPair(null);
         setLastMatchedIdx(leftIdx);
         celebrate();
-        // Speak only once if left and right are the same word (illustration matching)
         const pair = task.pairs[leftIdx];
-        speak(pair.left === pair.right ? pair.left : `${pair.left}, ${pair.right}`);
+        /**
+         * ŠTA SE ČUJE KAD JE PAR TAČNO SPOJEN.
+         *
+         * - slika ↔ ista reč  → reč jednom, ne dvaput;
+         * - DELOVI JEDNE REČI („CUI" + „NA") → SPOJENA reč, malim slovima.
+         *   Ranije se čulo „CUI, NA" — to nije reč, nema snimak, pa je dete
+         *   usred igre dobijalo glas uređaja (prijava vlasnice 24.08.2026);
+         * - sve ostalo → obe strane, kao i do sada.
+         */
+        const izgovor = task.joinParts
+          ? (pair.left + pair.right).toLowerCase()
+          : pair.left === pair.right
+            ? pair.left
+            : `${pair.left}, ${pair.right}`;
+        speak(izgovor);
 
         if (newMatched.size === task.pairs.length) {
           setTimeout(() => onComplete({ allCorrect: true, erroredItems: [] }), 800);

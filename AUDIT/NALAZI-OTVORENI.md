@@ -4,7 +4,7 @@
 > Popravljeno se briše odavde (ostaje u izveštaju audita tog dana).
 > Nalaz otvoren duže od 3 audita posebno se ističe.
 
-Poslednje ažuriranje: **24.08.2026.** (deseta dopuna)
+Poslednje ažuriranje: **24.08.2026.** (jedanaesta dopuna)
 
 ## Kritično
 
@@ -51,6 +51,8 @@ Poslednje ažuriranje: **24.08.2026.** (deseta dopuna)
 | T2 | Runner proverava da je zadatak odigran, ne da je odgovor tačan po sadržaju | 30.07.2026. |
 | ~~T5~~ | ~~Ništa nije proveravalo da je zadatak razvrstavanja REŠIV~~ **REŠENO 24.08.** — `scripts/proveri-razvrstavanje.mjs`, provera 23 u pre-deploy testu (BLOK) | 24.08.2026. |
 | ~~T6~~ | ~~Ništa nije proveravalo da postojeća slika nije SAKRIVENA od deteta~~ **REŠENO 24.08.** — `scripts/proveri-parove-bez-slike.mjs`, provera 24 (UPOZORENJE) | 24.08.2026. |
+| ~~T7~~ | ~~Provera „ništa se ne čita glasom uređaja" imala je UPISANU lokalnu lozinku — protiv produkcije 401 na svakoj strani, pa je javljala „0" i test je bio LAŽNO ZELEN~~ **REŠENO 24.08.** — lozinka iz `BASIC_AUTH`, provera pada ako nije obišla bar 100 zadataka | 24.08.2026. |
+| ~~T8~~ | ~~Ta ista provera dirala je stranu plitko (1 krug, 26 dugmadi), pa je promašivala izgovore koji se SASTAVE tek kad je odgovor tačan~~ **REŠENO 24.08.** — 4 kruga po 40 | 24.08.2026. |
 | ~~T3~~ | ~~Nema provere za: zabranjen `localStorage`, kontrast, fokus, CLS, dodirne mete, osvežavanje~~ **REŠENO 31.07.** — sve su u `e2e/predeploy.mjs`. Ostaje samo URL kao stanje (nalaz S3). | 30.07.2026. |
 | ~~T4~~ | ~~Nema pre-deploy skripte sa izlaznim kodom~~ **REŠENO 31.07.** — `npm run predeploy` | 30.07.2026. |
 

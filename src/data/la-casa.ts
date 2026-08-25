@@ -608,6 +608,7 @@ export const laCasaTasks: Task[] = [
     id: "la-casa-slaganje",
     type: "matching",
     prompt: "Relaciona les dues parts per formar paraules:",
+    joinParts: true,   // spaja delove jedne reči — izgovara se SPOJENA reč
     rightTextOnly: true,
     pairs: [
       { left: "CUI", right: "NA" },

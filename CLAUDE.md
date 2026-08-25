@@ -220,6 +220,30 @@ npm run test:ui  # Playwright UI mode
   sesije i izgubio se): `scripts/gen-sliku.py` + `scripts/ugradi-sliku.sh`.
   Zamka: `execute javascript` iz AppleScript-a NE ČEKA `Promise` — preuzimanje
   se pokrene, ostavi u `window.__slika`, pa čita u parčadima.
+- **TUĐI GLASOVI — provera je bila LAŽNO ZELENA.** Prijava vlasnice: „i u temi 4
+  i u temi 5 imam glasove koji nisu Montse". U testu je stajala provera koja
+  traži tačno to i prolazila je svaki put — jer je `nadji-tudji-glas.mjs` imao
+  **upisanu lokalnu lozinku `changeme`**, pa je protiv produkcije dobijao 401 na
+  svakoj strani, ne video nijedan zadatak i javljao „0". **Nula nije značila da
+  je čisto nego da provera nije ni ušla.** Dokazano: stara skripta protiv
+  produkcije javlja 0 za svih 12 tema, a isti prolaz sa ispravnom lozinkom nalazi
+  tuđe glasove u svakoj temi (posle osam tema: 18 tekstova).
+  Popravljeno: lozinka iz `BASIC_AUTH`; provera **pada** ako nije obišla bar 100
+  zadataka i ispisuje `OBIĐENO ZADATAKA`; diranje produbljeno na 4 kruga po 40
+  dugmadi (bilo 1 krug po 26) jer posle svakog klika nikne nova dugmad.
+- **Dva izgovora nisu tražila snimak nego POPRAVKU:** `AddArticle` je čitao i
+  POGREŠAN član koji dete izabere („un camisa" — nije katalonski, a dete je
+  naglas dobijalo potvrdu za grešku); spajanje delova reči je čitalo „CUI, NA"
+  umesto spojene reči. Uvedeno `joinParts` u `MatchingTask` (11 tema).
+- **Skripta za snimanje nije znala za dva izvora teksta:** spojene rečenice iz
+  `Matching` („levo, desno") i imena boja, koja žive u `ColorByInstruction.tsx`,
+  ne u `src/data/`. Zato `rosa` i `marró` nikad nisu snimljene.
+  **1383 → 1490 izgovora, 107 novih snimaka glasom Montse.**
+- **Zadatak sa Albertom (tema 6):** deda, baba i sestra nacrtani ponovo u 3D
+  stilu (bili ručni crtež), i **na te tri stare slike je PISAO ODGOVOR** —
+  `avi`, `avia`, `germana` — pa je dete moglo da pročita rešenje. „Dibuix 1, 2,
+  3…" uklonjeno iz teksta; novo polje `imageLabel` piše ime ispod glavne slike
+  u KODU (ne na slici, jer se slike dele za sve jezike). Keš `v85` → **`v86`**.
 - Puni zapis: `HANDOVER-2026-08-24.md`.
 
 ### Recently Completed (Aug 7, 2026) — ujednačen stil ilustracija

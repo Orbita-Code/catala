@@ -106,10 +106,25 @@ function zaIzgovor(t) {
   return t
     .replace(/\\u([0-9a-fA-F]{4})/g, (_, h) => String.fromCharCode(parseInt(h, 16)))
     .replace(/[→←↓↑↗↘↙↖⇒⇐]/g, " ")
-    // Praznina se uklanja ZAJEDNO sa tačkom iza nje — mora se poklopiti sa
-    // `kljucTeksta` u `src/lib/tts.ts`, inače snimak postoji a ne nalazi se.
-    // v. objašnjenje tamo (17.08.2026).
-    .replace(/_{2,}\s*[.!?]?/g, " ")
+    // PRAZNINA SE UKLANJA TAČNO KAKO TO RADI I APLIKACIJA (24.08.2026).
+    //
+    // `FillSentence` zvučniku daje `text.replace(/\s*___\.?/, "")` — dakle
+    // briše prazninu i, ako je iza nje, SAMO TAČKU. Upitnik i uzvičnik OSTAJU.
+    //
+    // Ovde je ranije stajalo `[.!?]?`, pa se brisao i upitnik. Rečenica
+    // „Què ___? — Per dinar…" davala je ključ „què — per dinar…", a aplikacija
+    // je tražila „què? — per dinar…". Jedan znak razlike, snimak postoji a ne
+    // nalazi se, i dete čuje glas uređaja. Prijava vlasnice 24.08.2026 —
+    // tri takve rečenice u temi 8.
+    //
+    // Ista zamka kao 17.08., samo obrnuto: tada se brisalo PREMALO, sada
+    // PREVIŠE. Zato se pravilo više ne prepisuje napamet nego se preslikava iz
+    // komponente.
+    //
+    // I zamena mora biti PRAZNINOM, ne razmakom: aplikacija briše bez traga,
+    // pa daje „Què?" — a zamena razmakom daje „Què ?" i ključ se opet ne
+    // poklopi. Provereno poređenjem sve četiri vrste rečenice.
+    .replace(/\s*_{2,}\.?/g, "")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -158,10 +173,26 @@ export function sveStavke() {
     //
     // Uzimaju se SAMO spiskovi golih reči (bez `{`) — spiskovi objekata su već
     // pokriveni gornjim pravilima, a iz njih bi ovde ušla i imena slika.
-    for (const m of s.matchAll(/(?:options|items|allItems|words|description|instructions):\s*\[([^\]]*)\]/g)) {
-      if (m[1].includes("{")) continue;
-      for (const r of m[1].matchAll(/"([^"]+)"/g)) {
-        if (r[1].trim().length <= 24) dodaj(r[1], "rec");
+    for (const m of s.matchAll(/(?:(options|items|allItems|words|description|instructions)):\s*\[([^\]]*)\]/g)) {
+      if (m[2].includes("{")) continue;
+      /**
+       * OGRANIČENJE OD 24 ZNAKA VAŽI ZA REČI, NE ZA PONUĐENE ODGOVORE
+       * (24.08.2026).
+       *
+       * Ono postoji da se u „reči" ne uvuku cele rečenice iz drugih polja.
+       * Ali `options` u zadatku „Tria la descripció correcta" su REČENICE —
+       * „Gran, mamífer, cobert de pel, viu al bosc" ima 40 znakova. Svaka od
+       * njih se izgovori čim je dete izabere, a skripta ih je tiho preskakala,
+       * pa su se čitale glasom uređaja. Prijava vlasnice 24.08.2026.
+       *
+       * Zato se ponuđeni odgovori uzimaju BEZ ograničenja dužine, a duži se
+       * vode kao rečenica (snima se sporijim tempom, kao i ostale rečenice).
+       */
+      const poljeSaOdgovorima = m[1] === "options";
+      for (const r of m[2].matchAll(/"([^"]+)"/g)) {
+        const duzina = r[1].trim().length;
+        if (duzina <= 24) dodaj(r[1], "rec");
+        else if (poljeSaOdgovorima) dodaj(r[1], "recenica");
       }
     }
 
@@ -189,6 +220,26 @@ export function sveStavke() {
       dodaj(`${m[2]} ${m[1]}`, "rec");
     }
 
+    // SPAJANJE PAROVA („Relaciona") izgovara OBE STRANE ODJEDNOM (24.08.2026).
+    //
+    // Prijava vlasnice: „i u temi 4 i u temi 5 imam glasove koji nisu Montse".
+    // Merenjem se pokazalo da su u pitanju SASTAVLJENI izgovori u `Matching`:
+    // kad je par tačno spojen, izgovara se „levo, desno" — npr.
+    // „A l'aiguera, hi ha els plats bruts." Skripta je hvatala `left` i
+    // `right` ODVOJENO, pa je svaka strana imala snimak, a spoj nije.
+    //
+    // Zadaci koji spajaju DELOVE JEDNE REČI (`joinParts`) izgovaraju spojenu
+    // reč malim slovima („CUI" + „NA" → „cuina"), ne dve polovine.
+    for (const zadatak of s.split(/\n  \{\n/).slice(1)) {
+      if (!/type: "matching"/.test(zadatak)) continue;
+      const spaja = /joinParts: true/.test(zadatak);
+      for (const m of zadatak.matchAll(/\{\s*left: "((?:[^"\\]|\\.)*)",\s*right: "((?:[^"\\]|\\.)*)"/g)) {
+        const [, levo, desno] = m;
+        if (spaja) dodaj((levo + desno).toLowerCase(), "rec");
+        else if (levo !== desno) dodaj(`${levo}, ${desno}`, "recenica");
+      }
+    }
+
     // RAZVRSTAVANJE PO KOLONAMA izgovara „član + reč" za TAČNO razvrstanu reč
     // (`ClassifyColumns`). Naslov kolone je član („LA", „ELS", ili „Femení (una)").
     // Bez ovoga je aplikacija govorila „la cortina" glasom uređaja — prijava
@@ -202,6 +253,21 @@ export function sveStavke() {
       for (const r of m[2].matchAll(/"([^"]+)"/g)) dodaj(`${clan} ${r[1]}`, "rec");
     }
   }
+
+  // BOJE ŽIVE U KOMPONENTI, NE U PODACIMA (24.08.2026).
+  //
+  // Zadatak „Llegeix i pinta" izgovara ime boje čim je dete izabere, a paleta
+  // je upisana u `ColorByInstruction.tsx`. Skripta je čitala samo `src/data/`,
+  // pa `rosa` i `marró` nikad nisu dobile snimak i čule su se glasom uređaja.
+  //
+  // Pravilo: snima se ono što se IZGOVARA. Ako `speak()` uzima tekst koji ne
+  // stoji u podacima, taj izvor mora biti naveden i ovde.
+  {
+    const komp = fs.readFileSync(path.join(PROJ, "src", "components", "tasks", "ColorByInstruction.tsx"), "utf8");
+    const paleta = komp.match(/const PALETTE = \[([\s\S]*?)\];/);
+    if (paleta) for (const m of paleta[1].matchAll(/name: "([^"]+)"/g)) dodaj(m[1], "rec");
+  }
+
   return { mapa, sudari };
 }
 
