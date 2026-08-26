@@ -4,7 +4,7 @@
 > Popravljeno se briše odavde (ostaje u izveštaju audita tog dana).
 > Nalaz otvoren duže od 3 audita posebno se ističe.
 
-Poslednje ažuriranje: **26.08.2026.** (trinaesta dopuna — posle punog audita)
+Poslednje ažuriranje: **26.08.2026.** (četrnaesta dopuna — rupa T2 zatvorena)
 
 ## Kritično
 
@@ -59,7 +59,8 @@ Svi iz audita 26.08.2026 — v. `AUDIT/2026-08-26-audit.md`.
 | # | Rupa | Prvi put viđena |
 |---|---|---|
 | ~~T1~~ | ~~QA runner se zaglavljuje na `les-botigues` → zadaci 13–20 nikad odigrani~~ **REŠENO 31.07.** | 30.07.2026. |
-| **T2** | **Runner proverava da je zadatak odigran, ne da je odgovor tačan po sadržaju** — **OTVORENA 27 DANA.** Kroz nju su prošla sva četiri zadatka koje je vlasnica našla 24–25.08. | 30.07.2026. |
+| ~~T2~~ | ~~Runner proverava da je zadatak odigran, ne da je odgovor tačan po sadržaju~~ **ZATVORENA 26.08.2026, posle 27 dana.** Prolaz sada posle svakog zadatka pita SAMU APLIKACIJU: je li zadatak upisan u `completedTasks` i ima li ijednu zapisanu grešku. Igra se tačnim odgovorima — ako posle toga ostane greška ili zadatak nije upisan, nešto ne valja i prijavljuje se. | 30.07.2026. |
+| **T14** | **Rešavači ne umeju da reše pet tipova zadataka** — vidljivo TEK KAD JE T2 ZATVORENA. Merenje na temi 6: **6 od 14** zadataka stvarno rešeno tačno. Tipovi koji padaju: `label-image`, `classify-columns`, `add-article`, `separate-words`, `matching`, `multiple-choice`. Ručno su svi ti zadaci rešivi — kvar je u rešavaču, ne u igrici. | **26.08.2026.** |
 | T9 | Runner POGAĐA odgovore kod „biraj odgovor" kad ih ne nađe u odgovorniku | 26.08.2026. |
 | T10 | Nijedna provera ne meri kad zadatak POSTANE UPOTREBLJIV, samo kad se iscrta | 26.08.2026. |
 | T11 | Nijedna provera ne dira interakcije zavisne od kursora (klik usred reči, prevlačenje) | 26.08.2026. |

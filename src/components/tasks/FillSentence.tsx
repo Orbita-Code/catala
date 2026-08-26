@@ -172,6 +172,10 @@ export default function FillSentence({ task, onComplete, review = false }: Props
       {task.sentences.map((sentence, i) => (
         <motion.div
           key={i}
+          // v. objašnjenje uz `data-recenica` u `renderSentenceCard` — rečenice
+          // se iscrtavaju DVEMA putanjama i obe moraju nositi oznaku, inače se
+          // provera ne može obratiti pravoj rečenici.
+          data-recenica={i}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: i * 0.05 }}
@@ -368,6 +372,17 @@ export default function FillSentence({ task, onComplete, review = false }: Props
   const renderSentenceCard = (sentence: typeof task.sentences[0], i: number) => (
     <motion.div
       key={i}
+      /**
+       * `data-recenica` — redni broj rečenice, da se provera može obratiti BAŠ
+       * njoj (26.08.2026, zatvaranje rupe T2).
+       *
+       * Svaka rečenica ima SVOJU ponudu reči, i ista reč se često javlja u više
+       * njih. QA prolaz je klikao prvu reč tog imena bilo gde na strani, pa je
+       * odgovor završavao na pogrešnoj rečenici — zadatak nikad nije bio
+       * popunjen do kraja, a prolaz je to prijavljivao kao „odigrano".
+       * Ovo je 40 zadataka, 17% cele igre.
+       */
+      data-recenica={i}
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: i * 0.05 }}

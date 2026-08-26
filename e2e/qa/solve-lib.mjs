@@ -268,6 +268,27 @@ async function solveFillSentence(page, task, notes) {
   for (let bi = 0; bi < answers.length; bi++) {
     const want = answers[bi];
     if (!want) continue;
+
+    /**
+     * KLIK IDE UNUTAR PRAVE REČENICE (26.08.2026, zatvaranje rupe T2).
+     *
+     * Svaka rečenica ima svoju ponudu reči, i ista reč se često javlja u više
+     * njih. Ranije se klikala prva reč tog imena BILO GDE na strani, pa je
+     * odgovor završavao na pogrešnoj rečenici; zadatak nikad nije bio popunjen,
+     * a prolaz ga je prijavljivao kao „odigran".
+     * Sada se traži kartica `[data-recenica="bi"]` pa reč u njoj.
+     */
+    const uSvojoj = await page.evaluate(({ i, w }) => {
+      const S = (x) => x.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/·/g, '').toLowerCase().trim();
+      const kartice = [...document.querySelectorAll(`[data-recenica="${i}"]`)]
+        .filter((k) => k.getBoundingClientRect().width > 0);
+      for (const k of kartice) {
+        const b = [...k.querySelectorAll('button')].find((x) => S(x.textContent || '') === S(w) && !x.disabled);
+        if (b) { b.click(); return true; }
+      }
+      return false;
+    }, { i: bi, w: want }).catch(() => false);
+    if (uSvojoj) { await sleep(page, 400); continue; }
     // PRAVI Playwright lokator-klik sa timeout-om (SAM čeka render/scroll; koordinatni klik promašuje zbog framer-motion transforma)
     let clicked = false;
     try {
@@ -298,15 +319,25 @@ async function solveMultipleChoice(page, task, notes) {
   const qs = task.questions || [task];
   for (let qi = 0; qi < qs.length + 2; qi++) {
     const q = qs[Math.min(qi, qs.length - 1)];
-    // tačan odgovor: correctIndex/correct/answer
-    const correct = q.correctAnswer ?? q.correct ?? (Array.isArray(q.options) && q.correctIndex != null ? q.options[q.correctIndex] : null);
+    /**
+     * TAČAN ODGOVOR JE REDNI BROJ, NE TEKST (26.08.2026, zatvaranje rupe T2).
+     *
+     * U podacima stoji `correct: 0` — dakle PRVA ponuđena opcija. Ranije se ta
+     * nula tretirala kao tekst i tražilo se dugme sa natpisom „0", pa se nikad
+     * nije našlo. Prolaz je onda pogađao („MC: pogađan odgovor") i zadatak nije
+     * bio rešen tačno. Uz to je `0` u JavaScriptu „netačna" vrednost, pa je
+     * čak i `if (correct)` preskakao PRVU opciju — a to je najčešći tačan
+     * odgovor u celoj igri.
+     */
+    let correct = q.correctAnswer ?? q.correct ?? q.correctIndex ?? null;
+    if (typeof correct === 'number' && Array.isArray(q.options)) correct = q.options[correct] ?? null;
     const opts = await page.evaluate(() => {
       const m = document.querySelector('main');
       return [...m.querySelectorAll('button')].filter((b) => /rounded-2xl/.test(b.className) && b.textContent.trim().length && !/Comprova|Torna|Següent|Anterior|Escolta/i.test(b.textContent) && !b.disabled).map((b) => b.textContent.trim());
     });
     if (!opts.length) break;
     let clicked = false;
-    if (correct) { try { const loc = page.getByRole('button', { name: String(correct), exact: true }); if (await loc.count()) { await loc.first().click({ timeout: 2500 }); clicked = true; } } catch { /* */ } }
+    if (correct != null && correct !== '') { try { const loc = page.getByRole('button', { name: String(correct), exact: true }); if (await loc.count()) { await loc.first().click({ timeout: 2500 }); clicked = true; } } catch { /* */ } }
     if (!clicked && correct) clicked = await clickByText(page, 'main button', String(correct), false);
     if (!clicked) { await clickSelectorNth(page, 'main button[class*="rounded-2xl"]', 0); notes.push('MC: pogađan odgovor'); }
     await sleep(page, 450);

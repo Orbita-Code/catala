@@ -165,6 +165,7 @@ async function run() {
       }
       catch (e) { solveErr = e.message.slice(0, 160); notes.push('EXCEPTION: ' + solveErr); }
 
+
       // pređi na sledeći zadatak — NE dupliraj: klikni Següent SAMO ako se brojač već nije pomerio
       // (neki zadaci se auto-završe pri rešavanju → brojač skoči sam → dupli Següent bi napravio drift)
       let advanced = false;
@@ -180,7 +181,73 @@ async function run() {
         await page.waitForTimeout(250);
       }
 
-      themeRep.tasks.push({ i: t + 1, id: task.id, type: task.type, before, after: await taskCounter(page), advanced, notes });
+      /**
+       * RUPA T2 ZATVORENA (26.08.2026) — PROVERAVA SE DA JE ODGOVOR TAČAN,
+       * NE SAMO DA JE ZADATAK ODIGRAN.
+       *
+       * Rupa je stajala od 30.07. i kroz nju su prošla SVA ČETIRI zadatka koja
+       * je vlasnica našla igrajući sa detetom 24–26.08.: nerešiv zadatak 17
+       * (dve kolone od četiri), zadatak 16 bez slika, zadatak 13 sa tri
+       * netačna odgovora i bez ičega za čitanje, i samoprocena sa 18 slika bez
+       * ijedne napisane reči. Svi su se „odigrali" i prešli dalje — a nijedan
+       * se nije mogao REŠITI.
+       *
+       * Sada se posle svakog zadatka pita SAMU APLIKACIJU šta je zapisala:
+       *   • je li zadatak u `completedTasks` (dakle stvarno završen), i
+       *   • ima li ijednu zapisanu grešku (u `progress.taskErrors` ILI u
+       *     `catala-errors` — greške žive na dva mesta, v. nalaz N-26.4).
+       *
+       * Prolaz igra TAČNIM odgovorima iz odgovornika. Ako posle toga ostane
+       * makar jedna greška, ili zadatak nije upisan kao završen — nešto NE
+       * VALJA: ili zadatak nije rešiv, ili odgovornik ne odgovara ekranu.
+       * Oba su kvar i oba moraju da se prijave.
+       *
+       * Dva tipa se ne mogu ovako suditi i to se KAŽE, ne prećuti:
+       *   • `drawing-canvas` — slobodno crtanje, nema tačan odgovor
+       *   • `self-assessment` — traži da dete IZGOVORI reč; mašina ne govori
+       */
+      /**
+       * ČEKA SE DA APLIKACIJA UPIŠE ISHOD (26.08.2026).
+       *
+       * Zadatak se ne upisuje u trenutku poslednjeg tačnog odgovora nego posle
+       * proslave — konfeti i zeleni okvir traju oko sekundu i po. Prolaz je
+       * gledao odmah i zato je zatekao PRAZNU memoriju, pa je svaki zadatak
+       * prijavljivao kao „nije završen".
+       *
+       * Ovo je ISTA greška kao onih pet iz audita 26.08.: merenje u pogrešnom
+       * trenutku. Zato se ovde ne meri jednom nego se ČEKA da se upiše, najviše
+       * 6 s. Ako se ne upiše ni tada — to je stvaran nalaz.
+       */
+      for (let i = 0; i < 24; i++) {
+        const upisano = await page.evaluate(({ slug, id }) => {
+          const P = (JSON.parse(localStorage.getItem('catala-progress') || '{}')[slug]) || {};
+          return Array.isArray(P.completedTasks) && P.completedTasks.includes(id);
+        }, { slug, id: task.id }).catch(() => false);
+        if (upisano) break;
+        await page.waitForTimeout(250);
+      }
+
+      const ishod = await page.evaluate(({ slug, id }) => {
+        const P = (JSON.parse(localStorage.getItem('catala-progress') || '{}')[slug]) || {};
+        const E = (JSON.parse(localStorage.getItem('catala-errors') || '{}')[slug]) || {};
+        return {
+          zavrsen: Array.isArray(P.completedTasks) && P.completedTasks.includes(id),
+          greske: [...((P.taskErrors || {})[id] || []), ...((E || {})[id] || [])],
+        };
+      }, { slug, id: task.id }).catch(() => ({ zavrsen: false, greske: [] }));
+
+      let tacno;
+      if (task.type === 'drawing-canvas') tacno = 'slobodno';
+      else if (task.type === 'self-assessment') tacno = 'trazi-glas';
+      else if (ishod.zavrsen && ishod.greske.length === 0) tacno = true;
+      else {
+        tacno = false;
+        notes.push(ishod.zavrsen
+          ? `NIJE TAČNO: ostalo grešaka ${ishod.greske.length} (${ishod.greske.slice(0, 4).join(', ')})`
+          : 'NIJE ZAVRŠEN: aplikacija ga nije upisala kao rešen');
+      }
+
+      themeRep.tasks.push({ i: t + 1, id: task.id, type: task.type, before, after: await taskCounter(page), advanced, tacno, greske: ishod.greske, notes });
       themeRep.played++;
     }
 
@@ -198,10 +265,15 @@ async function run() {
      * dvanaest lažnih uzbuna po prolazu. Tolika buka zaklanja prave zastoje:
      * kad se svaki put javi dvanaest, niko ne primeti trinaesti.
      */
+    // T2: koliko je zadataka STVARNO REŠENO TAČNO (v. objašnjenje gore)
+    const suditi = themeRep.tasks.filter((x) => x.tacno === true || x.tacno === false);
+    const tacnih = themeRep.tasks.filter((x) => x.tacno === true);
+    const netacnih = themeRep.tasks.filter((x) => x.tacno === false);
     const stuck = themeRep.tasks.filter((x) => !x.advanced && x.type !== 'drawing-canvas');
     const slobodne = themeRep.tasks.filter((x) => !x.advanced && x.type === 'drawing-canvas');
     const noted = themeRep.tasks.filter((x) => x.notes.length);
-    console.log(`\n■ ${slug}: ${themeRep.played}/${themeTasks.length} zadataka  | zaglavljeno: ${stuck.length} | sa napomenom: ${noted.length} | console-err: ${consoleErrors.length} | slike-oštećene: ${themeRep.brokenImages.length}`);
+    console.log(`\n■ ${slug}: REŠENO TAČNO ${tacnih.length}/${suditi.length}  | odigrano ${themeRep.played}/${themeTasks.length} | zaglavljeno: ${stuck.length} | sa napomenom: ${noted.length} | console-err: ${consoleErrors.length} | slike-oštećene: ${themeRep.brokenImages.length}`);
+    for (const x of netacnih) console.log(`   ✖ NIJE REŠEN TAČNO #${x.i} ${x.type} (${x.id})${x.greske.length ? ' — ostalo: ' + x.greske.slice(0, 4).join(', ') : ''}`);
     for (const s of stuck) console.log(`   ⚠ ZAGLAVLJEN #${s.i} ${s.type} (${s.id})`);
     if (slobodne.length) console.log(`   · slobodna aktivnost (crtanje), nema tačnog odgovora: ${slobodne.length}`);
     for (const n of noted) console.log(`   • #${n.i} ${n.type}: ${n.notes.join(' | ')}`);

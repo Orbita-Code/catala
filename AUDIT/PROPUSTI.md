@@ -420,3 +420,30 @@ izmena zatvori. Ovde bi `grep -rn "ukoso:" e2e/ scripts/` odmah pokazao oba mest
 **Šta je spaslo stvar:** čuvar uveden 24.08. — provera koja se nije izvršila NE SME
 da se prijavi kao prošla. Bez njega bi test i dalje pisao zeleno, a ne bi merio
 ništa. Greška je uhvaćena istog dana kad je nastala, umesto za mesec dana.
+
+---
+
+## 26.08.2026. — „233 od 233 odigrano" bilo je prazan broj
+
+**Šta je promašeno:** prolaz je mesecima javljao da je odigrao sve zadatke. Kad
+je rupa T2 zatvorena — dakle kad je počeo da proverava da li je zadatak REŠEN
+TAČNO, a ne samo da je prešao dalje — ispalo je da na temi 6 stvarno reši
+**6 od 14**.
+
+„Odigrano" je značilo samo da se brojač pomerio. A brojač se pomera i kad prolaz
+klikne „Sledeće" ne rešivši ništa.
+
+**Uzrok prve pogrešne mere bio je opet trenutak.** Prolaz je gledao ishod ODMAH
+posle poslednjeg klika, a aplikacija zadatak upisuje tek posle proslave —
+konfeti i zeleni okvir traju oko sekundu i po. Zato je u prvom pokušaju
+prijavljivao **1 od 14**, iako rešavač u istim uslovima, pušten sam, uredno
+završi zadatak. Kad se dodalo čekanje: 6 od 14.
+
+**To je ŠESTI slučaj istog kvara u jednom danu** — merenje u pogrešnom trenutku.
+Pet ih je našao audit, ovaj šesti se pojavio u samoj popravci.
+
+**Pravilo (prepisano, ne dodato):**
+**Nijedan broj iz testa ne vredi dok se ne zna ŠTA TAČNO meri.**
+„Odigrano" nije „rešeno". „Prešlo dalje" nije „tačno". „Nema greške u konzoli"
+nije „radi". Pre nego što se broj stavi u izveštaj, napiše se rečenicom šta on
+znači — i ako ta rečenica ne sadrži ono što nas zanima, broj se ne prijavljuje.
