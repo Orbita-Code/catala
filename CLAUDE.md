@@ -16,6 +16,32 @@
 - **Ako se rec pojavljuje u kodu ali NE u svesci:** Proveri sa korisnikom pre brisanja (mozda je namerno dodata)
 - **Svaka nova sesija:** Uvek proveri poklapanje sveska <-> kod pre nastavka rada
 
+## OBAVEZNO PRAVILO #1b — KAKO SE TESTIRA KAO DETE
+### (26.08.2026 — pročitati `KAKO-TESTIRATI-KAO-DETE.md` U CELINI pre testiranja)
+
+> Pitanje vlasnice: „Kako da objasnimo AI agentu da testira kao dete od sedam
+> godina, ali da uključi zdrav razum — a kompjuter nema zdrav razum?"
+
+Odgovor je u fajlu **`KAKO-TESTIRATI-KAO-DETE.md`**. On razlaže „zdrav razum" na
+**šest pitanja koja mašina ume da proveri**, i sadrži gotov tekst koji se
+doslovno prosleđuje agentu.
+
+**Šest pitanja, ukratko** (puno objašnjenje i stvarni primeri su u fajlu):
+
+1. Je li ono što se traži **zaista na ekranu** — ne u podacima, ne u nevidljivoj
+   oznaci?
+2. Da li ono što se vidi **jednoznačno određuje** odgovor, ili dve reči izgledaju
+   isto?
+3. Postoji li **mesto** gde odgovor treba da ide (kolona, polje, dugme)?
+4. Je li odgovor tamo gde dete **zna** da traži, ili traži pravilo koje mu niko
+   nije rekao?
+5. Kaže li **naslov** detetu koju RADNJU da uradi, ili je samo ime zadatka?
+6. Šta se desi kad dete **pogreši** — radi li ispravka?
+
+**Sva pet grešaka koje je vlasnica našla 24–26.08. pada na jedno od ovih šest
+pitanja.** Nijednu nije uhvatio test, jer je test proveravao da se strana
+učitava, a ne da se zadatak može rešiti.
+
 ## OBAVEZNO PRAVILO #1a — ZADATAK SE REŠAVA OD POČETKA DO KRAJA, KAO DETE
 ### (25.08.2026, zahtev vlasnice — NAJVAŽNIJE PRAVILO O PROVERI)
 

@@ -347,3 +347,26 @@ reč po reč.** Važi i za izmenu jedne reči, jedne rečenice, jedne slike.
       aktivnost) — izuzeti ga imenom, ne brojati kao zastoj.
 - [ ] **Ispisuje li provera KOLIKO je pregledala?** Nula nalaza uz nula
       pregledanog je kvar, ne prolaz (pravilo od 24.08.).
+
+---
+
+## ŠEST PITANJA ZDRAVOG RAZUMA (dodato 26.08.2026)
+
+> Puno objašnjenje, stvarni primeri i gotov tekst za AI agenta:
+> **`KAKO-TESTIRATI-KAO-DETE.md`** — čita se U CELINI pre testiranja zadatka.
+
+Zdrav razum se ne može dati mašini, ali se može razložiti na pitanja koja mašina
+ume da proveri. Za SVAKI nov ili izmenjen zadatak:
+
+- [ ] **1. Je li traženo NA EKRANU?** Prepiši sve što se vidi, pa uporedi.
+      (Zadatak 13 je tražio da se pročita tekst kojeg nije bilo.)
+- [ ] **2. Određuje li viđeno JEDNOZNAČNO odgovor?** Postoji li druga reč koja bi
+      na toj slici izgledala isto? (Sin, brat, rođak i ujak — četiri ista dečaka.)
+- [ ] **3. Postoji li MESTO za odgovor?** Prebroj kolone/polja na ekranu i uporedi
+      sa podacima. (Zadatak 17: četiri sobe u podacima, dve na ekranu.)
+- [ ] **4. Je li odgovor tamo gde dete ZNA da traži?** Traži li zadatak pravilo
+      koje mu niko nije rekao? (`hamster` dijagonalno; reči unazad.)
+- [ ] **5. Kaže li NASLOV koju radnju da uradi?** („Autoavaluació" ne kaže ništa.)
+- [ ] **6. Šta kad POGREŠI?** Odgovori namerno pogrešno pa ispravi.
+      (Strelica „pokušaj ponovo" nije radila.)
+- [ ] Preko **12 stavki** u jednom zadatku — razmotriti podelu.
