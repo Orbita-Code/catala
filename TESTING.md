@@ -317,3 +317,33 @@ reč po reč.** Važi i za izmenu jedne reči, jedne rečenice, jedne slike.
       → `nedostaje: 0, ukoso: 0`).
 - [ ] Ako se ne stigne da se odigra — **reći da nije odigrano**, nikad prijaviti
       kao urađeno.
+
+---
+
+## PROVERA KOJA MERI U POGREŠNOM TRENUTKU (dodato 26.08.2026, audit)
+
+> Audit 26.08. našao je **pet** provera koje javljaju kvar kojeg nema. Sve pet su
+> iste vrste: **mere prerano ili premalo puta.** Lažna uzbuna troši poverenje u
+> test isto koliko i propušten kvar — a kad test viče bez razloga, prestane da se
+> čita, i onda bagove nalazi dete.
+
+| Provera | Šta je merila pogrešno | Kako je rešeno |
+|---|---|---|
+| QA prolaz — kretanje | išao klikom na „Sledeće", pa igrao jedan zadatak a odgovore imao za drugi | ide pravo na `?tasca=N` |
+| QA prolaz — slike | merio širinu pre nego što se slika učita | čeka `img.complete` |
+| QA prolaz — crtanje | slobodnu aktivnost brojao kao zaglavljen zadatak (12 lažnih po prolazu) | izuzet tip `drawing-canvas` |
+| Merač mikrofona | uzorak svakih 200 ms promašivao kratke impulse (100% / 76% / 29% / 0%) | uzorak svakih 60 ms, dva pokušaja |
+| Dodirne mete | merila dok kartice još ulaze animacijom | ako nešto nađe — čeka i meri PONOVO |
+
+**Pravila koja iz toga slede — proveravaju se pri pisanju SVAKE nove provere:**
+
+- [ ] **Meri li se posle nego što se stvar smiri?** Slike: `img.complete`.
+      Animacije: sačekati kraj. Strana: `networkidle`, ne `domcontentloaded`.
+- [ ] **Meri li se dovoljno gusto?** Sve što treperi (jačina zvuka, napredak,
+      odbrojavanje) traži uzorak na 50–60 ms, ne na 200 ms.
+- [ ] **Šta se dešava kad provera nađe kvar — proverava li ponovo?**
+      Jedno merenje je nagoveštaj; kvar preživi i drugo.
+- [ ] **Postoji li stanje koje po prirodi nema rešenje?** (crtanje, slobodna
+      aktivnost) — izuzeti ga imenom, ne brojati kao zastoj.
+- [ ] **Ispisuje li provera KOLIKO je pregledala?** Nula nalaza uz nula
+      pregledanog je kvar, ne prolaz (pravilo od 24.08.).

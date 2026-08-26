@@ -38,7 +38,7 @@
     {
       "id": "la-classe-2",
       "type": "word-search",
-      "prompt": "Busca 10 paraules a la sopa de lletres. Poden anar → ← ↓ ↑ ↗",
+      "prompt": "Busca 10 paraules a la sopa de lletres. Poden anar → ↓",
       "gridSize": 10,
       "words": [
         "tisores",
@@ -50,70 +50,62 @@
         "motxilla",
         "bolígraf",
         "llibreta",
-        "pissarra"
+        "pissarra",
+        "cadira",
+        "porta",
+        "finestra"
       ],
       "grid": [
         [
-          "b",
-          "b",
-          "t",
+          "p",
+          "k",
           "i",
-          "s",
-          "o",
+          "t",
           "r",
           "e",
-          "s",
-          "n"
+          "g",
+          "l",
+          "e",
+          "c"
         ],
         [
           "o",
+          "b",
+          "o",
+          "l",
+          "i",
+          "g",
+          "r",
+          "a",
+          "f",
+          "a"
+        ],
+        [
+          "r",
+          "a",
+          "q",
           "e",
           "s",
           "t",
           "o",
           "i",
           "g",
-          "o",
-          "l",
-          "v"
-        ],
-        [
-          "l",
-          "l",
-          "a",
-          "p",
-          "i",
-          "s",
-          "m",
-          "v",
-          "l",
-          "h"
-        ],
-        [
-          "i",
-          "i",
-          "h",
-          "v",
-          "a",
-          "i",
-          "o",
-          "p",
-          "i",
           "d"
         ],
         [
-          "g",
-          "e",
+          "t",
+          "i",
+          "s",
+          "o",
           "r",
           "e",
+          "s",
+          "v",
           "g",
-          "l",
-          "e",
-          "n",
-          "b",
-          "k"
+          "i"
         ],
         [
+          "a",
           "r",
           "e",
           "t",
@@ -122,46 +114,22 @@
           "a",
           "d",
           "o",
-          "r",
-          "w"
+          "r"
         ],
         [
-          "a",
-          "a",
-          "g",
-          "o",
-          "m",
-          "a",
-          "i",
           "l",
-          "e",
-          "q"
-        ],
-        [
-          "f",
-          "e",
-          "r",
+          "l",
+          "i",
           "b",
-          "i",
-          "l",
-          "l",
-          "a",
+          "r",
+          "e",
           "t",
-          "j"
-        ],
-        [
+          "a",
           "m",
-          "o",
-          "t",
-          "x",
-          "i",
-          "l",
-          "l",
-          "a",
-          "a",
-          "c"
+          "a"
         ],
         [
+          "w",
           "p",
           "i",
           "s",
@@ -170,8 +138,43 @@
           "r",
           "r",
           "a",
-          "z",
-          "u"
+          "l"
+        ],
+        [
+          "q",
+          "y",
+          "m",
+          "o",
+          "t",
+          "x",
+          "i",
+          "l",
+          "l",
+          "a"
+        ],
+        [
+          "f",
+          "f",
+          "f",
+          "i",
+          "n",
+          "e",
+          "s",
+          "t",
+          "r",
+          "a"
+        ],
+        [
+          "c",
+          "b",
+          "l",
+          "l",
+          "l",
+          "a",
+          "p",
+          "i",
+          "s",
+          "f"
         ]
       ]
     },
@@ -1086,6 +1089,39 @@
       ]
     },
     {
+      "id": "la-classe-slaganje",
+      "type": "matching",
+      "prompt": "Relaciona les dues parts per formar paraules:",
+      "joinParts": true,
+      "rightTextOnly": true,
+      "pairs": [
+        {
+          "left": "LLA",
+          "right": "PIS"
+        },
+        {
+          "left": "TI",
+          "right": "SORES"
+        },
+        {
+          "left": "CA",
+          "right": "DIRA"
+        },
+        {
+          "left": "MOT",
+          "right": "XILLA"
+        },
+        {
+          "left": "FI",
+          "right": "NESTRA"
+        },
+        {
+          "left": "LLI",
+          "right": "BRE"
+        }
+      ]
+    },
+    {
       "id": "la-classe-bonus",
       "type": "drawing-canvas",
       "prompt": "Activitat extra! Diverteix-te, activa la creativitat i dibuixa alguna cosa màgica!",
@@ -1955,6 +1991,39 @@
       ]
     },
     {
+      "id": "l-escola-slaganje",
+      "type": "matching",
+      "prompt": "Relaciona les dues parts per formar paraules:",
+      "joinParts": true,
+      "rightTextOnly": true,
+      "pairs": [
+        {
+          "left": "PA",
+          "right": "TI"
+        },
+        {
+          "left": "GIM",
+          "right": "NÀS"
+        },
+        {
+          "left": "LA",
+          "right": "VABO"
+        },
+        {
+          "left": "MEN",
+          "right": "JADOR"
+        },
+        {
+          "left": "BI",
+          "right": "BLIOTECA"
+        },
+        {
+          "left": "LABO",
+          "right": "RATORI"
+        }
+      ]
+    },
+    {
       "id": "l-escola-bonus",
       "type": "drawing-canvas",
       "prompt": "Activitat extra! Diverteix-te, activa la creativitat i dibuixa alguna cosa màgica!",
@@ -1997,28 +2066,28 @@
       "labels": [
         {
           "text": "cabell",
-          "x": 50,
-          "y": 18
+          "x": 45,
+          "y": 22
         },
         {
           "text": "ull",
-          "x": 38,
+          "x": 40,
           "y": 50
         },
         {
           "text": "nas",
-          "x": 50,
-          "y": 62
+          "x": 52,
+          "y": 54
         },
         {
           "text": "orella",
-          "x": 80,
+          "x": 75,
           "y": 55
         },
         {
           "text": "boca",
-          "x": 50,
-          "y": 74
+          "x": 52,
+          "y": 63
         }
       ]
     },
@@ -2040,8 +2109,8 @@
           "image": "cama"
         },
         {
-          "catalan": "cap",
-          "image": "cap"
+          "catalan": "cara",
+          "image": "cara"
         },
         {
           "catalan": "colze",
@@ -2116,8 +2185,8 @@
     {
       "id": "el-cos-4",
       "type": "word-search",
-      "prompt": "Busca 7 paraules a la sopa de lletres. Poden anar → ← ↓ ↑ ↗",
-      "gridSize": 9,
+      "prompt": "Busca 7 paraules a la sopa de lletres. Poden anar → ↓",
+      "gridSize": 10,
       "words": [
         "nas",
         "ull",
@@ -2125,107 +2194,131 @@
         "panxa",
         "orella",
         "mà",
-        "braç"
+        "braç",
+        "dents",
+        "peu",
+        "cama"
       ],
       "grid": [
         [
           "m",
-          "m",
-          "l",
-          "l",
-          "u",
+          "a",
           "g",
-          "t",
+          "n",
+          "a",
+          "s",
+          "b",
           "f",
+          "p",
+          "j"
+        ],
+        [
+          "p",
+          "o",
+          "r",
+          "e",
+          "l",
+          "l",
+          "a",
+          "m",
+          "a",
+          "z"
+        ],
+        [
+          "b",
+          "u",
+          "a",
+          "i",
+          "t",
+          "z",
+          "d",
+          "b",
+          "n",
+          "q"
+        ],
+        [
+          "b",
+          "l",
+          "i",
+          "g",
+          "h",
+          "e",
+          "e",
+          "r",
+          "x",
           "h"
         ],
         [
-          "h",
-          "a",
-          "l",
-          "l",
-          "e",
-          "r",
           "o",
-          "m",
-          "à"
-        ],
-        [
-          "e",
-          "y",
-          "c",
-          "i",
-          "x",
-          "m",
-          "q",
-          "v",
-          "w"
-        ],
-        [
-          "r",
-          "p",
-          "a",
-          "n",
-          "x",
-          "a",
-          "c",
-          "t",
-          "p"
-        ],
-        [
-          "g",
-          "n",
-          "x",
-          "t",
-          "s",
-          "b",
-          "r",
-          "a",
-          "ç"
-        ],
-        [
-          "g",
-          "z",
-          "z",
           "l",
-          "m",
-          "v",
+          "l",
           "g",
+          "p",
+          "v",
+          "n",
+          "a",
+          "a",
+          "n"
+        ],
+        [
+          "c",
+          "m",
+          "l",
+          "f",
           "e",
+          "n",
+          "t",
+          "c",
+          "x",
           "o"
         ],
         [
-          "v",
-          "f",
-          "s",
-          "k",
-          "c",
-          "w",
-          "q",
-          "v",
-          "y"
-        ],
-        [
-          "n",
           "a",
+          "k",
+          "l",
+          "a",
+          "u",
+          "i",
           "s",
           "c",
-          "p",
-          "k",
-          "m",
-          "b",
-          "i"
-        ],
-        [
-          "r",
-          "b",
-          "o",
-          "c",
-          "a",
-          "a",
-          "n",
-          "g",
+          "h",
           "l"
+        ],
+        [
+          "a",
+          "n",
+          "h",
+          "w",
+          "g",
+          "v",
+          "m",
+          "a",
+          "e",
+          "h"
+        ],
+        [
+          "u",
+          "m",
+          "a",
+          "q",
+          "o",
+          "a",
+          "c",
+          "m",
+          "h",
+          "v"
+        ],
+        [
+          "h",
+          "y",
+          "b",
+          "q",
+          "s",
+          "j",
+          "b",
+          "a",
+          "d",
+          "j"
         ]
       ]
     },
@@ -2299,8 +2392,8 @@
     {
       "id": "el-cos-7",
       "type": "word-search",
-      "prompt": "Observa i busca les paraules a la sopa de lletres. Poden anar → ← ↓ ↑ ↗",
-      "gridSize": 9,
+      "prompt": "Observa i busca les paraules a la sopa de lletres. Poden anar → ↓",
+      "gridSize": 10,
       "words": [
         "cap",
         "cabell",
@@ -2308,107 +2401,131 @@
         "colze",
         "dents",
         "dit",
-        "peu"
+        "peu",
+        "ull",
+        "nas",
+        "boca"
       ],
       "grid": [
         [
           "m",
+          "a",
+          "g",
+          "d",
           "i",
-          "u",
-          "w",
+          "t",
+          "b",
+          "f",
+          "c",
+          "j"
+        ],
+        [
+          "p",
           "c",
           "a",
+          "b",
+          "e",
+          "l",
+          "l",
+          "m",
+          "o",
+          "z"
+        ],
+        [
+          "b",
           "p",
-          "r",
+          "a",
+          "i",
+          "t",
+          "z",
+          "d",
+          "b",
+          "l",
+          "q"
+        ],
+        [
+          "c",
+          "e",
+          "i",
+          "g",
+          "h",
+          "e",
+          "e",
+          "o",
+          "z",
+          "h"
+        ],
+        [
+          "a",
+          "u",
+          "l",
+          "g",
+          "u",
+          "v",
+          "n",
+          "c",
+          "e",
+          "n"
+        ],
+        [
+          "m",
+          "m",
+          "l",
+          "f",
+          "l",
+          "n",
+          "t",
+          "a",
+          "x",
+          "o"
+        ],
+        [
+          "a",
+          "k",
+          "l",
+          "a",
+          "l",
+          "i",
+          "s",
+          "c",
+          "h",
+          "l"
+        ],
+        [
+          "a",
+          "n",
+          "h",
+          "w",
+          "g",
+          "v",
+          "m",
+          "a",
+          "e",
+          "h"
+        ],
+        [
+          "u",
+          "n",
+          "a",
+          "s",
+          "q",
+          "o",
+          "a",
+          "p",
+          "c",
           "h"
         ],
         [
           "v",
-          "t",
-          "i",
-          "d",
-          "k",
-          "y",
+          "h",
           "y",
           "b",
-          "h"
-        ],
-        [
-          "b",
-          "z",
-          "k",
-          "m",
-          "i",
-          "c",
-          "g",
-          "p",
-          "s"
-        ],
-        [
-          "w",
-          "k",
-          "c",
-          "c",
-          "a",
-          "m",
-          "a",
-          "e",
-          "g"
-        ],
-        [
-          "u",
-          "p",
-          "a",
-          "m",
-          "u",
-          "o",
-          "e",
-          "u",
-          "i"
-        ],
-        [
-          "e",
-          "h",
-          "b",
-          "x",
-          "r",
-          "r",
-          "i",
-          "x",
-          "s"
-        ],
-        [
-          "n",
-          "d",
-          "e",
-          "n",
-          "t",
-          "s",
-          "s",
-          "m",
-          "l"
-        ],
-        [
-          "h",
-          "e",
-          "l",
           "q",
-          "p",
-          "c",
-          "y",
+          "s",
+          "j",
           "b",
-          "d"
-        ],
-        [
-          "e",
-          "u",
-          "l",
-          "c",
-          "o",
-          "l",
-          "z",
-          "e",
-          "f"
+          "d",
+          "j"
         ]
       ]
     },
@@ -2473,16 +2590,20 @@
       "prompt": "Observa i copia les paraules noves:",
       "words": [
         {
-          "catalan": "jove"
+          "catalan": "jove",
+          "image": "noi-jove"
         },
         {
-          "catalan": "vell"
+          "catalan": "vell",
+          "image": "noi-vell"
         },
         {
-          "catalan": "alt"
+          "catalan": "alt",
+          "image": "noi-alt"
         },
         {
-          "catalan": "baix"
+          "catalan": "baix",
+          "image": "noi-baix"
         }
       ]
     },
@@ -2490,7 +2611,7 @@
       "id": "el-cos-11",
       "type": "fill-sentence",
       "prompt": "Observa i completa les frases.",
-      "image": "alt-baix",
+      "image": "laura-carles",
       "sentences": [
         {
           "text": "La Laura és més ___ que en Carles.",
@@ -2551,7 +2672,7 @@
           "correct": 0
         },
         {
-          "question": "Té el cabell vermell?",
+          "question": "Té el cabell negre?",
           "options": [
             "Sí",
             "No"
@@ -2560,14 +2681,6 @@
         },
         {
           "question": "Se li veuen les dents?",
-          "options": [
-            "Sí",
-            "No"
-          ],
-          "correct": 1
-        },
-        {
-          "question": "No té celles?",
           "options": [
             "Sí",
             "No"
@@ -2596,11 +2709,12 @@
       "id": "el-cos-12",
       "type": "fill-sentence",
       "prompt": "Fixa-t'hi i completa: noi → noia.",
-      "image": "noi-noia",
       "sentences": [
         {
           "text": "Un noi vell → Una noia ___.",
           "blank": "vella",
+          "image": "noi-vell",
+          "imageAfter": "noia-vella",
           "options": [
             "vell",
             "jove",
@@ -2610,6 +2724,8 @@
         {
           "text": "Un noi alt → Una noia ___.",
           "blank": "alta",
+          "image": "noi-alt",
+          "imageAfter": "noia-alta",
           "options": [
             "alt",
             "alta",
@@ -2619,6 +2735,8 @@
         {
           "text": "Un noi baix → Una noia ___.",
           "blank": "baixa",
+          "image": "noi-baix",
+          "imageAfter": "noia-baixa",
           "options": [
             "baixa",
             "baix",
@@ -2628,6 +2746,8 @@
         {
           "text": "Un noi jove → Una noia ___.",
           "blank": "jove",
+          "image": "noi-jove",
+          "imageAfter": "noia-jove",
           "options": [
             "vella",
             "alta",
@@ -2643,58 +2763,46 @@
       "image": "cara-detall",
       "labels": [
         {
+          "text": "cabell",
+          "x": 18,
+          "y": 30
+        },
+        {
           "text": "bigoti",
-          "x": 50,
-          "y": 55
+          "x": 18,
+          "y": 57
         },
         {
           "text": "barba",
-          "x": 50,
-          "y": 80
+          "x": 48,
+          "y": 66
         },
         {
           "text": "ulleres",
-          "x": 50,
-          "y": 40
-        },
-        {
-          "text": "arrugues",
-          "x": 70,
-          "y": 30
+          "x": 77,
+          "y": 46
         }
       ],
       "options": [
+        "cabell",
         "bigoti",
         "barba",
         "ulleres",
-        "arrugues",
-        "cella",
-        "nas"
+        "nas",
+        "orella"
       ]
     },
     {
       "id": "el-cos-16",
       "type": "fill-sentence",
       "prompt": "Qui és qui? Llegeix i escriu el nom correcte.",
+      "referenceImages": [
+        "carolina",
+        "sergi",
+        "sara",
+        "xavier"
+      ],
       "sentences": [
-        {
-          "text": "La ___ és jove, té el cabell llarg i negre. També porta ulleres.",
-          "blank": "Carolina",
-          "options": [
-            "Sara",
-            "Carolina",
-            "Xavier"
-          ]
-        },
-        {
-          "text": "En ___ és un nen baix, amb el cabell curt i negre.",
-          "blank": "Sergi",
-          "options": [
-            "Xavier",
-            "Carolina",
-            "Sergi"
-          ]
-        },
         {
           "text": "La ___ és molt jove, amb el cabell marró recollit en una cua.",
           "blank": "Sara",
@@ -2712,6 +2820,24 @@
             "Sara",
             "Xavier"
           ]
+        },
+        {
+          "text": "La ___ és jove, té el cabell llarg i negre. També porta ulleres.",
+          "blank": "Carolina",
+          "options": [
+            "Sara",
+            "Carolina",
+            "Xavier"
+          ]
+        },
+        {
+          "text": "En ___ és un nen baix, amb el cabell curt i negre.",
+          "blank": "Sergi",
+          "options": [
+            "Xavier",
+            "Carolina",
+            "Sergi"
+          ]
         }
       ]
     },
@@ -2721,9 +2847,9 @@
       "prompt": "Autoavaluació: Les parts del cos.",
       "items": [
         {
-          "catalan": "cap",
-          "translation": "glava",
-          "image": "cap"
+          "catalan": "cara",
+          "translation": "lice",
+          "image": "cara"
         },
         {
           "catalan": "ull",
@@ -2783,6 +2909,39 @@
       ]
     },
     {
+      "id": "el-cos-slaganje",
+      "type": "matching",
+      "prompt": "Relaciona les dues parts per formar paraules:",
+      "joinParts": true,
+      "rightTextOnly": true,
+      "pairs": [
+        {
+          "left": "CA",
+          "right": "BELL"
+        },
+        {
+          "left": "O",
+          "right": "RELLA"
+        },
+        {
+          "left": "PAN",
+          "right": "XA"
+        },
+        {
+          "left": "COL",
+          "right": "ZE"
+        },
+        {
+          "left": "GE",
+          "right": "NOLL"
+        },
+        {
+          "left": "UN",
+          "right": "GLA"
+        }
+      ]
+    },
+    {
       "id": "el-cos-bonus",
       "type": "drawing-canvas",
       "prompt": "Activitat extra! Diverteix-te, activa la creativitat i dibuixa alguna cosa màgica!",
@@ -2833,33 +2992,33 @@
       "labels": [
         {
           "text": "gorro",
-          "x": 35,
-          "y": 8
+          "x": 48,
+          "y": 14
         },
         {
           "text": "jaqueta",
-          "x": 25,
-          "y": 40
+          "x": 50,
+          "y": 46
         },
         {
           "text": "guants",
-          "x": 18,
-          "y": 55
+          "x": 33,
+          "y": 57
         },
         {
           "text": "bufanda",
-          "x": 65,
-          "y": 25
+          "x": 50,
+          "y": 36
         },
         {
           "text": "faldilla",
-          "x": 65,
-          "y": 62
+          "x": 50,
+          "y": 63
         },
         {
           "text": "botes",
-          "x": 60,
-          "y": 83
+          "x": 47,
+          "y": 82
         }
       ]
     },
@@ -2885,6 +3044,10 @@
           "image": "americana"
         },
         {
+          "catalan": "abric",
+          "image": "abric"
+        },
+        {
           "catalan": "cinturó",
           "image": "cinturo"
         },
@@ -2895,6 +3058,10 @@
         {
           "catalan": "gorro",
           "image": "gorro"
+        },
+        {
+          "catalan": "pantalons curts",
+          "image": "pantalons-curts"
         }
       ]
     },
@@ -2982,13 +3149,17 @@
         {
           "catalan": "bufanda",
           "image": "bufanda"
+        },
+        {
+          "catalan": "barret",
+          "image": "barret"
         }
       ]
     },
     {
       "id": "la-roba-4",
       "type": "word-search",
-      "prompt": "Busca 6 peces de vestir a la sopa de lletres. Poden anar → ← ↓ ↑ ↗",
+      "prompt": "Busca 6 peces de vestir a la sopa de lletres. Poden anar → ↓",
       "gridSize": 10,
       "words": [
         "pantalons",
@@ -2996,10 +3167,27 @@
         "jaqueta",
         "corbata",
         "faldilla",
-        "vestit"
+        "vestit",
+        "botes",
+        "gorra",
+        "abric",
+        "mitjons"
       ],
       "grid": [
         [
+          "h",
+          "d",
+          "h",
+          "m",
+          "i",
+          "t",
+          "j",
+          "o",
+          "n",
+          "s"
+        ],
+        [
+          "g",
           "p",
           "a",
           "n",
@@ -3008,116 +3196,103 @@
           "l",
           "o",
           "n",
-          "s",
-          "c"
+          "s"
         ],
         [
-          "r",
-          "a",
-          "m",
-          "c",
-          "r",
-          "i",
-          "c",
-          "a",
-          "n",
-          "a"
-        ],
-        [
+          "g",
           "c",
           "v",
-          "r",
-          "v",
+          "h",
+          "z",
+          "d",
+          "f",
           "c",
-          "s",
-          "t",
-          "i",
-          "r",
-          "m"
-        ],
-        [
-          "m",
           "a",
-          "t",
-          "a",
-          "b",
-          "r",
-          "o",
-          "c",
-          "b",
-          "i"
+          "x"
         ],
         [
           "j",
           "a",
-          "q",
+          "d",
+          "j",
           "u",
-          "e",
-          "t",
-          "a",
-          "h",
-          "f",
-          "s"
-        ],
-        [
-          "f",
-          "a",
-          "l",
-          "d",
-          "i",
-          "l",
-          "l",
-          "a",
-          "n",
-          "a"
-        ],
-        [
-          "k",
-          "d",
-          "t",
-          "s",
-          "p",
           "r",
-          "h",
-          "l",
-          "b",
-          "v"
-        ],
-        [
-          "c",
+          "a",
           "o",
-          "r",
           "b",
-          "a",
-          "t",
-          "a",
-          "k",
-          "g",
           "h"
         ],
         [
-          "t",
-          "i",
-          "t",
-          "s",
-          "e",
+          "a",
+          "m",
+          "b",
+          "g",
           "v",
-          "d",
-          "n",
+          "a",
+          "l",
           "r",
+          "r",
+          "h"
+        ],
+        [
+          "q",
+          "i",
+          "o",
+          "o",
+          "e",
+          "w",
+          "d",
+          "b",
+          "i",
+          "l"
+        ],
+        [
+          "u",
+          "s",
+          "t",
+          "r",
+          "s",
+          "n",
+          "i",
+          "a",
+          "c",
+          "d"
+        ],
+        [
+          "e",
+          "a",
+          "e",
+          "r",
+          "t",
+          "h",
+          "l",
+          "t",
+          "h",
+          "s"
+        ],
+        [
+          "t",
+          "d",
+          "s",
+          "a",
+          "i",
+          "v",
+          "l",
+          "a",
+          "h",
           "g"
         ],
         [
-          "p",
-          "l",
-          "m",
+          "a",
+          "d",
+          "i",
+          "j",
           "t",
-          "n",
           "h",
-          "r",
-          "s",
-          "f",
-          "k"
+          "a",
+          "c",
+          "x",
+          "j"
         ]
       ]
     },
@@ -3255,6 +3430,7 @@
         {
           "text": "Els pantalons estan ___.",
           "blank": "bruts",
+          "image": "pantalons-bruts",
           "options": [
             "nets",
             "bruts",
@@ -3264,6 +3440,7 @@
         {
           "text": "El jersei és ___.",
           "blank": "nou",
+          "image": "jersei-nou",
           "options": [
             "vell",
             "brut",
@@ -3273,6 +3450,7 @@
         {
           "text": "Les sabates són ___.",
           "blank": "velles",
+          "image": "sabates-velles",
           "options": [
             "velles",
             "noves",
@@ -3282,6 +3460,7 @@
         {
           "text": "Els mitjons estan ___.",
           "blank": "nets",
+          "image": "mitjons-nets",
           "options": [
             "bruts",
             "nets",
@@ -3609,18 +3788,34 @@
     {
       "id": "la-casa-2",
       "type": "word-search",
-      "prompt": "Busca 6 paraules relacionades amb la casa. Poden anar → ← ↓ ↑ ↗",
-      "gridSize": 9,
+      "prompt": "Busca 6 paraules relacionades amb la casa. Poden anar → ↓",
+      "gridSize": 10,
       "words": [
         "persiana",
         "antena",
         "escala",
         "cortina",
         "jardí",
-        "balcó"
+        "balcó",
+        "garatge",
+        "teulada",
+        "xemeneia"
       ],
       "grid": [
         [
+          "b",
+          "e",
+          "g",
+          "t",
+          "e",
+          "u",
+          "l",
+          "a",
+          "d",
+          "a"
+        ],
+        [
+          "m",
           "p",
           "e",
           "r",
@@ -3629,95 +3824,103 @@
           "a",
           "n",
           "a",
-          "b"
+          "g"
         ],
         [
-          "g",
-          "a",
-          "d",
-          "r",
-          "f",
-          "m",
-          "t",
-          "u",
-          "a"
-        ],
-        [
-          "h",
-          "n",
-          "v",
-          "p",
-          "d",
-          "s",
-          "r",
           "j",
+          "a",
+          "r",
+          "d",
+          "i",
+          "j",
+          "x",
+          "g",
+          "i",
+          "w"
+        ],
+        [
+          "c",
+          "n",
+          "h",
+          "m",
+          "i",
+          "b",
+          "e",
+          "a",
+          "z",
+          "o"
+        ],
+        [
+          "o",
+          "t",
+          "b",
+          "p",
+          "e",
+          "d",
+          "m",
+          "r",
+          "r",
+          "d"
+        ],
+        [
+          "r",
+          "e",
+          "a",
+          "h",
+          "s",
+          "l",
+          "e",
+          "a",
+          "g",
+          "v"
+        ],
+        [
+          "t",
+          "n",
+          "l",
+          "n",
+          "c",
+          "m",
+          "n",
+          "t",
+          "l",
+          "f"
+        ],
+        [
+          "i",
+          "a",
+          "c",
+          "n",
+          "a",
+          "x",
+          "e",
+          "g",
+          "o",
+          "k"
+        ],
+        [
+          "n",
+          "l",
+          "o",
+          "a",
+          "l",
+          "i",
+          "i",
+          "e",
+          "h",
           "l"
         ],
         [
-          "f",
-          "t",
-          "m",
-          "g",
-          "u",
-          "b",
-          "d",
-          "r",
-          "c"
-        ],
-        [
-          "s",
-          "e",
-          "e",
-          "s",
-          "c",
           "a",
-          "l",
           "a",
-          "ó"
-        ],
-        [
-          "d",
           "n",
-          "r",
-          "t",
-          "g",
           "h",
-          "p",
-          "m",
-          "v"
-        ],
-        [
-          "u",
           "a",
-          "c",
-          "o",
-          "r",
-          "t",
-          "i",
-          "n",
-          "a"
-        ],
-        [
-          "r",
-          "f",
+          "w",
+          "a",
           "g",
-          "h",
-          "b",
-          "s",
-          "d",
-          "p",
-          "t"
-        ],
-        [
-          "j",
-          "a",
-          "r",
-          "d",
-          "í",
-          "m",
-          "n",
-          "u",
-          "v"
+          "v",
+          "m"
         ]
       ]
     },
@@ -3776,33 +3979,33 @@
       "labels": [
         {
           "text": "teulada",
-          "x": 50,
-          "y": 10
+          "x": 35,
+          "y": 27
         },
         {
           "text": "xemeneia",
-          "x": 30,
-          "y": 5
+          "x": 33,
+          "y": 15
         },
         {
           "text": "antena",
-          "x": 80,
-          "y": 5
+          "x": 78,
+          "y": 16
         },
         {
           "text": "balcó",
-          "x": 20,
-          "y": 45
+          "x": 30,
+          "y": 49
         },
         {
           "text": "jardí",
-          "x": 70,
-          "y": 85
+          "x": 14,
+          "y": 72
         },
         {
           "text": "garatge",
-          "x": 85,
-          "y": 60
+          "x": 68,
+          "y": 63
         }
       ],
       "options": [
@@ -3813,7 +4016,7 @@
         "jardí",
         "garatge",
         "escala",
-        "persiana"
+        "cuina"
       ]
     },
     {
@@ -3883,7 +4086,8 @@
         },
         {
           "left": "antena",
-          "right": "per veure la televisió"
+          "right": "per veure la televisió",
+          "rightImage": "televisió"
         },
         {
           "left": "xemeneia",
@@ -3895,7 +4099,8 @@
         },
         {
           "left": "garatge",
-          "right": "per guardar el cotxe"
+          "right": "per guardar el cotxe",
+          "rightImage": "cotxe"
         }
       ]
     },
@@ -3994,7 +4199,7 @@
         },
         {
           "catalan": "xemeneia",
-          "image": "xemeneia"
+          "image": "xemeneia2"
         },
         {
           "catalan": "butaca",
@@ -4016,39 +4221,48 @@
       "prompt": "Completa:",
       "sentences": [
         {
+          "text": "A la sala d'estar hi ha un ___.",
+          "blank": "sofà",
+          "options": [
+            "llit",
+            "sofà",
+            "forn"
+          ]
+        },
+        {
+          "text": "A la cuina hi ha una ___.",
+          "blank": "nevera",
+          "options": [
+            "nevera",
+            "catifa",
+            "banyera"
+          ]
+        },
+        {
+          "text": "Al lavabo hi ha una ___.",
+          "blank": "banyera",
+          "options": [
+            "banyera",
+            "televisió",
+            "taula"
+          ]
+        },
+        {
+          "text": "Al dormitori hi ha un ___.",
+          "blank": "llit",
+          "options": [
+            "mirall",
+            "llit",
+            "sofà"
+          ]
+        },
+        {
           "text": "A la sala d'estar hi ha una ___.",
           "blank": "televisió",
           "options": [
             "nevera",
             "televisió",
-            "banyera"
-          ]
-        },
-        {
-          "text": "A la sala d'estar hi ha ___.",
-          "blank": "un sofà",
-          "options": [
-            "un llit",
-            "una nevera",
-            "un sofà"
-          ]
-        },
-        {
-          "text": "A la sala d'estar hi ha ___.",
-          "blank": "un rellotge",
-          "options": [
-            "un rellotge",
-            "un forn",
-            "una dutxa"
-          ]
-        },
-        {
-          "text": "A la sala d'estar hi ha ___.",
-          "blank": "una catifa",
-          "options": [
-            "una banyera",
-            "una catifa",
-            "un llit"
+            "dutxa"
           ]
         }
       ]
@@ -4111,7 +4325,8 @@
         },
         {
           "left": "Al forn",
-          "right": "fem pa."
+          "right": "fem pa.",
+          "rightImage": "pa"
         },
         {
           "left": "A les escombraries",
@@ -4119,7 +4334,8 @@
         },
         {
           "left": "A l'aiguera",
-          "right": "hi ha els plats bruts."
+          "right": "hi ha els plats bruts.",
+          "rightImage": "plats"
         }
       ]
     },
@@ -4272,69 +4488,46 @@
     },
     {
       "id": "la-casa-16",
-      "type": "fill-sentence",
-      "prompt": "Completa:",
-      "sentences": [
+      "type": "matching",
+      "prompt": "Relaciona la pregunta amb la resposta:",
+      "rightTextOnly": true,
+      "pairs": [
         {
-          "text": "Jo em rento les ___.",
-          "blank": "mans",
-          "options": [
-            "cames",
-            "mans",
-            "orelles"
-          ]
+          "left": "On és l'antena?",
+          "right": "És a la teulada",
+          "rightImage": "teulada"
         },
         {
-          "text": "Tu et rentes les ___.",
-          "blank": "mans",
-          "options": [
-            "dents",
-            "cames",
-            "mans"
-          ]
+          "left": "De què està feta la taula?",
+          "right": "De fusta",
+          "rightImage": "fusta"
         },
         {
-          "text": "Ell es renta ___.",
-          "blank": "la cara",
-          "options": [
-            "el braç",
-            "la cara",
-            "el peu"
-          ]
+          "left": "Amb què ens rentem les mans?",
+          "right": "Amb sabó",
+          "rightImage": "sabó"
         },
         {
-          "text": "Nosaltres ens rentem ___.",
-          "blank": "les mans",
-          "options": [
-            "els peus",
-            "el cap",
-            "les mans"
-          ]
+          "left": "On plantem flors?",
+          "right": "Al jardí",
+          "rightImage": "jardí"
         },
         {
-          "text": "Vosaltres us renteu ___.",
-          "blank": "les dents",
-          "options": [
-            "els ulls",
-            "les dents",
-            "el nas"
-          ]
+          "left": "On guardem el cotxe?",
+          "right": "Al garatge",
+          "rightImage": "garatge"
         },
         {
-          "text": "Ells es renten ___.",
-          "blank": "la cara",
-          "options": [
-            "el braç",
-            "les cames",
-            "la cara"
-          ]
+          "left": "Quantes finestres hi ha?",
+          "right": "Hi ha tres finestres",
+          "rightImage": "finestra"
         }
       ]
     },
     {
       "id": "la-casa-17",
       "type": "classify-columns",
-      "prompt": "Classifica: vermell = dormitori, verd = sala d'estar, blau = lavabo, groc = cuina.",
+      "prompt": "Classifica: on trobem cada cosa?",
       "columns": [
         {
           "title": "Dormitori",
@@ -4351,17 +4544,16 @@
             "televisió",
             "sofà",
             "catifa",
-            "cortina"
+            "xemeneia"
           ]
         },
         {
           "title": "Lavabo",
           "items": [
             "banyera",
-            "mirall",
             "dutxa",
-            "lavabo",
-            "tovallola"
+            "tovallola",
+            "rentamans"
           ]
         },
         {
@@ -4370,32 +4562,27 @@
             "aiguera",
             "forn",
             "nevera",
-            "microones",
-            "xemeneia",
-            "armari"
+            "microones"
           ]
         }
       ],
       "allItems": [
         "llit",
-        "aiguera",
-        "catifa",
-        "dutxa",
         "televisió",
         "banyera",
-        "mirall",
+        "aiguera",
         "llençols",
-        "forn",
         "sofà",
-        "armari",
-        "lavabo",
-        "cortina",
+        "dutxa",
+        "forn",
+        "despertador",
+        "catifa",
+        "tovallola",
         "nevera",
         "tauleta de nit",
-        "despertador",
-        "tovallola",
-        "microones",
-        "xemeneia"
+        "xemeneia",
+        "rentamans",
+        "microones"
       ]
     },
     {
@@ -4474,33 +4661,6 @@
             "l'armari",
             "el garatge"
           ]
-        }
-      ]
-    },
-    {
-      "id": "la-casa-19",
-      "type": "matching",
-      "prompt": "Relaciona:",
-      "pairs": [
-        {
-          "left": "On és l'antena de la televisió?",
-          "right": "És a la teulada."
-        },
-        {
-          "left": "De què està feta la taula?",
-          "right": "De fusta."
-        },
-        {
-          "left": "Quantes finestres hi ha?",
-          "right": "Hi ha tres finestres."
-        },
-        {
-          "left": "Amb què ens rentem les mans?",
-          "right": "Amb sabó."
-        },
-        {
-          "left": "On plantem flors?",
-          "right": "Al jardí."
         }
       ]
     },
@@ -4635,6 +4795,38 @@
             "a",
             "casa"
           ]
+        },
+        {
+          "scrambled": [
+            "puja",
+            "escales",
+            "La",
+            "les",
+            "Júlia"
+          ],
+          "correct": [
+            "La",
+            "Júlia",
+            "puja",
+            "les",
+            "escales"
+          ]
+        },
+        {
+          "scrambled": [
+            "jardí",
+            "L'Ema",
+            "flors",
+            "al",
+            "planta"
+          ],
+          "correct": [
+            "L'Ema",
+            "planta",
+            "flors",
+            "al",
+            "jardí"
+          ]
         }
       ]
     },
@@ -4739,6 +4931,39 @@
           "catalan": "lavabo",
           "translation": "kupatilo",
           "image": "lavabo"
+        }
+      ]
+    },
+    {
+      "id": "la-casa-slaganje",
+      "type": "matching",
+      "prompt": "Relaciona les dues parts per formar paraules:",
+      "joinParts": true,
+      "rightTextOnly": true,
+      "pairs": [
+        {
+          "left": "CUI",
+          "right": "NA"
+        },
+        {
+          "left": "BAL",
+          "right": "CÓ"
+        },
+        {
+          "left": "COR",
+          "right": "TINA"
+        },
+        {
+          "left": "NE",
+          "right": "VERA"
+        },
+        {
+          "left": "MI",
+          "right": "RALL"
+        },
+        {
+          "left": "PER",
+          "right": "SIANA"
         }
       ]
     },
@@ -4873,12 +5098,13 @@
       "type": "fill-sentence",
       "prompt": "Observa i completa:",
       "image": "albert",
+      "imageLabel": "Albert",
       "description": [
         "Jo soc l'Albert."
       ],
       "sentences": [
         {
-          "text": "Dibuix 1. És l'avi o àvia de l'Albert? És ___.",
+          "text": "És l'avi o l'àvia de l'Albert? És ___.",
           "blank": "l'avi",
           "options": [
             "l'àvia",
@@ -4887,7 +5113,7 @@
           "image": "albert-dibuix-1"
         },
         {
-          "text": "Dibuix 2. És l'àvia o la mare de l'Albert? És ___.",
+          "text": "És l'àvia o la mare de l'Albert? És ___.",
           "blank": "l'àvia",
           "options": [
             "la mare",
@@ -4896,7 +5122,7 @@
           "image": "albert-dibuix-2"
         },
         {
-          "text": "Dibuix 3. És l'avi o pare de l'Albert? És ___.",
+          "text": "És l'avi o el pare de l'Albert? És ___.",
           "blank": "el pare",
           "options": [
             "el pare",
@@ -4905,7 +5131,7 @@
           "image": "albert-dibuix-3"
         },
         {
-          "text": "Dibuix 4. És la mare o germana de l'Albert? És ___.",
+          "text": "És la mare o la germana de l'Albert? És ___.",
           "blank": "la mare",
           "options": [
             "la germana",
@@ -4914,7 +5140,7 @@
           "image": "albert-dibuix-4"
         },
         {
-          "text": "Dibuix 5. És la mare o germana de l'Albert? És ___.",
+          "text": "És la mare o la germana de l'Albert? És ___.",
           "blank": "la germana",
           "options": [
             "la germana",
@@ -4937,7 +5163,8 @@
             "pare",
             "germà",
             "marit",
-            "avi"
+            "avi",
+            "nebot"
           ]
         },
         {
@@ -4948,7 +5175,8 @@
             "àvia",
             "filla",
             "cosina",
-            "dona"
+            "dona",
+            "neboda"
           ]
         }
       ],
@@ -4964,7 +5192,9 @@
         "germà",
         "marit",
         "dona",
-        "avi"
+        "avi",
+        "nebot",
+        "neboda"
       ],
       "circleMode": true
     },
@@ -4972,6 +5202,7 @@
       "id": "la-familia-4",
       "type": "fill-sentence",
       "prompt": "Observa i respon. Jo soc l'Albert.",
+      "image": "albert",
       "sentences": [
         {
           "text": "Ella és la germana de la meva mare. És la meva ___.",
@@ -5174,7 +5405,7 @@
           "correct": 0
         },
         {
-          "question": "El fill té els cabells del mateix color que la mare.",
+          "question": "El fill té els cabells del mateix color que el pare.",
           "options": [
             "Sí",
             "No"
@@ -5312,78 +5543,34 @@
     {
       "id": "la-familia-14",
       "type": "word-search",
-      "prompt": "Cerca i copia 6 animals. Poden anar → ← ↓ ↑ ↗",
-      "gridSize": 8,
+      "prompt": "Cerca i copia 6 animals. Poden anar → ↓",
+      "gridSize": 10,
       "words": [
         "conill",
         "serp",
         "tortuga",
         "gos",
         "gat",
-        "ocell"
+        "ocell",
+        "hamster",
+        "cavall",
+        "peix"
       ],
       "grid": [
         [
-          "c",
-          "d",
-          "f",
-          "r",
           "m",
-          "b",
-          "h",
-          "u"
-        ],
-        [
-          "o",
-          "p",
-          "t",
-          "v",
-          "n",
+          "a",
           "g",
-          "o",
-          "s"
-        ],
-        [
-          "n",
-          "m",
-          "j",
-          "o",
-          "c",
-          "e",
-          "l",
-          "l"
-        ],
-        [
-          "i",
-          "r",
-          "d",
-          "h",
-          "f",
-          "b",
-          "v",
-          "m"
-        ],
-        [
-          "l",
-          "g",
-          "n",
-          "t",
           "s",
           "e",
           "r",
-          "p"
-        ],
-        [
-          "l",
-          "d",
-          "f",
-          "r",
-          "m",
+          "p",
           "b",
-          "u",
-          "g"
+          "h",
+          "f"
         ],
         [
+          "j",
           "t",
           "o",
           "r",
@@ -5391,17 +5578,104 @@
           "u",
           "g",
           "a",
-          "a"
+          "a",
+          "p"
         ],
         [
-          "h",
-          "j",
-          "n",
-          "d",
+          "m",
           "p",
-          "f",
-          "r",
+          "z",
+          "b",
+          "a",
+          "i",
+          "c",
+          "o",
+          "m",
           "t"
+        ],
+        [
+          "c",
+          "e",
+          "z",
+          "q",
+          "i",
+          "g",
+          "o",
+          "c",
+          "s",
+          "h"
+        ],
+        [
+          "a",
+          "i",
+          "e",
+          "h",
+          "g",
+          "l",
+          "n",
+          "e",
+          "t",
+          "g"
+        ],
+        [
+          "v",
+          "x",
+          "v",
+          "n",
+          "a",
+          "m",
+          "i",
+          "l",
+          "e",
+          "l"
+        ],
+        [
+          "a",
+          "f",
+          "n",
+          "x",
+          "t",
+          "o",
+          "l",
+          "l",
+          "r",
+          "k"
+        ],
+        [
+          "l",
+          "l",
+          "a",
+          "i",
+          "h",
+          "l",
+          "l",
+          "g",
+          "a",
+          "n"
+        ],
+        [
+          "l",
+          "h",
+          "w",
+          "g",
+          "v",
+          "m",
+          "e",
+          "o",
+          "h",
+          "u"
+        ],
+        [
+          "q",
+          "o",
+          "a",
+          "c",
+          "h",
+          "v",
+          "h",
+          "s",
+          "y",
+          "b"
         ]
       ]
     },
@@ -5409,6 +5683,46 @@
       "id": "la-familia-15",
       "type": "multiple-choice",
       "prompt": "Llegeix el que han contestat la Carlota i en Cesc a la pregunta: Quines mascotes tens?",
+      "speakers": [
+        {
+          "name": "CARLOTA",
+          "image": "carlota",
+          "text": "Tinc un gos, un conill i tres gats.",
+          "pets": [
+            {
+              "image": "gos",
+              "count": 1
+            },
+            {
+              "image": "conill",
+              "count": 1
+            },
+            {
+              "image": "gat",
+              "count": 3
+            }
+          ]
+        },
+        {
+          "name": "CESC",
+          "image": "cesc",
+          "text": "Tinc dos ocells, tres peixos i una tortuga.",
+          "pets": [
+            {
+              "image": "ocell",
+              "count": 2
+            },
+            {
+              "image": "peix",
+              "count": 3
+            },
+            {
+              "image": "tortuga",
+              "count": 1
+            }
+          ]
+        }
+      ],
       "questions": [
         {
           "question": "En Cesc té un ocell?",
@@ -5424,7 +5738,7 @@
             "Sí",
             "No"
           ],
-          "correct": 1
+          "correct": 0
         },
         {
           "question": "En Cesc té un gat?",
@@ -5432,7 +5746,7 @@
             "Sí",
             "No"
           ],
-          "correct": 0
+          "correct": 1
         },
         {
           "question": "La Carlota té un hàmster?",
@@ -5440,7 +5754,7 @@
             "Sí",
             "No"
           ],
-          "correct": 0
+          "correct": 1
         }
       ]
     },
@@ -5542,6 +5856,39 @@
       ]
     },
     {
+      "id": "la-familia-slaganje",
+      "type": "matching",
+      "prompt": "Relaciona les dues parts per formar paraules:",
+      "joinParts": true,
+      "rightTextOnly": true,
+      "pairs": [
+        {
+          "left": "GER",
+          "right": "MÀ"
+        },
+        {
+          "left": "CO",
+          "right": "SÍ"
+        },
+        {
+          "left": "NE",
+          "right": "BOT"
+        },
+        {
+          "left": "À",
+          "right": "VIA"
+        },
+        {
+          "left": "FI",
+          "right": "LLA"
+        },
+        {
+          "left": "ON",
+          "right": "CLE"
+        }
+      ]
+    },
+    {
       "id": "la-familia-bonus",
       "type": "drawing-canvas",
       "prompt": "Activitat extra! Diverteix-te, activa la creativitat i dibuixa alguna cosa màgica!",
@@ -5577,6 +5924,14 @@
         {
           "catalan": "farmàcia",
           "image": "farmacia"
+        },
+        {
+          "catalan": "supermercat",
+          "image": "supermercat"
+        },
+        {
+          "catalan": "botiga d'esports",
+          "image": "botiga-d-esports"
         }
       ]
     },
@@ -5682,6 +6037,17 @@
             "carnisseria",
             "ven",
             "carn."
+          ]
+        },
+        {
+          "joined": "Alabotigadesportsvenenbambes.",
+          "words": [
+            "A",
+            "la",
+            "botiga",
+            "d'esports",
+            "venen",
+            "bambes."
           ]
         }
       ]
@@ -6345,6 +6711,39 @@
           "catalan": "croissant",
           "translation": "kroasan",
           "image": "croissant"
+        }
+      ]
+    },
+    {
+      "id": "les-botigues-slaganje",
+      "type": "matching",
+      "prompt": "Relaciona les dues parts per formar paraules:",
+      "joinParts": true,
+      "rightTextOnly": true,
+      "pairs": [
+        {
+          "left": "FLE",
+          "right": "CA"
+        },
+        {
+          "left": "FRUI",
+          "right": "TERIA"
+        },
+        {
+          "left": "CAR",
+          "right": "NISSERIA"
+        },
+        {
+          "left": "FAR",
+          "right": "MÀCIA"
+        },
+        {
+          "left": "PEI",
+          "right": "XETERIA"
+        },
+        {
+          "left": "VERDU",
+          "right": "LERIA"
         }
       ]
     },
@@ -7259,6 +7658,39 @@
       ]
     },
     {
+      "id": "el-menjar-slaganje",
+      "type": "matching",
+      "prompt": "Relaciona les dues parts per formar paraules:",
+      "joinParts": true,
+      "rightTextOnly": true,
+      "pairs": [
+        {
+          "left": "CU",
+          "right": "LLERA"
+        },
+        {
+          "left": "GA",
+          "right": "NIVET"
+        },
+        {
+          "left": "FOR",
+          "right": "QUILLA"
+        },
+        {
+          "left": "AM",
+          "right": "POLLA"
+        },
+        {
+          "left": "TAS",
+          "right": "SA"
+        },
+        {
+          "left": "FOR",
+          "right": "MATGE"
+        }
+      ]
+    },
+    {
       "id": "el-menjar-bonus",
       "type": "drawing-canvas",
       "prompt": "Activitat extra! Diverteix-te, activa la creativitat i dibuixa alguna cosa màgica!",
@@ -7306,6 +7738,10 @@
         {
           "catalan": "mussol",
           "image": "mussol"
+        },
+        {
+          "catalan": "oreneta",
+          "image": "oreneta"
         }
       ]
     },
@@ -7551,7 +7987,8 @@
         },
         {
           "left": "sardina",
-          "right": "peix"
+          "right": "peix",
+          "rightNoImage": true
         },
         {
           "left": "flamenc",
@@ -7664,7 +8101,7 @@
     {
       "id": "els-animals-11",
       "type": "word-search",
-      "prompt": "Busca 8 mamífers a la sopa de lletres. Poden anar → ← ↓ ↑ ↗",
+      "prompt": "Busca 8 mamífers a la sopa de lletres. Poden anar → ↓",
       "gridSize": 10,
       "words": [
         "gos",
@@ -7674,128 +8111,131 @@
         "ovella",
         "porc",
         "os",
-        "tigre"
+        "tigre",
+        "conill",
+        "girafa",
+        "mussol"
       ],
       "grid": [
         [
-          "t",
-          "i",
           "g",
-          "r",
-          "e",
-          "v",
           "a",
+          "e",
+          "l",
+          "l",
+          "e",
+          "o",
+          "g",
           "c",
+          "g"
+        ],
+        [
+          "m",
+          "o",
+          "v",
+          "e",
+          "l",
+          "l",
+          "a",
+          "a",
+          "o",
+          "g"
+        ],
+        [
+          "j",
+          "v",
+          "i",
+          "w",
+          "h",
+          "m",
+          "g",
+          "t",
+          "n",
+          "i"
+        ],
+        [
+          "m",
+          "a",
+          "b",
+          "z",
+          "o",
+          "p",
+          "i",
+          "i",
+          "i",
+          "d"
+        ],
+        [
+          "u",
+          "c",
+          "r",
+          "d",
+          "p",
+          "h",
+          "r",
+          "g",
+          "l",
+          "l"
+        ],
+        [
+          "s",
+          "a",
+          "g",
+          "v",
+          "o",
+          "n",
+          "a",
+          "r",
+          "l",
+          "m"
+        ],
+        [
+          "s",
+          "l",
+          "f",
+          "n",
+          "r",
+          "x",
+          "f",
+          "e",
+          "o",
+          "k"
+        ],
+        [
+          "o",
+          "l",
+          "a",
+          "i",
+          "c",
+          "h",
+          "a",
+          "l",
           "a",
           "n"
         ],
         [
-          "j",
-          "r",
-          "h",
-          "m",
-          "e",
-          "w",
-          "z",
-          "f",
-          "j",
-          "y"
-        ],
-        [
+          "l",
           "g",
-          "a",
-          "t",
-          "l",
-          "l",
-          "e",
           "o",
+          "s",
           "h",
-          "c",
-          "b"
+          "o",
+          "w",
+          "g",
+          "v",
+          "m"
         ],
         [
-          "i",
-          "s",
+          "e",
+          "h",
           "u",
-          "r",
-          "z",
-          "m",
-          "t",
-          "e",
-          "n",
-          "d"
-        ],
-        [
-          "k",
-          "w",
-          "o",
-          "v",
-          "e",
-          "l",
-          "l",
-          "a",
-          "e",
-          "g"
-        ],
-        [
-          "a",
-          "l",
-          "v",
-          "h",
-          "f",
-          "p",
-          "k",
-          "g",
-          "j",
-          "s"
-        ],
-        [
-          "p",
-          "o",
-          "r",
-          "c",
-          "a",
-          "r",
-          "i",
-          "a",
-          "o",
-          "a"
-        ],
-        [
-          "g",
-          "o",
-          "s",
-          "b",
-          "h",
-          "k",
-          "s",
-          "c",
-          "e",
-          "e"
-        ],
-        [
-          "e",
-          "n",
-          "b",
-          "e",
           "q",
-          "d",
-          "a",
-          "u",
           "o",
-          "w"
-        ],
-        [
-          "z",
-          "m",
-          "a",
-          "f",
-          "n",
-          "x",
-          "p",
-          "r",
           "s",
-          "c"
+          "a",
+          "c",
+          "h",
+          "v"
         ]
       ]
     },
@@ -8347,6 +8787,39 @@
       ]
     },
     {
+      "id": "els-animals-slaganje",
+      "type": "matching",
+      "prompt": "Relaciona les dues parts per formar paraules:",
+      "joinParts": true,
+      "rightTextOnly": true,
+      "pairs": [
+        {
+          "left": "GA",
+          "right": "LLINA"
+        },
+        {
+          "left": "CO",
+          "right": "NILL"
+        },
+        {
+          "left": "TOR",
+          "right": "TUGA"
+        },
+        {
+          "left": "GI",
+          "right": "RAFA"
+        },
+        {
+          "left": "MUS",
+          "right": "SOL"
+        },
+        {
+          "left": "PAPA",
+          "right": "LLONA"
+        }
+      ]
+    },
+    {
       "id": "els-animals-bonus",
       "type": "drawing-canvas",
       "prompt": "Activitat extra! Diverteix-te, activa la creativitat i dibuixa alguna cosa màgica!",
@@ -8513,7 +8986,8 @@
         },
         {
           "left": "cinema",
-          "right": "veure pel·lícules"
+          "right": "veure pel·lícules",
+          "rightNoImage": true
         },
         {
           "left": "parc",
@@ -8528,135 +9002,139 @@
     {
       "id": "la-ciutat-5",
       "type": "word-search",
-      "prompt": "Troba les paraules a la sopa de lletres. Poden anar → ← ↓ ↑ ↗",
+      "prompt": "Troba les paraules a la sopa de lletres. Poden anar → ↓",
       "gridSize": 10,
       "words": [
         "parc",
         "museu",
         "plaça",
         "mercat",
-        "cinema"
+        "cinema",
+        "carrer",
+        "hospital",
+        "teatre",
+        "estacio"
       ],
       "grid": [
         [
+          "h",
+          "a",
+          "f",
+          "t",
+          "e",
+          "a",
+          "t",
+          "r",
+          "e",
+          "e"
+        ],
+        [
+          "c",
+          "h",
+          "o",
+          "s",
+          "p",
+          "i",
+          "t",
+          "a",
+          "l",
+          "e"
+        ],
+        [
+          "v",
+          "h",
+          "z",
+          "d",
+          "x",
+          "d",
+          "e",
+          "c",
+          "j",
+          "u"
+        ],
+        [
+          "m",
           "p",
           "a",
           "r",
           "c",
-          "t",
-          "l",
-          "q",
-          "b",
-          "d",
-          "k"
+          "r",
+          "s",
+          "i",
+          "h",
+          "a"
         ],
         [
-          "g",
+          "e",
           "h",
-          "j",
+          "w",
+          "l",
           "n",
+          "d",
+          "t",
+          "n",
+          "h",
+          "h"
+        ],
+        [
+          "r",
           "s",
+          "d",
+          "v",
+          "h",
+          "g",
+          "a",
+          "e",
+          "d",
+          "i"
+        ],
+        [
+          "c",
+          "a",
+          "r",
           "r",
           "e",
-          "f",
-          "v",
-          "t"
+          "r",
+          "c",
+          "m",
+          "j",
+          "h"
         ],
         [
-          "p",
-          "d",
-          "q",
-          "e",
-          "l",
+          "a",
+          "c",
+          "x",
+          "j",
+          "a",
+          "a",
+          "i",
+          "a",
+          "a",
+          "y"
+        ],
+        [
+          "t",
           "m",
           "u",
           "s",
           "e",
-          "u"
-        ],
-        [
-          "l",
-          "t",
-          "r",
-          "g",
+          "u",
+          "o",
           "h",
-          "j",
-          "n",
-          "s",
-          "k",
-          "b"
+          "w",
+          "o"
         ],
         [
           "a",
-          "f",
-          "d",
-          "g",
-          "m",
-          "e",
-          "r",
-          "c",
-          "a",
-          "t"
-        ],
-        [
-          "ç",
-          "r",
-          "h",
-          "j",
-          "k",
-          "s",
-          "b",
-          "d",
-          "e",
-          "g"
-        ],
-        [
-          "a",
-          "l",
-          "f",
-          "q",
-          "n",
-          "t",
-          "r",
-          "d",
-          "h",
-          "j"
-        ],
-        [
-          "k",
-          "d",
-          "g",
-          "s",
-          "t",
-          "r",
-          "l",
-          "f",
-          "q",
-          "b"
-        ],
-        [
-          "n",
-          "h",
-          "c",
           "i",
-          "n",
-          "e",
-          "m",
-          "a",
-          "g",
-          "k"
-        ],
-        [
-          "t",
-          "r",
+          "y",
+          "p",
           "l",
-          "f",
-          "q",
-          "s",
-          "n",
-          "h",
-          "j",
-          "d"
+          "a",
+          "c",
+          "a",
+          "r",
+          "p"
         ]
       ]
     },
@@ -8859,7 +9337,8 @@
         },
         {
           "left": "cinema",
-          "right": "veure pel·lícules"
+          "right": "veure pel·lícules",
+          "rightNoImage": true
         }
       ]
     },
@@ -8902,6 +9381,24 @@
             "mercat",
             "museu",
             "parc"
+          ]
+        },
+        {
+          "text": "La Júlia va al ___ per veure una pel·lícula.",
+          "blank": "cinema",
+          "options": [
+            "cinema",
+            "mercat",
+            "hospital"
+          ]
+        },
+        {
+          "text": "L'Ema va a l'___ per aprendre.",
+          "blank": "escola",
+          "options": [
+            "estació",
+            "escola",
+            "museu"
           ]
         }
       ]
@@ -9030,6 +9527,39 @@
             "semàfor",
             "parc"
           ]
+        }
+      ]
+    },
+    {
+      "id": "la-ciutat-slaganje",
+      "type": "matching",
+      "prompt": "Relaciona les dues parts per formar paraules:",
+      "joinParts": true,
+      "rightTextOnly": true,
+      "pairs": [
+        {
+          "left": "CAR",
+          "right": "RER"
+        },
+        {
+          "left": "PLA",
+          "right": "ÇA"
+        },
+        {
+          "left": "HOS",
+          "right": "PITAL"
+        },
+        {
+          "left": "MU",
+          "right": "SEU"
+        },
+        {
+          "left": "CI",
+          "right": "NEMA"
+        },
+        {
+          "left": "TEA",
+          "right": "TRE"
         }
       ]
     },
@@ -9205,7 +9735,7 @@
     {
       "id": "els-vehicles-5",
       "type": "word-search",
-      "prompt": "Troba les paraules a la sopa de lletres. Poden anar → ← ↓ ↑ ↗",
+      "prompt": "Troba les paraules a la sopa de lletres. Poden anar → ↓",
       "gridSize": 10,
       "words": [
         "cotxe",
@@ -9215,128 +9745,131 @@
         "avió",
         "barca",
         "camió",
-        "vaixell"
+        "vaixell",
+        "metro",
+        "patinet",
+        "helicopter"
       ],
       "grid": [
         [
-          "c",
-          "o",
-          "t",
-          "x",
-          "e",
-          "p",
-          "t",
-          "r",
-          "e",
-          "n"
-        ],
-        [
           "a",
-          "h",
-          "k",
-          "l",
           "f",
-          "g",
-          "j",
-          "d",
-          "s",
-          "q"
-        ],
-        [
-          "m",
-          "r",
-          "v",
-          "a",
-          "i",
-          "x",
           "e",
-          "l",
-          "l",
-          "p"
-        ],
-        [
-          "i",
-          "t",
-          "a",
-          "x",
-          "i",
-          "k",
-          "n",
-          "h",
-          "f",
-          "r"
-        ],
-        [
-          "ó",
-          "s",
-          "d",
-          "g",
-          "j",
-          "l",
-          "p",
-          "q",
-          "k",
-          "s"
-        ],
-        [
           "b",
           "a",
           "r",
           "c",
           "a",
-          "f",
           "h",
+          "c"
+        ],
+        [
+          "e",
+          "v",
+          "h",
+          "z",
           "d",
-          "g",
-          "l"
-        ],
-        [
-          "n",
-          "k",
-          "p",
-          "l",
-          "s",
-          "r",
+          "x",
+          "d",
           "j",
-          "f",
-          "h",
-          "k"
+          "e",
+          "u"
         ],
         [
+          "r",
+          "c",
           "m",
           "o",
           "t",
           "o",
-          "q",
-          "g",
-          "d",
-          "n",
-          "p",
-          "r"
+          "v",
+          "c",
+          "l",
+          "h"
         ],
         [
-          "f",
-          "j",
+          "p",
+          "a",
+          "a",
           "h",
-          "k",
+          "w",
+          "l",
+          "a",
+          "o",
+          "i",
+          "n"
+        ],
+        [
+          "a",
+          "m",
+          "t",
+          "a",
+          "m",
+          "d",
+          "i",
+          "t",
+          "c",
+          "h"
+        ],
+        [
+          "t",
+          "i",
           "a",
           "v",
-          "i",
-          "ó",
-          "s",
-          "l"
+          "e",
+          "h",
+          "x",
+          "x",
+          "o",
+          "s"
         ],
         [
+          "i",
+          "o",
+          "x",
+          "i",
+          "t",
           "d",
-          "g",
-          "r",
-          "s",
-          "l",
+          "e",
+          "e",
           "p",
-          "k",
-          "f",
+          "v"
+        ],
+        [
+          "n",
           "h",
-          "j"
+          "i",
+          "o",
+          "r",
+          "g",
+          "l",
+          "d",
+          "t",
+          "i"
+        ],
+        [
+          "e",
+          "j",
+          "h",
+          "c",
+          "o",
+          "x",
+          "l",
+          "j",
+          "e",
+          "a"
+        ],
+        [
+          "t",
+          "a",
+          "a",
+          "t",
+          "r",
+          "e",
+          "n",
+          "y",
+          "r",
+          "h"
         ]
       ]
     },
@@ -9658,6 +10191,39 @@
       ]
     },
     {
+      "id": "els-vehicles-slaganje",
+      "type": "matching",
+      "prompt": "Relaciona les dues parts per formar paraules:",
+      "joinParts": true,
+      "rightTextOnly": true,
+      "pairs": [
+        {
+          "left": "CO",
+          "right": "TXE"
+        },
+        {
+          "left": "AUTO",
+          "right": "BÚS"
+        },
+        {
+          "left": "BICI",
+          "right": "CLETA"
+        },
+        {
+          "left": "CA",
+          "right": "MIÓ"
+        },
+        {
+          "left": "A",
+          "right": "VIÓ"
+        },
+        {
+          "left": "VAI",
+          "right": "XELL"
+        }
+      ]
+    },
+    {
       "id": "els-vehicles-bonus",
       "type": "drawing-canvas",
       "prompt": "Activitat extra! Diverteix-te, activa la creativitat i dibuixa alguna cosa màgica!",
@@ -9839,7 +10405,7 @@
     {
       "id": "els-oficis-5",
       "type": "word-search",
-      "prompt": "Troba les paraules a la sopa de lletres. Poden anar → ← ↓ ↑ ↗",
+      "prompt": "Troba les paraules a la sopa de lletres. Poden anar → ↓",
       "gridSize": 10,
       "words": [
         "metge",
@@ -9848,128 +10414,131 @@
         "pagès",
         "cuiner",
         "mestre",
-        "policia"
+        "policia",
+        "dentista",
+        "pintor",
+        "granger"
       ],
       "grid": [
         [
-          "m",
-          "e",
-          "t",
-          "g",
-          "e",
-          "l",
-          "r",
-          "k",
-          "w",
-          "p"
-        ],
-        [
-          "m",
-          "e",
-          "s",
-          "t",
-          "r",
-          "e",
-          "r",
-          "w",
-          "j",
-          "o"
-        ],
-        [
-          "k",
-          "d",
-          "p",
-          "i",
-          "l",
-          "o",
-          "t",
           "h",
-          "n",
-          "l"
-        ],
-        [
-          "w",
-          "t",
-          "r",
-          "l",
-          "k",
-          "v",
           "d",
-          "f",
-          "t",
-          "i"
-        ],
-        [
-          "b",
-          "o",
-          "m",
-          "b",
-          "e",
-          "r",
           "h",
-          "n",
-          "q",
-          "c"
-        ],
-        [
-          "p",
-          "v",
-          "d",
-          "f",
-          "k",
-          "t",
-          "r",
-          "w",
-          "j",
-          "i"
-        ],
-        [
-          "a",
-          "q",
           "c",
           "u",
           "i",
           "n",
           "e",
           "r",
-          "d",
-          "a"
+          "g"
         ],
         [
           "g",
-          "t",
-          "r",
-          "l",
-          "k",
-          "v",
           "d",
-          "f",
+          "e",
+          "n",
+          "t",
+          "i",
+          "s",
+          "t",
+          "a",
+          "v"
+        ],
+        [
+          "h",
           "m",
+          "z",
+          "d",
+          "x",
+          "d",
+          "p",
+          "b",
+          "p",
+          "j"
+        ],
+        [
+          "g",
+          "e",
+          "u",
+          "r",
+          "h",
+          "a",
+          "o",
+          "o",
+          "a",
           "h"
         ],
         [
-          "è",
-          "w",
-          "d",
-          "f",
-          "n",
-          "q",
-          "t",
           "r",
+          "s",
+          "m",
+          "p",
+          "p",
+          "w",
           "l",
-          "k"
+          "m",
+          "g",
+          "l"
         ],
         [
-          "s",
-          "v",
-          "h",
-          "g",
-          "m",
-          "d",
-          "f",
+          "a",
+          "t",
+          "e",
+          "i",
+          "i",
           "n",
-          "q",
-          "w"
+          "i",
+          "b",
+          "e",
+          "d"
+        ],
+        [
+          "n",
+          "r",
+          "t",
+          "l",
+          "n",
+          "h",
+          "c",
+          "e",
+          "s",
+          "h"
+        ],
+        [
+          "g",
+          "e",
+          "g",
+          "o",
+          "t",
+          "s",
+          "i",
+          "r",
+          "d",
+          "v"
+        ],
+        [
+          "e",
+          "h",
+          "e",
+          "t",
+          "o",
+          "g",
+          "a",
+          "d",
+          "i",
+          "j"
+        ],
+        [
+          "r",
+          "h",
+          "c",
+          "x",
+          "r",
+          "j",
+          "a",
+          "a",
+          "a",
+          "y"
         ]
       ]
     },
@@ -10362,6 +10931,39 @@
             "dentista",
             "carter"
           ]
+        }
+      ]
+    },
+    {
+      "id": "els-oficis-slaganje",
+      "type": "matching",
+      "prompt": "Relaciona les dues parts per formar paraules:",
+      "joinParts": true,
+      "rightTextOnly": true,
+      "pairs": [
+        {
+          "left": "MES",
+          "right": "TRE"
+        },
+        {
+          "left": "MET",
+          "right": "GE"
+        },
+        {
+          "left": "BOM",
+          "right": "BER"
+        },
+        {
+          "left": "PO",
+          "right": "LICIA"
+        },
+        {
+          "left": "CUI",
+          "right": "NER"
+        },
+        {
+          "left": "DEN",
+          "right": "TISTA"
         }
       ]
     },

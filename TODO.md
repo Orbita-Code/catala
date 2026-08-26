@@ -1,6 +1,6 @@
 # TODO — Katalonski
 
-> Stanje na dan **24.08.2026.** — v. `HANDOVER-2026-08-24.md`
+> Stanje na dan **26.08.2026.** — v. `AUDIT/2026-08-26-audit.md`
 >
 > Pravilo: **rešeno se BRIŠE odavde, ne štriklira.** Zadatak sa kvačicom i
 > dalje mora da se pročita da bi se videlo da je gotov, pa spisak obaveza
@@ -80,10 +80,19 @@ pisali kao da izvora nema. Treba uporediti sa fotografijama, isto kao što je
 **Oprez:** `Ilustracije/WORKBOOK-VS-ILLUSTRATIONS.md` tvrdi da te teme „ne
 postoje u svesci" — to je jedna od dokazanih netačnosti tog dokumenta.
 
-### 4. Redovan audit
+### 4. Zatvoriti rupu T2 — NAJVAŽNIJE POSLE AUDITA
 
-Poslednji pun audit: **30.07.2026.** — prošlo je 25 dana, a pravilo je na svaka 3.
-Kad se mikrofon reši, uraditi pun audit po `~/.claude/AUDIT-PROTOKOL.md`.
+Pun audit je urađen **26.08.2026** (`AUDIT/2026-08-26-audit.md`, ocena 7/10,
+pokrivenost 8/12 dimenzija). Sledeći je za **29.08.**
+
+Iz njega ostaje jedan zadatak koji je važniji od svih ostalih:
+
+**Rupa T2 stoji od 30.07. — 27 dana.** QA prolaz proverava da je zadatak
+**odigran**, ne da je odgovor **tačan po sadržaju**. Kroz tu rupu su prošla sva
+četiri zadatka koja je vlasnica našla 24–25.08. (nerešiv 17, 16 bez slika, 13 sa
+tri netačna odgovora, dijagonale i reči unazad u osmosmerci).
+
+Dok ta rupa stoji, bagove nalazi dete. **Prvo instrument, pa nove funkcije.**
 
 ---
 

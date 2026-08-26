@@ -396,3 +396,27 @@ sme se pojaviti ukoso ni slučajno. Provera sada traži `nedostaje: 0, ukoso: 0`
 da li meri i **DOSTUPNOST**. Reč koja postoji ali se ne može naći, slika koja
 postoji ali se ne prikazuje, kolona koja postoji ali se ne iscrtava — sve troje
 su ista greška, i sve tri su nađene u poslednja dva dana.
+
+---
+
+## 26.08.2026. — Promenila sam tekst u proveri, a ne i u testu koji ga čita
+
+**Šta je promašeno:** pun test protiv produkcije pao je na proveri „Slagalica
+slova", sa porukom „nije se pokrenulo". Igrica je bila ispravna — 102 reči, sve
+unapred. Ja sam istog dana u `scripts/proveri-sopu.mjs` promenila ispis sa
+`ukoso:` na `unazad/ukoso:`, a u `e2e/predeploy.mjs` ostavila stari oblik.
+
+**Ovo je DRUGI put u tri dana da se ista klasa greške ponovi.** 24.08. je isto
+bilo sa brisanjem praznine (`FillSentence` je izvor, `tts.ts` i
+`snimi-izgovor.mjs` su preslikani). Pravilo je tada zapisano — i opet je
+prekršeno, jer se odnosilo na drugi par fajlova.
+
+**Pravilo se PREPISUJE, ne dodaje novo (kako protokol i nalaže):**
+**Kad jedan program ispisuje broj koji drugi čita, to je ugovor između njih.**
+Ko menja ispis, menja i čitača — u istom potezu, pre commita. Nije dovoljno
+„setiti se"; traži se `grep` za stari oblik kroz ceo projekat pre nego što se
+izmena zatvori. Ovde bi `grep -rn "ukoso:" e2e/ scripts/` odmah pokazao oba mesta.
+
+**Šta je spaslo stvar:** čuvar uveden 24.08. — provera koja se nije izvršila NE SME
+da se prijavi kao prošla. Bez njega bi test i dalje pisao zeleno, a ne bi merio
+ništa. Greška je uhvaćena istog dana kad je nastala, umesto za mesec dana.

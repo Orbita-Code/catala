@@ -173,10 +173,28 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
   const c = await noviKontekst(); const p = await c.newPage();
   await p.goto(BASE + "/", { waitUntil: "domcontentloaded", timeout: 90000 });
   await p.waitForTimeout(3000);
-  const d = await p.evaluate(() => { let male = 0, min = 999;
+  /**
+   * MERI SE DVAPUT (26.08.2026, audit).
+   *
+   * Kartice tema ulaze animacijom, a slike i font stižu naknadno. Merenje u
+   * pogrešnom trenutku uhvati element pre nego što dobije konačnu veličinu:
+   * ista provera je u jednom prolazu javila „1 manjih, najmanja 40px", a u
+   * ponovljenom merenju istog trena — nula. Lažna uzbuna troši poverenje u
+   * test isto koliko i propušten kvar.
+   *
+   * Zato: ako prvo merenje nešto nađe, sačeka se da se strana smiri i meri
+   * ponovo. Prijavljuje se DRUGO merenje. Pravi kvar preživi oba.
+   */
+  const izmeri = () => p.evaluate(() => { let male = 0, min = 999;
     document.querySelectorAll("button,a,[role=button],input").forEach((e) => { const r = e.getBoundingClientRect();
       if (r.width < 2 || r.height < 2) return; const m = Math.min(r.width, r.height); if (m < 44) { male++; if (m < min) min = Math.round(m); } });
     return { male, min: min === 999 ? "-" : min }; });
+  let d = await izmeri();
+  if (d.male > 0) {
+    await p.waitForLoadState("networkidle", { timeout: 15000 }).catch(() => {});
+    await p.waitForTimeout(2000);
+    d = await izmeri();
+  }
   await c.close();
   zapisi("BLOK", "Dodirne mete >= 44px (nalaz S2)", d.male === 0, `${d.male} manjih, najmanja ${d.min}px`);
 }
@@ -445,11 +463,26 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
     await p.waitForTimeout(1200);
     dugmadi = await p.locator('button[aria-label^="Digues"]').count();
     if (dugmadi) {
-      await p.locator('button[aria-label^="Digues"]').first().click();
-      for (let i = 0; i < 28; i++) {
-        const w = await p.evaluate(`(() => { const t=document.querySelector(".bg-green-500"); return t ? (parseFloat(t.style.width)||0) : 0; })()`);
-        if (w > najveciNivo) najveciNivo = w;
-        await p.waitForTimeout(200);
+      /**
+       * MERI SE GUŠĆE I POKUŠAVA DVAPUT (26.08.2026, audit).
+       *
+       * Uzorak na svakih 200 ms promašivao je vrhove: lažni mikrofon u testu
+       * daje kratke impulse, pa je ista provera kroz četiri prolaza dala
+       * 100%, 76%, 29% i 0% — i pala na poslednjem. Provera koja zavisi od
+       * trenutka nije provera nego kockanje, a lažna uzbuna troši poverenje
+       * isto kao propušten kvar.
+       *
+       * Sada: uzorak svakih 60 ms (oko 95 umesto 28 po pokušaju), i ako se
+       * ništa ne uhvati — snimanje se pokrene još jednom.
+       */
+      for (let pokusaj = 1; pokusaj <= 2 && najveciNivo === 0; pokusaj++) {
+        await p.locator('button[aria-label^="Digues"]').first().click();
+        for (let i = 0; i < 95; i++) {
+          const w = await p.evaluate(`(() => { const t=document.querySelector(".bg-green-500"); return t ? (parseFloat(t.style.width)||0) : 0; })()`);
+          if (w > najveciNivo) najveciNivo = w;
+          await p.waitForTimeout(60);
+        }
+        if (najveciNivo === 0) await p.waitForTimeout(1200);
       }
       await p.waitForTimeout(2500);
       const tekst = await p.locator("main").innerText();
@@ -703,7 +736,7 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
   let izlaz = "", ok = false;
   try {
     izlaz = execFileSync("node", ["scripts/proveri-sopu.mjs"], { encoding: "utf8" });
-    ok = /nedostaje: 0, ukoso: 0/.test(izlaz);
+    ok = /nedostaje: 0, unazad\/ukoso: 0/.test(izlaz);
   } catch (e) { izlaz = String(e.stdout || e).slice(0, 300); }
   /**
    * OD 25.08.2026 SE TRAŽI I „ukoso: 0" (prijava vlasnice).
@@ -712,7 +745,7 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
    * to ne kaže. Vidi napomenu u `scripts/proveri-sopu.mjs`.
    */
   zapisi("BLOK", "Slagalica slova: sve reči postoje i stoje PRAVO", ok,
-         (izlaz.match(/provereno \d+ reči u mrežama, nedostaje: \d+, ukoso: \d+/) || ["nije se pokrenulo"])[0]);
+         (izlaz.match(/provereno \d+ reči u mrežama, nedostaje: \d+, unazad\/ukoso: \d+/) || ["nije se pokrenulo"])[0]);
 }
 
 // ─── 21. NAPREDAK U ZADATKU SE NE GUBI (nalaz 17.08.2026) ───

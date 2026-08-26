@@ -103,7 +103,43 @@ async function run() {
       const task = themeTasks[t];
       const notes = [];
       process.stderr.write(`  · ${slug} #${t + 1}/${themeTasks.length} ${task.type} (${task.id})\n`);
+
+      /**
+       * IDE SE PRAVO NA ZADATAK, NE KLIKOM „Següent" (26.08.2026, audit).
+       *
+       * Prolaz je otvarao temu jednom i dalje se kretao dugmetom „Sledeće".
+       * Čim se korak pomeri za jedan — a to se dešava jer se neki zadaci sami
+       * završe pri rešavanju — prolaz igra JEDAN zadatak, a odgovore ima za
+       * DRUGI. Otud izveštaj „nije nađena opcija" za sve odgovore odjednom.
+       *
+       * Provereno na produkciji: zadatak 12 teme 1 prolaz je prijavio kao
+       * neispravan (svih 7 opcija „nije nađeno"), a isti niz klikova rukom
+       * prolazi svih 7. Kvar je bio u instrumentu, ne u igrici.
+       *
+       * Sada svaki zadatak počinje od svoje adrese (`?tasca=N`), pa pomeraj
+       * koraka više nije moguć. Adresa kao stanje radi od 31.07.2026 (nalaz S3).
+       */
+      await page.goto(`${BASE}/tema/${slug}?tasca=${t + 1}`, { waitUntil: 'domcontentloaded' }).catch(() => {});
+      await page.waitForSelector('main', { timeout: 15000 }).catch(() => {});
+      await page.waitForTimeout(600);
+
       const before = await taskCounter(page);
+
+      /**
+       * SLIKE SE MERE TEK KAD SE UČITAJU (26.08.2026, audit).
+       *
+       * Prolaz je merio širinu slike odmah po dolasku na zadatak i prijavljivao
+       * „SLIKA oštećena" za slike koje se prosto još nisu učitale. Provereno:
+       * `boca.webp` i `nas.webp` prijavljene kao oštećene, a na produkciji se
+       * učitavaju sa 200 i pune veličine (8.446 i 6.594 bajta), i u pregledaču
+       * se iscrtavaju na 512 px.
+       *
+       * Čeka se da svaka slika u zadatku dobije stvarnu širinu, najviše 4 s.
+       */
+      await page.waitForFunction(
+        () => [...document.querySelectorAll('main img')].every((i) => i.complete),
+        null, { timeout: 4000 }
+      ).catch(() => {});
       // slike pre rešavanja
       const imgs = await imgReport(page);
       for (const im of imgs) if (im.w === 0) brokenSet.add(`${slug}:${task.id || t}:${im.src}(alt=${im.alt})`);
@@ -154,10 +190,20 @@ async function run() {
     fs.writeFileSync(REPORT_PATH, JSON.stringify(report, null, 2));
 
     // sažetak teme
-    const stuck = themeRep.tasks.filter((x) => !x.advanced);
+    /**
+     * CRTANJE NIJE ZAGLAVLJEN ZADATAK (26.08.2026, audit).
+     *
+     * `drawing-canvas` je slobodna aktivnost — nema tačan odgovor i ne završava
+     * se sam. Prolaz ga je u SVAKOJ temi prijavljivao kao „ZAGLAVLJEN", dakle
+     * dvanaest lažnih uzbuna po prolazu. Tolika buka zaklanja prave zastoje:
+     * kad se svaki put javi dvanaest, niko ne primeti trinaesti.
+     */
+    const stuck = themeRep.tasks.filter((x) => !x.advanced && x.type !== 'drawing-canvas');
+    const slobodne = themeRep.tasks.filter((x) => !x.advanced && x.type === 'drawing-canvas');
     const noted = themeRep.tasks.filter((x) => x.notes.length);
     console.log(`\n■ ${slug}: ${themeRep.played}/${themeTasks.length} zadataka  | zaglavljeno: ${stuck.length} | sa napomenom: ${noted.length} | console-err: ${consoleErrors.length} | slike-oštećene: ${themeRep.brokenImages.length}`);
     for (const s of stuck) console.log(`   ⚠ ZAGLAVLJEN #${s.i} ${s.type} (${s.id})`);
+    if (slobodne.length) console.log(`   · slobodna aktivnost (crtanje), nema tačnog odgovora: ${slobodne.length}`);
     for (const n of noted) console.log(`   • #${n.i} ${n.type}: ${n.notes.join(' | ')}`);
     for (const b of themeRep.brokenImages) console.log(`   ✖ SLIKA: ${b}`);
     for (const e of consoleErrors.slice(0, 5)) console.log(`   ✖ CONSOLE: ${e}`);

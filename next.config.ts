@@ -27,6 +27,18 @@ const bezbednosnaZaglavlja = [
       "font-src 'self' data:",
       "img-src 'self' data: blob:",
       "media-src 'self' data: blob:",
+      /**
+       * `worker-src` — DODATO 26.08.2026 (audit).
+       *
+       * Bez njega pregledač za radnike pada na `script-src`, koji ne dozvoljava
+       * `blob:`. `canvas-confetti` pravi radnika baš iz `blob:` — pa je svaka
+       * proslava u igrici upisivala grešku u konzolu i konfeti su radili na
+       * glavnoj niti (sporije, ume da zastane na slabijem laptopu).
+       * Merenje: greška se javljala na SVAKOM tačnom odgovoru, u svim temama.
+       *
+       * Dozvola je uska: samo `blob:` sa naše strane, ništa spolja.
+       */
+      "worker-src 'self' blob:",
       "connect-src 'self'",
       // Niko ne sme da uglavi našu stranu u svoj okvir (zaštita od klik-podvale)
       "frame-ancestors 'none'",

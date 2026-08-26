@@ -4,7 +4,7 @@
 > Popravljeno se briše odavde (ostaje u izveštaju audita tog dana).
 > Nalaz otvoren duže od 3 audita posebno se ističe.
 
-Poslednje ažuriranje: **25.08.2026.** (dvanaesta dopuna)
+Poslednje ažuriranje: **26.08.2026.** (trinaesta dopuna — posle punog audita)
 
 ## Kritično
 
@@ -26,7 +26,14 @@ Poslednje ažuriranje: **25.08.2026.** (dvanaesta dopuna)
 
 ## Srednje
 
-*Nema otvorenih nalaza srednje ozbiljnosti.*
+### N-26.1 — osmosmerka se na sporoj mreži čeka 6 sekundi (26.08.2026, audit)
+
+| | |
+|---|---|
+| **Izmereno** | LCP 3,7 s puna brzina, **6,1 s na 4G** (1,6 Mb/s, 150 ms). Granica je 2,5 s. |
+| **Krivac (izmeren)** | najveći element koji se iscrtava je **slika maskote** (`devojcica-let-oblaci-oci.webp`, 48,7 kB), ne zadatak. Mreža slova se iscrta za 0,15 s. |
+| **Predlog** | maskote isključiti iz merenja (`loading="lazy"`, `fetchpriority="low"`) — nisu sadržaj zadatka |
+| **Napomena** | početna je 2,4 s / 3,6 s — preko granice samo na sporoj mreži |
 
 > **N-14.1 (`cara` i `cabell`) uklonjen 25.08.2026.** Bio je popravljen još
 > **15.08.**, commit izričito kaže „nalaz N-14.1 zatvoren" — a niko ga nije
@@ -36,14 +43,28 @@ Poslednje ažuriranje: **25.08.2026.** (dvanaesta dopuna)
 
 ## Nisko
 
-*Nema otvorenih nalaza.*
+Svi iz audita 26.08.2026 — v. `AUDIT/2026-08-26-audit.md`.
+
+| # | Šta | Gde |
+|---|---|---|
+| N-26.2 | mrkva na krovu piljarnice ima oči i osmeh (pravilo #1 zabranjuje oživljavanje predmeta) | `verduleria.webp` |
+| N-26.3 | dve prodavnice imaju prazno polje za natpis | `fleca.webp`, `fruiteria.webp` |
+| N-26.4 | greške se pamte na DVA mesta i usklađuju ručno | `catala-errors` + `progress.taskErrors` |
+| N-26.5 | prag nivoa upisan na dva mesta (danas se poklapaju u svih 12 vrednosti) | `levels.ts` + `xp.ts` |
+| N-26.6 | dan se računa po UTC-u, pa se „novi dan" prelama u 02:00 po lokalnom | `xp.ts`, `progress.ts` |
+| N-26.7 | 14 slika stoji na disku a igra ih ne koristi | 546 na disku, 537 u spisku |
 
 ## Rupe u testu
 
 | # | Rupa | Prvi put viđena |
 |---|---|---|
 | ~~T1~~ | ~~QA runner se zaglavljuje na `les-botigues` → zadaci 13–20 nikad odigrani~~ **REŠENO 31.07.** | 30.07.2026. |
-| T2 | Runner proverava da je zadatak odigran, ne da je odgovor tačan po sadržaju | 30.07.2026. |
+| **T2** | **Runner proverava da je zadatak odigran, ne da je odgovor tačan po sadržaju** — **OTVORENA 27 DANA.** Kroz nju su prošla sva četiri zadatka koje je vlasnica našla 24–25.08. | 30.07.2026. |
+| T9 | Runner POGAĐA odgovore kod „biraj odgovor" kad ih ne nađe u odgovorniku | 26.08.2026. |
+| T10 | Nijedna provera ne meri kad zadatak POSTANE UPOTREBLJIV, samo kad se iscrta | 26.08.2026. |
+| T11 | Nijedna provera ne dira interakcije zavisne od kursora (klik usred reči, prevlačenje) | 26.08.2026. |
+| ~~T12~~ | ~~QA prolaz se kretao klikom na „Sledeće", pa je igrao jedan zadatak a odgovore imao za drugi~~ **REŠENO 26.08.** — ide pravo na `?tasca=N` | 26.08.2026. |
+| ~~T13~~ | ~~QA prolaz merio slike pre učitavanja i crtanje brojao kao zastoj (12 lažnih uzbuna po prolazu)~~ **REŠENO 26.08.** | 26.08.2026. |
 | ~~T5~~ | ~~Ništa nije proveravalo da je zadatak razvrstavanja REŠIV~~ **REŠENO 24.08.** — `scripts/proveri-razvrstavanje.mjs`, provera 23 u pre-deploy testu (BLOK) | 24.08.2026. |
 | ~~T6~~ | ~~Ništa nije proveravalo da postojeća slika nije SAKRIVENA od deteta~~ **REŠENO 24.08.** — `scripts/proveri-parove-bez-slike.mjs`, provera 24 (UPOZORENJE) | 24.08.2026. |
 | ~~T7~~ | ~~Provera „ništa se ne čita glasom uređaja" imala je UPISANU lokalnu lozinku — protiv produkcije 401 na svakoj strani, pa je javljala „0" i test je bio LAŽNO ZELEN~~ **REŠENO 24.08.** — lozinka iz `BASIC_AUTH`, provera pada ako nije obišla bar 100 zadataka | 24.08.2026. |
