@@ -979,7 +979,7 @@
     {
       "id": "la-classe-18",
       "type": "self-assessment",
-      "prompt": "Autoavaluació: revisa el vocabulari de la classe.",
+      "prompt": "Saps dir aquestes paraules en català? Toca el micròfon i digues la paraula.",
       "items": [
         {
           "catalan": "llapis",
@@ -1847,7 +1847,7 @@
     {
       "id": "l-escola-19",
       "type": "self-assessment",
-      "prompt": "Saps dir aquestes paraules en català?",
+      "prompt": "Saps dir aquestes paraules en català? Toca el micròfon i digues la paraula.",
       "items": [
         {
           "catalan": "aula",
@@ -2844,7 +2844,7 @@
     {
       "id": "el-cos-18",
       "type": "self-assessment",
-      "prompt": "Autoavaluació: Les parts del cos.",
+      "prompt": "Saps dir aquestes paraules en català? Toca el micròfon i digues la paraula.",
       "items": [
         {
           "catalan": "cara",
@@ -3655,7 +3655,7 @@
     {
       "id": "la-roba-15",
       "type": "self-assessment",
-      "prompt": "Saps dir aquestes paraules en català?",
+      "prompt": "Saps dir aquestes paraules en català? Toca el micròfon i digues la paraula.",
       "items": [
         {
           "catalan": "vestit",
@@ -4665,49 +4665,6 @@
       ]
     },
     {
-      "id": "la-casa-20",
-      "type": "write-antonym",
-      "prompt": "Escriu el contrari:",
-      "pairs": [
-        {
-          "word": "casa gran",
-          "antonym": "casa petita"
-        },
-        {
-          "word": "menjador gran",
-          "antonym": "menjador petit"
-        },
-        {
-          "word": "cuina petita",
-          "antonym": "cuina gran"
-        },
-        {
-          "word": "dormitoris petits",
-          "antonym": "dormitoris grans"
-        },
-        {
-          "word": "garatge net",
-          "antonym": "garatge brut"
-        },
-        {
-          "word": "lavabo net",
-          "antonym": "lavabo brut"
-        },
-        {
-          "word": "cortines brutes",
-          "antonym": "cortines netes"
-        },
-        {
-          "word": "terrassa bruta",
-          "antonym": "terrassa neta"
-        },
-        {
-          "word": "escales netes",
-          "antonym": "escales brutes"
-        }
-      ]
-    },
-    {
       "id": "la-casa-21",
       "type": "order-words",
       "prompt": "Ordena les oracions:",
@@ -4855,7 +4812,7 @@
     {
       "id": "la-casa-24",
       "type": "self-assessment",
-      "prompt": "Autoavaluació: La casa",
+      "prompt": "Saps dir aquestes paraules en català? Toca el micròfon i digues la paraula.",
       "items": [
         {
           "catalan": "teulada",
@@ -5761,7 +5718,7 @@
     {
       "id": "la-familia-16",
       "type": "self-assessment",
-      "prompt": "Autoavaluació: La família",
+      "prompt": "Saps dir aquestes paraules en català? Toca el micròfon i digues la paraula.",
       "items": [
         {
           "catalan": "pare",
@@ -6660,7 +6617,7 @@
     {
       "id": "les-botigues-20",
       "type": "self-assessment",
-      "prompt": "Saps dir aquestes paraules en català?",
+      "prompt": "Saps dir aquestes paraules en català? Toca el micròfon i digues la paraula.",
       "items": [
         {
           "catalan": "fruiteria",
@@ -7603,7 +7560,7 @@
     {
       "id": "el-menjar-21",
       "type": "self-assessment",
-      "prompt": "Saps dir aquestes paraules en català?",
+      "prompt": "Saps dir aquestes paraules en català? Toca el micròfon i digues la paraula.",
       "items": [
         {
           "catalan": "ganivet",
@@ -8732,7 +8689,7 @@
     {
       "id": "els-animals-21",
       "type": "self-assessment",
-      "prompt": "Saps dir aquestes paraules en català?",
+      "prompt": "Saps dir aquestes paraules en català? Toca el micròfon i digues la paraula.",
       "items": [
         {
           "catalan": "gos",
@@ -9266,7 +9223,7 @@
     {
       "id": "la-ciutat-9",
       "type": "self-assessment",
-      "prompt": "Saps dir aquestes paraules en català?",
+      "prompt": "Saps dir aquestes paraules en català? Toca el micròfon i digues la paraula.",
       "items": [
         {
           "catalan": "carrer",
@@ -10006,7 +9963,7 @@
     {
       "id": "els-vehicles-9",
       "type": "self-assessment",
-      "prompt": "Saps dir aquestes paraules en català?",
+      "prompt": "Saps dir aquestes paraules en català? Toca el micròfon i digues la paraula.",
       "items": [
         {
           "catalan": "cotxe",
@@ -10674,7 +10631,7 @@
     {
       "id": "els-oficis-9",
       "type": "self-assessment",
-      "prompt": "Saps dir aquestes paraules en català?",
+      "prompt": "Saps dir aquestes paraules en català? Toca el micròfon i digues la paraula.",
       "items": [
         {
           "catalan": "mestre",

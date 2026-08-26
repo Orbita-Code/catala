@@ -515,23 +515,25 @@ export const laCasaTasks: Task[] = [
     ],
   },
 
-  // ── Task 16: Escriu el contrari ──
-  {
-    id: "la-casa-20",
-    type: "write-antonym",
-    prompt: "Escriu el contrari:",
-    pairs: [
-      { word: "casa gran", antonym: "casa petita" },
-      { word: "menjador gran", antonym: "menjador petit" },
-      { word: "cuina petita", antonym: "cuina gran" },
-      { word: "dormitoris petits", antonym: "dormitoris grans" },
-      { word: "garatge net", antonym: "garatge brut" },
-      { word: "lavabo net", antonym: "lavabo brut" },
-      { word: "cortines brutes", antonym: "cortines netes" },
-      { word: "terrassa bruta", antonym: "terrassa neta" },
-      { word: "escales netes", antonym: "escales brutes" },
-    ],
-  },
+  // ── Task 16 iz sveske („Escriu el contrari") — UKLONJEN 26.08.2026 ──
+  //
+  // ODLUKA VLASNICE: „tema pet zadatak 19 izbriši u potpunosti jer je pretežak.
+  // U redu je da se povežu reči, ali dete toliko da ispisuje nije ok."
+  //
+  // Izmereno pre brisanja: 9 odgovora, 115 slova, i to FRAZE OD DVE REČI
+  // („casa petita", „dormitoris grans"). Uz to je tražio gramatiku koju dete
+  // početnik nema — slaganje roda i broja: `gran` → `petita`, `petits` →
+  // `grans`, `brutes` → `netes`. Za poređenje, zadaci gde se imenuju delovi
+  // tela i odeća traže 22 i 38 slova, i to pojedinačne reči uz sliku.
+  //
+  // NAPOMENA UZ PRAVILO #1 (sveska je izvor istine): ovo je JEDINI slučaj gde
+  // je vežba iz sveske uklonjena iz igrice. Uklonjena je izričitom odlukom
+  // vlasnice, ne previdom. Sadržaj vežbe je zapisan ovde da se zna šta je bilo:
+  // casa gran/petita · menjador gran/petit · cuina petita/gran ·
+  // dormitoris petits/grans · garatge net/brut · lavabo net/brut ·
+  // cortines brutes/netes · terrassa bruta/neta · escales netes/brutes
+  //
+  // Tip `write-antonym` posle ovoga nema nijedan zadatak u celoj igri.
 
   // ── Task 17: Ordena les oracions ──
   {
