@@ -505,7 +505,7 @@ export const laClasseTasks: Task[] = [
   {
     id: "la-classe-18",
     type: "self-assessment",
-    prompt: "Autoavaluació: revisa el vocabulari de la classe.",
+    prompt: "Saps dir aquestes paraules en català? Toca el micròfon i digues la paraula.",
     items: [
       { catalan: "llapis", translation: "olovka", image: "llapis" },
       { catalan: "goma", translation: "gumica", image: "goma" },

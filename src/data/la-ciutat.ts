@@ -171,7 +171,7 @@ export const laCiutatTasks: Task[] = [
   {
     id: "la-ciutat-9",
     type: "self-assessment",
-    prompt: "Saps dir aquestes paraules en català?",
+    prompt: "Saps dir aquestes paraules en català? Toca el micròfon i digues la paraula.",
     items: [
       { catalan: "carrer", translation: "ulica", image: "carrer" },
       { catalan: "plaça", translation: "trg", image: "placa" },

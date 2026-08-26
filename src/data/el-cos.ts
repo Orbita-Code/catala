@@ -431,7 +431,7 @@ export const elCosTasks: Task[] = [
   {
     id: "el-cos-18",
     type: "self-assessment",
-    prompt: "Autoavaluació: Les parts del cos.",
+    prompt: "Saps dir aquestes paraules en català? Toca el micròfon i digues la paraula.",
     items: [
       { catalan: "cara", translation: "lice", image: "cara" },
       { catalan: "ull", translation: "oko", image: "ull" },

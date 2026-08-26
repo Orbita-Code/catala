@@ -376,7 +376,7 @@ export const lEscolaTasks: Task[] = [
   {
     id: "l-escola-19",
     type: "self-assessment",
-    prompt: "Saps dir aquestes paraules en català?",
+    prompt: "Saps dir aquestes paraules en català? Toca el micròfon i digues la paraula.",
     items: [
       { catalan: "aula", translation: "učionica", image: "aula" },
       { catalan: "biblioteca", translation: "biblioteka", image: "biblioteca" },

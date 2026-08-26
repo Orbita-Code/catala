@@ -463,7 +463,7 @@ export const laFamiliaTasks: Task[] = [
   {
     id: "la-familia-16",
     type: "self-assessment",
-    prompt: "Autoavaluació: La família",
+    prompt: "Saps dir aquestes paraules en català? Toca el micròfon i digues la paraula.",
     items: [
       { catalan: "pare", translation: "otac/tata", image: "pare" },
       { catalan: "mare", translation: "majka/mama", image: "mare" },

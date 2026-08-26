@@ -165,7 +165,7 @@ export const elsOficisTasks: Task[] = [
   {
     id: "els-oficis-9",
     type: "self-assessment",
-    prompt: "Saps dir aquestes paraules en català?",
+    prompt: "Saps dir aquestes paraules en català? Toca el micròfon i digues la paraula.",
     items: [
       { catalan: "mestre", translation: "učitelj", image: "mestre" },
       { catalan: "metge", translation: "lekar", image: "metge" },

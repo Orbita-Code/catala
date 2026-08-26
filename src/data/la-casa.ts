@@ -593,7 +593,7 @@ export const laCasaTasks: Task[] = [
   {
     id: "la-casa-24",
     type: "self-assessment",
-    prompt: "Autoavaluació: La casa",
+    prompt: "Saps dir aquestes paraules en català? Toca el micròfon i digues la paraula.",
     items: [
       { catalan: "teulada", translation: "krov", image: "teulada" },
       { catalan: "xemeneia", translation: "dimnjak", image: "xemeneia" },

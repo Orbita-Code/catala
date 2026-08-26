@@ -440,7 +440,7 @@ export const lesBotiguesTasks: Task[] = [
   {
     id: "les-botigues-20",
     type: "self-assessment",
-    prompt: "Saps dir aquestes paraules en català?",
+    prompt: "Saps dir aquestes paraules en català? Toca el micròfon i digues la paraula.",
     items: [
       { catalan: "fruiteria", translation: "voćara", image: "fruiteria" },
       { catalan: "peixeteria", translation: "ribarnica", image: "peixeteria" },

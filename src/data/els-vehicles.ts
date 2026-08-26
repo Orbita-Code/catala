@@ -164,7 +164,7 @@ export const elsVehiclesTasks: Task[] = [
   {
     id: "els-vehicles-9",
     type: "self-assessment",
-    prompt: "Saps dir aquestes paraules en català?",
+    prompt: "Saps dir aquestes paraules en català? Toca el micròfon i digues la paraula.",
     items: [
       { catalan: "cotxe", translation: "auto/kola", image: "cotxe" },
       { catalan: "autobús", translation: "autobus", image: "autobus" },

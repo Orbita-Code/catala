@@ -485,7 +485,7 @@ export const elMenjarTasks: Task[] = [
   {
     id: "el-menjar-21",
     type: "self-assessment",
-    prompt: "Saps dir aquestes paraules en català?",
+    prompt: "Saps dir aquestes paraules en català? Toca el micròfon i digues la paraula.",
     items: [
       { catalan: "ganivet", translation: "nož", image: "ganivet" },
       { catalan: "cullera", translation: "kašika", image: "cullera" },

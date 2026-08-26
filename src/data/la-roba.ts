@@ -387,7 +387,7 @@ export const laRobaTasks: Task[] = [
   {
     id: "la-roba-15",
     type: "self-assessment",
-    prompt: "Saps dir aquestes paraules en català?",
+    prompt: "Saps dir aquestes paraules en català? Toca el micròfon i digues la paraula.",
     items: [
       { catalan: "vestit", translation: "haljina", image: "vestit" },
       { catalan: "camisa", translation: "košulja", image: "camisa" },

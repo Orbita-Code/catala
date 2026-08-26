@@ -563,7 +563,7 @@ export const elsAnimalsTasks: Task[] = [
   {
     id: "els-animals-21",
     type: "self-assessment",
-    prompt: "Saps dir aquestes paraules en català?",
+    prompt: "Saps dir aquestes paraules en català? Toca el micròfon i digues la paraula.",
     items: [
       { catalan: "gos", translation: "pas", image: "gos" },
       { catalan: "gat", translation: "mačka", image: "gat" },

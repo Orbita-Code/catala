@@ -225,7 +225,7 @@ export default function SelfAssessment({ task, onComplete }: Props) {
                       : "border-gray-200"
               }`}
             >
-              <div className="mb-2">
+              <div className="mb-1">
                 {illustration ? (
                   <img src={illustration} alt="" draggable={false}
                        className="w-28 h-28 sm:w-32 sm:h-32 object-contain select-none" />
@@ -233,6 +233,27 @@ export default function SelfAssessment({ task, onComplete }: Props) {
                   <div className="w-28 h-28 sm:w-32 sm:h-32 bg-gray-100 rounded-lg" />
                 )}
               </div>
+
+              {/**
+                * REČ SE ISPISUJE NA KARTICI (26.08.2026, prijava vlasnice).
+                *
+                * „Osamnaest slika, a ne znamo uopšte šta se traži. Toliko ljudi
+                * koji liče jedni na druge — to nije ok."
+                *
+                * Bila je u pravu, i zadatak je bio NEREŠIV po prirodi. Reč je
+                * postojala samo u nevidljivoj oznaci za čitače ekrana, pa je
+                * dete imalo samo sliku. U temi o porodici to znači da su `fill`
+                * (sin), `germà` (brat), `cosí` (rođak) i `oncle` (ujak) ČETIRI
+                * DEČAKA KOJI IZGLEDAJU ISTO — nijedna slika ne kazuje koja se
+                * reč traži.
+                *
+                * Ovo je uz to zadatak SAMOPROCENE: pitanje glasi „znaš li da
+                * kažeš ove reči". Dete reč treba da PROČITA i izgovori, a ne da
+                * je pogađa sa slike. Sada je ispisana ispod slike.
+                */}
+              <p className="font-handwriting font-black text-xl sm:text-2xl text-[var(--text)] text-center leading-tight mb-1.5">
+                {item.catalan}
+              </p>
 
               <div className="flex flex-col items-center gap-1.5 w-full">
                 {status === "correct" ? (
