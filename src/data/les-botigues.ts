@@ -369,29 +369,34 @@ export const lesBotiguesTasks: Task[] = [
   },
 
   // === Workbook Ex. 16: Separa oracions (farmàcia) ===
-  {
-    id: "les-botigues-18",
-    type: "separate-words",
-    prompt: "Separa i copia les oracions:",
-    items: [
-      {
-        joined: "Eltermòmetremesuralatemperatura.",
-        words: ["El", "termòmetre", "mesura", "la", "temperatura."],
-      },
-      {
-        joined: "Lainfermeraposaunatirita.",
-        words: ["La", "infermera", "posa", "una", "tirita."],
-      },
-      {
-        joined: "Prencculleresdexarop.",
-        words: ["Prenc", "culleres", "de", "xarop."],
-      },
-      {
-        joined: "Lavendaprotegeixlaferida.",
-        words: ["La", "venda", "protegeix", "la", "ferida."],
-      },
-    ],
-  },
+  // Drugi zadatak „Separa i copia les oracions" — UKLONJEN 27.08.2026.
+  //
+  // ODLUKA VLASNICE: „zadatak sa razdvajanjem reči u rečenici, stavljanje
+  // crtice — jako je težak, ili smisli neki zanimljiv sa sličicama ili ga
+  // izbriši."
+  //
+  // Zašto je bio pretežak — IZMERENO, ne procenjeno:
+  // tražio je OSAM REČI KOJE DETE NIGDE NE UČI. U celoj temi 7:
+  //     temperatura   0 puta drugde
+  //     ferida        0 puta drugde
+  //     xarop         0 puta drugde
+  //     mesura, infermera, protegeix, Prenc, culleres — samo u ovom zadatku
+  // Dakle nije vežbao naučeno nego ispitivao nepoznato.
+  //
+  // Uz to, tema VEĆ IMA isti tip zadatka na mestu 3, sa rečenicama sastavljenim
+  // od reči koje dete uči („Compro fruita a la fruiteria.", „La peixeteria ven
+  // peix."). Drugi po redu je donosio težinu, ne učenje.
+  //
+  // Sadržaj je zapisan da se zna šta je bilo:
+  //   El termòmetre mesura la temperatura.
+  //   La infermera posa una tirita.
+  //   Prenc culleres de xarop.
+  //   La venda protegeix la ferida.
+  //
+  // NAPOMENA UZ PRAVILO #1: treći slučaj uklanjanja vežbe iz sveske, i opet
+  // izričitom odlukom vlasnice. Prethodna dva: „Escriu el contrari" (tema 5,
+  // 26.08.) i „Completa amb el verb correcte" (tema 7, 27.08.).
+
 
   // === Workbook Ex. 17: Classifica productes per botiga ===
   {

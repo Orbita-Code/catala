@@ -6463,52 +6463,6 @@
       ]
     },
     {
-      "id": "les-botigues-18",
-      "type": "separate-words",
-      "prompt": "Separa i copia les oracions:",
-      "items": [
-        {
-          "joined": "Eltermòmetremesuralatemperatura.",
-          "words": [
-            "El",
-            "termòmetre",
-            "mesura",
-            "la",
-            "temperatura."
-          ]
-        },
-        {
-          "joined": "Lainfermeraposaunatirita.",
-          "words": [
-            "La",
-            "infermera",
-            "posa",
-            "una",
-            "tirita."
-          ]
-        },
-        {
-          "joined": "Prencculleresdexarop.",
-          "words": [
-            "Prenc",
-            "culleres",
-            "de",
-            "xarop."
-          ]
-        },
-        {
-          "joined": "Lavendaprotegeixlaferida.",
-          "words": [
-            "La",
-            "venda",
-            "protegeix",
-            "la",
-            "ferida."
-          ]
-        }
-      ]
-    },
-    {
       "id": "les-botigues-19",
       "type": "classify-columns",
       "prompt": "Classifica: A quina botiga ho compres?",
