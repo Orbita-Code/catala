@@ -332,33 +332,26 @@ export const lesBotiguesTasks: Task[] = [
   },
 
   // === Workbook Ex. 14: Completa AHIR / AVUI / DEMÀ ===
-  {
-    id: "les-botigues-16",
-    type: "fill-sentence",
-    prompt: "Completa amb el verb correcte:",
-    sentences: [
-      {
-        text: "Ahir ___ anar a la fruiteria.",
-        blank: "vaig",
-        options: ["aniré", "vaig", "vaig anar"],
-      },
-      {
-        text: "Avui ___ a la fleca.",
-        blank: "vaig",
-        options: ["aniré", "anava", "vaig"],
-      },
-      {
-        text: "Demà ___ a la peixeteria.",
-        blank: "aniré",
-        options: ["vaig", "aniré", "anava"],
-      },
-      {
-        text: "Ahir ___ comprar sardines.",
-        blank: "vaig",
-        options: ["compraré", "compro", "vaig"],
-      },
-    ],
-  },
+  // Zadatak „Completa amb el verb correcte" — UKLONJEN 27.08.2026.
+  //
+  // ODLUKA VLASNICE: „15. zadatak izbriši ceo, jako je težak."
+  //
+  // Zašto je bio pretežak: tražio je GLAGOLSKA VREMENA — prošlo, sadašnje i
+  // buduće — od deteta koje prvi put vidi katalonski. Ponuđeni oblici su
+  // `vaig` / `vaig anar` / `aniré` / `anava` / `compro` / `compraré`, a razlika
+  // između `vaig` i `vaig anar` u istoj listi je suptilna i odraslom početniku.
+  // Nijedan drugi zadatak u igrici ne traži gramatiku ovog reda.
+  //
+  // Sadržaj je zapisan ovde da se zna šta je bilo:
+  //   Ahir ___ anar a la fruiteria.   → vaig
+  //   Avui ___ a la fleca.            → vaig
+  //   Demà ___ a la peixeteria.       → aniré
+  //   Ahir ___ comprar sardines.      → vaig
+  //
+  // NAPOMENA UZ PRAVILO #1 (sveska je izvor istine): ovo je DRUGI slučaj gde je
+  // vežba iz sveske uklonjena, i opet izričitom odlukom vlasnice, ne previdom.
+  // Prvi je bio „Escriu el contrari" u temi 5 (26.08.2026).
+
 
   // === Workbook Ex. 15: Observa productes de farmàcia (6) ===
   {

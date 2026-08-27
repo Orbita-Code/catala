@@ -6432,49 +6432,6 @@
       ]
     },
     {
-      "id": "les-botigues-16",
-      "type": "fill-sentence",
-      "prompt": "Completa amb el verb correcte:",
-      "sentences": [
-        {
-          "text": "Ahir ___ anar a la fruiteria.",
-          "blank": "vaig",
-          "options": [
-            "aniré",
-            "vaig",
-            "vaig anar"
-          ]
-        },
-        {
-          "text": "Avui ___ a la fleca.",
-          "blank": "vaig",
-          "options": [
-            "aniré",
-            "anava",
-            "vaig"
-          ]
-        },
-        {
-          "text": "Demà ___ a la peixeteria.",
-          "blank": "aniré",
-          "options": [
-            "vaig",
-            "aniré",
-            "anava"
-          ]
-        },
-        {
-          "text": "Ahir ___ comprar sardines.",
-          "blank": "vaig",
-          "options": [
-            "compraré",
-            "compro",
-            "vaig"
-          ]
-        }
-      ]
-    },
-    {
       "id": "les-botigues-17",
       "type": "copy-word",
       "prompt": "Llegeix i copia els productes de la farmàcia:",
