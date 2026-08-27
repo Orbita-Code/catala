@@ -43,6 +43,27 @@ export default function MultipleChoice({ task, onComplete, review = false }: Pro
   const autoAdvanceTimer = useRef<NodeJS.Timeout | null>(null);
 
   const question = task.questions[currentQ];
+
+  /**
+   * ILI SVI TAČNI ODGOVORI IMAJU SLIKU, ILI NIJEDAN (27.08.2026).
+   *
+   * Prijava vlasnice, zadatak sa jelovnikom: „slika se pojavljuje samo za prvi
+   * odgovor, a za ostale ne — ili je izbaci, ili napravi sliku za svaki tačan
+   * odgovor."
+   *
+   * Bila je u pravu: tamo `Amanida` ima sliku, a `Hamburguesa amb patates`,
+   * `Fruita amb gelat` i `Pa, beguda i cafè` nemaju — jer su to fraze, ne reči
+   * iz rečnika. Dete tako dobije nagradu za jedno pitanje, a za ostala ne, i to
+   * izgleda kao da nešto nije u redu.
+   *
+   * Pravilo je sada automatsko, bez ijedne nove postavke u podacima: slika se
+   * prikazuje samo ako je IMA SVAKI tačan odgovor u zadatku. Zadaci gde su
+   * odgovori obične reči (a to je većina) i dalje dobijaju slike kao i pre.
+   */
+  const slikeSvuda = task.questions.every((q) => {
+    const t = Array.isArray(q.options) && typeof q.correct === "number" ? q.options[q.correct] : null;
+    return !!(t && getWordIllustration(t));
+  });
   const isCorrect = selected === question.correct;
 
   const handleSelect = (optionIdx: number) => {
@@ -275,8 +296,9 @@ export default function MultipleChoice({ task, onComplete, review = false }: Pro
                     : "bg-gray-50 border-2 border-gray-200 text-[var(--text)] hover:bg-gray-100"
               }`}
             >
-              {/* Sličicu prikazujemo SAMO uz zeleni tačan odgovor (ne odaje odgovor tokom pitanja) */}
-              {showResult && i === question.correct && getWordIllustration(option) ? (
+              {/* Sličicu prikazujemo SAMO uz zeleni tačan odgovor (ne odaje odgovor tokom pitanja),
+                  i SAMO ako je svaki tačan odgovor u zadatku ima — v. `slikeSvuda`. */}
+              {showResult && i === question.correct && slikeSvuda && getWordIllustration(option) ? (
                 <img src={getWordIllustration(option)!} alt="" className="w-12 h-12 object-contain inline mr-2 align-middle" />
               ) : null}
               {option}

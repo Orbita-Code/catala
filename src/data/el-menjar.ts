@@ -446,28 +446,29 @@ export const elMenjarTasks: Task[] = [
   },
 
   // === Workbook Ex. 21: Escriu la pregunta ===
-  {
-    id: "el-menjar-18",
-    type: "fill-sentence",
-    prompt: "Completa la pregunta per cada resposta:",
-    sentences: [
-      {
-        text: "Què ___? — Per dinar tinc macarrons amb tomàquet.",
-        blank: "dinaràs",
-        options: ["soparàs", "dinaràs", "esmorzaràs"],
-      },
-      {
-        text: "Què ___? — Per berenar menjo pa amb xocolata.",
-        blank: "berenaràs",
-        options: ["dinaràs", "soparàs", "berenaràs"],
-      },
-      {
-        text: "Què ___? — Per esmorzar menjo galetes amb llet.",
-        blank: "esmorzaràs",
-        options: ["soparàs", "esmorzaràs", "berenaràs"],
-      },
-    ],
-  },
+  // Zadatak „Completa la pregunta per cada resposta" — UKLONJEN 27.08.2026.
+  //
+  // ODLUKA VLASNICE: „taj zadatak je dosadan i nije im jasan zato što detetu
+  // ništa nije zanimljivo kad nema sličice; izbrisala bih ga ako nemaš neko
+  // drugo rešenje sa slikama."
+  //
+  // Tri razloga, i sva tri su merljiva:
+  //   1. GLAGOLSKO VREME. Tražio je BUDUĆE vreme — `dinaràs`, `soparàs`,
+  //      `berenaràs`, `esmorzaràs`. To je ista gramatika koju je vlasnica
+  //      istog dana izbacila iz teme 7 („Completa amb el verb correcte").
+  //   2. BEZ IJEDNE SLIKE. Dete od šest godina nema za šta da se uhvati.
+  //   3. GLAS. Rečenica ima dva dela spojena crtom („Què ___? — Per dinar…"),
+  //      pa se posle uklanjanja praznine čuje kao da su dve rečenice slepljene.
+  //
+  // Slikovna zamena nije predložena jer bi ponavljala ono što tema već ima:
+  // obroci se uče u zadatku 4 („Completa les frases sobre els àpats") i u tri
+  // zadatka prepisivanja, sve sa slikama.
+  //
+  // Sadržaj je zapisan da se zna šta je bilo:
+  //   Què ___? — Per dinar tinc macarrons amb tomàquet.   → dinaràs
+  //   Què ___? — Per berenar menjo pa amb xocolata.       → berenaràs
+  //   Què ___? — Per esmorzar menjo galetes amb llet.     → esmorzaràs
+
 
   // === Fill-letters for key vocabulary ===
   {

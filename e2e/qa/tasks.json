@@ -7366,40 +7366,6 @@
       ]
     },
     {
-      "id": "el-menjar-18",
-      "type": "fill-sentence",
-      "prompt": "Completa la pregunta per cada resposta:",
-      "sentences": [
-        {
-          "text": "Què ___? — Per dinar tinc macarrons amb tomàquet.",
-          "blank": "dinaràs",
-          "options": [
-            "soparàs",
-            "dinaràs",
-            "esmorzaràs"
-          ]
-        },
-        {
-          "text": "Què ___? — Per berenar menjo pa amb xocolata.",
-          "blank": "berenaràs",
-          "options": [
-            "dinaràs",
-            "soparàs",
-            "berenaràs"
-          ]
-        },
-        {
-          "text": "Què ___? — Per esmorzar menjo galetes amb llet.",
-          "blank": "esmorzaràs",
-          "options": [
-            "soparàs",
-            "esmorzaràs",
-            "berenaràs"
-          ]
-        }
-      ]
-    },
-    {
       "id": "el-menjar-20",
       "type": "fill-letters",
       "prompt": "Completa les lletres que falten:",

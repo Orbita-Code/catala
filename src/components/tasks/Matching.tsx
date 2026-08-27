@@ -150,6 +150,24 @@ export default function Matching({ task, onComplete, review = false }: Props) {
     ? { razmak: 'gap-1.5', padding: 'p-2', visina: 'min-h-[44px]', slika: 'w-8 h-8', slova: 'text-lg md:text-xl' }
     : { razmak: 'gap-2', padding: 'p-3', visina: 'min-h-[60px]', slika: 'w-10 h-10', slova: 'text-xl md:text-2xl' };
 
+  /**
+   * OD OSAM PAROVA NAVIŠE, SVAKA STRANA IDE U DVE POD-KOLONE (27.08.2026).
+   *
+   * Odluka vlasnice, posle prijave: dete nije moglo da nađe `tasses` jer je
+   * ispala ispod ivice ekrana. Zbijanje je pomoglo (strana 978 → 818 px) i na
+   * njenom 13" više ništa ne ispada, ali na manjem laptopu (1280×650) tri reči
+   * su i dalje ostajale dole. Dete ne treba da skroluje da bi našlo reč.
+   *
+   * Devet stavki u dve pod-kolone daje pet redova umesto devet — a prostor levo
+   * i desno je ionako bio prazan.
+   *
+   * Dve pod-kolone tek od `sm` naviše: na telefonu ekran je uzak a visok, pa
+   * tamo jedna kolona i dalje bolje stoji.
+   */
+  const okvirKolone = zbijeno
+    ? `grid grid-cols-1 sm:grid-cols-2 ${stilStavke.razmak} w-[180px] sm:w-[300px] md:w-[380px]`
+    : `flex flex-col ${stilStavke.razmak} w-[180px] md:w-[220px]`;
+
   // Illustration grid mode: images on top, labels below
   if (illustrationMode) {
     return (
@@ -365,7 +383,7 @@ export default function Matching({ task, onComplete, review = false }: Props) {
 
       <div className="flex gap-4 justify-center">
         {/* LEFT COLUMN */}
-        <div className={`flex flex-col ${stilStavke.razmak} w-[180px] md:w-[220px]`}>
+        <div className={okvirKolone}>
           {task.pairs.map((pair, i) => {
             const isBeingDragged = dragState.isDragging && dragState.draggedItem === `left-${i}`;
             const isMatched = matched.has(i);
@@ -408,7 +426,7 @@ export default function Matching({ task, onComplete, review = false }: Props) {
         </div>
 
         {/* RIGHT COLUMN */}
-        <div className={`flex flex-col ${stilStavke.razmak} w-[180px] md:w-[220px]`}>
+        <div className={okvirKolone}>
           {shuffledRight.map((actualIdx, displayIdx) => {
             const isMatched = matched.has(actualIdx);
             const isSelected = selected?.side === "right" && selected.index === displayIdx;

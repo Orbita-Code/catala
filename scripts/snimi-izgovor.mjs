@@ -281,6 +281,26 @@ export function sveStavke() {
         }
       }
 
+      /**
+       * TEKST ZA ČITANJE (`readText`) — npr. jelovnik restorana (27.08.2026).
+       *
+       * Zvučnik uz svaki odeljak izgovara „NASLOV: stavka, stavka, stavka"
+       * („PRIMERS: Amanida, Sopa, Macarrons"). To je opet tekst SASTAVLJEN U
+       * KODU, koji u podacima ne postoji kao celina.
+       *
+       * Ovo je moj propust od istog dana: dodala sam jelovnik u zadatak, a
+       * nisam ga upisala ovde — iako pravilo „svaki `speak()` sa sastavljenim
+       * tekstom mora doći i ovde" stoji zapisano nekoliko redova iznad.
+       * Vlasnica je odmah čula tuđi glas.
+       */
+      if (/readText:/.test(zadatak)) {
+        const blok = (zadatak.match(/readText:\s*\[([\s\S]*?)\n    \],/) || [])[1] || "";
+        for (const m of blok.matchAll(/title:\s*"([^"]+)",\s*items:\s*\[([^\]]*)\]/g)) {
+          const stavke = [...m[2].matchAll(/"([^"]+)"/g)].map((x) => x[1]);
+          if (stavke.length) dodaj(`${m[1]}: ${stavke.join(", ")}`, "recenica");
+        }
+      }
+
       // „Escriu"/„Observa" sa etiketama: na kraju se pročitaju SVE etikete
       if (tip === "label-write" || tip === "label-image") {
         const blok = (zadatak.match(/labels: \[([\s\S]*?)\n    \],/) || [])[1] || "";
