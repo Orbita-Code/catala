@@ -38,6 +38,20 @@ function shuffleArray<T>(arr: T[]): T[] {
 }
 
 // Strip accents from a string (à→a, é→e, ï→i, etc.) but keep ç (it's a separate letter in Catalan)
+/**
+ * PONUĐENA SLOVA SU BEZ KVAČICA — TO JE NAMERNO (potvrdila vlasnica 27.08.2026).
+ *
+ * „Mi smo namerno stavili da ponuđena slova budu bez akcenta, a da reč ponuđena
+ * bude tačno napisana i da im služi kao primer."
+ *
+ * Dakle: reč iznad polja stoji ISPRAVNO, sa kvačicom (`tomàquet`), a pločice sa
+ * slovima su `a` bez kvačice. Dete gleda tačno napisanu reč kao uzor, a ne mora
+ * da traži gde je kvačica na tastaturi od slova.
+ *
+ * **NE „POPRAVLJATI" OVO.** Provera koja traži pločicu `À` naći će samo `A` i
+ * pomisliti da zadatak nije rešiv — to se već desilo 27.08. i bila je greška u
+ * merenju, ne u igrici. Dete je reč `tomàquet` završilo bez problema.
+ */
 function stripAccents(str: string): string {
   // Preserve ç/Ç before NFD normalization (ç is a letter, not an accent)
   return str
@@ -62,11 +76,31 @@ export default function CopyWord({ task, onComplete, review = false }: Props) {
    * baterija, zvoni školsko zvono. Zato aplikacija pamti sama, tiho.
    * Zapis se briše čim se zadatak završi.
    */
-  const [currentWordIdx, setCurrentWordIdx] = useState(() => {
+  /**
+   * POČETNA REČ SE RAČUNA JEDNOM I KORISTI SE SVUDA (27.08.2026).
+   *
+   * Prijava vlasnice, tema 7 zadatak 6: „reč `enciam` ne može da se popuni jer
+   * nema dovoljno slova… bilo je ponuđeno samo 4 slova B E C A, i kad sam
+   * upisala tako, rekao je da je greška; kad sam kliknula `Torna a provar`,
+   * ponudio je onda ispravna slova."
+   *
+   * Bila je u pravu, i uzrok je bio ovaj: zadatak PAMTI dokle je dete stiglo,
+   * pa kad se dete vrati, na ekranu stoji reč na kojoj je stalo (`enciam`) —
+   * a polja i ponuda slova su se PRAVILI OD PRVE REČI U ZADATKU (`ceba`,
+   * dakle B E C A). Reč od šest slova, a četiri ponuđena.
+   *
+   * `Torna a provar` je pravio ponudu od TEKUĆE reči i zato je posle njega sve
+   * bilo u redu — što je i bio jedini način da dete nastavi.
+   *
+   * Kvar pogađa SVAKI zadatak prepisivanja koji je dete započelo pa mu se
+   * vratilo — a to je 49 zadataka, 21% cele igre.
+   */
+  const pocetniIdx = (() => {
     if (review) return 0;
     const z = ucitajNapredak(task.id);
     return z && z.idx > 0 && z.idx < task.words.length ? z.idx : 0;
-  });
+  })();
+  const [currentWordIdx, setCurrentWordIdx] = useState(pocetniIdx);
 
   // Pamti se dokle je dete stiglo — v. objašnjenje gore. Zapis se briše čim
   // se zadatak završi, pa se sledeći put kreće ispočetka.
@@ -78,13 +112,15 @@ export default function CopyWord({ task, onComplete, review = false }: Props) {
 
   // In review mode the word is already solved: fill every slot with the correct
   // (accent-stripped) letter and mark it checked+correct (SlotRow shows green).
+  // Polja i ponuda slova prave se od REČI NA KOJOJ DETE POČINJE, ne od prve u
+  // zadatku — v. objašnjenje uz `pocetniIdx` gore.
   const [slots, setSlots] = useState<(string | null)[]>(() =>
     review
-      ? stripAccents(task.words[0].catalan).split("")
-      : Array(task.words[0].catalan.length).fill(null)
+      ? stripAccents(task.words[pocetniIdx].catalan).split("")
+      : Array(task.words[pocetniIdx].catalan.length).fill(null)
   );
   const [bank, setBank] = useState<{ letter: string; used: boolean }[]>(() =>
-    shuffleArray(task.words[0].catalan.split("")).map((l) => ({ letter: stripAccents(l), used: review }))
+    shuffleArray(task.words[pocetniIdx].catalan.split("")).map((l) => ({ letter: stripAccents(l), used: review }))
   );
   const [checked, setChecked] = useState(review);
   const [correct, setCorrect] = useState<boolean | null>(review ? true : null);

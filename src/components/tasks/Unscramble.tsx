@@ -43,11 +43,21 @@ export default function Unscramble({ task, onComplete, review = false }: Props) 
    * baterija, zvoni školsko zvono. Zato aplikacija pamti sama, tiho.
    * Zapis se briše čim se zadatak završi.
    */
-  const [currentIdx, setCurrentIdx] = useState(() => {
+  /**
+   * POČETNA REČ SE RAČUNA JEDNOM I KORISTI SE SVUDA (27.08.2026).
+   *
+   * Isti kvar kao u „Llegeix i copia" (v. `CopyWord.tsx`), nađen istog dana
+   * traženjem istog obrasca: zadatak PAMTI dokle je dete stiglo, pa kad se
+   * dete vrati, na ekranu stoji reč na kojoj je stalo — a polja i ponuda
+   * slogova su se PRAVILI OD PRVE REČI U ZADATKU. Dete dobije slogove koji ne
+   * pripadaju reči koju vidi.
+   */
+  const pocetniIdx = (() => {
     if (review) return 0;
     const z = ucitajNapredak(task.id);
     return z && z.idx > 0 && z.idx < task.words.length ? z.idx : 0;
-  });
+  })();
+  const [currentIdx, setCurrentIdx] = useState(pocetniIdx);
 
   // Pamti se dokle je dete stiglo — v. objašnjenje gore. Zapis se briše čim
   // se zadatak završi, pa se sledeći put kreće ispočetka.
@@ -78,13 +88,14 @@ export default function Unscramble({ task, onComplete, review = false }: Props) 
       : word.correct.split("");
   };
 
+  // Polja i ponuda slogova prave se od REČI NA KOJOJ DETE POČINJE — v. gore.
   const [slots, setSlots] = useState<(string | null)[]>(() =>
-    review ? solvedSlots(task.words[0]) : initSlots(task.words[0])
+    review ? solvedSlots(task.words[pocetniIdx]) : initSlots(task.words[pocetniIdx])
   );
   const [bank, setBank] = useState<{ letter: string; used: boolean }[]>(() =>
     review
-      ? initBank(task.words[0]).map((b) => ({ ...b, used: true }))
-      : initBank(task.words[0])
+      ? initBank(task.words[pocetniIdx]).map((b) => ({ ...b, used: true }))
+      : initBank(task.words[pocetniIdx])
   );
   const [checked, setChecked] = useState(review);
   const [correct, setCorrect] = useState<boolean | null>(review ? true : null);

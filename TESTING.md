@@ -370,3 +370,15 @@ ume da proveri. Za SVAKI nov ili izmenjen zadatak:
 - [ ] **6. Šta kad POGREŠI?** Odgovori namerno pogrešno pa ispravi.
       (Strelica „pokušaj ponovo" nije radila.)
 - [ ] Preko **12 stavki** u jednom zadatku — razmotriti podelu.
+
+## Slova bez kvačica su NAMERNA odluka (dodato 27.08.2026)
+
+> Vlasnica: „Mi smo namerno stavili da ponuđena slova budu bez akcenta, a da reč
+> ponuđena bude tačno napisana i da im služi kao primer."
+
+- Reč iznad polja stoji **ispravno, sa kvačicom** (`tomàquet`) — to je uzor.
+- Pločice sa slovima su **bez kvačice** (`a`, ne `à`) — dete ne mora da traži
+  kvačicu.
+- [ ] **Provera NE SME da traži pločicu sa kvačicom.** Ako traži `À`, naći će
+      samo `A` i pogrešno prijaviti da zadatak nije rešiv. To se desilo
+      27.08.2026 — bila je greška u merenju, ne u igrici.
