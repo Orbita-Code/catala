@@ -1,6 +1,7 @@
 "use client";
 
 import { safeSetJSON } from "./storage";
+import { jeRecZaVezbu } from "./vezba-filter";
 
 import type { UserProgress, TaskResult } from "@/types/tasks";
 
@@ -193,9 +194,7 @@ export function getThemeProgress(slug: string) {
   if (t.taskErrors) {
     const ocisceno: Record<string, string[]> = {};
     for (const [id, stavke] of Object.entries(t.taskErrors)) {
-      const dobre = (stavke as string[]).filter(
-        (x) => x.includes(" ") || !/[.!?]$/.test(x)
-      );
+      const dobre = (stavke as string[]).filter((x) => jeRecZaVezbu(x));
       if (dobre.length) ocisceno[id] = dobre;
     }
     t.taskErrors = ocisceno;

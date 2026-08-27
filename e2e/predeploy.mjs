@@ -37,8 +37,26 @@ const zapisi = (nivo, provera, prosao, detalj) => {
 const lum = (r, g, b) => { const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126*f(r) + 0.7152*f(g) + 0.0722*f(b); };
 const rgb = (s) => { const m = (s || "").match(/(\d+(?:\.\d+)?)/g); return m ? [+m[0], +m[1], +m[2]] : null; };
 
-const b = await chromium.launch({ headless: true });
-const noviKontekst = (w = 390, h = 844) => b.newContext({ httpCredentials: CRED, viewport: { width: w, height: h } });
+/**
+ * PREGLEDAČ SE PODIŽE PONOVO AKO USPUT CRKNE (27.08.2026).
+ *
+ * Test je pred kraj pucao sa „Target page, context or browser has been closed"
+ * i tu se prekidao — poslednje provere se nikad nisu izvršile, a na ekranu je
+ * ostajao spisak koji izgleda uredno. Prekinut test koji ne kaže da je prekinut
+ * gori je od pale provere, jer se čita kao da je sve prošlo.
+ *
+ * Uzrok je sam Chromium: posle mnogo otvorenih prozora ume da se ugasi (u
+ * ispisu se vidi „GPU process exited unexpectedly"). Zato se sada pre svakog
+ * novog prozora proveri je li pregledač živ i po potrebi podigne ponovo.
+ */
+let b = await chromium.launch({ headless: true });
+const noviKontekst = async (w = 390, h = 844) => {
+  if (!b.isConnected()) {
+    console.log("  (pregledač je crkao usput — podižem ga ponovo)");
+    b = await chromium.launch({ headless: true });
+  }
+  return b.newContext({ httpCredentials: CRED, viewport: { width: w, height: h } });
+};
 
 console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
 
@@ -292,7 +310,20 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
   for (let n = 1; n <= 24 && !nadjen; n++) {
     await p.goto(`${BASE}/tema/la-classe?tasca=${n}`, { waitUntil: "domcontentloaded", timeout: 90000 });
     await p.waitForSelector("main", { timeout: 30000 });
-    await p.waitForTimeout(1200);
+    /**
+     * ČEKA SE DA SE SLIKE STVARNO UČITAJU (27.08.2026).
+     *
+     * Provera je javljala „7 kartica u 4 reda", pa u sledećem prolazu „u 5
+     * redova" — a ručnim merenjem posle učitavanja: **7 kartica u JEDNOM redu**.
+     * Merilo se dok su slike još stizale, dok kartice nemaju visinu i mreža ih
+     * lomi. Broj koji se menja od prolaza do prolaza nije nalaz nego trenutak
+     * merenja.
+     */
+    await p.waitForLoadState("networkidle").catch(() => {});
+    await p.evaluate(() => Promise.all(
+      [...document.images].filter((i) => !i.complete).map((i) => new Promise((r) => { i.onload = i.onerror = r; }))
+    )).catch(() => {});
+    await p.waitForTimeout(600);
     const d = await p.evaluate(() => {
       const m = document.querySelector("main");
       const sirina = m ? Math.round(m.getBoundingClientRect().width) : 0;
@@ -455,13 +486,36 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
   let dugmadi = 0, najveciNivo = 0, ponudaSluhu = false;
   try {
     let nadjen = 0;
-    for (let n = 1; n <= 22 && !nadjen; n++) {
+    /**
+     * ZADATAK SE TRAŽI PO SAMOM MIKROFONU (27.08.2026).
+     *
+     * Ranije se tražio natpis „Autoavaluació" — a taj natpis NIGDE NE STOJI NA
+     * EKRANU, postoji samo kao komentar u fajlu sa podacima. Petlja zato nikad
+     * nije ništa našla, pa je izlazila na poslednjem obiđenom zadatku i tamo
+     * brojala dugmad. Dok je taj poslednji slučajno bio zadatak sa mikrofonom,
+     * provera je bila zelena — bez ijednog razloga. Kad se broj zadataka u temi
+     * promenio, ista provera je pocrvenela, iako mikrofon radi.
+     *
+     * Provera koja zavisi od slučaja nije provera. Sada se traži baš ono što se
+     * meri: dugme za snimanje.
+     */
+    /**
+     * ČEKA SE DUGME, NE FIKSNIH 700 ms (27.08.2026).
+     *
+     * Prvo izdanje ove petlje je posle otvaranja strane spavalo 700 ms pa
+     * brojalo. Na praznoj mašini je stizalo, na zauzetoj nije — ista provera je
+     * u jednom prolazu našla 12 dugmadi, a u sledećem nijedno, bez ijedne
+     * izmene u aplikaciji (ručno izmereno u istom trenutku: `el-cos` zadatak 18
+     * ima 12 dugmadi). Provera koja zavisi od brzine mašine nije provera.
+     */
+    for (let n = 1; n <= 24 && !nadjen; n++) {
       await p.goto(`${BASE}/tema/el-cos?tasca=${n}`, { waitUntil: "domcontentloaded", timeout: 90000 });
-      await p.waitForTimeout(700);
-      if ((await p.locator("main").innerText()).includes("Autoavaluació")) nadjen = n;
+      const ima = await p.waitForSelector('button[aria-label^="Digues"]', { timeout: 4000 })
+        .then(() => true).catch(() => false);
+      if (ima) nadjen = n;
     }
     await p.waitForTimeout(1200);
-    dugmadi = await p.locator('button[aria-label^="Digues"]').count();
+    dugmadi = nadjen ? await p.locator('button[aria-label^="Digues"]').count() : 0;
     if (dugmadi) {
       /**
        * MERI SE GUŠĆE I POKUŠAVA DVAPUT (26.08.2026, audit).
@@ -736,7 +790,7 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
   let izlaz = "", ok = false;
   try {
     izlaz = execFileSync("node", ["scripts/proveri-sopu.mjs"], { encoding: "utf8" });
-    ok = /nedostaje: 0, unazad\/ukoso: 0/.test(izlaz);
+    ok = /nedostaje: 0, unazad\/ukoso: 0, bez slike ili van teme: 0/.test(izlaz);
   } catch (e) { izlaz = String(e.stdout || e).slice(0, 300); }
   /**
    * OD 25.08.2026 SE TRAŽI I „ukoso: 0" (prijava vlasnice).
@@ -744,8 +798,8 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
    * da traži pravo nema kako da pogodi da odjednom sme i ukoso, a nigde mu se
    * to ne kaže. Vidi napomenu u `scripts/proveri-sopu.mjs`.
    */
-  zapisi("BLOK", "Slagalica slova: sve reči postoje i stoje PRAVO", ok,
-         (izlaz.match(/provereno \d+ reči u mrežama, nedostaje: \d+, unazad\/ukoso: \d+/) || ["nije se pokrenulo"])[0]);
+  zapisi("BLOK", "Slagalica slova: reči postoje, stoje PRAVO i uče se u temi", ok,
+         (izlaz.match(/provereno \d+ reči u mrežama, nedostaje: \d+, unazad\/ukoso: \d+, bez slike ili van teme: \d+/) || ["nije se pokrenulo"])[0]);
 }
 
 // ─── 21. NAPREDAK U ZADATKU SE NE GUBI (nalaz 17.08.2026) ───
@@ -808,6 +862,66 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
   const prve = izlaz.split("\n").filter((r) => r.startsWith("  ")).slice(0, 3).map((r) => r.trim());
   zapisi("BLOK", "Nijedna reč se ne prikazuje bez slike", broj === 0,
          broj < 0 ? "provera se nije pokrenula" : `bez slike: ${broj}${prve.length ? " — " + prve.join(", ") : ""}`);
+}
+
+// ─── U PREGLEDU ZAVRŠENOG ZADATKA STRELICE RADE (prijava vlasnice 27.08.2026) ───
+//
+// „Ako odem na zadnjoj strani proslave na pregledaj sve zadatke, strelica za
+//  listanje reči npr. u prvom zadatku ne radi."
+//
+// Tačno tako: u pregledu je ceo zadatak umotan u `pointer-events-none`, da dete
+// ne bi ponovo rešavalo ono što je već rešilo. Ali to gasi SVE klikove, pa i
+// listanje — dete koje hoće da pogleda drugu reč ostane bez ijednog dugmeta.
+//
+// Provera: zadatak se označi kao završen, otvori se, i strelica se klikne.
+// Brojač reči mora da se pomeri, a reč mora i dalje da stoji POPUNJENA (u
+// pregledu je već rešena; prazna polja bi izgledala kao izgubljen napredak).
+{
+  const c = await noviKontekst(1200, 900); const p = await c.newPage();
+  let pre = "", posle = "", slova = 0;
+  try {
+    await p.goto(BASE, { waitUntil: "domcontentloaded", timeout: 60000 });
+    await p.evaluate(() => localStorage.setItem("catala-progress", JSON.stringify({
+      "la-classe": { currentTask: 0, completedTasks: ["la-classe-1-1"], streak: 1, bestStreak: 1, stars: 3, taskErrors: {} },
+    })));
+    await p.goto(`${BASE}/tema/la-classe?tasca=1`, { waitUntil: "domcontentloaded", timeout: 60000 });
+    await p.waitForLoadState("networkidle").catch(() => {});
+    await p.waitForTimeout(1200);
+    const brojac = () => p.locator("text=/^\\d+ \\/ \\d+$/").first().innerText().catch(() => "?");
+    pre = await brojac();
+    await p.locator('button[aria-label="Paraula següent"]').click({ timeout: 4000 }).catch(() => {});
+    await p.waitForTimeout(800);
+    posle = await brojac();
+    slova = await p.evaluate(() => [...document.querySelectorAll("main *")]
+      .filter((e) => e.children.length === 0 && /^[a-zà-úç]$/i.test(e.textContent.trim())).length);
+  } catch { /* ostaje prazno i pada dole */ }
+  await c.close();
+  zapisi("BLOK", "Pregled završenog zadatka: strelice listaju reči", pre !== "" && pre !== posle && slova > 0,
+         `brojač ${pre} → ${posle}, slova na ekranu: ${slova}`);
+}
+
+// ─── VEŽBA NUDI SAMO REČI, NE PITANJA (prijava vlasnice 27.08.2026) ───
+//
+// „imam practica paraulas i glas ne izgovara dobro, umesto Amb què čita amb k,
+//  a onda mi ništa nije jasno jer su to neke reči sa postavljanjem pitanja, a
+//  nema nigde odgovora da se klikne nego samo dugmići Znam i ne znam."
+//
+// Zadatak sa ponuđenim odgovorima je kao grešku pamtio CELO PITANJE („Amb què
+// vola l'au?") umesto reči koja se uči („ales"). U vežbi se prikazuje samo
+// tekst i dva dugmeta, pa dete dobije pitanje bez ijednog odgovora; snimak za
+// pitanje ne postoji, pa ga je čitao glas uređaja.
+//
+// Takvi zapisi ostaju u pregledaču deteta i posle popravke zadatka, zato ih
+// aplikacija izbacuje pri čitanju. Ova provera upiše mešavinu (pitanje, opis,
+// slepljenu rečenicu i jednu pravu reč) i gleda šta ostane za vežbanje.
+{
+  const { spawnSync } = require("child_process");
+  const r = spawnSync("node", ["scripts/proveri-vezbu.mjs"],
+                      { encoding: "utf8", env: { ...process.env, BASE, BASIC_AUTH: process.env.BASIC_AUTH || "" } });
+  const izlaz = String(r.stdout || "") + String(r.stderr || "");
+  const m = izlaz.match(/nudi za vežbanje: \u201e([^\u201c]*)\u201c/);
+  zapisi("BLOK", "Za vežbanje se nude samo reči (ne pitanja)", r.status === 0,
+         m ? `posle 3 nepodobna zapisa ostalo: ${m[1]}` : "provera se nije pokrenula");
 }
 
 // ─── 23. RAZVRSTAVANJE MORA BITI REŠIVO (nalaz 24.08.2026) ───

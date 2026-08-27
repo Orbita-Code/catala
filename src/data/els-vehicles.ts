@@ -65,48 +65,42 @@ export const elsVehiclesTasks: Task[] = [
     type: "word-search",
     prompt: "Troba les paraules a la sopa de lletres. Poden anar →\u00A0↓",
     gridSize: 10,
-    words: ["cotxe", "tren", "moto", "taxi", "avió", "barca", "camió", "vaixell", "metro", "patinet", "helicopter"],
+    /**
+     * REČI SU SAMO ONE KOJE TEMA UČI I KOJE IMAJU SLIKU (27.08.2026).
+     *
+     * Iz istog razloga kao u temi „Els oficis": `patinet` je stajao u mreži, a
+     * u celoj temi se pojavljuje još samo jednom, kao pogrešan odgovor, i nema
+     * svoju sliku. Zamenjen je sa `bicicleta`, koja se u temi pojavljuje u više
+     * zadataka i ima sliku.
+     */
+    words: ["cotxe", "tren", "moto", "taxi", "avió", "barca", "camió", "vaixell", "metro", "bicicleta", "helicopter"],
     grid: [
-      ["a", "f", "e", "b", "a", "r", "c", "a", "h", "c"],
-      ["e", "v", "h", "z", "d", "x", "d", "j", "e", "u"],
-      ["r", "c", "m", "o", "t", "o", "v", "c", "l", "h"],
-      ["p", "a", "a", "h", "w", "l", "a", "o", "i", "n"],
-      ["a", "m", "t", "a", "m", "d", "i", "t", "c", "h"],
-      ["t", "i", "a", "v", "e", "h", "x", "x", "o", "s"],
-      ["i", "o", "x", "i", "t", "d", "e", "e", "p", "v"],
-      ["n", "h", "i", "o", "r", "g", "l", "d", "t", "i"],
-      ["e", "j", "h", "c", "o", "x", "l", "j", "e", "a"],
-      ["t", "a", "a", "t", "r", "e", "n", "y", "r", "h"],
+      ["f", "o", "f", "c", "o", "t", "x", "e", "h", "j"],
+      ["p", "m", "z", "b", "a", "i", "t", "b", "e", "z"],
+      ["q", "b", "m", "e", "t", "r", "o", "i", "l", "i"],
+      ["t", "a", "x", "i", "g", "h", "e", "c", "i", "h"],
+      ["l", "r", "m", "o", "t", "o", "g", "i", "c", "a"],
+      ["v", "c", "t", "r", "e", "n", "n", "c", "o", "v"],
+      ["v", "a", "i", "x", "e", "l", "l", "l", "p", "i"],
+      ["m", "l", "f", "n", "x", "o", "k", "e", "t", "o"],
+      ["l", "c", "a", "m", "i", "o", "a", "t", "e", "i"],
+      ["h", "l", "a", "n", "h", "w", "g", "a", "r", "v"],
     ],
   },
-  {
-    id: "els-vehicles-6",
-    type: "classify-columns",
-    prompt: "Classifica: terra, mar o aire?",
-    columns: [
-      {
-        title: "Terra",
-        items: ["cotxe", "autobús", "tren", "moto", "bicicleta", "taxi"],
-      },
-      {
-        title: "Mar o aire",
-        items: ["vaixell", "barca", "avió", "helicòpter"],
-      },
-    ],
-    allItems: [
-      "cotxe",
-      "autobús",
-      "tren",
-      "moto",
-      "bicicleta",
-      "taxi",
-      "vaixell",
-      "barca",
-      "avió",
-      "helicòpter",
-    ],
-    circleMode: true,
-  },
+  // Zadatak „Classifica: terra, mar o aire?" — UKLONJEN 27.08.2026.
+  //
+  // Bio je duplikat zadatka 11 („Classifica: Terra vs Mar vs Aire"), samo
+  // slabiji:
+  //   • imao je DVE kolone, i to sa neprirodnom „Mar o aire" — more i vazduh
+  //     spojeni u jednu grupu, iako dete zna razliku;
+  //   • zadatak 11 ima TRI prave kolone (Terra / Mar / Aire);
+  //   • svih deset vozila iz ovog zadatka POSTOJI i u zadatku 11, plus još tri
+  //     (`camió`, `canoa`, `globus`). Dakle ništa se ne gubi brisanjem.
+  //
+  // Sadržaj je zapisan da se zna šta je bilo:
+  //   Terra:      cotxe, autobús, tren, moto, bicicleta, taxi
+  //   Mar o aire: vaixell, barca, avió, helicòpter
+
   {
     id: "els-vehicles-7",
     type: "fill-sentence",

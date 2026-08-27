@@ -50,7 +50,13 @@ export default function WriteAntonym({ task, onComplete, review = false }: Props
       newResults[i] = isCorrect;
       if (!isCorrect) {
         allCorrect = false;
-        erroredItems.push(pair.word);
+        /**
+         * VEŽBA SE REČ KOJU DETE NIJE ZNALO, NE ONA KOJU JE DOBILO
+         * (27.08.2026). Ranije se pamtila `pair.word` — reč koja je detetu
+         * bila DATA na ekranu. Ona mu nije bila problem; problem je bio njen
+         * suprotan par, koji nije umelo da napiše.
+         */
+        erroredItems.push(pair.antonym);
       }
     });
 

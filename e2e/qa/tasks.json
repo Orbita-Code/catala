@@ -9579,171 +9579,131 @@
         "camió",
         "vaixell",
         "metro",
-        "patinet",
+        "bicicleta",
         "helicopter"
       ],
       "grid": [
         [
-          "a",
           "f",
+          "o",
+          "f",
+          "c",
+          "o",
+          "t",
+          "x",
           "e",
+          "h",
+          "j"
+        ],
+        [
+          "p",
+          "m",
+          "z",
           "b",
           "a",
-          "r",
-          "c",
-          "a",
-          "h",
-          "c"
+          "i",
+          "t",
+          "b",
+          "e",
+          "z"
         ],
         [
-          "e",
-          "v",
-          "h",
-          "z",
-          "d",
-          "x",
-          "d",
-          "j",
-          "e",
-          "u"
-        ],
-        [
-          "r",
-          "c",
+          "q",
+          "b",
           "m",
-          "o",
-          "t",
-          "o",
-          "v",
-          "c",
-          "l",
-          "h"
-        ],
-        [
-          "p",
-          "a",
-          "a",
-          "h",
-          "w",
-          "l",
-          "a",
-          "o",
-          "i",
-          "n"
-        ],
-        [
-          "a",
-          "m",
-          "t",
-          "a",
-          "m",
-          "d",
-          "i",
-          "t",
-          "c",
-          "h"
-        ],
-        [
-          "t",
-          "i",
-          "a",
-          "v",
           "e",
-          "h",
-          "x",
-          "x",
-          "o",
-          "s"
-        ],
-        [
-          "i",
-          "o",
-          "x",
-          "i",
           "t",
-          "d",
-          "e",
-          "e",
-          "p",
-          "v"
-        ],
-        [
-          "n",
-          "h",
-          "i",
-          "o",
           "r",
-          "g",
+          "o",
+          "i",
           "l",
-          "d",
-          "t",
           "i"
         ],
         [
-          "e",
-          "j",
-          "h",
-          "c",
-          "o",
+          "t",
+          "a",
           "x",
-          "l",
-          "j",
+          "i",
+          "g",
+          "h",
           "e",
+          "c",
+          "i",
+          "h"
+        ],
+        [
+          "l",
+          "r",
+          "m",
+          "o",
+          "t",
+          "o",
+          "g",
+          "i",
+          "c",
           "a"
         ],
         [
-          "t",
-          "a",
-          "a",
+          "v",
+          "c",
           "t",
           "r",
           "e",
           "n",
-          "y",
+          "n",
+          "c",
+          "o",
+          "v"
+        ],
+        [
+          "v",
+          "a",
+          "i",
+          "x",
+          "e",
+          "l",
+          "l",
+          "l",
+          "p",
+          "i"
+        ],
+        [
+          "m",
+          "l",
+          "f",
+          "n",
+          "x",
+          "o",
+          "k",
+          "e",
+          "t",
+          "o"
+        ],
+        [
+          "l",
+          "c",
+          "a",
+          "m",
+          "i",
+          "o",
+          "a",
+          "t",
+          "e",
+          "i"
+        ],
+        [
+          "h",
+          "l",
+          "a",
+          "n",
+          "h",
+          "w",
+          "g",
+          "a",
           "r",
-          "h"
+          "v"
         ]
       ]
-    },
-    {
-      "id": "els-vehicles-6",
-      "type": "classify-columns",
-      "prompt": "Classifica: terra, mar o aire?",
-      "columns": [
-        {
-          "title": "Terra",
-          "items": [
-            "cotxe",
-            "autobús",
-            "tren",
-            "moto",
-            "bicicleta",
-            "taxi"
-          ]
-        },
-        {
-          "title": "Mar o aire",
-          "items": [
-            "vaixell",
-            "barca",
-            "avió",
-            "helicòpter"
-          ]
-        }
-      ],
-      "allItems": [
-        "cotxe",
-        "autobús",
-        "tren",
-        "moto",
-        "bicicleta",
-        "taxi",
-        "vaixell",
-        "barca",
-        "avió",
-        "helicòpter"
-      ],
-      "circleMode": true
     },
     {
       "id": "els-vehicles-7",
@@ -10248,129 +10208,129 @@
         "mestre",
         "policia",
         "dentista",
-        "pintor",
-        "granger"
+        "jardiner",
+        "carter"
       ],
       "grid": [
         [
-          "h",
+          "f",
+          "o",
+          "f",
+          "j",
+          "p",
+          "m",
+          "z",
+          "b",
+          "j",
+          "a"
+        ],
+        [
+          "i",
           "d",
+          "e",
+          "n",
+          "t",
+          "i",
+          "s",
+          "t",
+          "a",
+          "t"
+        ],
+        [
+          "z",
+          "m",
+          "q",
+          "i",
+          "g",
           "h",
+          "p",
           "c",
+          "r",
+          "e"
+        ],
+        [
+          "b",
+          "e",
+          "h",
+          "l",
+          "g",
+          "v",
+          "o",
           "u",
+          "d",
+          "n"
+        ],
+        [
+          "o",
+          "s",
+          "m",
+          "p",
+          "c",
+          "m",
+          "l",
+          "i",
+          "i",
+          "p"
+        ],
+        [
+          "m",
+          "t",
+          "e",
+          "i",
+          "a",
+          "l",
           "i",
           "n",
-          "e",
+          "n",
+          "a"
+        ],
+        [
+          "b",
           "r",
+          "t",
+          "l",
+          "r",
+          "f",
+          "c",
+          "e",
+          "e",
           "g"
         ],
         [
-          "g",
-          "d",
           "e",
+          "e",
+          "g",
+          "o",
+          "t",
           "n",
-          "t",
           "i",
-          "s",
-          "t",
-          "a",
-          "v"
+          "r",
+          "r",
+          "e"
         ],
         [
-          "h",
-          "m",
-          "z",
-          "d",
+          "r",
           "x",
-          "d",
-          "p",
-          "b",
-          "p",
-          "j"
-        ],
-        [
-          "g",
           "e",
-          "u",
-          "r",
-          "h",
-          "a",
-          "o",
+          "t",
+          "e",
           "o",
           "a",
-          "h"
+          "k",
+          "l",
+          "s"
         ],
         [
+          "a",
+          "i",
+          "h",
+          "l",
           "r",
-          "s",
-          "m",
-          "p",
-          "p",
+          "a",
+          "n",
+          "h",
           "w",
-          "l",
-          "m",
-          "g",
-          "l"
-        ],
-        [
-          "a",
-          "t",
-          "e",
-          "i",
-          "i",
-          "n",
-          "i",
-          "b",
-          "e",
-          "d"
-        ],
-        [
-          "n",
-          "r",
-          "t",
-          "l",
-          "n",
-          "h",
-          "c",
-          "e",
-          "s",
-          "h"
-        ],
-        [
-          "g",
-          "e",
-          "g",
-          "o",
-          "t",
-          "s",
-          "i",
-          "r",
-          "d",
-          "v"
-        ],
-        [
-          "e",
-          "h",
-          "e",
-          "t",
-          "o",
-          "g",
-          "a",
-          "d",
-          "i",
-          "j"
-        ],
-        [
-          "r",
-          "h",
-          "c",
-          "x",
-          "r",
-          "j",
-          "a",
-          "a",
-          "a",
-          "y"
+          "g"
         ]
       ]
     },
@@ -10453,53 +10413,6 @@
             "bomber",
             "carter"
           ]
-        }
-      ]
-    },
-    {
-      "id": "els-oficis-8",
-      "type": "multiple-choice",
-      "prompt": "Tria la resposta correcta:",
-      "questions": [
-        {
-          "question": "Qui treballa a l'hospital?",
-          "options": [
-            "mestre",
-            "metge",
-            "cuiner",
-            "jardiner"
-          ],
-          "correct": 1
-        },
-        {
-          "question": "Qui apaga els incendis?",
-          "options": [
-            "policia",
-            "pilot",
-            "bomber",
-            "carter"
-          ],
-          "correct": 2
-        },
-        {
-          "question": "Qui prepara el menjar al restaurant?",
-          "options": [
-            "cambrer",
-            "cuiner",
-            "dentista",
-            "pagès"
-          ],
-          "correct": 1
-        },
-        {
-          "question": "Qui condueix un avió?",
-          "options": [
-            "mestre",
-            "bomber",
-            "carter",
-            "pilot"
-          ],
-          "correct": 3
         }
       ]
     },

@@ -199,6 +199,38 @@ pa napomene odlaze **pogrešnom** zadatku. Prijavio je grešku za reč „tonyin
 kome te reči nema. Zato se posle isteka jedinica proverava **u svežem stanju**.
 Upisano u `~/.claude/AUDIT-PROTOKOL.md`, odeljak „SAMOOBNAVLJANJE".
 
+## Popravljeno 27.08.2026 — vežba na kraju teme i dve rupe u testu
+
+**N-27.1 — vežba je nudila PITANJA umesto reči** (prijavila vlasnica, tema „Els animals").
+Zadatak sa ponuđenim odgovorima pamtio je kao grešku CELO PITANJE („Amb què vola l'au?")
+umesto reči koja se uči („ales"). U vežbi „Practicar paraules" stoji samo tekst i dva
+dugmeta („Ho sé" / „Encara no"), pa je dete dobijalo pitanje bez ijednog odgovora; snimak
+za pitanje ne postoji, pa ga je čitao glas uređaja i izgovarao „què" kao „k".
+→ `src/lib/vezba-filter.ts` (novo, jedno merilo za oba mesta gde greške žive),
+`MultipleChoice.tsx` (pamti tačan odgovor, i to samo ako je reč i ima snimak Montse),
+`errors.ts` + `progress.ts` (izbacuju stare zapise iz pregledača deteta).
+Provera `scripts/proveri-vezbu.mjs`, uvezana u pre-deploy: **pala protiv starog koda
+(nudila 3 stavke umesto 1), prošla protiv novog.**
+
+**N-27.2 — „sve tačno" i „šta se vežba" bili su isti spisak.** Nastalo pri popravci N-27.1:
+zadatak u kome se ne pamti nijedna reč (odgovori su dugi opisi) ispao bi „bez greške" iako
+je dete grešilo. → dva odvojena brojanja u `MultipleChoice.tsx`.
+
+**N-27.3 — provera mikrofona bila je LAŽNO ZELENA.** Tražila je natpis „Autoavaluació",
+koji **nigde ne stoji na ekranu** — postoji samo kao komentar u fajlu sa podacima. Petlja
+nikad ništa nije našla, pa je brojala dugmad na poslednjem obiđenom zadatku; dok je taj
+slučajno bio zadatak sa mikrofonom, provera je bila zelena bez razloga. Kad se broj
+zadataka u temi promenio, ista provera je pocrvenela iako mikrofon radi (izmereno:
+`el-cos` zadatak 18 ima **12 dugmadi za snimanje**). → traži se samo dugme za snimanje.
+
+**N-27.4 — pre-deploy test je pucao pred kraj i tu se prekidao.** „Target page, context or
+browser has been closed" — Chromium se ugasi posle mnogo otvorenih prozora („GPU process
+exited unexpectedly"). Poslednje provere se nisu izvršavale, a ispis izgleda uredno.
+→ pregledač se sada podiže ponovo ako usput crkne.
+
+**N-27.5 — u zadatku sa suprotnim rečima vežbala se pogrešna reč.** Pamtila se reč koja je
+detetu bila DATA, a ne ona koju nije umelo da napiše. → `WriteAntonym.tsx`.
+
 ## Popravljeno 30.07.2026. (ne vraćati se na ovo)
 
 - Maskote završavale u gornjem levom uglu umesto u donjim uglovima (`position: fixed` + `transform` roditelja) → portal u `<body>`

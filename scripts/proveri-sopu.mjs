@@ -54,5 +54,41 @@ for (const f of fs.readdirSync("src/data").filter(x=>x.endsWith(".ts")&&!["theme
     }
   }
 }
-console.log(`provereno ${ukupno} reči u mrežama, nedostaje: ${fali}, unazad/ukoso: ${ukoso}`);
-process.exit(fali || ukoso ? 1 : 0);
+/**
+ * REČ IZ MREŽE MORA DA POSTOJI I VAN MREŽE, I DA IMA SLIKU (27.08.2026).
+ *
+ * Prijava vlasnice: „nemamo slike za `granger` i `pintor` u sopa de lletres u
+ * temi Els oficis; šta je granger, i ne vidim da se spominje kasnije u
+ * zadacima."
+ *
+ * Bila je u pravu: obe reči stajale su SAMO u mreži — nigde drugde u temi, i
+ * nijedna nije imala sliku. Dete tako traži reč koju nikad nije videlo, ne zna
+ * šta znači, i posle je nigde ne sretne. Slagalica prestaje da bude vežbanje
+ * naučenog i postaje traženje nepoznatog niza slova.
+ *
+ * Zato: svaka reč iz mreže mora da se pojavi bar još jednom u istoj temi (u
+ * nekom drugom zadatku) i mora da ima svoju sliku.
+ */
+let siroce = 0;
+{
+  const slike = new Set(
+    fs.readdirSync("public/illustrations").map((f) => f.replace(/\.webp$/, ""))
+  );
+  const kljuc = (x) => x.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[\s']+/g, "-").toLowerCase();
+  for (const f of fs.readdirSync("src/data").filter((f) => f.endsWith(".ts"))) {
+    const izvor = fs.readFileSync("src/data/"+f, "utf8");
+    const m = izvor.match(/type: "word-search"[\s\S]{0,600}?words: \[([^\]]+)\]/);
+    if (!m) continue;
+    for (const w of [...m[1].matchAll(/"([^"]+)"/g)].map((x) => x[1])) {
+      const koliko = (izvor.match(new RegExp('"' + w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + '"', "g")) || []).length;
+      const imaSliku = slike.has(kljuc(w));
+      if (koliko < 2 || !imaSliku) {
+        siroce++;
+        console.log(`  ✗ ${f}: „${w}" — u temi se pojavljuje ${koliko}x, slika: ${imaSliku ? "ima" : "NEMA"}`);
+      }
+    }
+  }
+}
+
+console.log(`provereno ${ukupno} reči u mrežama, nedostaje: ${fali}, unazad/ukoso: ${ukoso}, bez slike ili van teme: ${siroce}`);
+process.exit(fali || ukoso || siroce ? 1 : 0);

@@ -382,3 +382,14 @@ ume da proveri. Za SVAKI nov ili izmenjen zadatak:
 - [ ] **Provera NE SME da traži pločicu sa kvačicom.** Ako traži `À`, naći će
       samo `A` i pogrešno prijaviti da zadatak nije rešiv. To se desilo
       27.08.2026 — bila je greška u merenju, ne u igrici.
+
+### Kraj teme — vežba „Practicar paraules" (dodato 27.08.2026)
+
+Ekrani posle poslednjeg zadatka se proveravaju isto kao zadaci.
+
+- [ ] Sve što vežba ponudi je **reč**, ne pitanje i ne opis (nema upitnika, nema zareza, najviše tri reči)
+- [ ] Svaka ponuđena stavka **ima snimak glasom Montse** — nijedna se ne čita glasom uređaja
+- [ ] Dugme „Escolta" izgovara baš tu stavku
+- [ ] Stavka koju dete označi sa „Ho sé" nestaje iz vežbe i sa kartice teme
+- [ ] Stari zapisi iz pregledača (iz ranijih verzija igre) se ne prikazuju
+- [ ] Brojka na kartici teme („N paraules per practicar") jednaka je broju stavki u vežbi

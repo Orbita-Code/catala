@@ -447,3 +447,35 @@ Pet ih je našao audit, ovaj šesti se pojavio u samoj popravci.
 „Odigrano" nije „rešeno". „Prešlo dalje" nije „tačno". „Nema greške u konzoli"
 nije „radi". Pre nego što se broj stavi u izveštaj, napiše se rečenicom šta on
 znači — i ako ta rečenica ne sadrži ono što nas zanima, broj se ne prijavljuje.
+
+## 27.08.2026 — Vežba je detetu nudila PITANJA umesto reči
+
+**Šta je promašeno.** Na kraju teme „Els animals" vežba „Practicar paraules"
+prikazivala je pitanja („Amb què vola l'au?") umesto reči koja se uči („ales").
+Vežba ima samo tekst, dugme „Escolta" i dva dugmeta („Ho sé" / „Encara no") —
+dakle dete dobije pitanje, a nema gde da odgovori. Snimak za celo pitanje ne
+postoji, pa ga je čitao glas uređaja i izgovarao „què" kao „k".
+
+**Zašto se nije videlo.** Dve rupe, obe iste vrste:
+
+1. **Merilo je bilo „ima li snimak", a ne „ima li smisla".** Provera „Ništa se
+   ne čita glasom uređaja" prolazi kroz sve teme i traži tuđi glas, ali gleda
+   samo ono što se izgovara **dok se zadatak rešava**. Vežba na kraju teme nije
+   bila ni u jednom prolazu — ni jedna provera nikad nije ušla u nju.
+2. **Nijedna provera nije gledala ŠTA SE PAMTI kad dete pogreši.** Gledalo se
+   da greška nestane kad se popravi (to je prolazilo), ali ne i da zapamćena
+   stavka bude reč koju dete može da ponovi.
+
+**Pravilo koje sprečava celu klasu.**
+**Svaki ekran koji se pojavljuje POSLE zadatka — vežba, proslava, izveštaj —
+testira se kao zadatak, jer ga dete vidi isto toliko.** Prolaz kroz teme koji
+staje na poslednjem zadatku ne pokriva kraj teme.
+Uz to: **stavka se pamti tek kad prođe dva ispita — da je reč, i da ima snimak
+glasom Montse.** Ako ne prođe, ne pamti se ništa. Bolje ništa nego stavka koju
+dete ne razume i koju ne čuje pravim glasom.
+
+**Popravka.** `src/lib/vezba-filter.ts` (novo, jedno merilo za oba mesta gde
+greške žive), `MultipleChoice.tsx` (pamti tačan odgovor, ne pitanje),
+`errors.ts` + `progress.ts` (izbacuju stare zapise iz pregledača deteta).
+Provera: `scripts/proveri-vezbu.mjs`, uvezana u pre-deploy test. Puštena protiv
+starog koda — pala je (nudila 3 stavke umesto 1), pa protiv novog — prošla.

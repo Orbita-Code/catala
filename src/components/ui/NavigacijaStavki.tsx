@@ -36,7 +36,21 @@ export default function NavigacijaStavki({
   const zadnjiJe = idx >= ukupno - 1;
 
   return (
-    <div className="flex items-center justify-center gap-3">
+    /**
+     * STRELICE RADE I U PREGLEDU ZAVRŠENOG ZADATKA (27.08.2026, prijava vlasnice).
+     *
+     * „Ako odem na zadnjoj strani proslave na pregledaj sve zadatke, strelica za
+     *  listanje reči npr. u prvom zadatku ne radi."
+     *
+     * Tačno tako: u pregledu je ceo zadatak umotan u `pointer-events-none`, da
+     * dete ne bi ponovo rešavalo nešto što je već rešilo. Ali to gasi SVE klikove
+     * na zadatku, pa i one koji nisu rešavanje nego listanje. Dete koje hoće da
+     * pogleda drugu reč ostane bez ijednog dugmeta koje radi.
+     *
+     * `pointer-events-auto` vraća klik samo ovim strelicama — pločice sa slovima
+     * ostaju zaključane.
+     */
+    <div className="flex items-center justify-center gap-3 pointer-events-auto">
       <button
         onClick={() => !prviJe && naIdx(idx - 1)}
         disabled={prviJe}

@@ -5,7 +5,8 @@ import { motion } from "framer-motion";
 import { MultipleChoiceTask, TaskResult } from "@/types/tasks";
 import { getWordIllustration } from "@/lib/illustrations";
 import { celebrate, celebrateBig } from "@/lib/confetti";
-import { speak } from "@/lib/tts";
+import { speak, imaSnimak } from "@/lib/tts";
+import { jeRecZaVezbu } from "@/lib/vezba-filter";
 import SpeakerButton from "@/components/ui/SpeakerButton";
 import { RefreshCcw } from "lucide-react";
 
@@ -14,6 +15,35 @@ interface Props {
   onComplete: (result: TaskResult) => void;
   /** When true, show the solved state: the correct option selected and marked green. */
   review?: boolean;
+}
+
+/**
+ * ŠTA SE PAMTI ZA VEŽBU KAD DETE POGREŠI (27.08.2026 — prijava vlasnice).
+ *
+ * Do danas se pamtilo CELO PITANJE („Amb què vola l'au?"). Ono je zatim
+ * izlazilo na kraju teme, u vežbi „Practica paraules", gde se prikazuje samo
+ * tekst i dva dugmeta („Znam" / „Ne znam") — bez ijednog ponuđenog odgovora.
+ * Dete tako dobije pitanje na koje nema gde da odgovori. Uz to snimak za celo
+ * pitanje ne postoji, pa ga je čitao glas uređaja i izgovarao „què" kao „k".
+ *
+ * Sada se pamti REČ KOJA SE UČI — tačan odgovor — i to samo ako:
+ *   • jeste reč, a ne opis ni pitanje (v. `jeRecZaVezbu`),
+ *   • ima snimak glasom Montse, da se u vežbi ne oglasi glas uređaja.
+ *
+ * Ako tačan odgovor ne prolazi (npr. „Sí" / „No", ili dug opis kao
+ * „Gran, mamífer, cobert de pel, viu al bosc"), za to pitanje se NE PAMTI
+ * NIŠTA. Bolje ništa nego stavka koju dete ne razume i koju ne čuje pravim
+ * glasom.
+ */
+function recZaVezbu(q: { options?: unknown; correct?: unknown }): string | null {
+  if (!Array.isArray(q.options) || typeof q.correct !== "number") return null;
+  const tacan = q.options[q.correct];
+  if (typeof tacan !== "string") return null;
+  const t = tacan.trim();
+  if (!jeRecZaVezbu(t)) return null;
+  if (/^(s[ií]|no)$/i.test(t)) return null;
+  if (!imaSnimak(t)) return null;
+  return t;
 }
 
 export default function MultipleChoice({ task, onComplete, review = false }: Props) {
@@ -86,8 +116,20 @@ export default function MultipleChoice({ task, onComplete, review = false }: Pro
     // stanje iz zatvorenog opsega ume da bude zastarelo, a ref je uvek tekući.
     ishodiRef.current = { ...ishodiRef.current, [currentQ]: isRight };
     setIshodi(ishodiRef.current);
+    /**
+     * DVE RAZLIČITE STVARI, PA DVA SPISKA (27.08.2026).
+     *
+     * `brojGresaka` je koliko je pitanja dete promašilo — od toga zavisi da li
+     * je zadatak urađen bez greške (zvezdice). `zaVezbu` je šta se pamti da se
+     * uvežba, a to sme da bude samo reč sa snimkom. Ranije je to bio ISTI
+     * spisak, pa bi zadatak u kojem se ne pamti nijedna reč (odgovori su dugi
+     * opisi) ispao „sve tačno" iako dete jeste grešilo.
+     */
+    const brojGresaka = task.questions.filter(
+      (_, i) => ishodiRef.current[i] === false
+    ).length;
     const newWrong = task.questions
-      .map((q, i) => (ishodiRef.current[i] === false ? q.question : null))
+      .map((q, i) => (ishodiRef.current[i] === false ? recZaVezbu(q) : null))
       .filter((x): x is string => x !== null);
 
     // Speak whichever option the kid picked, right or wrong
@@ -124,7 +166,7 @@ export default function MultipleChoice({ task, onComplete, review = false }: Pro
         setShowResult(false);
       } else {
         onComplete({
-          allCorrect: newWrong.length === 0,
+          allCorrect: brojGresaka === 0,
           erroredItems: newWrong,
         });
       }

@@ -214,12 +214,21 @@ export default function CopyWord({ task, onComplete, review = false }: Props) {
     const rec = task.words[novi];
     if (!rec) return;
     setCurrentWordIdx(novi);
-    setSlots(Array(rec.catalan.length).fill(null));
-    setBank(shuffleArray(rec.catalan.split("")).map((l) => ({ letter: stripAccents(l), used: false })));
-    setChecked(false);
-    setCorrect(null);
+    /**
+     * U PREGLEDU SE NOVA REČ POKAZUJE VEĆ REŠENA (27.08.2026).
+     *
+     * Bez ovoga bi strelica u pregledu ispraznila polja: dete je reč rešilo,
+     * a posle listanja bi ga dočekalo prazno mesto koje ne može da popuni
+     * (pločice su zaključane). Izgledalo bi kao da se napredak izgubio.
+     */
+    setSlots(review
+      ? stripAccents(rec.catalan).split("")
+      : Array(rec.catalan.length).fill(null));
+    setBank(shuffleArray(rec.catalan.split("")).map((l) => ({ letter: stripAccents(l), used: review })));
+    setChecked(review);
+    setCorrect(review ? true : null);
     setHintLetterIdx(null);
-  }, [task.words]);
+  }, [task.words, review]);
 
   const handleCheck = useCallback(() => {
     const answer = slots.join("").toLowerCase();

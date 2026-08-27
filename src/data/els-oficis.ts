@@ -65,20 +65,30 @@ export const elsOficisTasks: Task[] = [
   {
     id: "els-oficis-5",
     type: "word-search",
-    prompt: "Troba les paraules a la sopa de lletres. Poden anar →\u00A0↓",
+    prompt: "Troba les paraules a la sopa de lletres. Poden anar \u2192\u00A0\u2193",
     gridSize: 10,
-    words: ["metge", "pilot", "bomber", "pagès", "cuiner", "mestre", "policia", "dentista", "pintor", "granger"],
+    /**
+     * REČI SU SAMO ONE KOJE TEMA STVARNO UČI I KOJE IMAJU SLIKU (27.08.2026).
+     *
+     * Prijava vlasnice: „nemamo slike za granger i pintor u sopa de lletres, a
+     *  ne vidim da se spominju kasnije u zadacima".
+     * Tačno: `granger` i `pintor` stajali su SAMO ovde — nigde drugde u temi, i
+     * nijedno nije imalo sliku. Dete traži reč koju nikad nije videlo i koju
+     * posle nigde ne sretne. Zamenjeni su `jardiner` i `carter`, koji se u temi
+     * pojavljuju u više zadataka i imaju svoju sliku.
+     */
+    words: ["metge", "pilot", "bomber", "pagès", "cuiner", "mestre", "policia", "dentista", "jardiner", "carter"],
     grid: [
-      ["h", "d", "h", "c", "u", "i", "n", "e", "r", "g"],
-      ["g", "d", "e", "n", "t", "i", "s", "t", "a", "v"],
-      ["h", "m", "z", "d", "x", "d", "p", "b", "p", "j"],
-      ["g", "e", "u", "r", "h", "a", "o", "o", "a", "h"],
-      ["r", "s", "m", "p", "p", "w", "l", "m", "g", "l"],
-      ["a", "t", "e", "i", "i", "n", "i", "b", "e", "d"],
-      ["n", "r", "t", "l", "n", "h", "c", "e", "s", "h"],
-      ["g", "e", "g", "o", "t", "s", "i", "r", "d", "v"],
-      ["e", "h", "e", "t", "o", "g", "a", "d", "i", "j"],
-      ["r", "h", "c", "x", "r", "j", "a", "a", "a", "y"],
+      ["f", "o", "f", "j", "p", "m", "z", "b", "j", "a"],
+      ["i", "d", "e", "n", "t", "i", "s", "t", "a", "t"],
+      ["z", "m", "q", "i", "g", "h", "p", "c", "r", "e"],
+      ["b", "e", "h", "l", "g", "v", "o", "u", "d", "n"],
+      ["o", "s", "m", "p", "c", "m", "l", "i", "i", "p"],
+      ["m", "t", "e", "i", "a", "l", "i", "n", "n", "a"],
+      ["b", "r", "t", "l", "r", "f", "c", "e", "e", "g"],
+      ["e", "e", "g", "o", "t", "n", "i", "r", "r", "e"],
+      ["r", "x", "e", "t", "e", "o", "a", "k", "l", "s"],
+      ["a", "i", "h", "l", "r", "a", "n", "h", "w", "g"],
     ],
   },
   {
@@ -135,33 +145,32 @@ export const elsOficisTasks: Task[] = [
       },
     ],
   },
-  {
-    id: "els-oficis-8",
-    type: "multiple-choice",
-    prompt: "Tria la resposta correcta:",
-    questions: [
-      {
-        question: "Qui treballa a l'hospital?",
-        options: ["mestre", "metge", "cuiner", "jardiner"],
-        correct: 1,
-      },
-      {
-        question: "Qui apaga els incendis?",
-        options: ["policia", "pilot", "bomber", "carter"],
-        correct: 2,
-      },
-      {
-        question: "Qui prepara el menjar al restaurant?",
-        options: ["cambrer", "cuiner", "dentista", "pagès"],
-        correct: 1,
-      },
-      {
-        question: "Qui condueix un avió?",
-        options: ["mestre", "bomber", "carter", "pilot"],
-        correct: 3,
-      },
-    ],
-  },
+  // Zadatak „Tria la resposta correcta" — UKLONJEN 27.08.2026.
+  //
+  // Tema je isti sadržaj tražila u ČETIRI zadatka. Izmereno, koje zanimanje
+  // gde traži:
+  //                     zad.8  zad.10  zad.13  zad.14
+  //   vatrogasac          ✓      ✓       ✓
+  //   lekar               ✓      ✓       ✓      ✓
+  //   učitelj                    ✓       ✓      ✓
+  //   kuvar               ✓              ✓      ✓
+  //   pilot               ✓              ✓      ✓
+  //   policajac                  ✓
+  //
+  // Zadatak 8 je POTPUNO POKRIVEN ostalima — nijedno zanimanje nije samo u
+  // njemu — i po obliku je isti kao zadatak 10 (oba su „Qui…?" sa četiri
+  // ponuđena zanimanja). Bio je četvrto ponavljanje istog gradiva.
+  //
+  // Ostala tri OSTAJU, jer su tri različita oblika iste teme: pitanje (10),
+  // zagonetka (13) i „kad porastem, biću…" (14). Raznovrsnost pomaže, četvrto
+  // ponavljanje istog oblika ne.
+  //
+  // Sadržaj je zapisan da se zna šta je bilo:
+  //   Qui treballa a l'hospital?          → metge
+  //   Qui apaga els incendis?             → bomber
+  //   Qui prepara el menjar al restaurant? → cuiner
+  //   Qui condueix un avió?               → pilot
+
   {
     id: "els-oficis-9",
     type: "self-assessment",

@@ -1,4 +1,5 @@
 import { safeSetJSON } from "./storage";
+import { jeRecZaVezbu } from "./vezba-filter";
 /**
  * Error Tracking System
  *
@@ -54,7 +55,7 @@ export function getAllErrors(): AllErrors {
     // očisti stare slepljene zapise (v. objašnjenje gore)
     for (const tema of Object.keys(sve)) {
       for (const zadatak of Object.keys(sve[tema])) {
-        sve[tema][zadatak] = sve[tema][zadatak].filter((x) => !jeSlepljenaRecenica(x));
+        sve[tema][zadatak] = sve[tema][zadatak].filter((x) => jeRecZaVezbu(x) && !jeSlepljenaRecenica(x));
         if (sve[tema][zadatak].length === 0) delete sve[tema][zadatak];
       }
       if (Object.keys(sve[tema]).length === 0) delete sve[tema];

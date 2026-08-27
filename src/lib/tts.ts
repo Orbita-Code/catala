@@ -247,3 +247,14 @@ export function stopSpeaking() {
   }
   postaviGovor(false);
 }
+
+/**
+ * Ima li ovaj tekst snimak glasom Montse?
+ *
+ * Koristi se pre nego što se nešto zapamti za vežbanje: u vežbu sme da uđe
+ * samo ono što će se ČUTI PRAVIM GLASOM. Sve ostalo bi čitao glas uređaja, a
+ * to je vlasnica prijavljivala više puta („tuđi glas").
+ */
+export function imaSnimak(text: string): boolean {
+  return Boolean(SNIMLJENO[kljucTeksta(text)]);
+}

@@ -1,182 +1,312 @@
 {
-  "la-classe": {
-    "played": 17,
+  "el-menjar": {
+    "played": 23,
     "tasks": [
       {
         "i": 1,
-        "id": "la-classe-1",
+        "id": "el-menjar-1",
         "type": "copy-word",
-        "before": "1/160",
-        "after": "2/160",
+        "before": "1/220",
+        "after": "2/2237",
         "advanced": true,
+        "tacno": true,
+        "greske": [],
         "notes": [
-          "EXCEPTION: ISTEKLO VREME (20000 ms)"
+          "copy-word: nema slova L za \"plat\"",
+          "copy-word: nema slova A za \"plat\"",
+          "copy-word: nema slova T za \"plat\"",
+          "copy-word: retry na \"plat\"",
+          "EXCEPTION: ISTEKLO VREME (45000 ms)"
         ]
       },
       {
         "i": 2,
-        "id": "la-classe-2",
-        "type": "word-search",
-        "before": "2/160",
-        "after": "3/160",
+        "id": "el-menjar-2",
+        "type": "matching",
+        "before": "2/2237",
+        "after": "3/2237",
         "advanced": true,
-        "notes": []
+        "tacno": false,
+        "greske": [],
+        "notes": [
+          "NIJE ZAVRŠEN: aplikacija ga nije upisala kao rešen"
+        ]
       },
       {
         "i": 3,
-        "id": "la-classe-3",
-        "type": "fill-letters",
-        "before": "3/160",
-        "after": "4/1637",
+        "id": "el-menjar-4",
+        "type": "copy-word",
+        "before": "3/2237",
+        "after": "4/2255",
         "advanced": true,
-        "notes": []
+        "tacno": true,
+        "greske": [],
+        "notes": [
+          "copy-word: nema slova N za \"entrepà\"",
+          "copy-word: nema slova T za \"entrepà\"",
+          "copy-word: nema slova R za \"entrepà\"",
+          "copy-word: nema slova E za \"entrepà\"",
+          "copy-word: nema slova P za \"entrepà\"",
+          "copy-word: nema slova A za \"entrepà\"",
+          "copy-word: retry na \"entrepà\""
+        ]
       },
       {
         "i": 4,
-        "id": "la-classe-4",
-        "type": "classify-columns",
-        "before": "4/1637",
-        "after": "5/1637",
+        "id": "el-menjar-7",
+        "type": "fill-sentence",
+        "before": "4/2255",
+        "after": "5/2275",
         "advanced": true,
+        "tacno": true,
+        "greske": [],
         "notes": []
       },
       {
         "i": 5,
-        "id": "la-classe-5",
-        "type": "matching",
-        "before": "5/1637",
-        "after": "3/1637",
+        "id": "el-menjar-5",
+        "type": "copy-word",
+        "before": "5/2275",
+        "after": "6/2296",
         "advanced": true,
-        "notes": []
+        "tacno": true,
+        "greske": [],
+        "notes": [
+          "copy-word: nema slova I za \"aigua\"",
+          "copy-word: nema slova G za \"aigua\"",
+          "copy-word: nema slova U za \"aigua\"",
+          "copy-word: nema slova A za \"aigua\"",
+          "copy-word: retry na \"aigua\"",
+          "EXCEPTION: ISTEKLO VREME (45000 ms)"
+        ]
       },
       {
         "i": 6,
-        "id": "la-classe-6",
-        "type": "classify-columns",
-        "before": "3/1637",
-        "after": "4/1637",
+        "id": "el-menjar-8",
+        "type": "multiple-choice",
+        "before": "6/2296",
+        "after": "7/2296",
         "advanced": true,
-        "notes": []
+        "tacno": false,
+        "greske": [],
+        "notes": [
+          "MC: pogađan odgovor",
+          "MC: pogađan odgovor",
+          "MC: pogađan odgovor",
+          "NIJE ZAVRŠEN: aplikacija ga nije upisala kao rešen"
+        ]
       },
       {
         "i": 7,
-        "id": "la-classe-7",
-        "type": "color-by-instruction",
-        "before": "4/1637",
-        "after": "5/1637",
+        "id": "el-menjar-6",
+        "type": "copy-word",
+        "before": "7/2296",
+        "after": "8/22119",
         "advanced": true,
+        "tacno": true,
+        "greske": [],
         "notes": [
-          "color-by-instruction: best-effort (vizuelno proveriti)"
+          "copy-word: nema slova E za \"pernil\"",
+          "copy-word: nema slova R za \"pernil\"",
+          "copy-word: nema slova N za \"pernil\"",
+          "copy-word: nema slova I za \"pernil\"",
+          "copy-word: nema slova L za \"pernil\"",
+          "copy-word: retry na \"pernil\""
         ]
       },
       {
         "i": 8,
-        "id": "la-classe-8",
-        "type": "fill-sentence",
-        "before": "5/1637",
-        "after": "6/1637",
+        "id": "el-menjar-9",
+        "type": "classify-columns",
+        "before": "8/22119",
+        "after": "9/22119",
         "advanced": true,
+        "tacno": false,
+        "greske": [],
         "notes": [
-          "fill-sentence: nije nađena opcija \"blava\"",
-          "fill-sentence: nije nađena opcija \"groc\"",
-          "fill-sentence: nije nađena opcija \"vermell\"",
-          "fill-sentence: nije nađena opcija \"taronja\"",
-          "fill-sentence: nije nađena opcija \"gris\"",
-          "fill-sentence: nije nađena opcija \"lila\"",
-          "fill-sentence: nije nađena opcija \"negres\""
+          "NIJE ZAVRŠEN: aplikacija ga nije upisala kao rešen"
         ]
       },
       {
         "i": 9,
-        "id": "la-classe-9",
-        "type": "fill-sentence",
-        "before": "6/1637",
-        "after": "7/1637",
+        "id": "el-menjar-10",
+        "type": "matching",
+        "before": "9/22119",
+        "after": "10/22119",
         "advanced": true,
+        "tacno": false,
+        "greske": [],
         "notes": [
-          "fill-sentence: nije nađena opcija \"dibuixa\"",
-          "fill-sentence: nije nađena opcija \"pinta\"",
-          "fill-sentence: nije nađena opcija \"canta\"",
-          "fill-sentence: nije nađena opcija \"escriu\"",
-          "fill-sentence: nije nađena opcija \"retalla\""
+          "NIJE ZAVRŠEN: aplikacija ga nije upisala kao rešen"
         ]
       },
       {
         "i": 10,
-        "id": "la-classe-10",
-        "type": "matching",
-        "before": "7/1637",
-        "after": "8/1637",
+        "id": "el-menjar-11",
+        "type": "separate-words",
+        "before": "10/22119",
+        "after": "11/22119",
         "advanced": true,
-        "notes": []
+        "tacno": false,
+        "greske": [],
+        "notes": [
+          "NIJE ZAVRŠEN: aplikacija ga nije upisala kao rešen"
+        ]
       },
       {
         "i": 11,
-        "id": "la-classe-11",
+        "id": "el-menjar-12",
         "type": "classify-columns",
-        "before": "8/1637",
-        "after": "9/1637",
+        "before": "11/22119",
+        "after": "12/22119",
         "advanced": true,
-        "notes": []
+        "tacno": false,
+        "greske": [],
+        "notes": [
+          "NIJE ZAVRŠEN: aplikacija ga nije upisala kao rešen"
+        ]
       },
       {
         "i": 12,
-        "id": "la-classe-12",
-        "type": "add-article",
-        "before": "9/1637",
-        "after": "10/1637",
+        "id": "el-menjar-13",
+        "type": "color-by-instruction",
+        "before": "12/22119",
+        "after": "13/22119",
         "advanced": true,
-        "notes": []
+        "tacno": false,
+        "greske": [],
+        "notes": [
+          "color-by-instruction: best-effort (vizuelno proveriti)",
+          "NIJE ZAVRŠEN: aplikacija ga nije upisala kao rešen"
+        ]
       },
       {
         "i": 13,
-        "id": "la-classe-13",
+        "id": "el-menjar-13b",
         "type": "copy-word",
-        "before": "10/1637",
-        "after": "11/1637",
+        "before": "13/22119",
+        "after": "14/22142",
         "advanced": true,
+        "tacno": true,
+        "greske": [],
         "notes": []
       },
       {
         "i": 14,
-        "id": "la-classe-14",
+        "id": "el-menjar-14",
         "type": "fill-sentence",
-        "before": "11/1637",
-        "after": "12/1637",
+        "before": "14/22142",
+        "after": "15/22165",
         "advanced": true,
-        "notes": [
-          "fill-sentence: nije nađena opcija \"tisores\"",
-          "fill-sentence: nije nađena opcija \"llapis\"",
-          "fill-sentence: nije nađena opcija \"goma\"",
-          "fill-sentence: nije nađena opcija \"retoladors\"",
-          "fill-sentence: nije nađena opcija \"llibreta\""
-        ]
-      },
-      {
-        "i": 15,
-        "id": "la-classe-15",
-        "type": "separate-words",
-        "before": "12/1637",
-        "after": "13/1637",
-        "advanced": true,
+        "tacno": true,
+        "greske": [],
         "notes": []
       },
       {
-        "i": 16,
-        "id": "la-classe-18",
-        "type": "self-assessment",
-        "before": "13/1637",
-        "after": "14/1637",
+        "i": 15,
+        "id": "el-menjar-16",
+        "type": "classify-columns",
+        "before": "15/22165",
+        "after": "16/22165",
         "advanced": true,
+        "tacno": false,
+        "greske": [],
+        "notes": [
+          "NIJE ZAVRŠEN: aplikacija ga nije upisala kao rešen"
+        ]
+      },
+      {
+        "i": 16,
+        "id": "el-menjar-15",
+        "type": "fill-sentence",
+        "before": "16/22165",
+        "after": "17/22188",
+        "advanced": true,
+        "tacno": true,
+        "greske": [],
         "notes": []
       },
       {
         "i": 17,
-        "id": "la-classe-bonus",
-        "type": "drawing-canvas",
-        "before": "14/1637",
-        "after": "15/1637",
+        "id": "el-menjar-17",
+        "type": "multiple-choice",
+        "before": "17/22188",
+        "after": "18/22188",
         "advanced": true,
+        "tacno": false,
+        "greske": [],
+        "notes": [
+          "NIJE ZAVRŠEN: aplikacija ga nije upisala kao rešen"
+        ]
+      },
+      {
+        "i": 18,
+        "id": "el-menjar-18",
+        "type": "fill-sentence",
+        "before": "18/22188",
+        "after": "19/22211",
+        "advanced": true,
+        "tacno": true,
+        "greske": [],
+        "notes": []
+      },
+      {
+        "i": 19,
+        "id": "el-menjar-20",
+        "type": "fill-letters",
+        "before": "19/22211",
+        "after": "20/22234",
+        "advanced": true,
+        "tacno": true,
+        "greske": [],
+        "notes": []
+      },
+      {
+        "i": 20,
+        "id": "el-menjar-20b",
+        "type": "classify-columns",
+        "before": "20/22234",
+        "after": "21/22234",
+        "advanced": true,
+        "tacno": false,
+        "greske": [],
+        "notes": [
+          "NIJE ZAVRŠEN: aplikacija ga nije upisala kao rešen"
+        ]
+      },
+      {
+        "i": 21,
+        "id": "el-menjar-21",
+        "type": "self-assessment",
+        "before": "21/22234",
+        "after": "22/22234",
+        "advanced": true,
+        "tacno": "trazi-glas",
+        "greske": [],
+        "notes": []
+      },
+      {
+        "i": 22,
+        "id": "el-menjar-slaganje",
+        "type": "matching",
+        "before": "22/22234",
+        "after": "22/22",
+        "advanced": true,
+        "tacno": false,
+        "greske": [],
+        "notes": [
+          "NIJE ZAVRŠEN: aplikacija ga nije upisala kao rešen"
+        ]
+      },
+      {
+        "i": 23,
+        "id": "el-menjar-bonus",
+        "type": "drawing-canvas",
+        "before": "22/22",
+        "after": "22/22",
+        "advanced": false,
+        "tacno": "slobodno",
+        "greske": [],
         "notes": []
       }
     ],
