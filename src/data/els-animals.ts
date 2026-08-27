@@ -454,7 +454,7 @@ export const elsAnimalsTasks: Task[] = [
           "Petit, insecte, vola",
           "Gran, au, camina",
           "Petit, rèptil, s'arrossega",
-          "Gran, peix, neda, perillos, viu al mar",
+          "Gran, peix, neda, perillós, viu al mar",
         ],
         correct: 3,
       },
@@ -525,7 +525,11 @@ export const elsAnimalsTasks: Task[] = [
         options: ["lleó", "elefant", "gos"],
       },
       {
-        text: "Rèptil perillos, amb moltes dents, de color verd: ___.",
+        // PRAVOPIS: `perillós` ide sa kvačicom (27.08.2026). Stajalo je `perillos`
+        // na dva mesta u ovoj temi — jedino dve prave pravopisne greške u tekstu
+        // koji dete čita. Sve ostalo bez kvačica (`tauro`, `lleo`, `balco`) su
+        // imena datoteka i reči u mreži osmosmerke — to je NAMERNO i ne dira se.
+        text: "Rèptil perillós, amb moltes dents, de color verd: ___.",
         blank: "cocodril",
         options: ["tortuga", "serp", "cocodril"],
       },
