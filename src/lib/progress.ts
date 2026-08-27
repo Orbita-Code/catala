@@ -169,7 +169,7 @@ export function getProgress(): UserProgress {
 
 export function getThemeProgress(slug: string) {
   const progress = getProgress();
-  return (
+  const t =
     progress[slug] || {
       currentTask: 0,
       completedTasks: [],
@@ -177,8 +177,30 @@ export function getThemeProgress(slug: string) {
       bestStreak: 0,
       stars: 0,
       taskErrors: {},
+    };
+
+  /**
+   * SLEPLJENE REČENICE SE VIŠE NE VEŽBAJU (27.08.2026).
+   *
+   * Greške žive na dva mesta (nalaz N-26.4), pa se isto čišćenje mora uraditi
+   * i ovde, ne samo u `errors.ts`. Zadatak „Separa i copia" je do danas pamtio
+   * grešku kao SLEPLJENU rečenicu (`Lapeixeteriavenpeix.`); ta „reč" se nudila
+   * detetu na vežbanje i čitala glasom uređaja, jer snimak za nju ne postoji.
+   *
+   * Prepoznaju se pouzdano: bez ijednog razmaka, a završavaju se tačkom —
+   * nijedna katalonska reč u igrici ne izgleda tako.
+   */
+  if (t.taskErrors) {
+    const ocisceno: Record<string, string[]> = {};
+    for (const [id, stavke] of Object.entries(t.taskErrors)) {
+      const dobre = (stavke as string[]).filter(
+        (x) => x.includes(" ") || !/[.!?]$/.test(x)
+      );
+      if (dobre.length) ocisceno[id] = dobre;
     }
-  );
+    t.taskErrors = ocisceno;
+  }
+  return t;
 }
 
 export function saveThemeProgress(

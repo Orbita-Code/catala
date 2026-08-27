@@ -27,11 +27,39 @@ export interface AllErrors {
 /**
  * Get all errors from localStorage
  */
+/**
+ * SLEPLJENE REČENICE SE VIŠE NE VEŽBAJU (27.08.2026).
+ *
+ * Do danas je zadatak „Separa i copia" pamtio grešku kao SLEPLJENU rečenicu
+ * (`Lapeixeteriavenpeix.`) — v. objašnjenje u `SeparateWords.tsx`. Takva
+ * „reč" se nudila detetu na vežbanje i izgovarala se glasom uređaja, jer
+ * snimak za nju ne postoji.
+ *
+ * Popravka u zadatku važi za nove greške. Ali u pregledaču deteta STARI zapisi
+ * i dalje stoje, i vežba bi ih i dalje čitala. Zato se ovde tiho izbacuju.
+ *
+ * Prepoznaju se pouzdano: nemaju NIJEDAN RAZMAK, a ZAVRŠAVAJU SE TAČKOM.
+ * Nijedna katalonska reč u igrici ne izgleda tako — tačka postoji samo na kraju
+ * rečenice, a rečenica uvek ima razmake.
+ */
+function jeSlepljenaRecenica(x: string): boolean {
+  return !x.includes(" ") && /[.!?]$/.test(x);
+}
+
 export function getAllErrors(): AllErrors {
   if (typeof window === "undefined") return {};
   try {
     const data = localStorage.getItem(ERRORS_KEY);
-    return data ? JSON.parse(data) : {};
+    const sve: AllErrors = data ? JSON.parse(data) : {};
+    // očisti stare slepljene zapise (v. objašnjenje gore)
+    for (const tema of Object.keys(sve)) {
+      for (const zadatak of Object.keys(sve[tema])) {
+        sve[tema][zadatak] = sve[tema][zadatak].filter((x) => !jeSlepljenaRecenica(x));
+        if (sve[tema][zadatak].length === 0) delete sve[tema][zadatak];
+      }
+      if (Object.keys(sve[tema]).length === 0) delete sve[tema];
+    }
+    return sve;
   } catch {
     return {};
   }

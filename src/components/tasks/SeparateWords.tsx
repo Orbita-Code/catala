@@ -39,6 +39,23 @@ export default function SeparateWords({ task, onComplete, review = false }: Prop
 
   const currentItem = task.items[currentIdx];
 
+  /**
+   * GREŠKA SE PAMTI KAO ČITLJIVA REČENICA, NE KAO SLEPLJENA (27.08.2026).
+   *
+   * Prijava vlasnice: „kad je završila temu, pisalo je `Practicar paraules`;
+   * kad sam kliknula, čule su se jako čudne reči, sastavljene dve-tri reči —
+   * `musclo`, `hamburguesa`… i naravno, glas koji nije Montse."
+   *
+   * Bila je u pravu. Kad dete ovde pogreši, pamtila se SLEPLJENA rečenica
+   * (`Lapeixeteriavenpeix.`) — jer je to ono što stoji na ekranu. Ta „reč" se
+   * zatim nudila na vežbanje i IZGOVARALA: nema snimak, jer ne postoji kao
+   * reč, pa je išla glasom uređaja. Dete je vežbalo nešto što ni ne postoji.
+   *
+   * Sada se pamti razdvojena rečenica („La peixeteria ven peix."), koja ima
+   * svoj snimak Montseinim glasom (dodat 27.08.2026).
+   */
+  const citljivo = (it: { words: string[] }) => it.words.join(" ");
+
   const getCorrectSeparatorPositions = (): Set<number> => {
     const positions = new Set<number>();
     let pos = 0;
@@ -89,12 +106,12 @@ export default function SeparateWords({ task, onComplete, review = false }: Prop
       // „kad ima grešku u zadatku, ona istog momenta može da je ispravi, a on
       // to i dalje računa kao da nije savladala zadatak").
       // Greška je ono što je na KRAJU pogrešno, ne ono što je usput bilo.
-      setErroredItems((prev) => prev.filter((x) => x !== currentItem.joined));
+      setErroredItems((prev) => prev.filter((x) => x !== citljivo(currentItem)));
       speak(currentItem.words.join(" "));
       setTimeout(() => moveToNext(), 1200);
     } else {
       setErroredItems((prev) =>
-        prev.includes(currentItem.joined) ? prev : [...prev, currentItem.joined]
+        prev.includes(citljivo(currentItem)) ? prev : [...prev, citljivo(currentItem)]
       );
     }
   };
