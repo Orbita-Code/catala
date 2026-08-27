@@ -7289,6 +7289,39 @@
       "id": "el-menjar-17",
       "type": "multiple-choice",
       "prompt": "Llegeix el menú del restaurant Tot Bo i contesta:",
+      "readText": [
+        {
+          "title": "PRIMERS",
+          "items": [
+            "Amanida",
+            "Sopa",
+            "Macarrons"
+          ]
+        },
+        {
+          "title": "SEGONS",
+          "items": [
+            "Hamburguesa amb patates",
+            "Pollastre amb verdures",
+            "Peix amb arròs",
+            "Truita de patates"
+          ]
+        },
+        {
+          "title": "POSTRES",
+          "items": [
+            "Fruita amb gelat",
+            "Pastís de xocolata",
+            "Pastís de formatge"
+          ]
+        },
+        {
+          "title": "INCLÒS",
+          "items": [
+            "Pa, beguda i cafè"
+          ]
+        }
+      ],
       "questions": [
         {
           "question": "Quin primer plat pots triar al restaurant?",
@@ -7321,12 +7354,12 @@
           "correct": 2
         },
         {
-          "question": "Quina beguda ofereix el menú?",
+          "question": "Què està inclòs amb el menú?",
           "options": [
-            "Refresc",
-            "Cafè amb llet",
-            "Xocolata",
-            "Te"
+            "Només aigua",
+            "Pa, beguda i cafè",
+            "Només pa",
+            "Res"
           ],
           "correct": 1
         }

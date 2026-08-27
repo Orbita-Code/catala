@@ -136,6 +136,20 @@ export default function Matching({ task, onComplete, review = false }: Props) {
   // Progress indicator
   const progress = matched.size / task.pairs.length;
 
+  /**
+   * Zbijeni raspored kad ima mnogo parova.
+   *
+   * Prijava vlasnice 27.08.2026: u temi 8, zadatku 2 (9 parova) dete nije moglo da
+   * nađe „tasses" jer je ispala ISPOD ekrana, a ništa nije govorilo da ima još.
+   * Izmereno na 13" laptopu: strana 978 px, prozor 760 px — 218 px viška; na manjem
+   * laptopu ispadne 7 reči. Zato se od 8 parova naviše sve smanjuje taman toliko da
+   * stane, a da dodirna meta ostane preko 44 px (koliko dete treba da pogodi prstom).
+   */
+  const zbijeno = task.pairs.length >= 8;
+  const stilStavke = zbijeno
+    ? { razmak: 'gap-1.5', padding: 'p-2', visina: 'min-h-[44px]', slika: 'w-8 h-8', slova: 'text-lg md:text-xl' }
+    : { razmak: 'gap-2', padding: 'p-3', visina: 'min-h-[60px]', slika: 'w-10 h-10', slova: 'text-xl md:text-2xl' };
+
   // Illustration grid mode: images on top, labels below
   if (illustrationMode) {
     return (
@@ -351,7 +365,7 @@ export default function Matching({ task, onComplete, review = false }: Props) {
 
       <div className="flex gap-4 justify-center">
         {/* LEFT COLUMN */}
-        <div className="flex flex-col gap-2 w-[180px] md:w-[220px]">
+        <div className={`flex flex-col ${stilStavke.razmak} w-[180px] md:w-[220px]`}>
           {task.pairs.map((pair, i) => {
             const isBeingDragged = dragState.isDragging && dragState.draggedItem === `left-${i}`;
             const isMatched = matched.has(i);
@@ -369,7 +383,7 @@ export default function Matching({ task, onComplete, review = false }: Props) {
                 onPointerDown={(e) => {
                   if (!isMatched) handlePointerDown(`left-${i}`, "left", e);
                 }}
-                className={`rounded-2xl font-bold text-center transition-all select-none p-3 min-h-[60px] flex items-center justify-center ${
+                className={`rounded-2xl font-bold text-center transition-all select-none ${stilStavke.padding} ${stilStavke.visina} flex items-center justify-center ${
                   isBeingDragged
                     ? "opacity-40 bg-gray-100 text-gray-300 border-2 border-gray-200"
                     : isMatched
@@ -385,16 +399,16 @@ export default function Matching({ task, onComplete, review = false }: Props) {
                 {(() => {
                   const fullWord = pair.left + pair.right;
                   const ill = slikaLeve(pair) || getWordIllustration(fullWord);
-                  return ill ? <img src={ill} alt="" className="w-10 h-10 object-contain mr-1" /> : null;
+                  return ill ? <img src={ill} alt="" className={`${stilStavke.slika} object-contain mr-1`} /> : null;
                 })()}
-                <span className="font-handwriting text-xl md:text-2xl">{pair.left}</span>
+                <span className={`font-handwriting ${stilStavke.slova}`}>{pair.left}</span>
               </motion.button>
             );
           })}
         </div>
 
         {/* RIGHT COLUMN */}
-        <div className="flex flex-col gap-2 w-[180px] md:w-[220px]">
+        <div className={`flex flex-col ${stilStavke.razmak} w-[180px] md:w-[220px]`}>
           {shuffledRight.map((actualIdx, displayIdx) => {
             const isMatched = matched.has(actualIdx);
             const isSelected = selected?.side === "right" && selected.index === displayIdx;
@@ -409,7 +423,7 @@ export default function Matching({ task, onComplete, review = false }: Props) {
                 transition={{ delay: displayIdx * 0.05 }}
                 whileTap={dragState.isDragging ? undefined : { scale: 0.93 }}
                 onClick={() => handleSelect("right", displayIdx)}
-                className={`rounded-2xl font-bold text-center transition-all p-3 min-h-[60px] flex items-center justify-center ${
+                className={`rounded-2xl font-bold text-center transition-all ${stilStavke.padding} ${stilStavke.visina} flex items-center justify-center ${
                   dragState.isDragging && !isMatched
                     ? "border-[var(--primary)] bg-purple-50 border-2 border-dashed animate-pulse"
                     : isMatched
@@ -449,13 +463,13 @@ export default function Matching({ task, onComplete, review = false }: Props) {
                           initial={{ scale: 0, opacity: 0 }}
                           animate={{ scale: 1, opacity: 1 }}
                           transition={{ type: "spring", damping: 11, stiffness: 220 }}
-                          className="w-10 h-10 object-contain mr-1"
+                          className={`${stilStavke.slika} object-contain mr-1`}
                         />
                       )}
                     </AnimatePresence>
                   );
                 })()}
-                <span className="font-handwriting text-xl md:text-2xl">{task.pairs[actualIdx].right}</span>
+                <span className={`font-handwriting ${stilStavke.slova}`}>{task.pairs[actualIdx].right}</span>
               </motion.button>
             );
           })}

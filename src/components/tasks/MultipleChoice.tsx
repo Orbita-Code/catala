@@ -154,6 +154,26 @@ export default function MultipleChoice({ task, onComplete, review = false }: Pro
           </div>
         )}
 
+        {/* TEKST KOJI SE ČITA (npr. jelovnik). Stoji iznad pitanja i vidi se uz
+            SVAKO pitanje — dete se vraća na njega koliko god puta treba. */}
+        {task.readText && task.readText.length > 0 && (
+          <div className="bg-amber-50 rounded-2xl p-4 mb-4">
+            {task.readText.map((odeljak, i) => (
+              <div key={i} className={i ? "mt-3" : ""}>
+                <div className="flex items-center justify-center gap-2">
+                  <SpeakerButton text={`${odeljak.title}: ${odeljak.items.join(", ")}`} size={16} />
+                  <p className="font-black text-[var(--primary)] tracking-wide">{odeljak.title}</p>
+                </div>
+                <ul className="mt-1 space-y-0.5">
+                  {odeljak.items.map((x, j) => (
+                    <li key={j} className="text-base md:text-lg font-handwriting text-center text-[var(--text)]">{x}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        )}
+
         {/* KO ŠTA IMA — vidi se, ne samo piše.
             Svaka životinja stoji onoliko puta koliko ih ta osoba ima, pa dete
             na pitanje odgovara gledanjem. Rečenica je uz sliku, sa zvučnikom,

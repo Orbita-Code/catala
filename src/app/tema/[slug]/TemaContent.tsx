@@ -10,6 +10,7 @@ import AnimatedStar from "@/components/star/AnimatedStar";
 import type { StarReaction } from "@/components/star/starTypes";
 import { getStarReaction, getReactionEvent } from "@/lib/starReactions";
 import MascotPair from "@/components/mascot/MascotPair";
+import ImaJosDole from '@/components/tasks/ImaJosDole';
 import { getMascotEvent, SILENCE_DELAY_MS, type MascotEvent } from "@/lib/mascot";
 import { themes } from "@/data/themes";
 import { taskData, getScoringTaskCount, getCompletedScoringCount } from "@/data/task-data";
@@ -1175,6 +1176,10 @@ export default function TemaContent({ slug }: TemaContentProps) {
           Zamenile su zvezdu koja je stajala samo desno. Zvezda ostaje u savetima,
           na početnoj strani i kao slika nivoa. */}
       <MascotPair event={mascotEvent} message={feedbackMessage} turn={mascotTurn} />
+
+      {/* Oznaka „ima još dole" — dete ne sme da pogađa da ispod ivice ekrana ima
+          još reči (prijava vlasnice 27.08.2026, tema 8 zadatak 2). */}
+      <ImaJosDole />
 
       {/* Navigation Footer */}
       {/* TRAKA SA DUGMADIMA — `fixed`, ne `sticky` (04.08.2026, prijava vlasnice:

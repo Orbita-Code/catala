@@ -149,6 +149,15 @@ export interface MultipleChoiceTask extends BaseTask {
     /** Šta ima — slika se ponavlja `count` puta, da se broj VIDI. */
     pets?: { image: string; count: number }[];
   }[];
+  /**
+   * `readText` — tekst koji dete treba da PROČITA pre nego što odgovori,
+   * složen u odeljke (npr. jelovnik: Primers / Segons / Postres).
+   *
+   * Uvedeno 27.08.2026: zadatak „Llegeix el menú del restaurant Tot Bo i
+   * contesta" tražio je od deteta da pročita jelovnik — a jelovnika NA EKRANU
+   * NIJE BILO. Ista greška kao kod Carlote i Cesca (25.08.).
+   */
+  readText?: { title: string; items: string[] }[];
   questions: {
     question: string;
     options: string[];

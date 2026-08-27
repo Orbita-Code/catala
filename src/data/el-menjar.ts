@@ -384,6 +384,37 @@ export const elMenjarTasks: Task[] = [
     id: "el-menjar-17",
     type: "multiple-choice",
     prompt: "Llegeix el menú del restaurant Tot Bo i contesta:",
+    /**
+     * JELOVNIK VRAĆEN NA EKRAN (27.08.2026).
+     *
+     * Zadatak je tražio od deteta da PROČITA jelovnik restorana — a jelovnika
+     * na ekranu nije bilo. Videla su se samo četiri pitanja o jelima koja
+     * nigde nisu prikazana. Dete je moglo samo da pogađa.
+     *
+     * Ista greška kao kod Carlote i Cesca (tema 6, nađena 25.08.). Prepisan je
+     * sa fotografije sveske — `Svi zadaci/El menjar/IMG_1010.JPG`, vežba 19.
+     *
+     * Cena sa fotografije se ne može pouzdano pročitati, pa je namerno
+     * IZOSTAVLJENA — nijedno pitanje je i ne traži, a broj koji se ne vidi
+     * jasno ne sme da se prepisuje po osećaju.
+     */
+    readText: [
+      { title: "PRIMERS", items: ["Amanida", "Sopa", "Macarrons"] },
+      {
+        title: "SEGONS",
+        items: [
+          "Hamburguesa amb patates",
+          "Pollastre amb verdures",
+          "Peix amb arròs",
+          "Truita de patates",
+        ],
+      },
+      {
+        title: "POSTRES",
+        items: ["Fruita amb gelat", "Pastís de xocolata", "Pastís de formatge"],
+      },
+      { title: "INCLÒS", items: ["Pa, beguda i cafè"] },
+    ],
     questions: [
       {
         question: "Quin primer plat pots triar al restaurant?",
@@ -401,8 +432,14 @@ export const elMenjarTasks: Task[] = [
         correct: 2,
       },
       {
-        question: "Quina beguda ofereix el menú?",
-        options: ["Refresc", "Cafè amb llet", "Xocolata", "Te"],
+        // PITANJE ISPRAVLJENO 27.08.2026.
+        // Glasilo je „Quina beguda ofereix el menú?" sa tačnim odgovorom
+        // „Cafè amb llet" — a jelovnik u svesci NIGDE ne pominje kafu sa
+        // mlekom. Piše samo da su „pa, piće i kafa uključeni". Dakle i kad bi
+        // jelovnik bio prikazan, na to pitanje se ne bi moglo odgovoriti.
+        // Sada pitanje traži ono što jelovnik STVARNO kaže.
+        question: "Què està inclòs amb el menú?",
+        options: ["Només aigua", "Pa, beguda i cafè", "Només pa", "Res"],
         correct: 1,
       },
     ],
