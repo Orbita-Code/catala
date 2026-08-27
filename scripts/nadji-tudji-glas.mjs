@@ -23,6 +23,15 @@ import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const { chromium } = require("playwright");
 import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import { solveTask } from "../e2e/qa/solve-lib.mjs";
+
+const __dirname_ = path.dirname(fileURLToPath(import.meta.url));
+/** Tačni odgovori — da prolaz zadatke REŠAVA, ne samo da klikće (v. dole). */
+const ODGOVORI = JSON.parse(
+  fs.readFileSync(path.join(__dirname_, "..", "e2e", "qa", "tasks.json"), "utf8")
+);
 
 const BASE = process.env.BASE || "http://localhost:3200";
 /**
@@ -57,6 +66,30 @@ for (const tema of TEME) {
     if (!naslov || !/^\d+\./.test(naslov)) break;   // nema više zadataka u temi
     obidjeno++;
     await p.evaluate(() => { window.__g = []; });
+    /**
+     * PROLAZ ZADATKE REŠAVA, NE SAMO KLIKĆE (27.08.2026).
+     *
+     * Prijava vlasnice: „tema 7, zadatak 3 — kad dete pogodi celu rečenicu, glas
+     * koji je ponavlja opet nije Montse. Dokle više da nalazim tuđe glasove?"
+     *
+     * Uzrok NIJE bio u snimcima nego u ovom prolazu. On je klikao po strani, ali
+     * zadatke nije REŠAVAO — a četiri tipa zadatka izgovaraju celu rečenicu TEK
+     * KAD JE ODGOVOR TAČAN („Compro fruita a la fruiteria."). Prolaz nikad nije
+     * pogodio, pa te rečenice nikad nije ni čuo, i javljao je „0 tuđih glasova"
+     * dok ih je dete slušalo.
+     *
+     * Zato se sada prvo pusti PRAVI REŠAVAČ sa tačnim odgovorima, pa tek onda
+     * diranje po strani kao dopuna. Tako prolaz čuje sve što čuje i dete.
+     */
+    const zadatak = (ODGOVORI[tema] || [])[n - 1];
+    if (zadatak) {
+      await Promise.race([
+        solveTask(p, zadatak, []).catch(() => {}),
+        new Promise((r) => setTimeout(r, 45000)),
+      ]);
+      await p.waitForTimeout(1500);
+    }
+
     /**
      * VIŠE KRUGOVA DIRANJA (24.08.2026).
      *

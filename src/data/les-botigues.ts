@@ -89,10 +89,11 @@ export const lesBotiguesTasks: Task[] = [
         words: ["La", "carnisseria", "ven", "carn."],
       },
       // Rečenica iz sveske, vežba 3 — falila je zajedno sa rečju.
-      {
-        joined: "Alabotigadesportsvenenbambes.",
-        words: ["A", "la", "botiga", "d'esports", "venen", "bambes."],
-      },
+      // REČENICA UKLONJENA 27.08.2026 — odluka vlasnice.
+      // Bila je: „A la botiga d'esports venen bambes."
+      // Dva razloga: ima APOSTROF (`d'esports`), koji dete od šest-sedam godina
+      // ne zna gde da stavi kad razdvaja spojene reči, i najduža je u zadatku —
+      // šest reči, dok su ostale četiri ili pet.
     ],
   },
 

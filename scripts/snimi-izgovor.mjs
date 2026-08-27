@@ -242,6 +242,53 @@ export function sveStavke() {
       }
     }
 
+    /**
+     * CELE REČENICE KOJE SE SASTAVE TEK KAD DETE POGODI (27.08.2026).
+     *
+     * Prijava vlasnice: „tema 7, zadatak 3 — kad dete pogodi celu rečenicu, glas
+     * koji je ponavlja opet nije Montse. Dokle više da nalazim tuđe glasove?"
+     *
+     * Bila je u pravu, i uzrok je bio sistemski: ČETIRI tipa zadatka izgovaraju
+     * tekst koji u podacima NE POSTOJI kao celina — sastave ga u kodu tek kad je
+     * odgovor tačan. Ovde su se snimale pojedinačne reči, a spoj nikad:
+     *
+     *   `separate-words`  →  words.join(" ")     „Compro fruita a la fruiteria."
+     *   `order-words`     →  correct.join(" ")   „La Júlia puja les escales"
+     *   `label-write`     →  labels.join(", ")   „cabell, ull, nas, orella, boca"
+     *   `label-image`     →  labels.join(", ")   isto
+     *
+     * Pravilo je već stajalo zapisano od 16.08. („snima se ono što se IZGOVARA,
+     * ne ono što piše u podacima") — ali je sprovedeno samo za tipove koji su
+     * tada bili prijavljeni. Zato se sada NABRAJAJU SVI `speak()` pozivi u
+     * aplikaciji, a ne samo oni na koje se naiđe.
+     */
+    for (const zadatak of s.split(/\n  \{\n/).slice(1)) {
+      const tip = (zadatak.match(/type: "([^"]+)"/) || [])[1];
+
+      // „Separa i copia": izgovara se cela sastavljena rečenica
+      if (tip === "separate-words") {
+        for (const m of zadatak.matchAll(/words: \[([^\]]*)\]/g)) {
+          const reci = [...m[1].matchAll(/"([^"]+)"/g)].map((x) => x[1]);
+          if (reci.length > 1) dodaj(reci.join(" "), "recenica");
+        }
+      }
+
+      // „Ordena les oracions": izgovara se rečenica složena tačnim redosledom
+      if (tip === "order-words") {
+        for (const m of zadatak.matchAll(/correct: \[([^\]]*)\]/g)) {
+          const reci = [...m[1].matchAll(/"([^"]+)"/g)].map((x) => x[1]);
+          if (reci.length > 1) dodaj(reci.join(" "), "recenica");
+        }
+      }
+
+      // „Escriu"/„Observa" sa etiketama: na kraju se pročitaju SVE etikete
+      if (tip === "label-write" || tip === "label-image") {
+        const blok = (zadatak.match(/labels: \[([\s\S]*?)\n    \],/) || [])[1] || "";
+        const et = [...blok.matchAll(/text: "([^"]+)"/g)].map((x) => x[1]);
+        if (et.length > 1) dodaj(et.join(", "), "recenica");
+      }
+    }
+
     // RAZVRSTAVANJE PO KOLONAMA izgovara „član + reč" za TAČNO razvrstanu reč
     // (`ClassifyColumns`). Naslov kolone je član („LA", „ELS", ili „Femení (una)").
     // Bez ovoga je aplikacija govorila „la cortina" glasom uređaja — prijava
