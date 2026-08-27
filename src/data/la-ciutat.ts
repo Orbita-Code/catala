@@ -63,6 +63,9 @@ export const laCiutatTasks: Task[] = [
       { left: "cinema", right: "veure pel·lícules", rightNoImage: true },
       { left: "parc", right: "jugar" },
       { left: "restaurant", right: "menjar" },
+      // PREUZETO IZ NEKADAŠNJEG ZADATKA 10 (27.08.2026) — v. napomenu ispod.
+      { left: "mercat", right: "comprar" },
+      { left: "estació", right: "viatjar" },
     ],
   },
   {
@@ -183,22 +186,21 @@ export const laCiutatTasks: Task[] = [
       { catalan: "estació", translation: "stanica", image: "estacio" },
     ],
   },
-  {
-    id: "la-ciutat-10",
-    type: "matching",
-    prompt: "Relaciona cada lloc amb què hi fas:",
-    pairs: [
-      { left: "hospital", right: "curar-se" },
-      { left: "escola", right: "estudiar" },
-      { left: "parc", right: "passejar" },
-      { left: "mercat", right: "comprar" },
-      { left: "estació", right: "viatjar" },
-      // BEZ SLIKE namerno: jedina slika koja se nađe je `veure` — dečak sa
-      // LUPOM. Za „gledati film" to je pogrešna slika; dete bi razumelo
-      // „tražiti", ne „gledati". Bolje bez slike nego sa pogrešnom.
-      { left: "cinema", right: "veure pel·lícules", rightNoImage: true },
-    ],
-  },
+  // Zadatak „Relaciona cada lloc amb què hi fas" — SPOJEN SA ZADATKOM 4
+  // (27.08.2026).
+  //
+  // Bio je gotovo isti kao zadatak 4: ČETIRI OD ŠEST PAROVA identična
+  // (hospital→curar-se, escola→estudiar, cinema→veure pel·lícules), pa je dete
+  // u istoj temi dvaput radilo isti zadatak.
+  //
+  // Gore od toga: `parc` je imao DVA RAZLIČITA ODGOVORA — `jugar` u zadatku 4,
+  // `passejar` ovde. Dete koje zapamti prvi odgovor u drugom zadatku vidi da
+  // ga nema u ponudi, i s pravom se zbuni.
+  //
+  // Njegova dva jedinstvena para (`mercat`→`comprar`, `estació`→`viatjar`)
+  // preuzeta su u zadatak 4, pa nijedan sadržaj nije izgubljen. Za `parc` je
+  // zadržan `jugar`, jer je detetu bliži i jer stoji prvi po redu.
+
   {
     id: "la-ciutat-11",
     type: "fill-sentence",

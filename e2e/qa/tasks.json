@@ -8418,7 +8418,7 @@
             "Petit, insecte, vola",
             "Gran, au, camina",
             "Petit, rèptil, s'arrossega",
-            "Gran, peix, neda, perillos, viu al mar"
+            "Gran, peix, neda, perillós, viu al mar"
           ],
           "correct": 3
         }
@@ -8510,7 +8510,7 @@
           ]
         },
         {
-          "text": "Rèptil perillos, amb moltes dents, de color verd: ___.",
+          "text": "Rèptil perillós, amb moltes dents, de color verd: ___.",
           "blank": "cocodril",
           "options": [
             "tortuga",
@@ -8852,6 +8852,14 @@
         {
           "left": "restaurant",
           "right": "menjar"
+        },
+        {
+          "left": "mercat",
+          "right": "comprar"
+        },
+        {
+          "left": "estació",
+          "right": "viatjar"
         }
       ]
     },
@@ -9163,38 +9171,6 @@
           "catalan": "estació",
           "translation": "stanica",
           "image": "estacio"
-        }
-      ]
-    },
-    {
-      "id": "la-ciutat-10",
-      "type": "matching",
-      "prompt": "Relaciona cada lloc amb què hi fas:",
-      "pairs": [
-        {
-          "left": "hospital",
-          "right": "curar-se"
-        },
-        {
-          "left": "escola",
-          "right": "estudiar"
-        },
-        {
-          "left": "parc",
-          "right": "passejar"
-        },
-        {
-          "left": "mercat",
-          "right": "comprar"
-        },
-        {
-          "left": "estació",
-          "right": "viatjar"
-        },
-        {
-          "left": "cinema",
-          "right": "veure pel·lícules",
-          "rightNoImage": true
         }
       ]
     },
