@@ -36,7 +36,16 @@ for (const f of fs.readdirSync("src/data").filter((x) => x.endsWith(".ts") && ![
       if (/image:\s*"/.test(m[0])) continue;
       if (!ima(m[1])) fale.push(`${f.replace(".ts", "")} · ${id} · ${m[1]}`);
     }
-    for (const m of d.matchAll(/(?:allItems|items):\s*\[([^\]]*)\]/g)) {
+    /**
+     * `readText` NIJE REČNIK NEGO TEKST ZA ČITANJE (27.08.2026).
+     *
+     * Jelovnik restorana se u podacima piše kao `readText: [{ title, items }]`.
+     * Provera je te `items` čitala kao reči kojima treba slika i javljala
+     * „Pa, beguda i cafè nema sliku". To je rečenica iz jelovnika, ne reč iz
+     * rečnika — slika joj ne treba i ne sme da obara deploy.
+     */
+    const bezJelovnika = d.replace(/readText:\s*\[[\s\S]*?\n    \],/g, "");
+    for (const m of bezJelovnika.matchAll(/(?:allItems|items):\s*\[([^\]]*)\]/g)) {
       if (m[1].includes("{")) continue;
       for (const r of m[1].matchAll(/"([^"]+)"/g)) if (!ima(r[1])) fale.push(`${f.replace(".ts", "")} · ${id} · ${r[1]}`);
     }
