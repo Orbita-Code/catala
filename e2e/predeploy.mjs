@@ -789,6 +789,15 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
         if (o) ukupnoObidjeno += Number(o[1]);
         const n = t.match(/TUĐIM GLASOM SE IZGOVARA: (\d+)/);
         if (n && Number(n[1]) > 0) svaNadjena.push(t);
+        /**
+         * NEDOVRŠENA TEMA SE BROJI KAO PAD (30.08.2026).
+         *
+         * Prolaz se tri puta prekinuo i krenuo ispočetka, a da to nigde nije
+         * pisalo. Delimičan prolaz pročitan kao čist je gori od svakog
+         * pojedinačnog nalaza, jer stvara lažno poverenje.
+         */
+        const nd = t.match(/NEDOVRŠENIH TEMA: (\d+)/);
+        if (nd && Number(nd[1]) > 0) svaNadjena.push(t);
       }
     }
     izlaz = `OBIĐENO ZADATAKA: ${ukupnoObidjeno}\n`

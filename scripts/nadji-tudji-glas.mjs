@@ -72,11 +72,45 @@ await p.addInitScript(() => {
   if (o) window.speechSynthesis.speak = (u) => { window.__g.push(u.text); return o(u); };
 });
 
+/**
+ * VREMENSKO OGRANIČENJE — PROLAZ KOJI SE PREKINE MORA TO DA KAŽE (30.08.2026).
+ *
+ * Prolaz kroz svih dvanaest tema se tri puta prekinuo i krenuo ispočetka, pa
+ * je vlasnica čekala bez ijednog rezultata. Nije nalazio grešku — sam se gasio.
+ *
+ * Zato sada svaka TEMA ima svoje ograničenje, i svaki ZADATAK svoje. Kad
+ * istekne, tema se zapisuje kao NEDOVRŠENA i to se ispiše na kraju, uz broj
+ * obiđenih zadataka. Delimičan prolaz se nikad više ne sme pročitati kao čist —
+ * to je gora greška od svakog pojedinačnog nalaza, jer stvara lažno poverenje.
+ *
+ * Orijentiri su iz `~/.claude/AUDIT-PROTOKOL.md` („SAMOOBNAVLJANJE"):
+ * 45 s po zadatku, 10 min po temi.
+ */
+const OGRANICENJE_ZADATKA_MS = Number(process.env.GLAS_ZADATAK_MS || 45000);
+const OGRANICENJE_TEME_MS = Number(process.env.GLAS_TEMA_MS || 600000);
+
+/** Vraća `null` ako posao ne stigne na vreme, umesto da visi. */
+const saOgranicenjem = (obecanje, ms) =>
+  Promise.race([obecanje, new Promise((r) => setTimeout(() => r(Symbol.for("isteklo")), ms))]);
+
 const nadjeno = new Map();   // tekst → gde je viđen
 let obidjeno = 0;            // koliko je zadataka STVARNO otvoreno
+const nedovrsene = [];       // teme kojima je isteklo vreme
 for (const tema of TEME) {
+  const pocetakTeme = Date.now();
   for (let n = 1; n <= 30; n++) {
-    await p.goto(`${BASE}/tema/${tema}?tasca=${n}`, { waitUntil: "domcontentloaded", timeout: 60000 });
+    if (Date.now() - pocetakTeme > OGRANICENJE_TEME_MS) {
+      nedovrsene.push(`${tema} (isteklo vreme na zadatku ${n})`);
+      break;
+    }
+    const stiglo = await saOgranicenjem(
+      p.goto(`${BASE}/tema/${tema}?tasca=${n}`, { waitUntil: "domcontentloaded", timeout: 60000 })
+        .catch(() => null),
+      OGRANICENJE_ZADATKA_MS);
+    if (stiglo === Symbol.for("isteklo")) {
+      nedovrsene.push(`${tema} (zadatak ${n} se nije otvorio na vreme)`);
+      break;
+    }
     await p.waitForTimeout(600);
     const naslov = (await p.locator("main").innerText().catch(() => "")).split("\n")[0] || "";
     if (!naslov || !/^\d+\./.test(naslov)) break;   // nema više zadataka u temi
@@ -141,3 +175,8 @@ if (nadjeno.size) console.log(JSON.stringify([...nadjeno.entries()], null, 1));
  */
 process.stderr.write(`\nOBIĐENO ZADATAKA: ${obidjeno}\n`);
 process.stderr.write(`TUĐIM GLASOM SE IZGOVARA: ${nadjeno.size} različitih tekstova\n`);
+process.stderr.write(`NEDOVRŠENIH TEMA: ${nedovrsene.length}\n`);
+for (const t of nedovrsene) process.stderr.write(`  ✗ ${t}\n`);
+// Nedovršen prolaz NIJE prolaz — izlazni kod to mora da kaže, da ga
+// pre-deploy ne pročita kao čisto.
+if (nedovrsene.length) process.exitCode = 2;

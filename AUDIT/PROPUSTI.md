@@ -479,3 +479,30 @@ greške žive), `MultipleChoice.tsx` (pamti tačan odgovor, ne pitanje),
 `errors.ts` + `progress.ts` (izbacuju stare zapise iz pregledača deteta).
 Provera: `scripts/proveri-vezbu.mjs`, uvezana u pre-deploy test. Puštena protiv
 starog koda — pala je (nudila 3 stavke umesto 1), pa protiv novog — prošla.
+
+## 30.08.2026 — prolaz koji se tiho prekida, a izgleda kao da radi
+
+**Šta je promašeno.** Glasovni prolaz kroz svih dvanaest tema prekinuo se i
+krenuo ispočetka **tri puta**. Nije nalazio grešku — sam se gasio. Vlasnica je
+čekala rezultat koji nikad nije stigao, i to na kraju duge sesije, kad je već
+jednom pitala „dokle više da čekam".
+
+**Zašto se nije videlo.** Prolaz nije imao **nijedno vremensko ograničenje** i
+nije imao **nijedan ispis napretka**. Dok radi, izgleda isto kao dok visi. Kad
+se prekine, ne ostane trag da je bio prekinut — pa bi sledeći prolaz koji
+slučajno vrati „0 tuđih glasova" bio pročitan kao čist, iako je obišao dve teme
+od dvanaest.
+
+**Pravilo koje sprečava celu klasu.**
+Ovo je već stajalo zapisano u `~/.claude/AUDIT-PROTOKOL.md`, odeljak
+„SAMOOBNAVLJANJE": *svaka jedinica posla dobija vremensko ograničenje unapred,
+a jedinica kojoj vreme istekne zapisuje se kao ISTEKLO VREME i ide u izveštaj.*
+Pravilo je postojalo — ja ga na ovaj alat nisam primenio. **Alat koji obilazi
+mnogo jedinica bez ograničenja po jedinici ne sme se pustiti**, jer ne pravi
+razliku između „nema nalaza" i „nisam stigao".
+
+**Popravka.** `scripts/nadji-tudji-glas.mjs`: 45 s po zadatku, 10 min po temi
+(oba se mogu promeniti kroz `GLAS_ZADATAK_MS` i `GLAS_TEMA_MS`). Nedovršena
+tema se ispisuje sa razlogom i vraća izlazni kod 2. `e2e/predeploy.mjs` to čita
+kao PAD. Provereno: sa ograničenjem od 20 s prolaz staje na drugom zadatku,
+javlja „NEDOVRŠENIH TEMA: 1" i pada.
