@@ -10079,6 +10079,69 @@
       ]
     },
     {
+      "id": "els-oficis-1b",
+      "type": "copy-word",
+      "prompt": "Què vols ser de gran? Llegeix i copia:",
+      "words": [
+        {
+          "catalan": "astronauta",
+          "image": "astronauta"
+        },
+        {
+          "catalan": "cantant",
+          "image": "cantant"
+        },
+        {
+          "catalan": "actriu",
+          "image": "actriu"
+        },
+        {
+          "catalan": "ballarina",
+          "image": "ballarina"
+        },
+        {
+          "catalan": "esportista",
+          "image": "esportista"
+        },
+        {
+          "catalan": "pintora",
+          "image": "pintora"
+        },
+        {
+          "catalan": "escultora",
+          "image": "escultora"
+        },
+        {
+          "catalan": "músic",
+          "image": "music"
+        },
+        {
+          "catalan": "científica",
+          "image": "cientifica"
+        },
+        {
+          "catalan": "perruquera",
+          "image": "perruquera"
+        },
+        {
+          "catalan": "venedora",
+          "image": "venedora"
+        },
+        {
+          "catalan": "mecànic",
+          "image": "mecanic"
+        },
+        {
+          "catalan": "socorrista",
+          "image": "socorrista"
+        },
+        {
+          "catalan": "farmacèutic",
+          "image": "farmaceutic"
+        }
+      ]
+    },
+    {
       "id": "els-oficis-2",
       "type": "fill-letters",
       "prompt": "Completa les lletres que falten:",

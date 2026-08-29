@@ -286,18 +286,33 @@ export function useSpeechRecognition(
    * ne ume" i TRAJNO gasio mikrofon. Zato je klik na prvu reč rušio ceo zadatak
    * u samoprocenu. Sada se dozvola SAČEKA (`await`), pa se sluša.
    */
+  /**
+   * SAFARI: PREPOZNAVANJE MORA DA KRENE U SAMOM KLIKU (28.08.2026).
+   *
+   * Prijava vlasnice, ponovljena više puta: „mikrofon u Safariju i dalje ne
+   * radi — ponaša se kao da čuje šta pričam, ali ne registruje šta kažem."
+   * Taj opis je tačno pokazao gde puca. Traka jačine se pomera, dakle
+   * `getUserMedia` radi i zvuk stiže; ne radi ONO ŠTO PRESUĐUJE — prepoznavanje.
+   *
+   * Uzrok: Safari pušta `SpeechRecognition.start()` SAMO dok traje korisnikov
+   * klik. Naš kod je pre toga čekao dozvolu (`await traziDozvolu()`), a svako
+   * čekanje prekida vezu sa klikom — pa Safari `start()` tiho odbije. Chrome
+   * to dozvoljava, zato je na jednom računaru radilo, a na drugom ne.
+   *
+   * Popravka: sve do `start()` je sada BEZ IJEDNOG ČEKANJA. Dozvola se traži
+   * tek ako `start()` ne uspe ili ako stigne greška „nema dozvole", pa se
+   * pokuša ponovo. Snimanje ionako traži dozvolu uporedo, pa prozorčić iskoči
+   * kao i pre.
+   *
+   * Ovim se NE ukida popravka od 14.08.2026 (mikrofon se ne gasi trajno posle
+   * jedne greške) — ona je u `onerror` i `onend` i ostaje netaknuta.
+   */
+  const dozvolaTrazenaRef = useRef(false);
+
   const startListening = useCallback(async () => {
     const SpeechRecognition = getSpeechRecognitionClass();
     if (!SpeechRecognition) {
       console.log("[Speech] Not supported");
-      return;
-    }
-
-    const greskaDozvole = await traziDozvolu();
-    if (greskaDozvole) {
-      setError(greskaDozvole);
-      setIsListening(false);
-      onErrorRef.current?.(greskaDozvole);
       return;
     }
 
@@ -409,6 +424,20 @@ export function useSpeechRecognition(
       if (event.error === "not-allowed" || event.error === "audio-capture") {
         setIsListening(false);
         recognitionRef.current = null;
+        /**
+         * „Nema dozvole" na PRVOM pokušaju u Safariju ne znači da je dete
+         * odbilo mikrofon — znači da dozvola još nije zatražena. Zato se ovde
+         * jednom zatraži pa pokuša ponovo; tek ako i tada ne prođe, javlja se
+         * greška. (28.08.2026, uz popravku redosleda iznad.)
+         */
+        if (event.error === "not-allowed" && !dozvolaTrazenaRef.current) {
+          dozvolaTrazenaRef.current = true;
+          void traziDozvolu().then((g) => {
+            if (g) { setError(g); onErrorRef.current?.(g); return; }
+            void startListeningRef.current?.();
+          });
+          return;
+        }
         setError(event.error);
         onErrorRef.current?.(event.error);
         return;
@@ -517,11 +546,28 @@ export function useSpeechRecognition(
         clearTimeout(startTimeoutRef.current);
         startTimeoutRef.current = null;
       }
-      setError("Error iniciant el micròfon. Torna a provar.");
-      setIsListening(false);
+      /**
+       * `start()` NIJE PROŠAO — najčešće zato što dozvola još nije data.
+       * Tek sada se dozvola traži (to sme da čeka, klik je ionako potrošen),
+       * pa se pokuša još JEDNOM. Drugi put dozvola već postoji, pa Safari
+       * pusti prepoznavanje.
+       */
       recognitionRef.current = null;
+      setIsListening(false);
+      if (!dozvolaTrazenaRef.current) {
+        dozvolaTrazenaRef.current = true;
+        const greskaDozvole = await traziDozvolu();
+        if (greskaDozvole) {
+          setError(greskaDozvole);
+          onErrorRef.current?.(greskaDozvole);
+          return;
+        }
+        void startListeningRef.current?.();
+        return;
+      }
+      setError("Error iniciant el micròfon. Torna a provar.");
     }
-  }, []);
+  }, [traziDozvolu]);
 
   const stopListening = useCallback(() => {
     if (!recognitionRef.current) return;

@@ -44,8 +44,24 @@ const BASE = process.env.BASE || "http://localhost:3200";
  * temama 4 i 5. **Provera koja se nije izvršila prijavljivala se kao prošla.**
  */
 const [KOR, LOZ] = (process.env.BASIC_AUTH || "catala:changeme").split(":");
-const TEME = ["la-classe","l-escola","el-cos","la-roba","la-casa","la-familia",
+const SVE_TEME = ["la-classe","l-escola","el-cos","la-roba","la-casa","la-familia",
               "les-botigues","el-menjar","els-animals","la-ciutat","els-vehicles","els-oficis"];
+
+/**
+ * MOŽE I SAMO JEDNA TEMA (27.08.2026).
+ *
+ * Prolaz sada REŠAVA svaki zadatak da bi čuo šta se izgovori, pa mu treba oko
+ * osam sekundi po zadatku — za svih 226 to je preko pola sata, i to kao
+ * POSLEDNJA kapija pred objavljivanje. Vlasnica je čekala i s pravom pitala
+ * dokle.
+ *
+ * Zato prima imena tema kao argumente: `node scripts/nadji-tudji-glas.mjs
+ * el-cos la-roba`. Tako se dvanaest tema pusti uporedo, u dvanaest procesa, i
+ * ceo prolaz traje koliko najduža tema — ne koliko sve zajedno. Bez argumenata
+ * radi kao i dosad, sve teme redom.
+ */
+const trazene = process.argv.slice(2).filter((x) => SVE_TEME.includes(x));
+const TEME = trazene.length ? trazene : SVE_TEME;
 
 const b = await chromium.launch({ headless: true });
 const c = await b.newContext({ httpCredentials: { username: KOR, password: LOZ }, viewport: { width: 1300, height: 950 } });

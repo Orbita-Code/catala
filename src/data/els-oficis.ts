@@ -21,6 +21,46 @@ export const elsOficisTasks: Task[] = [
       { catalan: "pagès", image: "pages" },
     ],
   },
+
+  /**
+   * VIŠE ZANIMANJA — ono što deca stvarno žele da budu (28.08.2026).
+   *
+   * Zahtev vlasnice: „Ako je Els oficis zanimanja, zašto nemamo: muzičar,
+   *  slikar, vajar, sportista, prodavac/prodavačica, spasilac, i sigurno ima
+   *  još mnogo zanimanja koja deca žele da postanu kad porastu, npr.
+   *  astronaut, pevačica, glumica, apotekarka."
+   *
+   * Tema je do sada imala trinaest zanimanja i sva su bila „ozbiljna" — lekar,
+   * vatrogasac, poštar. Nijedno od onih o kojima dete sanja.
+   *
+   * VEĆINA JE U ŽENSKOM RODU, i to namerno. Igru igraju dve devojčice, a stara
+   * tema je gotovo cela bila u muškom. Katalonski i inače uči par
+   * (`pintor`/`pintora`), pa je to usput i gradivo, ne samo pravednost.
+   *
+   * `socorrista` i `farmacèutic` su već imali svoje slike u igri, ali se nisu
+   * koristili nigde — sada napokon jesu.
+   */
+  {
+    id: "els-oficis-1b",
+    type: "copy-word",
+    prompt: "Què vols ser de gran? Llegeix i copia:",
+    words: [
+      { catalan: "astronauta", image: "astronauta" },
+      { catalan: "cantant", image: "cantant" },
+      { catalan: "actriu", image: "actriu" },
+      { catalan: "ballarina", image: "ballarina" },
+      { catalan: "esportista", image: "esportista" },
+      { catalan: "pintora", image: "pintora" },
+      { catalan: "escultora", image: "escultora" },
+      { catalan: "músic", image: "music" },
+      { catalan: "científica", image: "cientifica" },
+      { catalan: "perruquera", image: "perruquera" },
+      { catalan: "venedora", image: "venedora" },
+      { catalan: "mecànic", image: "mecanic" },
+      { catalan: "socorrista", image: "socorrista" },
+      { catalan: "farmacèutic", image: "farmaceutic" },
+    ],
+  },
   {
     id: "els-oficis-2",
     type: "fill-letters",

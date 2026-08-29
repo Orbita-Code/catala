@@ -26,6 +26,9 @@ const KLJUCEVI = [
   "catala-daily-streak",
   "catala-errors",
   "catala-settings",
+  // Album ide sa napretkom — inače bi se na novom uređaju svečano otvaranje
+  // sličica ponovilo za svaku već završenu temu (28.08.2026).
+  "catala-album",
 ];
 
 const ZAGLAVLJE = "CATALA1:";

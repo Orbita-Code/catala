@@ -153,6 +153,17 @@ export function sveStavke() {
     mapa.set(donji, { tekst: t, kljuc: k, vrsta });
   };
 
+  /**
+   * REČENICE KOJE ŽIVE U SUČELJU, A NE U PODACIMA (28.08.2026).
+   *
+   * Završna strana slavlja (`/gran-final`) izgovara čestitku. Taj tekst ne
+   * postoji ni u jednom zadatku, pa ga skupljanje iz `src/data` ne bi našlo —
+   * i dete bi ga čulo glasom uređaja, kao što se već dešavalo sa jelovnikom.
+   * Zato se ovde upisuje ručno. Svaki nov tekst koji aplikacija IZGOVARA, a
+   * nije u podacima, mora doći i ovde.
+   */
+  for (const t of ["Felicitats!", "Ho has aconseguit!", "Molt bé!"]) dodaj(t, "recenica");
+
   for (const tema of TEME) {
     const s = fs.readFileSync(path.join(PROJ, "src", "data", `${tema}.ts`), "utf8");
     for (const m of s.matchAll(/(?:catalan|word|blank|left|right|correct|targetItem|item):\s*"([^"]+)"/g)) {

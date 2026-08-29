@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, ArrowRight, Volume2, VolumeX, Home } from "lucide-react";
 import TaskRenderer from "@/components/tasks/TaskRenderer";
@@ -13,6 +14,12 @@ import MascotPair from "@/components/mascot/MascotPair";
 import ImaJosDole from '@/components/tasks/ImaJosDole';
 import { getMascotEvent, SILENCE_DELAY_MS, type MascotEvent } from "@/lib/mascot";
 import { themes } from "@/data/themes";
+import EfektiSlavlja from "@/components/celebracio/EfektiSlavlja";
+import OtvaranjeSlicica from "@/components/album/OtvaranjeSlicica";
+import { SLAVLJE, SLAVLJE_PODRAZUMEVANO } from "@/data/slavlje-teme";
+import { SLICICE } from "@/data/album-slicice";
+import { temaZaOtvaranje, zapamtiOtvaranje } from "@/lib/album";
+import { bezBelePozadine } from "@/lib/bez-pozadine";
 import { taskData, getScoringTaskCount, getCompletedScoringCount } from "@/data/task-data";
 import { getThemeProgress, completeTask, isThemeFullyComplete, saveThemeProgress } from "@/lib/progress";
 import { getEncouragement } from "@/lib/encouragement";
@@ -64,6 +71,30 @@ export default function TemaContent({ slug }: TemaContentProps) {
   /** Da li je otvoren spisak svih zadataka (skok na bilo koji) */
   const [spisakOtvoren, setSpisakOtvoren] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
+  const manjePokretaSlavlje = useReducedMotion();
+  /**
+   * Tema čije svečano otvaranje sličica još nije odgledano. Čita se jednom, pri
+   * ulasku u proslavu — da se ne bi prikazivalo svaki put kad se strana osveži.
+   */
+  const [otvaranjeZaTemu, setOtvaranjeZaTemu] = useState<string | null>(null);
+  /**
+   * Junak proslave stoji na tamnom nebu, pa mu se skida bela podloga — inače
+   * dobije beo pravougaonik oko sebe i izgleda kao nalepnica (isto kao na
+   * završnoj strani; v. `bezBelePozadine`).
+   */
+  const [junakBezPozadine, setJunakBezPozadine] = useState<string | null>(null);
+  useEffect(() => {
+    if (!showCelebration) return;
+    const izvor = getWordIllustration((SLAVLJE[slug] || SLAVLJE_PODRAZUMEVANO).junak);
+    if (!izvor) return;
+    let vazi = true;
+    void bezBelePozadine(izvor).then((n) => { if (vazi) setJunakBezPozadine(n); });
+    return () => { vazi = false; };
+  }, [showCelebration, slug]);
+  useEffect(() => {
+    if (!showCelebration) return;
+    setOtvaranjeZaTemu(temaZaOtvaranje());
+  }, [showCelebration]);
   const [streak, setStreak] = useState(0);
   const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
   const [feedbackReaction, setFeedbackReaction] = useState<StarReaction[] | null>(null);
@@ -636,7 +667,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
           transition={{ delay: 0.3 }}
           className="text-2xl font-black text-[var(--text)]"
         >
-          Molt bé! 🎉
+          Molt bé!
         </motion.h1>
 
         <motion.div
@@ -711,108 +742,86 @@ export default function TemaContent({ slug }: TemaContentProps) {
     const nextTheme =
       themeIndex < themes.length - 1 ? themes[themeIndex + 1] : null;
     const fullyComplete = isThemeFullyComplete(slug, scoringCount);
+    const recept = SLAVLJE[slug] || SLAVLJE_PODRAZUMEVANO;
+    const junakSlavlja = junakBezPozadine || getWordIllustration(recept.junak);
+    /** Sličice koje se otvaraju baš sada — samo prvi put, i samo kad je tema gotova. */
+    const noveSlicice = otvaranjeZaTemu === slug ? (SLICICE[slug] || []) : [];
 
     return (
       <>
-        {/* Background celebration effects - MAGICAL! */}
-        <MagicCelebration intensity={fullyComplete ? "high" : "medium"} />
-        <BalloonCelebration count={fullyComplete ? 25 : 15} />
-        <FireworksBurst waves={fullyComplete ? 8 : 4} />
+        {/**
+          * SLAVLJE KRAJA TEME — SVAKA TEMA SVOJE (28.08.2026, zahtev vlasnice).
+          *
+          * „Zašto tako lepog dizajna i profesionalno nisi uradio i celebration
+          *  ekran posle svake teme? Još bi bilo sjajno kada bi posle svake teme
+          *  bio drugačiji celebration ekran… sa lepim profesionalnim vatrometom,
+          *  animacijama zanimljivim deci, sa konfetama, bombonama, balonima, ali
+          *  da bude kao da bi ga Apple pravio."
+          *
+          * Do danas je ovde stajao emodži (🏆 ili 🎉) i tri sloja ukrasa sa
+          * srcima, zvezdicama i Saturnom — sve emodžiji, koji na svakom uređaju
+          * izgledaju drugačije i uvek se vidi da su zalepljeni.
+          *
+          * Sada: čestice crta jedno platno (vatromet, konfete, bombone, baloni,
+          * iskre, latice), a u sredini stoji SLIKA IZ TE TEME. Recept — koji
+          * efekti, koje boje, koji lik — stoji u `src/data/slavlje-teme.ts`, pa
+          * posle „La casa" gori vatromet nad krovovima, a posle „Les botigues"
+          * padaju bombone.
+          */}
+        <div className="fixed inset-0 -z-10" style={{ background: recept.pozadina }} />
+        <EfektiSlavlja
+          efekti={recept.efekti}
+          boje={recept.boje}
+          jako={fullyComplete}
+          mirno={!!manjePokretaSlavlje}
+        />
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="min-h-dvh flex flex-col items-center justify-center gap-6 px-4 text-center relative z-50 pointer-events-none"
+          className="min-h-dvh flex flex-col items-center justify-center gap-5 px-4 text-center relative z-30 pointer-events-none"
         >
-          {/* Celebration emoji instead of mascot */}
-          <motion.div
-            initial={{ scale: 0, rotate: -180 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ type: "spring", damping: 10 }}
-            className="text-8xl"
-          >
-            {fullyComplete ? "🏆" : "🎉"}
-          </motion.div>
-
-          {/* Pulsating hearts, stars, and Saturn decorations - AWAY from buttons */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-            {/* Pulsating hearts - only in corners, not over buttons */}
-            {[
-              { x: "5%", y: "12%", size: "2.5rem", delay: 0 },
-              { x: "88%", y: "15%", size: "2rem", delay: 0.3 },
-              { x: "8%", y: "38%", size: "2.2rem", delay: 0.6 },
-              { x: "90%", y: "42%", size: "2rem", delay: 0.9 },
-            ].map((heart, i) => (
-              <motion.div
-                key={`heart-${i}`}
-                className="absolute"
-                style={{ left: heart.x, top: heart.y, fontSize: heart.size }}
-                animate={{
-                  scale: [1, 1.3, 1],
-                  opacity: [0.7, 1, 0.7],
-                }}
-                transition={{
-                  duration: 1.2,
-                  delay: heart.delay,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                ❤️
-              </motion.div>
-            ))}
-
-            {/* Pulsating stars - only on sides, not over buttons */}
-            {[
-              { x: "18%", y: "8%", size: "2.5rem", delay: 0.2 },
-              { x: "80%", y: "6%", size: "2.2rem", delay: 0.5 },
-              { x: "3%", y: "55%", size: "2rem", delay: 0.8 },
-              { x: "94%", y: "58%", size: "2.3rem", delay: 1.1 },
-            ].map((star, i) => (
-              <motion.div
-                key={`star-${i}`}
-                className="absolute"
-                style={{ left: star.x, top: star.y, fontSize: star.size }}
-                animate={{
-                  scale: [1, 1.4, 1],
-                  rotate: [0, 15, -15, 0],
-                  opacity: [0.8, 1, 0.8],
-                }}
-                transition={{
-                  duration: 1.5,
-                  delay: star.delay,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                ⭐
-              </motion.div>
-            ))}
-
-            {/* Planet Saturn - upper left corner */}
+          {/* JUNAK TEME — slika iz same igre, umesto emodžija. */}
+          {junakSlavlja && (
             <motion.div
-              className="absolute text-5xl"
-              style={{ left: "8%", top: "5%", filter: "drop-shadow(0 0 10px rgba(255, 200, 100, 0.5))" }}
-              animate={{
-                rotate: [0, 360],
-                y: [0, -8, 0],
-              }}
-              transition={{
-                rotate: { duration: 20, repeat: Infinity, ease: "linear" },
-                y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
-              }}
+              initial={{ scale: 0.4, opacity: 0, y: 30 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              transition={{ type: "spring", stiffness: 150, damping: 13 }}
+              className="relative"
             >
-              🪐
+              <div
+                aria-hidden
+                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+                style={{
+                  width: 210, height: 210,
+                  background: "radial-gradient(circle,rgba(255,255,255,0.4) 0%,rgba(255,255,255,0) 68%)",
+                }}
+              />
+              <motion.img
+                src={junakSlavlja}
+                alt=""
+                draggable={false}
+                className="relative w-[130px] select-none sm:w-[150px]"
+                style={{ filter: "drop-shadow(0 14px 22px rgba(10,5,30,0.5))" }}
+                animate={manjePokretaSlavlje ? undefined : { y: [0, -9, 0], rotate: [-2, 2, -2] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              />
             </motion.div>
-          </div>
+          )}
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="text-3xl font-black text-[var(--text)]"
+            /**
+             * BELO NA TAMNOM, I BEZ EMODŽIJA (28.08.2026).
+             * Podloga proslave je od danas tamna, a ovaj naslov je nasledio boju
+             * `--text`, koja je tamnosiva za svetlu stranu — pa se tekst gubio.
+             * Emodži (🏆🎉👏) izbačeni na zahtev vlasnice: „nikako emodži".
+             */
+            className="text-3xl font-black text-white drop-shadow-[0_3px_14px_rgba(0,0,0,0.45)] sm:text-4xl"
           >
-            {hundredPercentJustHit ? "Bravíssim! 🏆✨" : fullyComplete ? "Perfecte! 🏆🎉" : "Molt bé! 👏"}
+            {hundredPercentJustHit ? "Bravíssim!" : fullyComplete ? "Perfecte!" : "Molt bé!"}
           </motion.h1>
           {hundredPercentJustHit && (
             <motion.div
@@ -822,7 +831,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
               className="bg-gradient-to-r from-yellow-300 to-orange-300 rounded-2xl px-5 py-3 shadow-md"
             >
               <p className="text-lg font-black text-orange-900 text-center">
-                Has completat el 100% del Tema {themeIndex + 1}: {theme.name}! 🌟
+                Has completat el 100% del Tema {themeIndex + 1}: {theme.name}!
               </p>
             </motion.div>
           )}
@@ -830,7 +839,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="text-xl text-[var(--text-light)]"
+            className="text-lg text-white/85 sm:text-xl"
           >
             Has completat &ldquo;Tema {themeIndex + 1}: {theme.name}&rdquo;!
           </motion.p>
@@ -840,11 +849,50 @@ export default function TemaContent({ slug }: TemaContentProps) {
             transition={{ delay: 0.7 }}
             className="space-y-2"
           >
-            <p className="text-lg">
-              ⭐ {scoringCount}/{scoringCount} tasques
-            </p>
-            <p className="text-lg">🔥 Millor ratxa: {streak}</p>
+            <div className="flex gap-3">
+              <span className="rounded-2xl border border-white/20 bg-white/12 px-4 py-2 text-base font-bold text-white backdrop-blur-md">
+                {scoringCount}/{scoringCount} tasques
+              </span>
+              <span className="rounded-2xl border border-white/20 bg-white/12 px-4 py-2 text-base font-bold text-white backdrop-blur-md">
+                Millor ratxa: {streak}
+              </span>
+            </div>
           </motion.div>
+
+          {/**
+            * SVEČANO OTVARANJE SLIČICA (28.08.2026, zahtev vlasnice).
+            *
+            * „Kad završe temu, da im se otvore te sličice jedna po jedna, da
+            *  budu srećni koliko su sličica dobili."
+            *
+            * Pokazuje se SAMO prvi put kad je tema završena — posle toga dete
+            * ide u album kad hoće. `pointer-events-auto` je nužan: ceo omotač
+            * proslave je namerno neklikljiv da dugmad ispod ne hvataju klik, a
+            * ovde se klikće na sličice.
+            */}
+          {noveSlicice.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="pointer-events-auto w-full max-w-md"
+            >
+              <p className="mb-2 text-sm font-bold uppercase tracking-wider text-white/80">
+                Cromos nous per a l&apos;àlbum
+              </p>
+              <OtvaranjeSlicica
+                slicice={noveSlicice}
+                bojaTeme={theme.color}
+                gotovo={() => zapamtiOtvaranje(slug)}
+              />
+              <Link
+                href={`/album?tema=${slug}`}
+                className="mt-4 flex min-h-[52px] items-center justify-center rounded-2xl bg-white/95 px-6 text-base font-black text-[#3d2c63] shadow-lg active:scale-[0.98]"
+              >
+                Obre l&apos;àlbum
+              </Link>
+            </motion.div>
+          )}
           {!fullyComplete && (
             <motion.div
               initial={{ opacity: 0 }}
@@ -853,7 +901,7 @@ export default function TemaContent({ slug }: TemaContentProps) {
               className="bg-yellow-50 rounded-2xl p-4 max-w-xs border border-yellow-200"
             >
               <p className="text-sm font-semibold text-yellow-800">
-                Encara et queden algunes tasques. Acaba-les per completar el tema! 🌟
+                Encara et queden algunes tasques. Acaba-les per completar el tema!
               </p>
             </motion.div>
           )}

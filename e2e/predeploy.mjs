@@ -755,11 +755,45 @@ console.log(`\nPRE-DEPLOY TEST — ${BASE}\n${"=".repeat(78)}\n`);
    * bez lozinke protiv produkcije vidi samo 401.
    */
   {
-    const r = spawnSync("node", ["scripts/nadji-tudji-glas.mjs"],
-                        { encoding: "utf8",
-                          env: { ...process.env, BASE, BASIC_AUTH: process.env.BASIC_AUTH || "" },
-                          maxBuffer: 32 * 1024 * 1024 });
-    izlaz = String(r.stdout || "") + String(r.stderr || "");
+    /**
+     * TEME IDU PO ČETIRI UPOREDO (29.08.2026).
+     *
+     * Prolaz sada REŠAVA svaki zadatak da bi čuo šta se izgovori, pa mu je za
+     * svih 227 zadataka trebalo preko pola sata — i to kao POSLEDNJA kapija
+     * pred objavljivanje. Vlasnica je čekala i s pravom pitala dokle.
+     *
+     * Zato se teme dele na četvorke. Dvanaest uporedo je oborilo server
+     * (`page.goto` je isticao), jedna po jedna traje predugo; četiri je
+     * izmerena sredina. Ishod je isti — sve teme se obiđu — ali prolaz traje
+     * koliko najduža četvorka, ne koliko sve zajedno.
+     */
+    const TEME_GLAS = ["la-classe","l-escola","el-cos","la-roba","la-casa","la-familia",
+                       "les-botigues","el-menjar","els-animals","la-ciutat","els-vehicles","els-oficis"];
+    let ukupnoObidjeno = 0;
+    const svaNadjena = [];
+    for (let i = 0; i < TEME_GLAS.length; i += 4) {
+      const cetvorka = TEME_GLAS.slice(i, i + 4);
+      // `spawnSync` bi čekao svaku temu do kraja i ne bi bilo nikakvog dobitka;
+      // zato `spawn`, pa se četvorka sačeka zajedno.
+      const { spawn } = require("child_process");
+      const izlazi = await Promise.all(cetvorka.map((t) => new Promise((gotovo) => {
+        const d = spawn("node", ["scripts/nadji-tudji-glas.mjs", t],
+                        { env: { ...process.env, BASE, BASIC_AUTH: process.env.BASIC_AUTH || "" } });
+        let tekst = "";
+        d.stdout.on("data", (x) => { tekst += x; });
+        d.stderr.on("data", (x) => { tekst += x; });
+        d.on("close", () => gotovo(tekst));
+      })));
+      for (const t of izlazi) {
+        const o = t.match(/OBIĐENO ZADATAKA: (\d+)/);
+        if (o) ukupnoObidjeno += Number(o[1]);
+        const n = t.match(/TUĐIM GLASOM SE IZGOVARA: (\d+)/);
+        if (n && Number(n[1]) > 0) svaNadjena.push(t);
+      }
+    }
+    izlaz = `OBIĐENO ZADATAKA: ${ukupnoObidjeno}\n`
+          + `TUĐIM GLASOM SE IZGOVARA: ${svaNadjena.length} različitih tekstova\n`
+          + svaNadjena.join("\n");
   }
   const m = (izlaz + "").match(/TUĐIM GLASOM SE IZGOVARA: (\d+)/);
   if (m) broj = Number(m[1]);

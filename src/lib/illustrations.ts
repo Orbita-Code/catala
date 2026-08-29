@@ -623,7 +623,35 @@ const wordsWithIllustrations = new Set([
   "persiana",
   "microones",
   "facana",
+  // NOVA ZANIMANJA (28.08.2026, zahtev vlasnice).
+  //
+  // „Ako je Els oficis zanimanja, zašto nemamo: muzičar, slikar, vajar,
+  //  sportista, prodavac/prodavačica, spasilac… npr. astronaut, pevačica,
+  //  glumica, apotekarka."
+  //
+  // Većina je u ŽENSKOM rodu namerno: tema je puna muških likova, a igru
+  // igraju dve devojčice. Katalonski i ovako uči par (`pintor`/`pintora`).
+  "music",
+  "cantant",
+  "pintora",
+  "astronauta",
+  "actriu",
+  "esportista",
+  "venedora",
+  "ballarina",
+  "cientifica",
+  "perruquera",
+  "mecanic",
+  "escultora",
   "xemeneia",
+  // KAMIN — druga slika za istu reč (28.08.2026).
+  //
+  // U dnevnoj sobi `xemeneia` znači KAMIN, ne dimnjak na krovu, pa zadatak 9
+  // teme „La casa" traži `image: "xemeneia2"`. Slika je postojala i bila je
+  // upisana u podatke još 17.08.2026 — ali NIJE BILA OVDE, pa ju je
+  // `getWordIllustration` odbijao i aplikacija je tiho vraćala dimnjak.
+  // Popravka je stajala napisana, a nikad se nije videla na ekranu.
+  "xemeneia2",
   "antena",
   "banyera",
   "vater",

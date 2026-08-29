@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import ThemeCard from "@/components/ui/ThemeCard";
 import AnimatedStar from "@/components/star/AnimatedStar";
@@ -12,6 +13,7 @@ import { XPProgressHeader, DailyRewardModal } from "@/components/gamification";
 import { themes } from "@/data/themes";
 import { getScoringTaskCount, getCompletedScoringCount } from "@/data/task-data";
 import { getProgress, shouldShowDailyReward } from "@/lib/progress";
+import { brojSlicica } from "@/lib/album";
 import { getLevelProgress } from "@/lib/levels";
 import type { Level } from "@/lib/levels";
 import type { UserProgress } from "@/types/tasks";
@@ -36,9 +38,26 @@ export default function HomePage() {
     if (shouldShowDailyReward()) {
       // Small delay to let the page render first
       const timer = setTimeout(() => setShowDailyReward(true), 500);
+
       return () => clearTimeout(timer);
     }
   }, []);
+
+  /**
+   * Sve teme su gotove kad u SVAKOJ nema više nijednog zadatka koji se boduje.
+   * Dodatna aktivnost (crtanje) se ne broji — ona nije uslov ni za jednu drugu
+   * stvar u igri, pa ne sme da bude uslov ni ovde.
+   */
+  /** Koliko je sličica skupljeno — piše na ulazu u album. */
+  const [brojAlbuma, setBrojAlbuma] = useState({ otkriveno: 0, ukupno: 0 });
+  useEffect(() => setBrojAlbuma(brojSlicica()), [progress]);
+
+  const sveTemeGotove = themes.every(
+    (t) =>
+      getScoringTaskCount(t.slug) > 0 &&
+      getCompletedScoringCount(t.slug, progress[t.slug]?.completedTasks || []) >=
+        getScoringTaskCount(t.slug)
+  );
 
   return (
     <div className="min-h-dvh pb-8">
@@ -133,6 +152,72 @@ export default function HomePage() {
           </motion.div>
           );
         })()}
+
+        {/**
+          * PUT DO VELIKOG SLAVLJA (28.08.2026, zahtev vlasnice).
+          *
+          * Strana `/gran-final` je nagrada za SVE završene teme. Da se ne bi
+          * desilo ono što se u ovom projektu već dešavalo — da gotova stvar
+          * stoji napravljena, a nigde se ne pali — ovde stoji jedini ulaz u
+          * nju, i pojavljuje se tek kad je dete stvarno zaslužilo.
+          */}
+        {sveTemeGotove && (
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15, type: "spring", stiffness: 180, damping: 18 }}
+            className="mb-5"
+          >
+            <Link
+              href="/gran-final"
+              className="flex min-h-[64px] items-center justify-between gap-3 rounded-2xl px-5 text-white shadow-[0_10px_28px_rgba(51,37,90,0.35)]"
+              style={{ background: "linear-gradient(120deg,#33255a 0%,#6b4f8f 55%,#e58a6b 100%)" }}
+            >
+              <span className="text-lg font-black">Ho has acabat tot! Vine a celebrar-ho</span>
+              <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden fill="none"
+                   stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h13M13 6l6 6-6 6" />
+              </svg>
+            </Link>
+          </motion.div>
+        )}
+
+        {/**
+          * ULAZ U ALBUM (28.08.2026, zahtev vlasnice).
+          *
+          * „I onda imamo i pristup tom albumu… dete uvek može da lista svoje
+          *  sličice." Zato album ima svoje mesto na početnoj, iznad tema, i
+          *  odmah pokazuje koliko je sličica skupljeno — to je ono zbog čega
+          *  se dete vraća.
+          */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, type: "spring", stiffness: 190, damping: 20 }}
+          className="mb-5"
+        >
+          <Link
+            href="/album"
+            className="flex min-h-[64px] items-center gap-3 rounded-2xl px-4 py-3 text-white shadow-[0_8px_22px_rgba(43,31,74,0.3)]"
+            style={{ background: "linear-gradient(115deg,#2b1f4a 0%,#59406f 62%,#8a5c9e 100%)" }}
+          >
+            <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden fill="none"
+                 stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5z" />
+              <path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z" />
+            </svg>
+            <span className="flex-1">
+              <span className="block text-lg font-black leading-tight">El meu àlbum</span>
+              <span className="block text-sm text-white/75">
+                {brojAlbuma.otkriveno} de {brojAlbuma.ukupno} cromos
+              </span>
+            </span>
+            <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden fill="none"
+                 stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 6l6 6-6 6" />
+            </svg>
+          </Link>
+        </motion.div>
 
         <motion.h2
           className="text-xl font-bold text-[var(--text)] mb-4"
