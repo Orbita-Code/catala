@@ -430,8 +430,28 @@ export const laCasaTasks: Task[] = [
         items: ["llit", "llençols", "despertador", "tauleta de nit"],
       },
       {
+        /**
+         * `xemeneia` VIŠE NIJE OVDE (30.08.2026, prijava vlasnice).
+         *
+         * „U temi la casa ima u jednom zadatku ximeneia na kome je dimnjak, da
+         *  stavimo u sala d'estar — a verovatno se misli na kamin. Ne znam da
+         *  li zbuniti decu da bude dve različite slike za istu reč."
+         *
+         * Bila je u pravu na oba mesta. Razvrstavanje prikazuje VELIKU sliku
+         * reči koju dete raspoređuje, a slika za `xemeneia` je dimnjak sa
+         * krova. Dete je gledalo krov i moralo da ga stavi u dnevnu sobu.
+         *
+         * Katalonska reč znači i jedno i drugo, i sveska je tako koristi — ali
+         * dete od pet do osam godina ne uči dva značenja istovremeno. Zato:
+         * jedna reč, jedna slika PO ZADATKU. `xemeneia` ostaje dimnjak u
+         * zadacima o spoljašnjosti kuće (1–6), a kamin se uči u zadatku 9, gde
+         * ceo zadatak i jeste o dnevnoj sobi i gde stoji slika kamina.
+         *
+         * Ovde umesto nje ide `butaca` — nesumnjivo iz dnevne sobe, ima svoju
+         * sliku, i već se uči u zadatku 9.
+         */
         title: "Sala d'estar",
-        items: ["televisió", "sofà", "catifa", "xemeneia"],
+        items: ["televisió", "sofà", "catifa", "butaca"],
       },
       {
         title: "Lavabo",
@@ -456,7 +476,7 @@ export const laCasaTasks: Task[] = [
       "tovallola",
       "nevera",
       "tauleta de nit",
-      "xemeneia",
+      "butaca",
       "rentamans",
       "microones",
     ],
