@@ -224,8 +224,86 @@ export const elsOficisTasks: Task[] = [
       { catalan: "pilot", translation: "pilot", image: "pilot" },
       { catalan: "dentista", translation: "zubar", image: "dentista" },
       { catalan: "infermer", translation: "medicinska sestra/tehničar", image: "infermer" },
+      /**
+       * I NOVA ZANIMANJA SE IZGOVARAJU (30.08.2026, prijava vlasnice).
+       *
+       * „Zašto nisi u 9. zadatak ubacio i nove reči, da deca kažu sve nove
+       *  profesije."
+       *
+       * Bila je u pravu: dodao sam četrnaest novih zanimanja u rečnik, ali ih
+       * nisam uveo nigde drugde — pa ih dete pročita i prepiše jednom, a nikad
+       * ne izgovori. Reč koja se ne izgovori ne uđe u govor.
+       */
+      { catalan: "astronauta", translation: "astronaut", image: "astronauta" },
+      { catalan: "cantant", translation: "pevačica", image: "cantant" },
+      { catalan: "actriu", translation: "glumica", image: "actriu" },
+      { catalan: "ballarina", translation: "balerina", image: "ballarina" },
+      { catalan: "esportista", translation: "sportistkinja", image: "esportista" },
+      { catalan: "pintora", translation: "slikarka", image: "pintora" },
+      { catalan: "escultora", translation: "vajarka", image: "escultora" },
+      { catalan: "músic", translation: "muzičar", image: "music" },
+      { catalan: "científica", translation: "naučnica", image: "cientifica" },
+      { catalan: "perruquera", translation: "frizerka", image: "perruquera" },
+      { catalan: "venedora", translation: "prodavačica", image: "venedora" },
+      { catalan: "mecànic", translation: "mehaničar", image: "mecanic" },
+      { catalan: "socorrista", translation: "spasilac", image: "socorrista" },
+      { catalan: "farmacèutic", translation: "apotekar", image: "farmaceutic" },
     ],
   },
+  /**
+   * SPOJI ZANIMANJE SA NJEGOVIM PREDMETOM (30.08.2026, zahtev vlasnice).
+   *
+   * „Vidim da nisi ubacio ni neki novi zadatak da im bude zanimljivo, tipa da
+   *  povežu nove profesije sa njihovim instrumentima, predmetima ili
+   *  rekvizitima."
+   *
+   * Ovo je najbolji način da se zanimanje ZAPAMTI, a ne samo pročita: dete ne
+   * uči reč nego vezu — ko čime radi. I jedna i druga strana imaju sliku, pa
+   * zadatak radi i pre nego što dete pouzdano čita.
+   */
+  {
+    id: "els-oficis-9b",
+    type: "matching",
+    prompt: "Relaciona cada ofici amb el seu objecte:",
+    pairs: [
+      { left: "músic", right: "guitarra", leftImage: "music", rightImage: "guitarra" },
+      { left: "cantant", right: "micròfon", leftImage: "cantant", rightImage: "microfon" },
+      { left: "astronauta", right: "coet", leftImage: "astronauta", rightImage: "coet" },
+      { left: "pintora", right: "pinzell", leftImage: "pintora", rightImage: "pinzell" },
+      { left: "perruquera", right: "tisores", leftImage: "perruquera", rightImage: "tisores" },
+      { left: "esportista", right: "sabatilles", leftImage: "esportista", rightImage: "sabatilles" },
+      { left: "metge", right: "estetoscopi", leftImage: "metge", rightImage: "estetoscopi" },
+      { left: "bomber", right: "extintor", leftImage: "bomber", rightImage: "extintor" },
+    ],
+  },
+
+  /**
+   * KO ŠTA RADI (30.08.2026) — treći nov zadatak iz istog zahteva.
+   *
+   * Dete gleda lik i bira šta on RADI, ne kako se zove. Time reč prestaje da
+   * bude naziv i postaje radnja, a to je ono što ostane u govoru.
+   * Sve slike već postoje; ponuđeni odgovori su glagoli koje tema uči.
+   */
+  {
+    id: "els-oficis-9c",
+    type: "multiple-choice",
+    prompt: "Què fa? Tria la resposta correcta:",
+    questions: [
+      { question: "Què fa la cantant?", image: "cantant",
+        options: ["canta", "pinta", "balla", "cuina"], correct: 0 },
+      { question: "Què fa la ballarina?", image: "ballarina",
+        options: ["cuina", "balla", "canta", "pinta"], correct: 1 },
+      { question: "Què fa la pintora?", image: "pintora",
+        options: ["balla", "canta", "pinta", "cuina"], correct: 2 },
+      { question: "Què fa el mecànic?", image: "mecanic",
+        options: ["canta", "balla", "pinta", "arregla cotxes"], correct: 3 },
+      { question: "Què fa la científica?", image: "cientifica",
+        options: ["investiga", "balla", "canta", "pinta"], correct: 0 },
+      { question: "Què fa la venedora?", image: "venedora",
+        options: ["balla", "ven coses", "canta", "pinta"], correct: 1 },
+    ],
+  },
+
   {
     id: "els-oficis-10",
     type: "multiple-choice",

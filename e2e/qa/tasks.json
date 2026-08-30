@@ -4297,7 +4297,7 @@
           "image": "aixeta"
         },
         {
-          "catalan": "aiguera",
+          "catalan": "aigüera",
           "image": "aiguera"
         },
         {
@@ -4333,7 +4333,7 @@
           "right": "tirem allò que ja no serveix."
         },
         {
-          "left": "A l'aiguera",
+          "left": "A l'aigüera",
           "right": "hi ha els plats bruts.",
           "rightImage": "plats"
         }
@@ -4559,7 +4559,7 @@
         {
           "title": "Cuina",
           "items": [
-            "aiguera",
+            "aigüera",
             "forn",
             "nevera",
             "microones"
@@ -4570,7 +4570,7 @@
         "llit",
         "televisió",
         "banyera",
-        "aiguera",
+        "aigüera",
         "llençols",
         "sofà",
         "dutxa",
@@ -10523,6 +10523,204 @@
           "catalan": "infermer",
           "translation": "medicinska sestra/tehničar",
           "image": "infermer"
+        },
+        {
+          "catalan": "astronauta",
+          "translation": "astronaut",
+          "image": "astronauta"
+        },
+        {
+          "catalan": "cantant",
+          "translation": "pevačica",
+          "image": "cantant"
+        },
+        {
+          "catalan": "actriu",
+          "translation": "glumica",
+          "image": "actriu"
+        },
+        {
+          "catalan": "ballarina",
+          "translation": "balerina",
+          "image": "ballarina"
+        },
+        {
+          "catalan": "esportista",
+          "translation": "sportistkinja",
+          "image": "esportista"
+        },
+        {
+          "catalan": "pintora",
+          "translation": "slikarka",
+          "image": "pintora"
+        },
+        {
+          "catalan": "escultora",
+          "translation": "vajarka",
+          "image": "escultora"
+        },
+        {
+          "catalan": "músic",
+          "translation": "muzičar",
+          "image": "music"
+        },
+        {
+          "catalan": "científica",
+          "translation": "naučnica",
+          "image": "cientifica"
+        },
+        {
+          "catalan": "perruquera",
+          "translation": "frizerka",
+          "image": "perruquera"
+        },
+        {
+          "catalan": "venedora",
+          "translation": "prodavačica",
+          "image": "venedora"
+        },
+        {
+          "catalan": "mecànic",
+          "translation": "mehaničar",
+          "image": "mecanic"
+        },
+        {
+          "catalan": "socorrista",
+          "translation": "spasilac",
+          "image": "socorrista"
+        },
+        {
+          "catalan": "farmacèutic",
+          "translation": "apotekar",
+          "image": "farmaceutic"
+        }
+      ]
+    },
+    {
+      "id": "els-oficis-9b",
+      "type": "matching",
+      "prompt": "Relaciona cada ofici amb el seu objecte:",
+      "pairs": [
+        {
+          "left": "músic",
+          "right": "guitarra",
+          "leftImage": "music",
+          "rightImage": "guitarra"
+        },
+        {
+          "left": "cantant",
+          "right": "micròfon",
+          "leftImage": "cantant",
+          "rightImage": "microfon"
+        },
+        {
+          "left": "astronauta",
+          "right": "coet",
+          "leftImage": "astronauta",
+          "rightImage": "coet"
+        },
+        {
+          "left": "pintora",
+          "right": "pinzell",
+          "leftImage": "pintora",
+          "rightImage": "pinzell"
+        },
+        {
+          "left": "perruquera",
+          "right": "tisores",
+          "leftImage": "perruquera",
+          "rightImage": "tisores"
+        },
+        {
+          "left": "esportista",
+          "right": "sabatilles",
+          "leftImage": "esportista",
+          "rightImage": "sabatilles"
+        },
+        {
+          "left": "metge",
+          "right": "estetoscopi",
+          "leftImage": "metge",
+          "rightImage": "estetoscopi"
+        },
+        {
+          "left": "bomber",
+          "right": "extintor",
+          "leftImage": "bomber",
+          "rightImage": "extintor"
+        }
+      ]
+    },
+    {
+      "id": "els-oficis-9c",
+      "type": "multiple-choice",
+      "prompt": "Què fa? Tria la resposta correcta:",
+      "questions": [
+        {
+          "question": "Què fa la cantant?",
+          "image": "cantant",
+          "options": [
+            "canta",
+            "pinta",
+            "balla",
+            "cuina"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "Què fa la ballarina?",
+          "image": "ballarina",
+          "options": [
+            "cuina",
+            "balla",
+            "canta",
+            "pinta"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Què fa la pintora?",
+          "image": "pintora",
+          "options": [
+            "balla",
+            "canta",
+            "pinta",
+            "cuina"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Què fa el mecànic?",
+          "image": "mecanic",
+          "options": [
+            "canta",
+            "balla",
+            "pinta",
+            "arregla cotxes"
+          ],
+          "correct": 3
+        },
+        {
+          "question": "Què fa la científica?",
+          "image": "cientifica",
+          "options": [
+            "investiga",
+            "balla",
+            "canta",
+            "pinta"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "Què fa la venedora?",
+          "image": "venedora",
+          "options": [
+            "balla",
+            "ven coses",
+            "canta",
+            "pinta"
+          ],
+          "correct": 1
         }
       ]
     },

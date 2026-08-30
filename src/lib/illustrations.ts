@@ -643,6 +643,12 @@ const wordsWithIllustrations = new Set([
   "perruquera",
   "mecanic",
   "escultora",
+  // REKVIZITI ZANIMANJA (30.08.2026) — za zadatak „spoji zanimanje sa
+  // predmetom kojim radi". Zahtev vlasnice: „da povežu nove profesije sa
+  // njihovim instrumentima, predmetima ili rekvizitima".
+  "guitarra",
+  "microfon",
+  "coet",
   "xemeneia",
   // KAMIN — druga slika za istu reč (28.08.2026).
   //
